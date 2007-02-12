@@ -6,4 +6,5 @@
 
 <suppressions>
 <suppress checks='.*' files='org/.*'/>
+<suppress checks='.*' files='net/sourceforge/jeuclid/test/.*'/>
 </suppressions>

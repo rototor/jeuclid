@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/* $Id: JMathComponent.java 6 2007-02-12 16:48:16Z maxberger $ */
 
 package net.sourceforge.jeuclid.swing;
 
@@ -40,6 +42,7 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
             JMathComponentBeanInfo.beanClass.getResource("jeuclid.png"))
             .getImage();
 
+    /** {@inheritDoc} */
     @Override
     public Image getIcon(final int iconKind) {
         switch (iconKind) {
@@ -55,6 +58,7 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public BeanDescriptor getBeanDescriptor() {
         final BeanDescriptor beanDescriptor = new BeanDescriptor(
@@ -69,6 +73,7 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
         return beanDescriptor;
     }
 
+    /** {@inheritDoc} */
     @Override
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
@@ -84,9 +89,8 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
             propertyContent
                     .setShortDescription("The XML content for the JEuclid Bean");
 
-            return new PropertyDescriptor[] {
-            // propertyContent,
-            propertyFontSize };
+            return new PropertyDescriptor[] { propertyContent,
+                    propertyFontSize, };
         } catch (final IntrospectionException ex) {
             // should never occur as we know which classes/methods can be used
             // in this BeanInfo class
