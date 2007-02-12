@@ -5,6 +5,9 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix">
+        MathDocumentElement: checkstyle fixes; IllegalToken removed from Checkstyle errors
+      </action>
       <action dev="maxberger" type="update">
         Moved project to Subversion
       </action>

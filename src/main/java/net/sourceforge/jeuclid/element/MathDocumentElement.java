@@ -80,7 +80,7 @@ public class MathDocumentElement extends AbstractPartialDocumentImpl
         }
     }
 
-    private final List<AbstractMathElement> getChildrenAsList() {
+    private List<AbstractMathElement> getChildrenAsList() {
         // TODO: This is duplicate code!
         final org.w3c.dom.NodeList childrenNodeList = this.getChildNodes();
         final List<AbstractMathElement> children = new ArrayList<AbstractMathElement>(
@@ -135,7 +135,7 @@ public class MathDocumentElement extends AbstractPartialDocumentImpl
     /**
      * Paints this component and all of its elements.
      * 
-     * @param g
+     * @param g2
      *            The graphics context to use for painting
      */
     public void paint(final Graphics2D g2) {
