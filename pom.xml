@@ -29,6 +29,7 @@
       <archive>
         http://sourceforge.net/mailarchive/forum.php?forum=jeuclid-users
       </archive>
+      <post>jeuclid-users@lists.sourceforge.net</post>
     </mailingList>
     <mailingList>
       <name>JEuclid Developers List</name>
@@ -41,6 +42,7 @@
       <archive>
         http://sourceforge.net/mailarchive/forum.php?forum=jeuclid-devel
       </archive>
+      <post>jeuclid-devel@lists.sourceforge.net</post>
     </mailingList>
   </mailingLists>
   <licenses>
@@ -144,9 +146,9 @@
     </contributor>
   </contributors>
   <scm>
-    <connection>scm:cvs:pserver:anonymous@jeuclid.cvs.sourceforge.net:/cvsroot/jeuclid:jeuclid</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@jeuclid.cvs.sourceforge.net:/cvsroot/jeuclid:jeuclid</developerConnection>
-    <url>http://jeuclid.cvs.sourceforge.net/jeuclid</url>
+    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</connection>
+    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</developerConnection>
+    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk/</url>
   </scm>
   <properties>
   </properties>
@@ -270,6 +272,9 @@
             </reports>
           </reportSet>
         </reportSets>
+        <configuration>
+          <issueLinkTemplate>http://sourceforge.net/support/tracker.php?aid=%ISSUE%</issueLinkTemplate>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -309,7 +314,7 @@
     </snapshotRepository>
     <site>
       <id>sf_website</id>
-      <url>scpexe://ssh.sf.net/home/groups/j/je/jeuclid/htdocs</url>
+      <url>scpexe://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs</url>
     </site>
   </distributionManagement>
 </project>

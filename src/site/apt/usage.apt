@@ -3,9 +3,7 @@ Getting JEuclid
 	You may download JEuclid from the 
 	{{{http://sourceforge.net/project/showfiles.php?group_id=44862}sourceforge project site for JEuclid}}:
 	as a compiled package or
-	from {{{./source-repository}CVS}}. 
-	Please note: The main development is currently going on in the DEV branch. 
-	You will need to add a -r DEV to your checkout command.
+	from {{{./source-repository}SVN}}. 
 
 Using JEuclid
 

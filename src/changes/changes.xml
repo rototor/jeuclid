@@ -4,7 +4,10 @@
     <author>Max Berger</author>
   </properties>
   <body>
-    <release version="2.9.4-SNAPSHOT" date="in CVS" description="Alpha for 3.0">
+    <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        Moved project to Subversion
+      </action>
       <action dev="maxberger" type="add">
         jeuclid-users mailing list
       </action>
