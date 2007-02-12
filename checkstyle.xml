@@ -94,7 +94,9 @@ Description:
         <module name="IllegalInstantiation"/>
         <module name="IllegalCatch"/>
         <module name="IllegalThrows"/>
-        <module name="IllegalToken"/>
+        <module name="IllegalToken">
+            <property name="severity" value="ignore"/>
+        </module>
         <module name="IllegalTokenText"/>
         <module name="IllegalType"/>
         <module name="InnerAssignment"/>
