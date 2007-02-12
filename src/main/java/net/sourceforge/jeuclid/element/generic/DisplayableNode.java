@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DisplayableNode.java,v 1.1.2.2 2007/02/10 22:57:22 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element.generic;
 

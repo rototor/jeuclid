@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathBaseTest.java,v 1.1.2.1 2007/01/31 22:25:11 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.test;
 

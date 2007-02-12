@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractElementWithDelegates.java,v 1.1.2.4 2007/02/12 08:46:47 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element.generic;
 

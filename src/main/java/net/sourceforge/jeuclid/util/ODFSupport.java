@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ODFSupport.java,v 1.1.2.3 2007/02/12 08:46:47 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.util;
 
@@ -47,7 +47,7 @@ import org.xml.sax.SAXParseException;
  * Formula (ODF) files.
  * 
  * @author Max Berger
- * @version $Revision: 1.1.2.3 $ $Date: 2007/02/12 08:46:47 $
+ * @version $Revision$ $Date$
  */
 public final class ODFSupport {
     /**

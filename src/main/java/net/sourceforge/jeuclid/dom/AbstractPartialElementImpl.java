@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractPartialElementImpl.java,v 1.1.2.1 2007/02/05 21:54:03 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.dom;
 

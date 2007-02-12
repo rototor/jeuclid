@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathAnnotation.java,v 1.1.2.2 2007/02/05 08:54:27 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 
@@ -25,7 +25,7 @@ import net.sourceforge.jeuclid.element.generic.AbstractInvisibleMathElement;
  * This class represents a annotation element.
  * 
  * @author Max Berger
- * @version $Revision: 1.1.2.2 $ $Date: 2007/02/05 08:54:27 $
+ * @version $Revision$ $Date$
  */
 public class MathAnnotation extends AbstractInvisibleMathElement {
 

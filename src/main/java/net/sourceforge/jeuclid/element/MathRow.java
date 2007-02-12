@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathRow.java,v 1.1.2.4 2007/02/06 22:02:08 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 
