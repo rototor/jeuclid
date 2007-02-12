@@ -5,6 +5,9 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add" due-to="Matthias Hanisch">
+        JMathComponentBeanInfo
+      </action>
       <action dev="maxberger" type="add">
         JMathComponent can now set content from given MathML String.
       </action>
