@@ -23,7 +23,7 @@ import java.util.Vector;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractElementWithDelegates;
-import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.OperatorDictionary;
 
 import org.w3c.dom.mathml.MathMLFencedElement;
@@ -112,9 +112,9 @@ public class MathFenced extends AbstractElementWithDelegates implements
 
     /** {@inheritDoc} */
     @Override
-    protected List<AbstractMathElement> createDelegates() {
+    protected List<MathElement> createDelegates() {
 
-        final List<AbstractMathElement> retVal = new Vector<AbstractMathElement>();
+        final List<MathElement> retVal = new Vector<MathElement>();
 
         final MathOperator opOpen = new MathOperator(this.getMathBase());
         opOpen.setFence(true);

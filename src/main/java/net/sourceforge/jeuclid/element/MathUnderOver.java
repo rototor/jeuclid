@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 
 /**
@@ -56,7 +57,7 @@ public class MathUnderOver extends AbstractMathElement {
      * @param base
      *            The base for the math element tree.
      */
-    public MathUnderOver(MathBase base) {
+    public MathUnderOver(final MathBase base) {
         super(base);
     }
 
@@ -66,8 +67,8 @@ public class MathUnderOver extends AbstractMathElement {
      * @param accentunder
      *            Value of accentunder property.
      */
-    public void setAccentUnder(boolean accentunder) {
-        m_accentunder = accentunder;
+    public void setAccentUnder(final boolean accentunder) {
+        this.m_accentunder = accentunder;
     }
 
     /**
@@ -76,7 +77,7 @@ public class MathUnderOver extends AbstractMathElement {
      * @return Value of accentunder property.
      */
     public boolean getAccentUnder() {
-        return m_accentunder;
+        return this.m_accentunder;
     }
 
     /**
@@ -85,8 +86,8 @@ public class MathUnderOver extends AbstractMathElement {
      * @param accent
      *            Value of accent property.
      */
-    public void setAccent(boolean accent) {
-        m_accent = accent;
+    public void setAccent(final boolean accent) {
+        this.m_accent = accent;
     }
 
     /**
@@ -95,14 +96,15 @@ public class MathUnderOver extends AbstractMathElement {
      * @return Value of accent property.
      */
     public boolean getAccent() {
-        return m_accent;
+        return this.m_accent;
     }
 
     /**
      * Space between base nad under/over in pixels
      */
-    private int getUnderOverSpace(Graphics2D g) {
-        return AttributesHelper.getPixels(UNDER_OVER_SPACE, getFontMetrics(g));
+    private int getUnderOverSpace(final Graphics2D g) {
+        return AttributesHelper.getPixels(MathUnderOver.UNDER_OVER_SPACE,
+                this.getFontMetrics(g));
     };
 
     /**
@@ -115,25 +117,27 @@ public class MathUnderOver extends AbstractMathElement {
      * @param posY
      *            The position of the baseline.
      */
-    public void paint(Graphics2D g, int posX, int posY) {
+    @Override
+    public void paint(final Graphics2D g, final int posX, final int posY) {
         super.paint(g, posX, posY);
 
-        AbstractMathElement e1 = getMathElement(0);
-        AbstractMathElement e2 = getMathElement(1);
-        AbstractMathElement e3 = getMathElement(2);
+        final MathElement e1 = this.getMathElement(0);
+        final MathElement e2 = this.getMathElement(1);
+        final MathElement e3 = this.getMathElement(2);
 
         int posY1, posY2, posX0, posX1, posX2;
 
-        if ((getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) getMathElement(0)).getMoveableLimits()) {
-            int middleshift = (int) (e1.getHeight(g) * MathSubSup.DY);
+        if ((this.getMathElement(0) instanceof MathOperator)
+                && ((MathOperator) this.getMathElement(0))
+                        .getMoveableLimits()) {
+            final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DY);
             int e1DescentHeight = e1.getDescentHeight(g);
             if (e1DescentHeight == 0) {
-                e1DescentHeight = getFontMetrics(g).getDescent();
+                e1DescentHeight = this.getFontMetrics(g).getDescent();
             }
             int e1AscentHeight = e1.getAscentHeight(g);
             if (e1AscentHeight == 0) {
-                e1AscentHeight = getFontMetrics(g).getAscent();
+                e1AscentHeight = this.getFontMetrics(g).getAscent();
             }
             posY1 = posY + e1DescentHeight + e2.getAscentHeight(g)
                     - middleshift - 1;
@@ -143,19 +147,19 @@ public class MathUnderOver extends AbstractMathElement {
             posX1 = posX + e1.getWidth(g);
             posX2 = posX + e1.getWidth(g);
         } else {
-            int width = getWidth(g);
+            final int width = this.getWidth(g);
             posX0 = posX + (width - e1.getWidth(g)) / 2;
             posX1 = posX + (width - e2.getWidth(g)) / 2;
             posY1 = posY + e1.getDescentHeight(g) + e2.getAscentHeight(g)
-                    + getUnderOverSpace(g) - 1;
+                    + this.getUnderOverSpace(g) - 1;
             posX2 = posX + (width - e3.getWidth(g)) / 2;
             posY2 = posY - e1.getAscentHeight(g) - e3.getDescentHeight(g)
-                    - getUnderOverSpace(g) - 1;
-            if (getAccent()) {
-                posY1 = posY1 + getUnderOverSpace(g);
+                    - this.getUnderOverSpace(g) - 1;
+            if (this.getAccent()) {
+                posY1 = posY1 + this.getUnderOverSpace(g);
             }
-            if (getAccentUnder()) {
-                posY2 = posY2 - getUnderOverSpace(g);
+            if (this.getAccentUnder()) {
+                posY2 = posY2 - this.getUnderOverSpace(g);
             }
         }
         e1.paint(g, posX0, posY);
@@ -164,55 +168,67 @@ public class MathUnderOver extends AbstractMathElement {
     }
 
     /** {@inheritDoc} */
-    public int calculateWidth(Graphics2D g) {
-        if ((getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) getMathElement(0)).getMoveableLimits()) {
-            return getMathElement(0).getWidth(g)
-                    + Math.max(getMathElement(1).getWidth(g), getMathElement(2)
-                            .getWidth(g)) + 1;
+    @Override
+    public int calculateWidth(final Graphics2D g) {
+        if ((this.getMathElement(0) instanceof MathOperator)
+                && ((MathOperator) this.getMathElement(0))
+                        .getMoveableLimits()) {
+            return this.getMathElement(0).getWidth(g)
+                    + Math.max(this.getMathElement(1).getWidth(g), this
+                            .getMathElement(2).getWidth(g)) + 1;
         }
-        return Math.max(getMathElement(0).getWidth(g), Math.max(getMathElement(
-                1).getWidth(g), getMathElement(2).getWidth(g)));
+        return Math.max(this.getMathElement(0).getWidth(g), Math.max(this
+                .getMathElement(1).getWidth(g), this.getMathElement(2)
+                .getWidth(g)));
     }
 
     /** {@inheritDoc} */
-    public int calculateAscentHeight(Graphics2D g) {
+    @Override
+    public int calculateAscentHeight(final Graphics2D g) {
         int res;
-        if ((getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) getMathElement(0)).getMoveableLimits()) {
-            int e2h = (int) Math.max(getMathElement(2).getHeight(g)
-                    - getMathElement(0).getHeight(g) * MathSubSup.DY, 0);
-            res = getMathElement(0).getAscentHeight(g) + e2h;
+        if ((this.getMathElement(0) instanceof MathOperator)
+                && ((MathOperator) this.getMathElement(0))
+                        .getMoveableLimits()) {
+            final int e2h = (int) Math.max(this.getMathElement(2)
+                    .getHeight(g)
+                    - this.getMathElement(0).getHeight(g) * MathSubSup.DY, 0);
+            res = this.getMathElement(0).getAscentHeight(g) + e2h;
         } else {
-            res = getMathElement(0).getAscentHeight(g)
-                    + getMathElement(2).getHeight(g) + getUnderOverSpace(g);
-            if (getAccentUnder()) {
-                res = res + getUnderOverSpace(g);
+            res = this.getMathElement(0).getAscentHeight(g)
+                    + this.getMathElement(2).getHeight(g)
+                    + this.getUnderOverSpace(g);
+            if (this.getAccentUnder()) {
+                res = res + this.getUnderOverSpace(g);
             }
         }
         return res;
     }
 
     /** {@inheritDoc} */
-    public int calculateDescentHeight(Graphics2D g) {
+    @Override
+    public int calculateDescentHeight(final Graphics2D g) {
         int res;
-        if ((getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) getMathElement(0)).getMoveableLimits()) {
-            int e2h = (int) Math.max(getMathElement(1).getHeight(g)
-                    - getMathElement(0).getHeight(g) * MathSubSup.DY, 0);
-            res = getMathElement(0).getDescentHeight(g) + e2h;
+        if ((this.getMathElement(0) instanceof MathOperator)
+                && ((MathOperator) this.getMathElement(0))
+                        .getMoveableLimits()) {
+            final int e2h = (int) Math.max(this.getMathElement(1)
+                    .getHeight(g)
+                    - this.getMathElement(0).getHeight(g) * MathSubSup.DY, 0);
+            res = this.getMathElement(0).getDescentHeight(g) + e2h;
         } else {
-            res = getMathElement(0).getDescentHeight(g)
-                    + getMathElement(1).getHeight(g) + getUnderOverSpace(g);
-            if (getAccentUnder()) {
-                res = res + getUnderOverSpace(g);
+            res = this.getMathElement(0).getDescentHeight(g)
+                    + this.getMathElement(1).getHeight(g)
+                    + this.getUnderOverSpace(g);
+            if (this.getAccentUnder()) {
+                res = res + this.getUnderOverSpace(g);
             }
         }
         return res;
     }
 
     /** {@inheritDoc} */
-    protected int getScriptlevelForChild(AbstractMathElement child) {
+    @Override
+    public int getScriptlevelForChild(final MathElement child) {
         if (child.isSameNode(this.getFirstChild())) {
             return this.getAbsoluteScriptLevel();
         } else {
@@ -222,7 +238,8 @@ public class MathUnderOver extends AbstractMathElement {
     }
 
     /** {@inheritDoc} */
-    protected boolean isChildBlock(AbstractMathElement child) {
+    @Override
+    public boolean isChildBlock(final MathElement child) {
         if (child.isSameNode(this.getFirstChild())) {
             return super.isChildBlock(child);
         } else {
@@ -232,6 +249,6 @@ public class MathUnderOver extends AbstractMathElement {
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathUnderOver.ELEMENT;
     }
 }

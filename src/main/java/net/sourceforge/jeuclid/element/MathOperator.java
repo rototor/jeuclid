@@ -28,6 +28,7 @@ import java.awt.geom.Rectangle2D;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 import net.sourceforge.jeuclid.element.helpers.OperatorDictionary;
 import net.sourceforge.jeuclid.element.helpers.UnknownAttributeException;
@@ -959,7 +960,7 @@ public class MathOperator extends AbstractMathElement {
      *            Parent element of the operator to be analyzed.
      * @return True, if operator should be stretched.
      */
-    public static boolean isStretchyByContext(final AbstractMathElement parent) {
+    public static boolean isStretchyByContext(final MathElement parent) {
         boolean result = false;
 
         if (parent instanceof MathTableData || parent instanceof MathRow) {
@@ -1031,7 +1032,7 @@ public class MathOperator extends AbstractMathElement {
              * is used; - in all other cases, including when the operator is
              * not part of an mrow, the infix form is used.
              */
-            final AbstractMathElement parent = this.getParent();
+            final MathElement parent = this.getParent();
             if (parent != null && (parent instanceof MathRow)) {
                 final int index = parent.getIndexOfMathElement(this);
                 if (index == 0 && parent.getMathElementCount() > 0) {

@@ -19,8 +19,8 @@
 package net.sourceforge.jeuclid.element;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.generic.AbstractRowLikeElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 
 import org.w3c.dom.mathml.MathMLMathElement;
 
@@ -89,7 +89,7 @@ public class MathMathElement extends AbstractRowLikeElement implements
 
     /** {@inheritDoc} */
     @Override
-    protected boolean isChildBlock(final AbstractMathElement child) {
+    public boolean isChildBlock(final MathElement child) {
         return "block".equalsIgnoreCase(this.getDisplay());
     }
 

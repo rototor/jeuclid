@@ -42,9 +42,9 @@ public abstract class AbstractMathElementWithChildren extends
         super(base);
     }
 
-    private List<AbstractMathElement> getChildrenAsList() {
-        final List<AbstractMathElement> children = new ArrayList<AbstractMathElement>(
-                this.getMathElementCount());
+    private List<MathElement> getChildrenAsList() {
+        final List<MathElement> children = new ArrayList<MathElement>(this
+                .getMathElementCount());
         for (int i = 0; i < this.getMathElementCount(); i++) {
             children.add(this.getMathElement(i));
         }

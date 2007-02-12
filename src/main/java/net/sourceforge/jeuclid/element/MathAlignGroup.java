@@ -24,7 +24,7 @@ import java.util.Vector;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractInvisibleMathElement;
-import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 
 /**
  * This class represents the maligngroup tag.
@@ -97,7 +97,7 @@ public class MathAlignGroup extends AbstractInvisibleMathElement {
      *            Graphics2D context to use.
      */
     protected static int getElementsWholeWidth(final Graphics2D g,
-            final List<AbstractMathElement> elements) {
+            final List<MathElement> elements) {
         int result = 0;
 
         if (elements == null || elements.size() == 0) {
@@ -118,13 +118,13 @@ public class MathAlignGroup extends AbstractInvisibleMathElement {
      *            maligngroup element
      * @return list of elements of the maligngroup
      */
-    protected static List<AbstractMathElement> getElementsOfAlignGroup(
-            final AbstractMathElement alignGroupElement) {
-        final List<AbstractMathElement> result = new Vector<AbstractMathElement>();
+    protected static List<MathElement> getElementsOfAlignGroup(
+            final MathElement alignGroupElement) {
+        final List<MathElement> result = new Vector<MathElement>();
 
-        AbstractMathElement parent = alignGroupElement.getParent();
+        MathElement parent = alignGroupElement.getParent();
         int index = parent.getIndexOfMathElement(alignGroupElement) + 1;
-        AbstractMathElement current = parent.getMathElement(index);
+        MathElement current = parent.getMathElement(index);
         final boolean searching = true;
 
         while (searching) {

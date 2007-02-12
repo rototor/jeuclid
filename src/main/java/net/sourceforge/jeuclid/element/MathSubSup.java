@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 
 /**
  * This class arange a element lower, and a other elements upper to an
@@ -111,9 +112,9 @@ public class MathSubSup extends AbstractMathElement {
     @Override
     public void paint(final Graphics2D g, final int posX, final int posY) {
         super.paint(g, posX, posY);
-        final AbstractMathElement e1 = this.getMathElement(0);
-        final AbstractMathElement e2 = this.getMathElement(1);
-        final AbstractMathElement e3 = this.getMathElement(2);
+        final MathElement e1 = this.getMathElement(0);
+        final MathElement e2 = this.getMathElement(1);
+        final MathElement e3 = this.getMathElement(2);
 
         final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DY);
         int e1DescentHeight = e1.getDescentHeight(g);
@@ -167,7 +168,7 @@ public class MathSubSup extends AbstractMathElement {
 
     /** {@inheritDoc} */
     @Override
-    protected int getScriptlevelForChild(final AbstractMathElement child) {
+    public int getScriptlevelForChild(final MathElement child) {
         if (child.isSameNode(this.getFirstChild())) {
             return this.getAbsoluteScriptLevel();
         } else {
@@ -177,7 +178,7 @@ public class MathSubSup extends AbstractMathElement {
 
     /** {@inheritDoc} */
     @Override
-    protected boolean isChildBlock(final AbstractMathElement child) {
+    public boolean isChildBlock(final MathElement child) {
         if (child.isSameNode(this.getFirstChild())) {
             return super.isChildBlock(child);
         } else {

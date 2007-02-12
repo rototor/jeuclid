@@ -25,6 +25,7 @@ import java.util.Vector;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 
 /**
@@ -240,7 +241,7 @@ public class MathTable extends AbstractMathElement {
 
     /** {@inheritDoc} */
     @Override
-    protected boolean isChildBlock(final AbstractMathElement child) {
+    public boolean isChildBlock(final MathElement child) {
         return false;
     }
 
@@ -281,8 +282,10 @@ public class MathTable extends AbstractMathElement {
      *            Row Align
      */
     public void setRowAlign(final int rowalign) {
-        if ((rowalign == MathTable.ALIGN_TOP) || (rowalign == MathTable.ALIGN_BOTTOM)
-                || (rowalign == MathTable.ALIGN_CENTER) || (rowalign == MathTable.ALIGN_BASELINE)
+        if ((rowalign == MathTable.ALIGN_TOP)
+                || (rowalign == MathTable.ALIGN_BOTTOM)
+                || (rowalign == MathTable.ALIGN_CENTER)
+                || (rowalign == MathTable.ALIGN_BASELINE)
                 || (rowalign == MathTable.ALIGN_AXIS)) {
             this.m_rowalign = rowalign;
         }
@@ -300,7 +303,8 @@ public class MathTable extends AbstractMathElement {
      *            Column align
      */
     public void setColumnalign(final int columnalign) {
-        if ((columnalign == MathTable.ALIGN_LEFT) || (columnalign == MathTable.ALIGN_RIGHT)
+        if ((columnalign == MathTable.ALIGN_LEFT)
+                || (columnalign == MathTable.ALIGN_RIGHT)
                 || (columnalign == MathTable.ALIGN_CENTER)) {
             this.m_columnalign = columnalign;
         }
@@ -311,7 +315,8 @@ public class MathTable extends AbstractMathElement {
      *            Group align
      */
     public void setGroupalign(final int groupalign) {
-        if ((groupalign == MathTable.ALIGN_LEFT) || (groupalign == MathTable.ALIGN_RIGHT)
+        if ((groupalign == MathTable.ALIGN_LEFT)
+                || (groupalign == MathTable.ALIGN_RIGHT)
                 || (groupalign == MathTable.ALIGN_CENTER)
                 || (groupalign == MathTable.ALIGN_DECIMALPOINT)) {
             this.m_groupalign = groupalign;
@@ -417,11 +422,11 @@ public class MathTable extends AbstractMathElement {
      */
     public int getColumnspacing(final Graphics2D g, final int col) {
         if (col < this.m_columnspacing.size()) {
-            return AttributesHelper.getPixels(
-                    this.m_columnspacing.get(col), this.getFontMetrics(g));
-        } else {
-            return AttributesHelper.getPixels(MathTable.DEFAULT_COLUMNSPACING,
+            return AttributesHelper.getPixels(this.m_columnspacing.get(col),
                     this.getFontMetrics(g));
+        } else {
+            return AttributesHelper.getPixels(
+                    MathTable.DEFAULT_COLUMNSPACING, this.getFontMetrics(g));
         }
     }
 
@@ -504,12 +509,12 @@ public class MathTable extends AbstractMathElement {
             this.setFramespacing(MathTable.DEFAULT_FRAMESPACING);
         }
         if (this.framespacingh == -1) {
-            this.framespacingh = AttributesHelper.getPixels(this.m_framespacing
-                    .substring(0, this.m_framespacing.indexOf(' ')),
-                    this.getFontMetrics(g));
-            this.framespacingv = AttributesHelper.getPixels(this.m_framespacing
-                    .substring(this.m_framespacing.indexOf(' ') + 1),
-                    this.getFontMetrics(g));
+            this.framespacingh = AttributesHelper.getPixels(
+                    this.m_framespacing.substring(0, this.m_framespacing
+                            .indexOf(' ')), this.getFontMetrics(g));
+            this.framespacingv = AttributesHelper.getPixels(
+                    this.m_framespacing.substring(this.m_framespacing
+                            .indexOf(' ') + 1), this.getFontMetrics(g));
         }
         return this.framespacingh;
     }
@@ -528,12 +533,12 @@ public class MathTable extends AbstractMathElement {
             this.setFramespacing(MathTable.DEFAULT_FRAMESPACING);
         }
         if (this.framespacingh == -1) {
-            this.framespacingh = AttributesHelper.getPixels(this.m_framespacing
-                    .substring(0, this.m_framespacing.indexOf(' ')),
-                    this.getFontMetrics(g));
-            this.framespacingv = AttributesHelper.getPixels(this.m_framespacing
-                    .substring(this.m_framespacing.indexOf(' ') + 1),
-                    this.getFontMetrics(g));
+            this.framespacingh = AttributesHelper.getPixels(
+                    this.m_framespacing.substring(0, this.m_framespacing
+                            .indexOf(' ')), this.getFontMetrics(g));
+            this.framespacingv = AttributesHelper.getPixels(
+                    this.m_framespacing.substring(this.m_framespacing
+                            .indexOf(' ') + 1), this.getFontMetrics(g));
         }
         return this.framespacingv;
     }
@@ -589,7 +594,8 @@ public class MathTable extends AbstractMathElement {
      */
     public void setSide(final int side) {
         if ((side == MathTable.SIDE_LEFT) || (side == MathTable.SIDE_RIGHT)
-                || (side == MathTable.SIDE_LEFTOVERLAP) || (side == MathTable.SIDE_RIGHTOVERLAP)) {
+                || (side == MathTable.SIDE_LEFTOVERLAP)
+                || (side == MathTable.SIDE_RIGHTOVERLAP)) {
             this.m_side = side;
         }
     }
@@ -652,13 +658,14 @@ public class MathTable extends AbstractMathElement {
 
         posY = posY - this.getAscentHeight(g);
         for (i = 0; i < this.getMathElementCount(); i++) {
-            final AbstractMathElement row = this.getMathElement(i);
+            final MathElement row = this.getMathElement(i);
             posY += maxrowascentheight[i];
 
             x = x1;
             for (j = 0; (j < maxcolumns) && (j < row.getMathElementCount()); j++) {
                 if (isAlignGroupsExist
-                        && this.getAlignGroups((MathTableData) row.getMathElement(j)).length > 0) {
+                        && this.getAlignGroups((MathTableData) row
+                                .getMathElement(j)).length > 0) {
                     // left alignment
                     row.getMathElement(j).paint(g, x, posY);
                 } else {
@@ -687,7 +694,7 @@ public class MathTable extends AbstractMathElement {
         if (row >= this.getMathElementCount()) {
             return 0;
         }
-        final AbstractMathElement child = this.getMathElement(row);
+        final MathElement child = this.getMathElement(row);
         int height = 0;
 
         for (int i = 0; i < child.getMathElementCount(); i++) {
@@ -709,12 +716,12 @@ public class MathTable extends AbstractMathElement {
             return 0;
         }
 
-        final AbstractMathElement child = this.getMathElement(row);
+        final MathElement child = this.getMathElement(row);
         int height = 0;
 
         for (int i = 0; i < child.getMathElementCount(); i++) {
-            height = Math.max(height, child.getMathElement(i).getDescentHeight(
-                    g));
+            height = Math.max(height, child.getMathElement(i)
+                    .getDescentHeight(g));
         }
         return height;
     }
@@ -730,7 +737,7 @@ public class MathTable extends AbstractMathElement {
         int width = 0;
 
         for (int i = 0; i < this.getMathElementCount(); i++) {
-            final AbstractMathElement child = this.getMathElement(i); // row
+            final MathElement child = this.getMathElement(i); // row
 
             if (column < child.getMathElementCount()) {
                 width = Math.max(width, child.getMathElement(column)
@@ -749,7 +756,7 @@ public class MathTable extends AbstractMathElement {
         int count = 0;
 
         for (int i = 0; i < this.getMathElementCount(); i++) {
-            final AbstractMathElement child = this.getMathElement(i);
+            final MathElement child = this.getMathElement(i);
             count = Math.max(count, child.getMathElementCount());
         }
         return count;
@@ -795,7 +802,8 @@ public class MathTable extends AbstractMathElement {
             return this.getHeight(g);
         }
         if (this.getAlign() == MathTable.ALIGN_TOP) {
-            return this.getRowCount() > 0 ? this.getMaxRowAscentHeight(g, 0) : 0;
+            return this.getRowCount() > 0 ? this.getMaxRowAscentHeight(g, 0)
+                    : 0;
         }
         if (this.getAlign() == MathTable.ALIGN_AXIS) {
             return this.getHeight(g) / 2;
@@ -812,7 +820,8 @@ public class MathTable extends AbstractMathElement {
         }
         if (this.getAlign() == MathTable.ALIGN_TOP) {
             return this.getHeight(g)
-                    - (this.getRowCount() > 0 ? this.getMaxRowAscentHeight(g, 0) : 0);
+                    - (this.getRowCount() > 0 ? this.getMaxRowAscentHeight(g,
+                            0) : 0);
         }
         if (this.getAlign() == MathTable.ALIGN_AXIS) {
             return this.getHeight(g) / 2;
@@ -848,7 +857,8 @@ public class MathTable extends AbstractMathElement {
         int[] result = null;
         final List<Integer> alignArray = new Vector<Integer>();
         String alignString = groupalign.trim();
-        alignString = alignString.substring(1, alignString.length() - 1) + " ";
+        alignString = alignString.substring(1, alignString.length() - 1)
+                + " ";
 
         // parsing string and filling out ArrayList object
         int spaceIndex = alignString.indexOf(" ");
@@ -982,7 +992,8 @@ public class MathTable extends AbstractMathElement {
      *             Throw exception, if table doesn't contain <mtr> and <mtd>
      *             tags.
      */
-    private MathTableData getCell(final int row, final int column) throws Exception {
+    private MathTableData getCell(final int row, final int column)
+            throws Exception {
         final int rowsCount = this.getRowCount();
         final int columnsCount = this.getMaxColumnCount();
         MathTableData cell = null;
@@ -991,7 +1002,7 @@ public class MathTable extends AbstractMathElement {
             return cell;
         }
 
-        final AbstractMathElement theRow = this.getMathElement(row); // row
+        final MathElement theRow = this.getMathElement(row); // row
         if (column < theRow.getMathElementCount()) {
             if (theRow.getMathElement(column) instanceof MathTableData) {
                 cell = (MathTableData) theRow.getMathElement(column);
@@ -1045,8 +1056,8 @@ public class MathTable extends AbstractMathElement {
     private static final int RIGHT_WIDTH = 2;
 
     /**
-     * Method calculates widths of alignment elements. Must be called after the
-     * calculating of all MathElements widths.
+     * Method calculates widths of alignment elements. Must be called after
+     * the calculating of all MathElements widths.
      * 
      * @param g
      *            Graphics2D context to use.
@@ -1059,7 +1070,8 @@ public class MathTable extends AbstractMathElement {
         if (maxGroupAlignCount == 0) {
             return;
         }
-        // structure to hold calculated temp values, for each element from align
+        // structure to hold calculated temp values, for each element from
+        // align
         // group
         // [0] whole width value
         // [1] left width value (till malignmark or decimal point)
@@ -1067,12 +1079,13 @@ public class MathTable extends AbstractMathElement {
         // rowsCount+1 - max width of element (or its part)
         final int[][][][] alignwidths = new int[columnsCount][3][rowsCount + 1][maxGroupAlignCount];
         // need to know, either this column of aligngroup uses malignmarks
-        final boolean[][] usesMarks = new boolean[columnsCount][this.getMaxGroupAlignCount()];
+        final boolean[][] usesMarks = new boolean[columnsCount][this
+                .getMaxGroupAlignCount()];
         // array of aligngropus of the cell
         MathAlignGroup[] aligngroups; // align values of aligngroups in the
         // cell
         int[] groupalignvalues; // elements of the aligngroup
-        List<AbstractMathElement> elements;
+        List<MathElement> elements;
         for (int col = 0; col < columnsCount; col++) { // walking through the
             // column "column"
             for (int row = 0; row < rowsCount; row++) {
@@ -1111,8 +1124,8 @@ public class MathTable extends AbstractMathElement {
                         // there is alignmark in the group
                         if (aligngroups[alignIndex].getMark() != null) {
                             usesMarks[col][alignIndex] = true;
-                            final int leftPart = this.getWidthTillMark(g, elements
-                                    .iterator());
+                            final int leftPart = this.getWidthTillMark(g,
+                                    elements.iterator());
                             // left width = width till alignmark
                             alignwidths[col][MathTable.LEFT_WIDTH][row][alignIndex] = leftPart;
                             // right width = whole width - left width
@@ -1133,12 +1146,13 @@ public class MathTable extends AbstractMathElement {
                             alignwidths[col][MathTable.RIGHT_WIDTH][row][alignIndex] = alignwidths[col][MathTable.WHOLE_WIDTH][row][alignIndex];
                             // but! may be, we have alignment decimalpoint...
                             if (groupalignvalues[alignIndex] == MathTable.ALIGN_DECIMALPOINT) {
-                                // width of the left (till decimal point) value
+                                // width of the left (till decimal point)
+                                // value
                                 // of MathNumber
-                                final int tillPoint = this.getWidthTillPoint(g, elements
-                                        .iterator());
-                                final int pointWidth = this.getPointWidth(g, elements
-                                        .iterator());
+                                final int tillPoint = this.getWidthTillPoint(
+                                        g, elements.iterator());
+                                final int pointWidth = this.getPointWidth(g,
+                                        elements.iterator());
                                 // left width
                                 alignwidths[col][MathTable.LEFT_WIDTH][row][alignIndex] = tillPoint;
                                 // determine max left width till decimal point
@@ -1282,17 +1296,17 @@ public class MathTable extends AbstractMathElement {
     private int getWidthTillPoint(final Graphics2D g, final Iterator elements) {
         int result = 0;
 
-        AbstractMathElement element = null;
+        MathElement element = null;
         for (; elements.hasNext();) {
-            element = (AbstractMathElement) elements.next();
+            element = (MathElement) elements.next();
             if (element instanceof MathNumber) {
                 return result + ((MathNumber) element).getWidthTillPoint(g);
             } else {
                 if (!this.containsNumber(element)) {
                     result += element.getWidth(g);
                 } else {
-                    result += this.getWidthTillPoint(g, new ChildIterator(this
-                            .getChildNodes()));
+                    result += this.getWidthTillPoint(g, new ChildIterator(
+                            this.getChildNodes()));
 
                 }
             }
@@ -1302,16 +1316,16 @@ public class MathTable extends AbstractMathElement {
     }
 
     /*
-     * Checks, whether provided element contains any mn - element. @return True,
-     * if contains any mn element.
+     * Checks, whether provided element contains any mn - element. @return
+     * True, if contains any mn element.
      */
-    private boolean containsNumber(final AbstractMathElement element) {
+    private boolean containsNumber(final MathElement element) {
         return this.containsElement(element, MathNumber.ELEMENT);
     }
 
     /**
-     * Finds in the list of the element mn element and requests it for the with
-     * of the '.' character (used for the "decimalpoint" alignment).
+     * Finds in the list of the element mn element and requests it for the
+     * with of the '.' character (used for the "decimalpoint" alignment).
      * 
      * @param iterator
      *            List of elements.
@@ -1321,7 +1335,7 @@ public class MathTable extends AbstractMathElement {
         int result = 0;
 
         for (; iterator.hasNext();) {
-            final AbstractMathElement element = (AbstractMathElement) iterator.next();
+            final MathElement element = (MathElement) iterator.next();
             if (element instanceof MathNumber) {
                 result = ((MathNumber) element).getPointWidth(g);
                 break;
@@ -1341,9 +1355,9 @@ public class MathTable extends AbstractMathElement {
     private int getWidthTillMark(final Graphics2D g, final Iterator elements) {
         int result = 0;
 
-        AbstractMathElement element = null;
+        MathElement element = null;
         for (; elements.hasNext();) {
-            element = (AbstractMathElement) elements.next();
+            element = (MathElement) elements.next();
             if (element instanceof MathAlignMark) {
                 return result;
             } else {
@@ -1366,7 +1380,7 @@ public class MathTable extends AbstractMathElement {
      *            Container object.
      * @return True, if element contains any malignmark object.
      */
-    private boolean containsMark(final AbstractMathElement element) {
+    private boolean containsMark(final MathElement element) {
         return this.containsElement(element, MathAlignMark.ELEMENT);
     }
 
@@ -1380,7 +1394,7 @@ public class MathTable extends AbstractMathElement {
      *            Type of element to look for.
      * @return True, if container contains such type of element.
      */
-    private boolean containsElement(final AbstractMathElement container,
+    private boolean containsElement(final MathElement container,
             final String searchName) {
         if (container.getTagName().equals(searchName)) {
             return true;

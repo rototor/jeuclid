@@ -22,6 +22,7 @@ import java.util.Stack;
 
 import net.sourceforge.jeuclid.element.MathDocumentElement;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributeMap;
 import net.sourceforge.jeuclid.element.helpers.SAXAttributeMap;
 
@@ -108,8 +109,8 @@ public class SAXMathBuilder implements ContentHandler {
         if (!this.stack.empty()) {
             final Node element = this.stack.pop();
 
-            if (element instanceof AbstractMathElement) {
-                final AbstractMathElement aElement = (AbstractMathElement) element;
+            if (element instanceof MathElement) {
+                final MathElement aElement = (MathElement) element;
                 aElement.eventElementComplete();
             }
         }

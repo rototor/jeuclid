@@ -37,7 +37,7 @@ import net.sourceforge.jeuclid.element.helpers.ElementListSupport;
 public abstract class AbstractElementWithDelegates extends
         AbstractMathContainer {
 
-    private List<AbstractMathElement> delegates;
+    private List<MathElement> delegates;
 
     /**
      * default constructor.
@@ -54,11 +54,11 @@ public abstract class AbstractElementWithDelegates extends
      * 
      * @return a MathObject representing the real contents.
      */
-    abstract protected List<AbstractMathElement> createDelegates();
+    abstract protected List<MathElement> createDelegates();
 
     private void prepareDelegates() {
         this.delegates = this.createDelegates();
-        for (final AbstractMathElement element : this.delegates) {
+        for (final MathElement element : this.delegates) {
             element.setFakeParent(this);
         }
         this.setChanged(false);

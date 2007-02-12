@@ -52,8 +52,7 @@ import org.w3c.dom.mathml.MathMLMathElement;
  * @author Max Berger
  */
 public abstract class AbstractMathElement extends
-        AbstractChangeTrackingElement implements MathMLElement,
-        DisplayableNode {
+        AbstractChangeTrackingElement implements MathElement {
     /**
      * The URI from MathML.
      */
@@ -120,7 +119,7 @@ public abstract class AbstractMathElement extends
     /**
      * Reference to the element acting as parent if there is no parent.
      */
-    private AbstractMathElement fakeParent;
+    private MathElement fakeParent;
 
     /**
      * Variable of "scriptsize" attribute, default value is 0.71.
@@ -200,12 +199,8 @@ public abstract class AbstractMathElement extends
 
     }
 
-    /**
-     * Gets the current mathvariant.
-     * 
-     * @return the current MathVariant
-     */
-    protected MathVariant getMathvariantAsVariant() {
+    /** {@inheritDoc} */
+    public MathVariant getMathvariantAsVariant() {
         final String mv = this.getMathvariant();
         MathVariant variant = null;
         if (mv != null) {
@@ -213,7 +208,7 @@ public abstract class AbstractMathElement extends
         }
         if (variant == null) {
             // TODO: Not all elements inherit MathVariant!
-            final AbstractMathElement parent = this.getParent();
+            final MathElement parent = this.getParent();
             if (parent != null) {
                 variant = parent.getMathvariantAsVariant();
             } else {
@@ -241,7 +236,7 @@ public abstract class AbstractMathElement extends
      * @return the scriptlevel of the parent node
      */
     protected int getInheritedScriptlevel() {
-        final AbstractMathElement parent = this.getParent();
+        final MathElement parent = this.getParent();
         if (parent == null) {
             return 0;
         } else {
@@ -249,15 +244,8 @@ public abstract class AbstractMathElement extends
         }
     }
 
-    /**
-     * Retrieves the scriptlevel for a certain child. Some attributes increase
-     * the scriptlevel for some of their children.
-     * 
-     * @param child
-     *            element node of the child.
-     * @return the scriptlevel for this particular child.
-     */
-    protected int getScriptlevelForChild(final AbstractMathElement child) {
+    /** {@inheritDoc} */
+    public int getScriptlevelForChild(final MathElement child) {
         return this.getAbsoluteScriptLevel();
     }
 
@@ -374,14 +362,8 @@ public abstract class AbstractMathElement extends
         }
     }
 
-    /**
-     * Gets a child from this element.
-     * 
-     * @param index
-     *            Index of the child.
-     * @return The child MathElement object.
-     */
-    public AbstractMathElement getMathElement(final int index) {
+    /** {@inheritDoc} */
+    public MathElement getMathElement(final int index) {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         if ((index >= 0) && (index < childList.getLength())) {
             return (AbstractMathElement) childList.item(index);
@@ -389,14 +371,8 @@ public abstract class AbstractMathElement extends
         return null;
     }
 
-    /**
-     * Gets index of child element.
-     * 
-     * @param element
-     *            Child element.
-     * @return Index of the element, -1 if element was not found
-     */
-    public int getIndexOfMathElement(final AbstractMathElement element) {
+    /** {@inheritDoc} */
+    public int getIndexOfMathElement(final MathElement element) {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         for (int i = 0; i < childList.getLength(); i++) {
             if (childList.item(i).equals(element)) {
@@ -406,11 +382,7 @@ public abstract class AbstractMathElement extends
         return -1;
     }
 
-    /**
-     * Returns the count of childs from this element.
-     * 
-     * @return Count of childs.
-     */
+    /** {@inheritDoc} */
     public int getMathElementCount() {
         return this.getChildNodes().getLength();
     }
@@ -484,26 +456,17 @@ public abstract class AbstractMathElement extends
         return this.m_base;
     }
 
-    /**
-     * Sets the parent of this element.
-     * 
-     * @param parent
-     *            Parent element
-     */
-    public void setFakeParent(final AbstractMathElement parent) {
+    /** {@inheritDoc} */
+    public void setFakeParent(final MathElement parent) {
         this.fakeParent = parent;
     }
 
-    /**
-     * Returns parent of this element.
-     * 
-     * @return Parent element.
-     */
-    public AbstractMathElement getParent() {
+    /** {@inheritDoc} */
+    public MathElement getParent() {
         final Node parentNode = this.getParentNode();
-        AbstractMathElement theParent = null;
-        if (parentNode instanceof AbstractMathElement) {
-            theParent = (AbstractMathElement) this.getParentNode();
+        MathElement theParent = null;
+        if (parentNode instanceof MathElement) {
+            theParent = (MathElement) this.getParentNode();
         }
         if (theParent == null) {
             return this.fakeParent;
@@ -611,12 +574,8 @@ public abstract class AbstractMathElement extends
         this.setAttribute("mathsize", mathsize);
     }
 
-    /**
-     * Get the actual mathsize in points.
-     * 
-     * @return mathsize in points.
-     */
-    protected float getMathsizeInPoint() {
+    /** {@inheritDoc} */
+    public float getMathsizeInPoint() {
 
         final String msize = this.getMathsize();
 
@@ -662,13 +621,8 @@ public abstract class AbstractMathElement extends
         return color;
     }
 
-    /**
-     * Gets the color that this element is supposed to use for rendering its
-     * foreground elements.
-     * 
-     * @return a color.
-     */
-    protected Color getForegroundColor() {
+    /** {@inheritDoc} */
+    public Color getForegroundColor() {
         final String colorString = this.getMathcolor();
         Color theColor;
         if (colorString == null) {
@@ -736,11 +690,7 @@ public abstract class AbstractMathElement extends
         return defaultValue;
     }
 
-    /**
-     * Returns background color of the element.
-     * 
-     * @return Color object.
-     */
+    /** {@inheritDoc} */
     public Color getBackgroundColor() {
         final String colorString = this.getMathbackground();
         Color theColor;
@@ -781,17 +731,7 @@ public abstract class AbstractMathElement extends
         g.setColor(Color.black);
     }
 
-    /**
-     * Sets value of the vertical shift for the specific elements in the line.
-     * This applies to "munderover", "msubsup", "mover", etc.. In case such
-     * elements containes enlarged operator, other elements on the right
-     * should be positioned in the center of the line regarding such elements.
-     * Value of the shift is stored in the top-level element of the line.
-     * 
-     * @param corrector
-     *            Value of corrector.
-     * @see #getGlobalLineCorrector()
-     */
+    /** {@inheritDoc} */
     public void setGlobalLineCorrector(final int corrector) {
         if (this.getParent() == null) {
             return;
@@ -809,16 +749,7 @@ public abstract class AbstractMathElement extends
         }
     }
 
-    /**
-     * Returns value of the vertical shift for the specific elements in the
-     * line. This applies to "munderover", "msubsup", "mover", etc.. In case
-     * such elements containes enlarged operator, other elements on the right
-     * should be positioned in the center of the line. Value of the shift is
-     * stored in the top-level element of the line.
-     * 
-     * @return Value of the corrector of the line.
-     * @see #setGlobalLineCorrector(int)
-     */
+    /** {@inheritDoc} */
     public int getGlobalLineCorrector() {
         if (this.getParent() == null) {
             return 0;
@@ -855,7 +786,8 @@ public abstract class AbstractMathElement extends
     /** {@inheritDoc} */
     public int getHeight(final Graphics2D g) {
         if (this.calculatingSize
-                || ((this.getParent() != null) && (this.getParent().calculatingSize))) {
+                || ((this.getParent() != null) && (this.getParent()
+                        .isCalculatingSize()))) {
             if (this.calculatedStretchHeight == -1) {
                 this.calculatedStretchHeight = this.calculateHeight(g);
             }
@@ -882,7 +814,8 @@ public abstract class AbstractMathElement extends
     /** {@inheritDoc} */
     public int getAscentHeight(final Graphics2D g) {
         if (this.calculatingSize
-                || ((this.getParent() != null) && (this.getParent().calculatingSize))) {
+                || ((this.getParent() != null) && (this.getParent()
+                        .isCalculatingSize()))) {
             if (this.calculatedStretchAscentHeight == -1) {
                 this.calculatedStretchAscentHeight = this
                         .calculateAscentHeight(g);
@@ -896,19 +829,14 @@ public abstract class AbstractMathElement extends
         }
     }
 
-    /**
-     * Returns the current height of the upper part (over the base line).
-     * 
-     * @return Height of the upper part.
-     * @param g
-     *            Graphics2D context to use.
-     */
+    /** {@inheritDoc} */
     abstract public int calculateAscentHeight(Graphics2D g);
 
     /** {@inheritDoc} */
     public int getDescentHeight(final Graphics2D g) {
         if (this.calculatingSize
-                || ((this.getParent() != null) && (this.getParent().calculatingSize))) {
+                || ((this.getParent() != null) && (this.getParent()
+                        .isCalculatingSize()))) {
             if (this.calculatedStretchDescentHeight == -1) {
                 this.calculatedStretchDescentHeight = this
                         .calculateDescentHeight(g);
@@ -922,13 +850,7 @@ public abstract class AbstractMathElement extends
         }
     }
 
-    /**
-     * Calculates descent height (under the base line) of the element.
-     * 
-     * @return Descent height value.
-     * @param g
-     *            Graphics2D context to use.
-     */
+    /** {@inheritDoc} */
     abstract public int calculateDescentHeight(Graphics2D g);
 
     /**
@@ -942,37 +864,19 @@ public abstract class AbstractMathElement extends
         return (int) (this.getFontMetrics(g).getAscent() * 0.38);
     }
 
-    /**
-     * Methos is called, when all content of the element is known (i.e.
-     * structure of the element, child elements). Warning: reference to the
-     * mathbase class is still null here, so all related content (font,
-     * logger, etc.) will be unavailable.
-     */
+    /** {@inheritDoc} */
     public void eventElementComplete() {
     }
 
-    /**
-     * This method is called, when all content of the element is known. In
-     * this method elements are supposed to make all necessary size
-     * pre-calculations, content examination and other font-related
-     * preparations.
-     */
+    /** {@inheritDoc} */
     public void eventAllElementsComplete() {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         for (int i = 0; i < childList.getLength(); i++) {
-            ((AbstractMathElement) childList.item(i))
-                    .eventAllElementsComplete();
+            ((MathElement) childList.item(i)).eventAllElementsComplete();
         }
     }
 
-    /**
-     * This method is called, when all content of the element is known. (i.e.
-     * child elements and text value). In this method is supposed to
-     * initialize all specific attributes for current type of math element.
-     * 
-     * @param attributes
-     *            List of attribute names and values.
-     */
+    /** {@inheritDoc} */
     public void setMathAttributes(final AttributeMap attributes) {
         final Map attrsAsMap = attributes.getAsMap();
         for (final Iterator i = attrsAsMap.entrySet().iterator(); i.hasNext();) {
@@ -987,19 +891,14 @@ public abstract class AbstractMathElement extends
         this.recalculateSize();
     }
 
-    /**
-     * @return the calculatingSize
-     */
+    /** {@inheritDoc} */
     public boolean isCalculatingSize() {
         return this.calculatingSize;
     }
 
-    /**
-     * @param calculatingSize
-     *            the calculatingSize to set
-     */
-    public void setCalculatingSize(final boolean calculatingSize) {
-        this.calculatingSize = calculatingSize;
+    /** {@inheritDoc} */
+    public void setCalculatingSize(final boolean ncalculatingSize) {
+        this.calculatingSize = ncalculatingSize;
     }
 
     /** {@inheritDoc} */
@@ -1054,7 +953,7 @@ public abstract class AbstractMathElement extends
 
     /** {@inheritDoc} */
     public MathMLMathElement getOwnerMathElement() {
-        AbstractMathElement node = this.getParent();
+        MathElement node = this.getParent();
         while (node != null) {
             if (node instanceof MathMLMathElement) {
                 return (MathMLMathElement) node;
@@ -1064,16 +963,9 @@ public abstract class AbstractMathElement extends
         return null;
     }
 
-    /**
-     * Returns true if the child should be displayed as a block (not inline).
-     * Roughly corresponds to the "displaystyle" property (3.2.5.9)
-     * 
-     * @param child
-     *            child to test
-     * @return true if child is block.
-     */
-    protected boolean isChildBlock(final AbstractMathElement child) {
-        final AbstractMathElement parent = this.getParent();
+    /** {@inheritDoc} */
+    public boolean isChildBlock(final MathElement child) {
+        final MathElement parent = this.getParent();
         if (parent != null) {
             return parent.isChildBlock(this);
         } else {
