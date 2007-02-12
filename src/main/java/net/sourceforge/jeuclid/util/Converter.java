@@ -97,7 +97,7 @@ public final class Converter {
             final String outFileType) throws IOException {
         Document doc;
         try {
-            doc = ODFSupport.parseFile(inFile);
+            doc = MathMLParserSupport.parseFile(inFile);
             return Converter.convert(doc, outFile, outFileType);
         } catch (final SAXException e) {
             Converter.LOGGER.error("Failed to parse file:" + inFile, e);
@@ -146,7 +146,7 @@ public final class Converter {
             Converter.LOGGER.info("Converting " + doc + " to " + outFile
                     + " ...");
 
-            final MathBase base = ODFSupport.createMathBaseFromDocument(doc,
+            final MathBase base = MathMLParserSupport.createMathBaseFromDocument(doc,
                     params);
 
             if (Converter.TYPE_SVG.equalsIgnoreCase(params

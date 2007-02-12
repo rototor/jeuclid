@@ -44,7 +44,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import net.sourceforge.jeuclid.swing.JMathComponent;
-import net.sourceforge.jeuclid.util.ODFSupport;
+import net.sourceforge.jeuclid.util.MathMLParserSupport;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -305,7 +305,7 @@ public final class MathViewer {
             this.lastPath = selectedFile.getParentFile();
             try {
                 this.getMathComponent().setDocument(
-                        ODFSupport.parseFile(selectedFile));
+                        MathMLParserSupport.parseFile(selectedFile));
             } catch (final SAXException e) {
                 MathViewer.LOGGER.warn(e.getMessage(), e);
                 JOptionPane.showMessageDialog(this.jFrame, e.getMessage(),

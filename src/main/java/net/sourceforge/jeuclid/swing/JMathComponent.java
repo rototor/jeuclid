@@ -21,15 +21,21 @@ package net.sourceforge.jeuclid.swing;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.IOException;
 import java.util.Map;
 
 import javax.swing.JComponent;
+import javax.xml.parsers.ParserConfigurationException;
 
 import net.sourceforge.jeuclid.DOMMathBuilder;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.util.MathMLParserSupport;
 import net.sourceforge.jeuclid.util.ParameterKey;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
  * A class for displaying MathML content in a Swing Component.
@@ -42,9 +48,8 @@ public class JMathComponent extends JComponent {
     /**
      * Logger for this class
      */
-    // Currently unused. Enable when used.
-    // private static final Log logger =
-    // LogFactory.getLog(JMathComponent.class);
+    private static final Log LOGGER = LogFactory.getLog(JMathComponent.class);
+
     /** */
     private static final long serialVersionUID = 1L;
 
@@ -176,6 +181,27 @@ public class JMathComponent extends JComponent {
     public void setFontSize(final float fontSize) {
         this.parameters.put(ParameterKey.FontSize, Float.toString(fontSize));
         this.redo();
+    }
+
+    /**
+     * Set the content from a String containing the MathML content.
+     * 
+     * @param contentString
+     *            the content to set.
+     */
+    public void setContent(final String contentString) {
+        try {
+            this.setDocument(MathMLParserSupport.parseString(contentString));
+        } catch (SAXException e) {
+            LOGGER.warn(e);
+            this.setDocument(null);
+        } catch (ParserConfigurationException e) {
+            LOGGER.warn(e);
+            this.setDocument(null);
+        } catch (IOException e) {
+            LOGGER.warn(e);
+            this.setDocument(null);
+        }
     }
 
 }
