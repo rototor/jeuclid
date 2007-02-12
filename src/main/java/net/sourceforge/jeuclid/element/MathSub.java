@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 
 /**
  * This class arrange an element lower to an other element.
@@ -47,7 +48,7 @@ public class MathSub extends AbstractMathElement {
      * @param base
      *            The base for the math element tree.
      */
-    public MathSub(MathBase base) {
+    public MathSub(final MathBase base) {
         super(base);
     }
 
@@ -57,8 +58,8 @@ public class MathSub extends AbstractMathElement {
      * @param subscriptshift
      *            Value of subscriptshift property.
      */
-    public void setSubScriptShift(int subscriptshift) {
-        m_subscriptshift = subscriptshift;
+    public void setSubScriptShift(final int subscriptshift) {
+        this.m_subscriptshift = subscriptshift;
     }
 
     /**
@@ -67,7 +68,7 @@ public class MathSub extends AbstractMathElement {
      * @return Value of subscriptshift property.
      */
     public int getSubScriptShift() {
-        return m_subscriptshift;
+        return this.m_subscriptshift;
     }
 
     /**
@@ -80,23 +81,24 @@ public class MathSub extends AbstractMathElement {
      * @param posY
      *            The position of the baseline.
      */
-    public void paint(Graphics2D g, int posX, int posY) {
+    @Override
+    public void paint(final Graphics2D g, final int posX, final int posY) {
         super.paint(g, posX, posY);
-        AbstractMathElement e1 = getMathElement(0);
-        AbstractMathElement e2 = getMathElement(1);
+        final MathElement e1 = this.getMathElement(0);
+        final MathElement e2 = this.getMathElement(1);
 
-        int middleshift = (int) (e1.getHeight(g) * DY);
+        final int middleshift = (int) (e1.getHeight(g) * MathSub.DY);
 
         int e1DescentHeight = e1.getDescentHeight(g);
         if (e1DescentHeight == 0) {
-            e1DescentHeight = getFontMetrics(g).getDescent();
+            e1DescentHeight = this.getFontMetrics(g).getDescent();
         }
         int e1AscentHeight = e1.getAscentHeight(g);
         if (e1AscentHeight == 0) {
-            e1AscentHeight = getFontMetrics(g).getAscent();
+            e1AscentHeight = this.getFontMetrics(g).getAscent();
         }
 
-        int posY1 = posY + e1DescentHeight + e2.getAscentHeight(g)
+        final int posY1 = posY + e1DescentHeight + e2.getAscentHeight(g)
                 - middleshift - 1;
 
         e1.paint(g, posX, posY);
@@ -104,24 +106,32 @@ public class MathSub extends AbstractMathElement {
     }
 
     /** {@inheritDoc} */
-    public int calculateWidth(Graphics2D g) {
-        return getMathElement(0).getWidth(g) + getMathElement(1).getWidth(g);
+    @Override
+    public int calculateWidth(final Graphics2D g) {
+        return this.getMathElement(0).getWidth(g)
+                + this.getMathElement(1).getWidth(g);
     }
 
     /** {@inheritDoc} */
-    public int calculateAscentHeight(Graphics2D g) {
-        return getMathElement(0).getAscentHeight(g);
+    @Override
+    public int calculateAscentHeight(final Graphics2D g) {
+        return this.getMathElement(0).getAscentHeight(g);
     }
 
     /** {@inheritDoc} */
-    public int calculateDescentHeight(Graphics2D g) {
-        int e2h = Math.max(getMathElement(1).getHeight(g)
-                - (int) (getMathElement(0).getHeight(g) * DY), 0);
-        return getMathElement(0).getDescentHeight(g) + e2h;
+    @Override
+    public int calculateDescentHeight(final Graphics2D g) {
+        final int e2h = Math
+                .max(
+                        this.getMathElement(1).getHeight(g)
+                                - (int) (this.getMathElement(0).getHeight(g) * MathSub.DY),
+                        0);
+        return this.getMathElement(0).getDescentHeight(g) + e2h;
     }
 
     /** {@inheritDoc} */
-    protected int getScriptlevelForChild(AbstractMathElement child) {
+    @Override
+    public int getScriptlevelForChild(final MathElement child) {
         if (child.isSameNode(this.getFirstChild())) {
             return this.getAbsoluteScriptLevel();
         } else {
@@ -130,7 +140,8 @@ public class MathSub extends AbstractMathElement {
     }
 
     /** {@inheritDoc} */
-    protected boolean isChildBlock(AbstractMathElement child) {
+    @Override
+    public boolean isChildBlock(final MathElement child) {
         if (child.isSameNode(this.getFirstChild())) {
             return super.isChildBlock(child);
         } else {
@@ -140,7 +151,7 @@ public class MathSub extends AbstractMathElement {
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathSub.ELEMENT;
     }
 
 }

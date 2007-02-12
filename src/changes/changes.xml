@@ -5,6 +5,9 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        refactored all externally used methods from AbstractMathElement into new Interface MathElement
+      </action>
       <action dev="maxberger" type="fix">
         JMathComponentBeanInfo, MathMLParserSupport, Checkstyle fixes;
         Exlpicitly disabled checkstyle for tests;

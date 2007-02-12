@@ -25,7 +25,7 @@ import java.util.List;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
-import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.ElementListSupport;
 
 import org.w3c.dom.mathml.MathMLDocument;
@@ -75,18 +75,17 @@ public class MathDocumentElement extends AbstractPartialDocumentImpl
         // TODO: This is duplicated in AbstractMathElement
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         for (int i = 0; i < childList.getLength(); i++) {
-            ((AbstractMathElement) childList.item(i))
-                    .eventAllElementsComplete();
+            ((MathElement) childList.item(i)).eventAllElementsComplete();
         }
     }
 
-    private List<AbstractMathElement> getChildrenAsList() {
+    private List<MathElement> getChildrenAsList() {
         // TODO: This is duplicate code!
         final org.w3c.dom.NodeList childrenNodeList = this.getChildNodes();
-        final List<AbstractMathElement> children = new ArrayList<AbstractMathElement>(
+        final List<MathElement> children = new ArrayList<MathElement>(
                 childrenNodeList.getLength());
         for (int i = 0; i < childrenNodeList.getLength(); i++) {
-            children.add((AbstractMathElement) childrenNodeList.item(i));
+            children.add((MathElement) childrenNodeList.item(i));
         }
         return children;
     }

@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 
 /**
@@ -46,7 +47,7 @@ public class MathUnder extends AbstractMathElement {
      * @param base
      *            The base for the math element tree.
      */
-    public MathUnder(MathBase base) {
+    public MathUnder(final MathBase base) {
         super(base);
     }
 
@@ -56,8 +57,8 @@ public class MathUnder extends AbstractMathElement {
      * @param accentunder
      *            accentunder
      */
-    public final void setAccentUnder(boolean accentunder) {
-        m_accentunder = accentunder;
+    public final void setAccentUnder(final boolean accentunder) {
+        this.m_accentunder = accentunder;
     }
 
     /**
@@ -66,15 +67,15 @@ public class MathUnder extends AbstractMathElement {
      * @return accentunder
      */
     public final boolean getAccentUnder() {
-        return m_accentunder;
+        return this.m_accentunder;
     }
 
     /**
      * Space between base and under in pixels
      */
-    private int getUnderSpace(Graphics2D g) {
+    private int getUnderSpace(final Graphics2D g) {
         return AttributesHelper.getPixels(MathUnderOver.UNDER_OVER_SPACE,
-                getFontMetrics(g));
+                this.getFontMetrics(g));
     };
 
     /**
@@ -87,74 +88,83 @@ public class MathUnder extends AbstractMathElement {
      * @param posY
      *            The position of the baseline.
      */
-    public final void paint(Graphics2D g, int posX, int posY) {
+    @Override
+    public final void paint(final Graphics2D g, final int posX, int posY) {
         super.paint(g, posX, posY);
-        AbstractMathElement e1 = getMathElement(0);
-        AbstractMathElement e2 = getMathElement(1);
+        final MathElement e1 = this.getMathElement(0);
+        final MathElement e2 = this.getMathElement(1);
 
-        if ((getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) getMathElement(0)).getMoveableLimits()) {
-            int middleshift = (int) (e1.getHeight(g) * MathSubSup.DY);
+        if ((this.getMathElement(0) instanceof MathOperator)
+                && ((MathOperator) this.getMathElement(0))
+                        .getMoveableLimits()) {
+            final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DY);
             int e1DescentHeight = e1.getDescentHeight(g);
             if (e1DescentHeight == 0) {
-                e1DescentHeight = getFontMetrics(g).getDescent();
+                e1DescentHeight = this.getFontMetrics(g).getDescent();
             }
             int e1AscentHeight = e1.getAscentHeight(g);
             if (e1AscentHeight == 0) {
-                e1AscentHeight = getFontMetrics(g).getAscent();
+                e1AscentHeight = this.getFontMetrics(g).getAscent();
             }
-            int posY1 = posY + e1DescentHeight + e2.getAscentHeight(g)
+            final int posY1 = posY + e1DescentHeight + e2.getAscentHeight(g)
                     - middleshift - 1;
             e1.paint(g, posX, posY);
             e2.paint(g, posX + e1.getWidth(g), posY1);
         } else {
-            int width = getWidth(g);
+            final int width = this.getWidth(g);
             e1.paint(g, posX + (width - e1.getWidth(g)) / 2, posY);
             posY = posY + e1.getDescentHeight(g) + e2.getAscentHeight(g)
-                    + getUnderSpace(g) - 1;
-            if (getAccentUnder()) {
-                posY = posY + getUnderSpace(g);
+                    + this.getUnderSpace(g) - 1;
+            if (this.getAccentUnder()) {
+                posY = posY + this.getUnderSpace(g);
             }
             e2.paint(g, posX + (width - e2.getWidth(g)) / 2, posY);
         }
     }
 
     /** {@inheritDoc} */
-    public final int calculateWidth(Graphics2D g) {
-        if ((getMathElement(0) instanceof MathOperator)) {
-            if (((MathOperator) getMathElement(0)).getMoveableLimits()) {
-                return getMathElement(0).getWidth(g)
-                        + getMathElement(1).getWidth(g);
+    @Override
+    public final int calculateWidth(final Graphics2D g) {
+        if ((this.getMathElement(0) instanceof MathOperator)) {
+            if (((MathOperator) this.getMathElement(0)).getMoveableLimits()) {
+                return this.getMathElement(0).getWidth(g)
+                        + this.getMathElement(1).getWidth(g);
             }
         }
-        return Math.max(getMathElement(0).getWidth(g), getMathElement(1)
-                .getWidth(g));
+        return Math.max(this.getMathElement(0).getWidth(g), this
+                .getMathElement(1).getWidth(g));
     }
 
     /** {@inheritDoc} */
-    public final int calculateAscentHeight(Graphics2D g) {
-        return getMathElement(0).getAscentHeight(g);
+    @Override
+    public final int calculateAscentHeight(final Graphics2D g) {
+        return this.getMathElement(0).getAscentHeight(g);
     }
 
     /** {@inheritDoc} */
-    public final int calculateDescentHeight(Graphics2D g) {
+    @Override
+    public final int calculateDescentHeight(final Graphics2D g) {
         int res;
-        if ((getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) getMathElement(0)).getMoveableLimits()) {
-            res = Math.max(getMathElement(0).getDescentHeight(g),
-                    getMathElement(1).getHeight(g) - getMiddleShift(g));
+        if ((this.getMathElement(0) instanceof MathOperator)
+                && ((MathOperator) this.getMathElement(0))
+                        .getMoveableLimits()) {
+            res = Math.max(this.getMathElement(0).getDescentHeight(g), this
+                    .getMathElement(1).getHeight(g)
+                    - this.getMiddleShift(g));
         } else {
-            res = getMathElement(0).getDescentHeight(g)
-                    + getMathElement(1).getHeight(g) + getUnderSpace(g);
+            res = this.getMathElement(0).getDescentHeight(g)
+                    + this.getMathElement(1).getHeight(g)
+                    + this.getUnderSpace(g);
         }
-        if (getAccentUnder()) {
-            res = res + getUnderSpace(g);
+        if (this.getAccentUnder()) {
+            res = res + this.getUnderSpace(g);
         }
         return res;
     }
 
     /** {@inheritDoc} */
-    protected int getScriptlevelForChild(AbstractMathElement child) {
+    @Override
+    public int getScriptlevelForChild(final MathElement child) {
         if (child.isSameNode(this.getFirstChild())) {
             return this.getAbsoluteScriptLevel();
         } else {
@@ -164,7 +174,8 @@ public class MathUnder extends AbstractMathElement {
     }
 
     /** {@inheritDoc} */
-    protected boolean isChildBlock(AbstractMathElement child) {
+    @Override
+    public boolean isChildBlock(final MathElement child) {
         if (child.isSameNode(this.getFirstChild())) {
             return super.isChildBlock(child);
         } else {
@@ -174,7 +185,7 @@ public class MathUnder extends AbstractMathElement {
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathUnder.ELEMENT;
     }
 
 }

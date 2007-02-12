@@ -22,12 +22,14 @@ import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This class arange a element lower, and a other elements upper to an element.
+ * This class arange a element lower, and a other elements upper to an
+ * element.
  * 
  */
 
@@ -35,7 +37,8 @@ public class MathMultiScripts extends AbstractMathElement {
     /**
      * Logger for this class
      */
-    private static final Log logger = LogFactory.getLog(MathMultiScripts.class);
+    private static final Log logger = LogFactory
+            .getLog(MathMultiScripts.class);
 
     private static final double DY = 0.43 / 2;
 
@@ -54,7 +57,7 @@ public class MathMultiScripts extends AbstractMathElement {
      * @param base
      *            The base for the math element tree.
      */
-    public MathMultiScripts(MathBase base) {
+    public MathMultiScripts(final MathBase base) {
         super(base);
     }
 
@@ -64,7 +67,7 @@ public class MathMultiScripts extends AbstractMathElement {
      * @param subscriptshift
      *            Value of subscriptshift.
      */
-    public final void setSubScriptShift(int subscriptshift) {
+    public final void setSubScriptShift(final int subscriptshift) {
         this.msubscriptshift = subscriptshift;
     }
 
@@ -74,7 +77,7 @@ public class MathMultiScripts extends AbstractMathElement {
      * @return Value of subscriptshift property.
      */
     public final int getSubScriptShift() {
-        return msubscriptshift;
+        return this.msubscriptshift;
     }
 
     /**
@@ -83,7 +86,7 @@ public class MathMultiScripts extends AbstractMathElement {
      * @param superscriptshift
      *            Value of superscriptshift.
      */
-    public final void setSuperScriptShift(int superscriptshift) {
+    public final void setSuperScriptShift(final int superscriptshift) {
         this.msuperscriptshift = superscriptshift;
     }
 
@@ -93,7 +96,7 @@ public class MathMultiScripts extends AbstractMathElement {
      * @return Value of superscriptshift property.
      */
     public final int getSuperScriptShift() {
-        return msuperscriptshift;
+        return this.msuperscriptshift;
     }
 
     /**
@@ -106,49 +109,50 @@ public class MathMultiScripts extends AbstractMathElement {
      * @param posY
      *            The position of the baseline
      */
-    public final void paint(Graphics2D g, int posX, int posY) {
+    @Override
+    public final void paint(final Graphics2D g, int posX, final int posY) {
         super.paint(g, posX, posY);
         int prPos = -1;
         for (int i = 1; i < this.getMathElementCount(); i++) {
-            if (getMathElement(i) instanceof MathPreScripts) {
+            if (this.getMathElement(i) instanceof MathPreScripts) {
                 prPos = i;
                 break;
             }
         }
-        AbstractMathElement baseElement = null;
-        baseElement = getMathElement(0);
-        AbstractMathElement childElement = null;
-        if (getMathElementCount() > 2) {
-            for (int i = 1; i < getMathElementCount(); i++) {
-                if (!(getMathElement(i) instanceof MathPreScripts)) {
-                    childElement = getMathElement(i);
+        MathElement baseElement = null;
+        baseElement = this.getMathElement(0);
+        MathElement childElement = null;
+        if (this.getMathElementCount() > 2) {
+            for (int i = 1; i < this.getMathElementCount(); i++) {
+                if (!(this.getMathElement(i) instanceof MathPreScripts)) {
+                    childElement = this.getMathElement(i);
                     break;
                 }
             }
         }
         int middleshift = 0;
         if (childElement != null) {
-            middleshift = (int) (baseElement.getHeight(g) * DY);
+            middleshift = (int) (baseElement.getHeight(g) * MathMultiScripts.DY);
         }
         int e1DescentHeight = 0;
         if (baseElement != null) {
             e1DescentHeight = baseElement.getDescentHeight(g);
         }
         if (e1DescentHeight == 0) {
-            e1DescentHeight = getFontMetrics(g).getDescent();
+            e1DescentHeight = this.getFontMetrics(g).getDescent();
         }
         int e1AscentHeight = 0;
         if (baseElement != null) {
             e1AscentHeight = baseElement.getAscentHeight(g);
         }
         if (e1AscentHeight == 0) {
-            e1AscentHeight = getFontMetrics(g).getAscent();
+            e1AscentHeight = this.getFontMetrics(g).getAscent();
         }
 
-        int posY1 = posY + e1DescentHeight + calculateMaxElementAscentHeight(g)
-                - middleshift;
-        int posY2 = posY - e1AscentHeight + middleshift
-                - calculateMaxElementDescentHeight(g);
+        final int posY1 = posY + e1DescentHeight
+                + this.calculateMaxElementAscentHeight(g) - middleshift;
+        final int posY2 = posY - e1AscentHeight + middleshift
+                - this.calculateMaxElementDescentHeight(g);
 
         int width = 0;
         if (prPos != -1) {
@@ -204,13 +208,14 @@ public class MathMultiScripts extends AbstractMathElement {
     }
 
     /** {@inheritDoc} */
-    public final int calculateWidth(Graphics2D g) { // done
+    @Override
+    public final int calculateWidth(final Graphics2D g) { // done
         int width = 0;
         if (this.getMathElementCount() > 0) {
             width += this.getMathElement(0).getWidth(g);
             int prPos = -1;
             for (int i = 0; i < this.getMathElementCount(); i++) {
-                if (getMathElement(i) instanceof MathPreScripts) {
+                if (this.getMathElement(i) instanceof MathPreScripts) {
                     prPos = i;
                     break;
                 }
@@ -233,8 +238,8 @@ public class MathMultiScripts extends AbstractMathElement {
                     p = 0;
                 }
                 for (int i = prPos + 1; i < this.getMathElementCount() - p; i = i + 2) {
-                    width += Math.max(this.getMathElement(i).getWidth(g), this
-                            .getMathElement(i + 1).getWidth(g));
+                    width += Math.max(this.getMathElement(i).getWidth(g),
+                            this.getMathElement(i + 1).getWidth(g));
                 }
             }
         }
@@ -249,12 +254,12 @@ public class MathMultiScripts extends AbstractMathElement {
      * @param g
      *            Graphics2D context to use.
      */
-    public final int calculateMaxElementAscentHeight(Graphics2D g) {
+    public final int calculateMaxElementAscentHeight(final Graphics2D g) {
 
         int prPos = -1;
         int descenHeight = 0;
         for (int i = 0; i < this.getMathElementCount(); i++) {
-            if (getMathElement(i) instanceof MathPreScripts) {
+            if (this.getMathElement(i) instanceof MathPreScripts) {
                 prPos = i;
                 break;
             }
@@ -265,19 +270,19 @@ public class MathMultiScripts extends AbstractMathElement {
                 p = 1;
             }
             for (int i = 1; i < prPos - p; i = i + 2) {
-                descenHeight = Math.max(descenHeight, getMathElement(i)
+                descenHeight = Math.max(descenHeight, this.getMathElement(i)
                         .getAscentHeight(g));
             }
             if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
                 p = 1;
             }
             for (int i = prPos + 1; i < this.getMathElementCount() - p; i = i + 2) {
-                descenHeight = Math.max(descenHeight, getMathElement(i)
+                descenHeight = Math.max(descenHeight, this.getMathElement(i)
                         .getAscentHeight(g));
             }
         } else {
             for (int i = 1; i < this.getMathElementCount(); i = i + 2) {
-                descenHeight = Math.max(descenHeight, getMathElement(i)
+                descenHeight = Math.max(descenHeight, this.getMathElement(i)
                         .getAscentHeight(g));
             }
         }
@@ -285,11 +290,12 @@ public class MathMultiScripts extends AbstractMathElement {
     }
 
     /** {@inheritDoc} */
-    public final int calculateAscentHeight(Graphics2D g) {
+    @Override
+    public final int calculateAscentHeight(final Graphics2D g) {
         int prPos = -1;
         int e2h = 0;
         for (int i = 0; i < this.getMathElementCount(); i++) {
-            if (getMathElement(i) instanceof MathPreScripts) {
+            if (this.getMathElement(i) instanceof MathPreScripts) {
                 prPos = i;
                 break;
             }
@@ -300,23 +306,53 @@ public class MathMultiScripts extends AbstractMathElement {
                 p = 1;
             }
             for (int i = 2; i < prPos - p; i = i + 2) {
-                e2h = Math.max(e2h, Math.max(getMathElement(i).getHeight(g)
-                        - (int) (getMathElement(0).getHeight(g) * DY), 0));
+                e2h = Math
+                        .max(
+                                e2h,
+                                Math
+                                        .max(
+                                                this.getMathElement(i)
+                                                        .getHeight(g)
+                                                        - (int) (this
+                                                                .getMathElement(
+                                                                        0)
+                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                0));
             }
             if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
                 p = 1;
             }
             for (int i = prPos + 2; i < this.getMathElementCount() - p; i = i + 2) {
-                e2h = Math.max(e2h, Math.max(getMathElement(i).getHeight(g)
-                        - (int) (getMathElement(0).getHeight(g) * DY), 0));
+                e2h = Math
+                        .max(
+                                e2h,
+                                Math
+                                        .max(
+                                                this.getMathElement(i)
+                                                        .getHeight(g)
+                                                        - (int) (this
+                                                                .getMathElement(
+                                                                        0)
+                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                0));
             }
         } else {
             for (int i = 2; i < this.getMathElementCount(); i = i + 2) {
-                e2h = Math.max(e2h, Math.max(getMathElement(i).getHeight(g)
-                        - (int) (getMathElement(0).getHeight(g) * DY), 0));
+                e2h = Math
+                        .max(
+                                e2h,
+                                Math
+                                        .max(
+                                                this.getMathElement(i)
+                                                        .getHeight(g)
+                                                        - (int) (this
+                                                                .getMathElement(
+                                                                        0)
+                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                0));
             }
         }
-        return getMathElement(0).getAscentHeight(g) + e2h;
+        return this.getMathElement(0).getAscentHeight(g) + e2h;
     }
 
     /**
@@ -326,11 +362,11 @@ public class MathMultiScripts extends AbstractMathElement {
      * @param g
      *            Graphics2D context to use.
      */
-    public final int getMaxElementHeight(Graphics2D g) {
+    public final int getMaxElementHeight(final Graphics2D g) {
         int childHeight = 0;
         int prPos = -1;
         for (int i = 0; i < this.getMathElementCount(); i++) {
-            if (getMathElement(i) instanceof MathPreScripts) {
+            if (this.getMathElement(i) instanceof MathPreScripts) {
                 prPos = i;
                 break;
             }
@@ -341,19 +377,19 @@ public class MathMultiScripts extends AbstractMathElement {
                 p = 1;
             }
             for (int i = 2; i < prPos - p; i = i + 2) {
-                childHeight = Math.max(childHeight, getMathElement(i)
+                childHeight = Math.max(childHeight, this.getMathElement(i)
                         .getHeight(g));
             }
             if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
                 p = 1;
             }
             for (int i = prPos + 2; i < this.getMathElementCount() - p; i = i + 2) {
-                childHeight = Math.max(childHeight, getMathElement(i)
+                childHeight = Math.max(childHeight, this.getMathElement(i)
                         .getHeight(g));
             }
         } else {
             for (int i = 2; i < this.getMathElementCount(); i = i + 2) {
-                childHeight = Math.max(childHeight, getMathElement(i)
+                childHeight = Math.max(childHeight, this.getMathElement(i)
                         .getHeight(g));
             }
         }
@@ -369,11 +405,11 @@ public class MathMultiScripts extends AbstractMathElement {
      *            Graphics2D context to use.
      */
 
-    public final int calculateMaxElementDescentHeight(Graphics2D g) {
+    public final int calculateMaxElementDescentHeight(final Graphics2D g) {
         int prPos = -1;
         int ascentHeight = 0;
         for (int i = 0; i < this.getMathElementCount(); i++) {
-            if (getMathElement(i) instanceof MathPreScripts) {
+            if (this.getMathElement(i) instanceof MathPreScripts) {
                 prPos = i;
                 break;
             }
@@ -384,19 +420,19 @@ public class MathMultiScripts extends AbstractMathElement {
                 p = 1;
             }
             for (int i = 2; i < prPos - p; i = i + 2) {
-                ascentHeight = Math.max(ascentHeight, getMathElement(i)
+                ascentHeight = Math.max(ascentHeight, this.getMathElement(i)
                         .getDescentHeight(g));
             }
             if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
                 p = 1;
             }
             for (int i = prPos + 2; i < this.getMathElementCount() - p; i = i + 2) {
-                ascentHeight = Math.max(ascentHeight, getMathElement(i)
+                ascentHeight = Math.max(ascentHeight, this.getMathElement(i)
                         .getDescentHeight(g));
             }
         } else {
             for (int i = 2; i < this.getMathElementCount(); i = i + 2) {
-                ascentHeight = Math.max(ascentHeight, getMathElement(i)
+                ascentHeight = Math.max(ascentHeight, this.getMathElement(i)
                         .getDescentHeight(g));
             }
         }
@@ -404,12 +440,13 @@ public class MathMultiScripts extends AbstractMathElement {
     }
 
     /** {@inheritDoc} */
-    public final int calculateDescentHeight(Graphics2D g) {
+    @Override
+    public final int calculateDescentHeight(final Graphics2D g) {
 
         int prPos = -1;
         int e2h = 0;
         for (int i = 0; i < this.getMathElementCount(); i++) {
-            if (getMathElement(i) instanceof MathPreScripts) {
+            if (this.getMathElement(i) instanceof MathPreScripts) {
                 prPos = i;
                 break;
             }
@@ -420,42 +457,74 @@ public class MathMultiScripts extends AbstractMathElement {
                 p = 1;
             }
             for (int i = 1; i < prPos - p; i = i + 2) {
-                e2h = Math.max(e2h, Math.max(getMathElement(i).getHeight(g)
-                        - (int) (getMathElement(0).getHeight(g) * DY), 0));
+                e2h = Math
+                        .max(
+                                e2h,
+                                Math
+                                        .max(
+                                                this.getMathElement(i)
+                                                        .getHeight(g)
+                                                        - (int) (this
+                                                                .getMathElement(
+                                                                        0)
+                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                0));
             }
             if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
                 p = 1;
             }
             for (int i = prPos + 1; i < this.getMathElementCount() - p; i = i + 2) {
-                e2h = Math.max(e2h, Math.max(getMathElement(i).getHeight(g)
-                        - (int) (getMathElement(0).getHeight(g) * DY), 0));
+                e2h = Math
+                        .max(
+                                e2h,
+                                Math
+                                        .max(
+                                                this.getMathElement(i)
+                                                        .getHeight(g)
+                                                        - (int) (this
+                                                                .getMathElement(
+                                                                        0)
+                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                0));
             }
         } else {
             for (int i = 1; i < this.getMathElementCount(); i = i + 2) {
-                e2h = Math.max(e2h, Math.max(getMathElement(i).getHeight(g)
-                        - (int) (getMathElement(0).getHeight(g) * DY), 0));
+                e2h = Math
+                        .max(
+                                e2h,
+                                Math
+                                        .max(
+                                                this.getMathElement(i)
+                                                        .getHeight(g)
+                                                        - (int) (this
+                                                                .getMathElement(
+                                                                        0)
+                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                0));
             }
         }
-        return getMathElement(0).getDescentHeight(g) + e2h;
+        return this.getMathElement(0).getDescentHeight(g) + e2h;
     }
 
     /**
      * Write errors in conditions.
      */
+    @Override
     public final void eventAllElementsComplete() {
         super.eventAllElementsComplete();
         if (this.getMathElementCount() == 0) {
-            logger.error("Wrong number of parametrs, must be 1 or more");
+            MathMultiScripts.logger
+                    .error("Wrong number of parametrs, must be 1 or more");
         } else if (this.getMathElement(0) instanceof MathPreScripts) {
-            logger.error("The first argument must be base.");
+            MathMultiScripts.logger.error("The first argument must be base.");
         }
         boolean isMultMPrescripts = false;
         if (this.getMathElementCount() > 0) {
             int prPos = -1;
             for (int i = 0; i < this.getMathElementCount(); i++) {
-                if (getMathElement(i) instanceof MathPreScripts) {
+                if (this.getMathElement(i) instanceof MathPreScripts) {
                     if (prPos != -1) {
-                        logger
+                        MathMultiScripts.logger
                                 .error("The empty element mprescripts must be declared once.");
                         isMultMPrescripts = true;
                         break;
@@ -466,17 +535,17 @@ public class MathMultiScripts extends AbstractMathElement {
             }
             if (!isMultMPrescripts) {
                 if (prPos == -1 && this.getMathElementCount() % 2 == 0) {
-                    logger
+                    MathMultiScripts.logger
                             .error("The total number of the arguments must be odd.\n"
                                     + "Some elements may not be drown. ");
                 } else if (prPos != -1) {
                     if (prPos % 2 == 0) {
-                        logger
+                        MathMultiScripts.logger
                                 .error("The total number of the postcripts elements must be even.\n"
                                         + "Some elements may not be drown.");
                     }
                     if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
-                        logger
+                        MathMultiScripts.logger
                                 .error("The total number of the prestcripts elements must be even.\n"
                                         + "Some elements may not be drown.");
                     }
@@ -487,7 +556,8 @@ public class MathMultiScripts extends AbstractMathElement {
     };
 
     /** {@inheritDoc} */
-    protected int getScriptlevelForChild(AbstractMathElement child) {
+    @Override
+    public int getScriptlevelForChild(final MathElement child) {
         if (child.isSameNode(this.getFirstChild())) {
             return this.getAbsoluteScriptLevel();
         } else {
@@ -497,7 +567,7 @@ public class MathMultiScripts extends AbstractMathElement {
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathMultiScripts.ELEMENT;
     }
 
 }
