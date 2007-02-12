@@ -1,0 +1,41 @@
+*************
+*  JEuclid  *
+*************
+
+
+General
+-------
+
+All the default converters currently use the Arial Unicode MS font. This font is
+included with Microsoft Office 2000 and 2003. You should make sure that you have
+this font installed on your system. This dependency will be removed in a future
+release.
+
+
+Cocoon
+------
+
+If you want to use JEuclid as a cocoon component, you will have to download the
+older version of JEuclid <= 2
+
+
+Embedd
+------
+
+To embedd JEUclid into your application add the JAR files from build/jars and 
+the needed JAR files from lib to your classpath.
+
+
+Ant
+---
+
+To use the ANT task define the converter task:
+  <taskdef name="mmlconverter" 
+   classname="net.sourceforge.jeuclid.ant.MathMLConverter">
+with the needed JAR files in the classpath.
+
+
+Command line conversion
+-----------------------
+
+You may use the included mml2xxx scripts for command line conversion.

@@ -1,0 +1,40 @@
+Getting JEuclid
+
+	You may download JEuclid from the 
+	{{{http://sourceforge.net/project/showfiles.php?group_id=44862}sourceforge project site for JEuclid}}:
+	as a compiled package or
+	from {{{./source-repository}CVS}}. 
+	Please note: The main development is currently going on in the DEV branch. 
+	You will need to add a -r DEV to your checkout command.
+
+Using JEuclid
+
+  Please note: This documentation refers to the 2.9.3 version.
+
+* MathViewer application
+
+  To run the MathViewer application, simply run the jeuclid jar file that can be found in build/jars. On Windows and Mac OS X you may double-click it to launch.
+
+* On the command line
+
+  You may use the included mml2xxx script.
+
+* From ant
+
+  You will need to define the converter task: 
+  
+------------
+<taskdef name="mmlconverter" classname="net.sourceforge.jeuclid.ant.MathMLConverter"> 
+------------
+
+  with the needed JAR files in the classpath. Please see the API documentation or the sourcecode for usage.
+
+* In your own app
+
+  Please look at the {{{./apidocs/index.html}API Documentation}}. You may be interested in net.sourceforge.jeuclid.awt.MathComponent and net.sourceforge.jeuclid.swing.JMathComponent.
+
+* Cocoon
+
+  To use the Cocoon component you have to download JEuclid 2. Please see the included INSTALL instructions.
+
+

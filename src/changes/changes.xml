@@ -1,0 +1,187 @@
+<document>
+  <properties>
+    <title>Changes JEuclid Project</title>
+    <author>Max Berger</author>
+  </properties>
+  <body>
+    <release version="2.9.4-SNAPSHOT" date="in CVS" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        jeuclid-users mailing list
+      </action>
+      <action dev="maxberger" type="add">
+        W3C Testsuite to site, snapshot of generated elements.
+      </action>
+      <action dev="maxberger" type="update">
+        AbstractMathElement: eventInitSpecificAttributes renamed to 
+        setMathAttributes()
+      </action>
+      <action dev="maxberger" type="update">
+        MatOperator: moved parameter calculation into eventElementComplete
+      </action>
+      <action dev="maxberger" type="update">
+        AbstactMathElementWithDelegate: now overrides eventElementComplete instead of 
+        eventInitSpecificAttributes
+      </action>
+      <action dev="maxberger" type="update">
+        DOMMathBuilder now uses MathElementFactory; MathElementFactory updated
+        to support all elements; SAXMathBuilder attribute handling improved;
+        SAXMathBuilder: properly send eventElementComplete
+      </action>
+      <action dev="maxberger" type="fix">
+        ODFSupport does not throw ZIP errors anymore;
+        Parser logs warning and errors instead of terminating
+      </action>
+      <action dev="maxberger" type="add">
+        DOMModelTest: moved to test package; implemented tests for mathOperator
+      </action>
+      <action dev="maxberger" type="add">
+        AbstractPartialNodeImpl: getLastChild implemented.
+      </action>
+      <action dev="maxberger" type="add">
+        Larger and smaller font to MathViewer.
+      </action>
+      <action dev="maxberger" type="update">
+        Anti-Alias moved to MathBase, made into parameter
+      </action>
+      <action dev="maxberger" type="update">
+        Replaced all occurrences of Graphics with Graphics2D: This is what is 
+        actually used/needed anyways.
+      </action>
+      <action dev="maxberger" type="update">
+        MathBase: removed deprecated constructor; made Debug a Parameter
+      </action>
+      <action dev="maxberger" type="add">
+        refactored element creation from SAXMathBuilder into MathElementFactory.
+      </action>
+      <action dev="maxberger" type="fix">
+        More CheckStyle fixes: MathOperator, MathTable, MathViewer; MathViewer: Added accellerator for quit.
+      </action>
+      <action dev="maxberger" type="fix">
+        Checkstyle fixes: Converter, ODFSupport, StringUtil, DictionaryException, 
+        ElementListSupport, AbstractRowLikeElement, AbstractMathElementWithChildren,
+        AbstractMathContainer, MathAlignGroup, MathDocumentElement, DOMBuilder,
+        MathBase, Mml2xxx, MathComponent, MathMLConverter, MathSubSup, MathSup,
+        MathLabeledTableRow
+      </action>
+      <action dev="maxberger" type="add">
+		configured log4j for tests properly.
+      </action>
+      <action dev="maxberger" type="update">
+        checkstyle settings to better match priorities (javadoc and license is now error)
+      </action>
+      <action dev="maxberger" type="fix">
+        developers on website
+      </action>
+      <action dev="maxberger" type="add">
+        roadmap to website
+      </action>
+      <action dev="maxberger" type="fix">
+        pom.xml was missing a release information; 
+        usage.apt now has proper links to sf releases; index.apt updated
+      </action>
+    </release>
+    <release version="2.9.3" date="2007-02-06" description="First Maven-Based Release">
+      <action dev="maxberger" type="fix" issue="1649912">
+        DOM Tree now contains a DocumentNode AND a Math node. MathRow is now an MathMLPresentationContainer.
+      </action>
+      <action dev="maxberger" type="update">
+        AbstractMathElementWithChildren now uses ElementListSupport
+      </action>
+      <action dev="maxberger" type="add">
+        Introduced ElementListSupport and moved functions from AbstractElementWithDelegates there
+      </action>
+      <action dev="maxberger" type="add">
+        refactored AbstractMathElementWithChildren into AbstractRowLikeElement
+      </action>
+      <action dev="maxberger" type="udpdate">
+        batik dependency to 1.6-1
+      </action>
+      <action dev="maxberger" type="udpdate">
+        MathMLConverter ANT task to use Util.Converter
+      </action>
+      <action dev="maxberger" type="remove">
+        removed ant tasks dependent on old fop
+      </action>
+      <action dev="maxberger" type="add">
+        Announced Logo Contest on webpage
+      </action>
+      <action dev="maxberger" type="fix">
+        Replaced images on website with ones generated on Mac (look better)
+      </action>
+      <action dev="maxberger" type="update">
+        Split webpage into several pages
+      </action>
+      <action dev="maxberger" type="fix">
+         pom.xml: jeuclid mailing list is jeuclid-devel; added taglist plugin
+      </action>
+      <action dev="maxberger" type="fix">
+         refactored AbstractMathElementWithDelegate to AbstractMathElementWithDelegates, changed internal workings. 
+         MathFenced: reworked to work with new AbstractMathElementWithDelegates
+      </action>
+      <action dev="maxberger" type="fix">
+         MathBase: removed obsolete debug output
+      </action>
+      <action dev="maxberger" type="fix">
+         pom.xml: removed depencies on SNAPSHOT versions
+      </action>
+      <action dev="maxberger" type="fix">
+         version to 2.9.3-SNAPSHOT in pom.xml and changes.xml
+      </action>
+      <action dev="maxberger" type="add">
+         MathMLDocumentElement
+      </action>
+      <action dev="maxberger" type="add">
+        refactored PartialNodeImpl into AbstractPartialDocumentImpl, AbstractPartialElementImpl,
+        AbstractPartialNodeImpl and ChangeTrackingElement to AbstractChangeTrackingElement
+      </action>
+      <action dev="maxberger" type="fix">
+        fixed link to issue management in pom.xml
+      </action>
+      <action dev="maxberger" type="add">
+        refactored util.Converter class into util.Converter and app.Mml2xxx
+      </action>
+      <action dev="maxberger" type="fix">
+        fixed appassembler target in pom.xml
+      </action>
+      <action dev="maxberger" type="remove">
+        removed docs, libs, build.xml
+      </action>
+      <action dev="maxberger" type="remove">
+        removed unnecessary checkstyle tests: empty lines, org/*, StrictDuplicate
+      </action>
+      <action dev="maxberger" type="add">
+        creating app-scripts in pom.xml
+      </action>
+      <action dev="maxberger" type="add">
+        Developers in pom.xml
+      </action>
+      <action dev="maxberger" type="add">
+        JEuclid menu to website
+      </action>
+      <action dev="maxberger" type="fix">
+        Screenshots on website are now ok.
+      </action>
+      <action dev="maxberger" type="add">
+        added checkstyle to pom.xml
+      </action>
+      <action dev="maxberger" type="add">
+        created changelog.xml
+      </action>
+      <action dev="maxberger" type="update">
+        older changes can be found in the CHANGELOG file.
+      </action>
+<!--<action dev="maxberger" type="fix" issue="">
+      <action dev="jruiz" type="remove" due-to="Allan Ramirez" due-to-email="aramirez@exist.com">
+        The element type " link " must be terminated by the matching end-tag.
+        Deleted the erroneous code.
+      </action> -->
+    </release>
+<!--
+    <release version="1.0" date="2005-01-01" description="First release">
+      <action dev="jruiz" type="update">
+        Uploaded documentation on how to use the plugin.
+      </action>
+    </release>
+-->
+  </body>
+</document>

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ -z "$JEUCLID_HOME" ] ; then
+  JEUCLID_HOME=$(dirname "$0")
+fi
+
+java -cp $JEUCLID_HOME/build/jars/jeuclid-2.9.3.jar:$JEUCLID_HOME/lib/GIFOutputStream.jar:$JEUCLID_HOME/lib/batik-all-1.6.jar net.sourceforge.jeuclid.util.Converter "$1" "$2" image/svg+xml

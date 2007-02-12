@@ -1,0 +1,31 @@
+									-------------------
+									The JEuclid project
+									-------------------
+									-------------------
+									       Date
+
+	JEuclid is a complete MathML rendering solution, consisting of:
+	
+	* A MathViewer application
+	
+	* Command line converters from MathML to other formats
+	
+	* An ant task for autmated conversion
+	
+	* Display components for AWT and Swing
+	
+	* A component for Apache Cocoon
+
+News
+
+ * Do you have a good idea for a {{{./logo.html}Logo}}?
+
+ * The project is now built with and maintained by {{{http://maven.apache.org}Maven}}! 
+
+Current Status
+	
+	The lastest released version is 2.9.3.
+	This is the first maven-based version so some things may not work as expected. 
+	Please {{{./issue-tracking.html}report any issues}}.
+
+
