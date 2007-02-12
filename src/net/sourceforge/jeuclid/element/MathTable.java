@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathTable.java,v 1.11.2.4 2006/11/04 04:28:28 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 

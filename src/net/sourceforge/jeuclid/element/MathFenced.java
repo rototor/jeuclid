@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathFenced.java,v 1.11.2.1 2006/09/15 20:49:26 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 

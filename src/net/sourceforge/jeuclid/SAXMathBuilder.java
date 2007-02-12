@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: SAXMathBuilder.java,v 1.11.2.4 2007/01/31 22:50:25 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: SAXAttributeMap.java,v 1.3 2006/08/19 19:31:11 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element.helpers;
 

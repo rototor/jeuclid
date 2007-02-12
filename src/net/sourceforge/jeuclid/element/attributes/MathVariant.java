@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathVariant.java,v 1.1.2.3 2006/09/13 02:36:09 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element.attributes;
 

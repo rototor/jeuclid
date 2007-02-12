@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ResourceEntityResolver.java,v 1.4.2.2 2007/01/31 22:50:24 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.util;
 
@@ -29,7 +29,7 @@ import org.xml.sax.InputSource;
  * Entity Resolver that resources in class path.
  * 
  * @author Max Berger
- * @version $Revision: 1.4.2.2 $ $Date: 2007/01/31 22:50:24 $
+ * @version $Revision$ $Date$
  */
 public class ResourceEntityResolver implements EntityResolver {
 

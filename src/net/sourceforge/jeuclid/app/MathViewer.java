@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathViewer.java,v 1.1.2.6 2007/01/31 22:50:28 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.app;
 

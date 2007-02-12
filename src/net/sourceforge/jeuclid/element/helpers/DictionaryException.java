@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DictionaryException.java,v 1.4.2.2 2007/01/31 22:50:23 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element.helpers;
 

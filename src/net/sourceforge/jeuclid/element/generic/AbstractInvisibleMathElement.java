@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractInvisibleMathElement.java,v 1.2.2.1 2006/11/04 04:28:29 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element.generic;
 

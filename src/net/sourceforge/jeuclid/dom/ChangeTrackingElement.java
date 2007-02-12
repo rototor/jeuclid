@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ChangeTrackingElement.java,v 1.1.2.1 2006/09/12 05:36:28 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.dom;
 

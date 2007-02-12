@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractMathContainer.java,v 1.1.2.1 2006/09/14 19:56:40 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element.generic;
 

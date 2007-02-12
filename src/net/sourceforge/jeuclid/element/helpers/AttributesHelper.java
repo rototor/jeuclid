@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AttributesHelper.java,v 1.5.2.2 2006/09/13 02:36:09 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element.helpers;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathEnclose.java,v 1.7.2.3 2006/11/18 00:24:13 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathRoot.java,v 1.12.2.3 2006/11/18 00:24:13 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 

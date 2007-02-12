@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathAlignGroup.java,v 1.5 2006/08/21 07:05:17 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 

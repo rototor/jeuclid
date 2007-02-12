@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathMLConverter.java,v 1.10.2.5 2007/01/31 22:50:25 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.ant;
 

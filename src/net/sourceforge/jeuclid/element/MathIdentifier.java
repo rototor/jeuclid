@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathIdentifier.java,v 1.8.2.2 2007/01/31 22:50:26 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 

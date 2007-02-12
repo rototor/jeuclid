@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathComponent.java,v 1.9.2.5 2007/01/31 22:50:23 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.awt;
 

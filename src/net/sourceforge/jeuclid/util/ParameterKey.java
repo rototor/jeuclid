@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ParameterKey.java,v 1.1.2.3 2007/02/01 15:46:30 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.util;
 

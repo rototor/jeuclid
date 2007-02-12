@@ -14,7 +14,7 @@
  * limitations under the License.
  */ 
 
-/* $Id: MathString.java,v 1.7 2006/08/07 18:27:47 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 

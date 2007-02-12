@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: OperatorDictionary.java,v 1.3.2.4 2007/01/31 22:50:22 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element.helpers;
 

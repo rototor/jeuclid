@@ -14,7 +14,7 @@
  * limitations under the License.
  */ 
 
-/* $Id: TestsConverter.java,v 1.3 2006/08/07 01:17:40 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.ant;
 

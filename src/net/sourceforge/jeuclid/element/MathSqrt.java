@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathSqrt.java,v 1.11.2.3 2006/11/18 00:24:13 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 

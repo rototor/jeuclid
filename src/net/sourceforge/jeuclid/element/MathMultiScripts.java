@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathMultiScripts.java,v 1.6.2.6 2007/01/31 22:50:26 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 

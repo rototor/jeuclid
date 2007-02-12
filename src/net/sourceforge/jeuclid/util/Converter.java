@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Converter.java,v 1.6.2.4 2007/01/31 22:50:24 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.util;
 
@@ -59,7 +59,7 @@ import org.xml.sax.SAXException;
  * </ul>
  * 
  * @author Max Berger
- * @version $Revision: 1.6.2.4 $ $Date: 2007/01/31 22:50:24 $
+ * @version $Revision$ $Date$
  */
 final public class Converter {
     /**

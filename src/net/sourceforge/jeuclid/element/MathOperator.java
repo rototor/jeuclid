@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathOperator.java,v 1.12.2.8 2007/01/31 22:50:26 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 
