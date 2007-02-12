@@ -22,7 +22,7 @@ public class ConverterTest {
 
     @Test
     public void testConverter() throws Exception {
-        Document doc = ViewerTest.getDocument(TEST1);
+        Document doc = MathMLParserSupport.parseString(TEST1);
         File outFile = new File(getOutDir(), "test1.png");
         Map<ParameterKey, String> params = MathBase.getDefaultParameters();
         params.put(ParameterKey.FontSize, "25");

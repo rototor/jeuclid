@@ -33,7 +33,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.awt.MathComponent;
-import net.sourceforge.jeuclid.util.ODFSupport;
+import net.sourceforge.jeuclid.util.MathMLParserSupport;
 import net.sourceforge.jeuclid.util.ResourceEntityResolver;
 
 import org.w3c.dom.Document;
@@ -69,7 +69,7 @@ public class MathComponentTest {
         try {
             Document document;
             if (args.length > 0) {
-                document = ODFSupport.parseFile(new File(args[0]));
+                document = MathMLParserSupport.parseFile(new File(args[0]));
             } else {
                 final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
                         .newInstance();

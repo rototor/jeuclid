@@ -25,7 +25,7 @@ import static org.testng.Assert.assertTrue;
 import net.sourceforge.jeuclid.DOMMathBuilder;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.MathOperator;
-import net.sourceforge.jeuclid.util.ViewerTest;
+import net.sourceforge.jeuclid.util.MathMLParserSupport;
 
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
@@ -48,8 +48,8 @@ public class DOMModelTest {
      */
     @Test
     public void testID() throws Exception {
-        final Document docWithID = ViewerTest
-                .getDocument("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+        final Document docWithID = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mrow id='abc'><mn>1</mn></mrow></math>");
 
         final MathMLDocument docElement = new DOMMathBuilder(docWithID,
@@ -75,8 +75,8 @@ public class DOMModelTest {
      */
     @Test
     public void testMOAttrs() throws Exception {
-        final Document doc = ViewerTest
-                .getDocument("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+        final Document doc = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mo stretchy='true'>X</mo>"
                         + "<mo stretchy='false'>Y</mo>"
                         + "<mo>&#x0007d;</mo>"
