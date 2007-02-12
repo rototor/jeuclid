@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathStyle.java,v 1.1.2.3 2007/02/06 18:34:56 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 

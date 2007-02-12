@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DOMModelTests.java,v 1.1.2.1 2007/02/01 13:52:08 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.util;
 

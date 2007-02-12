@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: JMathComponent.java,v 1.1.2.2 2007/02/10 22:57:23 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.swing;
 

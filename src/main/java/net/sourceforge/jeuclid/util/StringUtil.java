@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: StringUtil.java,v 1.1.2.2 2007/02/08 18:57:39 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.util;
 

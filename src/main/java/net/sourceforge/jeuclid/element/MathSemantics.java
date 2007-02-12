@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathSemantics.java,v 1.1.2.3 2007/02/06 18:34:56 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element;
 
@@ -25,7 +25,7 @@ import net.sourceforge.jeuclid.element.generic.AbstractRowLikeElement;
  * This class represents a semantics element.
  * 
  * @author Max Berger
- * @version $Revision: 1.1.2.3 $ $Date: 2007/02/06 18:34:56 $
+ * @version $Revision$ $Date$
  */
 public class MathSemantics extends AbstractRowLikeElement {
 

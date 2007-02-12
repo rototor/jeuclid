@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractAttributeMap.java,v 1.1.2.1 2007/02/02 09:57:05 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.element.helpers;
 

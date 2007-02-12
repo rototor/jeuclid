@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathMLConverter.java,v 1.1.2.3 2007/02/08 18:57:39 maxberger Exp $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.ant;
 
@@ -33,7 +33,7 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
  * 
  * @author Unkown
  * @author Max Berger
- * @version $Revision: 1.1.2.3 $ $Date: 2007/02/08 18:57:39 $
+ * @version $Revision$ $Date$
  */
 public class MathMLConverter extends MatchingTask {
 
