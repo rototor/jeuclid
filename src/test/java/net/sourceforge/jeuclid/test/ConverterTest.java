@@ -1,4 +1,4 @@
-package net.sourceforge.jeuclid.util;
+package net.sourceforge.jeuclid.test;
 
 import static org.testng.Assert.assertTrue;
 
@@ -6,7 +6,9 @@ import java.io.File;
 import java.util.Map;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.test.MathBaseTest;
+import net.sourceforge.jeuclid.util.Converter;
+import net.sourceforge.jeuclid.util.MathMLParserSupport;
+import net.sourceforge.jeuclid.util.ParameterKey;
 
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;

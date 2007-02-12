@@ -1,4 +1,4 @@
-package net.sourceforge.jeuclid.util;
+package net.sourceforge.jeuclid.test;
 
 import java.awt.BorderLayout;
 import java.lang.reflect.InvocationTargetException;
@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 
 import net.sourceforge.jeuclid.swing.JMathComponent;
+import net.sourceforge.jeuclid.util.MathMLParserSupport;
 
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;

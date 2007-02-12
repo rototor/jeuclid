@@ -18,19 +18,17 @@
 
 package net.sourceforge.jeuclid.test;
 
-import java.awt.Font;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sourceforge.jeuclid.DOMMathBuilder;
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.util.ResourceEntityResolver;
-import static org.testng.Assert.*;
+import net.sourceforge.jeuclid.util.MathMLParserSupport;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -43,37 +41,39 @@ import org.xml.sax.SAXException;
  */
 public class MathBaseTest {
 
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory.getLog(MathBaseTest.class);
 
-	public static Document loadDocument(String name)
-			throws ParserConfigurationException, SAXException, IOException {
-		final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-				.newInstance();
-		final DocumentBuilder parser = documentBuilderFactory
-				.newDocumentBuilder();
-		parser.setEntityResolver(new ResourceEntityResolver());
+    public static Document loadDocument(final String name)
+            throws ParserConfigurationException, SAXException, IOException {
+        final DocumentBuilder parser = MathMLParserSupport
+                .createDocumentBuilder();
+        Document document = null;
+        LOGGER.info("reading:" + name);
+        final InputSource source = new InputSource(MathBaseTest.class
+                .getResourceAsStream("/" + name));
+        document = parser.parse(source);
+        System.out.println(name + " loaded");
+        return document;
+    }
 
-		Document document = null;
-		System.out.println("reading:" + name);
-		final InputSource source = new InputSource(MathBaseTest.class.getResourceAsStream("/" + name));
-		document = parser.parse(source);
-		System.out.println(name + " loaded");
-		return document;
-	}
-
-	/**
-	 * Tests the examples at resources/test/exampleX.mml.
-	 * 
-	 * @throws Exception
-	 *             if an error occurs.
-	 */
-	@Test
-	public void testEmbeddedExamples() throws Exception {
-		for (int example = 1; example <= 7; example++) {
-			String exName = "example" + example + ".mml";
-			Document document = loadDocument(exName);
-			MathBase base = new MathBase(MathBase.getDefaultParameters());
-			new DOMMathBuilder(document, base);
-		}
-	}
+    /**
+     * Tests the examples at resources/test/exampleX.mml.
+     * 
+     * @throws Exception
+     *             if an error occurs.
+     */
+    @Test
+    public void testEmbeddedExamples() throws Exception {
+        for (int example = 1; example <= 7; example++) {
+            final String exName = "example" + example + ".mml";
+            final Document document = MathBaseTest.loadDocument(exName);
+            final MathBase base = new MathBase(MathBase
+                    .getDefaultParameters());
+            new DOMMathBuilder(document, base);
+        }
+    }
 
 }

@@ -5,6 +5,11 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix">
+        JMathComponentBeanInfo, MathMLParserSupport, Checkstyle fixes;
+        Exlpicitly disabled checkstyle for tests;
+        moved all tests into test package;
+        enabled checkstyle for eclipse (requires eclipse to be started from project dir, bugreport in progress)        
       <action dev="maxberger" type="add" due-to="Matthias Hanisch">
         JMathComponentBeanInfo
       </action>

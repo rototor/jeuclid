@@ -1,5 +1,5 @@
 /*
- * Copyright 2007- 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,12 @@
 
 package net.sourceforge.jeuclid.test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 import net.sourceforge.jeuclid.DOMMathBuilder;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.MathOperator;
 import net.sourceforge.jeuclid.util.MathMLParserSupport;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.mathml.MathMLDocument;
@@ -63,8 +60,8 @@ public class DOMModelTest {
         // assertEquals(mathElement.getDisplay(), "block");
         final MathMLPresentationContainer row = (MathMLPresentationContainer) mathElement
                 .getFirstChild();
-        assertNotNull(row);
-        assertEquals(row.getId(), "abc");
+        Assert.assertNotNull(row);
+        Assert.assertEquals(row.getId(), "abc");
     }
 
     /**
@@ -92,17 +89,17 @@ public class DOMModelTest {
         // TODO: Use MathMLOperator instead
         final MathOperator mo = (MathOperator) mathElement.getChildNodes()
                 .item(0);
-        assertNotNull(mo);
-        assertTrue(mo.getStretchy());
+        Assert.assertNotNull(mo);
+        Assert.assertTrue(mo.getStretchy());
         final MathOperator mo2 = (MathOperator) mathElement.getChildNodes()
                 .item(1);
-        assertNotNull(mo2);
-        assertFalse(mo2.getStretchy());
+        Assert.assertNotNull(mo2);
+        Assert.assertFalse(mo2.getStretchy());
         final MathOperator mo3 = (MathOperator) mathElement.getChildNodes()
                 .item(2);
-        assertTrue(mo3.getStretchy());
+        Assert.assertTrue(mo3.getStretchy());
         final MathOperator mo4 = (MathOperator) mathElement.getChildNodes()
                 .item(3);
-        assertFalse(mo4.getStretchy());
+        Assert.assertFalse(mo4.getStretchy());
     }
 }

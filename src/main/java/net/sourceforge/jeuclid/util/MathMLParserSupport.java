@@ -125,7 +125,7 @@ public final class MathMLParserSupport {
         parser.setErrorHandler(new ErrorHandler() {
             public void error(final SAXParseException exception)
                     throws SAXException {
-                LOGGER.warn(exception);
+                MathMLParserSupport.LOGGER.warn(exception);
             }
 
             public void fatalError(final SAXParseException exception)
@@ -135,7 +135,7 @@ public final class MathMLParserSupport {
 
             public void warning(final SAXParseException exception)
                     throws SAXException {
-                LOGGER.debug(exception);
+                MathMLParserSupport.LOGGER.debug(exception);
             }
         });
         return parser;
@@ -188,7 +188,7 @@ public final class MathMLParserSupport {
      * 
      * @param content
      *            A String containing MathML.
-     * @returna DOM Document.
+     * @return a DOM Document.
      * @throws SAXException
      *             a parsing error occurred.
      * @throws ParserConfigurationException
@@ -196,8 +196,8 @@ public final class MathMLParserSupport {
      * @throws IOException
      *             for any other IO exception.
      */
-    public static Document parseString(String content) throws SAXException,
-            ParserConfigurationException, IOException {
+    public static Document parseString(final String content)
+            throws SAXException, ParserConfigurationException, IOException {
         final DocumentBuilder parser = MathMLParserSupport
                 .createDocumentBuilder();
         return parser.parse(new InputSource(new StringReader(content)));
