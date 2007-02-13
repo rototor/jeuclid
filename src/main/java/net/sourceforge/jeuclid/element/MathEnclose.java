@@ -29,11 +29,16 @@ import java.util.TreeSet;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElementWithChildren;
 
+import org.w3c.dom.mathml.MathMLEncloseElement;
+
 /**
  * @author Dmitry Mironovich
  * @since 21.02.2005, 15:01:33
  */
-public class MathEnclose extends AbstractMathElementWithChildren {
+public class MathEnclose extends AbstractMathElementWithChildren implements
+        MathMLEncloseElement {
+
+    // TODO: This class needs to be cleaned up.
 
     /**
      * The XML element from this class.
@@ -45,7 +50,8 @@ public class MathEnclose extends AbstractMathElementWithChildren {
      */
     public static final char LONGDIV_CHAR = ')';
 
-    private String m_notation;
+    /** The notation attribute. */
+    public static final String ATTR_NOTATION = "notation";
 
     // longdiv | actuarial | radical | box | roundedbox | circle | left |
     // right
@@ -76,7 +82,7 @@ public class MathEnclose extends AbstractMathElementWithChildren {
      * @return notation of menclose element
      */
     public String getNotation() {
-        return this.m_notation;
+        return this.getMathAttribute(MathEnclose.ATTR_NOTATION);
     }
 
     /**
@@ -86,6 +92,12 @@ public class MathEnclose extends AbstractMathElementWithChildren {
      *            Notation
      */
     public void setNotation(final String notation) {
+        this.setAttribute(MathEnclose.ATTR_NOTATION, notation);
+        this.parseNotation();
+    }
+
+    private void parseNotation() {
+        final String notation = this.getNotation();
         this.isLongdiv = new Integer(notation.indexOf("longdiv"));
         if (this.isLongdiv.intValue() > -1) {
             this.notations.add(this.isLongdiv);
@@ -104,46 +116,49 @@ public class MathEnclose extends AbstractMathElementWithChildren {
         if (this.isRadical.intValue() > -1) {
             this.notations.add(this.isRadical);
         }
-        this.m_notation = notation;
+        this.setChanged(false);
     }
 
     /** {@inheritDoc} */
     @Override
     public void paint(final Graphics2D g, final int posX, final int posY) {
         super.paint(g, posX, posY);
+        if (this.isChanged()) {
+            this.parseNotation();
+        }
         Integer currentNotation = null;
         final int width = this.getWidth(g);
         final int ascHeight = this.getAscentHeight(g);
         final int descHeight = this.getDescentHeight(g);
         final NotationDesc nd = new NotationDesc(posX, posY, width,
                 ascHeight, descHeight);
-        for (Object element2 : this.notations) {
+        for (final Object element2 : this.notations) {
             currentNotation = (Integer) element2;
             this.drawNotation(currentNotation, g, nd);
         }
-        super.paint(g, nd.m_posX, nd.m_posY);
+        super.paint(g, nd.mposX, nd.mposY);
     }
 
     private int getRootWidth(final char root) {
         final java.awt.font.FontRenderContext context = new FontRenderContext(
                 new java.awt.geom.AffineTransform(), false, false);
-        final GlyphVector gv = (this.getFont().createGlyphVector(context,
-                new char[] { root }));
+        final GlyphVector gv = this.getFont().createGlyphVector(context,
+                new char[] { root });
         final int result = (int) gv.getGlyphMetrics(0).getBounds2D()
                 .getWidth();
         return result + 2;
     }
 
     private class NotationDesc {
-        private int m_posX;
+        private int mposX;
 
-        private int m_posY;
+        private int mposY;
 
-        private int m_width;
+        private int mwidth;
 
-        private int m_ascHeight;
+        private int mascHeight;
 
-        private int m_descHeight;
+        private int mdescHeight;
 
         /**
          * @param posX
@@ -155,11 +170,11 @@ public class MathEnclose extends AbstractMathElementWithChildren {
         public NotationDesc(final int posX, final int posY, final int width,
                 final int ascHeight, final int descHeight) {
             super();
-            this.m_posX = posX;
-            this.m_posY = posY;
-            this.m_width = width;
-            this.m_ascHeight = ascHeight;
-            this.m_descHeight = descHeight;
+            this.mposX = posX;
+            this.mposY = posY;
+            this.mwidth = width;
+            this.mascHeight = ascHeight;
+            this.mdescHeight = descHeight;
         }
     }
 
@@ -178,59 +193,66 @@ public class MathEnclose extends AbstractMathElementWithChildren {
         if (notation == this.isLongdiv) {
             final java.awt.Font font = this.getFont();
             final GlyphVector gv = font.createGlyphVector(g2d
-                    .getFontRenderContext(), new char[] { LONGDIV_CHAR });
+                    .getFontRenderContext(),
+                    new char[] { MathEnclose.LONGDIV_CHAR });
             final Rectangle2D gbounds = gv.getGlyphMetrics(0).getBounds2D();
             final double glyphWidth = gbounds.getWidth();
             final double glyphHeight = gbounds.getHeight();
-            double yScale, xScale;
-            yScale = ((nd.m_ascHeight + nd.m_descHeight) / glyphHeight);
+            double yScale;
+            double xScale;
+            yScale = (nd.mascHeight + nd.mdescHeight) / glyphHeight;
             xScale = 1;
             final java.awt.geom.AffineTransform transform = g2d
                     .getTransform();
             final java.awt.geom.AffineTransform prevTransform = g2d
                     .getTransform();
             transform.scale(xScale, yScale);
-            double y = nd.m_posY + nd.m_descHeight;
+            double y = nd.mposY + nd.mdescHeight;
             y = y - (gbounds.getY() + gbounds.getHeight()) * yScale;
-            double x = nd.m_posX;
-            y = (y / yScale);
-            x = (x / xScale);
+            double x = nd.mposX;
+            y = y / yScale;
+            x = x / xScale;
             final Shape oldClip = g2d.getClip();
-            g2d
-                    .clipRect(nd.m_posX - 1, (int) (nd.m_posY
-                            + nd.m_descHeight - glyphHeight * yScale),
-                            (int) (glyphWidth * xScale + 2),
-                            (int) (glyphHeight * yScale + 2));
+            g2d.clipRect(nd.mposX - 1,
+                    (int) (nd.mposY + nd.mdescHeight - glyphHeight * yScale),
+                    (int) (glyphWidth * xScale + 2), (int) (glyphHeight
+                            * yScale + 2));
             g2d.setTransform(transform);
             g2d.drawGlyphVector(gv, (float) x, (float) y);
             g2d.setTransform(prevTransform);
             g2d.setClip(oldClip);
-            final int rightTopPoint = (int) ((nd.m_posY + nd.m_descHeight - glyphHeight
+            final int rightTopPoint = (int) ((nd.mposY + nd.mdescHeight - glyphHeight
                     * yScale));
-            g2d.drawLine(nd.m_posX + 1, rightTopPoint, nd.m_posX + 1
-                    + nd.m_width, rightTopPoint);
-            nd.m_posX = nd.m_posX + this.getRootWidth(LONGDIV_CHAR) + 1;
-            nd.m_width = nd.m_width - this.getRootWidth(LONGDIV_CHAR) - 2;
-            nd.m_ascHeight = nd.m_ascHeight - 2;
-            nd.m_descHeight = nd.m_descHeight - 2;
+            g2d.drawLine(nd.mposX + 1, rightTopPoint, nd.mposX + 1
+                    + nd.mwidth, rightTopPoint);
+            nd.mposX = nd.mposX + this.getRootWidth(MathEnclose.LONGDIV_CHAR)
+                    + 1;
+            nd.mwidth = nd.mwidth
+                    - this.getRootWidth(MathEnclose.LONGDIV_CHAR) - 2;
+            nd.mascHeight = nd.mascHeight - 2;
+            nd.mdescHeight = nd.mdescHeight - 2;
         } else if (notation == this.isUpdiagonalstrike) {
-            g2d.drawLine(nd.m_posX, nd.m_posY + nd.m_descHeight, nd.m_posX
-                    + nd.m_width, nd.m_posY - nd.m_ascHeight);
+            g2d.drawLine(nd.mposX, nd.mposY + nd.mdescHeight, nd.mposX
+                    + nd.mwidth, nd.mposY - nd.mascHeight);
         } else if (notation == this.isDowndiagonalstrike) {
-            g2d.drawLine(nd.m_posX, nd.m_posY - nd.m_ascHeight, nd.m_posX
-                    + nd.m_width, nd.m_posY + nd.m_descHeight);
+            g2d.drawLine(nd.mposX, nd.mposY - nd.mascHeight, nd.mposX
+                    + nd.mwidth, nd.mposY + nd.mdescHeight);
         }
     }
 
     /** {@inheritDoc} */
     @Override
     public int calculateWidth(final Graphics2D g) {
+        if (this.isChanged()) {
+            this.parseNotation();
+        }
         int width = super.calculateChildrenWidth(g);
         Integer notation = null;
-        for (Object element2 : this.notations) {
+        for (final Object element2 : this.notations) {
             notation = (Integer) element2;
             if (notation == this.isLongdiv) {
-                width = width + this.getRootWidth(LONGDIV_CHAR) + 2;
+                width = width + this.getRootWidth(MathEnclose.LONGDIV_CHAR)
+                        + 2;
             }
         }
         return width;
@@ -239,9 +261,12 @@ public class MathEnclose extends AbstractMathElementWithChildren {
     /** {@inheritDoc} */
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
+        if (this.isChanged()) {
+            this.parseNotation();
+        }
         int ah = this.calculateChildrenAscentHeight(g);
         Integer notation = null;
-        for (Object element2 : this.notations) {
+        for (final Object element2 : this.notations) {
             notation = (Integer) element2;
             if (notation == this.isLongdiv) {
                 ah = ah + 2;
@@ -253,9 +278,12 @@ public class MathEnclose extends AbstractMathElementWithChildren {
     /** {@inheritDoc} */
     @Override
     public int calculateDescentHeight(final Graphics2D g) {
+        if (this.isChanged()) {
+            this.parseNotation();
+        }
         int dh = super.calculateChildrenDescentHeight(g);
         Integer notation = null;
-        for (Object element2 : this.notations) {
+        for (final Object element2 : this.notations) {
             notation = (Integer) element2;
             if (notation == this.isLongdiv) {
                 dh = dh + 2;
@@ -266,7 +294,7 @@ public class MathEnclose extends AbstractMathElementWithChildren {
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathEnclose.ELEMENT;
     }
 
 }

@@ -23,20 +23,26 @@ import java.awt.Graphics2D;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractInvisibleMathElement;
 
+import org.w3c.dom.mathml.MathMLAlignMarkElement;
+
 /**
  * This class represents the malignmark tag.
  * 
  * @author PG
  * @since Jan 20, 2005
  */
-public class MathAlignMark extends AbstractInvisibleMathElement {
+public class MathAlignMark extends AbstractInvisibleMathElement implements
+        MathMLAlignMarkElement {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "malignmark";
 
-    private int width = 0;
+    /** The edge attribute. */
+    public static final String ATTR_EDGE = "edge";
+
+    private final int width = 0;
 
     /**
      * Creates a math element.
@@ -44,18 +50,29 @@ public class MathAlignMark extends AbstractInvisibleMathElement {
      * @param base
      *            The base for the math element tree.
      */
-    public MathAlignMark(MathBase base) {
+    public MathAlignMark(final MathBase base) {
         super(base);
     }
 
     /** {@inheritDoc} */
-    public int calculateWidth(Graphics2D g) {
-        return width;
+    @Override
+    public int calculateWidth(final Graphics2D g) {
+        return this.width;
     }
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathAlignMark.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public String getEdge() {
+        return this.getMathAttribute(MathAlignMark.ATTR_EDGE);
+    }
+
+    /** {@inheritDoc} */
+    public void setEdge(final String edge) {
+        this.setAttribute(MathAlignMark.ATTR_EDGE, edge);
     }
 
 }
