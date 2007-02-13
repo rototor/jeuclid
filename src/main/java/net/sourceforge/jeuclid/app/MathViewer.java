@@ -63,6 +63,8 @@ public final class MathViewer {
 
     private static boolean macOS = System.getProperty("mrj.version") != null;
 
+    private static final float FONT_SIZE_MULTIPLICATOR = 1.20f;
+
     private JFrame jFrame;
 
     private JPanel jContentPane;
@@ -91,11 +93,15 @@ public final class MathViewer {
 
     private File lastPath;
 
-    private JMenu viewMenu = null;
+    private JMenu viewMenu;
 
-    private JMenuItem biggerMenuItem = null;
+    private JMenuItem biggerMenuItem;
 
-    private JMenuItem smallerMenuItem = null;
+    private JMenuItem smallerMenuItem;
+
+    private MathViewer() {
+        // Empty on purpose.
+    }
 
     /**
      * This method initializes jFrame
@@ -207,14 +213,13 @@ public final class MathViewer {
             this.aboutMenuItem.setText("About");
             this.aboutMenuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
-                    final JDialog aboutDialog = MathViewer.this
-                            .getAboutDialog();
-                    aboutDialog.pack();
+                    final JDialog aDialog = MathViewer.this.getAboutDialog();
+                    aDialog.pack();
                     final Point loc = MathViewer.this.getJFrame()
                             .getLocation();
                     loc.translate(20, 20);
-                    aboutDialog.setLocation(loc);
-                    aboutDialog.setVisible(true);
+                    aDialog.setLocation(loc);
+                    aDialog.setVisible(true);
                 }
             });
         }
@@ -346,6 +351,8 @@ public final class MathViewer {
     private JMathComponent getMathComponent() {
         if (this.mathComponent == null) {
             this.mathComponent = new JMathComponent();
+            this.mathComponent
+                    .setContent("<math><mtext>Please load a MathML file</mtext></math>");
         }
         return this.mathComponent;
     }
@@ -375,7 +382,7 @@ public final class MathViewer {
             this.biggerMenuItem = new JMenuItem();
             this.biggerMenuItem.setText("Make Text Bigger");
             this.biggerMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-                    KeyEvent.VK_PLUS, Toolkit.getDefaultToolkit()
+                    KeyEvent.VK_ADD, Toolkit.getDefaultToolkit()
                             .getMenuShortcutKeyMask(), true));
             this.biggerMenuItem
                     .addActionListener(new java.awt.event.ActionListener() {
@@ -383,7 +390,8 @@ public final class MathViewer {
                                 final java.awt.event.ActionEvent e) {
                             final JMathComponent jmc = MathViewer.this
                                     .getMathComponent();
-                            jmc.setFontSize(jmc.getFontSize() * 1.20f);
+                            jmc.setFontSize(jmc.getFontSize()
+                                    * MathViewer.FONT_SIZE_MULTIPLICATOR);
                         }
                     });
         }
@@ -400,7 +408,7 @@ public final class MathViewer {
             this.smallerMenuItem = new JMenuItem();
             this.smallerMenuItem.setText("Make Text Smaller");
             this.smallerMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-                    KeyEvent.VK_MINUS, Toolkit.getDefaultToolkit()
+                    KeyEvent.VK_SUBTRACT, Toolkit.getDefaultToolkit()
                             .getMenuShortcutKeyMask(), true));
 
             this.smallerMenuItem
@@ -409,7 +417,8 @@ public final class MathViewer {
                                 final java.awt.event.ActionEvent e) {
                             final JMathComponent jmc = MathViewer.this
                                     .getMathComponent();
-                            jmc.setFontSize(jmc.getFontSize() / 1.20f);
+                            jmc.setFontSize(jmc.getFontSize()
+                                    / MathViewer.FONT_SIZE_MULTIPLICATOR);
                         }
                     });
         }
