@@ -188,16 +188,18 @@
               <name>mml2xxx</name>
             </program>
           </programs>
+<!--          <repositoryLayout>flat</repositoryLayout> -->
         </configuration>
         <executions>
           <execution>
             <phase>package</phase>
             <goals>
+              <goal>create-repository</goal>
               <goal>assemble</goal>
             </goals>
           </execution>
         </executions>
-       </plugin>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appbundler-maven-plugin</artifactId>
@@ -211,6 +213,22 @@
             <phase>package</phase>
             <goals>
               <goal>bundle</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assemble/distribution.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>attached</goal>
             </goals>
           </execution>
         </executions>

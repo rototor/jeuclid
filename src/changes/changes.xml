@@ -5,6 +5,9 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        support for assembly plugin, added to package phase
+      </action>
       <action dev="maxberger" type="update">
         pom.xml: now calls appassembler, appbundler for package
       </action>
