@@ -39,7 +39,7 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
     private static final Class beanClass = JMathComponent.class;
 
     private final Image icoColor16 = new ImageIcon(
-            JMathComponentBeanInfo.beanClass.getResource("jeuclid.png"))
+            JMathComponentBeanInfo.beanClass.getResource("/jeuclid.png"))
             .getImage();
 
     /** {@inheritDoc} */
