@@ -32,6 +32,22 @@ import net.sourceforge.jeuclid.element.attributes.MathVariant;
  */
 public final class StringUtil {
 
+    private static final int LOWERCASE_START = 0x61;
+
+    private static final int PLANE_1_START = 0x10000;
+
+    private static final int PLANE_1_FRAKTUR_LOWER_START = 0x1d51E;
+
+    private static final int PLANE_1_FRAKTUR_LOWER_END = 0x1d537;
+
+    private static final int LOW_SURROGATE_START = 0xdc00;
+
+    private static final int HIGH_SURROGATE_PLANE_SIZE = 0x400;
+
+    private static final int HIGH_SURROGATE_START = 0xd800;
+
+    private static final int HIGH_SURROGATE_END = 0xdbff;
+
     private StringUtil() {
         // do nothing
     }
@@ -52,22 +68,26 @@ public final class StringUtil {
     public static AttributedString convertStringtoAttributedString(
             final String plainString, final MathVariant baseVariant,
             final float fontSize) {
-        // Should JEUclid go 1.5+ this should be replaced by StringBuilder
-        final StringBuffer builder = new StringBuffer();
+        final StringBuilder builder = new StringBuilder();
         final List<MathVariant> variants = new Vector<MathVariant>();
         for (int i = 0; i < plainString.length(); i++) {
             int codePoint = plainString.charAt(i);
-            if ((codePoint >= 0xd800) && (codePoint <= 0xdbff)
+            if ((codePoint >= StringUtil.HIGH_SURROGATE_START)
+                    && (codePoint <= StringUtil.HIGH_SURROGATE_END)
                     && (i < plainString.length() - 1)) {
                 i++;
-                codePoint = (codePoint - 0xd800) * 0x400
-                        + (plainString.charAt(i) - 0xdc00) + 0x10000;
+                codePoint = (codePoint - StringUtil.HIGH_SURROGATE_START)
+                        * StringUtil.HIGH_SURROGATE_PLANE_SIZE
+                        + (plainString.charAt(i) - StringUtil.LOW_SURROGATE_START)
+                        + StringUtil.PLANE_1_START;
             }
-            // TODO: This should be passed in.
             MathVariant variant = baseVariant;
-            if (codePoint >= 0x10000) {
-                if ((codePoint >= 0x1d51E) && (codePoint <= 0x1d537)) {
-                    codePoint = codePoint - 0x1d51E + 0x61;
+            if (codePoint >= StringUtil.PLANE_1_START) {
+                if ((codePoint >= StringUtil.PLANE_1_FRAKTUR_LOWER_START)
+                        && (codePoint <= StringUtil.PLANE_1_FRAKTUR_LOWER_END)) {
+                    codePoint = codePoint
+                            - StringUtil.PLANE_1_FRAKTUR_LOWER_START
+                            + StringUtil.LOWERCASE_START;
                     variant = MathVariant.FRAKTUR;
                 }
                 // TODO: There are many others to be mapped!

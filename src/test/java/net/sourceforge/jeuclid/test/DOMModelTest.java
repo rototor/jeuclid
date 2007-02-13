@@ -168,8 +168,8 @@ public class DOMModelTest {
         // Assert.assertTrue(MathElementFactory.elementFromName("mglyph",
         // aMap,
         // base) instanceof MathMLGlyphElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mrow", aMap,
-        // base) instanceof MathMLPresentationContainer);
+        Assert.assertTrue(MathElementFactory.elementFromName("mrow", aMap,
+                base) instanceof MathMLPresentationContainer);
         Assert.assertTrue(MathElementFactory.elementFromName("mfrac", aMap,
                 base) instanceof MathMLFractionElement);
         // Assert.assertTrue(MathElementFactory.elementFromName("msqrt", aMap,
@@ -185,8 +185,8 @@ public class DOMModelTest {
         // Assert.assertTrue(MathElementFactory.elementFromName("mpadded",
         // aMap,
         // base) instanceof MathMLPaddedElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mphantom",
-        // aMap, base) instanceof MathMLPresentationContainer);
+        Assert.assertTrue(MathElementFactory.elementFromName("mphantom",
+                aMap, base) instanceof MathMLPresentationContainer);
         Assert.assertTrue(MathElementFactory.elementFromName("mfenced", aMap,
                 base) instanceof MathMLFencedElement);
         Assert.assertTrue(MathElementFactory.elementFromName("menclose",

@@ -6,6 +6,14 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix">
+        StringUtil: Checkstyle Fixes;
+        AttributesHelper: few Checkstyle fixes;
+        ResourceEntityResolver: Checkstyle fixes;
+      </action>
+      <action dev="maxberger" type="add">
+        AbstractMathElementWithChildren now implements MathMLPresentationContainer
+      </action>
       <action dev="maxberger" type="update">
         MathViewer: cleanups.
       </action>
