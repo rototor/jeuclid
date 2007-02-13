@@ -25,15 +25,17 @@ import java.util.List;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.helpers.ElementListSupport;
 
+import org.w3c.dom.mathml.MathMLPresentationContainer;
+
 /**
  * Represents a Math element that is painted and defined through its children.
  * 
  * @author Max Berger
  */
 public abstract class AbstractMathElementWithChildren extends
-        AbstractMathContainer {
+        AbstractMathContainer implements MathMLPresentationContainer {
     /**
-     * Default constructor.
+     * S Default constructor.
      * 
      * @param base
      *            MathBase to use.

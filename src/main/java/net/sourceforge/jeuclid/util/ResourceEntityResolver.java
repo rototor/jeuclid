@@ -40,25 +40,32 @@ public class ResourceEntityResolver implements EntityResolver {
     private static final Map<String, String> PUBLIC_ID_TO_SYSYEM = new HashMap<String, String>();
 
     /** {@inheritDoc} */
-    public InputSource resolveEntity(String publicId, String systemId) {
+    public InputSource resolveEntity(final String publicId,
+            final String systemId) {
         InputSource retval = null;
 
-        String mappedPath = (String) PUBLIC_ID_TO_INTERNAL.get(publicId);
+        String mappedPath = ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
+                .get(publicId);
 
-        if ((mappedPath == null) && (systemId.startsWith(MML1_SYSTEMID_PATH))) {
+        if ((mappedPath == null)
+                && (systemId
+                        .startsWith(ResourceEntityResolver.MML1_SYSTEMID_PATH))) {
             mappedPath = "/mathml.1.0.1"
-                    + systemId.substring(MML1_SYSTEMID_PATH.length());
+                    + systemId
+                            .substring(ResourceEntityResolver.MML1_SYSTEMID_PATH
+                                    .length());
         }
         if (mappedPath != null) {
-            InputStream resourceStream = this.getClass().getResourceAsStream(
-                    mappedPath);
+            final InputStream resourceStream = ResourceEntityResolver.class
+                    .getResourceAsStream(mappedPath);
             if (resourceStream != null) {
                 retval = new InputSource(resourceStream);
                 retval.setPublicId(publicId);
-                String mappedSystemId = (String) PUBLIC_ID_TO_SYSYEM
+                String mappedSystemId = ResourceEntityResolver.PUBLIC_ID_TO_SYSYEM
                         .get(publicId);
-                if (mappedSystemId == null)
+                if (mappedSystemId == null) {
                     mappedSystemId = systemId;
+                }
                 retval.setSystemId(mappedSystemId);
             }
         }
@@ -66,87 +73,90 @@ public class ResourceEntityResolver implements EntityResolver {
     }
 
     {
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//OpenOffice.org//DTD Modified W3C MathML 1.01//EN",
                 "/openoffice.mathml.1.0.1/math.dtd");
 
-        PUBLIC_ID_TO_INTERNAL.put("-//W3C//DTD MathML 2.0//EN",
-                "/mathml.2.0/mathml2.dtd");
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
+                "-//W3C//DTD MathML 2.0//EN", "/mathml.2.0/mathml2.dtd");
 
-        PUBLIC_ID_TO_SYSYEM.put("-//W3C//DTD MathML 2.0//EN",
+        ResourceEntityResolver.PUBLIC_ID_TO_SYSYEM.put(
+                "-//W3C//DTD MathML 2.0//EN",
                 "http://www.w3.org/TR/MathML2/dtd/mathml2.dtd");
 
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES MathML 2.0 Qualified Names 1.0//EN",
                 "/mathml.2.0/mathml2-qname-1.mod");
-        PUBLIC_ID_TO_INTERNAL
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Arrow Relations for MathML 2.0//EN",
                         "/mathml.2.0/iso9573-13/isoamsa.ent");
-        PUBLIC_ID_TO_INTERNAL
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Binary Operators for MathML 2.0//EN",
                         "/mathml.2.0/iso9573-13/isoamsb.ent");
-        PUBLIC_ID_TO_INTERNAL
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Delimiters for MathML 2.0//EN",
                         "/mathml.2.0/iso9573-13/isoamsc.ent");
-        PUBLIC_ID_TO_INTERNAL
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Negated Relations for MathML 2.0//EN",
                         "/mathml.2.0/iso9573-13/isoamsn.ent");
-        PUBLIC_ID_TO_INTERNAL
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Ordinary for MathML 2.0//EN",
                         "/mathml.2.0/iso9573-13/isoamso.ent");
-        PUBLIC_ID_TO_INTERNAL
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Relations for MathML 2.0//EN",
                         "/mathml.2.0/iso9573-13/isoamsr.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Greek Symbols for MathML 2.0//EN",
                 "/mathml.2.0/iso9573-13/isogrk3.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
-                "-//W3C//ENTITIES Math Alphabets: Fraktur for MathML 2.0//EN",
-                "/mathml.2.0/iso9573-13/isomfrk.ent");
-        PUBLIC_ID_TO_INTERNAL
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
+                .put(
+                        "-//W3C//ENTITIES Math Alphabets: Fraktur for MathML 2.0//EN",
+                        "/mathml.2.0/iso9573-13/isomfrk.ent");
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Math Alphabets: Open Face for MathML 2.0//EN",
                         "/mathml.2.0/iso9573-13/isomopf.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Math Alphabets: Script for MathML 2.0//EN",
                 "/mathml.2.0/iso9573-13/isomscr.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES General Technical for MathML 2.0//EN",
                 "/mathml.2.0/iso9573-13/isotech.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Box and Line Drawing for MathML 2.0//EN",
                 "/mathml.2.0/iso8879/isobox.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Russian Cyrillic for MathML 2.0//EN",
                 "/mathml.2.0/iso8879/isocyr1.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Non-Russian Cyrillic for MathML 2.0//EN",
                 "/mathml.2.0/iso8879/isocyr2.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Diacritical Marks for MathML 2.0//EN",
                 "/mathml.2.0/iso8879/isodia.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Added Latin 1 for MathML 2.0//EN",
                 "/mathml.2.0/iso8879/isolat1.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Added Latin 2 for MathML 2.0//EN",
                 "/mathml.2.0/iso8879/isolat2.ent");
-        PUBLIC_ID_TO_INTERNAL
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Numeric and Special Graphic for MathML 2.0//EN",
                         "/mathml.2.0/iso8879/isonum.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Publishing for MathML 2.0//EN",
                 "/mathml.2.0/iso8879/isopub.ent");
-        PUBLIC_ID_TO_INTERNAL.put("-//W3C//ENTITIES Extra for MathML 2.0//EN",
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
+                "-//W3C//ENTITIES Extra for MathML 2.0//EN",
                 "/mathml.2.0/mathml/mmlextra.ent");
-        PUBLIC_ID_TO_INTERNAL.put(
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Aliases for MathML 2.0//EN",
                 "/mathml.2.0/mathml/mmlalias.ent");
 
