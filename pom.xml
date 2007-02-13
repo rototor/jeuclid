@@ -190,6 +190,24 @@
           </programs>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>appbundler-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
+          <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
+          <iconFile>${basedir}/src/main/app-resources/jeuclid.icns</iconFile>
+        </configuration>
+<!--
+        <executions>
+          <execution>
+            <goals>
+              <goal>package</goal>
+            </goals>
+          </execution>
+        </executions>
+-->
+      </plugin>
     </plugins>
   </build>
   <dependencies>
