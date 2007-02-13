@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <document>
   <properties>
     <title>Changes JEuclid Project</title>
@@ -28,6 +29,7 @@
         Exlpicitly disabled checkstyle for tests;
         moved all tests into test package;
         enabled checkstyle for eclipse (requires eclipse to be started from project dir, bugreport in progress)        
+      </action>
       <action dev="maxberger" type="add" due-to="Matthias Hanisch">
         JMathComponentBeanInfo
       </action>
