@@ -189,7 +189,15 @@
             </program>
           </programs>
         </configuration>
-      </plugin>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+            </goals>
+          </execution>
+        </executions>
+       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appbundler-maven-plugin</artifactId>
@@ -198,15 +206,14 @@
           <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
           <iconFile>${basedir}/src/main/app-resources/jeuclid.icns</iconFile>
         </configuration>
-<!--
         <executions>
           <execution>
+            <phase>package</phase>
             <goals>
-              <goal>package</goal>
+              <goal>bundle</goal>
             </goals>
           </execution>
         </executions>
--->
       </plugin>
     </plugins>
   </build>
