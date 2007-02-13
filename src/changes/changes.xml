@@ -5,6 +5,9 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix">
+        Checkstyle Config now works properly in Eclipse and Maven
+      </action>
       <action dev="maxberger" type="add">
         support for assembly plugin, added to package phase
       </action>
