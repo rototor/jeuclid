@@ -26,6 +26,8 @@ import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractInvisibleMathElement;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 
+import org.w3c.dom.mathml.MathMLAlignGroupElement;
+
 /**
  * This class represents the maligngroup tag.
  * 
@@ -33,17 +35,21 @@ import net.sourceforge.jeuclid.element.generic.MathElement;
  * @since Jan 20, 2005
  */
 
-public class MathAlignGroup extends AbstractInvisibleMathElement {
+public class MathAlignGroup extends AbstractInvisibleMathElement implements
+        MathMLAlignGroupElement {
 
     /**
      * The XML element from this class.
      */
-    public static String ELEMENT = "maligngroup";
+    public static final String ELEMENT = "maligngroup";
+
+    /** The groupalign attribute. */
+    public static final String ATTR_GROUPALIGN = "groupalign";
 
     /** The width is calculated within MathTable. */
-    protected int width = 0;
+    protected int width;
 
-    private MathAlignMark m_mark = null;
+    private MathAlignMark mathAlignMark;
 
     /**
      * Creates a math element.
@@ -77,8 +83,8 @@ public class MathAlignGroup extends AbstractInvisibleMathElement {
      *            MathAlignMark
      */
     protected void setMark(final MathAlignMark mark) {
-        if (this.m_mark == null) {
-            this.m_mark = mark;
+        if (this.mathAlignMark == null) {
+            this.mathAlignMark = mark;
         }
     }
 
@@ -86,7 +92,7 @@ public class MathAlignGroup extends AbstractInvisibleMathElement {
      * @return mark
      */
     protected MathAlignMark getMark() {
-        return this.m_mark;
+        return this.mathAlignMark;
     }
 
     /**
@@ -128,7 +134,8 @@ public class MathAlignGroup extends AbstractInvisibleMathElement {
         final boolean searching = true;
 
         while (searching) {
-            if (parent.getMathElementCount() == index) { // end of parent
+            if (parent.getMathElementCount() == index) {
+                // end of parent
                 if (parent instanceof MathTableRow
                         || parent instanceof MathMathElement) {
                     // parent is tablerow or root, exit
@@ -139,23 +146,24 @@ public class MathAlignGroup extends AbstractInvisibleMathElement {
                 current = parent.getMathElement(index);
                 // going out from mrow or something...
                 continue;
-            } else { // parent elements didn't over
+            } else {
+                // parent elements didn't over
                 if (current instanceof MathRow) {
-                    parent = current; // go inside mrow
+                    // go inside mrow
+                    parent = current;
                     current = parent.getMathElement(0);
                     index = 0;
                     continue;
                 } else {
                     if (current instanceof MathAlignGroup) {
-                        break; // we've found next aligngroup element, stop
-                        // search
+                        // we've found next aligngroup element, stop search
+                        break;
                     } else {
-                        result.add(current); // adding element, continue
-                        // loop
+                        // adding element, continue loop
+                        result.add(current);
                     }
-
-                    current = parent.getMathElement(index + 1); // next
-                    // element
+                    // next element
+                    current = parent.getMathElement(index + 1);
                     index++;
                 }
             }
@@ -167,5 +175,15 @@ public class MathAlignGroup extends AbstractInvisibleMathElement {
     /** {@inheritDoc} */
     public String getTagName() {
         return MathAlignGroup.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public String getGroupalign() {
+        return this.getMathAttribute(MathAlignGroup.ATTR_GROUPALIGN);
+    }
+
+    /** {@inheritDoc} */
+    public void setGroupalign(final String groupalign) {
+        this.setAttribute(MathAlignGroup.ATTR_GROUPALIGN, groupalign);
     }
 }

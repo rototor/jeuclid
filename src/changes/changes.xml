@@ -6,6 +6,13 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        MathAlignGroup implements MathMLAlignGroupElement;
+        MathAlignMark implements MathMLAlignMarkElement;
+        MathAnnotation implements MathMLAnnotationElement;
+        MathEnclose implements MathMLEncloseElement;
+        MathFenced: Checkstyle cleanups;
+      </action>
       <action dev="maxberger" type="fix">
         JMathComponentBeanInfo: jeulid.png is in /
       </action>

@@ -38,10 +38,21 @@ import org.w3c.dom.mathml.MathMLFencedElement;
 public class MathFenced extends AbstractElementWithDelegates implements
         MathMLFencedElement {
 
+    /** The separators attribute. */
+    public static final String ATTR_SEPARATORS = "separators";
+
+    /** The close attribute. */
+    public static final String ATTR_CLOSE = "close";
+
+    /** The open attribute. */
+    public static final String ATTR_OPEN = "open";
+
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mfenced";
+
+    private static final String FENCE_SPACE = "0.2em";
 
     /**
      * Creates a new MathFenced object.
@@ -61,7 +72,7 @@ public class MathFenced extends AbstractElementWithDelegates implements
      * @return opening delimiter
      */
     public String getOpen() {
-        return this.getMathAttribute("open");
+        return this.getMathAttribute(MathFenced.ATTR_OPEN);
     }
 
     /**
@@ -71,14 +82,14 @@ public class MathFenced extends AbstractElementWithDelegates implements
      *            Delimiter
      */
     public void setOpen(final String open) {
-        this.setAttribute("open", open);
+        this.setAttribute(MathFenced.ATTR_OPEN, open);
     }
 
     /**
      * @return Return the closing delimiter
      */
     public String getClose() {
-        return this.getMathAttribute("close");
+        return this.getMathAttribute(MathFenced.ATTR_CLOSE);
     }
 
     /**
@@ -88,7 +99,7 @@ public class MathFenced extends AbstractElementWithDelegates implements
      *            New close delimeter
      */
     public void setClose(final String close) {
-        this.setAttribute("close", close);
+        this.setAttribute(MathFenced.ATTR_CLOSE, close);
     }
 
     /**
@@ -97,7 +108,7 @@ public class MathFenced extends AbstractElementWithDelegates implements
      * @return separators
      */
     public String getSeparators() {
-        return this.getMathAttribute("separators");
+        return this.getMathAttribute(MathFenced.ATTR_SEPARATORS);
     }
 
     /**
@@ -107,7 +118,7 @@ public class MathFenced extends AbstractElementWithDelegates implements
      *            New separators
      */
     public void setSeparators(final String separators) {
-        this.setAttribute("separators", separators);
+        this.setAttribute(MathFenced.ATTR_SEPARATORS, separators);
     }
 
     /** {@inheritDoc} */
@@ -119,8 +130,8 @@ public class MathFenced extends AbstractElementWithDelegates implements
         final MathOperator opOpen = new MathOperator(this.getMathBase());
         opOpen.setFence(true);
         opOpen.setStretchy(true);
-        opOpen.setRSpace("0.2em");
-        opOpen.setLSpace("0.2em");
+        opOpen.setRSpace(MathFenced.FENCE_SPACE);
+        opOpen.setLSpace(MathFenced.FENCE_SPACE);
         opOpen.setSymmetric(false);
         opOpen.setForm(OperatorDictionary.VALUE_PREFIX);
         opOpen.addText(this.getOpen());
@@ -146,8 +157,8 @@ public class MathFenced extends AbstractElementWithDelegates implements
         }
         final MathOperator opClose = new MathOperator(this.getMathBase());
         opClose.setFence(true);
-        opClose.setRSpace("0.2em");
-        opClose.setLSpace("0.2em");
+        opClose.setRSpace(MathFenced.FENCE_SPACE);
+        opClose.setLSpace(MathFenced.FENCE_SPACE);
         opClose.setStretchy(true);
         opClose.setSymmetric(false);
         opClose.setForm(OperatorDictionary.VALUE_POSTFIX);
@@ -159,7 +170,7 @@ public class MathFenced extends AbstractElementWithDelegates implements
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathFenced.ELEMENT;
     }
 
 }
