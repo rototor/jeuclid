@@ -43,6 +43,7 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLMathElement;
+import org.w3c.dom.mathml.MathMLNodeList;
 
 /**
  * The basic class for all math elements. Every element class inherits from
@@ -53,6 +54,10 @@ import org.w3c.dom.mathml.MathMLMathElement;
  */
 public abstract class AbstractMathElement extends
         AbstractChangeTrackingElement implements MathElement {
+
+    /** The mathbackground attribute. */
+    public static final String ATTR_MATHBACKGROUND = "mathbackground";
+
     /**
      * The URI from MathML.
      */
@@ -614,11 +619,23 @@ public abstract class AbstractMathElement extends
      */
     public String getMathbackground() {
         String color;
-        color = this.getMathAttribute("mathbackground");
+        color = this
+                .getMathAttribute(AbstractMathElement.ATTR_MATHBACKGROUND);
         if (color == null) {
             color = this.getMathAttribute("background");
         }
         return color;
+    }
+
+    /**
+     * Sets the value of the machbackground attribute.
+     * 
+     * @param mathbackground
+     *            a string to be used as background color.
+     */
+    public void setMathbackground(final String mathbackground) {
+        this.setAttribute(AbstractMathElement.ATTR_MATHBACKGROUND,
+                mathbackground);
     }
 
     /** {@inheritDoc} */
@@ -999,6 +1016,15 @@ public abstract class AbstractMathElement extends
     /** {@inheritDoc} */
     public int getPaintedPosY() {
         return this.lastPaintedY;
+    }
+
+    /**
+     * Returns the children as a MathML NodeList.
+     * 
+     * @return a list of children
+     */
+    public MathMLNodeList getContents() {
+        return (MathMLNodeList) this.getChildNodes();
     }
 
     {

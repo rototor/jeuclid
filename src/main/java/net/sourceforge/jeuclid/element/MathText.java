@@ -30,11 +30,14 @@ import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.util.StringUtil;
 
+import org.w3c.dom.mathml.MathMLPresentationToken;
+
 /**
  * This class presents text in a equation and contains some utility methods.
  * 
  */
-public class MathText extends AbstractMathElement {
+public class MathText extends AbstractMathElement implements
+        MathMLPresentationToken {
     /**
      * Logger for this class. Unused.
      */
@@ -50,7 +53,7 @@ public class MathText extends AbstractMathElement {
      * @param base
      *            The base for the math element tree.
      */
-    public MathText(MathBase base) {
+    public MathText(final MathBase base) {
         super(base);
     }
 
@@ -64,27 +67,30 @@ public class MathText extends AbstractMathElement {
      * @param posY
      *            The position of the baseline.
      */
-    public void paint(Graphics2D g, int posX, int posY) {
+    @Override
+    public void paint(final Graphics2D g, final int posX, final int posY) {
         super.paint(g, posX, posY);
         // Left here for testing purposes.
         // g.drawString(getText(),posX,posY);
 
-        if (getText().length() > 0) {
+        if (this.getText().length() > 0) {
             this.produceTextLayout(g).draw(g, posX, posY);
         }
     }
 
-    private TextLayout produceTextLayout(Graphics2D g2d) {
-        TextLayout layout = new TextLayout(StringUtil
-                .convertStringtoAttributedString(getText(),
-                        getMathvariantAsVariant(), getFontsizeInPoint())
-                .getIterator(), g2d.getFontRenderContext());
+    private TextLayout produceTextLayout(final Graphics2D g2d) {
+        final TextLayout layout = new TextLayout(StringUtil
+                .convertStringtoAttributedString(this.getText(),
+                        this.getMathvariantAsVariant(),
+                        this.getFontsizeInPoint()).getIterator(), g2d
+                .getFontRenderContext());
         return layout;
     }
 
     /** {@inheritDoc} */
-    public int calculateWidth(Graphics2D g) {
-        if (getText().equals("")) {
+    @Override
+    public int calculateWidth(final Graphics2D g) {
+        if (this.getText().equals("")) {
             return 0;
         } else {
             return (int) this.produceTextLayout(g).getAdvance();
@@ -92,8 +98,9 @@ public class MathText extends AbstractMathElement {
     }
 
     /** {@inheritDoc} */
-    public int calculateAscentHeight(Graphics2D g) {
-        if (getText().equals("")) {
+    @Override
+    public int calculateAscentHeight(final Graphics2D g) {
+        if (this.getText().equals("")) {
             return g.getFontMetrics().getAscent();
         } else {
             return (int) this.produceTextLayout(g).getAscent();
@@ -101,8 +108,9 @@ public class MathText extends AbstractMathElement {
     }
 
     /** {@inheritDoc} */
-    public int calculateDescentHeight(Graphics2D g) {
-        if (getText().equals("")) {
+    @Override
+    public int calculateDescentHeight(final Graphics2D g) {
+        if (this.getText().equals("")) {
             return g.getFontMetrics().getDescent();
         } else {
             return (int) this.produceTextLayout(g).getDescent();
@@ -120,12 +128,12 @@ public class MathText extends AbstractMathElement {
      * @param g
      *            Graphics2D context to use.
      */
-    public static int getCharsMaxDescentHeight(Graphics2D g, final Font font,
-            final char[] chars) {
+    public static int getCharsMaxDescentHeight(final Graphics2D g,
+            final Font font, final char[] chars) {
         int result = 0;
 
-        GlyphVector gv = font.createGlyphVector((new FontRenderContext(
-                new AffineTransform(), true, false)), chars);
+        final GlyphVector gv = font.createGlyphVector(new FontRenderContext(
+                new AffineTransform(), true, false), chars);
         int descHeight = 0;
         Rectangle2D gr = null;
         for (int i = 0; i < chars.length; i++) {
@@ -151,12 +159,12 @@ public class MathText extends AbstractMathElement {
      * @param g
      *            Graphics2D context to use.
      */
-    public static int getCharsMaxAscentHeight(Graphics2D g, Font font,
-            char[] chars) {
+    public static int getCharsMaxAscentHeight(final Graphics2D g,
+            final Font font, final char[] chars) {
         int result = 0;
 
-        GlyphVector gv = font.createGlyphVector((new FontRenderContext(
-                new AffineTransform(), true, false)), chars);
+        final GlyphVector gv = font.createGlyphVector(new FontRenderContext(
+                new AffineTransform(), true, false), chars);
         int ascHeight = 0;
         Rectangle2D gr = null;
         for (int i = 0; i < chars.length; i++) {
@@ -178,15 +186,15 @@ public class MathText extends AbstractMathElement {
      *            String with text.
      * @return Array of characters.
      */
-    public static char[] getChars(String text) {
-        char[] result = new char[text.length()];
+    public static char[] getChars(final String text) {
+        final char[] result = new char[text.length()];
         text.getChars(0, text.length(), result, 0);
         return result;
     }
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathText.ELEMENT;
     }
 
 }

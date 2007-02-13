@@ -25,12 +25,16 @@ import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 
+import org.w3c.dom.mathml.MathMLElement;
+import org.w3c.dom.mathml.MathMLFractionElement;
+
 /**
  * This math element presents a mathematical fraction.
  * 
  * @version %I%, %G%
  */
-public class MathFrac extends AbstractMathElement {
+public class MathFrac extends AbstractMathElement implements
+        MathMLFractionElement {
     /**
      * The XML element from this class.
      */
@@ -44,11 +48,10 @@ public class MathFrac extends AbstractMathElement {
     /**
      * Attribute name of the linethickness property.
      */
-    public static final String ATTRIBUTE_LINETHICKNESS = "linethickness";
+    public static final String ATTR_LINETHICKNESS = "linethickness";
 
-    private String m_linethickness = "medium";
-
-    private boolean m_bevelled = false;
+    /** The bevelled attribute. */
+    public static final String ATTR_BEVELLED = "bevelled";
 
     /**
      * Creates a math element.
@@ -58,6 +61,11 @@ public class MathFrac extends AbstractMathElement {
      */
     public MathFrac(final MathBase base) {
         super(base);
+        this.setLinethickness("1px");
+        this.setBevelled("false");
+
+        this.setAttribute("numalign", "center");
+        this.setAttribute("denomalign", "center");
     }
 
     /** {@inheritDoc} */
@@ -73,7 +81,7 @@ public class MathFrac extends AbstractMathElement {
      *            Thickness
      */
     public void setLinethickness(final String linethickness) {
-        this.m_linethickness = linethickness;
+        this.setAttribute(MathFrac.ATTR_LINETHICKNESS, linethickness);
     }
 
     /**
@@ -82,15 +90,7 @@ public class MathFrac extends AbstractMathElement {
      *            Graphics2D context to use.
      */
     public int getLinethickness(final Graphics2D g) {
-        try {
-            this.m_linethickness = String.valueOf(Integer.valueOf(
-                    this.m_linethickness).shortValue()
-                    * AttributesHelper.getPixels("medium", this
-                            .getFontMetrics(g)))
-                    + "px";
-        } catch (final Exception e) {
-        }
-        return AttributesHelper.getPixels(this.m_linethickness, this
+        return AttributesHelper.getPixels(this.getLinethickness(), this
                 .getFontMetrics(g));
     }
 
@@ -100,15 +100,15 @@ public class MathFrac extends AbstractMathElement {
      * @param bevelled
      *            Value
      */
-    public void setBevelled(final boolean bevelled) {
-        this.m_bevelled = bevelled;
+    public void setBevelled(final String bevelled) {
+        this.setAttribute(MathFrac.ATTR_BEVELLED, bevelled);
     }
 
     /**
      * @return Value of bevelled attribute
      */
-    public boolean getBevelled() {
-        return this.m_bevelled;
+    public String getBevelled() {
+        return this.getMathAttribute(MathFrac.ATTR_BEVELLED);
     }
 
     /**
@@ -131,7 +131,7 @@ public class MathFrac extends AbstractMathElement {
         final int dist = AttributesHelper.getPixels("0.1em", this
                 .getFontMetrics(g));
 
-        if (this.getBevelled()) {
+        if (Boolean.parseBoolean(this.getBevelled())) {
             final int w1 = Math.max((int) Math.round(e2.getHeight(g)
                     * MathFrac.FRAC_TILT_ANGLE), e1.getWidth(g) + dist);
             e1.paint(g, posX + w1 - e1.getWidth(g), middle
@@ -180,7 +180,7 @@ public class MathFrac extends AbstractMathElement {
         final MathElement e2 = this.getMathElement(1);
         final int dist = AttributesHelper.getPixels("0.1em", this
                 .getFontMetrics(g));
-        if (this.getBevelled()) {
+        if (Boolean.parseBoolean(this.getBevelled())) {
             final int w1 = Math.max((int) Math.round(e2.getHeight(g)
                     * MathFrac.FRAC_TILT_ANGLE), e1.getWidth(g) + dist);
             final int w2 = Math.max((int) Math.round(e1.getHeight(g)
@@ -194,7 +194,7 @@ public class MathFrac extends AbstractMathElement {
     /** {@inheritDoc} */
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
-        if (this.getBevelled()) {
+        if (Boolean.parseBoolean(this.getBevelled())) {
             return this.getMathElement(0).getHeight(g)
                     + this.getMiddleShift(g);
         } else {
@@ -206,7 +206,7 @@ public class MathFrac extends AbstractMathElement {
     /** {@inheritDoc} */
     @Override
     public int calculateDescentHeight(final Graphics2D g) {
-        if (this.getBevelled()) {
+        if (Boolean.parseBoolean(this.getBevelled())) {
             return Math.max(0, this.getMathElement(1).getHeight(g)
                     - this.getMiddleShift(g));
         } else {
@@ -218,6 +218,45 @@ public class MathFrac extends AbstractMathElement {
     /** {@inheritDoc} */
     public String getTagName() {
         return MathFrac.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getDenominator() {
+        return this.getMathElement(1);
+    }
+
+    /** {@inheritDoc} */
+    public String getLinethickness() {
+        return this.getMathAttribute(MathFrac.ATTR_LINETHICKNESS);
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getNumerator() {
+        return this.getMathElement(0);
+    }
+
+    /** {@inheritDoc} */
+    public void setDenominator(final MathMLElement denominator) {
+        final MathMLElement oldSecond = this.getDenominator();
+        if (oldSecond != null) {
+            this.replaceChild(denominator, oldSecond);
+        } else {
+            if (this.getMathElementCount() == 0) {
+                this.addMathElement(new MathText(this.m_base));
+
+            }
+            this.addMathElement(denominator);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void setNumerator(final MathMLElement numerator) {
+        final MathMLElement oldFirst = this.getNumerator();
+        if (oldFirst != null) {
+            this.replaceChild(numerator, oldFirst);
+        } else {
+            this.addMathElement(numerator);
+        }
     }
 
 }

@@ -7,6 +7,15 @@
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="add">
+        MathFrac now implements MathMLFractionElement;
+        MathIdentifier, MathText now implement MathMLPresentationToken
+      <action dev="maxberger" type="add">
+        DOMModelTest: Created tests for all interfaces.
+      </action>
+      <action dev="maxberger" type="update">
+        MathComponentTest: formatting changes
+      </action>
+      <action dev="maxberger" type="add">
         MathAlignGroup implements MathMLAlignGroupElement;
         MathAlignMark implements MathMLAlignMarkElement;
         MathAnnotation implements MathMLAnnotationElement;

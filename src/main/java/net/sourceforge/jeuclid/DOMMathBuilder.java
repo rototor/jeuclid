@@ -22,7 +22,6 @@ import net.sourceforge.jeuclid.element.MathAlignGroup;
 import net.sourceforge.jeuclid.element.MathAlignMark;
 import net.sourceforge.jeuclid.element.MathDocumentElement;
 import net.sourceforge.jeuclid.element.MathEnclose;
-import net.sourceforge.jeuclid.element.MathFrac;
 import net.sourceforge.jeuclid.element.MathLabeledTableRow;
 import net.sourceforge.jeuclid.element.MathOperator;
 import net.sourceforge.jeuclid.element.MathOver;
@@ -122,14 +121,7 @@ public class DOMMathBuilder {
                 .elementFromName(tagname, attributes, this.m_base);
 
         // TODO: All theses should be handled within the appropriate class
-        if (tagname.equals(MathFrac.ELEMENT)) {
-            if (attributes.hasAttribute("linethickness")) {
-                ((MathFrac) element).setLinethickness(attributes.getString(
-                        "linethickness", "2px"));
-            }
-            ((MathFrac) element).setBevelled(attributes.getBoolean(
-                    "bevelled", false));
-        } else if (tagname.equals(MathUnder.ELEMENT)) {
+        if (tagname.equals(MathUnder.ELEMENT)) {
             ((MathUnder) element).setAccentUnder(attributes.getBoolean(
                     "accentunder", false));
         } else if (tagname.equals(MathOver.ELEMENT)) {
