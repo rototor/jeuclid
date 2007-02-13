@@ -36,13 +36,14 @@ public class MathIdentifier extends MathText {
      * @param base
      *            The base for math element
      */
-    public MathIdentifier(MathBase base) {
+    public MathIdentifier(final MathBase base) {
         super(base);
         this.setMathvariant("italic");
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getTagName() {
-        return ELEMENT;
+        return MathIdentifier.ELEMENT;
     }
 }

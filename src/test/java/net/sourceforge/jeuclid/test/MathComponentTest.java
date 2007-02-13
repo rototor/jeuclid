@@ -18,24 +18,21 @@
 
 package net.sourceforge.jeuclid.test;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.io.File;
 import java.io.StringReader;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.awt.MathComponent;
 import net.sourceforge.jeuclid.util.MathMLParserSupport;
 import net.sourceforge.jeuclid.util.ResourceEntityResolver;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -46,11 +43,11 @@ import org.xml.sax.InputSource;
  * 
  */
 public class MathComponentTest {
-	/**
-	 * Logger for this class
-	 */
-	private static final Log logger = LogFactory
-			.getLog(MathComponentTest.class);
+    /**
+     * Logger for this class
+     */
+    private static final Log logger = LogFactory
+            .getLog(MathComponentTest.class);
 
     /**
      * Test string with xml header.
@@ -76,8 +73,8 @@ public class MathComponentTest {
                 final DocumentBuilder parser = documentBuilderFactory
                         .newDocumentBuilder();
                 parser.setEntityResolver(new ResourceEntityResolver());
-                document = parser
-                        .parse(new InputSource(new StringReader(test)));
+                document = parser.parse(new InputSource(
+                        new StringReader(test)));
             }
             Frame frame = new Frame("Test MathComponent");
 
@@ -98,11 +95,11 @@ public class MathComponentTest {
             });
 
         } catch (org.xml.sax.SAXException e) {
-            logger.fatal("SAXException:" + e.getMessage(),e);
+            logger.fatal("SAXException:" + e.getMessage(), e);
         } catch (java.io.IOException e) {
-            logger.fatal("IOException:" + e.getMessage(),e);
+            logger.fatal("IOException:" + e.getMessage(), e);
         } catch (ParserConfigurationException e) {
-            logger.fatal("ParserConfigurationException:" + e.getMessage(),e);
+            logger.fatal("ParserConfigurationException:" + e.getMessage(), e);
         }
     }
 
