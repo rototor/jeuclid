@@ -23,6 +23,7 @@
       <action dev="maxberger" type="add">
         MathFrac now implements MathMLFractionElement;
         MathIdentifier, MathText now implement MathMLPresentationToken
+      </action>
       <action dev="maxberger" type="add">
         DOMModelTest: Created tests for all interfaces.
       </action>
