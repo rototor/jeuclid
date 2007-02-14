@@ -56,7 +56,7 @@
     <developer>
       <id>maxberger</id>
       <name>Max Berger</name>
-      <email>maxbergerATsourceforege.net</email>
+      <email>max AT berger DOT name</email>
       <url>http://max.berger.name</url>
 <!--      <organization>Codehaus</organization>
       <organizationUrl>http://mojo.codehaus.org</organizationUrl>
@@ -79,6 +79,9 @@
         <role>delevoper</role>
         <role>management</role>
       </roles>
+    </contributor>
+    <contributor>
+      <name>Matthias Hanisch</name>
     </contributor>
     <contributor>
       <name>Andreas Hoffmann</name>
@@ -207,6 +210,7 @@
           <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
           <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
           <iconFile>${basedir}/src/main/app-resources/jeuclid.icns</iconFile>
+          <jvmVersion>1.5+</jvmVersion>
         </configuration>
         <executions>
           <execution>
