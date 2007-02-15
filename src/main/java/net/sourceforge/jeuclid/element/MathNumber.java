@@ -40,7 +40,7 @@ public class MathNumber extends MathText {
      * @param base
      *            The base for the math element tree.
      */
-    public MathNumber(MathBase base) {
+    public MathNumber(final MathBase base) {
         super(base);
     }
 
@@ -49,14 +49,14 @@ public class MathNumber extends MathText {
      * @param g
      *            Graphics2D context to use.
      */
-    public int getWidthTillPoint(Graphics2D g) {
+    public int getWidthTillPoint(final Graphics2D g) {
         int result = 0;
 
-        if (getText() == null && getText().length() == 0) {
+        if (this.getText() == null && this.getText().length() == 0) {
             return result;
         }
-        FontMetrics metrics = getFontMetrics(g);
-        String integer = getText();
+        final FontMetrics metrics = this.getFontMetrics(g);
+        String integer = this.getText();
         if (integer.indexOf(".") > 0) {
             integer = integer.substring(0, integer.indexOf("."));
         }
@@ -69,18 +69,19 @@ public class MathNumber extends MathText {
      * @param g
      *            Graphics2D context to use.
      */
-    public int getPointWidth(Graphics2D g) {
+    public int getPointWidth(final Graphics2D g) {
         int result = 0;
 
-        FontMetrics metrics = getFontMetrics(g);
+        final FontMetrics metrics = this.getFontMetrics(g);
         result = metrics.stringWidth(".");
 
         return result;
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getTagName() {
-        return ELEMENT;
+        return MathNumber.ELEMENT;
     }
 
 }
