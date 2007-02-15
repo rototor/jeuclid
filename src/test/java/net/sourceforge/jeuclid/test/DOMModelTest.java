@@ -45,6 +45,7 @@ import org.w3c.dom.mathml.MathMLFractionElement;
 import org.w3c.dom.mathml.MathMLMathElement;
 import org.w3c.dom.mathml.MathMLPresentationContainer;
 import org.w3c.dom.mathml.MathMLPresentationToken;
+import org.w3c.dom.mathml.MathMLSemanticsElement;
 
 /**
  * Various tests for the DOM model.
@@ -155,9 +156,9 @@ public class DOMModelTest {
         Assert
                 .assertTrue(MathElementFactory.elementFromName("mi", aMap,
                         base) instanceof MathMLPresentationToken);
-        // Assert
-        // .assertTrue(MathElementFactory.elementFromName("mn", aMap,
-        // base) instanceof MathMLPresentationToken);
+        Assert
+                .assertTrue(MathElementFactory.elementFromName("mn", aMap,
+                        base) instanceof MathMLPresentationToken);
         // Assert
         // .assertTrue(MathElementFactory.elementFromName("mo", aMap,
         // base) instanceof MathMLOperatorElement);
@@ -534,8 +535,8 @@ public class DOMModelTest {
         // aMap, base) instanceof MathMLPredefinedSymbol);
         Assert.assertTrue(MathElementFactory.elementFromName("annotation",
                 aMap, base) instanceof MathMLAnnotationElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("semantics",
-        // aMap, base) instanceof MathMLSemanticsElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("semantics",
+                aMap, base) instanceof MathMLSemanticsElement);
         // Assert
         // .assertTrue(MathElementFactory.elementFromName(
         // "annotation-xml", aMap, base) instanceof

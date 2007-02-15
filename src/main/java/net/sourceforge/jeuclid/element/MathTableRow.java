@@ -59,11 +59,11 @@ public class MathTableRow extends AbstractMathElement {
     /**  */
     public static final int ALIGN_DECIMALPOINT = 7;
 
-    private int m_rowalign = ALIGN_CENTER;
+    private int m_rowalign = MathTableRow.ALIGN_CENTER;
 
-    private int m_columnalign = ALIGN_CENTER;
+    private int m_columnalign = MathTableRow.ALIGN_CENTER;
 
-    private int m_groupalign = ALIGN_CENTER;
+    private int m_groupalign = MathTableRow.ALIGN_CENTER;
 
     /**
      * Array with values of groupalign property in this row.
@@ -76,7 +76,7 @@ public class MathTableRow extends AbstractMathElement {
      * @param base
      *            The base for the math element tree.
      */
-    public MathTableRow(MathBase base) {
+    public MathTableRow(final MathBase base) {
         super(base);
     }
 
@@ -86,7 +86,7 @@ public class MathTableRow extends AbstractMathElement {
      * @return Alignment of the row.
      */
     public int getRowalign() {
-        return m_rowalign;
+        return this.m_rowalign;
     }
 
     /**
@@ -95,8 +95,8 @@ public class MathTableRow extends AbstractMathElement {
      * @param rowalign
      *            Value of row alignment.
      */
-    public void setRowalign(int rowalign) {
-        m_rowalign = rowalign;
+    public void setRowalign(final int rowalign) {
+        this.m_rowalign = rowalign;
     }
 
     /**
@@ -105,7 +105,7 @@ public class MathTableRow extends AbstractMathElement {
      * @return Alignment for group in column.
      */
     public int getColumnalign() {
-        return m_columnalign;
+        return this.m_columnalign;
     }
 
     /**
@@ -114,8 +114,8 @@ public class MathTableRow extends AbstractMathElement {
      * @param columnalign
      *            Alignment for group in column.
      */
-    public void setColumnalign(int columnalign) {
-        m_columnalign = columnalign;
+    public void setColumnalign(final int columnalign) {
+        this.m_columnalign = columnalign;
     }
 
     /**
@@ -124,7 +124,7 @@ public class MathTableRow extends AbstractMathElement {
      * @return Alifnment of the row.
      */
     public int getGroupalign() {
-        return m_groupalign;
+        return this.m_groupalign;
     }
 
     /**
@@ -133,8 +133,8 @@ public class MathTableRow extends AbstractMathElement {
      * @param groupalign
      *            Alignment.
      */
-    public void setGroupalign(int groupalign) {
-        m_groupalign = groupalign;
+    public void setGroupalign(final int groupalign) {
+        this.m_groupalign = groupalign;
     }
 
     /**
@@ -147,14 +147,15 @@ public class MathTableRow extends AbstractMathElement {
      * @param posY
      *            The position of the baseline.
      */
-    public void paint(Graphics2D g, int posX, int posY) {
+    @Override
+    public void paint(final Graphics2D g, final int posX, final int posY) {
         super.paint(g, posX, posY);
 
-        int columnwidth = getMaxColumnWidth(g);
+        final int columnwidth = this.getMaxColumnWidth(g);
         int pos = posX;
 
-        for (int i = 0; i < getMathElementCount(); i++) {
-            getMathElement(i).paint(g, pos, posY);
+        for (int i = 0; i < this.getMathElementCount(); i++) {
+            this.getMathElement(i).paint(g, pos, posY);
             pos += columnwidth;
         }
     }
@@ -166,11 +167,11 @@ public class MathTableRow extends AbstractMathElement {
      * @param g
      *            Graphics2D context to use.
      */
-    protected int getMaxColumnWidth(Graphics2D g) {
+    protected int getMaxColumnWidth(final Graphics2D g) {
         int width = 0;
 
-        for (int i = 0; i < getMathElementCount(); i++) {
-            width = Math.max(width, getMathElement(i).getWidth(g));
+        for (int i = 0; i < this.getMathElementCount(); i++) {
+            width = Math.max(width, this.getMathElement(i).getWidth(g));
         }
         return width;
     }
@@ -182,8 +183,9 @@ public class MathTableRow extends AbstractMathElement {
      * @param g
      *            Graphics2D context to use.
      */
-    public int calculateWidth(Graphics2D g) {
-        return getMaxColumnWidth(g) * getMathElementCount();
+    @Override
+    public int calculateWidth(final Graphics2D g) {
+        return this.getMaxColumnWidth(g) * this.getMathElementCount();
     }
 
     /**
@@ -194,11 +196,13 @@ public class MathTableRow extends AbstractMathElement {
      * @param g
      *            Graphics2D context to use.
      */
-    public int calculateAscentHeight(Graphics2D g) {
+    @Override
+    public int calculateAscentHeight(final Graphics2D g) {
         int height = 0;
 
-        for (int i = 0; i < getMathElementCount(); i++) {
-            height = Math.max(height, getMathElement(i).getAscentHeight(g));
+        for (int i = 0; i < this.getMathElementCount(); i++) {
+            height = Math.max(height, this.getMathElement(i).getAscentHeight(
+                    g));
         }
         return height;
     }
@@ -211,11 +215,13 @@ public class MathTableRow extends AbstractMathElement {
      * @param g
      *            Graphics2D context to use.
      */
-    public int calculateDescentHeight(Graphics2D g) {
+    @Override
+    public int calculateDescentHeight(final Graphics2D g) {
         int height = 0;
 
-        for (int i = 0; i < getMathElementCount(); i++) {
-            height = Math.max(height, getMathElement(i).getDescentHeight(g));
+        for (int i = 0; i < this.getMathElementCount(); i++) {
+            height = Math.max(height, this.getMathElement(i)
+                    .getDescentHeight(g));
         }
         return height;
     }
@@ -226,7 +232,7 @@ public class MathTableRow extends AbstractMathElement {
      * @return Array with group alignments values.
      */
     public int[] getGroupAlign() {
-        return groupsalignvalues;
+        return this.groupsalignvalues;
     }
 
     /**
@@ -235,12 +241,12 @@ public class MathTableRow extends AbstractMathElement {
      * @param groupalign
      *            String with table attribute "groupalign".
      */
-    public void setGroupAlign(String groupalign) {
-        groupsalignvalues = MathTable.createGroupAlignValues(groupalign);
+    public void setGroupAlign(final String groupalign) {
+        this.groupsalignvalues = MathTable.createGroupAlignValues(groupalign);
     }
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathTableRow.ELEMENT;
     }
 }

@@ -7,6 +7,12 @@
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="add">
+        MathSemantics implements MathMLSemantics;
+        MathNumber checkstyle cleanups;
+        MathTableRow: checkstyle cleanups;
+        AbstractPartialNodeImpl: implemented hasChildNodes;
+      </action>
+      <action dev="maxberger" type="add">
          added setMathElement function, rewrote Frac to use it; added testCase; implemented replaceChild;
       </action>
       <action dev="maxberger" type="add">

@@ -165,7 +165,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
 
     /** {@inheritDoc} */
     public final boolean hasChildNodes() {
-        throw new UnsupportedOperationException("hasChildNodes");
+        return !this.children.isEmpty();
     }
 
     /** {@inheritDoc} */
