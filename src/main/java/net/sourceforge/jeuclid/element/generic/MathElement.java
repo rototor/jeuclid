@@ -170,6 +170,17 @@ public interface MathElement extends MathMLElement, DisplayableNode {
     MathElement getMathElement(final int index);
 
     /**
+     * Sets a specific child to the newElement, creating other subelements as
+     * necessary.
+     * 
+     * @param index
+     *            the index to set (0=the firt child)
+     * @param newElement
+     *            new element to be set as child.
+     */
+    void setMathElement(final int index, final MathMLElement newElement);
+
+    /**
      * Retrieves the scriptlevel for a certain child. Some attributes increase
      * the scriptlevel for some of their children.
      * 

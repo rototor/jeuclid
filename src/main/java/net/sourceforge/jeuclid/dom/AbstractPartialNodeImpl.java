@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.dom;
 import java.util.List;
 import java.util.Vector;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -46,7 +47,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
      * @see org.w3c.dom.NodeList
      */
     public class NodeList implements org.w3c.dom.NodeList {
-        private final List children;
+        private final List<Node> children;
 
         /**
          * default constructor.
@@ -54,7 +55,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
          * @param childs
          *            list of children.
          */
-        protected NodeList(final List childs) {
+        protected NodeList(final List<Node> childs) {
             this.children = childs;
         }
 
@@ -65,7 +66,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
 
         /** {@inheritDoc} */
         public final Node item(final int index) {
-            return (Node) this.children.get(index);
+            return this.children.get(index);
         }
     }
 
@@ -88,7 +89,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
     public final Node getFirstChild() {
         try {
             return this.children.get(0);
-        } catch (IndexOutOfBoundsException e) {
+        } catch (final IndexOutOfBoundsException e) {
             return null;
         }
     }
@@ -101,10 +102,9 @@ public abstract class AbstractPartialNodeImpl implements Node {
     /** {@inheritDoc} */
     public Node appendChild(final Node newChild) {
         if (newChild instanceof AbstractPartialElementImpl) {
-            final AbstractPartialNodeImpl pelement = (AbstractPartialNodeImpl) newChild;
-            this.children.add(pelement);
-            pelement.parent = this;
-            return pelement;
+            this.children.add(newChild);
+            ((AbstractPartialNodeImpl) newChild).parent = this;
+            return newChild;
         } else {
             throw new IllegalArgumentException(
                     "Can only add children of type "
@@ -175,7 +175,17 @@ public abstract class AbstractPartialNodeImpl implements Node {
 
     /** {@inheritDoc} */
     public final Node replaceChild(final Node newChild, final Node oldChild) {
-        throw new UnsupportedOperationException("replaceChild");
+        // TODO: If newChild is already in the tree, it is supposed to be
+        // removed.
+        for (int i = 0; i < this.children.size(); i++) {
+            final Node oldChildAtIndex = this.children.get(i);
+            if (oldChildAtIndex.equals(oldChild)) {
+                this.children.set(i, newChild);
+                return oldChildAtIndex;
+            }
+        }
+        throw new DOMException(DOMException.NOT_FOUND_ERR,
+                "Could not find node: " + oldChild);
     }
 
     /** {@inheritDoc} */
