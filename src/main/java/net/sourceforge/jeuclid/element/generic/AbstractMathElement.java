@@ -33,6 +33,7 @@ import net.sourceforge.jeuclid.element.MathMathElement;
 import net.sourceforge.jeuclid.element.MathRow;
 import net.sourceforge.jeuclid.element.MathTable;
 import net.sourceforge.jeuclid.element.MathTableRow;
+import net.sourceforge.jeuclid.element.MathText;
 import net.sourceforge.jeuclid.element.attributes.MathVariant;
 import net.sourceforge.jeuclid.element.helpers.AttributeMap;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
@@ -371,9 +372,22 @@ public abstract class AbstractMathElement extends
     public MathElement getMathElement(final int index) {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         if ((index >= 0) && (index < childList.getLength())) {
-            return (AbstractMathElement) childList.item(index);
+            return (MathElement) childList.item(index);
         }
         return null;
+    }
+
+    /** {@inheritDoc} */
+    public void setMathElement(final int index, final MathMLElement newElement) {
+        final org.w3c.dom.NodeList childList = this.getChildNodes();
+        while (childList.getLength() < index) {
+            this.addMathElement(new MathText(this.m_base));
+        }
+        if (childList.getLength() == index) {
+            this.addMathElement(newElement);
+        } else {
+            this.replaceChild(newElement, childList.item(index));
+        }
     }
 
     /** {@inheritDoc} */

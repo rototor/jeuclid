@@ -24,7 +24,10 @@ import java.util.Map;
 import net.sourceforge.jeuclid.DOMMathBuilder;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathElementFactory;
+import net.sourceforge.jeuclid.element.MathFrac;
+import net.sourceforge.jeuclid.element.MathIdentifier;
 import net.sourceforge.jeuclid.element.MathOperator;
+import net.sourceforge.jeuclid.element.MathRow;
 import net.sourceforge.jeuclid.element.helpers.AbstractAttributeMap;
 import net.sourceforge.jeuclid.element.helpers.AttributeMap;
 import net.sourceforge.jeuclid.util.MathMLParserSupport;
@@ -49,6 +52,23 @@ import org.w3c.dom.mathml.MathMLPresentationToken;
  * @author Max Berger
  */
 public class DOMModelTest {
+
+    final static AttributeMap aMap = new AbstractAttributeMap() {
+
+        @Override
+        protected String getAttribute(String attrName) {
+            return null;
+        }
+
+        @Override
+        protected String getAttributeNS(String namespace, String attrName) {
+            return getAttribute(attrName);
+        }
+
+        public Map<String, String> getAsMap() {
+            return new HashMap<String, String>();
+        }
+    };
 
     /**
      * Tests is the "id" attribute works.
@@ -126,22 +146,6 @@ public class DOMModelTest {
     @Test
     public void testInterfaces() throws Exception {
         final MathBase base = new MathBase(MathBase.getDefaultParameters());
-        final AttributeMap aMap = new AbstractAttributeMap() {
-
-            @Override
-            protected String getAttribute(String attrName) {
-                return null;
-            }
-
-            @Override
-            protected String getAttributeNS(String namespace, String attrName) {
-                return getAttribute(attrName);
-            }
-
-            public Map<String, String> getAsMap() {
-                return new HashMap<String, String>();
-            }
-        };
 
         // This mapping is taken straight from Table D.2.2, MathML 2.0 spec
         // TODO: Someday none of these should be commented out.
@@ -570,6 +574,24 @@ public class DOMModelTest {
         // Assert.assertTrue(MathElementFactory.elementFromName("infinity",
         // aMap, base) instanceof MathMLPredefinedSymbol);
 
+    }
+
+    @Test
+    public void testFrac() throws Exception {
+        final MathBase base = new MathBase(MathBase.getDefaultParameters());
+        MathMLFractionElement mfrac = new MathFrac(base);
+        MathIdentifier mi = new MathIdentifier(base);
+        MathRow mrow = new MathRow(base);
+        MathIdentifier mi2 = new MathIdentifier(base);
+        mfrac.setDenominator(mi);
+        mfrac.setNumerator(mrow);
+        Assert.assertEquals(mi, mfrac.getDenominator());
+        Assert.assertEquals(mrow, mfrac.getNumerator());
+        Assert.assertEquals(mfrac.getChildNodes().getLength(), 2);
+        mfrac.setNumerator(mi2);
+        Assert.assertEquals(mi, mfrac.getDenominator());
+        Assert.assertEquals(mi2, mfrac.getNumerator());
+        Assert.assertEquals(mfrac.getChildNodes().getLength(), 2);
     }
 
 }

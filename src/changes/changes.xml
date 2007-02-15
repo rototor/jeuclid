@@ -6,6 +6,12 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+         added setMathElement function, rewrote Frac to use it; added testCase; implemented replaceChild;
+      </action>
+      <action dev="maxberger" type="add">
+        pom.xml: configuration to create proper manifest in jar file
+      </action>
       <action dev="maxberger" type="remove">
         removed obsolete build.xml file
       </action>

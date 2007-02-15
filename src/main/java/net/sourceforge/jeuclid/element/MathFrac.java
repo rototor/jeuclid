@@ -237,26 +237,12 @@ public class MathFrac extends AbstractMathElement implements
 
     /** {@inheritDoc} */
     public void setDenominator(final MathMLElement denominator) {
-        final MathMLElement oldSecond = this.getDenominator();
-        if (oldSecond != null) {
-            this.replaceChild(denominator, oldSecond);
-        } else {
-            if (this.getMathElementCount() == 0) {
-                this.addMathElement(new MathText(this.m_base));
-
-            }
-            this.addMathElement(denominator);
-        }
+        this.setMathElement(1, denominator);
     }
 
     /** {@inheritDoc} */
     public void setNumerator(final MathMLElement numerator) {
-        final MathMLElement oldFirst = this.getNumerator();
-        if (oldFirst != null) {
-            this.replaceChild(numerator, oldFirst);
-        } else {
-            this.addMathElement(numerator);
-        }
+        this.setMathElement(0, numerator);
     }
 
 }
