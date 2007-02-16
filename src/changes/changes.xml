@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix">
+        pom.xml: Ensure appbundler can be found
+      </action>
       <action dev="maxberger" type="add">
         MathSemantics implements MathMLSemantics;
         MathNumber checkstyle cleanups;
