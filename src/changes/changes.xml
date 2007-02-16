@@ -7,6 +7,9 @@
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="update">
+         MathViewer: About window changed, disabled on OS X
+      </action>
+      <action dev="maxberger" type="update">
         distribution.xml: added LICENSE, NOTICE
       </action>
       <action dev="maxberger" type="fix">
