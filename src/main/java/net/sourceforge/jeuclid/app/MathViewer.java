@@ -144,7 +144,11 @@ public final class MathViewer {
             this.jJMenuBar = new JMenuBar();
             this.jJMenuBar.add(this.getFileMenu());
             this.jJMenuBar.add(this.getViewMenu());
-            this.jJMenuBar.add(this.getHelpMenu());
+            if (!macOS) {
+                // This will need to be changed once the Help menu contains
+                // more that just the About item.
+                this.jJMenuBar.add(this.getHelpMenu());
+            }
         }
         return this.jJMenuBar;
     }
@@ -175,6 +179,9 @@ public final class MathViewer {
         if (this.helpMenu == null) {
             this.helpMenu = new JMenu();
             this.helpMenu.setText("Help");
+            // If there are more items, please modify getJJMenuBar to always
+            // display the help menu and this function to not display about on
+            // OS X
             this.helpMenu.add(this.getAboutMenuItem());
         }
         return this.helpMenu;
@@ -262,8 +269,9 @@ public final class MathViewer {
      */
     private JLabel getAboutVersionLabel() {
         if (this.aboutVersionLabel == null) {
+            // TODO: There should be much more information.
             this.aboutVersionLabel = new JLabel();
-            this.aboutVersionLabel.setText("Version 1.0 preview");
+            this.aboutVersionLabel.setText("MathViewer, part of JEuclid, http://jeuclid.sourceforge.net/");
             this.aboutVersionLabel
                     .setHorizontalAlignment(SwingConstants.CENTER);
         }
