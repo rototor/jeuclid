@@ -142,7 +142,7 @@ public class MathFenced extends AbstractElementWithDelegates implements
             retVal.add(this.getMathElement(i));
 
             if (i < (this.getMathElementCount() - 1)) {
-                final MathOperator opSep = new MathOperator(this.m_base);
+                final MathOperator opSep = new MathOperator(this.mbase);
                 opSep.setSeparator(true);
                 final String sep = this.getSeparators();
                 if (i < sep.length()) {
