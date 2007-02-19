@@ -35,42 +35,13 @@ public class MathTableData extends AbstractRowLikeElement {
      */
     public static final String ELEMENT = "mtd";
 
-    private int m_rowspan = 1;
+    /** attribute for rowspan. */
+    public static final String ATTR_ROWSPAN = "rowspan";
 
-    private int m_columnspan = 1;
+    /** attribute for columnspan. */
+    public static final String ATTR_COLUMNSPAN = "columnspan";
 
-    /**  */
-    public static final int ALIGN_TOP = 0;
-
-    /**  */
-    public static final int ALIGN_BOTTOM = 1;
-
-    /**  */
-    public static final int ALIGN_CENTER = 2;
-
-    /**  */
-    public static final int ALIGN_BASELINE = 3;
-
-    /**  */
-    public static final int ALIGN_AXIS = 4;
-
-    /**  */
-    public static final int ALIGN_LEFT = 5;
-
-    /**  */
-    public static final int ALIGN_RIGHT = 6;
-
-    /**  */
-    public static final int ALIGN_DECIMALPOINT = 7;
-
-    private int m_rowalign = ALIGN_CENTER;
-
-    private int m_columnalign = ALIGN_CENTER;
-
-    private int m_groupalign = ALIGN_CENTER;
-
-    // for future using
-    private int[] groupsalignvalues = null;
+    private static final String VALUE_ONE = "1";
 
     private final List<MathAlignGroup> groups = new Vector<MathAlignGroup>();
 
@@ -82,6 +53,10 @@ public class MathTableData extends AbstractRowLikeElement {
      */
     public MathTableData(final MathBase base) {
         super(base);
+        this.setDefaultMathAttribute(MathTableData.ATTR_ROWSPAN,
+                MathTableData.VALUE_ONE);
+        this.setDefaultMathAttribute(MathTableData.ATTR_COLUMNSPAN,
+                MathTableData.VALUE_ONE);
     }
 
     /**
@@ -119,38 +94,38 @@ public class MathTableData extends AbstractRowLikeElement {
     /**
      * @return Rowspan
      */
-    public int getRowspan() {
-        return this.m_rowspan;
+    public String getRowspan() {
+        return this.getMathAttribute(MathTableData.ATTR_ROWSPAN);
     }
 
     /**
      * @param rowspan
      *            Rowspan
      */
-    public void setRowspan(final int rowspan) {
-        this.m_rowspan = rowspan;
+    public void setRowspan(final String rowspan) {
+        this.setAttribute(MathTableData.ATTR_ROWSPAN, rowspan);
     }
 
     /**
      * @return Columnspan
      */
-    public int getColumnspan() {
-        return this.m_columnspan;
+    public String getColumnspan() {
+        return this.getMathAttribute(MathTableData.ATTR_COLUMNSPAN);
     }
 
     /**
      * @param columnspan
      *            Columnspan
      */
-    public void setColumnspan(final int columnspan) {
-        this.m_columnspan = columnspan;
+    public void setColumnspan(final String columnspan) {
+        this.setAttribute(MathTableData.ATTR_COLUMNSPAN, columnspan);
     }
 
     /**
      * @return Row align
      */
-    public int getRowalign() {
-        return this.m_rowalign;
+    public String getRowalign() {
+        return this.getMathAttribute(MathTable.ATTR_ROWALIGN);
     }
 
     /**
@@ -159,15 +134,15 @@ public class MathTableData extends AbstractRowLikeElement {
      * @param rowalign
      *            new value.
      */
-    public void setRowalign(final int rowalign) {
-        this.m_rowalign = rowalign;
+    public void setRowalign(final String rowalign) {
+        this.setAttribute(MathTable.ATTR_ROWALIGN, rowalign);
     }
 
     /**
      * @return Column align
      */
-    public int getColumnalign() {
-        return this.m_columnalign;
+    public String getColumnalign() {
+        return this.getMathAttribute(MathTable.ATTR_COLUMNALIGN);
     }
 
     /**
@@ -176,15 +151,15 @@ public class MathTableData extends AbstractRowLikeElement {
      * @param columnalign
      *            Value
      */
-    public void setColumnalign(final int columnalign) {
-        this.m_columnalign = columnalign;
+    public void setColumnalign(final String columnalign) {
+        this.setAttribute(MathTable.ATTR_COLUMNALIGN, columnalign);
     }
 
     /**
      * @return Group align
      */
-    public int getGroupalign() {
-        return this.m_groupalign;
+    public String getGroupalign() {
+        return this.getMathAttribute(MathTable.ATTR_GROUPALIGN);
     }
 
     /**
@@ -193,8 +168,8 @@ public class MathTableData extends AbstractRowLikeElement {
      * @param groupalign
      *            Groupalign
      */
-    public void setGroupalign(final int groupalign) {
-        this.m_groupalign = groupalign;
+    public void setGroupalign(final String groupalign) {
+        this.setAttribute(MathTable.ATTR_GROUPALIGN, groupalign);
     }
 
     /**
@@ -202,23 +177,13 @@ public class MathTableData extends AbstractRowLikeElement {
      * 
      * @return Array with tokenized values of groupalign property.
      */
-    public int[] getGroupAlign() {
-        return this.groupsalignvalues;
-    }
-
-    /**
-     * Creates array with alignments for all align groups in this table.
-     * 
-     * @param groupalign
-     *            String with table attribute "groupalign"
-     */
-    public void setGroupAlign(final String groupalign) {
-        this.groupsalignvalues = MathTable.createGroupAlignValues(groupalign);
+    public int[] getGroupAlignArray() {
+        return MathTable.createGroupAlignValues(this.getGroupalign());
     }
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathTableData.ELEMENT;
     }
 
 }

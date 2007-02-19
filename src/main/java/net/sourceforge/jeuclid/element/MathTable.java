@@ -51,6 +51,15 @@ public class MathTable extends AbstractMathElement {
      */
     public static final int ALIGN_BOTTOM = 1;
 
+    /** Attribute for rowalign. */
+    public static final String ATTR_ROWALIGN = "rowalign";
+
+    /** Attribute for columnalign. */
+    public static final String ATTR_COLUMNALIGN = "columnalign";
+
+    /** Attribute for groupalign. */
+    public static final String ATTR_GROUPALIGN = "groupalign";
+
     /**
      * Default column spacing.
      */
@@ -922,10 +931,11 @@ public class MathTable extends AbstractMathElement {
             return new int[0];
         }
 
-        if (cell.getGroupAlign() == null || cell.getGroupAlign().length == 0) {
+        if (cell.getGroupAlignArray() == null
+                || cell.getGroupAlignArray().length == 0) {
             result = ((MathTableRow) cell.getParent()).getGroupAlignArray();
         } else {
-            result = cell.getGroupAlign();
+            result = cell.getGroupAlignArray();
         }
 
         if (result == null) {
