@@ -53,6 +53,12 @@ public class MathFrac extends AbstractMathElement implements
     /** The bevelled attribute. */
     public static final String ATTR_BEVELLED = "bevelled";
 
+    /** The numalign attribute. NOT YET SUPPORTED. */
+    public static final String ATTR_NUMALIGN = "numalign";
+
+    /** The denomalign attribute. NOT YET SUPPORTED. */
+    public static final String ATTR_DENOMALIGN = "denomalign";
+
     /**
      * Creates a math element.
      * 
@@ -61,11 +67,10 @@ public class MathFrac extends AbstractMathElement implements
      */
     public MathFrac(final MathBase base) {
         super(base);
-        this.setLinethickness("1px");
-        this.setBevelled("false");
-
-        this.setAttribute("numalign", "center");
-        this.setAttribute("denomalign", "center");
+        this.setDefaultMathAttribute(MathFrac.ATTR_LINETHICKNESS, "1px");
+        this.setDefaultMathAttribute(MathFrac.ATTR_BEVELLED, "false");
+        this.setDefaultMathAttribute(MathFrac.ATTR_NUMALIGN, AbstractMathElement.ALIGN_CENTER);
+        this.setDefaultMathAttribute(MathFrac.ATTR_DENOMALIGN, AbstractMathElement.ALIGN_CENTER);
     }
 
     /** {@inheritDoc} */

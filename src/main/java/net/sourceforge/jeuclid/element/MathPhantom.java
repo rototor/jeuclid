@@ -52,7 +52,7 @@ public class MathPhantom extends AbstractMathElementWithChildren {
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathPhantom.ELEMENT;
     }
 
     /** {@inheritDoc} */

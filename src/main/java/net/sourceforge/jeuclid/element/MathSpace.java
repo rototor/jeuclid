@@ -47,7 +47,7 @@ public class MathSpace extends AbstractMathElement {
      * @param base
      *            The base for the math element tree.
      */
-    public MathSpace(MathBase base) {
+    public MathSpace(final MathBase base) {
         super(base);
     }
 
@@ -55,45 +55,45 @@ public class MathSpace extends AbstractMathElement {
      * @return Space width
      */
     public String getSpaceWidth() {
-        return m_width;
+        return this.m_width;
     }
 
     /**
      * @param width
      *            Space width
      */
-    public void setSpaceWidth(String width) {
-        m_width = width;
+    public void setSpaceWidth(final String width) {
+        this.m_width = width;
     }
 
     /**
      * @return Space height
      */
     public String getSpaceHeight() {
-        return m_height;
+        return this.m_height;
     }
 
     /**
      * @param height
      *            Space height
      */
-    public void setSpaceHeight(String height) {
-        m_height = height;
+    public void setSpaceHeight(final String height) {
+        this.m_height = height;
     }
 
     /**
      * @return Space depth
      */
     public String getDepth() {
-        return m_depth;
+        return this.m_depth;
     }
 
     /**
      * @param depth
      *            Space depth
      */
-    public void setDepth(String depth) {
-        m_depth = depth;
+    public void setDepth(final String depth) {
+        this.m_depth = depth;
     }
 
     /**
@@ -106,27 +106,31 @@ public class MathSpace extends AbstractMathElement {
      * @param posY
      *            The position of the baseline
      */
-    public void paint(Graphics2D g, int posX, int posY) {
+    @Override
+    public void paint(final Graphics2D g, final int posX, final int posY) {
         super.paint(g, posX, posY);
     }
 
     /** {@inheritDoc} */
-    public int calculateWidth(Graphics2D g) {
-        return AttributesHelper.getPixels(getSpaceWidth(), getFontMetrics(g));
+    @Override
+    public int calculateWidth(final Graphics2D g) {
+        return AttributesHelper.getPixels(this.getSpaceWidth(), this.getFontMetrics(g));
     }
 
     /** {@inheritDoc} */
-    public int calculateAscentHeight(Graphics2D g) {
-        return AttributesHelper.getPixels(getSpaceHeight(), getFontMetrics(g));
+    @Override
+    public int calculateAscentHeight(final Graphics2D g) {
+        return AttributesHelper.getPixels(this.getSpaceHeight(), this.getFontMetrics(g));
     }
 
     /** {@inheritDoc} */
-    public int calculateDescentHeight(Graphics2D g) {
-        return AttributesHelper.getPixels(getDepth(), getFontMetrics(g));
+    @Override
+    public int calculateDescentHeight(final Graphics2D g) {
+        return AttributesHelper.getPixels(this.getDepth(), this.getFontMetrics(g));
     }
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathSpace.ELEMENT;
     }
 }

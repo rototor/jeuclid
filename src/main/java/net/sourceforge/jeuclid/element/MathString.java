@@ -41,7 +41,7 @@ public class MathString extends MathText {
      * @param base
      *            The base for the math element tree.
      */
-    public MathString(MathBase base) {
+    public MathString(final MathBase base) {
         super(base);
     }
 
@@ -49,9 +49,9 @@ public class MathString extends MathText {
      * @param lquote
      *            Left quote
      */
-    public void setLQuote(String lquote) {
+    public void setLQuote(final String lquote) {
         if (lquote != null) {
-            m_lquote = lquote;
+            this.m_lquote = lquote;
         }
     }
 
@@ -59,16 +59,16 @@ public class MathString extends MathText {
      * @return Left quote
      */
     public String getLQuote() {
-        return m_lquote;
+        return this.m_lquote;
     }
 
     /**
      * @param rquote
      *            Right quota
      */
-    public void setRQuote(String rquote) {
+    public void setRQuote(final String rquote) {
         if (rquote != null) {
-            m_rquote = rquote;
+            this.m_rquote = rquote;
         }
     }
 
@@ -76,7 +76,7 @@ public class MathString extends MathText {
      * @return Right quote
      */
     public String getRQuote() {
-        return m_rquote;
+        return this.m_rquote;
     }
 
     /**
@@ -84,12 +84,14 @@ public class MathString extends MathText {
      * 
      * @return Text content
      */
+    @Override
     public String getText() {
-        return m_lquote + super.getText() + m_rquote;
+        return this.m_lquote + super.getText() + this.m_rquote;
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getTagName() {
-        return ELEMENT;
+        return MathString.ELEMENT;
     }
 }

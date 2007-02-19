@@ -37,12 +37,12 @@ public class MathPreScripts extends AbstractInvisibleMathElement {
      * @param base
      *            The base for the math element tree.
      */
-    public MathPreScripts(MathBase base) {
+    public MathPreScripts(final MathBase base) {
         super(base);
     }
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathPreScripts.ELEMENT;
     }
 }

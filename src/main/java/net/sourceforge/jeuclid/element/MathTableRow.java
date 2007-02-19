@@ -35,40 +35,14 @@ public class MathTableRow extends AbstractMathElement {
      */
     public static final String ELEMENT = "mtr";
 
-    /**  */
-    public static final int ALIGN_TOP = 0;
+    /** Attribute for rowalign. */
+    public static final String ATTR_ROWALIGN = "rowalign";
 
-    /**  */
-    public static final int ALIGN_BOTTOM = 1;
+    /** Attribute for columnalign. */
+    public static final String ATTR_COLUMNALIGN = "columnalign";
 
-    /**  */
-    public static final int ALIGN_CENTER = 2;
-
-    /**  */
-    public static final int ALIGN_BASELINE = 3;
-
-    /**  */
-    public static final int ALIGN_AXIS = 4;
-
-    /**  */
-    public static final int ALIGN_LEFT = 5;
-
-    /**  */
-    public static final int ALIGN_RIGHT = 6;
-
-    /**  */
-    public static final int ALIGN_DECIMALPOINT = 7;
-
-    private int m_rowalign = MathTableRow.ALIGN_CENTER;
-
-    private int m_columnalign = MathTableRow.ALIGN_CENTER;
-
-    private int m_groupalign = MathTableRow.ALIGN_CENTER;
-
-    /**
-     * Array with values of groupalign property in this row.
-     */
-    private int[] groupsalignvalues = null;
+    /** Attribute for groupalign. */
+    public static final String ATTR_GROUPALIGN = "groupalign";
 
     /**
      * Creates a math element.
@@ -85,8 +59,8 @@ public class MathTableRow extends AbstractMathElement {
      * 
      * @return Alignment of the row.
      */
-    public int getRowalign() {
-        return this.m_rowalign;
+    public String getRowalign() {
+        return this.getMathAttribute(MathTableRow.ATTR_ROWALIGN);
     }
 
     /**
@@ -95,8 +69,8 @@ public class MathTableRow extends AbstractMathElement {
      * @param rowalign
      *            Value of row alignment.
      */
-    public void setRowalign(final int rowalign) {
-        this.m_rowalign = rowalign;
+    public void setRowalign(final String rowalign) {
+        this.setAttribute(MathTableRow.ATTR_ROWALIGN, rowalign);
     }
 
     /**
@@ -104,8 +78,8 @@ public class MathTableRow extends AbstractMathElement {
      * 
      * @return Alignment for group in column.
      */
-    public int getColumnalign() {
-        return this.m_columnalign;
+    public String getColumnalign() {
+        return this.getMathAttribute(MathTableRow.ATTR_COLUMNALIGN);
     }
 
     /**
@@ -114,8 +88,8 @@ public class MathTableRow extends AbstractMathElement {
      * @param columnalign
      *            Alignment for group in column.
      */
-    public void setColumnalign(final int columnalign) {
-        this.m_columnalign = columnalign;
+    public void setColumnalign(final String columnalign) {
+        this.setAttribute(MathTableRow.ATTR_COLUMNALIGN, columnalign);
     }
 
     /**
@@ -123,8 +97,8 @@ public class MathTableRow extends AbstractMathElement {
      * 
      * @return Alifnment of the row.
      */
-    public int getGroupalign() {
-        return this.m_groupalign;
+    public String getGroupalign() {
+        return this.getMathAttribute(ATTR_GROUPALIGN);
     }
 
     /**
@@ -133,8 +107,8 @@ public class MathTableRow extends AbstractMathElement {
      * @param groupalign
      *            Alignment.
      */
-    public void setGroupalign(final int groupalign) {
-        this.m_groupalign = groupalign;
+    public void setGroupalign(final String groupalign) {
+        this.setAttribute(ATTR_GROUPALIGN, groupalign);
     }
 
     /**
@@ -231,18 +205,8 @@ public class MathTableRow extends AbstractMathElement {
      * 
      * @return Array with group alignments values.
      */
-    public int[] getGroupAlign() {
-        return this.groupsalignvalues;
-    }
-
-    /**
-     * Creates array with alignments for all align groups in this table.
-     * 
-     * @param groupalign
-     *            String with table attribute "groupalign".
-     */
-    public void setGroupAlign(final String groupalign) {
-        this.groupsalignvalues = MathTable.createGroupAlignValues(groupalign);
+    public int[] getGroupAlignArray() {
+        return MathTable.createGroupAlignValues(this.getGroupalign());
     }
 
     /** {@inheritDoc} */

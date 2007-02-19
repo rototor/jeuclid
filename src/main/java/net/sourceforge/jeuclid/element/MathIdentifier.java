@@ -38,7 +38,7 @@ public class MathIdentifier extends MathText {
      */
     public MathIdentifier(final MathBase base) {
         super(base);
-        this.setMathvariant("italic");
+        this.setDefaultMathAttribute(ATTR_MATHVARIANT, "italic");
     }
 
     /** {@inheritDoc} */

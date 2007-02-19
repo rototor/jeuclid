@@ -505,7 +505,7 @@ public class MathTable extends AbstractMathElement {
         if (this.m_frame == MathTable.LINE_NONE) {
             return 0;
         }
-        if (this.m_framespacing == "") {
+        if ("".equals(this.m_framespacing)) {
             this.setFramespacing(MathTable.DEFAULT_FRAMESPACING);
         }
         if (this.framespacingh == -1) {
@@ -923,7 +923,7 @@ public class MathTable extends AbstractMathElement {
         }
 
         if (cell.getGroupAlign() == null || cell.getGroupAlign().length == 0) {
-            result = ((MathTableRow) cell.getParent()).getGroupAlign();
+            result = ((MathTableRow) cell.getParent()).getGroupAlignArray();
         } else {
             result = cell.getGroupAlign();
         }
