@@ -56,6 +56,48 @@ import org.w3c.dom.mathml.MathMLNodeList;
 public abstract class AbstractMathElement extends
         AbstractChangeTrackingElement implements MathElement {
 
+    /** Constant for mathvariant attribute. */
+    public static final String ATTR_MATHVARIANT = "mathvariant";
+
+    /** Constant for mathcolor attribute. */
+    public static final String ATTR_MATHCOLOR = "mathcolor";
+
+    /** Constant for mathsize attribute. */
+    public static final String ATTR_MATHSIZE = "mathsize";
+
+    /** Constant for fontfamily attribute. */
+    public static final String ATTR_DEPRECATED_FONTFAMILY = "fontfamily";
+
+    /** Constant for fontstyle attribute. */
+    public static final String ATTR_DEPRECATED_FONTSTYLE = "fontstyle";
+
+    /** Constant for fontweight attribute. */
+    public static final String ATTR_DEPRECATED_FONTWEIGHT = "fontweight";
+
+    /** Constant for fontsize attribute. */
+    public static final String ATTR_DEPRECATED_FONTSIZE = "fontsize";
+
+    /** Constant for color attribute. */
+    public static final String ATTR_DEPRECATED_COLOR = "color";
+
+    /** Constant for background attribute. */
+    public static final String ATTR_DEPRECATED_BACKGROUND = "background";
+
+    /** Constant for class attribute. */
+    public static final String ATTR_CLASS = "class";
+
+    /** Constant for style attribute. */
+    public static final String ATTR_STYLE = "style";
+
+    /** Constant for id attribute. */
+    public static final String ATTR_ID = "id";
+
+    /** Constant for href attribute. */
+    public static final String ATTR_HREF = "xlink:href";
+
+    /** Constant for xref attribute. */
+    public static final String ATTR_XREF = "xref";
+
     /** The mathbackground attribute. */
     public static final String ATTR_MATHBACKGROUND = "mathbackground";
 
@@ -120,7 +162,7 @@ public abstract class AbstractMathElement extends
      * Reference to the MathBase object, which controls all font and metrics
      * computing.
      */
-    protected MathBase m_base;
+    protected MathBase mbase;
 
     /**
      * Reference to the element acting as parent if there is no parent.
@@ -138,7 +180,7 @@ public abstract class AbstractMathElement extends
      * line. This value affects only elements with enlarged parts (such as
      * "msubsup", "munderover", etc.)
      */
-    private int globalLineCorrecter = 0;
+    private int globalLineCorrecter;
 
     /**
      * Creates a math element.
@@ -185,7 +227,7 @@ public abstract class AbstractMathElement extends
 
         // This results in a size 8 for a default size of 12.
         // TODO: This should use scriptminsize (3.3.4.2)
-        final float minSize = this.m_base.getFontSize() * 2 / 3;
+        final float minSize = this.mbase.getFontSize() * 2 / 3;
         if (size < minSize) {
             size = minSize;
         }
@@ -381,7 +423,7 @@ public abstract class AbstractMathElement extends
     public void setMathElement(final int index, final MathMLElement newElement) {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         while (childList.getLength() < index) {
-            this.addMathElement(new MathText(this.m_base));
+            this.addMathElement(new MathText(this.mbase));
         }
         if (childList.getLength() == index) {
             this.addMathElement(newElement);
@@ -459,7 +501,7 @@ public abstract class AbstractMathElement extends
      */
 
     public void setMathBase(final MathBase base) {
-        this.m_base = base;
+        this.mbase = base;
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         for (int i = 0; i < childList.getLength(); i++) {
             ((AbstractMathElement) childList.item(i)).setMathBase(base);
@@ -472,7 +514,7 @@ public abstract class AbstractMathElement extends
      * @return Math base object.
      */
     public MathBase getMathBase() {
-        return this.m_base;
+        return this.mbase;
     }
 
     /** {@inheritDoc} */
@@ -501,7 +543,7 @@ public abstract class AbstractMathElement extends
      *            Value of mathvariant.
      */
     public void setMathvariant(final String mathvariant) {
-        this.setAttribute("mathvariant", mathvariant);
+        this.setAttribute(AbstractMathElement.ATTR_MATHVARIANT, mathvariant);
     }
 
     /**
@@ -511,7 +553,7 @@ public abstract class AbstractMathElement extends
      */
     public String getMathvariant() {
         // TODO: Support deprecated name
-        return this.getMathAttribute("mathvariant");
+        return this.getMathAttribute(AbstractMathElement.ATTR_MATHVARIANT);
     }
 
     /**
@@ -551,7 +593,7 @@ public abstract class AbstractMathElement extends
      *            Color object.
      */
     public void setMathcolor(final String mathcolor) {
-        this.setAttribute("mathcolor", mathcolor);
+        this.setAttribute(AbstractMathElement.ATTR_MATHCOLOR, mathcolor);
     }
 
     /**
@@ -561,9 +603,10 @@ public abstract class AbstractMathElement extends
      */
     public String getMathcolor() {
         String color;
-        color = this.getMathAttribute("mathcolor");
+        color = this.getMathAttribute(AbstractMathElement.ATTR_MATHCOLOR);
         if (color == null) {
-            color = this.getMathAttribute("color");
+            color = this
+                    .getMathAttribute(AbstractMathElement.ATTR_DEPRECATED_COLOR);
         }
         return color;
     }
@@ -575,9 +618,10 @@ public abstract class AbstractMathElement extends
      */
     public String getMathsize() {
         String size;
-        size = this.getMathAttribute("mathsize");
+        size = this.getMathAttribute(AbstractMathElement.ATTR_MATHSIZE);
         if (size == null) {
-            size = this.getMathAttribute("fontsize");
+            size = this
+                    .getMathAttribute(AbstractMathElement.ATTR_DEPRECATED_FONTSIZE);
         }
         return size;
 
@@ -590,7 +634,7 @@ public abstract class AbstractMathElement extends
      *            value of mathsize.
      */
     public void setMathsize(final String mathsize) {
-        this.setAttribute("mathsize", mathsize);
+        this.setAttribute(AbstractMathElement.ATTR_MATHSIZE, mathsize);
     }
 
     /** {@inheritDoc} */
@@ -602,7 +646,7 @@ public abstract class AbstractMathElement extends
         if (this.getParent() != null) {
             relativeToSize = this.getParent().getMathsizeInPoint();
         } else {
-            relativeToSize = this.m_base.getFontSize();
+            relativeToSize = this.mbase.getFontSize();
         }
         if (msize == null) {
             return relativeToSize;
@@ -636,7 +680,8 @@ public abstract class AbstractMathElement extends
         color = this
                 .getMathAttribute(AbstractMathElement.ATTR_MATHBACKGROUND);
         if (color == null) {
-            color = this.getMathAttribute("background");
+            color = this
+                    .getMathAttribute(AbstractMathElement.ATTR_DEPRECATED_BACKGROUND);
         }
         return color;
     }
@@ -812,7 +857,7 @@ public abstract class AbstractMathElement extends
      * @param g
      *            Graphics2D context to use.
      */
-    abstract public int calculateWidth(Graphics2D g);
+    public abstract int calculateWidth(Graphics2D g);
 
     /** {@inheritDoc} */
     public int getHeight(final Graphics2D g) {
@@ -861,7 +906,7 @@ public abstract class AbstractMathElement extends
     }
 
     /** {@inheritDoc} */
-    abstract public int calculateAscentHeight(Graphics2D g);
+    public abstract int calculateAscentHeight(Graphics2D g);
 
     /** {@inheritDoc} */
     public int getDescentHeight(final Graphics2D g) {
@@ -882,7 +927,7 @@ public abstract class AbstractMathElement extends
     }
 
     /** {@inheritDoc} */
-    abstract public int calculateDescentHeight(Graphics2D g);
+    public abstract int calculateDescentHeight(Graphics2D g);
 
     /**
      * Returns the distance of the baseline and the middleline.
@@ -934,52 +979,52 @@ public abstract class AbstractMathElement extends
 
     /** {@inheritDoc} */
     public String getClassName() {
-        return this.getAttribute("class");
+        return this.getAttribute(AbstractMathElement.ATTR_CLASS);
     }
 
     /** {@inheritDoc} */
     public void setClassName(final String className) {
-        this.setAttribute("class", className);
+        this.setAttribute(AbstractMathElement.ATTR_CLASS, className);
     }
 
     /** {@inheritDoc} */
     public String getMathElementStyle() {
-        return this.getAttribute("style");
+        return this.getAttribute(AbstractMathElement.ATTR_STYLE);
     }
 
     /** {@inheritDoc} */
     public void setMathElementStyle(final String mathElementStyle) {
-        this.setAttribute("style", mathElementStyle);
+        this.setAttribute(AbstractMathElement.ATTR_STYLE, mathElementStyle);
     }
 
     /** {@inheritDoc} */
     public String getId() {
-        return this.getAttribute("id");
+        return this.getAttribute(AbstractMathElement.ATTR_ID);
     }
 
     /** {@inheritDoc} */
     public void setId(final String id) {
-        this.setAttribute("id", id);
+        this.setAttribute(AbstractMathElement.ATTR_ID, id);
     }
 
     /** {@inheritDoc} */
     public String getXref() {
-        return this.getAttribute("xref");
+        return this.getAttribute(AbstractMathElement.ATTR_XREF);
     }
 
     /** {@inheritDoc} */
     public void setXref(final String xref) {
-        this.setAttribute("xref", xref);
+        this.setAttribute(AbstractMathElement.ATTR_XREF, xref);
     }
 
     /** {@inheritDoc} */
     public String getHref() {
-        return this.getAttribute("xlink:href");
+        return this.getAttribute(AbstractMathElement.ATTR_HREF);
     }
 
     /** {@inheritDoc} */
     public void setHref(final String href) {
-        this.setAttribute("xlink:href", href);
+        this.setAttribute(AbstractMathElement.ATTR_HREF, href);
     }
 
     /** {@inheritDoc} */
@@ -1042,11 +1087,17 @@ public abstract class AbstractMathElement extends
     }
 
     {
-        AbstractMathElement.DEPRECATED_ATTRIBUTES.add("color");
-        AbstractMathElement.DEPRECATED_ATTRIBUTES.add("background");
-        AbstractMathElement.DEPRECATED_ATTRIBUTES.add("fontsize");
-        AbstractMathElement.DEPRECATED_ATTRIBUTES.add("fontweight");
-        AbstractMathElement.DEPRECATED_ATTRIBUTES.add("fontstyle");
-        AbstractMathElement.DEPRECATED_ATTRIBUTES.add("fontfamily");
+        AbstractMathElement.DEPRECATED_ATTRIBUTES
+                .add(AbstractMathElement.ATTR_DEPRECATED_COLOR);
+        AbstractMathElement.DEPRECATED_ATTRIBUTES
+                .add(AbstractMathElement.ATTR_DEPRECATED_BACKGROUND);
+        AbstractMathElement.DEPRECATED_ATTRIBUTES
+                .add(AbstractMathElement.ATTR_DEPRECATED_FONTSIZE);
+        AbstractMathElement.DEPRECATED_ATTRIBUTES
+                .add(AbstractMathElement.ATTR_DEPRECATED_FONTWEIGHT);
+        AbstractMathElement.DEPRECATED_ATTRIBUTES
+                .add(AbstractMathElement.ATTR_DEPRECATED_FONTSTYLE);
+        AbstractMathElement.DEPRECATED_ATTRIBUTES
+                .add(AbstractMathElement.ATTR_DEPRECATED_FONTFAMILY);
     }
 }

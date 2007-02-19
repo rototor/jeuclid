@@ -593,9 +593,9 @@ public class MathOperator extends AbstractMathElement {
         } else {
             // TODO: This should use the default font size
             if (this.getStretchy() && this.isVerticalDelimeter()
-                    && font.getSize() > this.m_base.getFontSize()) {
+                    && font.getSize() > this.mbase.getFontSize()) {
                 return this.getMathvariantAsVariant().createFont(
-                        this.m_base.getFontSize(), 'A');
+                        this.mbase.getFontSize(), 'A');
             } else {
                 return font;
             }

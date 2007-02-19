@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        AbstractMathElement: CheckStyle fixes, attrs made into constants
+      </action>
       <action dev="maxberger" type="add">
         AbstractDOMImpl: implemented getAttributes, getLocalName, getNamespaceURI, getNodeValue,
         getNextSibling, getNodeType, getXmlVersion, getXmlStandalone, getXmlEncoding;
