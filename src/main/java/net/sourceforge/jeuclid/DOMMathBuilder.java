@@ -176,10 +176,6 @@ public class DOMMathBuilder {
             }
         } else if (tagname.equals(MathTableData.ELEMENT)) {
             alignmentScope = (MathTableData) element;
-            if (attributes.hasAttribute("groupalign")) {
-                ((MathTableData) element).setGroupAlign(attributes.getString(
-                        "groupalign", ""));
-            }
         } else if (tagname.equals(MathOperator.ELEMENT)) {
             final MathOperator mo = (MathOperator) element;
             mo.setMoveableLimits(attributes

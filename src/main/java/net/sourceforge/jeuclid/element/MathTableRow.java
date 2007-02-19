@@ -35,15 +35,6 @@ public class MathTableRow extends AbstractMathElement {
      */
     public static final String ELEMENT = "mtr";
 
-    /** Attribute for rowalign. */
-    public static final String ATTR_ROWALIGN = "rowalign";
-
-    /** Attribute for columnalign. */
-    public static final String ATTR_COLUMNALIGN = "columnalign";
-
-    /** Attribute for groupalign. */
-    public static final String ATTR_GROUPALIGN = "groupalign";
-
     /**
      * Creates a math element.
      * 
@@ -52,6 +43,7 @@ public class MathTableRow extends AbstractMathElement {
      */
     public MathTableRow(final MathBase base) {
         super(base);
+        this.setDefaultMathAttribute(MathTable.ATTR_GROUPALIGN, "");
     }
 
     /**
@@ -60,7 +52,7 @@ public class MathTableRow extends AbstractMathElement {
      * @return Alignment of the row.
      */
     public String getRowalign() {
-        return this.getMathAttribute(MathTableRow.ATTR_ROWALIGN);
+        return this.getMathAttribute(MathTable.ATTR_ROWALIGN);
     }
 
     /**
@@ -70,7 +62,7 @@ public class MathTableRow extends AbstractMathElement {
      *            Value of row alignment.
      */
     public void setRowalign(final String rowalign) {
-        this.setAttribute(MathTableRow.ATTR_ROWALIGN, rowalign);
+        this.setAttribute(MathTable.ATTR_ROWALIGN, rowalign);
     }
 
     /**
@@ -79,7 +71,7 @@ public class MathTableRow extends AbstractMathElement {
      * @return Alignment for group in column.
      */
     public String getColumnalign() {
-        return this.getMathAttribute(MathTableRow.ATTR_COLUMNALIGN);
+        return this.getMathAttribute(MathTable.ATTR_COLUMNALIGN);
     }
 
     /**
@@ -89,7 +81,7 @@ public class MathTableRow extends AbstractMathElement {
      *            Alignment for group in column.
      */
     public void setColumnalign(final String columnalign) {
-        this.setAttribute(MathTableRow.ATTR_COLUMNALIGN, columnalign);
+        this.setAttribute(MathTable.ATTR_COLUMNALIGN, columnalign);
     }
 
     /**
@@ -98,7 +90,7 @@ public class MathTableRow extends AbstractMathElement {
      * @return Alifnment of the row.
      */
     public String getGroupalign() {
-        return this.getMathAttribute(ATTR_GROUPALIGN);
+        return this.getMathAttribute(MathTable.ATTR_GROUPALIGN);
     }
 
     /**
@@ -108,7 +100,7 @@ public class MathTableRow extends AbstractMathElement {
      *            Alignment.
      */
     public void setGroupalign(final String groupalign) {
-        this.setAttribute(ATTR_GROUPALIGN, groupalign);
+        this.setAttribute(MathTable.ATTR_GROUPALIGN, groupalign);
     }
 
     /**
