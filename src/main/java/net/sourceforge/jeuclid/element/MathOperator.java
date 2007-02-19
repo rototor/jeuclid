@@ -43,6 +43,13 @@ import org.apache.commons.logging.LogFactory;
  * @author Max Berger
  */
 public class MathOperator extends AbstractMathElement {
+
+    /** Attribute for min size. */
+    public static final String ATTR_MINSIZE = "minsize";
+
+    /** Attribute for max size. */
+    public static final String ATTR_MAXSIZE = "maxsize";
+
     /**
      * The XML element from this class.
      */
@@ -219,8 +226,8 @@ public class MathOperator extends AbstractMathElement {
      */
     public MathOperator(final MathBase base) {
         super(base);
-        this.setMaxsize("infinity");
-        this.setMinsize("1");
+        this.setDefaultMathAttribute(ATTR_MAXSIZE, "infinity");
+        this.setDefaultMathAttribute(ATTR_MINSIZE, "1");
     }
 
     /**
@@ -427,7 +434,7 @@ public class MathOperator extends AbstractMathElement {
      *            Maxsize value.
      */
     public void setMaxsize(final String maxsize) {
-        this.setAttribute("maxsize", maxsize);
+        this.setAttribute(MathOperator.ATTR_MAXSIZE, maxsize);
     }
 
     /**
@@ -436,7 +443,7 @@ public class MathOperator extends AbstractMathElement {
      * @return Maxsize value.
      */
     public String getMaxsize() {
-        return this.getMathAttribute("maxsize");
+        return this.getMathAttribute(MathOperator.ATTR_MAXSIZE);
     }
 
     /**
@@ -446,7 +453,7 @@ public class MathOperator extends AbstractMathElement {
      *            Minsize value.
      */
     public void setMinsize(final String minsize) {
-        this.setAttribute("minsize", minsize);
+        this.setAttribute(MathOperator.ATTR_MINSIZE, minsize);
     }
 
     /**
@@ -455,7 +462,7 @@ public class MathOperator extends AbstractMathElement {
      * @return Minsize value.
      */
     public String getMinsize() {
-        return this.getMathAttribute("minsize");
+        return this.getMathAttribute(MathOperator.ATTR_MINSIZE);
     }
 
     /**

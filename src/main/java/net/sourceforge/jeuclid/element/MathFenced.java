@@ -63,9 +63,9 @@ public class MathFenced extends AbstractElementWithDelegates implements
 
     public MathFenced(final MathBase base) {
         super(base);
-        this.setOpen("(");
-        this.setClose(")");
-        this.setSeparators(",");
+        this.setDefaultMathAttribute(MathFenced.ATTR_OPEN, "(");
+        this.setDefaultMathAttribute(MathFenced.ATTR_CLOSE, ")");
+        this.setDefaultMathAttribute(MathFenced.ATTR_SEPARATORS, ",");
     }
 
     /**

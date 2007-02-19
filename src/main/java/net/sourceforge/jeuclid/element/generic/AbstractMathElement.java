@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -101,6 +102,27 @@ public abstract class AbstractMathElement extends
     /** The mathbackground attribute. */
     public static final String ATTR_MATHBACKGROUND = "mathbackground";
 
+    /** value for top alignment. */
+    public static final String ALIGN_TOP = "top";
+
+    /** value for bottom alignment. */
+    public static final String ALIGN_BOTTOM = "bottom";
+
+    /** value for center alignment. */
+    public static final String ALIGN_CENTER = "center";
+
+    /** value for baseline alignment. */
+    public static final String ALIGN_BASELINE = "baseline";
+
+    /** value for axis alignment. */
+    public static final String ALIGN_AXIS = "axis";
+
+    /** value for left alignment. */
+    public static final String ALIGN_LEFT = "left";
+
+    /** value for right alignment. */
+    public static final String ALIGN_RIGHT = "right";
+
     /**
      * The URI from MathML.
      */
@@ -168,6 +190,8 @@ public abstract class AbstractMathElement extends
      * Reference to the element acting as parent if there is no parent.
      */
     private MathElement fakeParent;
+
+    private final Map<String, String> defaultMathAttributes = new HashMap<String, String>();
 
     /**
      * Variable of "scriptsize" attribute, default value is 0.71.
@@ -655,6 +679,21 @@ public abstract class AbstractMathElement extends
     }
 
     /**
+     * Sets default values for math attributes. Default values are returned
+     * through getMathAttribute, but not stored in the actual DOM tree. This
+     * is necessary to support proper serialization.
+     * 
+     * @param key
+     *            the attribute to set.
+     * @param value
+     *            value of the attribute.
+     */
+    protected void setDefaultMathAttribute(final String key,
+            final String value) {
+        this.defaultMathAttributes.put(key, value);
+    }
+
+    /**
      * retrieve an attribute from the MathML or default namespace.
      * 
      * @param attrName
@@ -666,6 +705,9 @@ public abstract class AbstractMathElement extends
         attrValue = this.getAttributeNS(AbstractMathElement.URI, attrName);
         if (attrValue == null) {
             attrValue = this.getAttribute(attrName);
+        }
+        if (attrValue == null) {
+            attrValue = this.defaultMathAttributes.get(attrName);
         }
         return attrValue;
     }

@@ -30,7 +30,6 @@ import net.sourceforge.jeuclid.element.MathString;
 import net.sourceforge.jeuclid.element.MathStyle;
 import net.sourceforge.jeuclid.element.MathTable;
 import net.sourceforge.jeuclid.element.MathTableData;
-import net.sourceforge.jeuclid.element.MathTableRow;
 import net.sourceforge.jeuclid.element.MathUnder;
 import net.sourceforge.jeuclid.element.MathUnderOver;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
@@ -170,11 +169,6 @@ public class DOMMathBuilder {
                 tabl.setAlign(attributes.getString("align", "axis"));
             }
 
-        } else if (tagname.equals(MathTableRow.ELEMENT)) {
-            if (attributes.hasAttribute("groupalign")) {
-                ((MathTableRow) element).setGroupAlign(attributes.getString(
-                        "groupalign", ""));
-            }
         } else if (tagname.equals(MathEnclose.ELEMENT)) {
             if (attributes.hasAttribute("notation")) {
                 ((MathEnclose) element).setNotation(attributes.getString(

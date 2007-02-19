@@ -47,7 +47,7 @@ public class MathRow extends AbstractRowLikeElement implements
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathRow.ELEMENT;
     }
 
 }

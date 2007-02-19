@@ -6,6 +6,19 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        MathTableRow: started to refactor to support MathMLTableRowElement, not complete yet
+      </action>
+      <action dev="maxberger" type="add">
+        AbstractMathElement: Alignment constants; MathFrac: use those
+      </action>
+      <action dev="maxberger" type="update">
+        MathPhantom, MathPreScripts, MathRow, MathSpace, MathString: Checkstyle fixes.
+      </action>
+      <action dev="maxberger" type="add">
+         AbstractMathElement: support for default attributes; modified MathFenced, MathIdentifier,
+         MathFrac, MathOperator to use those.
+      </action>
       <action dev="maxberger" type="update">
         AbstractMathElement: CheckStyle fixes, attrs made into constants
       </action>
