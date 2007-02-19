@@ -143,17 +143,17 @@ public abstract class AbstractPartialDocumentImpl extends
 
     /** {@inheritDoc} */
     public final String getXmlEncoding() {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     /** {@inheritDoc} */
     public final boolean getXmlStandalone() {
-        throw new UnsupportedOperationException();
+        return false;
     }
 
     /** {@inheritDoc} */
     public final String getXmlVersion() {
-        throw new UnsupportedOperationException();
+        return "1.0";
     }
 
     /** {@inheritDoc} */
@@ -205,9 +205,13 @@ public abstract class AbstractPartialDocumentImpl extends
     }
 
     /** {@inheritDoc} */
-
     public final String getNodeName() {
         return "#document";
+    }
+
+    /** {@inheritDoc} */
+    public final short getNodeType() {
+        return Node.DOCUMENT_NODE;
     }
 
 }

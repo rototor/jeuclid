@@ -129,18 +129,13 @@ public abstract class AbstractPartialNodeImpl implements Node {
     }
 
     /** {@inheritDoc} */
-    public final short getNodeType() {
-        return Node.ELEMENT_NODE;
-    }
-
-    /** {@inheritDoc} */
-    public final String getNodeValue() {
-        throw new UnsupportedOperationException("getNodeValue");
+    public String getNodeValue() {
+        return null;
     }
 
     /** {@inheritDoc} */
     public final String getNamespaceURI() {
-        throw new UnsupportedOperationException("getNamespaceURI");
+        return null;
     }
 
     /** {@inheritDoc} */
@@ -159,8 +154,8 @@ public abstract class AbstractPartialNodeImpl implements Node {
     }
 
     /** {@inheritDoc} */
-    public final NamedNodeMap getAttributes() {
-        throw new UnsupportedOperationException("getAttributes");
+    public NamedNodeMap getAttributes() {
+        return null;
     }
 
     /** {@inheritDoc} */
@@ -200,7 +195,16 @@ public abstract class AbstractPartialNodeImpl implements Node {
 
     /** {@inheritDoc} */
     public final Node getNextSibling() {
-        throw new UnsupportedOperationException("getNextSibling");
+        Node retval;
+        try {
+            final List<Node> parentsChildren = ((AbstractPartialNodeImpl) this.parent).children;
+            retval = parentsChildren.get(parentsChildren.indexOf(this) + 1);
+        } catch (final NullPointerException ne) {
+            retval = null;
+        } catch (final IndexOutOfBoundsException iobe) {
+            retval = null;
+        }
+        return retval;
     }
 
     /** {@inheritDoc} */
@@ -234,8 +238,8 @@ public abstract class AbstractPartialNodeImpl implements Node {
     }
 
     /** {@inheritDoc} */
-    public final String getLocalName() {
-        throw new UnsupportedOperationException("getLocalName");
+    public String getLocalName() {
+        return null;
     }
 
     /** {@inheritDoc} */

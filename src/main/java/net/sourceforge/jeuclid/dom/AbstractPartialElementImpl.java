@@ -19,10 +19,14 @@
 package net.sourceforge.jeuclid.dom;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.TypeInfo;
 
 /**
@@ -37,6 +41,160 @@ public abstract class AbstractPartialElementImpl extends
         AbstractPartialNodeImpl implements Element {
 
     private final Map<String, String> attributes = new HashMap<String, String>();
+
+    /** Partial implementation of Attr. */
+    public class AttrImpl extends AbstractPartialNodeImpl implements Attr {
+
+        private final String name;
+
+        private final String value;
+
+        private final Element owner;
+
+        /**
+         * Create a new AttrImpl Element.
+         * 
+         * @param nam
+         *            name of the Attribute.
+         * @param val
+         *            value of the attribute.
+         * @param own
+         *            owner for the attribute.
+         */
+        protected AttrImpl(final String nam, final String val,
+                final Element own) {
+            this.name = nam;
+            this.value = val;
+            this.owner = own;
+        }
+
+        /** {@inheritDoc} */
+        public String getName() {
+            return this.name;
+        }
+
+        /** {@inheritDoc} */
+        public Element getOwnerElement() {
+            return this.owner;
+        }
+
+        /** {@inheritDoc} */
+        public TypeInfo getSchemaTypeInfo() {
+            throw new UnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public boolean getSpecified() {
+            throw new UnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public String getValue() {
+            return this.value;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public final String getNodeValue() {
+            return this.value;
+        }
+
+        /** {@inheritDoc} */
+        public boolean isId() {
+            throw new UnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public void setValue(final String val) {
+            throw new UnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public String getNodeName() {
+            return this.name;
+        }
+
+        /** {@inheritDoc} */
+        public short getNodeType() {
+            return Node.ATTRIBUTE_NODE;
+        }
+    }
+
+    /** Partial Implementation for an NodeMap describing Attributes. */
+    public class AttributeNodeMap implements NamedNodeMap {
+
+        private final Map<String, String> attributes;
+
+        private final Element owner;
+
+        /**
+         * Creates a new AttributeNodeMap.
+         * 
+         * @param attrs
+         *            A Map containing attributes and values.
+         * @param parent
+         *            the node these attributes belong to.
+         */
+        protected AttributeNodeMap(final Map<String, String> attrs,
+                final Element parent) {
+            this.attributes = attrs;
+            this.owner = parent;
+        }
+
+        /** {@inheritDoc} */
+        public int getLength() {
+            return this.attributes.size();
+        }
+
+        /** {@inheritDoc} */
+        public Node getNamedItem(final String name) {
+            final String value = this.attributes.get(name);
+            if (value == null) {
+                return null;
+            } else {
+                return new AttrImpl(name, value, this.owner);
+            }
+        }
+
+        /** {@inheritDoc} */
+        public Node getNamedItemNS(final String namespaceURI,
+                final String localName) {
+            return this.getNamedItem(localName);
+        }
+
+        /** {@inheritDoc} */
+        public Node item(final int index) {
+
+            final Iterator<Entry<String, String>> it = this.attributes
+                    .entrySet().iterator();
+            for (int i = 0; i < index; i++) {
+                it.next();
+            }
+            final Entry<String, String> found = it.next();
+            return new AttrImpl(found.getKey(), found.getValue(), this.owner);
+        }
+
+        /** {@inheritDoc} */
+        public Node removeNamedItem(final String name) {
+            throw new UnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public Node removeNamedItemNS(final String namespaceURI,
+                final String localName) {
+            throw new UnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public Node setNamedItem(final Node arg) {
+            throw new UnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public Node setNamedItemNS(final Node arg) {
+            throw new UnsupportedOperationException();
+        }
+    }
 
     /** {@inheritDoc} */
     public final String getAttribute(final String name) {
@@ -147,9 +305,27 @@ public abstract class AbstractPartialElementImpl extends
 
     /** {@inheritDoc} */
     @Override
+    public NamedNodeMap getAttributes() {
+        return new AttributeNodeMap(this.attributes, this);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final String getLocalName() {
+        return this.getTagName();
+    }
+
+    /** {@inheritDoc} */
+    public final short getNodeType() {
+        return Node.ELEMENT_NODE;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public final String toString() {
         final StringBuilder builder = new StringBuilder(this.getTagName());
-        for (Map.Entry<String, String> attrs : this.attributes.entrySet()) {
+        for (final Map.Entry<String, String> attrs : this.attributes
+                .entrySet()) {
             builder.append(" " + attrs.getKey() + "='" + attrs.getValue()
                     + "'");
         }
