@@ -38,11 +38,6 @@ import org.xml.sax.helpers.DefaultHandler;
  * Read default values of operators from xml file.
  */
 public class OperatorDictionary {
-    /**
-     * Logger for this class
-     */
-    private static final Log logger = LogFactory
-            .getLog(OperatorDictionary.class);
 
     /**
      * MathML dictionary resource.
@@ -105,53 +100,61 @@ public class OperatorDictionary {
     public static final int VALUE_POSTFIX = 102;
 
     /**
-     * This value is returned, when default value of operator attribute doesn't
-     * exist in this dictionary so far.
+     * This value is returned, when default value of operator attribute
+     * doesn't exist in this dictionary so far.
      */
     public static final String VALUE_UNKNOWN = "NULL";
 
     /**
+     * Logger for this class.
+     */
+    private static final Log LOGGER = LogFactory
+            .getLog(OperatorDictionary.class);
+
+    /**
      * Hashtable that contains dictionary itself. Where a key = (value of
      * operator)+ (type of form) and the two-dimensional array as a value. The
-     * array contains name-value pairs of attributes that have to be applied for
-     * the key. For example: <element form="infix" fence="true" lspace="0em"
-     * rspace="0em">+</element> key =+101(101 - because constant value for form
-     * 'infix' is 101), and values: { {"lspace", "thickmathspace"} {"rspace",
-     * "thickmathspace"} }
+     * array contains name-value pairs of attributes that have to be applied
+     * for the key. For example: <element form="infix" fence="true"
+     * lspace="0em" rspace="0em">+</element> key =+101(101 - because constant
+     * value for form 'infix' is 101), and values: { {"lspace",
+     * "thickmathspace"} {"rspace", "thickmathspace"} }
      */
     private static Map<String, String[][]> dictionary;
 
     /**
      * flag - is we read dictionary from modictionary.xml
      */
-    private static boolean isDictionaryRead = false;
+    private static boolean isDictionaryRead;
 
     /**
      * The instance of the Dictionary
      */
-    private static OperatorDictionary instance = null;
+    private static OperatorDictionary instance;
 
     /**
      * Array of default values of operators attributes.
      */
-    private static String[][] attributeDefValues = { { "form", "infix" },
-            { "fence", "false" }, { "separator", "false" },
-            { "lspace", "thickmathspace" }, { "rspace", "thickmathspace" },
+    private static final String[][] attributeDefValues = {
+            { "form", "infix" }, { "fence", "false" },
+            { "separator", "false" }, { "lspace", "thickmathspace" },
+            { "rspace", OperatorDictionary.NAME_THICKMATHSPACE },
             { "stretchy", "false" }, { "symmetric", "true" },
-            { "maxsize", "infinity" }, { "minsize", "1" },
-            { "largeop", "false" }, { "movablelimits", "false" },
-            { "accent", "false" } };
+            { "maxsize", OperatorDictionary.NAME_INFINITY },
+            { "minsize", "1" }, { "largeop", "false" },
+            { "movablelimits", "false" }, { "accent", "false" } };
 
     OperatorDictionary() throws DictionaryException {
         try {
-            initialize();
-        } catch (ParserConfigurationException e) {
+            this.initialize();
+        } catch (final ParserConfigurationException e) {
             throw new DictionaryException("Cannot get SAXParser:"
                     + e.getMessage());
-        } catch (SAXException e) {
+        } catch (final SAXException e) {
             throw new DictionaryException(
-                    "SAXException during parsing dictionary:" + e.getMessage());
-        } catch (IOException e) {
+                    "SAXException during parsing dictionary:"
+                            + e.getMessage());
+        } catch (final IOException e) {
             throw new DictionaryException(
                     "The problems with dictionary XML reading", e);
         }
@@ -163,9 +166,9 @@ public class OperatorDictionary {
     private void initialize() throws ParserConfigurationException,
             SAXException, IOException {
         final InputStream dictInput = OperatorDictionary.class
-                .getResourceAsStream(DICTIONARY_FILE);
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        XMLReader reader = factory.newSAXParser().getXMLReader();
+                .getResourceAsStream(OperatorDictionary.DICTIONARY_FILE);
+        final SAXParserFactory factory = SAXParserFactory.newInstance();
+        final XMLReader reader = factory.newSAXParser().getXMLReader();
         reader.setContentHandler(new DictionaryReader());
         reader.parse(new InputSource(dictInput));
     }
@@ -184,23 +187,24 @@ public class OperatorDictionary {
      * @throws UnknownAttributeException
      *             Raised, if wrong attributeName was provided.
      */
-    public static String getDefaultAttributeValue(String operator, int form,
-            String attributeName) throws UnknownAttributeException {
+    public static String getDefaultAttributeValue(final String operator,
+            final int form, final String attributeName)
+            throws UnknownAttributeException {
 
-        if (!isDictionaryRead) {
+        if (!OperatorDictionary.isDictionaryRead) {
             try {
-                isDictionaryRead = true;
-                instance = new OperatorDictionary();
-            } catch (DictionaryException e) {
-                logger.error(e.getMessage(), e);
+                OperatorDictionary.isDictionaryRead = true;
+                OperatorDictionary.instance = new OperatorDictionary();
+            } catch (final DictionaryException e) {
+                OperatorDictionary.LOGGER.error(e.getMessage(), e);
 
             }
         }
-        if (instance != null) {
+        if (OperatorDictionary.instance != null) {
             /*
              * If the operator does not occur in the dictionary with the
-             * specified form, the renderer should use one of the forms that is
-             * available there, in the order of preference: infix, postfix,
+             * specified form, the renderer should use one of the forms that
+             * is available there, in the order of preference: infix, postfix,
              * prefix; if no forms are available for the given mo element
              * content, the renderer should use the defaults given in
              * parentheses in the table of attributes for mo.
@@ -219,16 +223,17 @@ public class OperatorDictionary {
                         + OperatorDictionary.VALUE_PREFIX);
             }
             if (attr == null) {
-                return VALUE_UNKNOWN;
+                return OperatorDictionary.VALUE_UNKNOWN;
             }
-            String[][] attribute = (String[][]) attr;
-            for (int i = 0; i < attribute.length; i++) {
-                if (attribute[i][0].equals(attributeName)) {
-                    return attribute[i][1];
+            final String[][] attribute = (String[][]) attr;
+            for (String[] element : attribute) {
+                if (element[0].equals(attributeName)) {
+                    return element[1];
                 }
             }
         }
-        String result = getDefaultValue(attributeName);
+        final String result = OperatorDictionary
+                .getDefaultValue(attributeName);
         if (result != null) {
             return result;
         } else {
@@ -243,24 +248,24 @@ public class OperatorDictionary {
      *            the name of the attribute.
      * @return Default value of the attribute.
      */
-    private static String getDefaultValue(String attributeName) {
-        for (int i = 0; i < attributeDefValues.length; i++) {
-            if (attributeName.equalsIgnoreCase(attributeDefValues[i][0])) {
-                return attributeDefValues[i][1];
+    private static String getDefaultValue(final String attributeName) {
+        for (String[] element : OperatorDictionary.attributeDefValues) {
+            if (attributeName.equalsIgnoreCase(element[0])) {
+                return element[1];
             }
         }
         return null;
     }
 
     /**
-     * The DictionaryReader reads dictionary XML file and initializes Dictionary
-     * fields.
+     * The DictionaryReader reads dictionary XML file and initializes
+     * Dictionary fields.
      */
     private class DictionaryReader extends DefaultHandler {
         /**
-         * Logger for this class
+         * Logger for this class.
          */
-        private final Log logger = LogFactory.getLog(DictionaryReader.class);
+        private final Log LOGGER = LogFactory.getLog(DictionaryReader.class);
 
         private String currentOperator;
 
@@ -270,77 +275,85 @@ public class OperatorDictionary {
 
         private String[][] currentEntry;
 
+        @Override
         public void startDocument() throws SAXException {
-            dictionary = new HashMap<String, String[][]>();
+            OperatorDictionary.dictionary = new HashMap<String, String[][]>();
         }
 
+        @Override
         public void endDocument() throws SAXException {
         }
 
-        public void startElement(String uri, String localName, String rawName,
-                Attributes attlist) throws SAXException {
+        @Override
+        public void startElement(final String uri, final String localName,
+                final String rawName, final Attributes attlist)
+                throws SAXException {
 
             if (rawName.equals("element")) {
                 // attlist.getLength() - 1 - because we don't include form
                 // attribute
-                currentLength = attlist.getLength() - 1;
+                this.currentLength = attlist.getLength() - 1;
                 // [currentLength -number of atrribute][2 - attribute name,
                 // value of attribute]
-                currentEntry = new String[currentLength][2];
+                this.currentEntry = new String[this.currentLength][2];
                 final String form = attlist.getValue("form");
                 if (form == null) {
                     // it is impossibhle because "form" is required attribute
                     // for the dictionary.
                     // todo: what is here?
-                    logger
+                    this.LOGGER
                             .fatal("Error in dictionary, attribute 'form' is required attribute for the dictionary");
                 }
                 if (form.equals("prefix")) {
-                    currentFormIndex = OperatorDictionary.VALUE_PREFIX;
+                    this.currentFormIndex = OperatorDictionary.VALUE_PREFIX;
                 } else if (form.equals("infix")) {
-                    currentFormIndex = OperatorDictionary.VALUE_INFIX;
+                    this.currentFormIndex = OperatorDictionary.VALUE_INFIX;
                 } else if (form.equals("postfix")) {
-                    currentFormIndex = OperatorDictionary.VALUE_POSTFIX;
+                    this.currentFormIndex = OperatorDictionary.VALUE_POSTFIX;
                 }
                 int index = 0;
-                for (int i = 0; i < currentLength + 1; i++) {
+                for (int i = 0; i < this.currentLength + 1; i++) {
                     final String attName = attlist.getQName(i);
                     final String attValue = attlist.getValue(i);
                     if (!attName.equals("form")) {
-                        currentEntry[index][0] = attName;
-                        currentEntry[index][1] = attValue;
+                        this.currentEntry[index][0] = attName;
+                        this.currentEntry[index][1] = attValue;
                         index++;
                     }
                 }
             }
         }
 
-        public void endElement(String uri, String localName, String rawName)
-                throws SAXException {
+        @Override
+        public void endElement(final String uri, final String localName,
+                final String rawName) throws SAXException {
             if (rawName.equals("element")) {
-                String key = currentOperator + currentFormIndex;
-                Object existedEntry = dictionary.get(key);
+                final String key = this.currentOperator
+                        + this.currentFormIndex;
+                final Object existedEntry = OperatorDictionary.dictionary
+                        .get(key);
                 if (existedEntry == null) {
-                    dictionary.put(key, currentEntry);
+                    OperatorDictionary.dictionary.put(key, this.currentEntry);
                 } else {
                     // TODO what todo if such object already exists?
                 }
             }
-            currentEntry = null;
-            currentOperator = null;
+            this.currentEntry = null;
+            this.currentOperator = null;
         }
 
-        public void characters(char[] data, int start, int length)
-                throws SAXException {
-            if (currentEntry != null) {
-                char[] temp = new char[length];
+        @Override
+        public void characters(final char[] data, final int start,
+                final int length) throws SAXException {
+            if (this.currentEntry != null) {
+                final char[] temp = new char[length];
                 System.arraycopy(data, start, temp, 0, length);
-                if (currentOperator == null) {
-                    currentOperator = new String(temp);
+                if (this.currentOperator == null) {
+                    this.currentOperator = new String(temp);
                 } else {
-                    currentOperator += new String(temp);
+                    this.currentOperator += new String(temp);
                 }
-                currentOperator = currentOperator.trim();
+                this.currentOperator = this.currentOperator.trim();
             }
         }
     }
