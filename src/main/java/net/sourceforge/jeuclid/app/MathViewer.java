@@ -27,6 +27,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.Vector;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -99,8 +103,27 @@ public final class MathViewer {
 
     private JMenuItem smallerMenuItem;
 
+    private final ResourceBundle res;
+
     private MathViewer() {
-        // Empty on purpose.
+        ResourceBundle r;
+        try {
+            r = ResourceBundle.getBundle("MathViewer");
+        } catch (final MissingResourceException mre) {
+            r = new ResourceBundle() {
+
+                @Override
+                public Enumeration<String> getKeys() {
+                    return new Vector<String>().elements();
+                }
+
+                @Override
+                protected Object handleGetObject(final String key) {
+                    return key;
+                }
+            };
+        }
+        this.res = r;
     }
 
     /**
@@ -144,7 +167,7 @@ public final class MathViewer {
             this.jJMenuBar = new JMenuBar();
             this.jJMenuBar.add(this.getFileMenu());
             this.jJMenuBar.add(this.getViewMenu());
-            if (!macOS) {
+            if (!MathViewer.macOS) {
                 // This will need to be changed once the Help menu contains
                 // more that just the About item.
                 this.jJMenuBar.add(this.getHelpMenu());
@@ -161,7 +184,7 @@ public final class MathViewer {
     private JMenu getFileMenu() {
         if (this.fileMenu == null) {
             this.fileMenu = new JMenu();
-            this.fileMenu.setText("File");
+            this.fileMenu.setText(this.res.getString("File"));
             this.fileMenu.add(this.getOpenMenuItem());
             if (!MathViewer.macOS) {
                 this.fileMenu.add(this.getExitMenuItem());
@@ -178,7 +201,7 @@ public final class MathViewer {
     private JMenu getHelpMenu() {
         if (this.helpMenu == null) {
             this.helpMenu = new JMenu();
-            this.helpMenu.setText("Help");
+            this.helpMenu.setText(this.res.getString("Help"));
             // If there are more items, please modify getJJMenuBar to always
             // display the help menu and this function to not display about on
             // OS X
@@ -195,7 +218,7 @@ public final class MathViewer {
     private JMenuItem getExitMenuItem() {
         if (this.exitMenuItem == null) {
             this.exitMenuItem = new JMenuItem();
-            this.exitMenuItem.setText("Exit");
+            this.exitMenuItem.setText(this.res.getString("Exit"));
             this.exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                     KeyEvent.VK_Q, Toolkit.getDefaultToolkit()
                             .getMenuShortcutKeyMask(), true));
@@ -217,7 +240,7 @@ public final class MathViewer {
     private JMenuItem getAboutMenuItem() {
         if (this.aboutMenuItem == null) {
             this.aboutMenuItem = new JMenuItem();
-            this.aboutMenuItem.setText("About");
+            this.aboutMenuItem.setText(this.res.getString("About"));
             this.aboutMenuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
                     final JDialog aDialog = MathViewer.this.getAboutDialog();
@@ -241,7 +264,7 @@ public final class MathViewer {
     private JDialog getAboutDialog() {
         if (this.aboutDialog == null) {
             this.aboutDialog = new JDialog(this.getJFrame(), true);
-            this.aboutDialog.setTitle("About");
+            this.aboutDialog.setTitle(this.res.getString("About"));
             this.aboutDialog.setContentPane(this.getAboutContentPane());
         }
         return this.aboutDialog;
@@ -271,7 +294,8 @@ public final class MathViewer {
         if (this.aboutVersionLabel == null) {
             // TODO: There should be much more information.
             this.aboutVersionLabel = new JLabel();
-            this.aboutVersionLabel.setText("MathViewer, part of JEuclid, http://jeuclid.sourceforge.net/");
+            this.aboutVersionLabel
+                    .setText("MathViewer, part of JEuclid, http://jeuclid.sourceforge.net/");
             this.aboutVersionLabel
                     .setHorizontalAlignment(SwingConstants.CENTER);
         }
@@ -286,7 +310,7 @@ public final class MathViewer {
     private JMenuItem getOpenMenuItem() {
         if (this.openMenuItem == null) {
             this.openMenuItem = new JMenuItem();
-            this.openMenuItem.setText("Open File...");
+            this.openMenuItem.setText(this.res.getString("Open File..."));
             this.openMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                     KeyEvent.VK_O, Toolkit.getDefaultToolkit()
                             .getMenuShortcutKeyMask(), true));
@@ -322,11 +346,13 @@ public final class MathViewer {
             } catch (final SAXException e) {
                 MathViewer.LOGGER.warn(e.getMessage(), e);
                 JOptionPane.showMessageDialog(this.jFrame, e.getMessage(),
-                        "Error parsing file", JOptionPane.ERROR_MESSAGE);
+                        this.res.getString("Error parsing file"),
+                        JOptionPane.ERROR_MESSAGE);
             } catch (final IOException e) {
                 MathViewer.LOGGER.warn(e.getMessage(), e);
                 JOptionPane.showMessageDialog(this.jFrame, e.getMessage(),
-                        "Error accessing file", JOptionPane.ERROR_MESSAGE);
+                        this.res.getString("Error accessing file"),
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -359,8 +385,9 @@ public final class MathViewer {
     private JMathComponent getMathComponent() {
         if (this.mathComponent == null) {
             this.mathComponent = new JMathComponent();
-            this.mathComponent
-                    .setContent("<math><mtext>Please load a MathML file</mtext></math>");
+            this.mathComponent.setContent("<math><mtext>"
+                    + this.res.getString("Please load a MathML file")
+                    + "</mtext></math>");
         }
         return this.mathComponent;
     }
@@ -373,7 +400,7 @@ public final class MathViewer {
     private JMenu getViewMenu() {
         if (this.viewMenu == null) {
             this.viewMenu = new JMenu();
-            this.viewMenu.setText("View");
+            this.viewMenu.setText(this.res.getString("View"));
             this.viewMenu.add(this.getBiggerMenuItem());
             this.viewMenu.add(this.getSmallerMenuItem());
         }
@@ -388,7 +415,8 @@ public final class MathViewer {
     private JMenuItem getBiggerMenuItem() {
         if (this.biggerMenuItem == null) {
             this.biggerMenuItem = new JMenuItem();
-            this.biggerMenuItem.setText("Make Text Bigger");
+            this.biggerMenuItem.setText(this.res
+                    .getString("Make Text Bigger"));
             this.biggerMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                     KeyEvent.VK_ADD, Toolkit.getDefaultToolkit()
                             .getMenuShortcutKeyMask(), true));
@@ -414,7 +442,8 @@ public final class MathViewer {
     private JMenuItem getSmallerMenuItem() {
         if (this.smallerMenuItem == null) {
             this.smallerMenuItem = new JMenuItem();
-            this.smallerMenuItem.setText("Make Text Smaller");
+            this.smallerMenuItem.setText(this.res
+                    .getString("Make Text Smaller"));
             this.smallerMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                     KeyEvent.VK_SUBTRACT, Toolkit.getDefaultToolkit()
                             .getMenuShortcutKeyMask(), true));
