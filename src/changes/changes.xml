@@ -6,6 +6,12 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        proper translation to MathViewer, support for $$ comments, added german translation to MathViewer
+      </action>
+      <action dev="maxberger" type="update">
+        pom.xml: groupId set to net.sf.jeuclid
+      </action>
       <action dev="maxberger" type="update">
         pom.xml: Use maven-changes-plugin instead of mojo changes plugin because its newer
       </action>
