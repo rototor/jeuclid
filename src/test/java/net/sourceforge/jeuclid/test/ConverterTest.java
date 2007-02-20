@@ -23,7 +23,7 @@ public class ConverterTest {
             + "<mfrac><mi>dt</mi><mi>t</mi></mfrac></mrow></math>";
 
     @Test
-    public void testConverter() throws Exception {
+    public void testConverterPNG() throws Exception {
         Document doc = MathMLParserSupport.parseString(TEST1);
         File outFile = new File(getOutDir(), "test1.png");
         Map<ParameterKey, String> params = MathBase.getDefaultParameters();
@@ -36,6 +36,21 @@ public class ConverterTest {
         // displayDocument(doc);
     }
 
+    @Test
+    public void testConverterSVG() throws Exception {
+        Document doc = MathMLParserSupport.parseString(TEST1);
+        File outFile = new File(getOutDir(), "test1.svg");
+        Map<ParameterKey, String> params = MathBase.getDefaultParameters();
+        params.put(ParameterKey.FontSize, "25");
+        params.put(ParameterKey.OutFileType, Converter.TYPE_SVG);
+        Converter.convert(doc, outFile, params);
+        assertTrue(outFile.exists());
+        assertTrue(outFile.length() > 0);
+
+        // displayDocument(doc);
+    }
+
+    
     public File getOutDir() {
         File outDir = new File("temp");
         if (!outDir.isDirectory())

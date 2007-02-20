@@ -6,6 +6,17 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="remove">
+        jeuclid.mf is no longer needed
+      </action>
+      <action dev="maxberger" type="add">
+         added testcase for svg conversion;
+         pom.xml: added some provided dependencies, such as XML apis;
+         pom.xml: dependency to commons-logging-api instead of commons-logging
+      </action>
+      <action dev="maxberger" type="fix">
+         maven checkstyle is too old, temporaily disabled trailing comment check
+      </action>
       <action dev="maxberger" type="add">
         proper translation to MathViewer, support for $$ comments, added german translation to MathViewer
       </action>

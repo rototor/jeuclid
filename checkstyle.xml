@@ -140,9 +140,11 @@ Description:
         <module name="NPathComplexity"/>
         <module name="Regexp"/>
         <module name="UpperEll"/>
-        <module name="TrailingComment">
-          <property name='legalComment' value='^\$.*\$$'/>
+<!-- Reenable as soon as maven-checkstyle-plugin 2.2 is released -->
+<!--        <module name="TrailingComment">
+          <property name='legalComment' value='^\$.*\$$'/> 
         </module>
+-->
         <module name="TodoComment"/>
         <module name="RequiredRegexp"/>
         <module name="Indentation"/>

@@ -259,7 +259,7 @@
   <dependencies>
     <dependency>
       <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
+      <artifactId>commons-logging-api</artifactId>
       <version>1.1</version>
     </dependency>
     <dependency>
@@ -271,6 +271,24 @@
       <groupId>batik</groupId>
       <artifactId>batik-svggen</artifactId>
       <version>1.6-1</version>
+    </dependency>
+    <dependency>
+       <groupId>javax.servlet</groupId>
+       <artifactId>servlet-api</artifactId>
+       <version>2.3</version>
+       <scope>provided</scope>
+    </dependency>
+    <dependency>
+       <groupId>xml-apis</groupId>
+       <artifactId>xmlParserAPIs</artifactId>
+       <version>2.0.2</version>
+       <scope>provided</scope>
+    </dependency>
+    <dependency>
+       <groupId>xerces</groupId>
+       <artifactId>xercesImpl</artifactId>
+       <version>2.5.0</version>
+       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.testng</groupId>
