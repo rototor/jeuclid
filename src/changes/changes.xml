@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        OperatorDictionary: checkstyle fixes
+      </action>
       <action dev="maxberger" type="remove">
         jeuclid.mf is no longer needed
       </action>
