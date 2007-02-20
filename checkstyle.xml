@@ -140,7 +140,9 @@ Description:
         <module name="NPathComplexity"/>
         <module name="Regexp"/>
         <module name="UpperEll"/>
-        <module name="TrailingComment"/>
+        <module name="TrailingComment">
+          <property name='legalComment' value='^\$.*\$$'/>
+        </module>
         <module name="TodoComment"/>
         <module name="RequiredRegexp"/>
         <module name="Indentation"/>
