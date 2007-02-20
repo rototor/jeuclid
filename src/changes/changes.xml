@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        pom.xml: Use maven-changes-plugin instead of mojo changes plugin because its newer
+      </action>
       <action dev="maxberger" type="add">
         MathViewer: Prepared for localization
       </action>
