@@ -34,13 +34,26 @@ import javax.swing.ImageIcon;
  * information about JMathComponent when the application uses it as a bean.
  * 
  * @author Matthias Hanisch
+ * @author Max Berger
  */
 public class JMathComponentBeanInfo extends SimpleBeanInfo {
     private static final Class beanClass = JMathComponent.class;
 
     private final Image icoColor16 = new ImageIcon(
-            JMathComponentBeanInfo.beanClass.getResource("/jeuclid.png"))
-            .getImage();
+            JMathComponentBeanInfo.beanClass
+                    .getResource("/icons/jeuclid_16x16.png")).getImage();
+
+    private final Image icoColor32 = new ImageIcon(
+            JMathComponentBeanInfo.beanClass
+                    .getResource("/icons/jeuclid_32x32.png")).getImage();
+
+    private final Image icoBw16 = new ImageIcon(
+            JMathComponentBeanInfo.beanClass
+                    .getResource("/icons/jeuclid_16x16_bw.png")).getImage();
+
+    private final Image icoBw32 = new ImageIcon(
+            JMathComponentBeanInfo.beanClass
+                    .getResource("/icons/jeuclid_32x32_bw.png")).getImage();
 
     /** {@inheritDoc} */
     @Override
@@ -49,12 +62,13 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
         case BeanInfo.ICON_COLOR_16x16:
             return this.icoColor16;
         case BeanInfo.ICON_COLOR_32x32:
-            return this.icoColor16.getScaledInstance(32, 32,
-                    java.awt.Image.SCALE_FAST);
+            return this.icoColor32;
         case BeanInfo.ICON_MONO_16x16:
+            return this.icoBw16;
         case BeanInfo.ICON_MONO_32x32:
+            return this.icoBw32;
         default:
-            return super.getIcon(iconKind);
+            return this.icoColor32;
         }
     }
 
@@ -66,10 +80,9 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
         beanDescriptor.setName("JEuclid");
         beanDescriptor.setDisplayName("JEuclid Bean");
         beanDescriptor
-                .setShortDescription("The JEuclid is a project, which creates the possibility to "
-                        + "display MathML content. It is primary a Transformer/Serializer "
-                        + "for the Cocoon project, and creates GIF images or converts the "
-                        + "MathML content to SVG.");
+                .setShortDescription("The JEuclid project creates the possibility to "
+                        + "display MathML content. "
+                        + "This Bean supports rendering MathML content as a Swing component.");
         return beanDescriptor;
     }
 
