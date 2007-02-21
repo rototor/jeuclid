@@ -504,12 +504,18 @@ public class MainFrame extends JFrame {
                 final String mimetype = Converter
                         .getMimeTypeForSuffix(extension);
                 try {
-                    Converter.convert(this.getMathComponent().getDocument(),
-                            selectedFile, mimetype);
+                    if (!Converter.convert(this.getMathComponent()
+                            .getDocument(), selectedFile, mimetype)) {
+                        JOptionPane.showMessageDialog(this,
+                                "Failed to write to " + fileName,
+                                "Error during export",
+                                JOptionPane.ERROR_MESSAGE);
+
+                    }
                 } catch (final IOException e) {
                     MainFrame.LOGGER.warn(e);
                     JOptionPane.showMessageDialog(this, e.getMessage(),
-                            "Error during export", JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+                            "Error during export", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
