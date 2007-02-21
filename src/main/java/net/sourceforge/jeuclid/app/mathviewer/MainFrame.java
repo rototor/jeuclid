@@ -43,6 +43,7 @@ import javax.swing.SwingConstants;
 
 import net.sourceforge.jeuclid.app.MathViewer;
 import net.sourceforge.jeuclid.swing.JMathComponent;
+import net.sourceforge.jeuclid.util.Converter;
 import net.sourceforge.jeuclid.util.MathMLParserSupport;
 
 import org.apache.commons.logging.Log;
@@ -96,6 +97,8 @@ public class MainFrame extends JFrame {
     private JMenuItem biggerMenuItem;
 
     private JMenuItem smallerMenuItem;
+
+    private JMenuItem exportMenuItem;
 
     /**
      * This is the default constructor.
@@ -160,6 +163,7 @@ public class MainFrame extends JFrame {
             this.fileMenu = new JMenu();
             this.fileMenu.setText(Messages.getString("MathViewer.FileMenu")); //$NON-NLS-1$
             this.fileMenu.add(this.getOpenMenuItem());
+            this.fileMenu.add(this.getExportMenuItem());
             if (!MathViewer.OSX) {
                 this.fileMenu.add(this.getExitMenuItem());
             }
@@ -305,7 +309,8 @@ public class MainFrame extends JFrame {
      */
     protected void openFile() {
         // Have to use AWT file chooser for Mac-friendlyness
-        final FileDialog chooser = new FileDialog(this);
+        final FileDialog chooser = new FileDialog(this,
+                "Please select a MathML file");
         if (this.lastPath != null) {
             chooser.setDirectory(this.lastPath.toString());
         }
@@ -440,6 +445,74 @@ public class MainFrame extends JFrame {
                     });
         }
         return this.smallerMenuItem;
+    }
+
+    /**
+     * This method initializes exportMenuItem.
+     * 
+     * @return javax.swing.JMenuItem
+     */
+    private JMenuItem getExportMenuItem() {
+        if (this.exportMenuItem == null) {
+            this.exportMenuItem = new JMenuItem();
+            this.exportMenuItem.setText(Messages
+                    .getString("MathViewer.export")); //$NON-NLS-1$
+            this.exportMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_S, Toolkit.getDefaultToolkit()
+                            .getMenuShortcutKeyMask(), true));
+            this.exportMenuItem
+                    .addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(
+                                final java.awt.event.ActionEvent e) {
+                            MainFrame.this.exportFile();
+                        }
+                    });
+        }
+        return this.exportMenuItem;
+    }
+
+    /**
+     * Carries out the actual export File operation.
+     */
+    protected void exportFile() {
+        // Have to use AWT file chooser for Mac-friendlyness
+        final FileDialog chooser = new FileDialog(this, "Export to...",
+                FileDialog.SAVE);
+        if (this.lastPath != null) {
+            chooser.setDirectory(this.lastPath.toString());
+        }
+        chooser.setVisible(true);
+        final String fileName = chooser.getFile();
+        if (fileName != null) {
+            final File selectedFile = new File(chooser.getDirectory(),
+                    fileName);
+            this.lastPath = selectedFile.getParentFile();
+
+            MainFrame.LOGGER.info(selectedFile);
+
+            int doIt = JOptionPane.YES_OPTION;
+
+            if (selectedFile.exists()) {
+                doIt = JOptionPane.showConfirmDialog(this, "File " + fileName
+                        + " already exists. Overwrite?", "Confirm Overwrite",
+                        JOptionPane.YES_NO_OPTION);
+            }
+
+            if (doIt == JOptionPane.YES_OPTION) {
+                final String extension = fileName.substring(fileName
+                        .lastIndexOf('.') + 1);
+                final String mimetype = Converter
+                        .getMimeTypeForSuffix(extension);
+                try {
+                    Converter.convert(this.getMathComponent().getDocument(),
+                            selectedFile, mimetype);
+                } catch (final IOException e) {
+                    MainFrame.LOGGER.warn(e);
+                    JOptionPane.showMessageDialog(this, e.getMessage(),
+                            "Error during export", JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+                }
+            }
+        }
     }
 
 }

@@ -25,9 +25,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -146,8 +149,8 @@ public final class Converter {
             Converter.LOGGER.info("Converting " + doc + " to " + outFile
                     + " ...");
 
-            final MathBase base = MathMLParserSupport.createMathBaseFromDocument(doc,
-                    params);
+            final MathBase base = MathMLParserSupport
+                    .createMathBaseFromDocument(doc, params);
 
             if (Converter.TYPE_SVG.equalsIgnoreCase(params
                     .get(ParameterKey.OutFileType))) {
@@ -192,7 +195,7 @@ public final class Converter {
 
                     final BufferedImage image = new BufferedImage(width,
                             height, BufferedImage.TYPE_INT_ARGB);
-                    final Graphics2D g = (Graphics2D) image.createGraphics();
+                    final Graphics2D g = image.createGraphics();
 
                     final Color transparency = new Color(255, 255, 255, 0);
 
@@ -248,12 +251,72 @@ public final class Converter {
      * @return the three letter suffix common for this type.
      */
     public static String getSuffixForMimeType(final String mimeType) {
+
         if (Converter.TYPE_SVG.equalsIgnoreCase(mimeType)) {
             return Converter.EXTENSION_SVG;
+        } else {
+            return Converter.getSuffixForMimeTypeFromImageIO(mimeType);
         }
-        // TODO: This is only partially complete! Should use ImageIO to
-        // discover extensions!
-        return "png";
+    }
+
+    private static String getSuffixForMimeTypeFromImageIO(
+            final String mimeType) {
+        final Set<String> sufs = new HashSet<String>();
+        final Iterator<ImageWriter> iwit = ImageIO
+                .getImageWritersByMIMEType(mimeType);
+
+        if (iwit != null) {
+            while (iwit.hasNext()) {
+                final ImageWriter iw = iwit.next();
+                final String[] suffixes = iw.getOriginatingProvider()
+                        .getFileSuffixes();
+                if (suffixes != null) {
+                    Collections.addAll(sufs, suffixes);
+                }
+            }
+
+        }
+        if (sufs.isEmpty()) {
+            return "";
+        } else {
+            return sufs.iterator().next();
+        }
+    }
+
+    /**
+     * Returns the MimeType for a given suffix.
+     * 
+     * @param suffix
+     *            the suffix, e.g. png
+     * @return the mime-type
+     */
+    public static String getMimeTypeForSuffix(final String suffix) {
+        if (Converter.EXTENSION_SVG.equalsIgnoreCase(suffix)) {
+            return Converter.TYPE_SVG;
+        } else {
+            return Converter.getMimeTypeForSuffixFromImageIO(suffix);
+        }
+    }
+
+    private static String getMimeTypeForSuffixFromImageIO(final String suffix) {
+        final Set<String> mimes = new HashSet<String>();
+        final Iterator<ImageWriter> iwit = ImageIO
+                .getImageWritersBySuffix(suffix);
+        if (iwit != null) {
+            while (iwit.hasNext()) {
+                final ImageWriter iw = iwit.next();
+                final String[] mimeTypes = iw.getOriginatingProvider()
+                        .getMIMETypes();
+                if (mimeTypes != null) {
+                    Collections.addAll(mimes, mimeTypes);
+                }
+            }
+        }
+        if (mimes.isEmpty()) {
+            return "";
+        } else {
+            return mimes.iterator().next();
+        }
     }
 
 }

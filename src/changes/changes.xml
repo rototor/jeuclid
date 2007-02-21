@@ -7,6 +7,14 @@
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="add">
+        MathViewer: export menu item; export code
+      </action>
+      <action dev="maxberger" type="add">
+        Converter: rewrote getSuffixForMimeType;
+        Converter: added getMimeTypeForSuffix;
+        ConverterTest: added test for suffix/mimeType handling
+      </action>
+      <action dev="maxberger" type="add">
         MathViewer split up into MathViewer and MainFrame
       </action>
       <action dev="maxberger" type="update">

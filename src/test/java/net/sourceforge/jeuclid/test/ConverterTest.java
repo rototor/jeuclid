@@ -50,7 +50,6 @@ public class ConverterTest {
         // displayDocument(doc);
     }
 
-    
     public File getOutDir() {
         File outDir = new File("temp");
         if (!outDir.isDirectory())
@@ -78,6 +77,20 @@ public class ConverterTest {
             assertTrue(outFile.exists());
             assertTrue(outFile.length() > 0);
         }
+    }
+
+    @Test
+    public void testConverterMimeTypes() throws Exception {
+        assertTrue(Converter.TYPE_SVG.equalsIgnoreCase(Converter
+                .getMimeTypeForSuffix(Converter.EXTENSION_SVG)));
+        assertTrue(Converter.EXTENSION_SVG.equalsIgnoreCase(Converter
+                .getSuffixForMimeType(Converter.TYPE_SVG)));
+
+        assertTrue("image/png".equalsIgnoreCase(Converter
+                .getMimeTypeForSuffix("png")));
+        assertTrue("png".equalsIgnoreCase(Converter
+                .getSuffixForMimeType("image/png")));
+
     }
 
 }
