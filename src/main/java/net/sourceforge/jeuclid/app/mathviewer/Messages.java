@@ -16,7 +16,7 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.app;
+package net.sourceforge.jeuclid.app.mathviewer;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
