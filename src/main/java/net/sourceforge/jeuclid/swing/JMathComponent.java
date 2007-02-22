@@ -22,10 +22,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import net.sourceforge.jeuclid.DOMMathBuilder;
 import net.sourceforge.jeuclid.MathBase;
@@ -56,14 +62,21 @@ public class JMathComponent extends JComponent {
     /**
      * Reference to the MathBase class.
      */
-    private MathBase base = null;
+    private MathBase base;
 
-    private boolean debug = false;
+    private boolean debug;
 
-    private Document document = null;
+    private Document document;
 
     private final Map<ParameterKey, String> parameters = MathBase
             .getDefaultParameters();
+
+    /**
+     * Default constructor.
+     */
+    public JMathComponent() {
+        this.setOpaque(false);
+    }
 
     /**
      * Sets a generic parameter. Please see {@link ParameterKey} for a list of
@@ -77,13 +90,6 @@ public class JMathComponent extends JComponent {
     public final void setParameter(final ParameterKey key, final String value) {
         this.parameters.put(key, value);
         this.redo();
-    }
-
-    /**
-     * Default constructor.
-     */
-    public JMathComponent() {
-        this.setOpaque(false);
     }
 
     /**
@@ -148,20 +154,20 @@ public class JMathComponent extends JComponent {
     /**
      * Enables, or disables the debug mode.
      * 
-     * @param debug
+     * @param dbg
      *            Debug mode.
      */
-    public void setDebug(final boolean debug) {
-        this.debug = debug;
+    public void setDebug(final boolean dbg) {
+        this.debug = dbg;
         this.redo();
     }
 
     /**
-     * @param document
+     * @param doc
      *            the document to set
      */
-    public void setDocument(final Document document) {
-        this.document = document;
+    public void setDocument(final Document doc) {
+        this.document = doc;
         this.redo();
     }
 
@@ -192,16 +198,37 @@ public class JMathComponent extends JComponent {
     public void setContent(final String contentString) {
         try {
             this.setDocument(MathMLParserSupport.parseString(contentString));
-        } catch (SAXException e) {
-            LOGGER.warn(e);
+        } catch (final SAXException e) {
+            JMathComponent.LOGGER.warn(e);
             this.setDocument(null);
-        } catch (ParserConfigurationException e) {
-            LOGGER.warn(e);
+        } catch (final ParserConfigurationException e) {
+            JMathComponent.LOGGER.warn(e);
             this.setDocument(null);
-        } catch (IOException e) {
-            LOGGER.warn(e);
+        } catch (final IOException e) {
+            JMathComponent.LOGGER.warn(e);
             this.setDocument(null);
         }
+    }
+
+    /**
+     * Tries to return the content as a String. WARNING: This is currently
+     * only partially supported! The most notable examples are all text nodes,
+     * which are currently missing.
+     * 
+     * @return the content string.
+     */
+    public String getContent() {
+        final StringWriter writer = new StringWriter();
+        try {
+            final Transformer transformer = TransformerFactory.newInstance()
+                    .newTransformer();
+            final DOMSource source = new DOMSource(this.getDocument());
+            final StreamResult result = new StreamResult(writer);
+            transformer.transform(source, result);
+        } catch (final TransformerException e) {
+            JMathComponent.LOGGER.warn(e);
+        }
+        return writer.toString();
     }
 
 }
