@@ -32,12 +32,17 @@ import org.w3c.dom.mathml.MathMLMathElement;
  */
 public class MathMathElement extends AbstractRowLikeElement implements
         MathMLMathElement {
+
+    /** attribute for display. */
+    public static final String ATTR_DISPLAY = "display";
+
+    /** attribute for macros. */
+    public static final String ATTR_MACROS = "macros";
+
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "math";
-
-    private boolean m_debug = false;
 
     /**
      * Creates a math element.
@@ -56,7 +61,7 @@ public class MathMathElement extends AbstractRowLikeElement implements
      *            INLINE|BLOCK
      */
     public void setDisplay(final String display) {
-        this.setAttribute("display", display);
+        this.setAttribute(MathMathElement.ATTR_DISPLAY, display);
     }
 
     /**
@@ -65,26 +70,7 @@ public class MathMathElement extends AbstractRowLikeElement implements
      * @return Display display
      */
     public String getDisplay() {
-        return this.getMathAttribute("display");
-    }
-
-    /**
-     * Enables, or disables the debug display.
-     * 
-     * @param debug
-     *            Debug display
-     */
-    public void setDebug(final boolean debug) {
-        this.m_debug = debug;
-    }
-
-    /**
-     * Indicates, if the debug display is enabled.
-     * 
-     * @return True, if the debug display is enabled
-     */
-    public boolean isDebug() {
-        return this.m_debug;
+        return this.getMathAttribute(MathMathElement.ATTR_DISPLAY);
     }
 
     /** {@inheritDoc} */
@@ -95,17 +81,17 @@ public class MathMathElement extends AbstractRowLikeElement implements
 
     /** {@inheritDoc} */
     public String getMacros() {
-        return this.getMathAttribute("macros");
+        return this.getMathAttribute(MathMathElement.ATTR_MACROS);
     }
 
     /** {@inheritDoc} */
     public void setMacros(final String macros) {
-        this.setAttribute("macros", macros);
+        this.setAttribute(MathMathElement.ATTR_MACROS, macros);
     }
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathMathElement.ELEMENT;
     }
 
 }

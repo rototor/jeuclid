@@ -863,7 +863,6 @@ public class MathTable extends AbstractMathElement {
      * @return Array with alignment constants
      */
     public static int[] createGroupAlignValues(final String groupalign) {
-        int[] result = null;
         final List<Integer> alignArray = new Vector<Integer>();
         String alignString = groupalign.trim();
         alignString = alignString.substring(1, alignString.length() - 1)
@@ -898,7 +897,7 @@ public class MathTable extends AbstractMathElement {
         }
 
         // copy to internal array
-        result = new int[alignArray.size()];
+        final int[] result = new int[alignArray.size()];
         for (int i = 0; i < alignArray.size(); i++) {
             result[i] = (alignArray.get(i)).intValue();
         }

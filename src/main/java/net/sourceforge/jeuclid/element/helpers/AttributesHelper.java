@@ -90,10 +90,12 @@ public final class AttributesHelper {
      *            FontMetrics
      * @return Translated value of the size attribute in pixels.
      */
-    public static int getPixels(final String value, final FontMetrics fontmetrix) {
+    public static int getPixels(final String value,
+            final FontMetrics fontmetrix) {
         final double fontheight = fontmetrix.getHeight();
         try {
-            final double dpi = fontheight / fontmetrix.getFont().getSize() * 72;
+            final double dpi = fontheight / fontmetrix.getFont().getSize()
+                    * 72;
             if (value.equals(OperatorDictionary.NAME_INFINITY)) {
                 return 999999;
             } else if (value.equals("thin")) {
@@ -103,44 +105,61 @@ public final class AttributesHelper {
             } else if (value.equals("thick")) {
                 return 3;
             } else if (value.endsWith("em")) {
-                return (int) Math.round(AttributesHelper.getNumber(value, 2) * fontheight * AttributesHelper.EM);
+                return (int) Math.round(AttributesHelper.getNumber(value, 2)
+                        * fontheight * AttributesHelper.EM);
             } else if (value.endsWith("ex")) {
-                return (int) Math.round(AttributesHelper.getNumber(value, 2) * fontheight * AttributesHelper.EX);
+                return (int) Math.round(AttributesHelper.getNumber(value, 2)
+                        * fontheight * AttributesHelper.EX);
             } else if (value.endsWith("px")) {
                 return (new Integer(value.substring(0, value.length() - 2))
                         .intValue());
             } else if (value.endsWith("in")) {
-                return (int) Math.round(AttributesHelper.getNumber(value, 2) * dpi);
+                return (int) Math.round(AttributesHelper.getNumber(value, 2)
+                        * dpi);
             } else if (value.endsWith("cm")) {
-                return (int) Math.round(AttributesHelper.getNumber(value, 2) * dpi / 2.54);
+                return (int) Math.round(AttributesHelper.getNumber(value, 2)
+                        * dpi / 2.54);
             } else if (value.endsWith("mm")) {
-                return (int) Math.round(AttributesHelper.getNumber(value, 2) * dpi / 25.4);
+                return (int) Math.round(AttributesHelper.getNumber(value, 2)
+                        * dpi / 25.4);
             } else if (value.endsWith("pt")) {
-                return (int) Math.round(AttributesHelper.getNumber(value, 2) * dpi / 72);
+                return (int) Math.round(AttributesHelper.getNumber(value, 2)
+                        * dpi / 72);
             } else if (value.endsWith("pc")) {
-                return (int) Math.round(AttributesHelper.getNumber(value, 2) * dpi / 6);
+                return (int) Math.round(AttributesHelper.getNumber(value, 2)
+                        * dpi / 6);
             } else if (value.endsWith("%")) {
-                return (int) Math
-                        .round(AttributesHelper.getNumber(value, 1) / 100d * fontheight);
+                return (int) Math.round(AttributesHelper.getNumber(value, 1)
+                        / 100d * fontheight);
             } else if (value.equals(OperatorDictionary.NAME_MEDIUMMATHSPACE)) {
-                return AttributesHelper.getPixels(AttributesHelper.MEDIUMMATHSPACE, fontmetrix);
+                return AttributesHelper.getPixels(
+                        AttributesHelper.MEDIUMMATHSPACE, fontmetrix);
             } else if (value.equals(OperatorDictionary.NAME_THINMATHSPACE)) {
-                return AttributesHelper.getPixels(AttributesHelper.THINMATHSPACE, fontmetrix);
-            } else if (value.equals(OperatorDictionary.NAME_VERYTHINMATHSPACE)) {
-                return AttributesHelper.getPixels(AttributesHelper.VERYTHINMATHSPACE, fontmetrix);
+                return AttributesHelper.getPixels(
+                        AttributesHelper.THINMATHSPACE, fontmetrix);
+            } else if (value
+                    .equals(OperatorDictionary.NAME_VERYTHINMATHSPACE)) {
+                return AttributesHelper.getPixels(
+                        AttributesHelper.VERYTHINMATHSPACE, fontmetrix);
             } else if (value
                     .equals(OperatorDictionary.NAME_VERYVERYTHINMATHSPACE)) {
-                return AttributesHelper.getPixels(AttributesHelper.VERYVERYTHINMATHSPACE, fontmetrix);
+                return AttributesHelper.getPixels(
+                        AttributesHelper.VERYVERYTHINMATHSPACE, fontmetrix);
             } else if (value.equals(OperatorDictionary.NAME_THICKMATHSPACE)) {
-                return AttributesHelper.getPixels(AttributesHelper.THICKMATHSPACE, fontmetrix);
-            } else if (value.equals(OperatorDictionary.NAME_VERYTHICKMATHSPACE)) {
-                return AttributesHelper.getPixels(AttributesHelper.VERYTHICKMATHSPACE, fontmetrix);
+                return AttributesHelper.getPixels(
+                        AttributesHelper.THICKMATHSPACE, fontmetrix);
+            } else if (value
+                    .equals(OperatorDictionary.NAME_VERYTHICKMATHSPACE)) {
+                return AttributesHelper.getPixels(
+                        AttributesHelper.VERYTHICKMATHSPACE, fontmetrix);
             } else if (value
                     .equals(OperatorDictionary.NAME_VERYVERYTHICKMATHSPACE)) {
-                return AttributesHelper.getPixels(AttributesHelper.VERYVERYTHICKMATHSPACE, fontmetrix);
+                return AttributesHelper.getPixels(
+                        AttributesHelper.VERYVERYTHICKMATHSPACE, fontmetrix);
             }
-            return (int) Math.round(new Double(value).doubleValue()
-                    * fontheight);
+            return Integer.parseInt(value);
+            // return (int) Math.round(new Double(value).doubleValue()
+            // * fontheight);
         } catch (final NumberFormatException nfe) {
             return 0;
         }
@@ -155,15 +174,16 @@ public final class AttributesHelper {
      *            size of the font this size is relative to.
      * @return Translated value of the size attribute in pixels.
      */
-    public static float getFontSize(final String mathSize, final float fontsize) {
+    public static float getFontSize(final String mathSize,
+            final float fontsize) {
         try {
             if (mathSize.endsWith("em")) {
                 return (AttributesHelper.getNumber(mathSize, 2) * fontsize);
             } else if (mathSize.endsWith("ex")) {
                 return (AttributesHelper.getNumber(mathSize, 2) * fontsize);
             } else if (mathSize.endsWith("px")) {
-                return (new Float(mathSize.substring(0, mathSize.length() - 2))
-                        .floatValue());
+                return (new Float(mathSize
+                        .substring(0, mathSize.length() - 2)).floatValue());
             } else if (mathSize.endsWith("in")) {
                 return (AttributesHelper.getNumber(mathSize, 2) * 72);
             } else if (mathSize.endsWith("cm")) {
@@ -176,24 +196,33 @@ public final class AttributesHelper {
                 return (AttributesHelper.getNumber(mathSize, 2) * 12);
             } else if (mathSize.endsWith("%")) {
                 return (AttributesHelper.getNumber(mathSize, 1) * fontsize / 100.0f);
-            } else if (mathSize.equals(OperatorDictionary.NAME_MEDIUMMATHSPACE)) {
-                return AttributesHelper.getFontSize(AttributesHelper.MEDIUMMATHSPACE, fontsize);
+            } else if (mathSize
+                    .equals(OperatorDictionary.NAME_MEDIUMMATHSPACE)) {
+                return AttributesHelper.getFontSize(
+                        AttributesHelper.MEDIUMMATHSPACE, fontsize);
             } else if (mathSize.equals(OperatorDictionary.NAME_THINMATHSPACE)) {
-                return AttributesHelper.getFontSize(AttributesHelper.THINMATHSPACE, fontsize);
+                return AttributesHelper.getFontSize(
+                        AttributesHelper.THINMATHSPACE, fontsize);
             } else if (mathSize
                     .equals(OperatorDictionary.NAME_VERYTHINMATHSPACE)) {
-                return AttributesHelper.getFontSize(AttributesHelper.VERYTHINMATHSPACE, fontsize);
+                return AttributesHelper.getFontSize(
+                        AttributesHelper.VERYTHINMATHSPACE, fontsize);
             } else if (mathSize
                     .equals(OperatorDictionary.NAME_VERYVERYTHINMATHSPACE)) {
-                return AttributesHelper.getFontSize(AttributesHelper.VERYVERYTHINMATHSPACE, fontsize);
-            } else if (mathSize.equals(OperatorDictionary.NAME_THICKMATHSPACE)) {
-                return AttributesHelper.getFontSize(AttributesHelper.THICKMATHSPACE, fontsize);
+                return AttributesHelper.getFontSize(
+                        AttributesHelper.VERYVERYTHINMATHSPACE, fontsize);
+            } else if (mathSize
+                    .equals(OperatorDictionary.NAME_THICKMATHSPACE)) {
+                return AttributesHelper.getFontSize(
+                        AttributesHelper.THICKMATHSPACE, fontsize);
             } else if (mathSize
                     .equals(OperatorDictionary.NAME_VERYTHICKMATHSPACE)) {
-                return AttributesHelper.getFontSize(AttributesHelper.VERYTHICKMATHSPACE, fontsize);
+                return AttributesHelper.getFontSize(
+                        AttributesHelper.VERYTHICKMATHSPACE, fontsize);
             } else if (mathSize
                     .equals(OperatorDictionary.NAME_VERYVERYTHICKMATHSPACE)) {
-                return AttributesHelper.getFontSize(AttributesHelper.VERYVERYTHICKMATHSPACE, fontsize);
+                return AttributesHelper.getFontSize(
+                        AttributesHelper.VERYVERYTHICKMATHSPACE, fontsize);
             } else if (mathSize.equalsIgnoreCase("small")) {
                 return AttributesHelper.getFontSize("68%", fontsize);
             } else if (mathSize.equalsIgnoreCase("normal")) {
@@ -232,39 +261,66 @@ public final class AttributesHelper {
     public static String multipleSize(final String value, final double mult) {
         try {
             if (value.endsWith("em")) {
-                return String.valueOf(AttributesHelper.getNumber(value, 2) * mult) + "em";
+                return String.valueOf(AttributesHelper.getNumber(value, 2)
+                        * mult)
+                        + "em";
             } else if (value.endsWith("ex")) {
-                return String.valueOf(AttributesHelper.getNumber(value, 2) * mult) + "ex";
+                return String.valueOf(AttributesHelper.getNumber(value, 2)
+                        * mult)
+                        + "ex";
             } else if (value.endsWith("px")) {
-                return String.valueOf(AttributesHelper.getNumber(value, 2) * mult) + "px";
+                return String.valueOf(AttributesHelper.getNumber(value, 2)
+                        * mult)
+                        + "px";
             } else if (value.endsWith("in")) {
-                return String.valueOf(AttributesHelper.getNumber(value, 2) * mult) + "in";
+                return String.valueOf(AttributesHelper.getNumber(value, 2)
+                        * mult)
+                        + "in";
             } else if (value.endsWith("cm")) {
-                return String.valueOf(AttributesHelper.getNumber(value, 2) * mult) + "cm";
+                return String.valueOf(AttributesHelper.getNumber(value, 2)
+                        * mult)
+                        + "cm";
             } else if (value.endsWith("mm")) {
-                return String.valueOf(AttributesHelper.getNumber(value, 2) * mult) + "mm";
+                return String.valueOf(AttributesHelper.getNumber(value, 2)
+                        * mult)
+                        + "mm";
             } else if (value.endsWith("pt")) {
-                return String.valueOf(AttributesHelper.getNumber(value, 2) * mult) + "pt";
+                return String.valueOf(AttributesHelper.getNumber(value, 2)
+                        * mult)
+                        + "pt";
             } else if (value.endsWith("pc")) {
-                return String.valueOf(AttributesHelper.getNumber(value, 2) * mult) + "pc";
+                return String.valueOf(AttributesHelper.getNumber(value, 2)
+                        * mult)
+                        + "pc";
             } else if (value.endsWith("%")) {
-                return String.valueOf(AttributesHelper.getNumber(value, 1) * mult) + "%";
+                return String.valueOf(AttributesHelper.getNumber(value, 1)
+                        * mult)
+                        + "%";
             } else if (value.equals(OperatorDictionary.NAME_MEDIUMMATHSPACE)) {
-                return AttributesHelper.multipleSize(AttributesHelper.MEDIUMMATHSPACE, mult);
+                return AttributesHelper.multipleSize(
+                        AttributesHelper.MEDIUMMATHSPACE, mult);
             } else if (value.equals(OperatorDictionary.NAME_THINMATHSPACE)) {
-                return AttributesHelper.multipleSize(AttributesHelper.THINMATHSPACE, mult);
-            } else if (value.equals(OperatorDictionary.NAME_VERYTHINMATHSPACE)) {
-                return AttributesHelper.multipleSize(AttributesHelper.VERYTHINMATHSPACE, mult);
+                return AttributesHelper.multipleSize(
+                        AttributesHelper.THINMATHSPACE, mult);
+            } else if (value
+                    .equals(OperatorDictionary.NAME_VERYTHINMATHSPACE)) {
+                return AttributesHelper.multipleSize(
+                        AttributesHelper.VERYTHINMATHSPACE, mult);
             } else if (value
                     .equals(OperatorDictionary.NAME_VERYVERYTHINMATHSPACE)) {
-                return AttributesHelper.multipleSize(AttributesHelper.VERYVERYTHINMATHSPACE, mult);
+                return AttributesHelper.multipleSize(
+                        AttributesHelper.VERYVERYTHINMATHSPACE, mult);
             } else if (value.equals(OperatorDictionary.NAME_THICKMATHSPACE)) {
-                return AttributesHelper.multipleSize(AttributesHelper.THICKMATHSPACE, mult);
-            } else if (value.equals(OperatorDictionary.NAME_VERYTHICKMATHSPACE)) {
-                return AttributesHelper.multipleSize(AttributesHelper.VERYTHICKMATHSPACE, mult);
+                return AttributesHelper.multipleSize(
+                        AttributesHelper.THICKMATHSPACE, mult);
+            } else if (value
+                    .equals(OperatorDictionary.NAME_VERYTHICKMATHSPACE)) {
+                return AttributesHelper.multipleSize(
+                        AttributesHelper.VERYTHICKMATHSPACE, mult);
             } else if (value
                     .equals(OperatorDictionary.NAME_VERYVERYTHICKMATHSPACE)) {
-                return AttributesHelper.multipleSize(AttributesHelper.VERYVERYTHICKMATHSPACE, mult);
+                return AttributesHelper.multipleSize(
+                        AttributesHelper.VERYVERYTHICKMATHSPACE, mult);
             }
             return String.valueOf(new Integer(value).intValue() * mult);
         } catch (final NumberFormatException nfe) {

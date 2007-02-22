@@ -23,12 +23,17 @@ import java.awt.Graphics2D;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 
+import org.w3c.dom.mathml.MathMLNodeList;
+import org.w3c.dom.mathml.MathMLTableCellElement;
+import org.w3c.dom.mathml.MathMLTableRowElement;
+
 /**
  * This class presents a row in MathTable.
  * 
  */
 
-public class MathTableRow extends AbstractMathElement {
+public class MathTableRow extends AbstractMathElement implements
+        MathMLTableRowElement {
 
     /**
      * The XML element from this class.
@@ -204,5 +209,32 @@ public class MathTableRow extends AbstractMathElement {
     /** {@inheritDoc} */
     public String getTagName() {
         return MathTableRow.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public void deleteCell(final int index) {
+        throw new UnsupportedOperationException();
+    }
+
+    /** {@inheritDoc} */
+    public MathMLNodeList getCells() {
+        throw new UnsupportedOperationException();
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableCellElement insertCell(
+            final MathMLTableCellElement newCell, final int index) {
+        throw new UnsupportedOperationException();
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableCellElement insertEmptyCell(final int index) {
+        throw new UnsupportedOperationException();
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableCellElement setCell(
+            final MathMLTableCellElement newCell, final int index) {
+        throw new UnsupportedOperationException();
     }
 }

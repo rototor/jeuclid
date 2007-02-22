@@ -35,17 +35,17 @@ import org.apache.commons.logging.LogFactory;
 
 public class MathMultiScripts extends AbstractMathElement {
     /**
-     * Logger for this class
-     */
-    private static final Log logger = LogFactory
-            .getLog(MathMultiScripts.class);
-
-    private static final double DY = 0.43 / 2;
-
-    /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mmultiscripts";
+
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory
+            .getLog(MathMultiScripts.class);
+
+    private static final double DY = 0.43 / 2;
 
     private int msubscriptshift = 0;
 
@@ -513,10 +513,10 @@ public class MathMultiScripts extends AbstractMathElement {
     public final void eventAllElementsComplete() {
         super.eventAllElementsComplete();
         if (this.getMathElementCount() == 0) {
-            MathMultiScripts.logger
+            MathMultiScripts.LOGGER
                     .error("Wrong number of parametrs, must be 1 or more");
         } else if (this.getMathElement(0) instanceof MathPreScripts) {
-            MathMultiScripts.logger.error("The first argument must be base.");
+            MathMultiScripts.LOGGER.error("The first argument must be base.");
         }
         boolean isMultMPrescripts = false;
         if (this.getMathElementCount() > 0) {
@@ -524,7 +524,7 @@ public class MathMultiScripts extends AbstractMathElement {
             for (int i = 0; i < this.getMathElementCount(); i++) {
                 if (this.getMathElement(i) instanceof MathPreScripts) {
                     if (prPos != -1) {
-                        MathMultiScripts.logger
+                        MathMultiScripts.LOGGER
                                 .error("The empty element mprescripts must be declared once.");
                         isMultMPrescripts = true;
                         break;
@@ -535,17 +535,17 @@ public class MathMultiScripts extends AbstractMathElement {
             }
             if (!isMultMPrescripts) {
                 if (prPos == -1 && this.getMathElementCount() % 2 == 0) {
-                    MathMultiScripts.logger
+                    MathMultiScripts.LOGGER
                             .error("The total number of the arguments must be odd.\n"
                                     + "Some elements may not be drown. ");
                 } else if (prPos != -1) {
                     if (prPos % 2 == 0) {
-                        MathMultiScripts.logger
+                        MathMultiScripts.LOGGER
                                 .error("The total number of the postcripts elements must be even.\n"
                                         + "Some elements may not be drown.");
                     }
                     if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
-                        MathMultiScripts.logger
+                        MathMultiScripts.LOGGER
                                 .error("The total number of the prestcripts elements must be even.\n"
                                         + "Some elements may not be drown.");
                     }
