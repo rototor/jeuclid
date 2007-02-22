@@ -4,3 +4,4 @@ History
 	
 	The project started as a component for the Apache Cocoon project(xml.apache.org). This component converted MathML documents to GIF images or SVG. So the user could easy write documents with embedding MathML fragments, and the component create in situ the GIF images. The SVG converter was used to create documents with embedding SVG fragments for e.g. the FOP to create PDF, or what else, documents.
 
+  After being dormant for some time, the project was picked up again by Max in the summer of 2006. It has since then shifted its focus, away from a cocoon componet to a more generic MathML solution.

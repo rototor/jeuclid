@@ -18,9 +18,11 @@
 
 News
 
- * Do you have a good idea for a {{{./logo.html}Logo}}?
+ * We now have a {{{./logo.html}Logo}}
+ 
+ * The sourcecode repository has moved to subversion, please see {{{./source-repository.html}Source repository}} for updated instructions.
 
- * The project is now built with and maintained by {{{http://maven.apache.org}Maven}}! 
+ * The project is now built with and maintained by {{{http://maven.apache.org}Maven}}!
 
 Current Status
 	

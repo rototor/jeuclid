@@ -1,0 +1,33 @@
+Hacking JEuclid
+
+  To work with the JEuclid source, you will need to download and install
+
+ * {{{http://subversion.tigris.org/}Subversion}}
+
+ * {{{http://maven.apache.org}Maven}}
+
+ * {{{http://www.java.com}Java SDK}} >= 1.5
+
+ * {{{http://www.eclipse.org}Eclipse}} (optional)
+
+ * {{{http://maven.apache.org/eclipse-plugin.html}Maven 2.x Plug-in for Eclipse}} (required if you use Eclipse)
+
+ []
+
+ Then, access the sourcecode as described on the {{{./source-repository.html}JEuclid repository site}}. 
+
+ Here are the most common commands:  
+
+ * <<<mvn package>>> will compile, test, and bundle JEuclid. Use this command if you are not sure what else to use
+
+ * <<<mvn scm:update>>> will retrieve the newest version from the source repository
+ 
+ * <<<mvn clean>>> will remove the target directory, forcing a clean build
+
+ * <<<mvn site>>> will create the updated website
+
+ * <<<mvn test>>> will compile and run the tests
+
+  []
+
+ The results of these commands can be found in the <<<target/>>> directory

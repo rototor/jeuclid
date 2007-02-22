@@ -1,21 +1,5 @@
 Logo contest
 
- is anyone out there interested in creating a good JEuclid logo? This is needed 
-for 
+ We now have a Logo! It is displayed in the top left corner of this website, and available in the source repository as {{{http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk/src/main/resources/icons/jeuclid.svg}jeuclid.svg}}.
 
- * the website,
 
- * bean support,
-
- * clickable application for os-x users.
-
- Therefore, we'd need two logos:
-
- * a square logo as an icon, and
-
- * a larger logo as a generic logo.
-
- Ideally, the logo should be in a scalable format (such as svg or mml) and 
-should also look good in a black-n-white version.
-
- Please post your suggestions on the jeuclid-devel mailing list.
