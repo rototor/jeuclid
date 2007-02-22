@@ -7,6 +7,9 @@
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="add">
+        JMathComponent: added getContent(); WARNING: Does not work completely yet!
+      </action>
+      <action dev="maxberger" type="add">
         website updated: added logo, source page, fixed typos
       </action>
       <action dev="maxberger" type="update">
