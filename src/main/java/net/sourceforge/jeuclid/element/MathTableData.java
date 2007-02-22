@@ -24,11 +24,14 @@ import java.util.Vector;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractRowLikeElement;
 
+import org.w3c.dom.mathml.MathMLTableCellElement;
+
 /**
  * This class presents a cell of a table.
  * 
  */
-public class MathTableData extends AbstractRowLikeElement {
+public class MathTableData extends AbstractRowLikeElement implements
+        MathMLTableCellElement {
 
     /**
      * The XML element from this class.
@@ -184,6 +187,16 @@ public class MathTableData extends AbstractRowLikeElement {
     /** {@inheritDoc} */
     public String getTagName() {
         return MathTableData.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public String getCellindex() {
+        return Integer.toString(this.getParent().getIndexOfMathElement(this));
+    }
+
+    /** {@inheritDoc} */
+    public boolean getHasaligngroups() {
+        return this.getGroupAlignArray().length > 0;
     }
 
 }

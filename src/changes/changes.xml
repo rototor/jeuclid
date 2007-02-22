@@ -7,6 +7,14 @@
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="add">
+        MathTableData implements MathMLTableCellElement;
+        MathTableRow implement MathMLTableRowElement;
+        MathLabeledTableRow implements MathMLLabeledRowElement;
+        MathMathElement: removed debug; checkstyle fixes;
+        MathMultiScripts: checkstyle fixes;
+        AttributesHelper: default unit is now pixels;
+      </action>
+      <action dev="maxberger" type="add">
         PartialTextImpl to DOM model
       </action>
       <action dev="maxberger" type="add">

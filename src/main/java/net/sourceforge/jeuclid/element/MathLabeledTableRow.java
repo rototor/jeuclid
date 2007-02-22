@@ -20,19 +20,23 @@ package net.sourceforge.jeuclid.element;
 
 import net.sourceforge.jeuclid.MathBase;
 
+import org.w3c.dom.mathml.MathMLElement;
+import org.w3c.dom.mathml.MathMLLabeledRowElement;
+
 /**
- * This class represents the maligngroup tag.
+ * This class represents the mlabeledtr tag.
  * 
+ * @todo add proper support for labels. They are currently silently ignored.
+ * @author Max Berger
  * @author PG
  * @since Jan 19, 2005
  */
-public class MathLabeledTableRow extends MathTableRow {
+public class MathLabeledTableRow extends MathTableRow implements
+        MathMLLabeledRowElement {
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mlabeledtr";
-
-    // TODO: now object is empty.
 
     /**
      * This variable is only used when the tree is created. I am not sure what
@@ -54,6 +58,16 @@ public class MathLabeledTableRow extends MathTableRow {
     @Override
     public String getTagName() {
         return MathLabeledTableRow.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getLabel() {
+        return this.getMathElement(0);
+    }
+
+    /** {@inheritDoc} */
+    public void setLabel(final MathMLElement label) {
+        this.setMathElement(0, label);
     }
 
 }
