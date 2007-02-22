@@ -114,7 +114,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
     }
 
     /** {@inheritDoc} */
-    public final String getTextContent() {
+    public String getTextContent() {
         return this.textContent;
     }
 
