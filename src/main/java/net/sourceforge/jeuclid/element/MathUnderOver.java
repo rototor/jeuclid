@@ -130,7 +130,7 @@ public class MathUnderOver extends AbstractMathElement {
         if ((this.getMathElement(0) instanceof MathOperator)
                 && ((MathOperator) this.getMathElement(0))
                         .getMoveableLimits()) {
-            final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DY);
+            final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT);
             int e1DescentHeight = e1.getDescentHeight(g);
             if (e1DescentHeight == 0) {
                 e1DescentHeight = this.getFontMetrics(g).getDescent();
@@ -191,7 +191,7 @@ public class MathUnderOver extends AbstractMathElement {
                         .getMoveableLimits()) {
             final int e2h = (int) Math.max(this.getMathElement(2)
                     .getHeight(g)
-                    - this.getMathElement(0).getHeight(g) * MathSubSup.DY, 0);
+                    - this.getMathElement(0).getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT, 0);
             res = this.getMathElement(0).getAscentHeight(g) + e2h;
         } else {
             res = this.getMathElement(0).getAscentHeight(g)
@@ -213,7 +213,7 @@ public class MathUnderOver extends AbstractMathElement {
                         .getMoveableLimits()) {
             final int e2h = (int) Math.max(this.getMathElement(1)
                     .getHeight(g)
-                    - this.getMathElement(0).getHeight(g) * MathSubSup.DY, 0);
+                    - this.getMathElement(0).getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT, 0);
             res = this.getMathElement(0).getDescentHeight(g) + e2h;
         } else {
             res = this.getMathElement(0).getDescentHeight(g)

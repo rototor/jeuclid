@@ -21,26 +21,19 @@ package net.sourceforge.jeuclid.element;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.AbstractMathElementWithSubSuper;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 
 /**
  * This class arrange an element lower to an other element.
  * 
  */
-public class MathSub extends AbstractMathElement {
-
-    private static final double DY = 0.43 / 2;
+public class MathSub extends AbstractMathElementWithSubSuper {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "msub";
-
-    /**
-     * Value of subscriptshift property.
-     */
-    private int m_subscriptshift = 0;
 
     /**
      * Creates a math element.
@@ -50,25 +43,6 @@ public class MathSub extends AbstractMathElement {
      */
     public MathSub(final MathBase base) {
         super(base);
-    }
-
-    /**
-     * Sets value of subscriptshift.
-     * 
-     * @param subscriptshift
-     *            Value of subscriptshift property.
-     */
-    public void setSubScriptShift(final int subscriptshift) {
-        this.m_subscriptshift = subscriptshift;
-    }
-
-    /**
-     * Gets value of subscriptshift.
-     * 
-     * @return Value of subscriptshift property.
-     */
-    public int getSubScriptShift() {
-        return this.m_subscriptshift;
     }
 
     /**
@@ -87,7 +61,7 @@ public class MathSub extends AbstractMathElement {
         final MathElement e1 = this.getMathElement(0);
         final MathElement e2 = this.getMathElement(1);
 
-        final int middleshift = (int) (e1.getHeight(g) * MathSub.DY);
+        final int middleshift = this.getSubMiddleShift(e1.getHeight(g), g);
 
         int e1DescentHeight = e1.getDescentHeight(g);
         if (e1DescentHeight == 0) {
@@ -121,11 +95,9 @@ public class MathSub extends AbstractMathElement {
     /** {@inheritDoc} */
     @Override
     public int calculateDescentHeight(final Graphics2D g) {
-        final int e2h = Math
-                .max(
-                        this.getMathElement(1).getHeight(g)
-                                - (int) (this.getMathElement(0).getHeight(g) * MathSub.DY),
-                        0);
+        final int e2h = Math.max(this.getMathElement(1).getHeight(g)
+                - this.getSubMiddleShift(this.getMathElement(0).getHeight(g),
+                        g), 0);
         return this.getMathElement(0).getDescentHeight(g) + e2h;
     }
 

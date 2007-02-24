@@ -23,6 +23,7 @@ import net.sourceforge.jeuclid.element.generic.AbstractRowLikeElement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.mathml.MathMLStyleElement;
 
 /**
  * This class arrange an element lower to an other element.
@@ -30,16 +31,30 @@ import org.apache.commons.logging.LogFactory;
  * @author Unknown
  * @author Max Berger
  */
-public class MathStyle extends AbstractRowLikeElement {
-    /**
-     * Logger for this class
-     */
-    private static final Log logger = LogFactory.getLog(MathStyle.class);
+public class MathStyle extends AbstractRowLikeElement implements
+        MathMLStyleElement {
+
+    /** Attribute for scriptminsize. */
+    public static final String ATTR_SCRIPTMINSIZE = "scriptminsize";
+
+    /** Attribute for scriptlevel. */
+    public static final String ATTR_SCRIPTLEVEL = "scriptlevel";
+
+    /** Attribute for scriptsizemultiplier. */
+    public static final String ATTR_SCRIPTSIZEMULTIPLIER = "scriptsizemultiplier";
+
+    /** Attribute for displaystyle. */
+    public static final String ATTR_DISPLAYSTYLE = "displaystyle";
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mstyle";
+
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory.getLog(MathStyle.class);
 
     /**
      * Creates a math element.
@@ -55,7 +70,7 @@ public class MathStyle extends AbstractRowLikeElement {
      * @return Script level
      */
     public String getScriptlevel() {
-        return this.getMathAttribute("scriptlevel");
+        return this.getMathAttribute(MathStyle.ATTR_SCRIPTLEVEL);
     }
 
     /**
@@ -63,20 +78,14 @@ public class MathStyle extends AbstractRowLikeElement {
      *            script level
      */
     public void setScriptlevel(final String scriptlevel) {
-        this.setAttribute("scriptlevel", scriptlevel);
+        this.setAttribute(MathStyle.ATTR_SCRIPTLEVEL, scriptlevel);
     }
-
-    // TODO: Add these.
-    // public String getDisplaystyle();
-    // public void setDisplaystyle(String displaystyle);
-    // public String getScriptsizemultiplier();
-    // public void setScriptsizemultiplier(String scriptsizemultiplier);
 
     /**
      * @return Minimum of script size
      */
     public String getScriptminsize() {
-        return this.getMathAttribute("scriptminsize");
+        return this.getMathAttribute(MathStyle.ATTR_SCRIPTMINSIZE);
     }
 
     /**
@@ -84,7 +93,7 @@ public class MathStyle extends AbstractRowLikeElement {
      *            Minimum of script size
      */
     public void setScriptminsize(final String scriptminsize) {
-        this.setAttribute("scriptminsize", scriptminsize);
+        this.setAttribute(MathStyle.ATTR_SCRIPTMINSIZE, scriptminsize);
     }
 
     /** {@inheritDoc} */
@@ -117,8 +126,9 @@ public class MathStyle extends AbstractRowLikeElement {
                 }
             }
         } catch (final NumberFormatException e) {
-            logger.warn("Error in scriptlevel attribute for mstyle: "
-                    + this.getScriptlevel());
+            MathStyle.LOGGER
+                    .warn("Error in scriptlevel attribute for mstyle: "
+                            + this.getScriptlevel());
             theLevel = this.getInheritedScriptlevel();
         }
         return theLevel;
@@ -126,7 +136,47 @@ public class MathStyle extends AbstractRowLikeElement {
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return ELEMENT;
+        return MathStyle.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public String getBackground() {
+        return this.getMathbackground();
+    }
+
+    /** {@inheritDoc} */
+    public String getColor() {
+        return this.getMathcolor();
+    }
+
+    /** {@inheritDoc} */
+    public String getDisplaystyle() {
+        return this.getMathAttribute(MathStyle.ATTR_DISPLAYSTYLE);
+    }
+
+    /** {@inheritDoc} */
+    public String getScriptsizemultiplier() {
+        return this.getMathAttribute(MathStyle.ATTR_SCRIPTSIZEMULTIPLIER);
+    }
+
+    /** {@inheritDoc} */
+    public void setBackground(final String background) {
+        this.setMathbackground(background);
+    }
+
+    /** {@inheritDoc} */
+    public void setColor(final String color) {
+        this.setMathcolor(color);
+    }
+
+    /** {@inheritDoc} */
+    public void setDisplaystyle(final String displaystyle) {
+        this.setAttribute(MathStyle.ATTR_DISPLAYSTYLE, displaystyle);
+    }
+
+    /** {@inheritDoc} */
+    public void setScriptsizemultiplier(final String scriptsizemultiplier) {
+        this.setAttribute(MathStyle.ATTR_SCRIPTSIZEMULTIPLIER, scriptsizemultiplier);
     }
 
 }

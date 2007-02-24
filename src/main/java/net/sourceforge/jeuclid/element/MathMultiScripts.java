@@ -21,7 +21,7 @@ package net.sourceforge.jeuclid.element;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.AbstractMathElementWithSubSuper;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 
 import org.apache.commons.logging.Log;
@@ -31,9 +31,12 @@ import org.apache.commons.logging.LogFactory;
  * This class arange a element lower, and a other elements upper to an
  * element.
  * 
+ * 
+ * @todo This class has to be rewritten to use getSubMiddleShift and
+ *       getSupMiddleShifft
  */
 
-public class MathMultiScripts extends AbstractMathElement {
+public class MathMultiScripts extends AbstractMathElementWithSubSuper {
     /**
      * The XML element from this class.
      */
@@ -45,12 +48,6 @@ public class MathMultiScripts extends AbstractMathElement {
     private static final Log LOGGER = LogFactory
             .getLog(MathMultiScripts.class);
 
-    private static final double DY = 0.43 / 2;
-
-    private int msubscriptshift = 0;
-
-    private int msuperscriptshift = 0;
-
     /**
      * Default constructor.
      * 
@@ -59,44 +56,6 @@ public class MathMultiScripts extends AbstractMathElement {
      */
     public MathMultiScripts(final MathBase base) {
         super(base);
-    }
-
-    /**
-     * Sets subscriptshift property value.
-     * 
-     * @param subscriptshift
-     *            Value of subscriptshift.
-     */
-    public final void setSubScriptShift(final int subscriptshift) {
-        this.msubscriptshift = subscriptshift;
-    }
-
-    /**
-     * Gets value of subscriptshift.
-     * 
-     * @return Value of subscriptshift property.
-     */
-    public final int getSubScriptShift() {
-        return this.msubscriptshift;
-    }
-
-    /**
-     * Sets superscriptshift property value.
-     * 
-     * @param superscriptshift
-     *            Value of superscriptshift.
-     */
-    public final void setSuperScriptShift(final int superscriptshift) {
-        this.msuperscriptshift = superscriptshift;
-    }
-
-    /**
-     * Gets value of superscriptshift.
-     * 
-     * @return Value of superscriptshift property.
-     */
-    public final int getSuperScriptShift() {
-        return this.msuperscriptshift;
     }
 
     /**
@@ -132,7 +91,7 @@ public class MathMultiScripts extends AbstractMathElement {
         }
         int middleshift = 0;
         if (childElement != null) {
-            middleshift = (int) (baseElement.getHeight(g) * MathMultiScripts.DY);
+            middleshift = (int) (baseElement.getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT);
         }
         int e1DescentHeight = 0;
         if (baseElement != null) {
@@ -316,7 +275,7 @@ public class MathMultiScripts extends AbstractMathElement {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
             if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
@@ -333,7 +292,7 @@ public class MathMultiScripts extends AbstractMathElement {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
         } else {
@@ -348,7 +307,7 @@ public class MathMultiScripts extends AbstractMathElement {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
         }
@@ -467,7 +426,7 @@ public class MathMultiScripts extends AbstractMathElement {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
             if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
@@ -484,7 +443,7 @@ public class MathMultiScripts extends AbstractMathElement {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
         } else {
@@ -499,7 +458,7 @@ public class MathMultiScripts extends AbstractMathElement {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DY),
+                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
         }
