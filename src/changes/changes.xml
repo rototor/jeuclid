@@ -7,6 +7,16 @@
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="add">
+        AbstractMathElementWithSubSuper added;
+        MathMultiScript: extends AbstractMathElementWithSubSuper;
+        MathSub: extends AbstractMathElementWithSubSuper;
+        MathSubSup: extends AbstractMathElementWithSubSuper;
+        MathSup: extends AbstractMathElementWithSubSuper; 
+        Moved DY to AbstractMathElementWithSubSuper, renamed to DEFAULT_SCRIPTSHIFT;
+        MathSub, MathSup, MathSubSup: Modified to use generic getMiddleShift functions;
+        MathStyle: now implements MathMLStyleElement;
+      </action>
+      <action dev="maxberger" type="add">
         MathTableData implements MathMLTableCellElement;
         MathTableRow implement MathMLTableRowElement;
         MathLabeledTableRow implements MathMLLabeledRowElement;

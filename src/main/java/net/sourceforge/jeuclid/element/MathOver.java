@@ -92,7 +92,7 @@ public class MathOver extends AbstractMathElement {
         if ((this.getMathElement(0) instanceof MathOperator)
                 && ((MathOperator) this.getMathElement(0))
                         .getMoveableLimits()) {
-            final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DY);
+            final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT);
             int e1DescentHeight = e1.getDescentHeight(g);
             if (e1DescentHeight == 0) {
                 e1DescentHeight = this.getFontMetrics(g).getDescent();

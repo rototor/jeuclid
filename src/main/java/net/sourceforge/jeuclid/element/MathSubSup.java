@@ -21,7 +21,7 @@ package net.sourceforge.jeuclid.element;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.AbstractMathElementWithSubSuper;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 
 /**
@@ -29,27 +29,12 @@ import net.sourceforge.jeuclid.element.generic.MathElement;
  * element.
  * 
  */
-public class MathSubSup extends AbstractMathElement {
-
-    /**
-     * Magic constant describing the middleshit for sub and sup elements.
-     */
-    protected static final double DY = 0.43 / 2;
+public class MathSubSup extends AbstractMathElementWithSubSuper {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "msubsup";
-
-    /**
-     * Value of subscriptshift property.
-     */
-    private int m_subscriptshift = 0;
-
-    /**
-     * Value of superscriptshift property.
-     */
-    private int m_superscriptshift = 0;
 
     /**
      * Creates a math element.
@@ -59,44 +44,6 @@ public class MathSubSup extends AbstractMathElement {
      */
     public MathSubSup(final MathBase base) {
         super(base);
-    }
-
-    /**
-     * Sets subscriptshift property value.
-     * 
-     * @param subscriptshift
-     *            Value of subscriptshift.
-     */
-    public void setSubScriptShift(final int subscriptshift) {
-        this.m_subscriptshift = subscriptshift;
-    }
-
-    /**
-     * Gets value of subscriptshift.
-     * 
-     * @return Value of subscriptshift property.
-     */
-    public int getSubScriptShift() {
-        return this.m_subscriptshift;
-    }
-
-    /**
-     * Sets superscriptshift property value.
-     * 
-     * @param superscriptshift
-     *            Value of superscriptshift.
-     */
-    public void setSuperScriptShift(final int superscriptshift) {
-        this.m_superscriptshift = superscriptshift;
-    }
-
-    /**
-     * Gets value of superscriptshift.
-     * 
-     * @return Value of superscriptshift property.
-     */
-    public int getSuperScriptShift() {
-        return this.m_superscriptshift;
     }
 
     /**
@@ -116,7 +63,8 @@ public class MathSubSup extends AbstractMathElement {
         final MathElement e2 = this.getMathElement(1);
         final MathElement e3 = this.getMathElement(2);
 
-        final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DY);
+        final int referenceHeight = e1.getHeight(g);
+
         int e1DescentHeight = e1.getDescentHeight(g);
         if (e1DescentHeight == 0) {
             e1DescentHeight = this.getFontMetrics(g).getDescent();
@@ -127,8 +75,9 @@ public class MathSubSup extends AbstractMathElement {
         }
 
         final int posY1 = posY + e1DescentHeight + e2.getAscentHeight(g)
-                - middleshift - 1;
-        final int posY2 = posY - e1AscentHeight + middleshift
+                - this.getSubMiddleShift(referenceHeight, g) - 1;
+        final int posY2 = posY - e1AscentHeight
+                + this.getSupMiddleShift(referenceHeight, g)
                 - e3.getDescentHeight(g) + 1;
 
         e1.paint(g, posX, posY);
@@ -147,22 +96,18 @@ public class MathSubSup extends AbstractMathElement {
     /** {@inheritDoc} */
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
-        final int e2h = Math
-                .max(
-                        this.getMathElement(2).getHeight(g)
-                                - (int) (this.getMathElement(0).getHeight(g) * MathSubSup.DY),
-                        0);
+        final int e2h = Math.max(this.getMathElement(2).getHeight(g)
+                - this.getSupMiddleShift(this.getMathElement(0).getHeight(g),
+                        g), 0);
         return this.getMathElement(0).getAscentHeight(g) + e2h;
     }
 
     /** {@inheritDoc} */
     @Override
     public int calculateDescentHeight(final Graphics2D g) {
-        final int e2h = Math
-                .max(
-                        this.getMathElement(1).getHeight(g)
-                                - (int) (this.getMathElement(0).getHeight(g) * MathSubSup.DY),
-                        0);
+        final int e2h = Math.max(this.getMathElement(1).getHeight(g)
+                - this.getSubMiddleShift(this.getMathElement(0).getHeight(g),
+                        g), 0);
         return this.getMathElement(0).getDescentHeight(g) + e2h;
     }
 

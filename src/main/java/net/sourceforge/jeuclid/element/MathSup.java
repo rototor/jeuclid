@@ -21,25 +21,19 @@ package net.sourceforge.jeuclid.element;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.AbstractMathElementWithSubSuper;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 
 /**
  * This class arrange an element lower to an other element.
  * 
  */
-public class MathSup extends AbstractMathElement {
+public class MathSup extends AbstractMathElementWithSubSuper {
 
     /**
      * The XML element from this class.
      */
-
     public static final String ELEMENT = "msup";
-
-    /**
-     * Value of superscriptshift property.
-     */
-    private int m_superscriptshift = 0;
 
     /**
      * Creates a math element.
@@ -49,25 +43,6 @@ public class MathSup extends AbstractMathElement {
      */
     public MathSup(final MathBase base) {
         super(base);
-    }
-
-    /**
-     * Sets value of subscriptshift.
-     * 
-     * @param superscriptshift
-     *            Value of subscriptshift property.
-     */
-    public void setSuperScriptShift(final int superscriptshift) {
-        this.m_superscriptshift = superscriptshift;
-    }
-
-    /**
-     * Gets value of superscriptshift.
-     * 
-     * @return Value of superscriptshift property.
-     */
-    public int getSuperScriptShift() {
-        return this.m_superscriptshift;
     }
 
     /**
@@ -86,7 +61,7 @@ public class MathSup extends AbstractMathElement {
         final MathElement e1 = this.getMathElement(0);
         final MathElement e2 = this.getMathElement(1);
 
-        final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DY);
+        final int middleshift = this.getSupMiddleShift(e1.getHeight(g), g);
 
         int e1DescentHeight = e1.getDescentHeight(g);
         if (e1DescentHeight == 0) {
@@ -103,6 +78,7 @@ public class MathSup extends AbstractMathElement {
                 - middleshift;
 
         if (posY2 + e2.getHeight(g) > posY1) {
+            // TODO: This belongs in SubSup, but not in Sup!
             posY2 = posY1 - e2.getHeight(g);
             // if main symbol is too small, sup- and subsymblos have not to be
             // laid one on onother.
@@ -121,11 +97,10 @@ public class MathSup extends AbstractMathElement {
     /** {@inheritDoc} */
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
-        final int e2h = Math
-                .max(
-                        this.getMathElement(1).getHeight(g)
-                                - (int) (this.getMathElement(0).getHeight(g) * MathSubSup.DY),
-                        0);
+        // TODO: This formula is broken
+        final int e2h = Math.max(this.getMathElement(1).getHeight(g)
+                - this.getSupMiddleShift(this.getMathElement(0).getHeight(g),
+                        g), 0);
         return this.getMathElement(0).getAscentHeight(g) + e2h;
     }
 
