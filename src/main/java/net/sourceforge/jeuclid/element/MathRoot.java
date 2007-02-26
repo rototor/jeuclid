@@ -25,13 +25,17 @@ import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractRootElement;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 
+import org.w3c.dom.mathml.MathMLElement;
+import org.w3c.dom.mathml.MathMLRadicalElement;
+
 /**
  * This class presents a mathematical root.
  * 
  * @author Unknown
  * @author Max Berger
  */
-public class MathRoot extends AbstractRootElement {
+public class MathRoot extends AbstractRootElement implements
+        MathMLRadicalElement {
 
     /**
      * The XML element from this class.
@@ -63,7 +67,27 @@ public class MathRoot extends AbstractRootElement {
 
     /** {@inheritDoc} */
     @Override
-    protected MathElement getLeft() {
+    protected MathElement getActualIndex() {
         return this.getMathElement(1);
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getIndex() {
+        return this.getMathElement(1);
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getRadicand() {
+        return this.getMathElement(0);
+    }
+
+    /** {@inheritDoc} */
+    public void setIndex(final MathMLElement index) {
+        this.setMathElement(1, index);
+    }
+
+    /** {@inheritDoc} */
+    public void setRadicand(final MathMLElement radicand) {
+        this.setMathElement(0, radicand);
     }
 }

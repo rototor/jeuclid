@@ -24,12 +24,16 @@ import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElementWithSubSuper;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 
+import org.w3c.dom.mathml.MathMLElement;
+import org.w3c.dom.mathml.MathMLScriptElement;
+
 /**
  * This class arange a element lower, and a other elements upper to an
  * element.
  * 
  */
-public class MathSubSup extends AbstractMathElementWithSubSuper {
+public class MathSubSup extends AbstractMathElementWithSubSuper implements
+        MathMLScriptElement {
 
     /**
      * The XML element from this class.
@@ -134,6 +138,36 @@ public class MathSubSup extends AbstractMathElementWithSubSuper {
     /** {@inheritDoc} */
     public String getTagName() {
         return MathSubSup.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getBase() {
+        return this.getMathElement(0);
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getSubscript() {
+        return this.getMathElement(1);
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getSuperscript() {
+        return this.getMathElement(2);
+    }
+
+    /** {@inheritDoc} */
+    public void setBase(final MathMLElement base) {
+        this.setMathElement(0, base);
+    }
+
+    /** {@inheritDoc} */
+    public void setSubscript(final MathMLElement subscript) {
+        this.setMathElement(1, subscript);
+    }
+
+    /** {@inheritDoc} */
+    public void setSuperscript(final MathMLElement superscript) {
+        this.setMathElement(2, superscript);
     }
 
 }

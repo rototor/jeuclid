@@ -55,16 +55,16 @@ public abstract class AbstractRootElement extends AbstractMathElement {
     }
 
     /**
-     * TODO.
+     * retrieve the actual index for this radical.
      * 
-     * @return TODO
+     * @return a MathElement representing what to draw as the index
      */
-    protected abstract MathElement getLeft();
+    protected abstract MathElement getActualIndex();
 
     /**
-     * TODO.
+     * retrieve the content of this radical element.
      * 
-     * @return TODO
+     * @return A List&lt;MathElement&gt; with the contents for this element.
      */
     protected abstract List<MathElement> getContent();
 
@@ -108,7 +108,7 @@ public abstract class AbstractRootElement extends AbstractMathElement {
 
         super.paint(g, posX, posY);
         final List<MathElement> content = this.getContent();
-        final MathElement e2 = this.getLeft();
+        final MathElement e2 = this.getActualIndex();
 
         final int width1 = ElementListSupport.getWidth(g, content);
         final int height1 = ElementListSupport.getHeight(g, content);
@@ -180,7 +180,8 @@ public abstract class AbstractRootElement extends AbstractMathElement {
         final GlyphVector gv = this.getFont().createGlyphVector(context,
                 new char[] { AbstractRootElement.ROOT_CHAR });
         result = (int) (gv.getGlyphMetrics(0).getBounds2D().getWidth());
-        result += Math.max(this.getLeft().getWidth(g) - 0.5 * result, 0);
+        result += Math.max(this.getActualIndex().getWidth(g) - 0.5 * result,
+                0);
         return result;
     }
 

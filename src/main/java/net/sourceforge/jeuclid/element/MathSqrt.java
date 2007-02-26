@@ -25,13 +25,17 @@ import net.sourceforge.jeuclid.element.generic.AbstractRootElement;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.ElementListSupport;
 
+import org.w3c.dom.mathml.MathMLElement;
+import org.w3c.dom.mathml.MathMLRadicalElement;
+
 /**
  * This class presents a mathematical square root.
  * 
  * @author Unknown
  * @author Max Berger
  */
-public class MathSqrt extends AbstractRootElement {
+public class MathSqrt extends AbstractRootElement implements
+        MathMLRadicalElement {
 
     /**
      * The XML element from this class.
@@ -61,7 +65,40 @@ public class MathSqrt extends AbstractRootElement {
 
     /** {@inheritDoc} */
     @Override
-    protected MathElement getLeft() {
+    protected MathElement getActualIndex() {
         return new MathSpace(this.getMathBase());
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getIndex() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getRadicand() {
+        MathElement retVal;
+        if (this.getMathElementCount() == 1) {
+            retVal = this.getMathElement(0);
+        } else {
+            retVal = new MathRow(this.getMathBase());
+            retVal.setFakeParent(this);
+            for (int i = 0; i < this.getMathElementCount(); i++) {
+                retVal.appendChild(this.getMathElement(i));
+            }
+        }
+        return retVal;
+    }
+
+    /** {@inheritDoc} */
+    public void setIndex(final MathMLElement index) {
+        // Do nothing. There is no index for sqrt elements.
+    }
+
+    /** {@inheritDoc} */
+    public void setRadicand(final MathMLElement radicand) {
+        while (this.getMathElementCount() > 0) {
+            this.removeChild(this.getMathElement(0));
+        }
+        this.setMathElement(0, radicand);
     }
 }

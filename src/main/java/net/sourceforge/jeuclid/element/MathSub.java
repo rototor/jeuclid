@@ -24,11 +24,16 @@ import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElementWithSubSuper;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 
+import org.w3c.dom.DOMException;
+import org.w3c.dom.mathml.MathMLElement;
+import org.w3c.dom.mathml.MathMLScriptElement;
+
 /**
  * This class arrange an element lower to an other element.
  * 
  */
-public class MathSub extends AbstractMathElementWithSubSuper {
+public class MathSub extends AbstractMathElementWithSubSuper implements
+        MathMLScriptElement {
 
     /**
      * The XML element from this class.
@@ -124,6 +129,37 @@ public class MathSub extends AbstractMathElementWithSubSuper {
     /** {@inheritDoc} */
     public String getTagName() {
         return MathSub.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getBase() {
+        return this.getMathElement(0);
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getSubscript() {
+        return this.getMathElement(1);
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getSuperscript() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public void setBase(final MathMLElement base) {
+        this.setMathElement(0, base);
+    }
+
+    /** {@inheritDoc} */
+    public void setSubscript(final MathMLElement subscript) {
+        this.setMathElement(1, subscript);
+    }
+
+    /** {@inheritDoc} */
+    public void setSuperscript(final MathMLElement superscript) {
+        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
+                "msub does not have superscript");
     }
 
 }
