@@ -27,7 +27,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,10 +43,12 @@ import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
+import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.app.MathViewer;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 import net.sourceforge.jeuclid.util.Converter;
 import net.sourceforge.jeuclid.util.MathMLParserSupport;
+import net.sourceforge.jeuclid.util.ParameterKey;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -99,6 +103,8 @@ public class MainFrame extends JFrame {
     private JMenuItem smallerMenuItem;
 
     private JMenuItem exportMenuItem;
+
+    private JCheckBoxMenuItem aliasMenuItem = null;
 
     /**
      * This is the default constructor.
@@ -388,6 +394,7 @@ public class MainFrame extends JFrame {
             this.viewMenu.setText(Messages.getString("MathViewer.viewMenu")); //$NON-NLS-1$
             this.viewMenu.add(this.getBiggerMenuItem());
             this.viewMenu.add(this.getSmallerMenuItem());
+            this.viewMenu.add(this.getAliasMenuItem());
         }
         return this.viewMenu;
     }
@@ -504,8 +511,12 @@ public class MainFrame extends JFrame {
                 final String mimetype = Converter
                         .getMimeTypeForSuffix(extension);
                 try {
+
+                    final Map<ParameterKey, String> params = this
+                            .getMathComponent().getMathBase().getParams();
+                    params.put(ParameterKey.OutFileType, mimetype);
                     if (!Converter.convert(this.getMathComponent()
-                            .getDocument(), selectedFile, mimetype)) {
+                            .getDocument(), selectedFile, params)) {
                         JOptionPane.showMessageDialog(this,
                                 "Failed to write to " + fileName,
                                 "Error during export",
@@ -519,6 +530,34 @@ public class MainFrame extends JFrame {
                 }
             }
         }
+    }
+
+    /**
+     * This method initializes aliasMenuItem
+     * 
+     * @return javax.swing.JCheckBoxMenuItem
+     */
+    private JCheckBoxMenuItem getAliasMenuItem() {
+        if (this.aliasMenuItem == null) {
+            this.aliasMenuItem = new JCheckBoxMenuItem();
+            this.aliasMenuItem.setText("Anti Alias");
+            this.aliasMenuItem.setSelected(Boolean.parseBoolean(MathBase
+                    .getDefaultParameters().get(ParameterKey.AntiAlias)));
+            this.aliasMenuItem
+                    .addItemListener(new java.awt.event.ItemListener() {
+                        public void itemStateChanged(
+                                final java.awt.event.ItemEvent e) {
+                            MainFrame.this
+                                    .getMathComponent()
+                                    .setParameter(
+                                            ParameterKey.AntiAlias,
+                                            Boolean
+                                                    .toString(MainFrame.this.aliasMenuItem
+                                                            .isSelected()));
+                        }
+                    });
+        }
+        return this.aliasMenuItem;
     }
 
 }

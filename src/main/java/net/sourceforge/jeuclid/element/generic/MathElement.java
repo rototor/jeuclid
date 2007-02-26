@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.element.generic;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.attributes.MathVariant;
 import net.sourceforge.jeuclid.element.helpers.AttributeMap;
 
@@ -214,4 +215,10 @@ public interface MathElement extends MathMLElement, DisplayableNode {
      */
     int getMathElementCount();
 
+    /**
+     * Gets the math base.
+     * 
+     * @return Math base object.
+     */
+    MathBase getMathBase();
 }
