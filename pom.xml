@@ -4,7 +4,7 @@
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid</artifactId>
   <name>JEuclid</name>
-  <version>2.9.4-SNAPSHOT</version>
+  <version>2.9.4</version>
   <description>
     JEuclid is a complete MathML rendering solution, consisting of a MathViewer
     application, Command line converters from MathML to other formats, an ant
@@ -155,9 +155,9 @@
     </contributor>
   </contributors>
   <scm>
-    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</connection>
-    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</developerConnection>
-    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk/</url>
+    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-2.9.4</connection>
+    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-2.9.4</developerConnection>
+    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-2.9.4</url>
   </scm>
   <properties>
   </properties>
@@ -178,8 +178,8 @@
             <manifest>
               <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
               <addClasspath>true</addClasspath>
-              <addExtensions/>
-              <classpathPrefix/>
+              <addExtensions />
+              <classpathPrefix />
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
@@ -228,7 +228,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appbundler-maven-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
+<!--        <version>1.0-SNAPSHOT</version> -->
         <configuration>
           <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
           <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
