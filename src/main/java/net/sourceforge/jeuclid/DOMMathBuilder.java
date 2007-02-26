@@ -25,8 +25,6 @@ import net.sourceforge.jeuclid.element.MathEnclose;
 import net.sourceforge.jeuclid.element.MathLabeledTableRow;
 import net.sourceforge.jeuclid.element.MathOperator;
 import net.sourceforge.jeuclid.element.MathOver;
-import net.sourceforge.jeuclid.element.MathSpace;
-import net.sourceforge.jeuclid.element.MathString;
 import net.sourceforge.jeuclid.element.MathStyle;
 import net.sourceforge.jeuclid.element.MathTable;
 import net.sourceforge.jeuclid.element.MathTableData;
@@ -131,22 +129,6 @@ public class DOMMathBuilder {
                     "accent", false));
             ((MathUnderOver) element).setAccentUnder(attributes.getBoolean(
                     "accentunder", false));
-        } else if (tagname.equals(MathSpace.ELEMENT)) {
-            final MathSpace space = (MathSpace) element;
-            if (attributes.hasAttribute("height")) {
-                space.setSpaceHeight(attributes.getString("height", "0"));
-            }
-            if (attributes.hasAttribute("width")) {
-                space.setSpaceWidth(attributes.getString("width", "0"));
-            }
-            if (attributes.hasAttribute("depth")) {
-                space.setDepth(attributes.getString("depth", "0"));
-            }
-        } else if (tagname.equals(MathString.ELEMENT)) {
-            ((MathString) element).setLQuote(attributes.getString("lquote",
-                    "\""));
-            ((MathString) element).setRQuote(attributes.getString("rquote",
-                    "\""));
         } else if (tagname.equals(MathTable.ELEMENT)) {
             final MathTable tabl = (MathTable) element;
 

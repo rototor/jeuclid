@@ -19,7 +19,6 @@
 package net.sourceforge.jeuclid.element.generic;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.jeuclid.MathBase;
@@ -45,12 +44,7 @@ public abstract class AbstractMathElementWithChildren extends
     }
 
     private List<MathElement> getChildrenAsList() {
-        final List<MathElement> children = new ArrayList<MathElement>(this
-                .getMathElementCount());
-        for (int i = 0; i < this.getMathElementCount(); i++) {
-            children.add(this.getMathElement(i));
-        }
-        return children;
+        return ElementListSupport.createListOfChildren(this);
     }
 
     /**
