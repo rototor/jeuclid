@@ -532,11 +532,7 @@ public abstract class AbstractMathElement extends
         }
     }
 
-    /**
-     * Gets the math base.
-     * 
-     * @return Math base object.
-     */
+    /** {@inheritDoc} */
     public MathBase getMathBase() {
         return this.mbase;
     }

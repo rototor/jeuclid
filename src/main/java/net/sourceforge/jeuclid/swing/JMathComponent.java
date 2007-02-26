@@ -100,6 +100,15 @@ public class JMathComponent extends JComponent {
     }
 
     /**
+     * Retrieve the MathBase object currently used for rendering.
+     * 
+     * @return the MathBase object.
+     */
+    public MathBase getMathBase() {
+        return this.base;
+    }
+
+    /**
      * Gets the mininimum size of this component.
      * 
      * @return A dimension object indicating this component's minimum size.

@@ -6,9 +6,16 @@
   </properties>
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        MathViewer now has Anti-Alias menu entry
+      </action>
       <action dev="maxberger" type="update">
+        MathViewer now uses current rendering attributes for export
+      </action>
+      <action dev="maxberger" type="add">
         MathRoot, MathSqrt now implement MathMLRadicand;
         MathSub, MathSubSup, MathSup now implement MathMLScriptElement
+      </action>
       <action dev="maxberger" type="update">
         Better description for source on website;
         pom.xml updated for proper sf servers
