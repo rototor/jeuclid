@@ -392,18 +392,19 @@
   </reporting>
   <distributionManagement>
     <repository>
-      <id>sf_snapshots</id>
-      <name>SourceForge Snapshot</name>
-      <url>scpexe://ssh.sf.net/home/groups/j/je/jeuclid/htdocs/m2/repo</url>
+      <id>sourceforge</id>
+      <name>SourceForge Final Repository</name>
+      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2/repo</url>
     </repository>
     <snapshotRepository>
-      <id>sf_snapshots</id>
-      <name>SourceForge Snapshot</name>
-      <url>scpexe://ssh.sf.net/home/groups/j/je/jeuclid/htdocs/m2/repo</url>
+      <id>sourceforge</id>
+      <name>SourceForge Snapshot Repository</name>
+      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2/repo</url>
     </snapshotRepository>
     <site>
-      <id>sf_website</id>
-      <url>scpexe://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs</url>
+      <id>sourceforge</id>
+      <name>Website for JEuclid on SourceForge</name>
+      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs</url>
     </site>
   </distributionManagement>
 </project>
