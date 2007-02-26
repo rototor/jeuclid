@@ -7,6 +7,9 @@
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="update">
+        MathRoot, MathSqrt now implement MathMLRadicand;
+        MathSub, MathSubSup, MathSup now implement MathMLScriptElement
+      <action dev="maxberger" type="update">
         Better description for source on website;
         pom.xml updated for proper sf servers
       </action>
