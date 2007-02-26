@@ -19,6 +19,7 @@
 package net.sourceforge.jeuclid.element.helpers;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.jeuclid.element.generic.DisplayableNode;
@@ -36,6 +37,24 @@ public final class ElementListSupport {
 
     private ElementListSupport() {
         // Utility class.
+    }
+
+    /**
+     * Creates a list of children for the given MathElement.
+     * 
+     * @param parent
+     *            the parent element.
+     * @return list of Children.
+     */
+    public static List<MathElement> createListOfChildren(
+            final MathElement parent) {
+        final List<MathElement> children = new ArrayList<MathElement>(parent
+                .getMathElementCount());
+        for (int i = 0; i < parent.getMathElementCount(); i++) {
+            children.add(parent.getMathElement(i));
+        }
+        return children;
+
     }
 
     /**
@@ -72,6 +91,21 @@ public final class ElementListSupport {
             height = Math.max(height, element.getDescentHeight(g));
         }
         return height;
+    }
+
+    /**
+     * Retrieve the total height of the list.
+     * 
+     * @param g
+     *            Graphics2D context to use.
+     * @param elements
+     *            List of elements.
+     * @return thetotal height.
+     */
+    public static int getHeight(final Graphics2D g,
+            final List<MathElement> elements) {
+        return ElementListSupport.getAscentHeight(g, elements)
+                + ElementListSupport.getDescentHeight(g, elements);
     }
 
     /**

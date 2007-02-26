@@ -20,20 +20,26 @@ package net.sourceforge.jeuclid.element;
 
 import net.sourceforge.jeuclid.MathBase;
 
+import org.w3c.dom.mathml.MathMLStringLitElement;
+
 /**
  * This class represents string in a equation.
  * 
  */
-public class MathString extends MathText {
+public class MathString extends MathText implements MathMLStringLitElement {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "ms";
 
-    private String m_lquote = "\"";
+    /** Attribute for lquote. */
+    public static final String ATTR_LQUOTE = "lquote";
 
-    private String m_rquote = "\"";
+    /** Attribute for rquote. */
+    public static final String ATTR_RQUOTE = "rquote";
+
+    private static final String VALUE_DOUBLEQUOTE = "\"";
 
     /**
      * Creates a math element.
@@ -43,40 +49,40 @@ public class MathString extends MathText {
      */
     public MathString(final MathBase base) {
         super(base);
+        this.setDefaultMathAttribute(MathString.ATTR_LQUOTE,
+                MathString.VALUE_DOUBLEQUOTE);
+        this.setDefaultMathAttribute(MathString.ATTR_RQUOTE,
+                MathString.VALUE_DOUBLEQUOTE);
     }
 
     /**
      * @param lquote
      *            Left quote
      */
-    public void setLQuote(final String lquote) {
-        if (lquote != null) {
-            this.m_lquote = lquote;
-        }
+    public void setLquote(final String lquote) {
+        this.setAttribute(MathString.ATTR_LQUOTE, lquote);
     }
 
     /**
      * @return Left quote
      */
-    public String getLQuote() {
-        return this.m_lquote;
+    public String getLquote() {
+        return this.getMathAttribute(MathString.ATTR_LQUOTE);
     }
 
     /**
      * @param rquote
      *            Right quota
      */
-    public void setRQuote(final String rquote) {
-        if (rquote != null) {
-            this.m_rquote = rquote;
-        }
+    public void setRquote(final String rquote) {
+        this.setAttribute(MathString.ATTR_RQUOTE, rquote);
     }
 
     /**
      * @return Right quote
      */
-    public String getRQuote() {
-        return this.m_rquote;
+    public String getRquote() {
+        return this.getMathAttribute(MathString.ATTR_RQUOTE);
     }
 
     /**
@@ -86,7 +92,7 @@ public class MathString extends MathText {
      */
     @Override
     public String getText() {
-        return this.m_lquote + super.getText() + this.m_rquote;
+        return this.getLquote() + super.getText() + this.getRquote();
     }
 
     /** {@inheritDoc} */

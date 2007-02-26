@@ -24,22 +24,30 @@ import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 
+import org.w3c.dom.mathml.MathMLSpaceElement;
+
 /**
  * This class presents a mspace.
  * 
  */
-public class MathSpace extends AbstractMathElement {
+public class MathSpace extends AbstractMathElement implements
+        MathMLSpaceElement {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mspace";
 
-    private String m_width = "0";
+    /** Attribute for width. */
+    public static final String ATTR_WIDTH = "width";
 
-    private String m_height = "0";
+    /** Attribute for height. */
+    public static final String ATTR_HEIGHT = "height";
 
-    private String m_depth = "0";
+    /** Attribute for depth. */
+    public static final String ATTR_DEPTH = "depth";
+
+    private static final String VALUE_ZERO = "0";
 
     /**
      * Creates a math element.
@@ -49,43 +57,49 @@ public class MathSpace extends AbstractMathElement {
      */
     public MathSpace(final MathBase base) {
         super(base);
+        this.setDefaultMathAttribute(MathSpace.ATTR_DEPTH,
+                MathSpace.VALUE_ZERO);
+        this.setDefaultMathAttribute(MathSpace.ATTR_HEIGHT,
+                MathSpace.VALUE_ZERO);
+        this.setDefaultMathAttribute(MathSpace.ATTR_WIDTH,
+                MathSpace.VALUE_ZERO);
     }
 
     /**
      * @return Space width
      */
-    public String getSpaceWidth() {
-        return this.m_width;
+    public String getWidth() {
+        return this.getMathAttribute(MathSpace.ATTR_WIDTH);
     }
 
     /**
      * @param width
      *            Space width
      */
-    public void setSpaceWidth(final String width) {
-        this.m_width = width;
+    public void setWidth(final String width) {
+        this.setAttribute(MathSpace.ATTR_WIDTH, width);
     }
 
     /**
      * @return Space height
      */
-    public String getSpaceHeight() {
-        return this.m_height;
+    public String getHeight() {
+        return this.getMathAttribute(MathSpace.ATTR_HEIGHT);
     }
 
     /**
      * @param height
      *            Space height
      */
-    public void setSpaceHeight(final String height) {
-        this.m_height = height;
+    public void setHeight(final String height) {
+        this.setAttribute(MathSpace.ATTR_HEIGHT, height);
     }
 
     /**
      * @return Space depth
      */
     public String getDepth() {
-        return this.m_depth;
+        return this.getMathAttribute(MathSpace.ATTR_DEPTH);
     }
 
     /**
@@ -93,7 +107,7 @@ public class MathSpace extends AbstractMathElement {
      *            Space depth
      */
     public void setDepth(final String depth) {
-        this.m_depth = depth;
+        this.setAttribute(MathSpace.ATTR_DEPTH, depth);
     }
 
     /**
@@ -114,19 +128,22 @@ public class MathSpace extends AbstractMathElement {
     /** {@inheritDoc} */
     @Override
     public int calculateWidth(final Graphics2D g) {
-        return AttributesHelper.getPixels(this.getSpaceWidth(), this.getFontMetrics(g));
+        return AttributesHelper.getPixels(this.getWidth(), this
+                .getFontMetrics(g));
     }
 
     /** {@inheritDoc} */
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
-        return AttributesHelper.getPixels(this.getSpaceHeight(), this.getFontMetrics(g));
+        return AttributesHelper.getPixels(this.getHeight(), this
+                .getFontMetrics(g));
     }
 
     /** {@inheritDoc} */
     @Override
     public int calculateDescentHeight(final Graphics2D g) {
-        return AttributesHelper.getPixels(this.getDepth(), this.getFontMetrics(g));
+        return AttributesHelper.getPixels(this.getDepth(), this
+                .getFontMetrics(g));
     }
 
     /** {@inheritDoc} */

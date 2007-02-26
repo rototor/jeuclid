@@ -7,6 +7,12 @@
   <body>
     <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="add">
+        MathSpace now implementes MathMLSpaceElement;
+        MathString now implemente MathMLStringLitElement;
+        Added AbstractRootElement;
+        rewrote MathRoot and MathSqrt to implement AbstractRootElement;
+      </action>
+      <action dev="maxberger" type="add">
         AbstractMathElementWithSubSuper added;
         MathMultiScript: extends AbstractMathElementWithSubSuper;
         MathSub: extends AbstractMathElementWithSubSuper;
