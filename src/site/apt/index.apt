@@ -18,6 +18,8 @@
 
 News
 
+ * JEuclid 2.9.4 is released
+
  * We now have a {{{./logo.html}Logo}}
  
  * The sourcecode repository has moved to subversion, please see {{{./source-repository.html}Source repository}} for updated instructions.
@@ -26,8 +28,7 @@ News
 
 Current Status
 	
-	The lastest released version is 2.9.3.
-	This is the first maven-based version so some things may not work as expected. 
+	The lastest released version is 2.9.4.
 	Please {{{./issue-tracking.html}report any issues}}.
 
 

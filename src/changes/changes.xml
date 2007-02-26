@@ -5,7 +5,12 @@
     <author>Max Berger</author>
   </properties>
   <body>
-    <release version="2.9.4-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+    <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        Released 2.9.4
+      </action>
+    </release>
+    <release version="2.9.4" date="2007-02-26" description="Alpha for 3.0">
       <action dev="maxberger" type="add">
         MathViewer now has Anti-Alias menu entry
       </action>
