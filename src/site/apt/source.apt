@@ -41,7 +41,7 @@ Patches
 
 Developer settings
 
-If you have developer access, please add the following to your <<<~/.m2/settings.xml>>> file:
+ If you have developer access, please add the following to your <<<~/.m2/settings.xml>>> file:
 
 ---
 <settings xmlns="http://maven.apache.org/POM/4.0.0"
