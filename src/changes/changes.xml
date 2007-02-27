@@ -7,6 +7,9 @@
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="update">
+        LICENSE renamed to LICENSE.txt for repository bundle compatibility
+      </action>
+      <action dev="maxberger" type="update">
         renamed OS X app to "JEuclid MathViewer";
         website / documentation updates
       </action>

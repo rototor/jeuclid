@@ -12,7 +12,7 @@
   </fileSets>
   <files>
     <file>
-      <source>LICENSE</source>
+      <source>LICENSE.txt</source>
       <outputDirectory/>
     </file>
     <file>
