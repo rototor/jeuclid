@@ -16,7 +16,7 @@ Hacking JEuclid
 
  Then, access the sourcecode as described on the {{{./source-repository.html}JEuclid repository site}}. 
 
- Here are the most common commands:  
+ Once you have the code available, use Maven to build and package the code. Here are the most common commands:  
 
  * <<<mvn package>>> will compile, test, and bundle JEuclid. Use this command if you are not sure what else to use
 
@@ -32,7 +32,7 @@ Hacking JEuclid
 
  The results of these commands can be found in the <<<target/>>> directory.
 
- The most notable artifacts are jeuclid-...-distribution.zip (binary distribution) and jeuclid-...-app.zip (OS X application bundle).
+ The most notable artifacts are jeuclid-...-distribution.zip (binary distribution) and jeuclid-...-osx.zip (OS X application bundle).
 
 Patches
 

@@ -7,7 +7,7 @@
   <fileSets>
     <fileSet>
       <directory>target/jeuclid-${version}.app</directory>
-      <outputDirectory>jeuclid-${version}.app</outputDirectory>
+      <outputDirectory>JEuclid MathViewer.app</outputDirectory>
     </fileSet>
   </fileSets>
   <files>

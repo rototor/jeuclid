@@ -1,8 +1,8 @@
 Getting JEuclid
 
 	You may download JEuclid from the 
-	{{{http://sourceforge.net/project/showfiles.php?group_id=44862}sourceforge project site for JEuclid}}:
-	as a compiled package or
+	{{{http://sourceforge.net/project/showfiles.php?group_id=44862}sourceforge project site for JEuclid}}
+	as a binary package or
 	from {{{/source.html}source}}. 
 
 Using JEuclid
@@ -11,11 +11,14 @@ Using JEuclid
 
 * MathViewer application
 
-  To run the MathViewer application, simply run the jeuclid jar file that can be found in build/jars. On Windows and Mac OS X you may double-click it to launch.
+  To run the MathViewer application, you may use the mathviewer or mathviewer.bat script from the bin/ directory of the distribution.
+
+  If you use the OS X package, the MathViewer is included as an application bundle.
+
 
 * On the command line
 
-  You may use the included mml2xxx script.
+  You may use the included mml2xxx or mml2xx script from the bin/ directory in the distribution.
 
 * From ant
 
@@ -31,7 +34,7 @@ Using JEuclid
 
   Please look at the {{{./apidocs/index.html}API Documentation}}. You may be interested in {{{./apidocs/net/sourceforge/jeuclid/awt/MathComponent.html}net.sourceforge.jeuclid.awt.MathComponent}} and {{{./apidocs/net/sourceforge/jeuclid/swing/JMathComponent.html}net.sourceforge.jeuclid.swing.JMathComponent}}.
 
-  Starting with 2.9.4 we want to make JEuclid available as a component for maven based projects. This is a planned feature, please be patient.
+  We also want to make JEuclid available as a component for maven based projects. This is a planned feature, please be patient.
 
 * Cocoon
 
