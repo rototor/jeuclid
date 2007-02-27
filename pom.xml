@@ -249,6 +249,7 @@
         <configuration>
           <descriptors>
             <descriptor>src/assemble/distribution.xml</descriptor>
+            <descriptor>src/assemble/osx.xml</descriptor>
           </descriptors>
         </configuration>
         <executions>
