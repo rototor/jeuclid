@@ -178,8 +178,8 @@
             <manifest>
               <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
               <addClasspath>true</addClasspath>
-              <addExtensions />
-              <classpathPrefix />
+              <addExtensions/>
+              <classpathPrefix/>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
@@ -260,6 +260,31 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+<!-- Please note: This requires version >= 1.0-alpha-2 (currently in SVN) -->
+<!-- Fortunately having this config here does not hurt -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>webstart-maven-plugin</artifactId>
+        <configuration>
+          <jnlp>
+            <outputFile>mathviewer.jnlp</outputFile>
+            <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
+          </jnlp>
+          <sign>
+            <keystore>${basedir}/keystore</keystore>
+            <keypass>verysecret</keypass>
+            <storepass>evenmoresecret</storepass>
+            <alias>signKey</alias>
+            <validity>365</validity>
+            <dnameCn>jeuclid.sf.net</dnameCn>
+            <verify>true</verify>
+          </sign>
+          <keystore>
+            <delete>true</delete>
+            <gen>true</gen>
+          </keystore>
+        </configuration>
       </plugin>
     </plugins>
   </build>
