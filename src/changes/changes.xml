@@ -6,6 +6,12 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add" issue="1669767">
+        Configuration and template for maven-webstart-plugin;
+        Please note: requires a current SVN checkout of this plugin, but
+        fortunately only if actually used;
+        Deployed MathViewer as JNLP
+      </action>
       <action dev="maxberger" type="update">
         LICENSE renamed to LICENSE.txt for repository bundle compatibility
       </action>
