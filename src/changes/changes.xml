@@ -7,6 +7,9 @@
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="add">
+        added assemble descriptor for OSX package, created new OSX package (ending in -osx)
+      </action>
+      <action dev="maxberger" type="add">
         Released 2.9.4
       </action>
     </release>
