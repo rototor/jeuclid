@@ -6,6 +6,12 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        MathText: replaced round(+0.5) with ceil;
+        Checkstyle: removed indentation check (done by eclipse)
+        AbtractMathElement: Checkstyle fixes;
+        MathOperator: Checkstyle fixes
+      </action>
       <action dev="maxberger" type="fix" issue="1669974">
         MathOperator/getWidth behaved differently in different situations
       </action>

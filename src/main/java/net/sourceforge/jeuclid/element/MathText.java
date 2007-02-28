@@ -138,7 +138,7 @@ public class MathText extends AbstractMathElement implements
         Rectangle2D gr = null;
         for (int i = 0; i < chars.length; i++) {
             gr = gv.getGlyphMetrics(i).getBounds2D();
-            descHeight = (int) Math.round(gr.getHeight() + gr.getY() + 0.5);
+            descHeight = (int) Math.ceil(gr.getHeight() + gr.getY());
             if (descHeight < 0) {
                 descHeight = 0;
             }
@@ -170,7 +170,7 @@ public class MathText extends AbstractMathElement implements
         for (int i = 0; i < chars.length; i++) {
             gr = gv.getGlyphMetrics(i).getBounds2D();
             if (gr.getY() < 0) {
-                ascHeight = (int) Math.round(-gr.getY() + 0.5);
+                ascHeight = (int) Math.ceil(-gr.getY());
             } else {
                 ascHeight = 0;
             }
