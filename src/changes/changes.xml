@@ -6,6 +6,12 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix">
+        AbstractRootElement: getAscentHeight now delivers a more realistic height;
+      </action>
+      <action dev="maxberger" type="remove">
+        w3ctestsuite removed, as it is extracted onto the site
+      </action>
       <action dev="maxberger" type="add">
         Rewrote / Externalized AboutDialog in MathViewer
       </action>
