@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2006 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,112 +29,102 @@ import java.util.Map;
  */
 public final class MathVariant {
 
-    private static final String FONT_MONOSPACED = "Monospaced";
-
-    private static final String FONT_SANSSERIF = "SansSerif";
-
-    private static final String FONT_SCRIPT = "Script";
-
-    private static final String FONT_FRAKTUR = "Fraktur";
-
-    private static final String FONT_SERIF = "Serif";
-
-    private static final String FONT_DOUBLESTRUCK = "Double-Struck";
-
     /**
      * Mathvariant constant. Normal style.
      */
     public static final MathVariant NORMAL = new MathVariant(Font.PLAIN,
-            FONT_SERIF);
+            FontFamily.SERIF);
 
     /**
      * Mathvariant constant. Bold style.
      */
     public static final MathVariant BOLD = new MathVariant(Font.BOLD,
-            FONT_SERIF);
+            FontFamily.SERIF);
 
     /**
      * Mathvariant constant. Italic style.
      */
     public static final MathVariant ITALIC = new MathVariant(Font.ITALIC,
-            FONT_SERIF);
+            FontFamily.SERIF);
 
     /**
      * Mathvariant constant. Bold-italic style.
      */
     public static final MathVariant BOLD_ITALIC = new MathVariant(Font.BOLD
-            | Font.ITALIC, FONT_SERIF);
+            | Font.ITALIC, FontFamily.SERIF);
 
     /**
      * Mathvariant constant. Double struck style.
      */
-    public static final MathVariant DOUBLE_STRUCK = new MathVariant(Font.PLAIN,
-            FONT_DOUBLESTRUCK);
+    public static final MathVariant DOUBLE_STRUCK = new MathVariant(
+            Font.PLAIN, FontFamily.DOUBLE_STRUCK);
 
     /**
      * Mathvariant constant. Bold fraktur style.
      */
     public static final MathVariant BOLD_FRAKTUR = new MathVariant(Font.BOLD,
-            FONT_FRAKTUR);
+            FontFamily.FRAKTUR);
 
     /**
      * Mathvariant constant. Script style.
      */
     public static final MathVariant SCRIPT = new MathVariant(Font.PLAIN,
-            FONT_SCRIPT);
+            FontFamily.SCRIPT);
 
     /**
      * Mathvariant constant. Bold script style.
      */
     public static final MathVariant BOLD_SCRIPT = new MathVariant(Font.BOLD,
-            FONT_SCRIPT);
+            FontFamily.SCRIPT);
 
     /**
      * Mathvariant constant. Fraktur style.
      */
     public static final MathVariant FRAKTUR = new MathVariant(Font.PLAIN,
-            FONT_FRAKTUR);
+            FontFamily.FRAKTUR);
 
     /**
      * Mathvariant constant. Sans-serif style.
      */
     public static final MathVariant SANS_SERIF = new MathVariant(Font.PLAIN,
-            FONT_SANSSERIF);
+            FontFamily.SANSSERIF);
 
     /**
      * Mathvariant constant. Bold sans-serif style.
      */
     public static final MathVariant BOLD_SANS_SERIF = new MathVariant(
-            Font.BOLD, FONT_SANSSERIF);
+            Font.BOLD, FontFamily.SANSSERIF);
 
     /**
      * Mathvariant constant. Italic sans-serif style.
      */
     public static final MathVariant SANS_SERIF_ITALIC = new MathVariant(
-            Font.ITALIC, FONT_SANSSERIF);
+            Font.ITALIC, FontFamily.SANSSERIF);
 
     /**
      * Mathvariant constant. Bold italic sans-serif style.
      */
     public static final MathVariant SANS_SERIF_BOLD_ITALIC = new MathVariant(
-            Font.BOLD | Font.ITALIC, FONT_SANSSERIF);
+            Font.BOLD | Font.ITALIC, FontFamily.SANSSERIF);
 
     /**
      * Mathvariant constant. Monospace style.
      */
     public static final MathVariant MONOSPACE = new MathVariant(Font.PLAIN,
-            FONT_MONOSPACED);
+            FontFamily.MONOSPACED);
 
-    private static final Map attributeMap = new HashMap();
+    private static final Map<String, MathVariant> ATTRIBUTEMAP = new HashMap<String, MathVariant>();
 
-    private static final Map knownFonts = new HashMap();
+    private static final Map<FontFamily, String[]> KNOWNFONTS = new HashMap<FontFamily, String[]>();
+
+    private static final String AWT_SANSSERIF = "sansserif";
 
     private final int awtStyle;
 
-    private final String fontFamily;
+    private final FontFamily fontFamily;
 
-    private MathVariant(int awtStyle, String family) {
-        this.awtStyle = awtStyle;
+    private MathVariant(final int awtstyle, final FontFamily family) {
+        this.awtStyle = awtstyle;
         this.fontFamily = family;
     };
 
@@ -147,31 +137,36 @@ public final class MathVariant {
      *            a character that must exist in this font
      * @return a font object.
      */
-    public Font createFont(float size, char c) {
+    public Font createFont(final float size, final char c) {
         // Lazy initalization
-        if (knownFonts.isEmpty()) {
+        if (MathVariant.KNOWNFONTS.isEmpty()) {
             // TODO: These are just some available fonts! Add more!
             // TODO: Make user configurable.
-            knownFonts.put(FONT_MONOSPACED, new String[] { "monospaced" });
-            knownFonts.put(FONT_SANSSERIF, new String[] { "sansserif" });
-            knownFonts.put(FONT_SCRIPT, new String[] { "Savoye LET",
-                    "Brush Script MT", "Zapfino", "Apple Chancery",
-                    "Edwardian Script ITC", "Lucida Handwriting",
-                    "Santa Fe LET", "Monotype Corsiva" });
-            knownFonts.put(FONT_FRAKTUR, new String[] { "FetteFraktur",
-                    "Fette Fraktur", "Euclid Fraktur", "Lucida Blackletter",
-                    "Blackmoor LET" });
-            knownFonts.put(FONT_SERIF, new String[] { "serif" });
-            knownFonts.put(FONT_DOUBLESTRUCK, new String[] {
-                    "Caslon Open Face", "Caslon Openface",
-                    "Cloister Open Face", "Academy Engraved LET", "Colonna MT",
-                    "Imprint MT Shadow" });
+            MathVariant.KNOWNFONTS.put(FontFamily.MONOSPACED,
+                    new String[] { "monospaced", });
+            MathVariant.KNOWNFONTS.put(FontFamily.SANSSERIF,
+                    new String[] { MathVariant.AWT_SANSSERIF, });
+            MathVariant.KNOWNFONTS.put(FontFamily.SCRIPT,
+                    new String[] { "Savoye LET", "Brush Script MT",
+                            "Zapfino", "Apple Chancery",
+                            "Edwardian Script ITC", "Lucida Handwriting",
+                            "Santa Fe LET", "Monotype Corsiva", });
+            MathVariant.KNOWNFONTS.put(FontFamily.FRAKTUR, new String[] {
+                    "FetteFraktur", "Fette Fraktur", "Euclid Fraktur",
+                    "Lucida Blackletter", "Blackmoor LET", });
+            MathVariant.KNOWNFONTS.put(FontFamily.SERIF,
+                    new String[] { "serif" });
+            MathVariant.KNOWNFONTS.put(FontFamily.DOUBLE_STRUCK,
+                    new String[] { "Caslon Open Face", "Caslon Openface",
+                            "Cloister Open Face", "Academy Engraved LET",
+                            "Colonna MT", "Imprint MT Shadow", });
         }
 
-        String[] fontArray = (String[]) knownFonts.get(fontFamily);
+        final String[] fontArray = (String[]) MathVariant.KNOWNFONTS
+                .get(this.fontFamily);
         Font font = null;
         for (int i = 0; (i < fontArray.length) && (font == null); i++) {
-            font = new Font(fontArray[i], awtStyle, (int) size);
+            font = new Font(fontArray[i], this.awtStyle, (int) size);
             if (font.getFamily().equalsIgnoreCase(fontArray[i])) {
                 if (!font.canDisplay(c)) {
                     font = null;
@@ -181,7 +176,8 @@ public final class MathVariant {
             }
         }
         if (font == null) {
-            font = new Font("sansserif", awtStyle, (int) size);
+            font = new Font(MathVariant.AWT_SANSSERIF, this.awtStyle,
+                    (int) size);
         }
         return font;
     }
@@ -193,26 +189,35 @@ public final class MathVariant {
      *            the string representation of the attribute value
      * @return a mathVariant object
      */
-    public static MathVariant stringToMathVariant(String variant) {
+    public static MathVariant stringToMathVariant(final String variant) {
         // Needs to be inialized late due to chicken-egg problem.
-        if (attributeMap.isEmpty()) {
-            attributeMap.put("normal", NORMAL);
-            attributeMap.put("bold", BOLD);
-            attributeMap.put("italic", ITALIC);
-            attributeMap.put("bold-italic", BOLD_ITALIC);
-            attributeMap.put("double-struck", DOUBLE_STRUCK);
-            attributeMap.put("bold-fraktur", BOLD_FRAKTUR);
-            attributeMap.put("script", SCRIPT);
-            attributeMap.put("bold-script", BOLD_SCRIPT);
-            attributeMap.put("fraktur", FRAKTUR);
-            attributeMap.put("sans-serif", SANS_SERIF);
-            attributeMap.put("bold-sans-serif", BOLD_SANS_SERIF);
-            attributeMap.put("sans-serif-italic", SANS_SERIF_ITALIC);
-            attributeMap.put("sans-serif-bold-italic", SANS_SERIF_BOLD_ITALIC);
-            attributeMap.put("monospace", MONOSPACE);
+        if (MathVariant.ATTRIBUTEMAP.isEmpty()) {
+            MathVariant.ATTRIBUTEMAP.put("normal", MathVariant.NORMAL);
+            MathVariant.ATTRIBUTEMAP.put("bold", MathVariant.BOLD);
+            MathVariant.ATTRIBUTEMAP.put("italic", MathVariant.ITALIC);
+            MathVariant.ATTRIBUTEMAP.put("bold-italic",
+                    MathVariant.BOLD_ITALIC);
+            MathVariant.ATTRIBUTEMAP.put("double-struck",
+                    MathVariant.DOUBLE_STRUCK);
+            MathVariant.ATTRIBUTEMAP.put("bold-fraktur",
+                    MathVariant.BOLD_FRAKTUR);
+            MathVariant.ATTRIBUTEMAP.put("script", MathVariant.SCRIPT);
+            MathVariant.ATTRIBUTEMAP.put("bold-script",
+                    MathVariant.BOLD_SCRIPT);
+            MathVariant.ATTRIBUTEMAP.put("fraktur", MathVariant.FRAKTUR);
+            MathVariant.ATTRIBUTEMAP
+                    .put("sans-serif", MathVariant.SANS_SERIF);
+            MathVariant.ATTRIBUTEMAP.put("bold-sans-serif",
+                    MathVariant.BOLD_SANS_SERIF);
+            MathVariant.ATTRIBUTEMAP.put("sans-serif-italic",
+                    MathVariant.SANS_SERIF_ITALIC);
+            MathVariant.ATTRIBUTEMAP.put("sans-serif-bold-italic",
+                    MathVariant.SANS_SERIF_BOLD_ITALIC);
+            MathVariant.ATTRIBUTEMAP.put("monospace", MathVariant.MONOSPACE);
         }
 
-        return (MathVariant) attributeMap.get(variant.toLowerCase());
+        return (MathVariant) MathVariant.ATTRIBUTEMAP.get(variant
+                .toLowerCase());
     }
 
 }

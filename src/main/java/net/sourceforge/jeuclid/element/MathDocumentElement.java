@@ -20,8 +20,6 @@ package net.sourceforge.jeuclid.element;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
@@ -79,17 +77,6 @@ public class MathDocumentElement extends AbstractPartialDocumentImpl
         }
     }
 
-    private List<MathElement> getChildrenAsList() {
-        // TODO: This is duplicate code!
-        final org.w3c.dom.NodeList childrenNodeList = this.getChildNodes();
-        final List<MathElement> children = new ArrayList<MathElement>(
-                childrenNodeList.getLength());
-        for (int i = 0; i < childrenNodeList.getLength(); i++) {
-            children.add((MathElement) childrenNodeList.item(i));
-        }
-        return children;
-    }
-
     /**
      * Paints the whole MathML document.
      * 
@@ -101,24 +88,26 @@ public class MathDocumentElement extends AbstractPartialDocumentImpl
      *            y-offset to start from.
      */
     public void paint(final Graphics2D g, final int posX, final int posY) {
-        ElementListSupport.paint(g, posX, posY, this.getChildrenAsList());
+        ElementListSupport.paint(g, posX, posY, ElementListSupport
+                .createListOfChildren(this));
     }
 
     /** {@inheritDoc} */
     public int getWidth(final Graphics2D g) {
-        return ElementListSupport.getWidth(g, this.getChildrenAsList());
+        return ElementListSupport.getWidth(g, ElementListSupport
+                .createListOfChildren(this));
     }
 
     /** {@inheritDoc} */
     public int getAscentHeight(final Graphics2D g) {
-        return ElementListSupport
-                .getAscentHeight(g, this.getChildrenAsList());
+        return ElementListSupport.getAscentHeight(g, ElementListSupport
+                .createListOfChildren(this));
     }
 
     /** {@inheritDoc} */
     public int getDescentHeight(final Graphics2D g) {
-        return ElementListSupport.getDescentHeight(g, this
-                .getChildrenAsList());
+        return ElementListSupport.getDescentHeight(g, ElementListSupport
+                .createListOfChildren(this));
     }
 
     /**

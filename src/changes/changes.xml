@@ -6,6 +6,12 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        MathVariant: checkstyle fixes, added FontFamily enum
+      </action>
+      <action dev="maxberger" type="update">
+        MathDocumentElement: removed createListOfChildren, merged into ElementListSupport
+      </action>
       <action dev="maxberger" type="fix">
         AbstractRootElement: getAscentHeight now delivers a more realistic height;
       </action>
