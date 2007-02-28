@@ -25,6 +25,8 @@ import java.util.List;
 import net.sourceforge.jeuclid.element.generic.DisplayableNode;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 
+import org.w3c.dom.Node;
+
 /**
  * Class to support Lists of MathElements.
  * <p>
@@ -46,12 +48,12 @@ public final class ElementListSupport {
      *            the parent element.
      * @return list of Children.
      */
-    public static List<MathElement> createListOfChildren(
-            final MathElement parent) {
-        final List<MathElement> children = new ArrayList<MathElement>(parent
-                .getMathElementCount());
-        for (int i = 0; i < parent.getMathElementCount(); i++) {
-            children.add(parent.getMathElement(i));
+    public static List<MathElement> createListOfChildren(final Node parent) {
+        final org.w3c.dom.NodeList childList = parent.getChildNodes();
+        final int len = childList.getLength();
+        final List<MathElement> children = new ArrayList<MathElement>(len);
+        for (int i = 0; i < len; i++) {
+            children.add((MathElement) childList.item(i));
         }
         return children;
 
