@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix" issue="1669974">
+        MathOperator/getWidth behaved differently in different situations
+      </action>
       <action dev="maxberger" type="add" issue="1669767">
         link to webstart app from website;
         added warning to webstart page

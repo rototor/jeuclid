@@ -424,7 +424,7 @@ public class MathOperator extends AbstractMathElement {
         if (!mathSize.equals(currentSize)) {
             super.setMathsize(mathSize);
         }
-
+        g.setFont(this.getFont());
     }
 
     /**
@@ -635,7 +635,6 @@ public class MathOperator extends AbstractMathElement {
     public void paint(final Graphics2D g, int posX, final int posY) {
         super.paint(g, posX, posY);
         this.setRealMathSize(g);
-        g.setFont(this.getFont());
         posX = (int) (posX + this.getLSpace(g));
         if (this.getText().length() == 0) {
             return;
