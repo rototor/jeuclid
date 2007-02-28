@@ -147,7 +147,6 @@ Description:
 -->
         <module name="TodoComment"/>
         <module name="RequiredRegexp"/>
-        <module name="Indentation"/>
         <module name="FinalParameters"/>
         <module name="DescendantToken"/>
         <module name="ArrayTypeStyle"/>

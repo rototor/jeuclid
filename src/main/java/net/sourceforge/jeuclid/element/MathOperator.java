@@ -147,19 +147,21 @@ public class MathOperator extends AbstractMathElement {
     public static final String ARROWS = "\u2192\u21D2\u21D0\u2190\u21D4\u2194\u2191\u21D1\u2193\u21D3\u21A6";
 
     /**
+     * Value for not initialized type of operator.
+     */
+    public static final int FORM_UKNOWN = -1;
+
+    /**
      * Logger for this class
      */
     private static final Log LOGGER = LogFactory.getLog(MathOperator.class);
+
+    private static final float FONT_SCALAR = 100.0f;
 
     /**
      * Variable with stretchy property value.
      */
     private boolean m_stretchy = true;
-
-    /**
-     * Value for not initialized type of operator.
-     */
-    public static final int FORM_UKNOWN = -1;
 
     /**
      * Type of operator (prefix, infix or postfix).
@@ -226,8 +228,8 @@ public class MathOperator extends AbstractMathElement {
      */
     public MathOperator(final MathBase base) {
         super(base);
-        this.setDefaultMathAttribute(ATTR_MAXSIZE, "infinity");
-        this.setDefaultMathAttribute(ATTR_MINSIZE, "1");
+        this.setDefaultMathAttribute(MathOperator.ATTR_MAXSIZE, "infinity");
+        this.setDefaultMathAttribute(MathOperator.ATTR_MINSIZE, "1");
     }
 
     /**
@@ -551,18 +553,21 @@ public class MathOperator extends AbstractMathElement {
         width = (int) (this.getWidth(g) - this.getRSpace(g) - this
                 .getLSpace(g));
         final Font font = g.getFont().deriveFont(
-                this.getFontsizeInPoint() * 100);
+                this.getFontsizeInPoint() * MathOperator.FONT_SCALAR);
         final GlyphVector gv = font.createGlyphVector(g
                 .getFontRenderContext(), new char[] { delimiter });
         final Rectangle2D gbounds = gv.getGlyphMetrics(0).getBounds2D();
-        final double glyphWidth = gbounds.getWidth() / 100;
-        final double glyphHeight = gbounds.getHeight() / 100;
-        final double ascent = gbounds.getY() / 100;
-        final double left = gbounds.getX() / 100;
+        final double glyphWidth = gbounds.getWidth()
+                / MathOperator.FONT_SCALAR;
+        final double glyphHeight = gbounds.getHeight()
+                / MathOperator.FONT_SCALAR;
+        final double ascent = gbounds.getY() / MathOperator.FONT_SCALAR;
+        final double left = gbounds.getX() / MathOperator.FONT_SCALAR;
 
-        double yScale, xScale;
+        double yScale;
+        double xScale;
         if (vertical) {
-            yScale = (height / glyphHeight);
+            yScale = height / glyphHeight;
             xScale = 1;
         } else {
             xScale = Math.max(1, width / glyphWidth);
@@ -1000,7 +1005,7 @@ public class MathOperator extends AbstractMathElement {
         return def;
     }
 
-    private boolean boolForAttr(String attrName, boolean defValue) {
+    private boolean boolForAttr(final String attrName, final boolean defValue) {
         final String attrValue = this.getMathAttribute(attrName);
         if (attrValue == null) {
             return this.getBooleanFromDictionary(attrName, defValue);

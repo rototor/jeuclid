@@ -128,6 +128,10 @@ public abstract class AbstractMathElement extends
      */
     public static final String URI = "http://www.w3.org/1998/Math/MathML";
 
+    private static final double MIDDLE_SHIFT = 0.38;
+
+    private static final float DEFAULT_SCIPTSIZEMULTIPLIER = 0.71f;
+
     /**
      * Logger for this class
      */
@@ -196,7 +200,7 @@ public abstract class AbstractMathElement extends
     /**
      * Variable of "scriptsize" attribute, default value is 0.71.
      */
-    private float m_scriptsizemultiplier = (float) 0.71;
+    private float mscriptsizemultiplier = DEFAULT_SCIPTSIZEMULTIPLIER;
 
     /**
      * This variable is intended to keep the value of vertical shift of the
@@ -582,7 +586,7 @@ public abstract class AbstractMathElement extends
      * @return Value of scriptsize attribute.
      */
     public float getScriptSizeMultiplier() {
-        return this.m_scriptsizemultiplier;
+        return this.mscriptsizemultiplier;
     }
 
     /**
@@ -592,7 +596,7 @@ public abstract class AbstractMathElement extends
      *            Value of scriptsize attribute.
      */
     public void setScriptSizeMultiplier(final float scriptsizemultiplier) {
-        this.m_scriptsizemultiplier = scriptsizemultiplier;
+        this.mscriptsizemultiplier = scriptsizemultiplier;
     }
 
     /**
@@ -975,7 +979,7 @@ public abstract class AbstractMathElement extends
      *            Graphics2D context to use.
      */
     public int getMiddleShift(final Graphics2D g) {
-        return (int) (this.getFontMetrics(g).getAscent() * 0.38);
+        return (int) (this.getFontMetrics(g).getAscent() * AbstractMathElement.MIDDLE_SHIFT);
     }
 
     /** {@inheritDoc} */
