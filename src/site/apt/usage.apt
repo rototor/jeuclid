@@ -5,6 +5,8 @@ Getting JEuclid
 	as a binary package or
 	from {{{/source.html}source}}. 
 
+  If you just want the MathViewer you may start it from our {{{./webstart.html}MathViewer WebStart}} page.
+
 Using JEuclid
 
   Please note: This documentation refers to the 2.9.4 version.
