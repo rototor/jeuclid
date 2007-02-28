@@ -1,9 +1,11 @@
 Webstartable application
 
- If you have a working Java webstart (1.5 or newer) set up, you may start the JEuclid MathViewer directly from this page:
+ If you have a working Java Webstart (1.5 or newer) set up, you may start the JEuclid MathViewer directly from this page:
 
  * {{{webstart/mathviewer.jnlp}Webstartable MathViewer application}}
 
  []
 
  Please note: This is a current snapshot which may be updated at irregular times. It is not yet fully integreated into the build / deploy process
+
+ Also note: The Webstart application is not trusted by a valid signature, and never will be. Webstart will complain about this fact. This application will run on your local computer and it will have access to your file system. USE AT YOUR OWN RISK! (However, the risks are the same as downloading it and running it locally).
