@@ -77,7 +77,8 @@ public abstract class AbstractRootElement extends AbstractMathElement {
         final int desHeight = ElementListSupport
                 .getDescentHeight(g, elements);
         final int height = asHeight + desHeight;
-        return Math.max(asHeight + 2, height / 2 + 2 - desHeight + height);
+        return Math.max(asHeight + 2, height / 2 + 2 - desHeight
+                + this.getActualIndex().getHeight(g));
     }
 
     /** {@inheritDoc} */
