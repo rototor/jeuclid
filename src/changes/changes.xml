@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        Rewrote / Externalized AboutDialog in MathViewer
+      </action>
       <action dev="maxberger" type="update">
         MathText: replaced round(+0.5) with ceil;
         Checkstyle: removed indentation check (done by eclipse)

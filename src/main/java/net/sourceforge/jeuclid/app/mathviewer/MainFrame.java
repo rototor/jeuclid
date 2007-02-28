@@ -32,7 +32,6 @@ import java.util.Map;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -41,7 +40,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.app.MathViewer;
@@ -85,10 +83,6 @@ public class MainFrame extends JFrame {
     private JMenuItem openMenuItem;
 
     private JDialog aboutDialog;
-
-    private JPanel aboutContentPane;
-
-    private JLabel aboutVersionLabel;
 
     private JScrollPane scrollPane;
 
@@ -231,7 +225,8 @@ public class MainFrame extends JFrame {
                     final JDialog aDialog = MainFrame.this.getAboutDialog();
                     aDialog.pack();
                     final Point loc = MainFrame.this.getLocation();
-                    loc.translate(20, 20);
+                    loc.translate((MainFrame.this.getWidth() - aDialog
+                            .getWidth()) / 2, 0);
                     aDialog.setLocation(loc);
                     aDialog.setVisible(true);
                 }
@@ -247,44 +242,9 @@ public class MainFrame extends JFrame {
      */
     private JDialog getAboutDialog() {
         if (this.aboutDialog == null) {
-            this.aboutDialog = new JDialog(this, true);
-            this.aboutDialog.setTitle(Messages
-                    .getString("MathViewer.aboutWindowTitle")); //$NON-NLS-1$
-            this.aboutDialog.setContentPane(this.getAboutContentPane());
+            this.aboutDialog = new AboutDialog(this);
         }
         return this.aboutDialog;
-    }
-
-    /**
-     * This method initializes aboutContentPane
-     * 
-     * @return javax.swing.JPanel
-     */
-    private JPanel getAboutContentPane() {
-        if (this.aboutContentPane == null) {
-            this.aboutContentPane = new JPanel();
-            this.aboutContentPane.setLayout(new BorderLayout());
-            this.aboutContentPane.add(this.getAboutVersionLabel(),
-                    BorderLayout.CENTER);
-        }
-        return this.aboutContentPane;
-    }
-
-    /**
-     * This method initializes aboutVersionLabel
-     * 
-     * @return javax.swing.JLabel
-     */
-    private JLabel getAboutVersionLabel() {
-        if (this.aboutVersionLabel == null) {
-            // TODO: There should be much more information.
-            this.aboutVersionLabel = new JLabel();
-            this.aboutVersionLabel.setText(Messages
-                    .getString("MathViewer.aboutContent")); //$NON-NLS-1$
-            this.aboutVersionLabel
-                    .setHorizontalAlignment(SwingConstants.CENTER);
-        }
-        return this.aboutVersionLabel;
     }
 
     /**
