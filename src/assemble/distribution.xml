@@ -8,16 +8,32 @@
     <fileSet>
       <directory>target/appassembler</directory>
       <outputDirectory></outputDirectory>
+      <includes>
+        <include>bin/mathviewer</include>
+        <include>bin/mml2xxx</include>
+      </includes>
+      <fileMode>0755</fileMode>
+    </fileSet>
+    <fileSet>
+      <directory>target/appassembler</directory>
+      <outputDirectory></outputDirectory>
+      <excludes>
+        <exclude>bin/mathviewer</exclude>
+        <exclude>bin/mml2xxx</exclude>
+      </excludes>
+      <fileMode>0644</fileMode>
     </fileSet>
   </fileSets>
   <files>
     <file>
       <source>LICENSE.txt</source>
       <outputDirectory/>
+      <fileMode>420</fileMode>
     </file>
     <file>
       <source>NOTICE</source>
       <outputDirectory/>
+      <fileMode>420</fileMode>
     </file>
   </files>
 </assembly>

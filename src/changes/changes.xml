@@ -6,6 +6,12 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix">
+        added file mode for executable files for osx and distribution
+      </action>
+      <action dev="maxberger" type="fix">
+        FileModes in packages where wrong due to http://jira.codehaus.org/browse/MASSEMBLY-173
+      </action>
       <action dev="maxberger" type="add">
         MathVariant: checkstyle fixes, added FontFamily enum
       </action>
