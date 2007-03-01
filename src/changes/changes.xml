@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix">
+        MathSup, MathSubSup: Now has better handling for size / position of super element.
+      </action>
       <action dev="maxberger" type="update">
         Completely rewritten AttributesHelper for unitconversion.
       </action>

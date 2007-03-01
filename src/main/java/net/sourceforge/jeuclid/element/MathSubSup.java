@@ -80,13 +80,11 @@ public class MathSubSup extends AbstractMathElementWithSubSuper implements
 
         final int posY1 = posY + e1DescentHeight + e2.getAscentHeight(g)
                 - this.getSubMiddleShift(referenceHeight, g) - 1;
-        final int posY2 = posY - e1AscentHeight
-                + this.getSupMiddleShift(referenceHeight, g)
-                - e3.getDescentHeight(g) + 1;
 
         e1.paint(g, posX, posY);
         e2.paint(g, posX + e1.getWidth(g), posY1);
-        e3.paint(g, posX + e1.getWidth(g), posY2);
+        e3.paint(g, posX + e1.getWidth(g), posY
+                - this.getSuperBaseLineShift(g));
     }
 
     /** {@inheritDoc} */
@@ -100,10 +98,7 @@ public class MathSubSup extends AbstractMathElementWithSubSuper implements
     /** {@inheritDoc} */
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
-        final int e2h = Math.max(this.getMathElement(2).getHeight(g)
-                - this.getSupMiddleShift(this.getMathElement(0).getHeight(g),
-                        g), 0);
-        return this.getMathElement(0).getAscentHeight(g) + e2h;
+        return this.caclulateAscentHeightWithSuper(g);
     }
 
     /** {@inheritDoc} */
@@ -141,17 +136,17 @@ public class MathSubSup extends AbstractMathElementWithSubSuper implements
     }
 
     /** {@inheritDoc} */
-    public MathMLElement getBase() {
+    public MathElement getBase() {
         return this.getMathElement(0);
     }
 
     /** {@inheritDoc} */
-    public MathMLElement getSubscript() {
+    public MathElement getSubscript() {
         return this.getMathElement(1);
     }
 
     /** {@inheritDoc} */
-    public MathMLElement getSuperscript() {
+    public MathElement getSuperscript() {
         return this.getMathElement(2);
     }
 

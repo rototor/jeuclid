@@ -132,17 +132,17 @@ public class MathSub extends AbstractMathElementWithSubSuper implements
     }
 
     /** {@inheritDoc} */
-    public MathMLElement getBase() {
+    public MathElement getBase() {
         return this.getMathElement(0);
     }
 
     /** {@inheritDoc} */
-    public MathMLElement getSubscript() {
+    public MathElement getSubscript() {
         return this.getMathElement(1);
     }
 
     /** {@inheritDoc} */
-    public MathMLElement getSuperscript() {
+    public MathElement getSuperscript() {
         return null;
     }
 
