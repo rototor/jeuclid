@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        updated FAQ for supported imageformats.
+      </action>
       <action dev="maxberger" type="fix">
         added file mode for executable files for osx and distribution
       </action>
