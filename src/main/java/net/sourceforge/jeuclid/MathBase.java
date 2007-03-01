@@ -123,9 +123,15 @@ public class MathBase {
         if (element == null) {
             return;
         }
-
         this.rootElement = element;
         this.rootElement.setMathBase(this);
+    }
+
+    /**
+     * @return the Document element associated with this mathbase.
+     */
+    public MathDocumentElement getRootElement() {
+        return this.rootElement;
     }
 
     /**

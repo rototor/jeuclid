@@ -29,7 +29,8 @@ import org.xml.sax.InputSource;
  * Entity Resolver that resources in class path.
  * 
  * @author Max Berger
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2007-02-13 23:05:40 +0100 (Die, 13 Feb
+ *          2007) $
  */
 public class ResourceEntityResolver implements EntityResolver {
 
@@ -72,7 +73,7 @@ public class ResourceEntityResolver implements EntityResolver {
         return retval;
     }
 
-    {
+    static {
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//OpenOffice.org//DTD Modified W3C MathML 1.01//EN",
                 "/openoffice.mathml.1.0.1/math.dtd");

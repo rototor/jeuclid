@@ -69,8 +69,8 @@ public class MathOver extends AbstractMathElement {
      * Space between base and under in pixels
      */
     private int getOverSpace(final Graphics2D g) {
-        return AttributesHelper.getPixels(MathUnderOver.UNDER_OVER_SPACE,
-                this.getFontMetrics(g));
+        return (int) AttributesHelper.convertSizeToPt(
+                MathUnderOver.UNDER_OVER_SPACE, this, AttributesHelper.PT);
     };
 
     /**

@@ -32,7 +32,7 @@ import org.w3c.dom.mathml.MathMLElement;
  * 
  * @author Max Berger
  */
-public interface MathElement extends MathMLElement, DisplayableNode {
+public interface MathElement extends MathMLElement, DisplayableNode, MathNode {
 
     /**
      * Sets the parent of this element.
@@ -135,13 +135,6 @@ public interface MathElement extends MathMLElement, DisplayableNode {
     int getIndexOfMathElement(final MathElement element);
 
     /**
-     * Get the actual mathsize in points.
-     * 
-     * @return mathsize in points.
-     */
-    float getMathsizeInPoint();
-
-    /**
      * Gets the current mathvariant.
      * 
      * @return the current MathVariant
@@ -221,4 +214,5 @@ public interface MathElement extends MathMLElement, DisplayableNode {
      * @return Math base object.
      */
     MathBase getMathBase();
+
 }

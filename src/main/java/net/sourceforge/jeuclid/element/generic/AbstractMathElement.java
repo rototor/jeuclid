@@ -248,7 +248,7 @@ public abstract class AbstractMathElement extends
      * 
      * @return size of the current font.
      */
-    protected float getFontsizeInPoint() {
+    public float getFontsizeInPoint() {
         final float scriptMultiplier = (float) Math.pow(this
                 .getScriptSizeMultiplier(), this.getAbsoluteScriptLevel());
         float size = this.getMathsizeInPoint() * scriptMultiplier;
@@ -666,16 +666,17 @@ public abstract class AbstractMathElement extends
 
         final String msize = this.getMathsize();
 
-        float relativeToSize;
+        MathNode relativeToElement = null;
         if (this.getParent() != null) {
-            relativeToSize = this.getParent().getMathsizeInPoint();
+            relativeToElement = this.getParent();
         } else {
-            relativeToSize = this.mbase.getFontSize();
+            relativeToElement = this.mbase.getRootElement();
         }
         if (msize == null) {
-            return relativeToSize;
+            return relativeToElement.getMathsizeInPoint();
         }
-        return AttributesHelper.getFontSize(msize, relativeToSize);
+        return AttributesHelper.convertSizeToPt(msize, relativeToElement,
+                AttributesHelper.PT);
     }
 
     /**

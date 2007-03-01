@@ -106,9 +106,10 @@ public abstract class AbstractMathElementWithSubSuper extends
      * @return subscriptshift
      */
     protected int getSubMiddleShift(final int reference, final Graphics2D g) {
-        return (int) (reference * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT)
-                + AttributesHelper.getPixels(this.getSubscriptshift(), this
-                        .getFontMetrics(g));
+        return (int) (reference
+                * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT + AttributesHelper
+                .convertSizeToPt(this.getSubscriptshift(), this,
+                        AttributesHelper.PT));
     }
 
     /**
@@ -122,8 +123,9 @@ public abstract class AbstractMathElementWithSubSuper extends
      * @return actual supscriptshift
      */
     protected int getSupMiddleShift(final int reference, final Graphics2D g) {
-        return (int) (reference * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT)
-                + AttributesHelper.getPixels(this.getSuperscriptshift(), this
-                        .getFontMetrics(g));
+        return (int) (reference
+                * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT + AttributesHelper
+                .convertSizeToPt(this.getSuperscriptshift(), this,
+                        AttributesHelper.PT));
     }
 }
