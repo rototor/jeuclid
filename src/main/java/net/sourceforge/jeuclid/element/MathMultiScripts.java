@@ -26,6 +26,8 @@ import net.sourceforge.jeuclid.element.generic.MathElement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.mathml.MathMLElement;
 
 /**
  * This class arange a element lower, and a other elements upper to an
@@ -527,6 +529,45 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper {
     /** {@inheritDoc} */
     public String getTagName() {
         return MathMultiScripts.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public MathElement getBase() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public MathElement getSubscript() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public MathElement getSuperscript() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public void setBase(MathMLElement base) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /** {@inheritDoc} */
+    public void setSubscript(MathMLElement subscript) throws DOMException {
+        // TODO Auto-generated method stub
+
+    }
+
+    /** {@inheritDoc} */
+    public void setSuperscript(MathMLElement superscript) throws DOMException {
+        // TODO Auto-generated method stub
+
     }
 
 }
