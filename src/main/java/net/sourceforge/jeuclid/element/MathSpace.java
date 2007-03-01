@@ -128,22 +128,22 @@ public class MathSpace extends AbstractMathElement implements
     /** {@inheritDoc} */
     @Override
     public int calculateWidth(final Graphics2D g) {
-        return AttributesHelper.getPixels(this.getWidth(), this
-                .getFontMetrics(g));
+        return (int) AttributesHelper.convertSizeToPt(this.getWidth(), this,
+                AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
-        return AttributesHelper.getPixels(this.getHeight(), this
-                .getFontMetrics(g));
+        return (int) AttributesHelper.convertSizeToPt(this.getHeight(), this,
+                AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */
     @Override
     public int calculateDescentHeight(final Graphics2D g) {
-        return AttributesHelper.getPixels(this.getDepth(), this
-                .getFontMetrics(g));
+        return (int) AttributesHelper.convertSizeToPt(this.getDepth(), this,
+                AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */

@@ -312,15 +312,16 @@ public class MathOperator extends AbstractMathElement {
             try {
                 final String s = OperatorDictionary.getDefaultAttributeValue(
                         this.getText(), this.m_form, "lspace");
-                return AttributesHelper.getPixels(s, g.getFontMetrics());
+                return AttributesHelper.convertSizeToPt(s, this,
+                        AttributesHelper.PT);
             } catch (final UnknownAttributeException e) {
                 MathOperator.LOGGER
                         .error("Unknown attribute name: lspace", e);
                 return 0;
             }
         } else {
-            return AttributesHelper.getPixels(this.m_lspace, g
-                    .getFontMetrics());
+            return AttributesHelper.convertSizeToPt(this.m_lspace, this,
+                    AttributesHelper.PT);
         }
     }
 
@@ -359,15 +360,16 @@ public class MathOperator extends AbstractMathElement {
             try {
                 final String s = OperatorDictionary.getDefaultAttributeValue(
                         this.getText(), this.m_form, "rspace");
-                return AttributesHelper.getPixels(s, g.getFontMetrics());
+                return AttributesHelper.convertSizeToPt(s, this,
+                        AttributesHelper.PT);
             } catch (final UnknownAttributeException e) {
                 MathOperator.LOGGER
                         .error("Unknown attribute name: rspace", e);
                 return 0;
             }
         } else {
-            return AttributesHelper.getPixels(this.m_rspace, g
-                    .getFontMetrics());
+            return AttributesHelper.convertSizeToPt(this.m_rspace, this,
+                    AttributesHelper.PT);
         }
     }
 
@@ -415,12 +417,14 @@ public class MathOperator extends AbstractMathElement {
         final String currentSize = new Float(super.getMathsizeInPoint())
                 .toString();
         String mathSize = currentSize;
-        if (AttributesHelper.getPixels(currentSize, this.getFontMetrics(g)) > (AttributesHelper
-                .getPixels(this.getMaxsize(), this.getFontMetrics(g)))) {
+        if (AttributesHelper.convertSizeToPt(currentSize, this,
+                AttributesHelper.PT) > (AttributesHelper.convertSizeToPt(this
+                .getMaxsize(), this, AttributesHelper.PT))) {
             mathSize = this.getMaxsize();
         }
-        if (AttributesHelper.getPixels(currentSize, this.getFontMetrics(g)) < (AttributesHelper
-                .getPixels(this.getMinsize(), this.getFontMetrics(g)))) {
+        if (AttributesHelper.convertSizeToPt(currentSize, this,
+                AttributesHelper.PT) < (AttributesHelper.convertSizeToPt(this
+                .getMinsize(), this, AttributesHelper.PT))) {
             mathSize = this.getMinsize();
         }
         if (!mathSize.equals(currentSize)) {
@@ -848,14 +852,15 @@ public class MathOperator extends AbstractMathElement {
                             ah = dh + this.getMiddleShift(g);
                             dh = dh - this.getMiddleShift(g);
                         }
-                        int size = AttributesHelper.getPixels(this
-                                .getMaxsize(), this.getFontMetrics(g));
+                        int size = (int) AttributesHelper.convertSizeToPt(
+                                this.getMaxsize(), this, AttributesHelper.PT);
                         if (ah + dh > size) {
                             ah = (ah - this.getMiddleShift(g)) * size
                                     / (ah + dh) + this.getMiddleShift(g);
                         } else {
-                            size = AttributesHelper.getPixels(this
-                                    .getMinsize(), this.getFontMetrics(g));
+                            size = (int) AttributesHelper.convertSizeToPt(
+                                    this.getMinsize(), this,
+                                    AttributesHelper.PT);
                             if (ah + dh < size) {
                                 ah = (ah - this.getMiddleShift(g)) * size
                                         / (ah + dh) + this.getMiddleShift(g);
@@ -937,14 +942,15 @@ public class MathOperator extends AbstractMathElement {
                             ah = dh + this.getMiddleShift(g);
                             dh = dh - this.getMiddleShift(g);
                         }
-                        int size = AttributesHelper.getPixels(this
-                                .getMaxsize(), this.getFontMetrics(g));
+                        int size = (int) AttributesHelper.convertSizeToPt(
+                                this.getMaxsize(), this, AttributesHelper.PT);
                         if (ah + dh > size) {
                             dh = (dh + this.getMiddleShift(g)) * size
                                     / (ah + dh) - this.getMiddleShift(g);
                         } else {
-                            size = AttributesHelper.getPixels(this
-                                    .getMinsize(), this.getFontMetrics(g));
+                            size = (int) AttributesHelper.convertSizeToPt(
+                                    this.getMinsize(), this,
+                                    AttributesHelper.PT);
                             if (ah + dh < size) {
                                 dh = (dh + this.getMiddleShift(g)) * size
                                         / (ah + dh) - this.getMiddleShift(g);

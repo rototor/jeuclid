@@ -103,8 +103,8 @@ public class MathUnderOver extends AbstractMathElement {
      * Space between base nad under/over in pixels
      */
     private int getUnderOverSpace(final Graphics2D g) {
-        return AttributesHelper.getPixels(MathUnderOver.UNDER_OVER_SPACE,
-                this.getFontMetrics(g));
+        return (int) AttributesHelper.convertSizeToPt(
+                MathUnderOver.UNDER_OVER_SPACE, this, AttributesHelper.PT);
     };
 
     /**
@@ -191,7 +191,8 @@ public class MathUnderOver extends AbstractMathElement {
                         .getMoveableLimits()) {
             final int e2h = (int) Math.max(this.getMathElement(2)
                     .getHeight(g)
-                    - this.getMathElement(0).getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT, 0);
+                    - this.getMathElement(0).getHeight(g)
+                    * MathSubSup.DEFAULT_SCRIPTSHIFT, 0);
             res = this.getMathElement(0).getAscentHeight(g) + e2h;
         } else {
             res = this.getMathElement(0).getAscentHeight(g)
@@ -213,7 +214,8 @@ public class MathUnderOver extends AbstractMathElement {
                         .getMoveableLimits()) {
             final int e2h = (int) Math.max(this.getMathElement(1)
                     .getHeight(g)
-                    - this.getMathElement(0).getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT, 0);
+                    - this.getMathElement(0).getHeight(g)
+                    * MathSubSup.DEFAULT_SCRIPTSHIFT, 0);
             res = this.getMathElement(0).getDescentHeight(g) + e2h;
         } else {
             res = this.getMathElement(0).getDescentHeight(g)

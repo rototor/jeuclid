@@ -393,11 +393,11 @@ public class MathTable extends AbstractMathElement {
      */
     public int getRowspacing(final Graphics2D g, final int row) {
         if (row < this.m_rowspacing.size()) {
-            return AttributesHelper.getPixels(this.m_rowspacing.get(row),
-                    this.getFontMetrics(g));
+            return (int) AttributesHelper.convertSizeToPt(this.m_rowspacing
+                    .get(row), this, AttributesHelper.PT);
         } else {
-            return AttributesHelper.getPixels(MathTable.DEFAULT_ROWSPACING,
-                    this.getFontMetrics(g));
+            return (int) AttributesHelper.convertSizeToPt(
+                    MathTable.DEFAULT_ROWSPACING, this, AttributesHelper.PT);
         }
     }
 
@@ -431,11 +431,12 @@ public class MathTable extends AbstractMathElement {
      */
     public int getColumnspacing(final Graphics2D g, final int col) {
         if (col < this.m_columnspacing.size()) {
-            return AttributesHelper.getPixels(this.m_columnspacing.get(col),
-                    this.getFontMetrics(g));
+            return (int) AttributesHelper.convertSizeToPt(
+                    this.m_columnspacing.get(col), this, AttributesHelper.PT);
         } else {
-            return AttributesHelper.getPixels(
-                    MathTable.DEFAULT_COLUMNSPACING, this.getFontMetrics(g));
+            return (int) AttributesHelper.convertSizeToPt(
+                    MathTable.DEFAULT_COLUMNSPACING, this,
+                    AttributesHelper.PT);
         }
     }
 
@@ -518,12 +519,12 @@ public class MathTable extends AbstractMathElement {
             this.setFramespacing(MathTable.DEFAULT_FRAMESPACING);
         }
         if (this.framespacingh == -1) {
-            this.framespacingh = AttributesHelper.getPixels(
+            this.framespacingh = (int) AttributesHelper.convertSizeToPt(
                     this.m_framespacing.substring(0, this.m_framespacing
-                            .indexOf(' ')), this.getFontMetrics(g));
-            this.framespacingv = AttributesHelper.getPixels(
+                            .indexOf(' ')), this, AttributesHelper.PT);
+            this.framespacingv = (int) AttributesHelper.convertSizeToPt(
                     this.m_framespacing.substring(this.m_framespacing
-                            .indexOf(' ') + 1), this.getFontMetrics(g));
+                            .indexOf(' ') + 1), this, AttributesHelper.PT);
         }
         return this.framespacingh;
     }
@@ -542,12 +543,12 @@ public class MathTable extends AbstractMathElement {
             this.setFramespacing(MathTable.DEFAULT_FRAMESPACING);
         }
         if (this.framespacingh == -1) {
-            this.framespacingh = AttributesHelper.getPixels(
+            this.framespacingh = (int) AttributesHelper.convertSizeToPt(
                     this.m_framespacing.substring(0, this.m_framespacing
-                            .indexOf(' ')), this.getFontMetrics(g));
-            this.framespacingv = AttributesHelper.getPixels(
+                            .indexOf(' ')), this, AttributesHelper.PT);
+            this.framespacingv = (int) AttributesHelper.convertSizeToPt(
                     this.m_framespacing.substring(this.m_framespacing
-                            .indexOf(' ') + 1), this.getFontMetrics(g));
+                            .indexOf(' ') + 1), this, AttributesHelper.PT);
         }
         return this.framespacingv;
     }

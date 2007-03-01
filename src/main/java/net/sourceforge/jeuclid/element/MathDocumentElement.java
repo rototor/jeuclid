@@ -24,6 +24,7 @@ import java.awt.Graphics2D;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
 import net.sourceforge.jeuclid.element.generic.MathElement;
+import net.sourceforge.jeuclid.element.generic.MathNode;
 import net.sourceforge.jeuclid.element.helpers.ElementListSupport;
 
 import org.w3c.dom.mathml.MathMLDocument;
@@ -34,7 +35,7 @@ import org.w3c.dom.mathml.MathMLDocument;
  * @author Max Berger
  */
 public class MathDocumentElement extends AbstractPartialDocumentImpl
-        implements MathMLDocument {
+        implements MathMLDocument, MathNode {
 
     private MathBase mathbase;
 
@@ -143,6 +144,16 @@ public class MathDocumentElement extends AbstractPartialDocumentImpl
             g2.setColor(Color.black);
         }
         this.paint(g2, 0, this.getAscentHeight(g2));
+    }
+
+    /** {@inheritDoc} */
+    public float getMathsizeInPoint() {
+        return this.mathbase.getFontSize();
+    }
+
+    /** {@inheritDoc} */
+    public float getFontsizeInPoint() {
+        return this.mathbase.getFontSize();
     }
 
 }
