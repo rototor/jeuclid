@@ -1,3 +1,19 @@
 FAQ
+ 
+* Available image formats
+ 
+** What output image types are supported?
+
+  This depends very much on the version of Java you are using. All image types supported by ImageIO are supported in JEuclid, as well as the extra type <<<image/svg+xml>>> (svg).
+
+ If you run the command line tool (mml2xxx) without any parameters, it will print a list of supported formats for your platform.
+
+ Always supported (java >= 1.5) are: JPEG, PNG, BMP, WBMP. Java 1.6 adds support for GIF.
+ 
+** How can I add support for more image types?
   
-  no entries yet. Please ask a question!
+ By installing downloading and installing the appropriate {{{https://jai-imageio.dev.java.net/binary-builds.html}jai-imageio}} for your platform. This adds or improves support for BMP, GIF, JPEG, JPEG 2000, PNG, PNM, Raw, TIFF, WBMP
+
+** I really need GIF support
+
+ Please update to Java 1.6 or install jai-imageio.
