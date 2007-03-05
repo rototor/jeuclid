@@ -26,8 +26,9 @@ import net.sourceforge.jeuclid.element.generic.MathElement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.mathml.MathMLElement;
+import org.w3c.dom.mathml.MathMLMultiScriptsElement;
+import org.w3c.dom.mathml.MathMLNodeList;
 
 /**
  * This class arange a element lower, and a other elements upper to an
@@ -38,7 +39,8 @@ import org.w3c.dom.mathml.MathMLElement;
  *       getSupMiddleShifft
  */
 
-public class MathMultiScripts extends AbstractMathElementWithSubSuper {
+public class MathMultiScripts extends AbstractMathElementWithSubSuper
+        implements MathMLMultiScriptsElement {
     /**
      * The XML element from this class.
      */
@@ -93,7 +95,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper {
         }
         int middleshift = 0;
         if (childElement != null) {
-            middleshift = (int) (baseElement.getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT);
+            middleshift = (int) (baseElement.getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT);
         }
         int e1DescentHeight = 0;
         if (baseElement != null) {
@@ -277,7 +279,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
+                                                                .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
             if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
@@ -294,7 +296,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
+                                                                .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
         } else {
@@ -309,7 +311,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
+                                                                .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
         }
@@ -428,7 +430,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
+                                                                .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
             if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
@@ -445,7 +447,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
+                                                                .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
         } else {
@@ -460,7 +462,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper {
                                                         - (int) (this
                                                                 .getMathElement(
                                                                         0)
-                                                                .getHeight(g) * MathMultiScripts.DEFAULT_SCRIPTSHIFT),
+                                                                .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),
                                                 0));
             }
         }
@@ -534,8 +536,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper {
     /** {@inheritDoc} */
     @Override
     public MathElement getBase() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.getMathElement(0);
     }
 
     /** {@inheritDoc} */
@@ -553,21 +554,124 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper {
     }
 
     /** {@inheritDoc} */
-    public void setBase(MathMLElement base) {
+    public void setBase(final MathMLElement base) {
+        this.setMathElement(0, base);
+    }
+
+    /** {@inheritDoc} */
+    public void setSubscript(final MathMLElement subscript) {
         // TODO Auto-generated method stub
 
     }
 
     /** {@inheritDoc} */
-    public void setSubscript(MathMLElement subscript) throws DOMException {
+    public void setSuperscript(final MathMLElement superscript) {
         // TODO Auto-generated method stub
 
     }
 
     /** {@inheritDoc} */
-    public void setSuperscript(MathMLElement superscript) throws DOMException {
+    public int getNumprescriptcolumns() {
         // TODO Auto-generated method stub
+        return 0;
+    }
 
+    /** {@inheritDoc} */
+    public int getNumscriptcolumns() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getPreSubScript(final int colIndex) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getPreSuperScript(final int colIndex) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLNodeList getPrescripts() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLNodeList getScripts() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getSubScript(final int colIndex) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getSuperScript(final int colIndex) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement insertPreSubScriptBefore(final int colIndex,
+            final MathMLElement newScript) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement insertPreSuperScriptBefore(final int colIndex,
+            final MathMLElement newScript) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement insertSubScriptBefore(final int colIndex,
+            final MathMLElement newScript) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement insertSuperScriptBefore(final int colIndex,
+            final MathMLElement newScript) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement setPreSubScriptAt(final int colIndex,
+            final MathMLElement newScript) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement setPreSuperScriptAt(final int colIndex,
+            final MathMLElement newScript) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement setSubScriptAt(final int colIndex,
+            final MathMLElement newScript) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement setSuperScriptAt(final int colIndex,
+            final MathMLElement newScript) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

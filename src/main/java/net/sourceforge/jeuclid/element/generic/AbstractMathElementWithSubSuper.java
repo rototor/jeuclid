@@ -156,7 +156,7 @@ public abstract class AbstractMathElementWithSubSuper extends
         final int baseDescentHeight = baseElement.getDescentHeight(g);
         final int superDescentHeight = supElement.getDescentHeight(g);
 
-        return -baseDescentHeight + middleshift - superDescentHeight;
+        return -baseDescentHeight + middleshift + superDescentHeight;
     }
 
     /**
