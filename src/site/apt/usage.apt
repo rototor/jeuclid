@@ -7,6 +7,21 @@ Getting JEuclid
 
   If you just want the MathViewer you may start it from our {{{./webstart.html}MathViewer WebStart}} page.
 
+Installing Fonts (optional)
+
+ For best results, we recommend the following Fontsets:
+
+  * {{{http://dejavu.sourceforge.net/}DejaVu Fonts}}. 
+
+    * OSX: Download the <<<.zip>> distribution from the site mentionen above. Drag the <<<.ttf>>> files into your <<</Library/Fonts>>> (or your personal <<<Library/Fonts>>>) directory
+
+    * Debian + Ubuntu Linux: use <<<apt-get install ttf-dejavu>>>
+
+ [] 
+
+ I am currently investigating including these Fonts into the JEuclid distribution.
+
+
 Using JEuclid
 
   Please note: This documentation refers to the 2.9.4 version.
