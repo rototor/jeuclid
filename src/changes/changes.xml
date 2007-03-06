@@ -7,6 +7,11 @@
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="update">
+        added some more default fonts for monospaces, serif, and sans-serif, 
+        particularly support for DejaVu, Lucida, Bitstream Vera, Arial Unicode MS;
+        DejaVu fonts are now the default (if available)
+      </action>
+      <action dev="maxberger" type="update">
         Slightly changed behaviour of renderingParams
       </action>
       <action dev="maxberger" type="add">

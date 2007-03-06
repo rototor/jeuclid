@@ -142,10 +142,14 @@ public final class MathVariant {
         if (MathVariant.KNOWNFONTS.isEmpty()) {
             // TODO: These are just some available fonts! Add more!
             // TODO: Make user configurable.
-            MathVariant.KNOWNFONTS.put(FontFamily.MONOSPACED,
-                    new String[] { "monospaced", });
-            MathVariant.KNOWNFONTS.put(FontFamily.SANSSERIF,
-                    new String[] { MathVariant.AWT_SANSSERIF, });
+            MathVariant.KNOWNFONTS.put(FontFamily.MONOSPACED, new String[] {
+                    "DejaVu Sans Mono", "monospaced",
+                    "Lucida Sans Typewriter", "Lucida Console",
+                    "Bitstream Vera Sans Mono", });
+            MathVariant.KNOWNFONTS.put(FontFamily.SANSSERIF, new String[] {
+                    "DejaVu Sans", MathVariant.AWT_SANSSERIF,
+                    "Arial Unicode MS", "Lucida Sans Unicode", "Lucida Sans",
+                    "Bitstream Vera Sans", });
             MathVariant.KNOWNFONTS.put(FontFamily.SCRIPT,
                     new String[] { "Savoye LET", "Brush Script MT",
                             "Zapfino", "Apple Chancery",
@@ -154,8 +158,9 @@ public final class MathVariant {
             MathVariant.KNOWNFONTS.put(FontFamily.FRAKTUR, new String[] {
                     "FetteFraktur", "Fette Fraktur", "Euclid Fraktur",
                     "Lucida Blackletter", "Blackmoor LET", });
-            MathVariant.KNOWNFONTS.put(FontFamily.SERIF,
-                    new String[] { "serif" });
+            MathVariant.KNOWNFONTS.put(FontFamily.SERIF, new String[] {
+                    "DejaVu Serif", "serif", "Lucida Bright",
+                    "Bitstream Vera Serif", });
             MathVariant.KNOWNFONTS.put(FontFamily.DOUBLE_STRUCK,
                     new String[] { "Caslon Open Face", "Caslon Openface",
                             "Cloister Open Face", "Academy Engraved LET",
