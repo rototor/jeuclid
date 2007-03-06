@@ -38,7 +38,7 @@ public class MathBase {
     /**
      * Logger for this class. unused.
      */
-    // private static final Log logger = LogFactory.getLog(MathBase.class);
+    // private static final Log LOGGER = LogFactory.getLog(MathBase.class);
     /**
      * Inline mathematical expression.
      */
@@ -54,19 +54,21 @@ public class MathBase {
      */
     private MathDocumentElement rootElement;
 
-    private Map<ParameterKey, String> renderParams;
+    private final Map<ParameterKey, String> renderParams;
 
     /**
      * Default constructor.
      * 
      * @param params
-     *            Rendering parameter.
+     *            Rendering parameters.
      * @see ParameterKey
      * @see #getDefaultParameters()
      */
     public MathBase(final Map<ParameterKey, String> params) {
-        // do nothing
-        this.renderParams = params;
+        this.renderParams = MathBase.getDefaultParameters();
+        if (params != null) {
+            this.renderParams.putAll(params);
+        }
     }
 
     /**
