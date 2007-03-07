@@ -6,6 +6,19 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        JMathComponent: Override get/setForeground, get/setBackground to 
+        properly set rendering params.
+        JMathComponentBeanInfo: Added properties background, foreground
+      </action>
+      <action dev="maxberger" type="add">
+        added rendering params for foreground, background color
+      </action>
+      <action dev="maxberger" type="update">
+        ColorParsing is moved to AttributesHelper, 
+        rewritten using hashmap,
+        added addtl colors "transparent", ""
+      </action>
       <action dev="maxberger" type="add" due-to="Tomas Studva">
         added getLayout function to MathText
       </action>
