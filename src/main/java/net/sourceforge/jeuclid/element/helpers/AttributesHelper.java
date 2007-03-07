@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.element.helpers;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,6 +119,8 @@ public final class AttributesHelper {
 
     private static final Map<String, Double> ABSOLUTE_UNITS = new HashMap<String, Double>();
 
+    private static final Map<String, Color> COLOR_MAPPINGS = new HashMap<String, Color>();
+
     /**
      * Logger for this class.
      */
@@ -199,6 +202,41 @@ public final class AttributesHelper {
         return (float) retVal;
     }
 
+    /**
+     * Converts a given String to a color.
+     * 
+     * @param value
+     *            the stringValue
+     * @param defaultValue
+     *            a default color to use in case of failure.
+     * @return java.awt.Color for this string.
+     */
+    public static Color stringToColor(final String value,
+            final Color defaultValue) {
+
+        if (value == null) {
+            return defaultValue;
+        }
+
+        Color retVal = AttributesHelper.COLOR_MAPPINGS.get(value
+                .toLowerCase());
+
+        if (retVal == null) {
+            try {
+                if ((value.startsWith("#")) && (value.length() == 4)) {
+                    retVal = Color.decode("#" + value.charAt(1) + "0"
+                            + value.charAt(2) + "0" + value.charAt(3) + "0");
+                } else {
+                    retVal = Color.decode(value);
+                }
+                AttributesHelper.COLOR_MAPPINGS.put(value, retVal);
+            } catch (final NumberFormatException nfe) {
+                retVal = defaultValue;
+            }
+        }
+        return retVal;
+    }
+
     static {
 
         // Mostly taken from 2.4.4.2
@@ -248,6 +286,31 @@ public final class AttributesHelper {
                 / AttributesHelper.MM_PER_INCH);
         AttributesHelper.ABSOLUTE_UNITS.put(AttributesHelper.PT, 1.0);
         AttributesHelper.ABSOLUTE_UNITS.put("pc", AttributesHelper.PT_PER_PC);
+
+        // Defined in 3.2.2.2
+        AttributesHelper.COLOR_MAPPINGS.put("aqua", new Color(0, 255, 255));
+        AttributesHelper.COLOR_MAPPINGS.put("black", Color.BLACK);
+        AttributesHelper.COLOR_MAPPINGS.put("blue", Color.BLUE);
+        AttributesHelper.COLOR_MAPPINGS
+                .put("fuchsia", new Color(255, 0, 255));
+        AttributesHelper.COLOR_MAPPINGS.put("gray", Color.GRAY);
+        AttributesHelper.COLOR_MAPPINGS.put("green", Color.GREEN);
+        AttributesHelper.COLOR_MAPPINGS.put("lime", new Color(0, 255, 0));
+        AttributesHelper.COLOR_MAPPINGS.put("maroon", new Color(128, 0, 0));
+        AttributesHelper.COLOR_MAPPINGS.put("navy", new Color(0, 0, 128));
+        AttributesHelper.COLOR_MAPPINGS.put("olive", new Color(128, 128, 0));
+        AttributesHelper.COLOR_MAPPINGS.put("purple", new Color(128, 0, 128));
+        AttributesHelper.COLOR_MAPPINGS.put("red", Color.RED);
+        AttributesHelper.COLOR_MAPPINGS.put("silver",
+                new Color(192, 192, 192));
+        AttributesHelper.COLOR_MAPPINGS.put("teal", new Color(0, 128, 128));
+        AttributesHelper.COLOR_MAPPINGS.put("white", Color.WHITE);
+        AttributesHelper.COLOR_MAPPINGS.put("yellow", Color.YELLOW);
+
+        // Additional colors
+        AttributesHelper.COLOR_MAPPINGS.put("transparent", null);
+        AttributesHelper.COLOR_MAPPINGS.put("null", null);
+        AttributesHelper.COLOR_MAPPINGS.put("", null);
     }
 
 }

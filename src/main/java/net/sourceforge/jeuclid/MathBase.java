@@ -256,6 +256,8 @@ public class MathBase {
         params.put(ParameterKey.DebugMode, "false");
         params.put(ParameterKey.OutFileType, "image/png");
         params.put(ParameterKey.AntiAlias, "true");
+        params.put(ParameterKey.ForegroundColor, "black");
+        params.put(ParameterKey.BackgroundColor, "transparent");
         return params;
     }
 

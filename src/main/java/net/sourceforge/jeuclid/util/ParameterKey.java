@@ -37,8 +37,16 @@ public enum ParameterKey {
      * Debug mode. If true, elements will have borders drawn around them.
      */
     DebugMode,
-    /** 
+    /**
      * Anti-Alias mode for rendering.
      */
-    AntiAlias
+    AntiAlias,
+    /**
+     * Default foreground color. See 3.2.2.2
+     */
+    ForegroundColor,
+    /**
+     * Default background color. See 3.2.2.2
+     */
+    BackgroundColor,
 }

@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.swing;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -35,6 +36,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import net.sourceforge.jeuclid.DOMMathBuilder;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 import net.sourceforge.jeuclid.util.MathMLParserSupport;
 import net.sourceforge.jeuclid.util.ParameterKey;
 
@@ -196,6 +198,36 @@ public class JMathComponent extends JComponent {
     public void setFontSize(final float fontSize) {
         this.parameters.put(ParameterKey.FontSize, Float.toString(fontSize));
         this.redo();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setForeground(final Color fg) {
+        super.setForeground(fg);
+        this.parameters.put(ParameterKey.ForegroundColor, "" + fg.getRGB());
+        this.redo();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Color getForeground() {
+        return AttributesHelper.stringToColor(this.parameters
+                .get(ParameterKey.ForegroundColor), Color.BLACK);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setBackground(final Color c) {
+        super.setBackground(c);
+        this.parameters.put(ParameterKey.BackgroundColor, "" + c.getRGB());
+        this.redo();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Color getBackground() {
+        return AttributesHelper.stringToColor(this.parameters
+                .get(ParameterKey.BackgroundColor), null);
     }
 
     /**

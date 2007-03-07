@@ -102,8 +102,20 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
             propertyContent
                     .setShortDescription("The XML content for the JEuclid Bean");
 
+            final PropertyDescriptor fgContent = new PropertyDescriptor(
+                    "foreground", JMathComponentBeanInfo.beanClass);
+            fgContent.setDisplayName("Foreground Color");
+            fgContent
+                    .setShortDescription("Foreground color if not specified within the document");
+
+            final PropertyDescriptor bgContent = new PropertyDescriptor(
+                    "background", JMathComponentBeanInfo.beanClass);
+            bgContent.setDisplayName("Background Color");
+            bgContent
+                    .setShortDescription("Background color if not specified within the document");
+
             return new PropertyDescriptor[] { propertyContent,
-                    propertyFontSize, };
+                    propertyFontSize, fgContent, bgContent, };
         } catch (final IntrospectionException ex) {
             // should never occur as we know which classes/methods can be used
             // in this BeanInfo class

@@ -39,6 +39,7 @@ import net.sourceforge.jeuclid.element.attributes.MathVariant;
 import net.sourceforge.jeuclid.element.helpers.AttributeMap;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 import net.sourceforge.jeuclid.element.helpers.CharConverter;
+import net.sourceforge.jeuclid.util.ParameterKey;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -748,65 +749,15 @@ public abstract class AbstractMathElement extends
             if (this.getParent() != null) {
                 theColor = this.getParent().getForegroundColor();
             } else {
-                theColor = Color.BLACK;
+                theColor = AttributesHelper.stringToColor(this.mbase
+                        .getParams().get(ParameterKey.ForegroundColor),
+                        Color.BLACK);
             }
         } else {
-            theColor = this.stringToColor(colorString, Color.BLACK);
+            theColor = AttributesHelper.stringToColor(colorString,
+                    Color.BLACK);
         }
         return theColor;
-    }
-
-    private Color stringToColor(String value, final Color defaultValue) {
-
-        if ((value != null) && (value.length() > 0)) {
-            if (value.equalsIgnoreCase("Black")) {
-                value = "#000000";
-            } else if (value.equalsIgnoreCase("Green")) {
-                value = "#008000";
-            } else if (value.equalsIgnoreCase("Silver")) {
-                value = "#C0C0C0";
-            } else if (value.equalsIgnoreCase("Lime")) {
-                value = "#00FF00";
-            } else if (value.equalsIgnoreCase("Gray")) {
-                value = "#808080";
-            } else if (value.equalsIgnoreCase("Olive")) {
-                value = "#808000";
-            } else if (value.equalsIgnoreCase("White")) {
-                value = "#FFFFFF";
-            } else if (value.equalsIgnoreCase("Yellow")) {
-                value = "#FFFF00";
-            } else if (value.equalsIgnoreCase("Maroon")) {
-                value = "#800000";
-            } else if (value.equalsIgnoreCase("Navy")) {
-                value = "#000080";
-            } else if (value.equalsIgnoreCase("Red")) {
-                value = "#FF0000";
-            } else if (value.equalsIgnoreCase("Blue")) {
-                value = "#0000FF";
-            } else if (value.equalsIgnoreCase("Purple")) {
-                value = "#800080";
-            } else if (value.equalsIgnoreCase("Teal")) {
-                value = "#008080";
-            } else if (value.equalsIgnoreCase("Fuchsia")) {
-                value = "#FF00FF";
-            } else if (value.equalsIgnoreCase("Aqua")) {
-                value = "#00FFFF";
-            }
-
-            if ((value.startsWith("#")) && (value.length() == 4)) {
-                value = "#" + value.charAt(1) + "0" + value.charAt(2) + "0"
-                        + value.charAt(3) + "0";
-            }
-
-            try {
-                return new Color((Integer.decode(value)).intValue());
-            } catch (final NumberFormatException nfe) {
-                // Todo: Add waring, but only once!
-                // m_log.warn("Cannot parse color: " + value);
-                return defaultValue;
-            }
-        }
-        return defaultValue;
     }
 
     /** {@inheritDoc} */
@@ -817,10 +768,11 @@ public abstract class AbstractMathElement extends
             if (this.getParent() != null) {
                 theColor = this.getParent().getBackgroundColor();
             } else {
-                theColor = null;
+                theColor = AttributesHelper.stringToColor(this.mbase
+                        .getParams().get(ParameterKey.BackgroundColor), null);
             }
         } else {
-            theColor = this.stringToColor(colorString, null);
+            theColor = AttributesHelper.stringToColor(colorString, null);
         }
         return theColor;
     }
