@@ -48,6 +48,11 @@ public class MathText extends AbstractMathElement implements
     public static final String ELEMENT = "mtext";
 
     /**
+     * Last used layout instance.
+     */
+    private TextLayout layout;
+
+    /**
      * Creates a math element.
      * 
      * @param base
@@ -79,12 +84,22 @@ public class MathText extends AbstractMathElement implements
     }
 
     private TextLayout produceTextLayout(final Graphics2D g2d) {
-        final TextLayout layout = new TextLayout(StringUtil
+        final TextLayout theLayout = new TextLayout(StringUtil
                 .convertStringtoAttributedString(this.getText(),
                         this.getMathvariantAsVariant(),
                         this.getFontsizeInPoint()).getIterator(), g2d
                 .getFontRenderContext());
-        return layout;
+        this.layout = theLayout;
+        return theLayout;
+    }
+
+    /**
+     * Returns TextLayout used to paint text of this element.
+     * 
+     * @return TextLayout instance or null, if layout was not computed yet
+     */
+    public TextLayout getLayout() {
+        return this.layout;
     }
 
     /** {@inheritDoc} */

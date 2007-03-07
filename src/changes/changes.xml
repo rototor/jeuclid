@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add" due-to="Tomas Studva">
+        added getLayout function to MathText
+      </action>
       <action dev="maxberger" type="update">
         added some more default fonts for monospaces, serif, and sans-serif, 
         particularly support for DejaVu, Lucida, Bitstream Vera, Arial Unicode MS;
