@@ -20,7 +20,9 @@ package net.sourceforge.jeuclid.util;
 
 import java.awt.font.TextAttribute;
 import java.text.AttributedString;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import net.sourceforge.jeuclid.element.attributes.MathVariant;
@@ -31,6 +33,16 @@ import net.sourceforge.jeuclid.element.attributes.MathVariant;
  * @author Max Berger
  */
 public final class StringUtil {
+
+    private static final int ZFR = 0x02128;
+
+    private static final int RFR = 0x0211C;
+
+    private static final int IFR = 0x02111;
+
+    private static final int HFR = 0x0210C;
+
+    private static final int CFR = 0x0212D;
 
     private static final int LOWERCASE_START = 0x61;
 
@@ -47,6 +59,8 @@ public final class StringUtil {
     private static final int HIGH_SURROGATE_START = 0xd800;
 
     private static final int HIGH_SURROGATE_END = 0xdbff;
+
+    private static final Map<Integer, Integer> FRAKTUR_MAPPING = new HashMap<Integer, Integer>();
 
     private StringUtil() {
         // do nothing
@@ -93,6 +107,23 @@ public final class StringUtil {
                 // TODO: There are many others to be mapped!
             }
 
+            if (MathVariant.FRAKTUR.equals(variant)) {
+                final Integer mapping = StringUtil.FRAKTUR_MAPPING
+                        .get(codePoint);
+                if (mapping != null) {
+                    codePoint = mapping;
+                    variant = MathVariant.NORMAL;
+                }
+            } else if (MathVariant.BOLD_FRAKTUR.equals(variant)) {
+                final Integer mapping = StringUtil.FRAKTUR_MAPPING
+                        .get(codePoint);
+                if (mapping != null) {
+                    codePoint = mapping;
+                    variant = MathVariant.BOLD;
+                }
+            }
+            // TODO: Add mappings for SCRIPT, BOLD_SCRIPT, DOUBLE_STRUCK
+
             builder.append((char) codePoint);
             variants.add(variant);
         }
@@ -101,10 +132,19 @@ public final class StringUtil {
                 .toString());
 
         for (int i = 0; i < builder.length(); i++) {
-            final MathVariant variant = (MathVariant) variants.get(i);
+            final MathVariant variant = variants.get(i);
             aString.addAttribute(TextAttribute.FONT, variant.createFont(
-                    fontSize, builder.charAt(i)));
+                    fontSize, builder.charAt(i)), i, i + 1);
         }
         return aString;
     }
+
+    static {
+        StringUtil.FRAKTUR_MAPPING.put((int) 'C', StringUtil.CFR);
+        StringUtil.FRAKTUR_MAPPING.put((int) 'H', StringUtil.HFR);
+        StringUtil.FRAKTUR_MAPPING.put((int) 'I', StringUtil.IFR);
+        StringUtil.FRAKTUR_MAPPING.put((int) 'R', StringUtil.RFR);
+        StringUtil.FRAKTUR_MAPPING.put((int) 'Z', StringUtil.ZFR);
+    }
+
 }
