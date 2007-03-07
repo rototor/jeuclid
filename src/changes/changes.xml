@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        StringUtil: Better support for other fonts.
+      </action>
       <action dev="maxberger" type="add">
         JMathComponent: Override get/setForeground, get/setBackground to 
         properly set rendering params.
