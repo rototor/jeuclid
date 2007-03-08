@@ -51,7 +51,18 @@ Using JEuclid
 
   Please look at the {{{./apidocs/index.html}API Documentation}}. You may be interested in {{{./apidocs/net/sourceforge/jeuclid/awt/MathComponent.html}net.sourceforge.jeuclid.awt.MathComponent}} and {{{./apidocs/net/sourceforge/jeuclid/swing/JMathComponent.html}net.sourceforge.jeuclid.swing.JMathComponent}}.
 
-  We also want to make JEuclid available as a component for maven based projects. This is a planned feature, please be patient.
+** Maven based projects
+
+ JEuclid is uploaded to ibiblio, and should therefore be available in your project by adding
+
+------------
+<depencency>
+  <groupId>net.sourceforge.jeuclid</groupId>
+  <artifactId>jeuclid</artifactId>
+</depencenty>
+------------
+
+ to your <dependencies> section.
 
 * Cocoon
 
