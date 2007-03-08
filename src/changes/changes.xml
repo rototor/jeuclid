@@ -6,6 +6,12 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        usage.apt: instructions how to use in mvn-based projects
+      </action>
+      <action dev="maxberger" type="fix">
+        Background color is only painted when actually set or on root element
+      </action>
       <action dev="maxberger" type="fix">
         pom.xml: set explizit versions of appbundler and appassembler to
         make use of current bugfixes, such as directory bug in mml2xxx

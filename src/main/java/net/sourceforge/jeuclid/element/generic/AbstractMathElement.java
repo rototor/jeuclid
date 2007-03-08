@@ -763,10 +763,12 @@ public abstract class AbstractMathElement extends
     /** {@inheritDoc} */
     public Color getBackgroundColor() {
         final String colorString = this.getMathbackground();
-        Color theColor;
+        final Color theColor;
         if (colorString == null) {
             if (this.getParent() != null) {
-                theColor = this.getParent().getBackgroundColor();
+                // For height debugging purposes, this is left here.
+                // theColor = this.getParent().getBackgroundColor();
+                theColor = null;
             } else {
                 theColor = AttributesHelper.stringToColor(this.mbase
                         .getParams().get(ParameterKey.BackgroundColor), null);
