@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix">
+        MathTable: fixed height calculation due to rounding errors
+      </action>
       <action dev="maxberger" type="update">
         usage.apt: instructions how to use in mvn-based projects
       </action>
