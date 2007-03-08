@@ -789,9 +789,7 @@ public class MathTable extends AbstractMathElement {
         return width;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public int calculateHeight(final Graphics2D g) {
+    private int calculateActualHeight(final Graphics2D g) {
         int height = 0;
         final int mec = this.getMathElementCount();
         for (int i = 0; i < mec; i++) {
@@ -809,17 +807,20 @@ public class MathTable extends AbstractMathElement {
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
         if (this.getAlign() == MathTable.ALIGN_BOTTOM) {
-            return this.getHeight(g);
+            return this.calculateActualHeight(g);
         }
         if (this.getAlign() == MathTable.ALIGN_TOP) {
             return this.getRowCount() > 0 ? this.getMaxRowAscentHeight(g, 0)
                     : 0;
         }
         if (this.getAlign() == MathTable.ALIGN_AXIS) {
-            return this.getHeight(g) / 2;
+            // add +1 to eliminate rounding errors
+            return (this.calculateActualHeight(g) + 1) / 2;
         }
         // baseline or center
-        return this.getHeight(g) / 2 + this.getMiddleShift(g);
+        // add +1 to eliminate rounding errors
+        return (this.calculateActualHeight(g) + 1) / 2
+                + this.getMiddleShift(g);
     }
 
     /** {@inheritDoc} */
@@ -829,15 +830,17 @@ public class MathTable extends AbstractMathElement {
             return 0;
         }
         if (this.getAlign() == MathTable.ALIGN_TOP) {
-            return this.getHeight(g)
+            return this.calculateActualHeight(g)
                     - (this.getRowCount() > 0 ? this.getMaxRowAscentHeight(g,
                             0) : 0);
         }
         if (this.getAlign() == MathTable.ALIGN_AXIS) {
-            return this.getHeight(g) / 2;
+            // add +1 to eliminate rounding errors
+            return (this.calculateActualHeight(g) + 1) / 2;
         }
         final int b = this.getMiddleShift(g);
-        final int c = this.getHeight(g) / 2;
+        // add +1 to eliminate rounding errors
+        final int c = (this.calculateActualHeight(g) + 1) / 2;
         return c - b;
     }
 
