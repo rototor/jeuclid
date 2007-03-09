@@ -20,15 +20,22 @@ package net.sourceforge.jeuclid.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
+import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.util.Converter;
+import net.sourceforge.jeuclid.util.ParameterKey;
 
 /**
  * Utility class to be used from the command line to call the converters.
  * 
  * @author Max Berger
  */
-public class Mml2xxx {
+public final class Mml2xxx {
+
+    private Mml2xxx() {
+        // Empty on purpose
+    }
 
     /**
      * Main function for use from scripts.
@@ -37,18 +44,62 @@ public class Mml2xxx {
      *            command line arguments.
      */
     public static void main(final String[] args) {
-        if (args.length != 3) {
-            Mml2xxx.showUsage();
-        } else {
-            try {
-                Converter.convert(new File(args[0]), new File(args[1]),
-                        args[2]);
-            } catch (final IOException e) {
-                System.out.println(e.getClass().toString() + ": "
-                        + e.getMessage());
-                System.out.println();
-                Mml2xxx.showUsage();
+
+        int count = 0;
+        File source = null;
+        File target = null;
+        boolean mimeTypeIsSet = false;
+        final Map<ParameterKey, String> params = MathBase
+                .getDefaultParameters();
+        try {
+            for (int i = 0; i < args.length; i++) {
+                final String curArg = args[i];
+                if (curArg.startsWith("-")) {
+                    final String option = curArg.substring(1);
+                    i++;
+                    final String value = args[i];
+                    final ParameterKey key = ParameterKey.valueOf(option);
+                    if (key.equals(ParameterKey.OutFileType)) {
+                        mimeTypeIsSet = true;
+                    }
+                    params.put(key, value);
+                } else {
+                    if (count == 0) {
+                        source = new File(curArg);
+                    } else if (count == 1) {
+                        target = new File(curArg);
+                    } else {
+                        throw new IllegalArgumentException();
+                    }
+                    count++;
+                }
             }
+
+            if (count != 2) {
+                throw new IllegalArgumentException();
+            } else if (!source.isFile()) {
+                throw new IllegalArgumentException();
+            }
+
+            if (!mimeTypeIsSet) {
+                final String fileName = target.getName();
+                final String extension = fileName.substring(fileName
+                        .lastIndexOf('.') + 1);
+                final String mimetype = Converter
+                        .getMimeTypeForSuffix(extension);
+                params.put(ParameterKey.OutFileType, mimetype);
+            }
+
+            Converter.convert(source, target, params);
+
+        } catch (ArrayIndexOutOfBoundsException aiobe) {
+            Mml2xxx.showUsage();
+        } catch (IllegalArgumentException ia) {
+            Mml2xxx.showUsage();
+        } catch (final IOException e) {
+            Mml2xxx.showUsage();
+            System.out.println(e.getClass().toString() + ": "
+                    + e.getMessage());
         }
     }
 
@@ -57,17 +108,25 @@ public class Mml2xxx {
         System.out.println("");
         System.out.println("Usage:");
         System.out.println("");
-        System.out.println("mml2xxx source target targettype");
+        System.out.println("mml2xxx source target (option value)*");
         System.out.println("");
         System.out.println("where:");
         System.out
                 .println(" source is the path to the source file (MathML or ODF format)");
         System.out.println(" target is the path to the target file");
-        System.out.println(" targettype is one of the supported types:");
+        System.out.println("Possible options:");
+        final ParameterKey[] options = ParameterKey.values();
+        for (int i = 0; i < options.length; i++) {
+            System.out.println(" -" + options[i].name());
+        }
+        System.out.println("The following output types are supported:");
         System.out.print("   ");
         for (final String type : Converter.getAvailableOutfileTypes()) {
             System.out.print(" " + type);
         }
+        System.out.println();
+        System.out.println("Example: ");
+        System.out.println("  mml2xxx a.mml a.png -BackgroundColor white");
         System.out.println();
         System.out.println();
 

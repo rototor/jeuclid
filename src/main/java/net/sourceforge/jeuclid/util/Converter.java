@@ -62,7 +62,8 @@ import org.xml.sax.SAXException;
  * </ul>
  * 
  * @author Max Berger
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2007-02-21 22:26:01 +0100 (Wed, 21 Feb
+ *          2007) $
  */
 public final class Converter {
     /**
@@ -98,35 +99,34 @@ public final class Converter {
      */
     public static boolean convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
-        Document doc;
-        try {
-            doc = MathMLParserSupport.parseFile(inFile);
-            return Converter.convert(doc, outFile, outFileType);
-        } catch (final SAXException e) {
-            Converter.LOGGER.error("Failed to parse file:" + inFile, e);
-            return false;
-        }
+        final Map<ParameterKey, String> params = MathBase
+                .getDefaultParameters();
+        return Converter.convert(inFile, outFile, params);
     }
 
     /**
      * Converts an existing file from MathML or ODF to the given type.
      * 
-     * @param doc
-     *            input document.
+     * @param inFile
+     *            input file.
      * @param outFile
      *            output file.
-     * @param outFileType
-     *            mimetype for the output file.
+     * @param params
+     *            rendering parameters.
      * @return true if the conversion was sucessful.
      * @throws IOException
      *             if an io error occured during read or write.
      */
-    public static boolean convert(final Document doc, final File outFile,
-            final String outFileType) throws IOException {
-        final Map<ParameterKey, String> params = MathBase
-                .getDefaultParameters();
-        params.put(ParameterKey.OutFileType, outFileType);
-        return Converter.convert(doc, outFile, params);
+    public static boolean convert(final File inFile, final File outFile,
+            final Map<ParameterKey, String> params) throws IOException {
+        Document doc;
+        try {
+            doc = MathMLParserSupport.parseFile(inFile);
+            return Converter.convert(doc, outFile, params);
+        } catch (final SAXException e) {
+            Converter.LOGGER.error("Failed to parse file:" + inFile, e);
+            return false;
+        }
     }
 
     /**
@@ -231,7 +231,7 @@ public final class Converter {
     /**
      * Retrieve a list of available mime types for conversion.
      * 
-     * @return a List&ltString&gt; containing all valid mime-types.
+     * @return a List&lt;String&gt; containing all valid mime-types.
      */
     public static List<String> getAvailableOutfileTypes() {
         final List<String> fileTypes = new Vector<String>(Arrays
