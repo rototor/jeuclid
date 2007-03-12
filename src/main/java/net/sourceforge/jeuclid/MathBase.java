@@ -260,15 +260,21 @@ public class MathBase {
         params.put(ParameterKey.BackgroundColor, "transparent");
         params.put(ParameterKey.FontsSanserif, "DejaVu Sans,"
                 + "Bitstream Vera Sans," + "Arial Unicode MS,"
-                + "Lucida Sans Unicode," + "Lucida Sans," + "sansserif");
+                + "Lucida Sans Unicode," + "Lucida Sans,"
+                + "Helvetica," + "Luxi Sans," 
+                + "OpenSymbol," + "sansserif");
         params.put(ParameterKey.FontsSerif, "DejaVu Serif,"
-                + "Bitstream Vera Serif," + "Lucida Bright," + "serif");
+                + "Bitstream Vera Serif," + "Lucida Bright," 
+                + "Times," + "Times New Roman,"
+                + "Luxi Serif," + "serif");
         params.put(ParameterKey.FontsMonospaced, "DejaVu Sans Mono,"
                 + "Bitstream Vera Sans Mono," + "Lucida Sans Typewriter,"
-                + "monospaced");
+                + "Courier," + "Courier Mono,"
+                + "Luxi Mono," + "monospaced");
         params.put(ParameterKey.FontsScript, "Savoye LET,"
                 + "Brush Script MT," + "Zapfino," + "Apple Chancery,"
                 + "Edwardian Script ITC," + "Lucida Handwriting,"
+                + "Monotype Corsiva,"
                 + "Santa Fe LET," + "Monotype Corsiva");
         params.put(ParameterKey.FontsFraktur, "FetteFraktur,"
                 + "Fette Fraktur," + "Euclid Fraktur,"

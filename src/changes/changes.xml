@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        more fonts into default lists
+      </action>
       <action dev="maxberger" type="add">
         JMathComponent: Bean access to font list parameters
       </action>
