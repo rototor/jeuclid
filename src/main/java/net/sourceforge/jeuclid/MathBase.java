@@ -258,7 +258,25 @@ public class MathBase {
         params.put(ParameterKey.AntiAlias, "true");
         params.put(ParameterKey.ForegroundColor, "black");
         params.put(ParameterKey.BackgroundColor, "transparent");
+        params.put(ParameterKey.FontsSanserif, "DejaVu Sans,"
+                + "Bitstream Vera Sans," + "Arial Unicode MS,"
+                + "Lucida Sans Unicode," + "Lucida Sans," + "sansserif");
+        params.put(ParameterKey.FontsSerif, "DejaVu Serif,"
+                + "Bitstream Vera Serif," + "Lucida Bright," + "serif");
+        params.put(ParameterKey.FontsMonospaced, "DejaVu Sans Mono,"
+                + "Bitstream Vera Sans Mono," + "Lucida Sans Typewriter,"
+                + "monospaced");
+        params.put(ParameterKey.FontsScript, "Savoye LET,"
+                + "Brush Script MT," + "Zapfino," + "Apple Chancery,"
+                + "Edwardian Script ITC," + "Lucida Handwriting,"
+                + "Santa Fe LET," + "Monotype Corsiva");
+        params.put(ParameterKey.FontsFraktur, "FetteFraktur,"
+                + "Fette Fraktur," + "Euclid Fraktur,"
+                + "Lucida Blackletter," + "Blackmoor LET");
+        params.put(ParameterKey.FontsDoublestruck, "Caslon Open Face,"
+                + "Caslon Openface," + "Cloister Open Face,"
+                + "Academy Engraved LET," + "Colonna MT,"
+                + "Imprint MT Shadow");
         return params;
     }
-
 }

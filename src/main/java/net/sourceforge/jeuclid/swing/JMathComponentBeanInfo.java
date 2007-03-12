@@ -114,8 +114,29 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
             bgContent
                     .setShortDescription("Background color if not specified within the document");
 
+            final PropertyDescriptor fontsContent1 = new PropertyDescriptor(
+                    "fontsSerif", JMathComponentBeanInfo.beanClass);
+            fontsContent1.setDisplayName("Serif Fonts");
+            final PropertyDescriptor fontsContent2 = new PropertyDescriptor(
+                    "fontsSanserif", JMathComponentBeanInfo.beanClass);
+            fontsContent2.setDisplayName("Sans-Serif Fonts");
+            final PropertyDescriptor fontsContent3 = new PropertyDescriptor(
+                    "fontsMonospaced", JMathComponentBeanInfo.beanClass);
+            fontsContent3.setDisplayName("Monospaced Fonts");
+            final PropertyDescriptor fontsContent4 = new PropertyDescriptor(
+                    "fontsScript", JMathComponentBeanInfo.beanClass);
+            fontsContent4.setDisplayName("Script Fonts");
+            final PropertyDescriptor fontsContent5 = new PropertyDescriptor(
+                    "fontsFraktur", JMathComponentBeanInfo.beanClass);
+            fontsContent5.setDisplayName("Fraktur Fonts");
+            final PropertyDescriptor fontsContent6 = new PropertyDescriptor(
+                    "fontsDoublestruck", JMathComponentBeanInfo.beanClass);
+            fontsContent6.setDisplayName("Double-Struck Fonts");
+
             return new PropertyDescriptor[] { propertyContent,
-                    propertyFontSize, fgContent, bgContent, };
+                    propertyFontSize, fgContent, bgContent, fontsContent1,
+                    fontsContent2, fontsContent3, fontsContent4,
+                    fontsContent5, fontsContent6, };
         } catch (final IntrospectionException ex) {
             // should never occur as we know which classes/methods can be used
             // in this BeanInfo class

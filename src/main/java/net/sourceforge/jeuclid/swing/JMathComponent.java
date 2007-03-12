@@ -272,4 +272,100 @@ public class JMathComponent extends JComponent {
         return writer.toString();
     }
 
+    /**
+     * @return The list for sansserif.
+     */
+    public String getFontsSanserif() {
+        return this.parameters.get(ParameterKey.FontsSanserif);
+    }
+
+    /**
+     * @param newFonts
+     *            new list for sansserif (comman seraparated).
+     */
+    public void setFontsSanserif(final String newFonts) {
+        this.parameters.put(ParameterKey.FontsSanserif, newFonts);
+        this.redo();
+    }
+
+    /**
+     * @return The list for serif.
+     */
+    public String getFontsSerif() {
+        return this.parameters.get(ParameterKey.FontsSerif);
+    }
+
+    /**
+     * @param newFonts
+     *            new list for serif (comman seraparated).
+     */
+    public void setFontsSerif(final String newFonts) {
+        this.parameters.put(ParameterKey.FontsSerif, newFonts);
+        this.redo();
+    }
+
+    /**
+     * @return The list for monospaced.
+     */
+    public String getFontsMonospaced() {
+        return this.parameters.get(ParameterKey.FontsMonospaced);
+    }
+
+    /**
+     * @param newFonts
+     *            new list for Monospaced (comman seraparated).
+     */
+    public void setFontsMonospaced(final String newFonts) {
+        this.parameters.put(ParameterKey.FontsMonospaced, newFonts);
+        this.redo();
+    }
+
+    /**
+     * @return The list for Script.
+     */
+    public String getFontsScript() {
+        return this.parameters.get(ParameterKey.FontsScript);
+    }
+
+    /**
+     * @param newFonts
+     *            new list for Script (comman seraparated).
+     */
+    public void setFontsScript(final String newFonts) {
+        this.parameters.put(ParameterKey.FontsScript, newFonts);
+        this.redo();
+    }
+
+    /**
+     * @return The list for Fraktur.
+     */
+    public String getFontsFraktur() {
+        return this.parameters.get(ParameterKey.FontsFraktur);
+    }
+
+    /**
+     * @param newFonts
+     *            new list for Fraktur (comman seraparated).
+     */
+    public void setFontsFraktur(final String newFonts) {
+        this.parameters.put(ParameterKey.FontsFraktur, newFonts);
+        this.redo();
+    }
+
+    /**
+     * @return The list for Doublestruck.
+     */
+    public String getFontsDoublestruck() {
+        return this.parameters.get(ParameterKey.FontsDoublestruck);
+    }
+
+    /**
+     * @param newFonts
+     *            new list for Doublestruck (comman seraparated).
+     */
+    public void setFontsDoublestruck(final String newFonts) {
+        this.parameters.put(ParameterKey.FontsDoublestruck, newFonts);
+        this.redo();
+    }
+
 }

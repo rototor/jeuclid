@@ -49,4 +49,28 @@ public enum ParameterKey {
      * Default background color. See 3.2.2.2
      */
     BackgroundColor,
+    /**
+     * Comma separated list of font families for sans-serif.
+     */
+    FontsSanserif,
+    /**
+     * Comma separated list of font families for serif.
+     */
+    FontsSerif,
+    /**
+     * Comma separated list of font families for monospaced.
+     */
+    FontsMonospaced,
+    /**
+     * Comma separated list of font families for script.
+     */
+    FontsScript,
+    /**
+     * Comma separated list of font families for fraktur.
+     */
+    FontsFraktur,
+    /**
+     * Comma separated list of font families for double-struck.
+     */
+    FontsDoublestruck,
 }

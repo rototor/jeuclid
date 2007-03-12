@@ -87,8 +87,8 @@ public class MathText extends AbstractMathElement implements
         final TextLayout theLayout = new TextLayout(StringUtil
                 .convertStringtoAttributedString(this.getText(),
                         this.getMathvariantAsVariant(),
-                        this.getFontsizeInPoint()).getIterator(), g2d
-                .getFontRenderContext());
+                        this.getFontsizeInPoint(), this.mbase).getIterator(),
+                g2d.getFontRenderContext());
         this.layout = theLayout;
         return theLayout;
     }

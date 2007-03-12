@@ -601,17 +601,24 @@ public class MathOperator extends AbstractMathElement {
      */
     @Override
     public Font getFont() {
+        final String content = this.getText();
+        final char aChar;
+        if (content.length() > 0) {
+            aChar = content.charAt(0);
+        } else {
+            aChar = 'A';
+        }
         final Font font = super.getFont();
         if (this.getLargeOp()) {
             return this.getMathvariantAsVariant().createFont(
                     this.getFontsizeInPoint() * this.getLargeOpCorrector(),
-                    'A');
+                    aChar, this.mbase);
         } else {
             // TODO: This should use the default font size
             if (this.getStretchy() && this.isVerticalDelimeter()
                     && font.getSize() > this.mbase.getFontSize()) {
                 return this.getMathvariantAsVariant().createFont(
-                        this.mbase.getFontSize(), 'A');
+                        this.mbase.getFontSize(), aChar, this.mbase);
             } else {
                 return font;
             }
