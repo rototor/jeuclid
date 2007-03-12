@@ -261,15 +261,15 @@ public class MathBase {
         params.put(ParameterKey.FontsSanserif, "DejaVu Sans,"
                 + "Bitstream Vera Sans," + "Arial Unicode MS,"
                 + "Lucida Sans Unicode," + "Lucida Sans,"
-                + "Helvetica," + "Luxi Sans," 
+                + "Helvetica," + "Luxi Sans," + "FreeSans,"
                 + "OpenSymbol," + "sansserif");
         params.put(ParameterKey.FontsSerif, "DejaVu Serif,"
                 + "Bitstream Vera Serif," + "Lucida Bright," 
-                + "Times," + "Times New Roman,"
+                + "Times," + "Times New Roman," + "FreeSerif,"
                 + "Luxi Serif," + "serif");
         params.put(ParameterKey.FontsMonospaced, "DejaVu Sans Mono,"
                 + "Bitstream Vera Sans Mono," + "Lucida Sans Typewriter,"
-                + "Courier," + "Courier Mono,"
+                + "Courier," + "Courier Mono," + "FreeMono,"
                 + "Luxi Mono," + "monospaced");
         params.put(ParameterKey.FontsScript, "Savoye LET,"
                 + "Brush Script MT," + "Zapfino," + "Apple Chancery,"
