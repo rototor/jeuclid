@@ -270,9 +270,15 @@ public abstract class AbstractMathElement extends
      * @return Font Font object.
      */
     public Font getFont() {
-        // TODO: Use actual character.
+        final String content = this.getText();
+        final char aChar;
+        if (content.length() > 0) {
+            aChar = content.charAt(0);
+        } else {
+            aChar = 'A';
+        }
         return this.getMathvariantAsVariant().createFont(
-                this.getFontsizeInPoint(), 'A');
+                this.getFontsizeInPoint(), aChar, this.mbase);
 
     }
 

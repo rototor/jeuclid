@@ -114,10 +114,14 @@ public final class Mml2xxx {
         System.out
                 .println(" source is the path to the source file (MathML or ODF format)");
         System.out.println(" target is the path to the target file");
-        System.out.println("Possible options:");
+        System.out.println("Possible options (with default value):");
         final ParameterKey[] options = ParameterKey.values();
         for (int i = 0; i < options.length; i++) {
-            System.out.println(" -" + options[i].name());
+            final ParameterKey param = options[i];
+            final String name = param.name();
+            System.out.print(" -" + name);
+            System.out.print(" ");
+            System.out.println(MathBase.getDefaultParameters().get(param));
         }
         System.out.println("The following output types are supported:");
         System.out.print("   ");

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.attributes.MathVariant;
 
 /**
@@ -76,12 +77,14 @@ public final class StringUtil {
      *            variant to base on for regular characters
      * @param fontSize
      *            size of Font to use.
+     * @param base
+     *            MathBase to use.
      * @return an attributed string that has Textattribute.FONT set for all
      *         characters.
      */
     public static AttributedString convertStringtoAttributedString(
             final String plainString, final MathVariant baseVariant,
-            final float fontSize) {
+            final float fontSize, final MathBase base) {
         final StringBuilder builder = new StringBuilder();
         final List<MathVariant> variants = new Vector<MathVariant>();
         for (int i = 0; i < plainString.length(); i++) {
@@ -134,7 +137,7 @@ public final class StringUtil {
         for (int i = 0; i < builder.length(); i++) {
             final MathVariant variant = variants.get(i);
             aString.addAttribute(TextAttribute.FONT, variant.createFont(
-                    fontSize, builder.charAt(i)), i, i + 1);
+                    fontSize, builder.charAt(i), base), i, i + 1);
         }
         return aString;
     }

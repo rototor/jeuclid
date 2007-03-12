@@ -22,6 +22,9 @@ import java.awt.Font;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.util.ParameterKey;
+
 /**
  * Class to represent and use MathVariants.
  * 
@@ -115,7 +118,7 @@ public final class MathVariant {
 
     private static final Map<String, MathVariant> ATTRIBUTEMAP = new HashMap<String, MathVariant>();
 
-    private static final Map<FontFamily, String[]> KNOWNFONTS = new HashMap<FontFamily, String[]>();
+    private static final Map<FontFamily, ParameterKey> PARAMFORFONT = new HashMap<FontFamily, ParameterKey>();
 
     private static final String AWT_SANSSERIF = "sansserif";
 
@@ -135,44 +138,20 @@ public final class MathVariant {
      *            size of the font to create
      * @param c
      *            a character that must exist in this font
+     * @param base
+     *            MathBase to use.
      * @return a font object.
      */
-    public Font createFont(final float size, final char c) {
-        // Lazy initalization
-        if (MathVariant.KNOWNFONTS.isEmpty()) {
-            // TODO: These are just some available fonts! Add more!
-            // TODO: Make user configurable.
-            MathVariant.KNOWNFONTS.put(FontFamily.MONOSPACED, new String[] {
-                    "DejaVu Sans Mono", "monospaced",
-                    "Lucida Sans Typewriter", "Lucida Console",
-                    "Bitstream Vera Sans Mono", });
-            MathVariant.KNOWNFONTS.put(FontFamily.SANSSERIF, new String[] {
-                    "DejaVu Sans", MathVariant.AWT_SANSSERIF,
-                    "Arial Unicode MS", "Lucida Sans Unicode", "Lucida Sans",
-                    "Bitstream Vera Sans", });
-            MathVariant.KNOWNFONTS.put(FontFamily.SCRIPT,
-                    new String[] { "Savoye LET", "Brush Script MT",
-                            "Zapfino", "Apple Chancery",
-                            "Edwardian Script ITC", "Lucida Handwriting",
-                            "Santa Fe LET", "Monotype Corsiva", });
-            MathVariant.KNOWNFONTS.put(FontFamily.FRAKTUR, new String[] {
-                    "FetteFraktur", "Fette Fraktur", "Euclid Fraktur",
-                    "Lucida Blackletter", "Blackmoor LET", });
-            MathVariant.KNOWNFONTS.put(FontFamily.SERIF, new String[] {
-                    "DejaVu Serif", "serif", "Lucida Bright",
-                    "Bitstream Vera Serif", });
-            MathVariant.KNOWNFONTS.put(FontFamily.DOUBLE_STRUCK,
-                    new String[] { "Caslon Open Face", "Caslon Openface",
-                            "Cloister Open Face", "Academy Engraved LET",
-                            "Colonna MT", "Imprint MT Shadow", });
-        }
+    public Font createFont(final float size, final char c, final MathBase base) {
 
-        final String[] fontArray = (String[]) MathVariant.KNOWNFONTS
+        final ParameterKey theParam = MathVariant.PARAMFORFONT
                 .get(this.fontFamily);
+        final String paramValue = base.getParams().get(theParam);
+        final String[] fontArray = paramValue.split(",");
         Font font = null;
         for (int i = 0; (i < fontArray.length) && (font == null); i++) {
             font = new Font(fontArray[i], this.awtStyle, (int) size);
-            if (font.getFamily().equalsIgnoreCase(fontArray[i])) {
+            if (font.getFamily().equalsIgnoreCase(fontArray[i].trim())) {
                 if (!font.canDisplay(c)) {
                     font = null;
                 }
@@ -223,6 +202,21 @@ public final class MathVariant {
 
         return (MathVariant) MathVariant.ATTRIBUTEMAP.get(variant
                 .toLowerCase());
+    }
+
+    static {
+        MathVariant.PARAMFORFONT.put(FontFamily.SERIF,
+                ParameterKey.FontsSerif);
+        MathVariant.PARAMFORFONT.put(FontFamily.SANSSERIF,
+                ParameterKey.FontsSanserif);
+        MathVariant.PARAMFORFONT.put(FontFamily.MONOSPACED,
+                ParameterKey.FontsMonospaced);
+        MathVariant.PARAMFORFONT.put(FontFamily.SCRIPT,
+                ParameterKey.FontsScript);
+        MathVariant.PARAMFORFONT.put(FontFamily.FRAKTUR,
+                ParameterKey.FontsFraktur);
+        MathVariant.PARAMFORFONT.put(FontFamily.DOUBLE_STRUCK,
+                ParameterKey.FontsDoublestruck);
     }
 
 }

@@ -6,6 +6,19 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        JMathComponent: Bean access to font list parameters
+      </action>
+      <action dev="maxberger" type="add">
+        Paramters: Extra parameters for font lists.
+      </action>
+      <action dev="maxberger" type="update">
+       mml2xxx: output default values for parameters
+      </aciton>
+      <action dev="maxberger" type="fix">
+        MathOperator, MathElement: Now uses first char instead of 'A' for 
+        font-test;
+      </action>
       <action dev="maxberger" type="update">
         Converter: changed convert funtion to take File,File,Map
         Mml2xxx: made more generic: Autodetect of target mimeType; support for
