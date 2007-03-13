@@ -23,7 +23,7 @@
       </action>
       <action dev="maxberger" type="update">
        mml2xxx: output default values for parameters
-      </aciton>
+      </action>
       <action dev="maxberger" type="fix">
         MathOperator, MathElement: Now uses first char instead of 'A' for 
         font-test;
