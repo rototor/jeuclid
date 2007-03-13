@@ -117,21 +117,33 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
             final PropertyDescriptor fontsContent1 = new PropertyDescriptor(
                     "fontsSerif", JMathComponentBeanInfo.beanClass);
             fontsContent1.setDisplayName("Serif Fonts");
+            fontsContent1
+                    .setShortDescription("Fonts to use for Serif characters");
             final PropertyDescriptor fontsContent2 = new PropertyDescriptor(
                     "fontsSanserif", JMathComponentBeanInfo.beanClass);
             fontsContent2.setDisplayName("Sans-Serif Fonts");
+            fontsContent2
+                    .setShortDescription("Fonts to use for Sans-Serif characters (the default font)");
             final PropertyDescriptor fontsContent3 = new PropertyDescriptor(
                     "fontsMonospaced", JMathComponentBeanInfo.beanClass);
             fontsContent3.setDisplayName("Monospaced Fonts");
+            fontsContent3
+                    .setShortDescription("Fonts to use for Monospaced characters");
             final PropertyDescriptor fontsContent4 = new PropertyDescriptor(
                     "fontsScript", JMathComponentBeanInfo.beanClass);
             fontsContent4.setDisplayName("Script Fonts");
+            fontsContent4
+                    .setShortDescription("Fonts to use for Script characters");
             final PropertyDescriptor fontsContent5 = new PropertyDescriptor(
                     "fontsFraktur", JMathComponentBeanInfo.beanClass);
             fontsContent5.setDisplayName("Fraktur Fonts");
+            fontsContent5
+                    .setShortDescription("Fonts to use for Fraktur characters");
             final PropertyDescriptor fontsContent6 = new PropertyDescriptor(
                     "fontsDoublestruck", JMathComponentBeanInfo.beanClass);
             fontsContent6.setDisplayName("Double-Struck Fonts");
+            fontsContent6
+                    .setShortDescription("Fonts to use for Double-Struck characters");
 
             return new PropertyDescriptor[] { propertyContent,
                     propertyFontSize, fgContent, bgContent, fontsContent1,
