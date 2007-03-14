@@ -145,6 +145,13 @@ public class JMathComponent extends JComponent {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
+        // Is this desirable? Maybe this should depend on the "opaque"
+        // property
+        // final Color back = this.getBackground();
+        // if (back != null) {
+        // g.setColor(back);
+        // g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        // }
         if (this.base != null) {
             this.base.paint((Graphics2D) g);
         }
@@ -218,8 +225,9 @@ public class JMathComponent extends JComponent {
     /** {@inheritDoc} */
     @Override
     public void setBackground(final Color c) {
-        super.setBackground(c);
-        this.parameters.put(ParameterKey.BackgroundColor, "" + c.getRGB());
+        // super.setBackground(c);
+        this.parameters.put(ParameterKey.BackgroundColor, AttributesHelper
+                .colorTOsRGBString(c));
         this.redo();
     }
 

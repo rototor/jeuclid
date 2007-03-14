@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.element.helpers;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.generic.MathNode;
@@ -36,6 +37,11 @@ import org.apache.commons.logging.LogFactory;
  */
 
 public final class AttributesHelper {
+
+    /**
+     * Constant for "Transparent" color.
+     */
+    public static final String COLOR_TRANSPARENT = "transparent";
 
     /**
      * Width of veryverythinmath space according to 3.3.4.2.
@@ -203,38 +209,245 @@ public final class AttributesHelper {
     }
 
     /**
-     * Converts a given String to a color.
+     * Creates a color from a given string.
+     * <p>
+     * This function supports a wide variety of inputs.
+     * <ul>
+     * <li>#RGB (hex 0..f)</li>
+     * <li>#RGBA (hex 0..f)</li>
+     * <li>#RRGGBB (hex 00..ff)</li>
+     * <li>#RRGGBBAA (hex 00..ff)</li>
+     * <li>rgb(r,g,b) (0..255 or 0%..100%)</li>
+     * <li>java.awt.Color[r=r,g=g,b=b] (0..255)</li>
+     * <li>system-color(colorname)</li>
+     * <li>transparent</li>
+     * <li>colorname</li>
+     * </ul>
      * 
      * @param value
-     *            the stringValue
+     *            the string to parse.
+     * @return a Color representing the string if possible
      * @param defaultValue
      *            a default color to use in case of failure.
-     * @return java.awt.Color for this string.
      */
     public static Color stringToColor(final String value,
             final Color defaultValue) {
-
         if (value == null) {
-            return defaultValue;
+            return null;
         }
 
-        Color retVal = AttributesHelper.COLOR_MAPPINGS.get(value
-                .toLowerCase());
+        final String lowVal = value.toLowerCase();
+        Color parsedColor = null;
 
-        if (retVal == null) {
-            try {
-                if ((value.startsWith("#")) && (value.length() == 4)) {
-                    retVal = Color.decode("#" + value.charAt(1) + "0"
-                            + value.charAt(2) + "0" + value.charAt(3) + "0");
-                } else {
-                    retVal = Color.decode(value);
-                }
-                AttributesHelper.COLOR_MAPPINGS.put(value, retVal);
-            } catch (final NumberFormatException nfe) {
-                retVal = defaultValue;
+        if (!AttributesHelper.COLOR_MAPPINGS.containsKey(lowVal)) {
+            if (value.startsWith("#")) {
+                parsedColor = AttributesHelper.parseWithHash(value);
+            } else if (value.startsWith("rgb(")) {
+                parsedColor = AttributesHelper.parseAsRGB(value);
+            } else if (value.startsWith("java.awt.Color")) {
+                parsedColor = AttributesHelper.parseAsJavaAWTColor(value);
             }
+
+            if (parsedColor == null) {
+                parsedColor = defaultValue;
+            }
+
+            AttributesHelper.COLOR_MAPPINGS.put(value, parsedColor);
+        } else {
+            parsedColor = AttributesHelper.COLOR_MAPPINGS.get(lowVal);
         }
-        return retVal;
+        return parsedColor;
+    }
+
+    /**
+     * Tries to parse the standard java.awt.Color toString output.
+     * 
+     * @param value
+     *            the complete line
+     * @return a color if possible
+     * @throws PropertyException
+     *             if the format is wrong.
+     * @see java.awt.Color#toString()
+     */
+    private static Color parseAsJavaAWTColor(String value) {
+        float red = 0.0f, green = 0.0f, blue = 0.0f;
+        final int poss = value.indexOf("[");
+        final int pose = value.indexOf("]");
+        try {
+            if (poss != -1 && pose != -1) {
+                value = value.substring(poss + 1, pose);
+                final StringTokenizer st = new StringTokenizer(value, ",");
+                if (st.hasMoreTokens()) {
+                    final String str = st.nextToken().trim();
+                    red = Float.parseFloat(str.substring(2)) / 255f;
+                }
+                if (st.hasMoreTokens()) {
+                    final String str = st.nextToken().trim();
+                    green = Float.parseFloat(str.substring(2)) / 255f;
+                }
+                if (st.hasMoreTokens()) {
+                    final String str = st.nextToken().trim();
+                    blue = Float.parseFloat(str.substring(2)) / 255f;
+                } else {
+                    throw new NumberFormatException();
+                }
+                if ((red < 0.0 || red > 1.0) || (green < 0.0 || green > 1.0)
+                        || (blue < 0.0 || blue > 1.0)) {
+                    throw new NumberFormatException();
+                }
+            } else {
+                throw new NullPointerException();
+            }
+        } catch (final Exception e) {
+            return null;
+        }
+        return new Color(red, green, blue);
+    }
+
+    /**
+     * Parse a color given with the rgb() function.
+     * 
+     * @param value
+     *            the complete line
+     * @return a color if possible
+     * @throws PropertyException
+     *             if the format is wrong.
+     */
+    private static Color parseAsRGB(String value) {
+        Color parsedColor;
+        final int poss = value.indexOf("(");
+        final int pose = value.indexOf(")");
+        if (poss != -1 && pose != -1) {
+            value = value.substring(poss + 1, pose);
+            final StringTokenizer st = new StringTokenizer(value, ",");
+            try {
+                float red = 0.0f, green = 0.0f, blue = 0.0f;
+                if (st.hasMoreTokens()) {
+                    final String str = st.nextToken().trim();
+                    if (str.endsWith("%")) {
+                        red = Float.parseFloat(str.substring(0,
+                                str.length() - 1)) / 100.0f;
+                    } else {
+                        red = Float.parseFloat(str) / 255f;
+                    }
+                }
+                if (st.hasMoreTokens()) {
+                    final String str = st.nextToken().trim();
+                    if (str.endsWith("%")) {
+                        green = Float.parseFloat(str.substring(0, str
+                                .length() - 1)) / 100.0f;
+                    } else {
+                        green = Float.parseFloat(str) / 255f;
+                    }
+                }
+                if (st.hasMoreTokens()) {
+                    final String str = st.nextToken().trim();
+                    if (str.endsWith("%")) {
+                        blue = Float.parseFloat(str.substring(0,
+                                str.length() - 1)) / 100.0f;
+                    } else {
+                        blue = Float.parseFloat(str) / 255f;
+                    }
+                }
+                if ((red < 0.0 || red > 1.0) || (green < 0.0 || green > 1.0)
+                        || (blue < 0.0 || blue > 1.0)) {
+                    parsedColor = null;
+                } else {
+                    parsedColor = new Color(red, green, blue);
+                }
+            } catch (final Exception e) {
+                return null;
+            }
+        } else {
+            return null;
+        }
+        return parsedColor;
+    }
+
+    /**
+     * parse a color given in the #.... format.
+     * 
+     * @param value
+     *            the complete line
+     * @return a color if possible
+     * @throws PropertyException
+     *             if the format is wrong.
+     */
+    private static Color parseWithHash(final String value) {
+        Color parsedColor = null;
+        try {
+            final int len = value.length();
+            if ((len >= 4) && (len <= 5)) {
+                // note: divide by 15 so F = FF = 1 and so on
+                final float red = Integer.parseInt(value.substring(1, 2), 16) / 15f;
+                final float green = Integer.parseInt(value.substring(2, 3),
+                        16) / 15f;
+                final float blue = Integer
+                        .parseInt(value.substring(3, 4), 16) / 15f;
+                float alpha = 1.0f;
+                if (len == 5) {
+                    alpha = Integer.parseInt(value.substring(4), 16) / 15f;
+                }
+                parsedColor = new Color(red, green, blue, alpha);
+            } else if ((len == 7) || (len == 9)) {
+                final int red = Integer.parseInt(value.substring(1, 3), 16);
+                final int green = Integer.parseInt(value.substring(3, 5), 16);
+                final int blue = Integer.parseInt(value.substring(5, 7), 16);
+                int alpha = 255;
+                if (len == 9) {
+                    alpha = Integer.parseInt(value.substring(7), 16);
+                }
+                parsedColor = new Color(red, green, blue, alpha);
+            } else {
+                throw new NumberFormatException();
+            }
+        } catch (final NumberFormatException e) {
+            return null;
+        }
+        return parsedColor;
+    }
+
+    /**
+     * Creates a re-parsable string representation of the given color.
+     * <p>
+     * First, the color will be converted into the sRGB colorspace. It will
+     * then be printed as #rrggbb, or as #rrrggbbaa if an alpha value is
+     * present.
+     * 
+     * @param color
+     *            the color to represent.
+     * @return a re-parsable string representadion.
+     */
+    public static String colorTOsRGBString(final Color color) {
+        if (color == null) {
+            return AttributesHelper.COLOR_TRANSPARENT;
+        }
+        final StringBuffer sbuf = new StringBuffer(10);
+        sbuf.append('#');
+        String s = Integer.toHexString(color.getRed());
+        if (s.length() == 1) {
+            sbuf.append('0');
+        }
+        sbuf.append(s);
+        s = Integer.toHexString(color.getGreen());
+        if (s.length() == 1) {
+            sbuf.append('0');
+        }
+        sbuf.append(s);
+        s = Integer.toHexString(color.getBlue());
+        if (s.length() == 1) {
+            sbuf.append('0');
+        }
+        sbuf.append(s);
+        if (color.getAlpha() != 255) {
+            s = Integer.toHexString(color.getAlpha());
+            if (s.length() == 1) {
+                sbuf.append('0');
+            }
+            sbuf.append(s);
+        }
+        return sbuf.toString();
+
     }
 
     static {
@@ -308,7 +521,8 @@ public final class AttributesHelper {
         AttributesHelper.COLOR_MAPPINGS.put("yellow", Color.YELLOW);
 
         // Additional colors
-        AttributesHelper.COLOR_MAPPINGS.put("transparent", null);
+        AttributesHelper.COLOR_MAPPINGS.put(
+                AttributesHelper.COLOR_TRANSPARENT, null);
         AttributesHelper.COLOR_MAPPINGS.put("null", null);
         AttributesHelper.COLOR_MAPPINGS.put("", null);
     }
