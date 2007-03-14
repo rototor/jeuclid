@@ -7,6 +7,11 @@
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="update">
+        rewrote color parsing in AttributesHelper (mostly copied from fop, but
+        I was the one who submitted the patch there in the first place :) );
+        made sure JMathComponent properly handles null color and colors with
+        alpha value
+      <action dev="maxberger" type="update">
         JMathComponentBeanInfo: Short description for fonts;
       </action>
       <action dev="maxberger" type="update">
