@@ -108,7 +108,8 @@ public class MathText extends AbstractMathElement implements
         if (this.getText().equals("")) {
             return 0;
         } else {
-            return (int) this.produceTextLayout(g).getAdvance();
+            return (int) Math.ceil(this.produceTextLayout(g).getBounds()
+                    .getWidth());
         }
     }
 
