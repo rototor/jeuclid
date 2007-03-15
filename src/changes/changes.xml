@@ -7,6 +7,10 @@
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="update">
+        Textbased layouts (mi, mtext) now use width instead of advance for width,
+        to better support italic fonts
+      </action>
+      <action dev="maxberger" type="update">
         JMathComponent: Background is now for the whole component, not just for
         the formula;
         BeanDescriptor: Updated Background, added Opaque;
