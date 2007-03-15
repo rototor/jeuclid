@@ -37,46 +37,59 @@ import javax.swing.ImageIcon;
  * @author Max Berger
  */
 public class JMathComponentBeanInfo extends SimpleBeanInfo {
-    private static final Class beanClass = JMathComponent.class;
+    private static final Class BEANCLASS = JMathComponent.class;
 
     private final Image icoColor16 = new ImageIcon(
-            JMathComponentBeanInfo.beanClass
+            JMathComponentBeanInfo.BEANCLASS
                     .getResource("/icons/jeuclid_16x16.png")).getImage();
 
     private final Image icoColor32 = new ImageIcon(
-            JMathComponentBeanInfo.beanClass
+            JMathComponentBeanInfo.BEANCLASS
                     .getResource("/icons/jeuclid_32x32.png")).getImage();
 
     private final Image icoBw16 = new ImageIcon(
-            JMathComponentBeanInfo.beanClass
+            JMathComponentBeanInfo.BEANCLASS
                     .getResource("/icons/jeuclid_16x16_bw.png")).getImage();
 
     private final Image icoBw32 = new ImageIcon(
-            JMathComponentBeanInfo.beanClass
+            JMathComponentBeanInfo.BEANCLASS
                     .getResource("/icons/jeuclid_32x32_bw.png")).getImage();
+
+    /**
+     * Default Contructor.
+     */
+    public JMathComponentBeanInfo() {
+        // Empty on purpose.
+    }
 
     /** {@inheritDoc} */
     @Override
     public Image getIcon(final int iconKind) {
+        final Image retVal;
         switch (iconKind) {
         case BeanInfo.ICON_COLOR_16x16:
-            return this.icoColor16;
+            retVal = this.icoColor16;
+            break;
         case BeanInfo.ICON_COLOR_32x32:
-            return this.icoColor32;
+            retVal = this.icoColor32;
+            break;
         case BeanInfo.ICON_MONO_16x16:
-            return this.icoBw16;
+            retVal = this.icoBw16;
+            break;
         case BeanInfo.ICON_MONO_32x32:
-            return this.icoBw32;
+            retVal = this.icoBw32;
+            break;
         default:
             return this.icoColor32;
         }
+        return retVal;
     }
 
     /** {@inheritDoc} */
     @Override
     public BeanDescriptor getBeanDescriptor() {
         final BeanDescriptor beanDescriptor = new BeanDescriptor(
-                JMathComponentBeanInfo.beanClass);
+                JMathComponentBeanInfo.BEANCLASS);
         beanDescriptor.setName("JEuclid");
         beanDescriptor.setDisplayName("JEuclid Bean");
         beanDescriptor
@@ -91,64 +104,70 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
             final PropertyDescriptor propertyFontSize = new PropertyDescriptor(
-                    "fontSize", JMathComponentBeanInfo.beanClass);
+                    "fontSize", JMathComponentBeanInfo.BEANCLASS);
             propertyFontSize.setDisplayName("Font size");
             propertyFontSize
                     .setShortDescription("This will modify the font size of the displayed MathML elements");
 
             final PropertyDescriptor propertyContent = new PropertyDescriptor(
-                    "content", JMathComponentBeanInfo.beanClass);
+                    "content", JMathComponentBeanInfo.BEANCLASS);
             propertyContent.setDisplayName("Content");
             propertyContent
                     .setShortDescription("The XML content for the JEuclid Bean");
 
             final PropertyDescriptor fgContent = new PropertyDescriptor(
-                    "foreground", JMathComponentBeanInfo.beanClass);
+                    "foreground", JMathComponentBeanInfo.BEANCLASS);
             fgContent.setDisplayName("Foreground Color");
             fgContent
                     .setShortDescription("Foreground color if not specified within the document");
 
             final PropertyDescriptor bgContent = new PropertyDescriptor(
-                    "background", JMathComponentBeanInfo.beanClass);
+                    "background", JMathComponentBeanInfo.BEANCLASS);
             bgContent.setDisplayName("Background Color");
             bgContent
-                    .setShortDescription("Background color if not specified within the document");
+                    .setShortDescription("Background color for this component");
+
+            final PropertyDescriptor opaqueContent = new PropertyDescriptor(
+                    "opaque", JMathComponentBeanInfo.BEANCLASS);
+            opaqueContent.setDisplayName("Opaque");
+            opaqueContent
+                    .setShortDescription("If true, will always overpaint the background");
 
             final PropertyDescriptor fontsContent1 = new PropertyDescriptor(
-                    "fontsSerif", JMathComponentBeanInfo.beanClass);
+                    "fontsSerif", JMathComponentBeanInfo.BEANCLASS);
             fontsContent1.setDisplayName("Serif Fonts");
             fontsContent1
                     .setShortDescription("Fonts to use for Serif characters");
             final PropertyDescriptor fontsContent2 = new PropertyDescriptor(
-                    "fontsSanserif", JMathComponentBeanInfo.beanClass);
+                    "fontsSanserif", JMathComponentBeanInfo.BEANCLASS);
             fontsContent2.setDisplayName("Sans-Serif Fonts");
             fontsContent2
                     .setShortDescription("Fonts to use for Sans-Serif characters (the default font)");
             final PropertyDescriptor fontsContent3 = new PropertyDescriptor(
-                    "fontsMonospaced", JMathComponentBeanInfo.beanClass);
+                    "fontsMonospaced", JMathComponentBeanInfo.BEANCLASS);
             fontsContent3.setDisplayName("Monospaced Fonts");
             fontsContent3
                     .setShortDescription("Fonts to use for Monospaced characters");
             final PropertyDescriptor fontsContent4 = new PropertyDescriptor(
-                    "fontsScript", JMathComponentBeanInfo.beanClass);
+                    "fontsScript", JMathComponentBeanInfo.BEANCLASS);
             fontsContent4.setDisplayName("Script Fonts");
             fontsContent4
                     .setShortDescription("Fonts to use for Script characters");
             final PropertyDescriptor fontsContent5 = new PropertyDescriptor(
-                    "fontsFraktur", JMathComponentBeanInfo.beanClass);
+                    "fontsFraktur", JMathComponentBeanInfo.BEANCLASS);
             fontsContent5.setDisplayName("Fraktur Fonts");
             fontsContent5
                     .setShortDescription("Fonts to use for Fraktur characters");
             final PropertyDescriptor fontsContent6 = new PropertyDescriptor(
-                    "fontsDoublestruck", JMathComponentBeanInfo.beanClass);
+                    "fontsDoublestruck", JMathComponentBeanInfo.BEANCLASS);
             fontsContent6.setDisplayName("Double-Struck Fonts");
             fontsContent6
                     .setShortDescription("Fonts to use for Double-Struck characters");
 
             return new PropertyDescriptor[] { propertyContent,
-                    propertyFontSize, fgContent, bgContent, fontsContent1,
-                    fontsContent2, fontsContent3, fontsContent4,
-                    fontsContent5, fontsContent6, };
+                    propertyFontSize, fgContent, bgContent, opaqueContent,
+                    fontsContent1, fontsContent2, fontsContent3,
+                    fontsContent4, fontsContent5, fontsContent6, };
         } catch (final IntrospectionException ex) {
             // should never occur as we know which classes/methods can be used
             // in this BeanInfo class

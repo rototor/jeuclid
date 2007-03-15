@@ -145,16 +145,26 @@ public class JMathComponent extends JComponent {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        // Is this desirable? Maybe this should depend on the "opaque"
-        // property
-        // final Color back = this.getBackground();
-        // if (back != null) {
-        // g.setColor(back);
-        // g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        // }
+        Color back = this.getBackground();
+        if (this.isOpaque()) {
+            if (back == null) {
+                back = Color.WHITE;
+            }
+            // Remove Alpha
+            back = new Color(back.getRGB());
+        }
+        if (back != null) {
+            g.setColor(back);
+            g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        }
         if (this.base != null) {
             this.base.paint((Graphics2D) g);
         }
+    }
+
+    private void reval() {
+        this.repaint();
+        this.revalidate();
     }
 
     private void redo() {
@@ -165,8 +175,7 @@ public class JMathComponent extends JComponent {
         } else {
             this.base = null;
         }
-        this.repaint();
-        this.revalidate();
+        this.reval();
     }
 
     /**
@@ -225,17 +234,15 @@ public class JMathComponent extends JComponent {
     /** {@inheritDoc} */
     @Override
     public void setBackground(final Color c) {
-        // super.setBackground(c);
-        this.parameters.put(ParameterKey.BackgroundColor, AttributesHelper
-                .colorTOsRGBString(c));
-        this.redo();
+        super.setBackground(c);
+        this.reval();
     }
 
     /** {@inheritDoc} */
     @Override
-    public Color getBackground() {
-        return AttributesHelper.stringToColor(this.parameters
-                .get(ParameterKey.BackgroundColor), null);
+    public void setOpaque(final boolean opaque) {
+        super.setOpaque(opaque);
+        this.reval();
     }
 
     /**
