@@ -75,9 +75,6 @@ public class MathText extends AbstractMathElement implements
     @Override
     public void paint(final Graphics2D g, final int posX, final int posY) {
         super.paint(g, posX, posY);
-        // Left here for testing purposes.
-        // g.drawString(getText(),posX,posY);
-
         if (this.getText().length() > 0) {
             this.produceTextLayout(g).draw(g, posX, posY);
         }
@@ -108,8 +105,8 @@ public class MathText extends AbstractMathElement implements
         if (this.getText().equals("")) {
             return 0;
         } else {
-            return (int) Math.ceil(this.produceTextLayout(g).getBounds()
-                    .getWidth());
+            final Rectangle2D r2d = this.produceTextLayout(g).getBounds();
+            return (int) Math.ceil(r2d.getWidth() + r2d.getX());
         }
     }
 
