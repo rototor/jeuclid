@@ -7,6 +7,9 @@
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="update">
+        Yet another bug in text width. I hope it's fixed now.
+      </action>
+      <action dev="maxberger" type="update">
         Textbased layouts (mi, mtext) now use width instead of advance for width,
         to better support italic fonts
       </action>
