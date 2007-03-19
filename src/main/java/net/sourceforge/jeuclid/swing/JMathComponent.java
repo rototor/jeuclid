@@ -320,15 +320,23 @@ public class JMathComponent extends JComponent {
     }
 
     /**
+     * Font list for Sans-Serif. Please see {@link ParameterKey#FontsSanserif}
+     * for an explanation of this parameter.
+     * 
      * @return The list for sansserif.
+     * @see ParameterKey#FontsSanserif
      */
     public String getFontsSanserif() {
         return this.parameters.get(ParameterKey.FontsSanserif);
     }
 
     /**
+     * Font list for Sans-Serif. Please see {@link ParameterKey#FontsSanserif}
+     * for an explanation of this parameter.
+     * 
      * @param newFonts
      *            new list for sansserif (comma seraparated).
+     * @see ParameterKey#FontsSanserif
      */
     public void setFontsSanserif(final String newFonts) {
         this.parameters.put(ParameterKey.FontsSanserif, newFonts);
@@ -336,15 +344,23 @@ public class JMathComponent extends JComponent {
     }
 
     /**
+     * Font list for Serif (the default MathML font). Please see
+     * {@link ParameterKey#FontsSerif} for an explanation of this parameter.
+     * 
      * @return The list for serif.
+     * @see ParameterKey#FontsSerif
      */
     public String getFontsSerif() {
         return this.parameters.get(ParameterKey.FontsSerif);
     }
 
     /**
+     * Font list for Serif (the default MathML font). Please see
+     * {@link ParameterKey#FontsSerif} for an explanation of this parameter.
+     * 
      * @param newFonts
      *            new list for serif (comma seraparated).
+     * @see ParameterKey#FontsSerif
      */
     public void setFontsSerif(final String newFonts) {
         this.parameters.put(ParameterKey.FontsSerif, newFonts);
@@ -352,15 +368,25 @@ public class JMathComponent extends JComponent {
     }
 
     /**
+     * Font list for Monospaced. Please see
+     * {@link ParameterKey#FontsMonospaced} for an explanation of this
+     * parameter.
+     * 
      * @return The list for monospaced.
+     * @see ParameterKey#FontsMonospaced
      */
     public String getFontsMonospaced() {
         return this.parameters.get(ParameterKey.FontsMonospaced);
     }
 
     /**
+     * Font list for Monospaced. Please see
+     * {@link ParameterKey#FontsMonospaced} for an explanation of this
+     * parameter.
+     * 
      * @param newFonts
      *            new list for Monospaced (comma seraparated).
+     * @see ParameterKey#FontsMonospaced
      */
     public void setFontsMonospaced(final String newFonts) {
         this.parameters.put(ParameterKey.FontsMonospaced, newFonts);
@@ -368,15 +394,23 @@ public class JMathComponent extends JComponent {
     }
 
     /**
+     * Font list for Script. Please see {@link ParameterKey#FontsScript} for
+     * an explanation of this parameter.
+     * 
      * @return The list for Script.
+     * @see ParameterKey#FontsScript
      */
     public String getFontsScript() {
         return this.parameters.get(ParameterKey.FontsScript);
     }
 
     /**
+     * Font list for Script. Please see {@link ParameterKey#FontsScript} for
+     * an explanation of this parameter.
+     * 
      * @param newFonts
      *            new list for Script (comma seraparated).
+     * @see ParameterKey#FontsScript
      */
     public void setFontsScript(final String newFonts) {
         this.parameters.put(ParameterKey.FontsScript, newFonts);
@@ -384,15 +418,23 @@ public class JMathComponent extends JComponent {
     }
 
     /**
+     * Font list for Fraktur. Please see {@link ParameterKey#FontsFraktur} for
+     * an explanation of this parameter.
+     * 
      * @return The list for Fraktur.
+     * @see ParameterKey#FontsFraktur
      */
     public String getFontsFraktur() {
         return this.parameters.get(ParameterKey.FontsFraktur);
     }
 
     /**
+     * Font list for Fraktur. Please see {@link ParameterKey#FontsFraktur} for
+     * an explanation of this parameter.
+     * 
      * @param newFonts
      *            new list for Fraktur (comma seraparated).
+     * @see ParameterKey#FontsFraktur
      */
     public void setFontsFraktur(final String newFonts) {
         this.parameters.put(ParameterKey.FontsFraktur, newFonts);
@@ -400,15 +442,25 @@ public class JMathComponent extends JComponent {
     }
 
     /**
+     * Font list for Doublestruck. Please see
+     * {@link ParameterKey#FontsDoublestruck} for an explanation of this
+     * parameter.
+     * 
      * @return The list for Doublestruck.
+     * @see ParameterKey#FontsDoublestruck
      */
     public String getFontsDoublestruck() {
         return this.parameters.get(ParameterKey.FontsDoublestruck);
     }
 
     /**
+     * Font list for Doublestruck. Please see
+     * {@link ParameterKey#FontsDoublestruck} for an explanation of this
+     * parameter.
+     * 
      * @param newFonts
      *            new list for Doublestruck (comma seraparated).
+     * @see ParameterKey#FontsDoublestruck
      */
     public void setFontsDoublestruck(final String newFonts) {
         this.parameters.put(ParameterKey.FontsDoublestruck, newFonts);
@@ -419,7 +471,7 @@ public class JMathComponent extends JComponent {
      * Font emulator for standard component behaviour.
      * <p>
      * Emulates the standard setFont function by setting the font Size and
-     * adding the font to the front of the sans-serif font list.
+     * adding the font to the front of the serif font list.
      * 
      * @param f
      *            font to set.
@@ -428,10 +480,17 @@ public class JMathComponent extends JComponent {
     public void setFont(final Font f) {
         super.setFont(f);
         this.setFontSize(f.getSize2D());
-        this.setFontsSerif(f.getFamily() + "," + this.getFontsSanserif());
+        this.setFontsSerif(f.getFamily() + "," + this.getFontsSerif());
     }
 
     /**
+     * Horizontal alignment, as defined by
+     * {@link javax.swing.JLabel#getHorizontalAlignment()}.
+     * <p>
+     * Supported are: {@link SwingConstants#LEADING},
+     * {@link SwingConstants#LEFT}, {@link SwingConstants#CENTER},
+     * {@link SwingConstants#TRAILING}, {@link SwingConstants#RIGHT}.
+     * 
      * @return the horizontalAlignment
      * @see javax.swing.JLabel#getHorizontalAlignment()
      */
@@ -440,6 +499,13 @@ public class JMathComponent extends JComponent {
     }
 
     /**
+     * Horizontal alignment, as defined by
+     * {@link javax.swing.JLabel#setHorizontalAlignment(int)}.
+     * <p>
+     * Supported are: {@link SwingConstants#LEADING},
+     * {@link SwingConstants#LEFT}, {@link SwingConstants#CENTER},
+     * {@link SwingConstants#TRAILING}, {@link SwingConstants#RIGHT}.
+     * 
      * @param hAlignment
      *            the horizontalAlignment to set
      * @see javax.swing.JLabel#setHorizontalAlignment(int)
@@ -449,6 +515,12 @@ public class JMathComponent extends JComponent {
     }
 
     /**
+     * Vertical alignment, as defined by
+     * {@link javax.swing.JLabel#getVerticalAlignment()}.
+     * <p>
+     * Supported are: {@link SwingConstants#TOP},
+     * {@link SwingConstants#CENTER}, {@link SwingConstants#BOTTOM}.
+     * 
      * @return the verticalAlignment
      * @see javax.swing.JLabel#getVerticalAlignment()
      */
@@ -457,6 +529,12 @@ public class JMathComponent extends JComponent {
     }
 
     /**
+     * Vertical alignment, as defined by
+     * {@link javax.swing.JLabel#setVerticalAlignment(int)}.
+     * <p>
+     * Supported are: {@link SwingConstants#TOP},
+     * {@link SwingConstants#CENTER}, {@link SwingConstants#BOTTOM}.
+     * 
      * @param vAlignment
      *            the verticalAlignment to set
      * @see javax.swing.JLabel#setVerticalAlignment(int)
