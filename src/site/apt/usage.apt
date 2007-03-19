@@ -13,7 +13,7 @@ Installing Fonts (optional)
 
   * {{{http://dejavu.sourceforge.net/}DejaVu Fonts}}. 
 
-    * Windows: Download the <<<.zip>>> distribution from the site mentioned above. Install these fonts into your system (instructions welcome)
+    * Windows: Download the <<<.zip>>> distribution from the site mentioned above. Install these fonts into your system (instructions are available at {{{http://www.microsoft.com/typography/AboutFontsOverview.mspx}Microsoft Typography}})
 
     * OS X: Download the <<<.zip>>> distribution from the site mentioned above. Drag the <<<.ttf>>> files into your <<</Library/Fonts>>> (or your personal <<<Library/Fonts>>>) directory
 
