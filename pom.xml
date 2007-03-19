@@ -250,6 +250,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-20070317.055642-36</version>
         <configuration>
           <descriptors>
             <descriptor>src/assemble/distribution.xml</descriptor>
@@ -335,12 +336,6 @@
     </dependency>
   </dependencies>
   <pluginRepositories>
-<!-- 
-    <pluginRepository>
-      <id>tapestry.javaforge</id>
-      <url>http://howardlewisship.com/repository</url>
-    </pluginRepository>
--->
     <pluginRepository>
       <id>codehaus-snapshot-plugins</id>
       <name>codehaus-shapshot-plugins</name>
@@ -351,6 +346,17 @@
       <releases>
         <enabled>false</enabled>
       </releases>
+    </pluginRepository>
+    <pluginRepository>
+      <id>apache.org</id>
+      <name>Maven Plugin Snapshots</name>
+      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </pluginRepository>
   </pluginRepositories>
   <reporting>
