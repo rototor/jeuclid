@@ -135,14 +135,15 @@ public class OperatorDictionary {
     /**
      * Array of default values of operators attributes.
      */
-    private static final String[][] attributeDefValues = {
+    private static final String[][] ATTRIBUTE_DEFAULT_VALUES = {
             { "form", "infix" }, { "fence", "false" },
-            { "separator", "false" }, { "lspace", "thickmathspace" },
+            { "separator", "false" },
+            { "lspace", OperatorDictionary.NAME_THICKMATHSPACE },
             { "rspace", OperatorDictionary.NAME_THICKMATHSPACE },
             { "stretchy", "false" }, { "symmetric", "true" },
             { "maxsize", OperatorDictionary.NAME_INFINITY },
             { "minsize", "1" }, { "largeop", "false" },
-            { "movablelimits", "false" }, { "accent", "false" } };
+            { "movablelimits", "false" }, { "accent", "false" }, };
 
     OperatorDictionary() throws DictionaryException {
         try {
@@ -249,7 +250,7 @@ public class OperatorDictionary {
      * @return Default value of the attribute.
      */
     private static String getDefaultValue(final String attributeName) {
-        for (String[] element : OperatorDictionary.attributeDefValues) {
+        for (String[] element : OperatorDictionary.ATTRIBUTE_DEFAULT_VALUES) {
             if (attributeName.equalsIgnoreCase(element[0])) {
                 return element[1];
             }
@@ -261,11 +262,14 @@ public class OperatorDictionary {
      * The DictionaryReader reads dictionary XML file and initializes
      * Dictionary fields.
      */
-    private class DictionaryReader extends DefaultHandler {
+    private static class DictionaryReader extends DefaultHandler {
+        private static final String ELEMENT_ELEMENT = "element";
+
         /**
          * Logger for this class.
          */
-        private final Log LOGGER = LogFactory.getLog(DictionaryReader.class);
+        private static final Log LOGGER = LogFactory
+                .getLog(OperatorDictionary.DictionaryReader.class);
 
         private String currentOperator;
 
@@ -274,6 +278,10 @@ public class OperatorDictionary {
         private int currentLength;
 
         private String[][] currentEntry;
+
+        public DictionaryReader() {
+            // Empty on purpose.
+        }
 
         @Override
         public void startDocument() throws SAXException {
@@ -289,7 +297,8 @@ public class OperatorDictionary {
                 final String rawName, final Attributes attlist)
                 throws SAXException {
 
-            if (rawName.equals("element")) {
+            if (rawName
+                    .equals(OperatorDictionary.DictionaryReader.ELEMENT_ELEMENT)) {
                 // attlist.getLength() - 1 - because we don't include form
                 // attribute
                 this.currentLength = attlist.getLength() - 1;
@@ -301,7 +310,7 @@ public class OperatorDictionary {
                     // it is impossibhle because "form" is required attribute
                     // for the dictionary.
                     // todo: what is here?
-                    this.LOGGER
+                    OperatorDictionary.DictionaryReader.LOGGER
                             .fatal("Error in dictionary, attribute 'form' is required attribute for the dictionary");
                 }
                 if (form.equals("prefix")) {
@@ -327,7 +336,8 @@ public class OperatorDictionary {
         @Override
         public void endElement(final String uri, final String localName,
                 final String rawName) throws SAXException {
-            if (rawName.equals("element")) {
+            if (rawName
+                    .equals(OperatorDictionary.DictionaryReader.ELEMENT_ELEMENT)) {
                 final String key = this.currentOperator
                         + this.currentFormIndex;
                 final Object existedEntry = OperatorDictionary.dictionary
@@ -335,7 +345,9 @@ public class OperatorDictionary {
                 if (existedEntry == null) {
                     OperatorDictionary.dictionary.put(key, this.currentEntry);
                 } else {
-                    // TODO what todo if such object already exists?
+                    OperatorDictionary.DictionaryReader.LOGGER
+                            .error("Objects " + key
+                                    + " exists twice in operator dictionary!");
                 }
             }
             this.currentEntry = null;

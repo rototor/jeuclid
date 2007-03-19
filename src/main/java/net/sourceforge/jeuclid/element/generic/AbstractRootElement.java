@@ -174,16 +174,16 @@ public abstract class AbstractRootElement extends AbstractMathElement {
     }
 
     private int getRootWidth(final Graphics2D g) {
-        int result = 0;
+        float result = 0;
 
         final FontRenderContext context = new FontRenderContext(
                 new AffineTransform(), false, false);
         final GlyphVector gv = this.getFont().createGlyphVector(context,
                 new char[] { AbstractRootElement.ROOT_CHAR });
-        result = (int) (gv.getGlyphMetrics(0).getBounds2D().getWidth());
-        result += Math.max(this.getActualIndex().getWidth(g) - 0.5 * result,
+        result = (float) (gv.getGlyphMetrics(0).getBounds2D().getWidth());
+        result += Math.max(this.getActualIndex().getWidth(g) - result / 2.0f,
                 0);
-        return result;
+        return (int) Math.ceil(result);
     }
 
 }

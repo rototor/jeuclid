@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.xml.bind.PropertyException;
+
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.generic.MathNode;
 
@@ -321,7 +323,9 @@ public final class AttributesHelper {
             value = value.substring(poss + 1, pose);
             final StringTokenizer st = new StringTokenizer(value, ",");
             try {
-                float red = 0.0f, green = 0.0f, blue = 0.0f;
+                float red = 0.0f;
+                float green = 0.0f;
+                float blue = 0.0f;
                 if (st.hasMoreTokens()) {
                     final String str = st.nextToken().trim();
                     if (str.endsWith("%")) {
@@ -450,6 +454,7 @@ public final class AttributesHelper {
 
     }
 
+    // CHECKSTYLE:OFF
     static {
 
         // Mostly taken from 2.4.4.2
@@ -526,5 +531,5 @@ public final class AttributesHelper {
         AttributesHelper.COLOR_MAPPINGS.put("null", null);
         AttributesHelper.COLOR_MAPPINGS.put("", null);
     }
-
+    // CHECKSTYLE:ON
 }
