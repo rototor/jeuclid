@@ -276,7 +276,7 @@ public class MathBase {
         params.put(ParameterKey.BackgroundColor, "transparent");
         params.put(ParameterKey.FontsSanserif, "Verdana," + "Helvetica,"
                 + "Arial," + "Arial Unicode MS," + "Lucida Sans Unicode,"
-                + "Lucida Sans," + "DejaVu Sans," + "Bitstream Vera Sans,"
+                + "Lucida Sans," + "Lucida Grande," + "DejaVu Sans," + "Bitstream Vera Sans,"
                 + "Luxi Sans," + "FreeSans," + "OpenSymbol," + "sansserif");
         params.put(ParameterKey.FontsSerif, "Georgia," + "Times,"
                 + "Times New Roman," + "Lucida Bright," + "DejaVu Serif,"

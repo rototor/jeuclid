@@ -328,7 +328,7 @@ public class JMathComponent extends JComponent {
 
     /**
      * @param newFonts
-     *            new list for sansserif (comman seraparated).
+     *            new list for sansserif (comma seraparated).
      */
     public void setFontsSanserif(final String newFonts) {
         this.parameters.put(ParameterKey.FontsSanserif, newFonts);
@@ -344,7 +344,7 @@ public class JMathComponent extends JComponent {
 
     /**
      * @param newFonts
-     *            new list for serif (comman seraparated).
+     *            new list for serif (comma seraparated).
      */
     public void setFontsSerif(final String newFonts) {
         this.parameters.put(ParameterKey.FontsSerif, newFonts);
@@ -360,7 +360,7 @@ public class JMathComponent extends JComponent {
 
     /**
      * @param newFonts
-     *            new list for Monospaced (comman seraparated).
+     *            new list for Monospaced (comma seraparated).
      */
     public void setFontsMonospaced(final String newFonts) {
         this.parameters.put(ParameterKey.FontsMonospaced, newFonts);
@@ -376,7 +376,7 @@ public class JMathComponent extends JComponent {
 
     /**
      * @param newFonts
-     *            new list for Script (comman seraparated).
+     *            new list for Script (comma seraparated).
      */
     public void setFontsScript(final String newFonts) {
         this.parameters.put(ParameterKey.FontsScript, newFonts);
@@ -392,7 +392,7 @@ public class JMathComponent extends JComponent {
 
     /**
      * @param newFonts
-     *            new list for Fraktur (comman seraparated).
+     *            new list for Fraktur (comma seraparated).
      */
     public void setFontsFraktur(final String newFonts) {
         this.parameters.put(ParameterKey.FontsFraktur, newFonts);
@@ -408,7 +408,7 @@ public class JMathComponent extends JComponent {
 
     /**
      * @param newFonts
-     *            new list for Doublestruck (comman seraparated).
+     *            new list for Doublestruck (comma seraparated).
      */
     public void setFontsDoublestruck(final String newFonts) {
         this.parameters.put(ParameterKey.FontsDoublestruck, newFonts);

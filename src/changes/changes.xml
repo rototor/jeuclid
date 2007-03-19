@@ -6,6 +6,11 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        minor JavaDoc updates;
+        added Lucida Grande to list of sans fonts;
+        Website Font install updates;
+      </action>
       <action dev="maxberger" type="add">
         StringUtil: Proper mappings for script and double-struck;
       </action>
@@ -35,7 +40,8 @@
         rewrote color parsing in AttributesHelper (mostly copied from fop, but
         I was the one who submitted the patch there in the first place :) );
         made sure JMathComponent properly handles null color and colors with
-        alpha value
+        alpha value.
+      </action>
       <action dev="maxberger" type="update">
         JMathComponentBeanInfo: Short description for fonts;
       </action>
