@@ -19,6 +19,14 @@ Installing Fonts (optional)
 
     * Debian + Ubuntu Linux: use <<<apt-get install ttf-dejavu>>>
 
+  * OpenSymbol
+
+  The DejaVu fonts are not yet complete. Full support for MathML symbols is on the roadmap for the near future (as or mar 07). In the mean time, the OpenSymbol font has support for many mathematical symbols
+
+    * Windows / OS X: This font is part of OpenOffice
+  
+    * Debian + Ubuntu Linux: use <<<apt-get install ttf-opensymbol>>>
+
   * Arial Unicode MS
 
     * Windows: This font is part of MS Office (2000/2003)
