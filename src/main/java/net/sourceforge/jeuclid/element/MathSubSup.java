@@ -67,22 +67,10 @@ public class MathSubSup extends AbstractMathElementWithSubSuper implements
         final MathElement e2 = this.getMathElement(1);
         final MathElement e3 = this.getMathElement(2);
 
-        final int referenceHeight = e1.getHeight(g);
-
-        int e1DescentHeight = e1.getDescentHeight(g);
-        if (e1DescentHeight == 0) {
-            e1DescentHeight = this.getFontMetrics(g).getDescent();
-        }
-        int e1AscentHeight = e1.getAscentHeight(g);
-        if (e1AscentHeight == 0) {
-            e1AscentHeight = this.getFontMetrics(g).getAscent();
-        }
-
-        final int posY1 = posY + e1DescentHeight + e2.getAscentHeight(g)
-                - this.getSubMiddleShift(referenceHeight, g) - 1;
-
         e1.paint(g, posX, posY);
-        e2.paint(g, posX + e1.getWidth(g), posY1);
+        e2
+                .paint(g, posX + e1.getWidth(g), posY
+                        + this.getSubBaseLineShift(g));
         e3.paint(g, posX + e1.getWidth(g), posY
                 - this.getSuperBaseLineShift(g));
     }
@@ -104,10 +92,7 @@ public class MathSubSup extends AbstractMathElementWithSubSuper implements
     /** {@inheritDoc} */
     @Override
     public int calculateDescentHeight(final Graphics2D g) {
-        final int e2h = Math.max(this.getMathElement(1).getHeight(g)
-                - this.getSubMiddleShift(this.getMathElement(0).getHeight(g),
-                        g), 0);
-        return this.getMathElement(0).getDescentHeight(g) + e2h;
+        return this.caclulateDescentHeightWithSub(g);
     }
 
     /** {@inheritDoc} */
