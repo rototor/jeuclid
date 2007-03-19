@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.element;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
@@ -121,30 +120,6 @@ public class MathDocumentElement extends AbstractPartialDocumentImpl
         this.mathbase = base;
     }
 
-    /**
-     * Paints this component and all of its elements.
-     * 
-     * @param g2
-     *            The graphics context to use for painting
-     */
-    public void paint(final Graphics2D g2) {
-        final int height = this.getAscentHeight(g2)
-                + this.getDescentHeight(g2);
-        if (this.mathbase.isDebug()) {
-            g2.setColor(Color.blue);
-            g2.drawLine(0, 0, this.getWidth(g2) - 1, 0);
-            g2.drawLine(this.getWidth(g2) - 1, 0, this.getWidth(g2) - 1,
-                    height - 1);
-            g2.drawLine(0, 0, 0, height - 1);
-            g2.drawLine(0, height - 1, this.getWidth(g2) - 1, height - 1);
-
-            g2.setColor(Color.cyan);
-            g2.drawLine(0, height / 2, this.getWidth(g2) - 1, height / 2);
-
-            g2.setColor(Color.black);
-        }
-        this.paint(g2, 0, this.getAscentHeight(g2));
-    }
 
     /** {@inheritDoc} */
     public float getMathsizeInPoint() {

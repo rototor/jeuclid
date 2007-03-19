@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.element.attributes.FontFamily;
 import net.sourceforge.jeuclid.element.attributes.MathVariant;
 
 /**
@@ -62,6 +63,10 @@ public final class StringUtil {
     private static final int HIGH_SURROGATE_END = 0xdbff;
 
     private static final Map<Integer, Integer> FRAKTUR_MAPPING = new HashMap<Integer, Integer>();
+
+    private static final Map<Integer, Integer> SCRIPT_MAPPING = new HashMap<Integer, Integer>();
+
+    private static final Map<Integer, Integer> DOUBLE_MAPPING = new HashMap<Integer, Integer>();
 
     private StringUtil() {
         // do nothing
@@ -110,23 +115,31 @@ public final class StringUtil {
                 // TODO: There are many others to be mapped!
             }
 
-            if (MathVariant.FRAKTUR.equals(variant)) {
+            final int awtStyle = variant.getAwtStyle();
+            final FontFamily fontFamily = variant.getFontFamily();
+            if (FontFamily.FRAKTUR.equals(fontFamily)) {
                 final Integer mapping = StringUtil.FRAKTUR_MAPPING
                         .get(codePoint);
                 if (mapping != null) {
                     codePoint = mapping;
-                    variant = MathVariant.NORMAL;
+                    variant = new MathVariant(awtStyle, FontFamily.SANSSERIF);
                 }
-            } else if (MathVariant.BOLD_FRAKTUR.equals(variant)) {
-                final Integer mapping = StringUtil.FRAKTUR_MAPPING
+            } else if (FontFamily.SCRIPT.equals(fontFamily)) {
+                final Integer mapping = StringUtil.SCRIPT_MAPPING
                         .get(codePoint);
                 if (mapping != null) {
                     codePoint = mapping;
-                    variant = MathVariant.BOLD;
+                    variant = new MathVariant(awtStyle, FontFamily.SANSSERIF);
                 }
-            }
-            // TODO: Add mappings for SCRIPT, BOLD_SCRIPT, DOUBLE_STRUCK
+            } else if (FontFamily.DOUBLE_STRUCK.equals(fontFamily)) {
+                final Integer mapping = StringUtil.DOUBLE_MAPPING
+                        .get(codePoint);
+                if (mapping != null) {
+                    codePoint = mapping;
+                    variant = new MathVariant(awtStyle, FontFamily.SANSSERIF);
+                }
 
+            }
             builder.append((char) codePoint);
             variants.add(variant);
         }
@@ -148,6 +161,26 @@ public final class StringUtil {
         StringUtil.FRAKTUR_MAPPING.put((int) 'I', StringUtil.IFR);
         StringUtil.FRAKTUR_MAPPING.put((int) 'R', StringUtil.RFR);
         StringUtil.FRAKTUR_MAPPING.put((int) 'Z', StringUtil.ZFR);
+
+        StringUtil.SCRIPT_MAPPING.put((int) 'B', 0x212C);
+        StringUtil.SCRIPT_MAPPING.put((int) 'E', 0x2130);
+        StringUtil.SCRIPT_MAPPING.put((int) 'e', 0x212F);
+        StringUtil.SCRIPT_MAPPING.put((int) 'F', 0x2131);
+        StringUtil.SCRIPT_MAPPING.put((int) 'g', 0x210A);
+        StringUtil.SCRIPT_MAPPING.put((int) 'H', 0x210B);
+        StringUtil.SCRIPT_MAPPING.put((int) 'I', 0x2110);
+        StringUtil.SCRIPT_MAPPING.put((int) 'L', 0x2112);
+        StringUtil.SCRIPT_MAPPING.put((int) 'M', 0x2133);
+        StringUtil.SCRIPT_MAPPING.put((int) 'o', 0x2134);
+        StringUtil.SCRIPT_MAPPING.put((int) 'R', 0x211B);
+
+        StringUtil.DOUBLE_MAPPING.put((int) 'C', 0x2102);
+        StringUtil.DOUBLE_MAPPING.put((int) 'H', 0x210D);
+        StringUtil.DOUBLE_MAPPING.put((int) 'N', 0x2115);
+        StringUtil.DOUBLE_MAPPING.put((int) 'P', 0x2119);
+        StringUtil.DOUBLE_MAPPING.put((int) 'Q', 0x211A);
+        StringUtil.DOUBLE_MAPPING.put((int) 'R', 0x211D);
+        StringUtil.DOUBLE_MAPPING.put((int) 'Z', 0x2124);
     }
 
 }
