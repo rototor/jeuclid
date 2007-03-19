@@ -6,6 +6,19 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add">
+        StringUtil: Proper mappings for script and double-struck;
+      </action>
+      <action dev="maxberger" type="udpate">
+        re-arranged default font lists again;
+      </action>
+      <action dev="maxberger" type="add">
+        JMathComponent: added setFont() for compatibility;
+        JMathComponent: added get/set horizontal/vertical Alignment;
+      </action>
+      <action dev="maxberger" type="fix">
+        JMathComponent: default font is serif, documentation updated;
+      </action>
       <action dev="maxberger" type="update">
         Yet another bug in text width. I hope it's fixed now.
       </action>

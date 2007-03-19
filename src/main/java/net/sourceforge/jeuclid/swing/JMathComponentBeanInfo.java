@@ -137,12 +137,12 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
                     "fontsSerif", JMathComponentBeanInfo.BEANCLASS);
             fontsContent1.setDisplayName("Serif Fonts");
             fontsContent1
-                    .setShortDescription("Fonts to use for Serif characters");
+                    .setShortDescription("Fonts to use for Serif characters (the default font)");
             final PropertyDescriptor fontsContent2 = new PropertyDescriptor(
                     "fontsSanserif", JMathComponentBeanInfo.BEANCLASS);
             fontsContent2.setDisplayName("Sans-Serif Fonts");
             fontsContent2
-                    .setShortDescription("Fonts to use for Sans-Serif characters (the default font)");
+                    .setShortDescription("Fonts to use for Sans-Serif characters");
             final PropertyDescriptor fontsContent3 = new PropertyDescriptor(
                     "fontsMonospaced", JMathComponentBeanInfo.BEANCLASS);
             fontsContent3.setDisplayName("Monospaced Fonts");
@@ -164,10 +164,19 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
             fontsContent6
                     .setShortDescription("Fonts to use for Double-Struck characters");
 
+            final PropertyDescriptor vAlign = new PropertyDescriptor(
+                    "verticalAlignment", JMathComponentBeanInfo.BEANCLASS);
+            vAlign.setDisplayName("Vertical Alignment");
+
+            final PropertyDescriptor hAlign = new PropertyDescriptor(
+                    "horizontalAlignment", JMathComponentBeanInfo.BEANCLASS);
+            hAlign.setDisplayName("Horizontal Alignment");
+
             return new PropertyDescriptor[] { propertyContent,
                     propertyFontSize, fgContent, bgContent, opaqueContent,
                     fontsContent1, fontsContent2, fontsContent3,
-                    fontsContent4, fontsContent5, fontsContent6, };
+                    fontsContent4, fontsContent5, fontsContent6, vAlign,
+                    hAlign, };
         } catch (final IntrospectionException ex) {
             // should never occur as we know which classes/methods can be used
             // in this BeanInfo class

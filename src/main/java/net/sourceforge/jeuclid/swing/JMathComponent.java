@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.swing;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
@@ -27,6 +28,7 @@ import java.io.StringWriter;
 import java.util.Map;
 
 import javax.swing.JComponent;
+import javax.swing.SwingConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -60,6 +62,10 @@ public class JMathComponent extends JComponent {
 
     /** */
     private static final long serialVersionUID = 1L;
+
+    private int horizontalAlignment = SwingConstants.CENTER;
+
+    private int verticalAlignment = SwingConstants.CENTER;
 
     /**
      * Reference to the MathBase class.
@@ -145,6 +151,38 @@ public class JMathComponent extends JComponent {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
+        final Graphics2D g2 = (Graphics2D) g;
+        final Color back = this.getRealBackgroundColor();
+        final int width = this.getWidth();
+        final int height = this.getHeight();
+        if (back != null) {
+            g.setColor(back);
+            g.fillRect(0, 0, width, height);
+        }
+        if (this.base != null) {
+            final float xo;
+            if ((this.horizontalAlignment == SwingConstants.LEADING)
+                    || (this.horizontalAlignment == SwingConstants.LEFT)) {
+                xo = 0.0f;
+            } else if ((this.horizontalAlignment == SwingConstants.TRAILING)
+                    || (this.horizontalAlignment == SwingConstants.RIGHT)) {
+                xo = width - this.base.getWidth(g2);
+            } else {
+                xo = (width - this.base.getWidth(g2)) / 2.0f;
+            }
+            final float yo;
+            if (this.verticalAlignment == SwingConstants.TOP) {
+                yo = 0.0f;
+            } else if (this.verticalAlignment == SwingConstants.BOTTOM) {
+                yo = height - this.base.getHeight(g2);
+            } else {
+                yo = (height - this.base.getHeight(g2)) / 2.0f;
+            }
+            this.base.paint((Graphics2D) g, xo, yo);
+        }
+    }
+
+    private Color getRealBackgroundColor() {
         Color back = this.getBackground();
         if (this.isOpaque()) {
             if (back == null) {
@@ -153,13 +191,7 @@ public class JMathComponent extends JComponent {
             // Remove Alpha
             back = new Color(back.getRGB());
         }
-        if (back != null) {
-            g.setColor(back);
-            g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        }
-        if (this.base != null) {
-            this.base.paint((Graphics2D) g);
-        }
+        return back;
     }
 
     private void reval() {
@@ -381,6 +413,56 @@ public class JMathComponent extends JComponent {
     public void setFontsDoublestruck(final String newFonts) {
         this.parameters.put(ParameterKey.FontsDoublestruck, newFonts);
         this.redo();
+    }
+
+    /**
+     * Font emulator for standard component behaviour.
+     * <p>
+     * Emulates the standard setFont function by setting the font Size and
+     * adding the font to the front of the sans-serif font list.
+     * 
+     * @param f
+     *            font to set.
+     */
+    @Override
+    public void setFont(final Font f) {
+        super.setFont(f);
+        this.setFontSize(f.getSize2D());
+        this.setFontsSerif(f.getFamily() + "," + this.getFontsSanserif());
+    }
+
+    /**
+     * @return the horizontalAlignment
+     * @see javax.swing.JLabel#getHorizontalAlignment()
+     */
+    public int getHorizontalAlignment() {
+        return this.horizontalAlignment;
+    }
+
+    /**
+     * @param hAlignment
+     *            the horizontalAlignment to set
+     * @see javax.swing.JLabel#setHorizontalAlignment(int)
+     */
+    public void setHorizontalAlignment(final int hAlignment) {
+        this.horizontalAlignment = hAlignment;
+    }
+
+    /**
+     * @return the verticalAlignment
+     * @see javax.swing.JLabel#getVerticalAlignment()
+     */
+    public int getVerticalAlignment() {
+        return this.verticalAlignment;
+    }
+
+    /**
+     * @param vAlignment
+     *            the verticalAlignment to set
+     * @see javax.swing.JLabel#setVerticalAlignment(int)
+     */
+    public void setVerticalAlignment(final int vAlignment) {
+        this.verticalAlignment = vAlignment;
     }
 
 }

@@ -126,7 +126,29 @@ public final class MathVariant {
 
     private final FontFamily fontFamily;
 
-    private MathVariant(final int awtstyle, final FontFamily family) {
+    /**
+     * @return the awtStyle
+     */
+    public int getAwtStyle() {
+        return this.awtStyle;
+    }
+
+    /**
+     * @return the fontFamily
+     */
+    public FontFamily getFontFamily() {
+        return this.fontFamily;
+    }
+
+    /**
+     * Creates a Mathvariant with the given AWT-Style and font-family.
+     * 
+     * @param awtstyle
+     *            the awt Style
+     * @param family
+     *            the font family
+     */
+    public MathVariant(final int awtstyle, final FontFamily family) {
         this.awtStyle = awtstyle;
         this.fontFamily = family;
     };

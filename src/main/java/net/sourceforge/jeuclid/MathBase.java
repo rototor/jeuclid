@@ -162,8 +162,12 @@ public class MathBase {
      * 
      * @param g
      *            The graphics context to use for painting.
+     * @param x
+     *            x-offset
+     * @param y
+     *            y-offset
      */
-    public void paint(final Graphics2D g) {
+    public void paint(final Graphics2D g, final float x, final float y) {
         if (this.rootElement != null) {
             if (Boolean.parseBoolean(this.renderParams
                     .get(ParameterKey.AntiAlias))) {
@@ -172,8 +176,20 @@ public class MathBase {
                         RenderingHints.VALUE_ANTIALIAS_ON);
                 g.setRenderingHints(hints);
             }
-            this.rootElement.paint(g);
+            this.rootElement.paint(g, (int) x, (int) y
+                    + this.rootElement.getAscentHeight(g));
         }
+    }
+
+    /**
+     * Paints the componet and all of its elements into the top-right corner.
+     * 
+     * @param g
+     *            The graphics context to use for painting.
+     * @see #paint(Graphics2D, float, float)
+     */
+    public void paint(final Graphics2D g) {
+        this.paint(g, 0, 0);
     }
 
     /**
@@ -258,24 +274,23 @@ public class MathBase {
         params.put(ParameterKey.AntiAlias, "true");
         params.put(ParameterKey.ForegroundColor, "black");
         params.put(ParameterKey.BackgroundColor, "transparent");
-        params.put(ParameterKey.FontsSanserif, "DejaVu Sans,"
-                + "Bitstream Vera Sans," + "Arial Unicode MS,"
-                + "Lucida Sans Unicode," + "Lucida Sans,"
-                + "Helvetica," + "Luxi Sans," + "FreeSans,"
-                + "OpenSymbol," + "sansserif");
-        params.put(ParameterKey.FontsSerif, "DejaVu Serif,"
-                + "Bitstream Vera Serif," + "Lucida Bright," 
-                + "Times," + "Times New Roman," + "FreeSerif,"
-                + "Luxi Serif," + "serif");
-        params.put(ParameterKey.FontsMonospaced, "DejaVu Sans Mono,"
-                + "Bitstream Vera Sans Mono," + "Lucida Sans Typewriter,"
-                + "Courier," + "Courier Mono," + "FreeMono,"
-                + "Luxi Mono," + "monospaced");
+        params.put(ParameterKey.FontsSanserif, "Verdana," + "Helvetica,"
+                + "Arial," + "Arial Unicode MS," + "Lucida Sans Unicode,"
+                + "Lucida Sans," + "DejaVu Sans," + "Bitstream Vera Sans,"
+                + "Luxi Sans," + "FreeSans," + "OpenSymbol," + "sansserif");
+        params.put(ParameterKey.FontsSerif, "Georgia," + "Times,"
+                + "Times New Roman," + "Lucida Bright," + "DejaVu Serif,"
+                + "Bitstream Vera Serif," + "Luxi Serif," + "FreeSerif,"
+                + "serif," + "Arial Unicode MS");
+        params.put(ParameterKey.FontsMonospaced, "Andale Mono," + "Courier,"
+                + "Courier Mono," + "Courier New,"
+                + "Lucida Sans Typewriter," + "DejaVu Sans Mono,"
+                + "Bitstream Vera Sans Mono," + "Luxi Mono," + "FreeMono,"
+                + "monospaced");
         params.put(ParameterKey.FontsScript, "Savoye LET,"
                 + "Brush Script MT," + "Zapfino," + "Apple Chancery,"
                 + "Edwardian Script ITC," + "Lucida Handwriting,"
-                + "Monotype Corsiva,"
-                + "Santa Fe LET," + "Monotype Corsiva");
+                + "Monotype Corsiva," + "Santa Fe LET");
         params.put(ParameterKey.FontsFraktur, "FetteFraktur,"
                 + "Fette Fraktur," + "Euclid Fraktur,"
                 + "Lucida Blackletter," + "Blackmoor LET");
