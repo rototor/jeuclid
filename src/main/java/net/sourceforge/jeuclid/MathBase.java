@@ -274,30 +274,37 @@ public class MathBase {
         params.put(ParameterKey.AntiAlias, "true");
         params.put(ParameterKey.ForegroundColor, "black");
         params.put(ParameterKey.BackgroundColor, "transparent");
+
+        final String symbolCatchFonts = "OpenSymbol," + "Standard Symbols L,"
+                + "Arial Unicode MS";
+
         params.put(ParameterKey.FontsSanserif, "Verdana," + "Helvetica,"
                 + "Arial," + "Arial Unicode MS," + "Lucida Sans Unicode,"
-                + "Lucida Sans," + "Lucida Grande," + "DejaVu Sans," + "Bitstream Vera Sans,"
-                + "Luxi Sans," + "FreeSans," + "OpenSymbol," + "sansserif");
+                + "Lucida Sans," + "Lucida Grande," + "DejaVu Sans,"
+                + "Bitstream Vera Sans," + "Luxi Sans," + "FreeSans,"
+                + "sansserif," + symbolCatchFonts);
         params.put(ParameterKey.FontsSerif, "Georgia," + "Times,"
                 + "Times New Roman," + "Lucida Bright," + "DejaVu Serif,"
                 + "Bitstream Vera Serif," + "Luxi Serif," + "FreeSerif,"
-                + "serif," + "Arial Unicode MS");
+                + "serif," + symbolCatchFonts);
         params.put(ParameterKey.FontsMonospaced, "Andale Mono," + "Courier,"
                 + "Courier Mono," + "Courier New,"
                 + "Lucida Sans Typewriter," + "DejaVu Sans Mono,"
                 + "Bitstream Vera Sans Mono," + "Luxi Mono," + "FreeMono,"
-                + "monospaced");
+                + "monospaced," + symbolCatchFonts);
         params.put(ParameterKey.FontsScript, "Savoye LET,"
                 + "Brush Script MT," + "Zapfino," + "Apple Chancery,"
                 + "Edwardian Script ITC," + "Lucida Handwriting,"
-                + "Monotype Corsiva," + "Santa Fe LET");
-        params.put(ParameterKey.FontsFraktur, "FetteFraktur,"
-                + "Fette Fraktur," + "Euclid Fraktur,"
-                + "Lucida Blackletter," + "Blackmoor LET");
+                + "Monotype Corsiva," + "Santa Fe LET," + symbolCatchFonts);
+        params
+                .put(ParameterKey.FontsFraktur, "FetteFraktur,"
+                        + "Fette Fraktur," + "Euclid Fraktur,"
+                        + "Lucida Blackletter," + "Blackmoor LET,"
+                        + symbolCatchFonts);
         params.put(ParameterKey.FontsDoublestruck, "Caslon Open Face,"
                 + "Caslon Openface," + "Cloister Open Face,"
                 + "Academy Engraved LET," + "Colonna MT,"
-                + "Imprint MT Shadow");
+                + "Imprint MT Shadow," + symbolCatchFonts);
         return params;
     }
 }
