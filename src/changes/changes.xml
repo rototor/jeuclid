@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        various random checkstyle fixes;
+      </action>
       <action dev="maxberger" type="fix" due-to="Martin Holz">
         SAXMathBuilder: DocumentElement was not not set to MathBase.      
       </action>

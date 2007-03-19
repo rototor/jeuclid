@@ -40,17 +40,17 @@ public class MathMLConverter extends MatchingTask {
     /**
      * 
      */
-    private File m_destDir;
+    private File mdestDir;
 
-    private File m_baseDir;
+    private File mbaseDir;
 
-    private File m_inFile;
+    private File minFile;
 
-    private File m_outFile;
+    private File moutFile;
 
-    private String m_outType = "image/png";
+    private String moutType = "image/png";
 
-    private boolean m_force = false;
+    private boolean mforce;
 
     /**
      * Creates a new MathMLConverter Task.
@@ -68,15 +68,14 @@ public class MathMLConverter extends MatchingTask {
         String[] list;
         String[] dirs;
 
-        if (this.m_baseDir == null) {
-            this.m_baseDir = this.getProject().resolveFile(".");
+        if (this.mbaseDir == null) {
+            this.mbaseDir = this.getProject().resolveFile(".");
         }
 
         // if we have an in file and out then process them
-        if ((this.m_inFile != null) && (this.m_outFile != null)) {
+        if ((this.minFile != null) && (this.moutFile != null)) {
             try {
-                Converter.convert(this.m_inFile, this.m_outFile,
-                        this.m_outType);
+                Converter.convert(this.minFile, this.moutFile, this.moutType);
             } catch (final IOException io) {
                 throw new BuildException(io);
             }
@@ -89,26 +88,26 @@ public class MathMLConverter extends MatchingTask {
          */
 
         // -- make sure Source directory exists...
-        if (this.m_destDir == null) {
+        if (this.mdestDir == null) {
             final String msg = "m_destDir attributes must be set!";
 
             throw new BuildException(msg);
         }
-        scanner = this.getDirectoryScanner(this.m_baseDir);
-        this.log("Transforming into " + this.m_destDir, Project.MSG_INFO);
+        scanner = this.getDirectoryScanner(this.mbaseDir);
+        this.log("Transforming into " + this.mdestDir, Project.MSG_INFO);
 
         // Process all the files marked for styling
         list = scanner.getIncludedFiles();
         for (int i = 0; i < list.length; ++i) {
-            this.process(this.m_baseDir, list[i], this.m_destDir);
+            this.process(this.mbaseDir, list[i], this.mdestDir);
         }
 
         // Process all the directoried marked for styling
         dirs = scanner.getIncludedDirectories();
         for (int j = 0; j < dirs.length; ++j) {
-            list = new File(this.m_baseDir, dirs[j]).list();
+            list = new File(this.mbaseDir, dirs[j]).list();
             for (int i = 0; i < list.length; ++i) {
-                this.process(this.m_baseDir, list[i], this.m_destDir);
+                this.process(this.mbaseDir, list[i], this.mdestDir);
             }
         }
     }
@@ -120,7 +119,7 @@ public class MathMLConverter extends MatchingTask {
      *            True, if the task should always generate the images.
      */
     public void setForce(final boolean force) {
-        this.m_force = force;
+        this.mforce = force;
     }
 
     /**
@@ -130,7 +129,7 @@ public class MathMLConverter extends MatchingTask {
      *            Base directory
      */
     public void setBasedir(final File dir) {
-        this.m_baseDir = dir;
+        this.mbaseDir = dir;
     }
 
     /**
@@ -141,7 +140,7 @@ public class MathMLConverter extends MatchingTask {
      *            Destination directory
      */
     public void setDestdir(final File dir) {
-        this.m_destDir = dir;
+        this.mdestDir = dir;
     }
 
     /**
@@ -151,7 +150,7 @@ public class MathMLConverter extends MatchingTask {
      *            Output file
      */
     public void setOut(final File outFile) {
-        this.m_outFile = outFile;
+        this.moutFile = outFile;
     }
 
     /**
@@ -161,7 +160,7 @@ public class MathMLConverter extends MatchingTask {
      *            Input file
      */
     public void setIn(final File inFile) {
-        this.m_inFile = inFile;
+        this.minFile = inFile;
     }
 
     /**
@@ -171,7 +170,7 @@ public class MathMLConverter extends MatchingTask {
      *            mimetype for output file.
      */
     public void setType(final String mimetype) {
-        this.m_outType = mimetype;
+        this.moutType = mimetype;
     }
 
     /**
@@ -208,7 +207,7 @@ public class MathMLConverter extends MatchingTask {
         File outFile = null;
         File inFile = null;
         final String suffix = "."
-                + Converter.getSuffixForMimeType(this.m_outType);
+                + Converter.getSuffixForMimeType(this.moutType);
 
         try {
             inFile = new File(baseDir, xmlFile);
@@ -221,10 +220,10 @@ public class MathMLConverter extends MatchingTask {
             } else {
                 outFile = new File(destDir, xmlFile + suffix);
             }
-            if (this.m_force
+            if (this.mforce
                     || (inFile.lastModified() > outFile.lastModified())) {
                 this.ensureDirectoryFor(outFile);
-                Converter.convert(inFile, outFile, this.m_outType);
+                Converter.convert(inFile, outFile, this.moutType);
             }
         } catch (final Exception ex) {
             // If failed to process document, must delete target document,

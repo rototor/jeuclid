@@ -33,34 +33,10 @@ import net.sourceforge.jeuclid.util.ParameterKey;
 public final class MathVariant {
 
     /**
-     * Mathvariant constant. Normal style.
-     */
-    public static final MathVariant NORMAL = new MathVariant(Font.PLAIN,
-            FontFamily.SERIF);
-
-    /**
      * Mathvariant constant. Bold style.
      */
     public static final MathVariant BOLD = new MathVariant(Font.BOLD,
             FontFamily.SERIF);
-
-    /**
-     * Mathvariant constant. Italic style.
-     */
-    public static final MathVariant ITALIC = new MathVariant(Font.ITALIC,
-            FontFamily.SERIF);
-
-    /**
-     * Mathvariant constant. Bold-italic style.
-     */
-    public static final MathVariant BOLD_ITALIC = new MathVariant(Font.BOLD
-            | Font.ITALIC, FontFamily.SERIF);
-
-    /**
-     * Mathvariant constant. Double struck style.
-     */
-    public static final MathVariant DOUBLE_STRUCK = new MathVariant(
-            Font.PLAIN, FontFamily.DOUBLE_STRUCK);
 
     /**
      * Mathvariant constant. Bold fraktur style.
@@ -69,28 +45,10 @@ public final class MathVariant {
             FontFamily.FRAKTUR);
 
     /**
-     * Mathvariant constant. Script style.
+     * Mathvariant constant. Bold-italic style.
      */
-    public static final MathVariant SCRIPT = new MathVariant(Font.PLAIN,
-            FontFamily.SCRIPT);
-
-    /**
-     * Mathvariant constant. Bold script style.
-     */
-    public static final MathVariant BOLD_SCRIPT = new MathVariant(Font.BOLD,
-            FontFamily.SCRIPT);
-
-    /**
-     * Mathvariant constant. Fraktur style.
-     */
-    public static final MathVariant FRAKTUR = new MathVariant(Font.PLAIN,
-            FontFamily.FRAKTUR);
-
-    /**
-     * Mathvariant constant. Sans-serif style.
-     */
-    public static final MathVariant SANS_SERIF = new MathVariant(Font.PLAIN,
-            FontFamily.SANSSERIF);
+    public static final MathVariant BOLD_ITALIC = new MathVariant(Font.BOLD
+            | Font.ITALIC, FontFamily.SERIF);
 
     /**
      * Mathvariant constant. Bold sans-serif style.
@@ -99,10 +57,46 @@ public final class MathVariant {
             Font.BOLD, FontFamily.SANSSERIF);
 
     /**
-     * Mathvariant constant. Italic sans-serif style.
+     * Mathvariant constant. Bold script style.
      */
-    public static final MathVariant SANS_SERIF_ITALIC = new MathVariant(
-            Font.ITALIC, FontFamily.SANSSERIF);
+    public static final MathVariant BOLD_SCRIPT = new MathVariant(Font.BOLD,
+            FontFamily.SCRIPT);
+
+    /**
+     * Mathvariant constant. Double struck style.
+     */
+    public static final MathVariant DOUBLE_STRUCK = new MathVariant(
+            Font.PLAIN, FontFamily.DOUBLE_STRUCK);
+
+    /**
+     * Mathvariant constant. Fraktur style.
+     */
+    public static final MathVariant FRAKTUR = new MathVariant(Font.PLAIN,
+            FontFamily.FRAKTUR);
+
+    /**
+     * Mathvariant constant. Italic style.
+     */
+    public static final MathVariant ITALIC = new MathVariant(Font.ITALIC,
+            FontFamily.SERIF);
+
+    /**
+     * Mathvariant constant. Monospace style.
+     */
+    public static final MathVariant MONOSPACE = new MathVariant(Font.PLAIN,
+            FontFamily.MONOSPACED);
+
+    /**
+     * Mathvariant constant. Normal style.
+     */
+    public static final MathVariant NORMAL = new MathVariant(Font.PLAIN,
+            FontFamily.SERIF);
+
+    /**
+     * Mathvariant constant. Sans-serif style.
+     */
+    public static final MathVariant SANS_SERIF = new MathVariant(Font.PLAIN,
+            FontFamily.SANSSERIF);
 
     /**
      * Mathvariant constant. Bold italic sans-serif style.
@@ -111,34 +105,26 @@ public final class MathVariant {
             Font.BOLD | Font.ITALIC, FontFamily.SANSSERIF);
 
     /**
-     * Mathvariant constant. Monospace style.
+     * Mathvariant constant. Italic sans-serif style.
      */
-    public static final MathVariant MONOSPACE = new MathVariant(Font.PLAIN,
-            FontFamily.MONOSPACED);
+    public static final MathVariant SANS_SERIF_ITALIC = new MathVariant(
+            Font.ITALIC, FontFamily.SANSSERIF);
+
+    /**
+     * Mathvariant constant. Script style.
+     */
+    public static final MathVariant SCRIPT = new MathVariant(Font.PLAIN,
+            FontFamily.SCRIPT);
 
     private static final Map<String, MathVariant> ATTRIBUTEMAP = new HashMap<String, MathVariant>();
 
-    private static final Map<FontFamily, ParameterKey> PARAMFORFONT = new HashMap<FontFamily, ParameterKey>();
-
     private static final String AWT_SANSSERIF = "sansserif";
+
+    private static final Map<FontFamily, ParameterKey> PARAMFORFONT = new HashMap<FontFamily, ParameterKey>();
 
     private final int awtStyle;
 
     private final FontFamily fontFamily;
-
-    /**
-     * @return the awtStyle
-     */
-    public int getAwtStyle() {
-        return this.awtStyle;
-    }
-
-    /**
-     * @return the fontFamily
-     */
-    public FontFamily getFontFamily() {
-        return this.fontFamily;
-    }
 
     /**
      * Creates a Mathvariant with the given AWT-Style and font-family.
@@ -152,41 +138,6 @@ public final class MathVariant {
         this.awtStyle = awtstyle;
         this.fontFamily = family;
     };
-
-    /**
-     * Create a font for the given attributes.
-     * 
-     * @param size
-     *            size of the font to create
-     * @param c
-     *            a character that must exist in this font
-     * @param base
-     *            MathBase to use.
-     * @return a font object.
-     */
-    public Font createFont(final float size, final char c, final MathBase base) {
-
-        final ParameterKey theParam = MathVariant.PARAMFORFONT
-                .get(this.fontFamily);
-        final String paramValue = base.getParams().get(theParam);
-        final String[] fontArray = paramValue.split(",");
-        Font font = null;
-        for (int i = 0; (i < fontArray.length) && (font == null); i++) {
-            font = new Font(fontArray[i], this.awtStyle, (int) size);
-            if (font.getFamily().equalsIgnoreCase(fontArray[i].trim())) {
-                if (!font.canDisplay(c)) {
-                    font = null;
-                }
-            } else {
-                font = null;
-            }
-        }
-        if (font == null) {
-            font = new Font(MathVariant.AWT_SANSSERIF, this.awtStyle,
-                    (int) size);
-        }
-        return font;
-    }
 
     /**
      * Creates a Mathvariant object from an attribute value.
@@ -226,6 +177,55 @@ public final class MathVariant {
                 .toLowerCase());
     }
 
+    /**
+     * Create a font for the given attributes.
+     * 
+     * @param size
+     *            size of the font to create
+     * @param c
+     *            a character that must exist in this font
+     * @param base
+     *            MathBase to use.
+     * @return a font object.
+     */
+    public Font createFont(final float size, final char c, final MathBase base) {
+
+        final ParameterKey theParam = MathVariant.PARAMFORFONT
+                .get(this.fontFamily);
+        final String paramValue = base.getParams().get(theParam);
+        final String[] fontArray = paramValue.split(",");
+        Font font = null;
+        for (int i = 0; (i < fontArray.length) && (font == null); i++) {
+            font = new Font(fontArray[i], this.awtStyle, (int) size);
+            if (font.getFamily().equalsIgnoreCase(fontArray[i].trim())) {
+                if (!font.canDisplay(c)) {
+                    font = null;
+                }
+            } else {
+                font = null;
+            }
+        }
+        if (font == null) {
+            font = new Font(MathVariant.AWT_SANSSERIF, this.awtStyle,
+                    (int) size);
+        }
+        return font;
+    }
+
+    /**
+     * @return the awtStyle
+     */
+    public int getAwtStyle() {
+        return this.awtStyle;
+    }
+
+    /**
+     * @return the fontFamily
+     */
+    public FontFamily getFontFamily() {
+        return this.fontFamily;
+    }
+
     static {
         MathVariant.PARAMFORFONT.put(FontFamily.SERIF,
                 ParameterKey.FontsSerif);
@@ -240,5 +240,4 @@ public final class MathVariant {
         MathVariant.PARAMFORFONT.put(FontFamily.DOUBLE_STRUCK,
                 ParameterKey.FontsDoublestruck);
     }
-
 }

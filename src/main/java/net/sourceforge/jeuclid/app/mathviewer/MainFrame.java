@@ -59,6 +59,10 @@ import org.xml.sax.SAXException;
  */
 public class MainFrame extends JFrame {
 
+    private static final int DEFAULT_HEIGHT = 200;
+
+    private static final int DEFAULT_WIDTH = 300;
+
     /**
      * Logger for this class
      */
@@ -98,7 +102,7 @@ public class MainFrame extends JFrame {
 
     private JMenuItem exportMenuItem;
 
-    private JCheckBoxMenuItem aliasMenuItem = null;
+    private JCheckBoxMenuItem aliasMenuItem;
 
     /**
      * This is the default constructor.
@@ -115,7 +119,7 @@ public class MainFrame extends JFrame {
      */
     private void initialize() {
         this.setJMenuBar(this.getJJMenuBar());
-        this.setSize(300, 200);
+        this.setSize(MainFrame.DEFAULT_WIDTH, MainFrame.DEFAULT_HEIGHT);
         this.setContentPane(this.getJContentPane());
         this.setTitle(Messages.getString("MathViewer.windowTitle")); //$NON-NLS-1$
     }
@@ -466,29 +470,34 @@ public class MainFrame extends JFrame {
             }
 
             if (doIt == JOptionPane.YES_OPTION) {
-                final String extension = fileName.substring(fileName
-                        .lastIndexOf('.') + 1);
-                final String mimetype = Converter
-                        .getMimeTypeForSuffix(extension);
-                try {
-
-                    final Map<ParameterKey, String> params = this
-                            .getMathComponent().getMathBase().getParams();
-                    params.put(ParameterKey.OutFileType, mimetype);
-                    if (!Converter.convert(this.getMathComponent()
-                            .getDocument(), selectedFile, params)) {
-                        JOptionPane.showMessageDialog(this,
-                                "Failed to write to " + fileName,
-                                "Error during export",
-                                JOptionPane.ERROR_MESSAGE);
-
-                    }
-                } catch (final IOException e) {
-                    MainFrame.LOGGER.warn(e);
-                    JOptionPane.showMessageDialog(this, e.getMessage(),
-                            "Error during export", JOptionPane.ERROR_MESSAGE);
-                }
+                this.exportAs(selectedFile);
             }
+        }
+    }
+
+    private void exportAs(final File selectedFile) {
+        final String fileName = selectedFile.getName();
+        final String extension = fileName
+                .substring(fileName.lastIndexOf('.') + 1);
+        final String mimetype = Converter.getMimeTypeForSuffix(extension);
+        try {
+
+            final Map<ParameterKey, String> params = this.getMathComponent()
+                    .getMathBase().getParams();
+            params.put(ParameterKey.OutFileType, mimetype);
+            if (!Converter.convert(this.getMathComponent().getDocument(),
+                    selectedFile, params)) {
+                JOptionPane.showMessageDialog(this, "Failed to write to "
+                        + fileName, Messages
+                        .getString("MathViewer.exportError"), //$NON-NLS-1$,
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
+        } catch (final IOException e) {
+            MainFrame.LOGGER.warn(e);
+            JOptionPane.showMessageDialog(this, e.getMessage(), Messages
+                    .getString("MathViewer.exportError"), //$NON-NLS-1$,
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

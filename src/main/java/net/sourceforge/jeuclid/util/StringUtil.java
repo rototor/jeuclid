@@ -36,16 +36,6 @@ import net.sourceforge.jeuclid.element.attributes.MathVariant;
  */
 public final class StringUtil {
 
-    private static final int ZFR = 0x02128;
-
-    private static final int RFR = 0x0211C;
-
-    private static final int IFR = 0x02111;
-
-    private static final int HFR = 0x0210C;
-
-    private static final int CFR = 0x0212D;
-
     private static final int LOWERCASE_START = 0x61;
 
     private static final int PLANE_1_START = 0x10000;
@@ -156,12 +146,16 @@ public final class StringUtil {
     }
 
     static {
-        StringUtil.FRAKTUR_MAPPING.put((int) 'C', StringUtil.CFR);
-        StringUtil.FRAKTUR_MAPPING.put((int) 'H', StringUtil.HFR);
-        StringUtil.FRAKTUR_MAPPING.put((int) 'I', StringUtil.IFR);
-        StringUtil.FRAKTUR_MAPPING.put((int) 'R', StringUtil.RFR);
-        StringUtil.FRAKTUR_MAPPING.put((int) 'Z', StringUtil.ZFR);
+        // CHECKSTYLE:OFF
+        
+        // From: http://www.w3.org/TR/MathML2/fraktur.html
+        StringUtil.FRAKTUR_MAPPING.put((int) 'C', 0x0212D);
+        StringUtil.FRAKTUR_MAPPING.put((int) 'H', 0x0210C);
+        StringUtil.FRAKTUR_MAPPING.put((int) 'I', 0x02111);
+        StringUtil.FRAKTUR_MAPPING.put((int) 'R', 0x0211C);
+        StringUtil.FRAKTUR_MAPPING.put((int) 'Z', 0x02128);
 
+        // From: http://www.w3.org/TR/MathML2/script.html
         StringUtil.SCRIPT_MAPPING.put((int) 'B', 0x212C);
         StringUtil.SCRIPT_MAPPING.put((int) 'E', 0x2130);
         StringUtil.SCRIPT_MAPPING.put((int) 'e', 0x212F);
@@ -174,6 +168,7 @@ public final class StringUtil {
         StringUtil.SCRIPT_MAPPING.put((int) 'o', 0x2134);
         StringUtil.SCRIPT_MAPPING.put((int) 'R', 0x211B);
 
+        // From: http://www.w3.org/TR/MathML2/double-struck.html
         StringUtil.DOUBLE_MAPPING.put((int) 'C', 0x2102);
         StringUtil.DOUBLE_MAPPING.put((int) 'H', 0x210D);
         StringUtil.DOUBLE_MAPPING.put((int) 'N', 0x2115);
@@ -181,6 +176,7 @@ public final class StringUtil {
         StringUtil.DOUBLE_MAPPING.put((int) 'Q', 0x211A);
         StringUtil.DOUBLE_MAPPING.put((int) 'R', 0x211D);
         StringUtil.DOUBLE_MAPPING.put((int) 'Z', 0x2124);
+        // CHECKSTYLE:ON
     }
 
 }

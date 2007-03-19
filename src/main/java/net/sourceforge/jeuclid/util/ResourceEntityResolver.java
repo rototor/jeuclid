@@ -40,6 +40,13 @@ public class ResourceEntityResolver implements EntityResolver {
 
     private static final Map<String, String> PUBLIC_ID_TO_SYSYEM = new HashMap<String, String>();
 
+    /**
+     * Default constructor.
+     */
+    public ResourceEntityResolver() {
+        // Empty on purpose.
+    }
+
     /** {@inheritDoc} */
     public InputSource resolveEntity(final String publicId,
             final String systemId) {
@@ -57,23 +64,31 @@ public class ResourceEntityResolver implements EntityResolver {
                                     .length());
         }
         if (mappedPath != null) {
-            final InputStream resourceStream = ResourceEntityResolver.class
-                    .getResourceAsStream(mappedPath);
-            if (resourceStream != null) {
-                retval = new InputSource(resourceStream);
-                retval.setPublicId(publicId);
-                String mappedSystemId = ResourceEntityResolver.PUBLIC_ID_TO_SYSYEM
-                        .get(publicId);
-                if (mappedSystemId == null) {
-                    mappedSystemId = systemId;
-                }
-                retval.setSystemId(mappedSystemId);
+            retval = this.loadMappedResource(publicId, systemId, mappedPath);
+        }
+        return retval;
+    }
+
+    private InputSource loadMappedResource(final String publicId,
+            final String systemId, final String mappedPath) {
+        InputSource retval = null;
+        final InputStream resourceStream = ResourceEntityResolver.class
+                .getResourceAsStream(mappedPath);
+        if (resourceStream != null) {
+            retval = new InputSource(resourceStream);
+            retval.setPublicId(publicId);
+            String mappedSystemId = ResourceEntityResolver.PUBLIC_ID_TO_SYSYEM
+                    .get(publicId);
+            if (mappedSystemId == null) {
+                mappedSystemId = systemId;
             }
+            retval.setSystemId(mappedSystemId);
         }
         return retval;
     }
 
     static {
+        // CHECKSTYLE:OFF
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//OpenOffice.org//DTD Modified W3C MathML 1.01//EN",
                 "/openoffice.mathml.1.0.1/math.dtd");
@@ -160,6 +175,7 @@ public class ResourceEntityResolver implements EntityResolver {
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Aliases for MathML 2.0//EN",
                 "/mathml.2.0/mathml/mmlalias.ent");
+        // CHECKSTYLE:ON
 
     }
 }

@@ -50,7 +50,8 @@ import org.xml.sax.SAXParseException;
  * string.
  * 
  * @author Max Berger
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2007-02-12 20:07:32 +0100 (Mon, 12 Feb
+ *          2007) $
  */
 public final class MathMLParserSupport {
     /**

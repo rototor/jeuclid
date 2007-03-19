@@ -27,34 +27,39 @@ import net.sourceforge.jeuclid.MathBase;
  * 
  * @author Max Berger
  */
-public abstract class AbstractInvisibleMathElement extends AbstractMathElement {
+public abstract class AbstractInvisibleMathElement extends
+        AbstractMathElement {
     /**
      * Default Constructor.
      * 
      * @param base
      *            MathBase to use.
      */
-    public AbstractInvisibleMathElement(MathBase base) {
+    public AbstractInvisibleMathElement(final MathBase base) {
         super(base);
     }
 
     /** {@inheritDoc} */
-    public void paint(Graphics2D g, int posX, int posY) {
+    @Override
+    public void paint(final Graphics2D g, final int posX, final int posY) {
         super.paint(g, posX, posY);
     }
 
     /** {@inheritDoc} */
-    public int calculateAscentHeight(Graphics2D g) {
+    @Override
+    public int calculateAscentHeight(final Graphics2D g) {
         return 0;
     }
 
     /** {@inheritDoc} */
-    public int calculateDescentHeight(Graphics2D g) {
+    @Override
+    public int calculateDescentHeight(final Graphics2D g) {
         return 0;
     }
 
     /** {@inheritDoc} */
-    public int calculateWidth(Graphics2D g) {
+    @Override
+    public int calculateWidth(final Graphics2D g) {
         return 0;
     }
 

@@ -130,7 +130,9 @@ Description:
         <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
         <module name="MutableException"/>
-        <module name="ThrowsCount"/>
+        <module name="ThrowsCount">
+          <property name="max" value="2"/>
+        </module>
         <module name="VisibilityModifier"/>
         <module name="BooleanExpressionComplexity"/>
         <module name="ClassDataAbstractionCoupling"/>

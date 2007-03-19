@@ -54,7 +54,7 @@ public abstract class AbstractElementWithDelegates extends
      * 
      * @return a MathObject representing the real contents.
      */
-    abstract protected List<MathElement> createDelegates();
+    protected abstract List<MathElement> createDelegates();
 
     private void prepareDelegates() {
         this.delegates = this.createDelegates();
