@@ -88,6 +88,7 @@ public class SAXMathBuilder implements ContentHandler {
      * Receive notification of the end of a document.
      */
     public void endDocument() {
+        this.rootElement.eventAllElementsComplete();
     }
 
     /**
@@ -123,6 +124,7 @@ public class SAXMathBuilder implements ContentHandler {
         this.rootElement = null;
         this.stack = new Stack<Node>();
         this.rootElement = new MathDocumentElement(this.mbase);
+        this.mbase.setRootElement(this.rootElement);
         this.stack.push(this.rootElement);
     }
 
