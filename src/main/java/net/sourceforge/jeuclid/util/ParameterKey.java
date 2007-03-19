@@ -20,57 +20,92 @@ package net.sourceforge.jeuclid.util;
 
 /**
  * A class to hold parameters for the rendering process.
+ * <p>
+ * Each parameter is passed using the String datatype, and then converted back
+ * into the internal dataype. The following assumptions are made for the given
+ * datatypes:
+ * <dl>
+ * <dt>float</dt>
+ * <dd>must be a valid integer or floating point number, parsable with
+ * {@link Float#parseFloat(String)}.</dd>
+ * <dt>boolean</dt>
+ * <dd>must be "true" or "false", parsable with
+ * {@link Boolean#parseBoolean(String)}.</dd>
+ * <dt>font list</dt>
+ * <dd>is a comma separated lists of font families which should be used when
+ * a font of this type is selected. When selecting the actual font, the list
+ * is followed in the order given, and the first font which is installed on
+ * the system and contains the needed character is used. It is therefore
+ * suggested to add "complete" unicode fonts to the end of the list to support
+ * all characters.</dd>
+ * <dt>colors</dt>
+ * <dd>are passed using the standard html colornames or the #rrggbb or
+ * #rrggbbaa notation.</dd>
+ * </dl>
  * 
  * @author Erik Putrycz, Max Berger
  */
 public enum ParameterKey {
     /**
-     * File type for the output used by converter functions. Must be a valid
-     * mime-type.
+     * File type (String) for the output used by converter functions. Must be
+     * a valid mime-type.
      */
     OutFileType,
     /**
-     * Font size used for the output. Defaults to 12.0pt.
+     * Font size (float) used for the output. Defaults to 12.0pt.
      */
     FontSize,
     /**
-     * Debug mode. If true, elements will have borders drawn around them.
+     * Debug mode (boolean). If true, elements will have borders drawn around
+     * them.
      */
     DebugMode,
     /**
-     * Anti-Alias mode for rendering.
+     * Anti-Alias mode (boolean) for rendering.
      */
     AntiAlias,
     /**
-     * Default foreground color. See 3.2.2.2
+     * Default foreground color (String). See 3.2.2.2
      */
     ForegroundColor,
     /**
-     * Default background color. See 3.2.2.2
+     * Default background color (String). See 3.2.2.2
      */
     BackgroundColor,
     /**
      * Comma separated list of font families for sans-serif.
+     * 
+     * @see ParameterKey
      */
     FontsSanserif,
     /**
      * Comma separated list of font families for serif.
+     * 
+     * @see ParameterKey
      */
     FontsSerif,
     /**
      * Comma separated list of font families for monospaced.
+     * 
+     * @see ParameterKey
      */
     FontsMonospaced,
     /**
      * Comma separated list of font families for script.
+     * 
+     * @see ParameterKey
      */
     FontsScript,
     /**
      * Comma separated list of font families for fraktur.
+     * 
+     * @see ParameterKey
      */
     FontsFraktur,
     /**
      * Comma separated list of font families for double-struck.
+     * 
+     * @see ParameterKey
      */
     FontsDoublestruck,
 }

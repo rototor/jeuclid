@@ -7,6 +7,10 @@
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="update">
+        JMathComponent: better documentation;
+        ParameterKey: better documentation
+      </action>
+      <action dev="maxberger" type="update">
         minor JavaDoc updates;
         added Lucida Grande to list of sans fonts;
         Website Font install updates;
