@@ -41,11 +41,14 @@ public abstract class AbstractMathElementWithSubSuper extends
     public static final String ATTR_SUPERSCRIPTSHIFT = "superscriptshift";
 
     /**
-     * Magic constant describing the middleshit for sub and sup elements.
+     * Magic constant describing the default middleshift for sub and sup
+     * elements.
      * 
      * @todo Check this number. Where does it come from?
      */
     public static final double DEFAULT_SCRIPTSHIFT = 0.215;
+
+    private static final String NONE = "0";
 
     /**
      * Default constructor.
@@ -56,9 +59,11 @@ public abstract class AbstractMathElementWithSubSuper extends
     public AbstractMathElementWithSubSuper(final MathBase base) {
         super(base);
         this.setDefaultMathAttribute(
-                AbstractMathElementWithSubSuper.ATTR_SUBSCRIPTSHIFT, "0");
+                AbstractMathElementWithSubSuper.ATTR_SUBSCRIPTSHIFT,
+                AbstractMathElementWithSubSuper.NONE);
         this.setDefaultMathAttribute(
-                AbstractMathElementWithSubSuper.ATTR_SUPERSCRIPTSHIFT, "0");
+                AbstractMathElementWithSubSuper.ATTR_SUPERSCRIPTSHIFT,
+                AbstractMathElementWithSubSuper.NONE);
     }
 
     /**
@@ -160,6 +165,25 @@ public abstract class AbstractMathElementWithSubSuper extends
     }
 
     /**
+     * Retrieve the amount of pts by which the baseline of the sub element is
+     * shifted.
+     * 
+     * @param g
+     *            Graphics context to use
+     * @return baseline shift for super elements
+     */
+    protected int getSubBaseLineShift(final Graphics2D g) {
+        final MathElement subElement = this.getSubscript();
+        final MathElement baseElement = this.getBase();
+        final int middleshift = this.getSubMiddleShift(Math.max(baseElement
+                .getHeight(g), (int) baseElement.getFontsizeInPoint()), g);
+        final int baseDescentHeight = baseElement.getDescentHeight(g);
+        final int subDescentHeight = subElement.getDescentHeight(g);
+
+        return -baseDescentHeight + middleshift + subDescentHeight;
+    }
+
+    /**
      * Calculate the ascent height, taking a super element into account.
      * 
      * @param g
@@ -174,4 +198,21 @@ public abstract class AbstractMathElementWithSubSuper extends
                 + supElement.getAscentHeight(g));
 
     }
+
+    /**
+     * Calculate the descent height, taking a sub element into account.
+     * 
+     * @param g
+     *            Graphics context to use
+     * @return descent height
+     */
+    protected int caclulateDescentHeightWithSub(final Graphics2D g) {
+        final MathElement subElement = this.getSubscript();
+        final MathElement baseElement = this.getBase();
+        return Math.max(baseElement.getDescentHeight(g), this
+                .getSubBaseLineShift(g)
+                + subElement.getDescentHeight(g));
+
+    }
+
 }
