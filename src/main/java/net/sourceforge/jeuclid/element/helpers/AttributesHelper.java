@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.xml.bind.PropertyException;
-
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.generic.MathNode;
 

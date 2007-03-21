@@ -77,6 +77,8 @@ public class MathText extends AbstractMathElement implements
         super.paint(g, posX, posY);
         if (this.getText().length() > 0) {
             this.produceTextLayout(g).draw(g, posX, posY);
+            // g.draw(this.produceTextLayout(g).getOutline(
+            // AffineTransform.getTranslateInstance(posX, posY)));
         }
     }
 
@@ -116,7 +118,11 @@ public class MathText extends AbstractMathElement implements
         if (this.getText().equals("")) {
             return g.getFontMetrics().getAscent();
         } else {
-            return (int) this.produceTextLayout(g).getAscent();
+            // TextLayout.getAscent returns the max ascent for this font,
+            // not the one for the actual content!
+            final Rectangle2D textBounds = this.produceTextLayout(g)
+                    .getBounds();
+            return (int) Math.ceil(-textBounds.getY());
         }
     }
 
@@ -126,7 +132,12 @@ public class MathText extends AbstractMathElement implements
         if (this.getText().equals("")) {
             return g.getFontMetrics().getDescent();
         } else {
-            return (int) this.produceTextLayout(g).getDescent();
+            // TextLayout.getDescent returns the max descent for this font,
+            // not the one for the actual content!
+            final Rectangle2D textBounds = this.produceTextLayout(g)
+                    .getBounds();
+            return (int) Math
+                    .ceil(textBounds.getY() + textBounds.getHeight());
         }
     }
 

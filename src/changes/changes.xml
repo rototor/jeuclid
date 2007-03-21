@@ -6,6 +6,16 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix">
+        sub/super: shift values modified again (still not happy with it, but it
+        looks better now;
+      </action>
+      <action dev="maxberger" type="fix">
+        MathText: Better verson of getAscent / getDescent;
+      </action>
+      <action dev="maxberger" type="fix">
+        AttributesHelper: Removed unnecessary dependency on java 1.6
+      </action>
       <action dev="maxberger" type="update">
         various random checkstyle fixes;
       </action>

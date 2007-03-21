@@ -157,7 +157,8 @@ public abstract class AbstractMathElementWithSubSuper extends
         final MathElement supElement = this.getSuperscript();
         final MathElement baseElement = this.getBase();
         final int middleshift = this.getSupMiddleShift(Math.max(baseElement
-                .getHeight(g), (int) baseElement.getFontsizeInPoint()), g);
+                .getHeight(g), (int) (baseElement.getFontsizeInPoint() / 2)),
+                g);
         final int baseDescentHeight = baseElement.getDescentHeight(g);
         final int superDescentHeight = supElement.getDescentHeight(g);
 
@@ -180,7 +181,7 @@ public abstract class AbstractMathElementWithSubSuper extends
         final int baseDescentHeight = baseElement.getDescentHeight(g);
         final int subDescentHeight = subElement.getDescentHeight(g);
 
-        return -baseDescentHeight + middleshift + subDescentHeight;
+        return baseDescentHeight + middleshift + subDescentHeight;
     }
 
     /**
