@@ -275,7 +275,9 @@ public class MathBase {
         params.put(ParameterKey.ForegroundColor, "black");
         params.put(ParameterKey.BackgroundColor, "transparent");
 
-        final String symbolCatchFonts = "OpenSymbol," + "Standard Symbols L,"
+        final String symbolCatchFonts = "OpenSymbol," + "Standard Symbols L," 
+                + "Symbol," + "Webdings," + "Wingdings," + "Wingdings 2,"
+                + "Wingdings 3," 
                 + "Arial Unicode MS";
 
         params.put(ParameterKey.FontsSanserif, "Verdana," + "Helvetica,"
