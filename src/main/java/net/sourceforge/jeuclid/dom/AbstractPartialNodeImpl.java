@@ -169,7 +169,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
     }
 
     /** {@inheritDoc} */
-    public final Node replaceChild(final Node newChild, final Node oldChild) {
+    public Node replaceChild(final Node newChild, final Node oldChild) {
         // TODO: If newChild is already in the tree, it is supposed to be
         // removed.
         for (int i = 0; i < this.children.size(); i++) {

@@ -116,16 +116,19 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
         if (this.isRadical.intValue() > -1) {
             this.notations.add(this.isRadical);
         }
-        this.setChanged(false);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void changeHook() {
+        super.changeHook();
+        this.parseNotation();
     }
 
     /** {@inheritDoc} */
     @Override
     public void paint(final Graphics2D g, final int posX, final int posY) {
         super.paint(g, posX, posY);
-        if (this.isChanged()) {
-            this.parseNotation();
-        }
         Integer currentNotation = null;
         final int width = this.getWidth(g);
         final int ascHeight = this.getAscentHeight(g);
@@ -243,9 +246,6 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
     /** {@inheritDoc} */
     @Override
     public int calculateWidth(final Graphics2D g) {
-        if (this.isChanged()) {
-            this.parseNotation();
-        }
         int width = super.calculateChildrenWidth(g);
         Integer notation = null;
         for (final Object element2 : this.notations) {
@@ -261,9 +261,6 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
     /** {@inheritDoc} */
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
-        if (this.isChanged()) {
-            this.parseNotation();
-        }
         int ah = this.calculateChildrenAscentHeight(g);
         Integer notation = null;
         for (final Object element2 : this.notations) {
@@ -278,9 +275,6 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
     /** {@inheritDoc} */
     @Override
     public int calculateDescentHeight(final Graphics2D g) {
-        if (this.isChanged()) {
-            this.parseNotation();
-        }
         int dh = super.calculateChildrenDescentHeight(g);
         Integer notation = null;
         for (final Object element2 : this.notations) {
