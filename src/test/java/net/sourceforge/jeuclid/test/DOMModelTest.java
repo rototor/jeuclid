@@ -43,6 +43,7 @@ import org.w3c.dom.mathml.MathMLEncloseElement;
 import org.w3c.dom.mathml.MathMLFencedElement;
 import org.w3c.dom.mathml.MathMLFractionElement;
 import org.w3c.dom.mathml.MathMLMathElement;
+import org.w3c.dom.mathml.MathMLOperatorElement;
 import org.w3c.dom.mathml.MathMLPresentationContainer;
 import org.w3c.dom.mathml.MathMLPresentationToken;
 import org.w3c.dom.mathml.MathMLSemanticsElement;
@@ -120,21 +121,20 @@ public class DOMModelTest {
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();
 
-        // TODO: Use MathMLOperator instead
-        final MathOperator mo = (MathOperator) mathElement.getChildNodes()
-                .item(0);
+        final MathMLOperatorElement mo = (MathMLOperatorElement) mathElement
+                .getChildNodes().item(0);
         Assert.assertNotNull(mo);
-        Assert.assertTrue(mo.getStretchy());
+        Assert.assertTrue(Boolean.parseBoolean(mo.getStretchy()));
         final MathOperator mo2 = (MathOperator) mathElement.getChildNodes()
                 .item(1);
         Assert.assertNotNull(mo2);
-        Assert.assertFalse(mo2.getStretchy());
+        Assert.assertFalse(Boolean.parseBoolean(mo2.getStretchy()));
         final MathOperator mo3 = (MathOperator) mathElement.getChildNodes()
                 .item(2);
-        Assert.assertTrue(mo3.getStretchy());
+        Assert.assertTrue(Boolean.parseBoolean(mo3.getStretchy()));
         final MathOperator mo4 = (MathOperator) mathElement.getChildNodes()
                 .item(3);
-        Assert.assertFalse(mo4.getStretchy());
+        Assert.assertFalse(Boolean.parseBoolean(mo4.getStretchy()));
     }
 
     /**

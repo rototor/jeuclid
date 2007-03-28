@@ -18,11 +18,8 @@
 
 package net.sourceforge.jeuclid.element;
 
-import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
+import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
@@ -32,9 +29,9 @@ import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 import net.sourceforge.jeuclid.element.helpers.OperatorDictionary;
 import net.sourceforge.jeuclid.element.helpers.UnknownAttributeException;
+import net.sourceforge.jeuclid.util.StringUtil;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.mathml.MathMLOperatorElement;
 
 /**
  * This class presents a math operator, like "(" or "*".
@@ -42,13 +39,32 @@ import org.apache.commons.logging.LogFactory;
  * @author Unkown
  * @author Max Berger
  */
-public class MathOperator extends AbstractMathElement {
+public class MathOperator extends AbstractMathElement implements
+        MathMLOperatorElement {
+
+    /** Attribute for form. */
+    public static final String ATTR_FORM = "form";
+
+    /** Attribute for separator. */
+    public static final String ATTR_SEPARATOR = "separator";
+
+    /** Attribute for lspace. */
+    public static final String ATTR_LSPACE = "lspace";
+
+    /** Attribute for rspace. */
+    public static final String ATTR_RSPACE = "rspace";
 
     /** Attribute for min size. */
     public static final String ATTR_MINSIZE = "minsize";
 
     /** Attribute for max size. */
     public static final String ATTR_MAXSIZE = "maxsize";
+
+    /** Attribute for moveable limits. */
+    public static final String ATTR_MOVEABLELIMITS = "moveablelimits";
+
+    /** Attribute for accent. */
+    public static final String ATTR_ACCENT = "accent";
 
     /**
      * The XML element from this class.
@@ -68,17 +84,22 @@ public class MathOperator extends AbstractMathElement {
     /**
      * Attribute name of the stretchy property.
      */
-    public static final String ATTRIBUTE_STRETCHY = "stretchy";
+    public static final String ATTR_STRETCHY = "stretchy";
 
     /**
      * Attribute name of the largeop property.
      */
-    public static final String ATTRIBUTE_LARGEOP = "largeop";
+    public static final String ATTR_LARGEOP = "largeop";
 
     /**
      * Attribute name of the symmetric property.
      */
-    public static final String ATTRIBUTE_SYMMETRIC = "symmetric";
+    public static final String ATTR_SYMMETRIC = "symmetric";
+
+    /**
+     * Attribute name of the fence property.
+     */
+    public static final String ATTR_FENCE = "fence";
 
     /**
      * Horizontal delimiters.
@@ -88,216 +109,47 @@ public class MathOperator extends AbstractMathElement {
     /**
      * Vertical delimiters.
      */
-    // PG 30.03.05 public static final String VER_DELIMITERS = "[{()}]|";
     public static final String VER_DELIMITERS = "[{()}]|\u2223\u2225\u2329\u232A";
-
-    /**
-     * Left curly bracket character.
-     */
-    public static final char LEFT_CURLY_BRACKET_CHAR = '\u007B';
-
-    /**
-     * Right curly bracket character.
-     */
-    public static final char RIGHT_CURLY_BRACKET_CHAR = '\u007D';
-
-    /**
-     * Left squary bracket character.
-     */
-    public static final char LEFT_SQUARE_BRACKET_CHAR = '\u005B';
-
-    /**
-     * Right squary bracket character.
-     */
-    public static final char RIGHT_SQUARE_BRACKET_CHAR = '\u005D';
-
-    /**
-     * Left paranthesis character.
-     */
-    public static final char LEFT_PARENTHESIS_CHAR = '\u0028';
-
-    /**
-     * Right paranthesis character.
-     */
-    public static final char RIGHT_PARENTHESIS_CHAR = '\u0029';
-
-    /**
-     * Top curly bracket character.
-     */
-    public static final char TOP_CURLY_BRACKET_CHAR = '\uFE37';
-
-    /**
-     * Bottom curly bracket character.
-     */
-    public static final char BOTTOM_CURLY_BRACKET_CHAR = '\uFE38';
-
-    /**
-     * Summation character.
-     */
-    public static final char SUM_CHAR = '\u2211';
-
-    /**
-     * Product character.
-     */
-    public static final char PRODUCT_CHAR = '\u220F';
-
-    /**
-     * Arrows characters. TO DO: this row should be extended!
-     */
-    public static final String ARROWS = "\u2192\u21D2\u21D0\u2190\u21D4\u2194\u2191\u21D1\u2193\u21D3\u21A6";
-
-    /**
-     * Value for not initialized type of operator.
-     */
-    public static final int FORM_UKNOWN = -1;
 
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory.getLog(MathOperator.class);
+    // unused
+    // private static final Log LOGGER =
+    // LogFactory.getLog(MathOperator.class);
+    /** horizontal scale factor. */
+    private float calcScaleX = 1.0f;
 
-    private static final float FONT_SCALAR = 100.0f;
+    private float calcScaleY = 1.0f;
 
-    /**
-     * Variable with stretchy property value.
-     */
-    private boolean m_stretchy = true;
-
-    /**
-     * Type of operator (prefix, infix or postfix).
-     */
-    private int m_form = MathOperator.FORM_UKNOWN;
+    private float calcBaselineShift;
 
     /**
-     * Value of fence property.
-     */
-    private boolean m_fence = false;
-
-    /**
-     * Value of separator property.
-     */
-    private boolean m_separator = false;
-
-    /**
-     * Detirminate how get lspace: from dictionary or attr setted by direct
-     * assignment.
-     */
-    private boolean isLSpaceFromDict = true;
-
-    /**
-     * Value of lspace property.
-     */
-    private String m_lspace = "";
-
-    /**
-     * Detirminate how get rspace: from dictionary or attr setted by direct
-     * assignment.
-     */
-    private boolean isRSpaceFromDict = true;
-
-    /**
-     * Value of rspace property.
-     */
-    private String m_rspace = "";
-
-    /**
-     * Value of symmetric property.
-     */
-    private boolean m_symmetric = true;
-
-    /**
-     * Value of largeop property.
-     */
-    private boolean m_largeop = false;
-
-    /**
-     * Value of moveablelimits property.
-     */
-    private boolean m_moveablelimits = false;
-
-    /**
-     * Value of accent property.
-     */
-    private boolean m_accent = false;
-
-    /**
-     * Creates a math element.
+     * Creates a mathoperator element.
      * 
      * @param base
      *            The base for the math element tree.
      */
     public MathOperator(final MathBase base) {
         super(base);
-        this.setDefaultMathAttribute(MathOperator.ATTR_MAXSIZE, "infinity");
+        // CHECKSTYLE:OFF
+        this.setDefaultMathAttribute(MathOperator.ATTR_FORM, "infix");
+        this.setDefaultMathAttribute(MathOperator.ATTR_FENCE, "false");
+        this.setDefaultMathAttribute(MathOperator.ATTR_SEPARATOR, "false");
+        this.setDefaultMathAttribute(MathOperator.ATTR_LSPACE,
+                AttributesHelper.THICKMATHSPACE);
+        this.setDefaultMathAttribute(MathOperator.ATTR_RSPACE,
+                AttributesHelper.THICKMATHSPACE);
+        this.setDefaultMathAttribute(MathOperator.ATTR_STRETCHY, "false");
+        this.setDefaultMathAttribute(MathOperator.ATTR_SYMMETRIC, "true");
+        this.setDefaultMathAttribute(MathOperator.ATTR_MAXSIZE,
+                AttributesHelper.INFINITY);
         this.setDefaultMathAttribute(MathOperator.ATTR_MINSIZE, "1");
-    }
-
-    /**
-     * Sets form of the operator.
-     * 
-     * @param form
-     *            Form of the operator.
-     */
-    public void setForm(final int form) {
-        this.m_form = form;
-    }
-
-    /**
-     * Gets form of the operator.
-     * 
-     * @return Operators form.
-     */
-    public int getForm() {
-        return this.m_form;
-    }
-
-    /**
-     * Sets value of fence property of the operator.
-     * 
-     * @param fence
-     *            Flag of fence value.
-     */
-    public void setFence(final boolean fence) {
-        this.m_fence = fence;
-    }
-
-    /**
-     * Gets value of fence property of the operator.
-     * 
-     * @return Flag of fence property.
-     */
-    public boolean getFence() {
-        return this.m_fence;
-    }
-
-    /**
-     * Sets value of separator property of the operator.
-     * 
-     * @param separator
-     *            Flag of fence value.
-     */
-    public void setSeparator(final boolean separator) {
-        this.m_separator = separator;
-    }
-
-    /**
-     * Gets value of separator property of the operator.
-     * 
-     * @return Flag of separator property.
-     */
-    public boolean getSeparator() {
-        return this.m_separator;
-    }
-
-    /**
-     * Sets value of lspace property of the operator.
-     * 
-     * @param lspace
-     *            Flag of lspace value.
-     */
-    public void setLSpace(final String lspace) {
-        this.isLSpaceFromDict = false;
-        this.m_lspace = lspace;
+        this.setDefaultMathAttribute(MathOperator.ATTR_LARGEOP, "false");
+        this.setDefaultMathAttribute(MathOperator.ATTR_MOVEABLELIMITS,
+                "false");
+        this.setDefaultMathAttribute(MathOperator.ATTR_ACCENT, "false");
+        // CHECKSTYLE:ON
     }
 
     /**
@@ -307,22 +159,10 @@ public class MathOperator extends AbstractMathElement {
      * @param g
      *            Graphics2D context to use.
      */
-    public double getLSpace(final Graphics2D g) {
-        if (this.isLSpaceFromDict) {
-            try {
-                final String s = OperatorDictionary.getDefaultAttributeValue(
-                        this.getText(), this.m_form, "lspace");
-                return AttributesHelper.convertSizeToPt(s, this,
-                        AttributesHelper.PT);
-            } catch (final UnknownAttributeException e) {
-                MathOperator.LOGGER
-                        .error("Unknown attribute name: lspace", e);
-                return 0;
-            }
-        } else {
-            return AttributesHelper.convertSizeToPt(this.m_lspace, this,
-                    AttributesHelper.PT);
-        }
+    private float getLspaceAsFloat(final Graphics2D g) {
+        return AttributesHelper.convertSizeToPt(this.getLspace(), this,
+                AttributesHelper.PT);
+
     }
 
     /**
@@ -338,99 +178,19 @@ public class MathOperator extends AbstractMathElement {
     }
 
     /**
-     * Sets value of rspace property of the operator.
-     * 
-     * @param rspace
-     *            Flag of rspace value.
-     */
-    public void setRSpace(final String rspace) {
-        this.isRSpaceFromDict = false;
-        this.m_rspace = rspace;
-    }
-
-    /**
      * Gets value of rspace property of the operator.
      * 
      * @return Flag of rspace property.
      * @param g
      *            Graphics2D context to use.
      */
-    public double getRSpace(final Graphics2D g) {
-        if (this.isRSpaceFromDict) {
-            try {
-                final String s = OperatorDictionary.getDefaultAttributeValue(
-                        this.getText(), this.m_form, "rspace");
-                return AttributesHelper.convertSizeToPt(s, this,
-                        AttributesHelper.PT);
-            } catch (final UnknownAttributeException e) {
-                MathOperator.LOGGER
-                        .error("Unknown attribute name: rspace", e);
-                return 0;
-            }
-        } else {
-            return AttributesHelper.convertSizeToPt(this.m_rspace, this,
-                    AttributesHelper.PT);
-        }
+    private float getRspaceAsFloat(final Graphics2D g) {
+        return AttributesHelper.convertSizeToPt(this.getRspace(), this,
+                AttributesHelper.PT);
     }
 
-    /**
-     * Enables, or disables if the operator should fit his size to the size of
-     * the container.
-     * 
-     * @param stretchy
-     *            True, if the operater should fit this size
-     */
-    public void setStretchy(final boolean stretchy) {
-        this.m_stretchy = stretchy;
-    }
-
-    /**
-     * Returns value of stretchy property.
-     * 
-     * @return Stretchy flag.
-     */
-    public boolean getStretchy() {
-        return this.m_stretchy || this.getFence();
-    }
-
-    /**
-     * Sets value of symmetric property.
-     * 
-     * @param symmetric
-     *            Symmetric flag.
-     */
-    public void setSymmetric(final boolean symmetric) {
-        this.m_symmetric = symmetric;
-        this.recalculateSize();
-    }
-
-    /**
-     * Gets value of symmetric property.
-     * 
-     * @return Symmetric flag.
-     */
-    public boolean getSymmetric() {
-        return this.m_symmetric;
-    }
-
-    private void setRealMathSize(final Graphics2D g) {
-        final String currentSize = new Float(super.getMathsizeInPoint())
-                .toString();
-        String mathSize = currentSize;
-        if (AttributesHelper.convertSizeToPt(currentSize, this,
-                AttributesHelper.PT) > (AttributesHelper.convertSizeToPt(this
-                .getMaxsize(), this, AttributesHelper.PT))) {
-            mathSize = this.getMaxsize();
-        }
-        if (AttributesHelper.convertSizeToPt(currentSize, this,
-                AttributesHelper.PT) < (AttributesHelper.convertSizeToPt(this
-                .getMinsize(), this, AttributesHelper.PT))) {
-            mathSize = this.getMinsize();
-        }
-        if (!mathSize.equals(currentSize)) {
-            super.setMathsize(mathSize);
-        }
-        g.setFont(this.getFont());
+    private boolean isFence() {
+        return Boolean.parseBoolean(this.getFence());
     }
 
     /**
@@ -471,164 +231,10 @@ public class MathOperator extends AbstractMathElement {
         return this.getMathAttribute(MathOperator.ATTR_MINSIZE);
     }
 
-    /**
-     * Indicates, operater should be drawn larger than normal or not.
-     * 
-     * @param largeop
-     *            True, if the operater should be drawn larger than normal
-     */
-    public void setLargeOp(final boolean largeop) {
-        this.m_largeop = largeop;
-        this.recalculateSize();
-    }
-
-    /**
-     * Gets value of largeop property.
-     * 
-     * @return Largeop value.
-     */
-    public boolean getLargeOp() {
-        return this.m_largeop;
-    }
-
-    /**
-     * Sets value of moveablelimits property.
-     * 
-     * @param moveablelimits
-     *            Moveablelimits flag.
-     */
-    public void setMoveableLimits(final boolean moveablelimits) {
-        this.m_moveablelimits = moveablelimits;
-    }
-
-    /**
-     * Gets value of moveablelimits property.
-     * 
-     * @return Moveablelimits flag.
-     */
-    public boolean getMoveableLimits() {
-        return this.m_moveablelimits && (!this.isChildBlock(null));
-    }
-
-    /**
-     * Sets value of accent property.
-     * 
-     * @param accent
-     *            Accent flag.
-     */
-    public void setAccent(final boolean accent) {
-        this.m_accent = accent;
-    }
-
-    /**
-     * Gets value of accent property.
-     * 
-     * @return Accent flag.
-     */
-    public boolean getAccent() {
-        return this.m_accent;
-    }
-
-    /**
-     * Paints a delimiter.
-     * 
-     * @param g
-     *            The graphics context to use for painting.
-     * @param posX
-     *            The first left position for painting.
-     * @param posY
-     *            The position of the baseline.
-     * @param delimiter
-     *            The char of the delimiter.
-     * @param vertical
-     *            True, if delimiter should be vertically stretched, false if
-     *            horizontally.
-     */
-
-    private void paintDelimiter(final Graphics2D g, final int posX, int posY,
-            final char delimiter, boolean vertical) {
-        int height, width;
-
-        height = this.getHeight(g);
-        if (!vertical) {
-            height = height - 2;
-            posY = posY - 1;
-        }
-        width = (int) (this.getWidth(g) - this.getRSpace(g) - this
-                .getLSpace(g));
-        final Font font = g.getFont().deriveFont(
-                this.getFontsizeInPoint() * MathOperator.FONT_SCALAR);
-        final GlyphVector gv = font.createGlyphVector(g
-                .getFontRenderContext(), new char[] { delimiter });
-        final Rectangle2D gbounds = gv.getGlyphMetrics(0).getBounds2D();
-        final double glyphWidth = gbounds.getWidth()
-                / MathOperator.FONT_SCALAR;
-        final double glyphHeight = gbounds.getHeight()
-                / MathOperator.FONT_SCALAR;
-        final double ascent = gbounds.getY() / MathOperator.FONT_SCALAR;
-        final double left = gbounds.getX() / MathOperator.FONT_SCALAR;
-
-        double yScale;
-        double xScale;
-        if (vertical) {
-            yScale = height / glyphHeight;
-            xScale = 1;
-        } else {
-            xScale = Math.max(1, width / glyphWidth);
-            yScale = 1;
-        }
-        final AffineTransform transform = g.getTransform();
-        final AffineTransform prevTransform = g.getTransform();
-        double y = posY + this.getDescentHeight(g);
-        y = y - (ascent + glyphHeight) * yScale;
-        double x = posX - left * xScale;
-        if (vertical) {
-            x = x + (width - glyphWidth) / 2;
-        }
-        transform.translate(x, y);
-        transform.scale(xScale, yScale);
-
-        g.setTransform(transform);
-        g.drawString(String.valueOf(delimiter), 0, 0);
-        g.setTransform(prevTransform);
-    }
-
-    /**
-     * Gets the used font. Everything regardes font, processed by MathBase
-     * object.
-     * 
-     * @return Font Font object.
-     */
-    @Override
-    public Font getFont() {
-        final String content = this.getText();
-        final char aChar;
-        if (content.length() > 0) {
-            aChar = content.charAt(0);
-        } else {
-            aChar = 'A';
-        }
-        final Font font = super.getFont();
-        if (this.getLargeOp()) {
-            return this.getMathvariantAsVariant().createFont(
-                    this.getFontsizeInPoint() * this.getLargeOpCorrector(),
-                    aChar, this.mbase);
-        } else {
-            // TODO: This should use the default font size
-            if (this.getStretchy() && this.isVerticalDelimeter()
-                    && font.getSize() > this.mbase.getFontSize()) {
-                return this.getMathvariantAsVariant().createFont(
-                        this.mbase.getFontSize(), aChar, this.mbase);
-            } else {
-                return font;
-            }
-        }
-    }
-
     private boolean isVerticalDelimeter() {
         return this.getText().length() == 1
                 && (MathOperator.VER_DELIMITERS.indexOf(this.getText()
-                        .charAt(0)) >= 0 || this.getFence());
+                        .charAt(0)) >= 0 || this.isFence());
     }
 
     private boolean isHorizontalDelimeter() {
@@ -648,383 +254,155 @@ public class MathOperator extends AbstractMathElement {
      *            The position of the baseline
      */
     @Override
-    public void paint(final Graphics2D g, int posX, final int posY) {
+    public void paint(final Graphics2D g, final int posX, final int posY) {
         super.paint(g, posX, posY);
-        this.setRealMathSize(g);
-        posX = (int) (posX + this.getLSpace(g));
-        if (this.getText().length() == 0) {
-            return;
-        }
-        final char firstChar = this.getText().charAt(0);
+        this.calculateSpecs(g);
 
-        if (this.getText().length() == 1 && this.getStretchy()) {
+        if (this.getText().length() > 0) {
+            final TextLayout theLayout = this.produceUnstrechtedLayout(g);
+            final AffineTransform saveAt = g.getTransform();
+            g.translate(this.getLspaceAsFloat(g) + posX, posY
+                    + this.calcBaselineShift);
+            g.transform(AffineTransform.getScaleInstance(this.calcScaleX,
+                    this.calcScaleY));
+            theLayout.draw(g, 0, 0);
+            g.setTransform(saveAt);
+        }
+    }
+
+    private TextLayout produceUnstrechtedLayout(final Graphics2D g) {
+        float fontSizeInPoint = this.getFontsizeInPoint();
+        if (Boolean.parseBoolean(this.getLargeop())) {
+            fontSizeInPoint *= this.getLargeOpCorrector();
+        }
+        final TextLayout theLayout = new TextLayout(StringUtil
+                .convertStringtoAttributedString(this.getText(),
+                        this.getMathvariantAsVariant(), fontSizeInPoint,
+                        this.mbase).getIterator(), g.getFontRenderContext());
+        return theLayout;
+    }
+
+    private void calculateSpecs(final Graphics2D g) {
+
+        if (Boolean.parseBoolean(this.getStretchy())) {
+            final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
+                    .getBounds();
             if (this.isVerticalDelimeter()) {
                 this.getParent().setCalculatingSize(true);
-                final int ascent = this.getParent().calculateAscentHeight(g);
-                final int descent = this.getParent()
+                final float ascent = this.getParent()
+                        .calculateAscentHeight(g);
+                final float descent = this.getParent()
                         .calculateDescentHeight(g);
                 this.getParent().setCalculatingSize(false);
-                final int height = ascent + descent;
-                if (height <= this.getFontMetrics(g).getHeight()) {
-                    g.drawString(this.getText(), posX, posY);
-                } else {
-                    this.paintDelimiter(g, posX, posY, firstChar, true);
-                }
-            } else if ((MathOperator.HOR_DELIMITERS.indexOf(firstChar) >= 0)
-                    && (this.getParent() instanceof MathOver
-                            || this.getParent() instanceof MathUnderOver || this
-                            .getParent() instanceof MathUnder)) {
-                final int width = (int) (this.getWidth(g) - this.getLSpace(g) - this
-                        .getRSpace(g));
-                final Polygon rp = new Polygon();
-                rp.addPoint(posX + width, posY - this.getHeight(g) / 2);
-                rp.addPoint(posX + width
-                        - (Math.round(this.getFont().getSize() / 3)), posY);
-                rp.addPoint(posX + width
-                        - (Math.round(this.getFont().getSize() / 3)), posY
-                        - this.getHeight(g));
-                final Polygon lp = new Polygon();
-                lp.addPoint(posX, posY - this.getHeight(g) / 2);
-                lp.addPoint(
-                        posX + (Math.round(this.getFont().getSize() / 3)),
-                        posY);
-                lp.addPoint(
-                        posX + (Math.round(this.getFont().getSize() / 3)),
-                        posY - this.getHeight(g));
-                switch (MathOperator.HOR_DELIMITERS.indexOf(firstChar)) {
-                case 0: // overbracket
-                    this.paintDelimiter(g, posX, posY, firstChar, false);
-                    break;
-                case 1: // underbracket
-                    this.paintDelimiter(g, posX, posY, firstChar, false);
-                    break;
-                case 2: // underbar
-                    g.fillRect(posX, posY - (this.getFont().getSize() / 12),
-                            width, (this.getFont().getSize() / 12 + 1));
-                    break;
-                case 3: // overbar
-                    g.fillRect(posX, posY - this.getHeight(g), width, (this
-                            .getFont().getSize() / 12 + 1));
-                    break;
-                case 4: // leftarrow
-                    g.fillPolygon(lp);
-                    g
-                            .fillRect(
-                                    posX
-                                            + (Math.round(this.getFont()
-                                                    .getSize() / 3)), Math
-                                            .round(posY - this.getHeight(g)
-                                                    * 2 / 3), width
-                                            - (Math.round(this.getFont()
-                                                    .getSize() / 3)), (this
-                                            .getFont().getSize() / 12 + 1));
-                    break;
-                case 5: // rightarrow
-                    g.fillPolygon(rp);
-                    g.fillRect(posX, Math.round(posY - this.getHeight(g) * 2
-                            / 3), width
-                            - (Math.round(this.getFont().getSize() / 3)),
-                            (this.getFont().getSize() / 12 + 1));
-                    break;
-                case 6: // leftrightarrow
-                    g.fillPolygon(rp);
-                    g.fillPolygon(lp);
-                    g
-                            .fillRect(
-                                    posX
-                                            + (Math.round(this.getFont()
-                                                    .getSize() / 3)), Math
-                                            .round(posY - this.getHeight(g)
-                                                    * 2 / 3), width
-                                            - (Math.round(this.getFont()
-                                                    .getSize() / 3 * 2)),
-                                    (this.getFont().getSize() / 12 + 1));
-                    break;
-                case 7: // double underbar
-                    g.fillRect(posX, posY - this.getHeight(g), width, (this
-                            .getFont().getSize() / 12 + 1));
-                    g.fillRect(posX, posY - (this.getFont().getSize() / 12),
-                            width, (this.getFont().getSize() / 12 + 1));
-                    break;
-                case 8: // double overbar
-                    g.fillRect(posX, posY - this.getHeight(g), width, (this
-                            .getFont().getSize() / 12 + 1));
-                    g.fillRect(posX, posY - (this.getFont().getSize() / 12),
-                            width, (this.getFont().getSize() / 12 + 1));
-                    break;
-                default:
-                    this.paintDelimiter(g, posX, posY, firstChar, false);
-                }
+                final float realheight = (float) textBounds.getHeight();
+                final float targetheight = Math.max(realheight, ascent
+                        + descent);
 
+                // TODO: use minsize / maxsize
+
+                this.calcScaleY = targetheight / realheight;
+
+                final float realDescent = (float) ((textBounds.getY() + textBounds
+                        .getHeight()) * this.calcScaleY);
+                this.calcBaselineShift = descent - realDescent;
             } else {
-                if (this.getLargeOp()) {
-                    final int y = posY
-                            + this.getDescentHeight(g)
-                            - MathText.getCharsMaxDescentHeight(g, this
-                                    .getFont(), MathText.getChars(this
-                                    .getText()));
-                    g.drawString(this.getText(), posX, y);
-                } else {
-                    g.drawString(this.getText(), posX, posY);
+                this.calcScaleY = 1.0f;
+                this.calcBaselineShift = 0.0f;
+            }
+
+            if (this.isHorizontalDelimeter()) {
+                final float realwidth = (float) (textBounds.getWidth() + textBounds
+                        .getX());
+                MathElement m = (MathElement) this.getNextSibling();
+                float targetwidth = realwidth;
+                while (m != null) {
+                    targetwidth = Math.max(targetwidth, m.getWidth(g));
+                    m = (MathElement) m.getNextSibling();
                 }
+                this.calcScaleX = targetwidth / realwidth;
+            } else {
+                this.calcScaleX = 1.0f;
             }
         } else {
-            if (this.getLargeOp()) {
-                final int y = posY
-                        + this.getDescentHeight(g)
-                        - MathText.getCharsMaxDescentHeight(g,
-                                this.getFont(), MathText.getChars(this
-                                        .getText()));
-                g.drawString(this.getText(), posX, y);
-            } else {
-                g.drawString(this.getText(), posX, posY);
-            }
+            this.calcScaleX = 1.0f;
+            this.calcScaleY = 1.0f;
+            this.calcBaselineShift = 0.0f;
         }
     }
 
     /** {@inheritDoc} */
     @Override
     public int calculateWidth(final Graphics2D g) {
-        int result = 0;
-        this.setRealMathSize(g);
-
-        if (this.getText().length() != 1) {
-            result = this.getFontMetrics(g).stringWidth(this.getText());
+        final float space = this.getLspaceAsFloat(g)
+                + this.getRspaceAsFloat(g);
+        if (this.getText().equals("")) {
+            return (int) space;
         } else {
-            if (this.isHorizontalDelimeter()
-                    && (this.getParent() instanceof MathOver
-                            || this.getParent() instanceof MathUnderOver || this
-                            .getParent() instanceof MathUnder)) {
-                if (this.getParent().isCalculatingSize()) {
-                    result = -1;
-                } else {
-                    this.getParent().setCalculatingSize(true);
-                    final int res = Math.max(this.getParent().getWidth(g),
-                            this.getFontMetrics(g)
-                                    .stringWidth(this.getText()));
-                    this.getParent().setCalculatingSize(false);
-                    result = res;
-                }
+            final double scaleFactor;
+            if (this.getParent().isCalculatingSize()) {
+                scaleFactor = 1.0f;
             } else {
-                result = this.getFontMetrics(g).stringWidth(this.getText());
+                this.calculateSpecs(g);
+                scaleFactor = this.calcScaleX;
             }
+            final Rectangle2D r2d = this.produceUnstrechtedLayout(g)
+                    .getBounds();
+            return (int) Math.ceil((r2d.getWidth() + r2d.getX())
+                    * scaleFactor + space);
         }
 
-        if (result >= 0) {
-            result = result + (int) (this.getLSpace(g) + this.getRSpace(g));
-        }
-        return result;
-    }
-
-    /**
-     * Get a glyph vector of the current font.
-     * 
-     * @param theChar
-     *            Character, which glyph was requested.
-     * @return Glyph vector object.
-     */
-    private GlyphVector getGlyphVector(final char theChar) {
-        return this.getFont().createGlyphVector(
-                new FontRenderContext(new AffineTransform(), true, false),
-                new char[] { theChar });
     }
 
     /** {@inheritDoc} */
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
-        this.setRealMathSize(g);
-        int result = 0;
-        if (this.getText().length() != 1) {
-            result = MathText.getCharsMaxAscentHeight(g, this.getFont(),
-                    MathText.getChars(this.getText()));
+        if (this.getText().equals("")) {
+            return g.getFontMetrics().getAscent();
         } else {
-            final char firstChar = this.getText().charAt(0);
 
-            if (this.isVerticalDelimeter()) {
-                if (!this.getStretchy()) {
-                    result = MathText.getCharsMaxAscentHeight(g, this
-                            .getFont(), new char[] { firstChar });
-                } else {
-                    if (this.getParent().isCalculatingSize()) {
-                        result = 0;
-                    } else {
-                        this.getParent().setCalculatingSize(true);
-                        int dh = this.getParent().getDescentHeight(g);
-                        int ah = this.getParent().getAscentHeight(g);
-                        this.getParent().setCalculatingSize(false);
-                        if (this.getSymmetric()) {
-                            dh = dh + this.getMiddleShift(g);
-                            ah = ah - this.getMiddleShift(g);
-                            dh = Math.max(dh, ah);
-                            ah = dh + this.getMiddleShift(g);
-                            dh = dh - this.getMiddleShift(g);
-                        }
-                        int size = (int) AttributesHelper.convertSizeToPt(
-                                this.getMaxsize(), this, AttributesHelper.PT);
-                        if (ah + dh > size) {
-                            ah = (ah - this.getMiddleShift(g)) * size
-                                    / (ah + dh) + this.getMiddleShift(g);
-                        } else {
-                            size = (int) AttributesHelper.convertSizeToPt(
-                                    this.getMinsize(), this,
-                                    AttributesHelper.PT);
-                            if (ah + dh < size) {
-                                ah = (ah - this.getMiddleShift(g)) * size
-                                        / (ah + dh) + this.getMiddleShift(g);
-                            }
-                        }
-                        result = ah;
-                    }
-                }
-            } else if (MathOperator.HOR_DELIMITERS.indexOf(firstChar) >= 0) {
-                final double lh = Math.max(this.getFont().getSize() / 12, 1);
-                final Rectangle2D rect = this.getGlyphVector(firstChar)
-                        .getGlyphMetrics(0).getBounds2D();
-                switch (MathOperator.HOR_DELIMITERS.indexOf(firstChar)) {
-                case 0: // overbracket
-                    result = (int) rect.getHeight();
-                    break;
-                case 1: // underbracket
-                    result = (int) rect.getHeight();
-                    break;
-                case 2: // underbar
-                    result = (int) lh;
-                    break;
-                case 3: // overbar
-                    result = (int) lh;
-                    break;
-                case 4: // leftarrow
-                    result = (int) rect.getHeight() + 2;
-                    break;
-                case 5: // rightarrow
-                    result = (int) rect.getHeight() + 2;
-                    break;
-                case 6: // leftrightarrow
-                    result = (int) rect.getHeight() + 2;
-                    break;
-                case 7: // double underbar
-                    result = (int) (lh * 3);
-                    break;
-                case 8: // double overbar
-                    result = (int) (lh * 3);
-                    break;
-                default:
-                    result = (int) rect.getHeight();
-                }
+            final double scaleFactor;
+            if (this.getParent().isCalculatingSize()) {
+                scaleFactor = 1.0f;
             } else {
-                result = MathText.getCharsMaxAscentHeight(g, this.getFont(),
-                        MathText.getChars(this.getText()));
+                this.calculateSpecs(g);
+                scaleFactor = this.calcScaleY;
             }
+
+            // TextLayout.getAscent returns the max ascent for this font,
+            // not the one for the actual content!
+            final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
+                    .getBounds();
+            return (int) Math.ceil(-textBounds.getY() * scaleFactor
+                    - this.calcBaselineShift);
         }
 
-        return result;
+    }
+
+    private double descentWithoutScaleFactor(final Graphics2D g) {
+        final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
+                .getBounds();
+        return textBounds.getY() + textBounds.getHeight();
     }
 
     /** {@inheritDoc} */
     @Override
     public int calculateDescentHeight(final Graphics2D g) {
-        this.setRealMathSize(g);
-        int result = 0;
-        if (this.getText().length() != 1) {
-            result = MathText.getCharsMaxDescentHeight(g, this.getFont(),
-                    MathText.getChars(this.getText()));
+
+        if (this.getText().equals("")) {
+            return g.getFontMetrics().getDescent();
         } else {
-            final char firstChar = this.getText().charAt(0);
-            if (MathOperator.VER_DELIMITERS.indexOf(this.getText().charAt(0)) >= 0) {
-                if (!this.getStretchy()) {
-                    result = MathText.getCharsMaxDescentHeight(g, this
-                            .getFont(), new char[] { firstChar });
-                } else {
-                    if (this.getParent().isCalculatingSize()) {
-                        result = 0;
-                    } else {
-                        this.getParent().setCalculatingSize(true);
-                        int dh = this.getParent().getDescentHeight(g);
-                        int ah = this.getParent().getAscentHeight(g);
-                        this.getParent().setCalculatingSize(false);
-                        if (this.getSymmetric()) {
-                            dh = dh + this.getMiddleShift(g);
-                            ah = ah - this.getMiddleShift(g);
-                            dh = Math.max(dh, ah);
-                            ah = dh + this.getMiddleShift(g);
-                            dh = dh - this.getMiddleShift(g);
-                        }
-                        int size = (int) AttributesHelper.convertSizeToPt(
-                                this.getMaxsize(), this, AttributesHelper.PT);
-                        if (ah + dh > size) {
-                            dh = (dh + this.getMiddleShift(g)) * size
-                                    / (ah + dh) - this.getMiddleShift(g);
-                        } else {
-                            size = (int) AttributesHelper.convertSizeToPt(
-                                    this.getMinsize(), this,
-                                    AttributesHelper.PT);
-                            if (ah + dh < size) {
-                                dh = (dh + this.getMiddleShift(g)) * size
-                                        / (ah + dh) - this.getMiddleShift(g);
-                            }
-                        }
-                        result = dh;
-                    }
-                }
-            } else if (MathOperator.HOR_DELIMITERS.indexOf(firstChar) >= 0) {
-                result = 0;
+
+            final double scaleFactor;
+            if (this.getParent().isCalculatingSize()) {
+                scaleFactor = 1.0f;
             } else {
-                result = MathText.getCharsMaxDescentHeight(g, this.getFont(),
-                        MathText.getChars(this.getText()));
+                this.calculateSpecs(g);
+                scaleFactor = this.calcScaleY;
             }
-        }
-        return result;
-    }
-
-    /**
-     * Method determines, weither this operator should be stretchable by its
-     * context.
-     * 
-     * @param parent
-     *            Parent element of the operator to be analyzed.
-     * @return True, if operator should be stretched.
-     */
-    public static boolean isStretchyByContext(final MathElement parent) {
-        boolean result = false;
-
-        if (parent instanceof MathTableData || parent instanceof MathRow) {
-            result = true;
+            return (int) Math.ceil(this.descentWithoutScaleFactor(g)
+                    * scaleFactor + this.calcBaselineShift);
         }
 
-        return result;
-    }
-
-    /**
-     * This method get boolean value of the attribute from dictionary.
-     * 
-     * @param attrname
-     *            Name of the attribute.
-     */
-    private boolean getBooleanFromDictionary(final String attrname,
-            final boolean defvalue) {
-        boolean def = false;
-        try {
-            final String attr = OperatorDictionary.getDefaultAttributeValue(
-                    this.getText(), this.getForm(), attrname);
-            if (attr.equals(OperatorDictionary.VALUE_UNKNOWN)) {
-                def = defvalue;
-            } else {
-                def = (attr.equals("true") ? true : false);
-            }
-        } catch (final Exception e) {
-            MathOperator.LOGGER
-                    .error("Unknown attribute name:" + attrname, e);
-        }
-        return def;
-    }
-
-    private boolean boolForAttr(final String attrName, final boolean defValue) {
-        final String attrValue = this.getMathAttribute(attrName);
-        if (attrValue == null) {
-            return this.getBooleanFromDictionary(attrName, defValue);
-        } else {
-            return Boolean.parseBoolean(attrValue);
-        }
     }
 
     /**
@@ -1033,52 +411,177 @@ public class MathOperator extends AbstractMathElement {
      */
     @Override
     public void eventElementComplete() {
-        this.setLargeOp(this.boolForAttr(MathOperator.ATTRIBUTE_LARGEOP,
-                false));
-        this.setSymmetric(this.boolForAttr(MathOperator.ATTRIBUTE_SYMMETRIC,
-                true));
-        this.setStretchy(this.boolForAttr(MathOperator.ATTRIBUTE_STRETCHY,
-                true));
+        this.changeHook();
+    }
+
+    private void changeHook() {
+        this.detectFormParameter();
+        this.loadAttributeFromDictionary(MathOperator.ATTR_LARGEOP, "false");
+        this.loadAttributeFromDictionary(MathOperator.ATTR_SYMMETRIC, "true");
+        this.loadAttributeFromDictionary(MathOperator.ATTR_STRETCHY, "false");
+        this.loadAttributeFromDictionary(MathOperator.ATTR_FENCE, "false");
+        this.loadAttributeFromDictionary(MathOperator.ATTR_LSPACE,
+                AttributesHelper.THICKMATHSPACE);
+        this.loadAttributeFromDictionary(MathOperator.ATTR_RSPACE,
+                AttributesHelper.THICKMATHSPACE);
+        // TODO: Load all.
+
+        if (this.isFence()) {
+            this.setDefaultMathAttribute(MathOperator.ATTR_STRETCHY, "true");
+        }
+        if (!this.isChildBlock(null)) {
+            // TODO: Check if this logic is correct.
+            this.setDefaultMathAttribute(MathOperator.ATTR_MOVEABLELIMITS, "false");
+        }
+    }
+
+    private void loadAttributeFromDictionary(final String attrname,
+            final String defvalue) {
+        String attr;
+        try {
+            attr = OperatorDictionary.getDefaultAttributeValue(
+                    this.getText(), this.getForm(), attrname);
+        } catch (final UnknownAttributeException e) {
+            attr = defvalue;
+        }
+        if (attr.equals(OperatorDictionary.VALUE_UNKNOWN)) {
+            attr = defvalue;
+        }
+        this.setDefaultMathAttribute(attrname, attr);
+
+    }
+
+    private void detectFormParameter() {
+        final String form;
+        final MathElement parent = this.getParent();
+        if (parent != null && (parent instanceof MathRow)) {
+            final int index = parent.getIndexOfMathElement(this);
+            if (index == 0 && parent.getMathElementCount() > 0) {
+                form = OperatorDictionary.FORM_PREFIX;
+            } else {
+                if (index == (parent.getMathElementCount() - 1)
+                        && parent.getMathElementCount() > 0) {
+                    form = OperatorDictionary.FORM_POSTFIX;
+                } else {
+                    form = OperatorDictionary.FORM_INFIX;
+                }
+            }
+        } else {
+            form = OperatorDictionary.FORM_INFIX;
+        }
+        this.setDefaultMathAttribute(MathOperator.ATTR_FORM, form);
+        // TODO: Exception for embelished operators
     }
 
     /** {@inheritDoc} */
     @Override
     public void eventAllElementsComplete() {
-
-        if (this.getForm() == MathOperator.FORM_UKNOWN) {
-            /*
-             * -If the operator is the first argument in an mrow of length
-             * (i.e. number of arguments) greater than one(ignoring all
-             * space-like arguments (see Section 3.2.7) in the determination
-             * of both the length and the first argument), the prefix form is
-             * used; -if it is the last argument in an mrow of length greater
-             * than one (ignoring all space-like arguments), the postfix form
-             * is used; - in all other cases, including when the operator is
-             * not part of an mrow, the infix form is used.
-             */
-            final MathElement parent = this.getParent();
-            if (parent != null && (parent instanceof MathRow)) {
-                final int index = parent.getIndexOfMathElement(this);
-                if (index == 0 && parent.getMathElementCount() > 0) {
-                    this.m_form = OperatorDictionary.VALUE_PREFIX;
-                } else {
-                    if (index == (parent.getMathElementCount() - 1)
-                            && parent.getMathElementCount() > 0) {
-                        this.m_form = OperatorDictionary.VALUE_POSTFIX;
-                    } else {
-                        this.m_form = OperatorDictionary.VALUE_INFIX;
-                    }
-                }
-            } else {
-                this.m_form = OperatorDictionary.VALUE_INFIX;
-            }
-            // TODO Exception for embellished operators (in use form)
-        }
+        this.changeHook();
     }
 
     /** {@inheritDoc} */
     public String getTagName() {
         return MathOperator.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public String getLargeop() {
+        return this.getMathAttribute(MathOperator.ATTR_LARGEOP);
+    }
+
+    /** {@inheritDoc} */
+    public String getLspace() {
+        return this.getMathAttribute(MathOperator.ATTR_LSPACE);
+    }
+
+    /** {@inheritDoc} */
+    public String getMovablelimits() {
+        return this.getMathAttribute(MathOperator.ATTR_MOVEABLELIMITS);
+    }
+
+    /** {@inheritDoc} */
+    public String getRspace() {
+        return this.getMathAttribute(MathOperator.ATTR_RSPACE);
+    }
+
+    /** {@inheritDoc} */
+    public void setAccent(final String accent) {
+        this.setAttribute(MathOperator.ATTR_ACCENT, accent);
+    }
+
+    /** {@inheritDoc} */
+    public void setFence(final String fence) {
+        this.setAttribute(MathOperator.ATTR_FENCE, fence);
+    }
+
+    /** {@inheritDoc} */
+    public void setForm(final String form) {
+        this.setAttribute(MathOperator.ATTR_FORM, form);
+    }
+
+    /** {@inheritDoc} */
+    public void setLargeop(final String largeop) {
+        this.setAttribute(MathOperator.ATTR_LARGEOP, largeop);
+    }
+
+    /** {@inheritDoc} */
+    public void setLspace(final String lspace) {
+        this.setAttribute(MathOperator.ATTR_LSPACE, lspace);
+    }
+
+    /** {@inheritDoc} */
+    public void setMovablelimits(final String movablelimits) {
+        this.setAttribute(MathOperator.ATTR_MOVEABLELIMITS, movablelimits);
+    }
+
+    /** {@inheritDoc} */
+    public void setRspace(final String rspace) {
+        this.setAttribute(MathOperator.ATTR_RSPACE, rspace);
+    }
+
+    /** {@inheritDoc} */
+    public void setSeparator(final String separator) {
+        this.setAttribute(MathOperator.ATTR_SEPARATOR, separator);
+    }
+
+    /** {@inheritDoc} */
+    public void setStretchy(final String stretchy) {
+        this.setAttribute(MathOperator.ATTR_STRETCHY, stretchy);
+    }
+
+    /** {@inheritDoc} */
+    public void setSymmetric(final String symmetric) {
+        this.setAttribute(MathOperator.ATTR_SYMMETRIC, symmetric);
+    }
+
+    /** {@inheritDoc} */
+    public String getFence() {
+        return this.getMathAttribute(MathOperator.ATTR_FENCE);
+    }
+
+    /** {@inheritDoc} */
+    public String getForm() {
+        return this.getMathAttribute(MathOperator.ATTR_FORM);
+    }
+
+    /** {@inheritDoc} */
+    public String getSeparator() {
+        return this.getMathAttribute(MathOperator.ATTR_SEPARATOR);
+    }
+
+    /** {@inheritDoc} */
+    public String getStretchy() {
+        return this.getMathAttribute(MathOperator.ATTR_STRETCHY);
+    }
+
+    /** {@inheritDoc} */
+    public String getAccent() {
+        return this.getMathAttribute(MathOperator.ATTR_ACCENT);
+    }
+
+    /** {@inheritDoc} */
+    public String getSymmetric() {
+        return this.getMathAttribute(MathOperator.ATTR_SYMMETRIC);
     }
 
 }

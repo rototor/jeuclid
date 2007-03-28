@@ -128,12 +128,12 @@ public class MathFenced extends AbstractElementWithDelegates implements
         final List<MathElement> retVal = new Vector<MathElement>();
 
         final MathOperator opOpen = new MathOperator(this.getMathBase());
-        opOpen.setFence(true);
-        opOpen.setStretchy(true);
-        opOpen.setRSpace(MathFenced.FENCE_SPACE);
-        opOpen.setLSpace(MathFenced.FENCE_SPACE);
-        opOpen.setSymmetric(false);
-        opOpen.setForm(OperatorDictionary.VALUE_PREFIX);
+        opOpen.setFence("true");
+        opOpen.setStretchy("true");
+        opOpen.setRspace(MathFenced.FENCE_SPACE);
+        opOpen.setLspace(MathFenced.FENCE_SPACE);
+        opOpen.setSymmetric("false");
+        opOpen.setForm(OperatorDictionary.FORM_PREFIX);
         opOpen.addText(this.getOpen());
 
         retVal.add(opOpen);
@@ -143,7 +143,7 @@ public class MathFenced extends AbstractElementWithDelegates implements
 
             if (i < (this.getMathElementCount() - 1)) {
                 final MathOperator opSep = new MathOperator(this.mbase);
-                opSep.setSeparator(true);
+                opSep.setSeparator("true");                
                 final String sep = this.getSeparators();
                 if (i < sep.length()) {
                     opSep.addText(String.valueOf(sep.charAt(i)));
@@ -156,12 +156,12 @@ public class MathFenced extends AbstractElementWithDelegates implements
 
         }
         final MathOperator opClose = new MathOperator(this.getMathBase());
-        opClose.setFence(true);
-        opClose.setRSpace(MathFenced.FENCE_SPACE);
-        opClose.setLSpace(MathFenced.FENCE_SPACE);
-        opClose.setStretchy(true);
-        opClose.setSymmetric(false);
-        opClose.setForm(OperatorDictionary.VALUE_POSTFIX);
+        opClose.setFence("true");
+        opClose.setRspace(MathFenced.FENCE_SPACE);
+        opClose.setLspace(MathFenced.FENCE_SPACE);
+        opClose.setStretchy("true");
+        opClose.setSymmetric("false");
+        opClose.setForm(OperatorDictionary.FORM_POSTFIX);
         opClose.addText(this.getClose());
         retVal.add(opClose);
 

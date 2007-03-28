@@ -7,6 +7,16 @@
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
       <action dev="maxberger" type="update">
+        Completely rewrote MathOperator; 
+        WARNING: Some things may now behave differently;
+      </action>
+      <action dev="maxberger" type="fix">
+        Converter: fixed convert(File,File,String)
+      </action>
+      <action dev="maxberger" type="update">
+        yet another font-list change;
+      </action>
+      <action dev="maxberger" type="update">
         added more symbol catch fonts;
       </action>
       <action dev="maxberger" type="fix">

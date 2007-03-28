@@ -101,6 +101,7 @@ public final class Converter {
             final String outFileType) throws IOException {
         final Map<ParameterKey, String> params = MathBase
                 .getDefaultParameters();
+        params.put(ParameterKey.OutFileType, outFileType);
         return Converter.convert(inFile, outFile, params);
     }
 
