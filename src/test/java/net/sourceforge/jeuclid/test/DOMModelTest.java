@@ -112,8 +112,8 @@ public class DOMModelTest {
                         + "<mo stretchy='true'>X</mo>"
                         + "<mo stretchy='false'>Y</mo>"
                         + "<mo>&#x0007d;</mo>"
-                        + "<mo>&#x0201d;</mo>"
-                        + "</math>");
+                        + "<mo>&#x02254;</mo>"
+                        + "<mo>&#x0201d;</mo>" + "</math>");
         final MathMLDocument docElement = new DOMMathBuilder(doc,
                 new MathBase(MathBase.getDefaultParameters()))
                 .getMathRootElement();
@@ -131,10 +131,14 @@ public class DOMModelTest {
         Assert.assertFalse(Boolean.parseBoolean(mo2.getStretchy()));
         final MathOperator mo3 = (MathOperator) mathElement.getChildNodes()
                 .item(2);
+        // Should be strechty, since it is fence
         Assert.assertTrue(Boolean.parseBoolean(mo3.getStretchy()));
         final MathOperator mo4 = (MathOperator) mathElement.getChildNodes()
                 .item(3);
         Assert.assertFalse(Boolean.parseBoolean(mo4.getStretchy()));
+        final MathOperator mo5 = (MathOperator) mathElement.getChildNodes()
+                .item(2);
+        Assert.assertTrue(Boolean.parseBoolean(mo5.getStretchy()));
     }
 
     /**
