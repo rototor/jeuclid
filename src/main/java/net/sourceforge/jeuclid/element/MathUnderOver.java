@@ -128,8 +128,8 @@ public class MathUnderOver extends AbstractMathElement {
         int posY1, posY2, posX0, posX1, posX2;
 
         if ((this.getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) this.getMathElement(0))
-                        .getMoveableLimits()) {
+                && Boolean.parseBoolean(((MathOperator) this
+                        .getMathElement(0)).getMovablelimits())) {
             final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT);
             int e1DescentHeight = e1.getDescentHeight(g);
             if (e1DescentHeight == 0) {
@@ -171,8 +171,8 @@ public class MathUnderOver extends AbstractMathElement {
     @Override
     public int calculateWidth(final Graphics2D g) {
         if ((this.getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) this.getMathElement(0))
-                        .getMoveableLimits()) {
+                && Boolean.parseBoolean(((MathOperator) this
+                        .getMathElement(0)).getMovablelimits())) {
             return this.getMathElement(0).getWidth(g)
                     + Math.max(this.getMathElement(1).getWidth(g), this
                             .getMathElement(2).getWidth(g)) + 1;
@@ -187,8 +187,8 @@ public class MathUnderOver extends AbstractMathElement {
     public int calculateAscentHeight(final Graphics2D g) {
         int res;
         if ((this.getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) this.getMathElement(0))
-                        .getMoveableLimits()) {
+                && Boolean.parseBoolean(((MathOperator) this
+                        .getMathElement(0)).getMovablelimits())) {
             final int e2h = (int) Math.max(this.getMathElement(2)
                     .getHeight(g)
                     - this.getMathElement(0).getHeight(g)
@@ -210,8 +210,8 @@ public class MathUnderOver extends AbstractMathElement {
     public int calculateDescentHeight(final Graphics2D g) {
         int res;
         if ((this.getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) this.getMathElement(0))
-                        .getMoveableLimits()) {
+                && Boolean.parseBoolean(((MathOperator) this
+                        .getMathElement(0)).getMovablelimits())) {
             final int e2h = (int) Math.max(this.getMathElement(1)
                     .getHeight(g)
                     - this.getMathElement(0).getHeight(g)

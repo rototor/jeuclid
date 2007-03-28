@@ -158,28 +158,6 @@ public class DOMMathBuilder {
             }
         } else if (tagname.equals(MathTableData.ELEMENT)) {
             alignmentScope = (MathTableData) element;
-        } else if (tagname.equals(MathOperator.ELEMENT)) {
-            final MathOperator mo = (MathOperator) element;
-            mo.setMoveableLimits(attributes
-                    .getBoolean("movablelimits", false));
-            if (attributes.hasAttribute("rspace")) {
-                mo.setRSpace(attributes.getString("rspace", ""));
-            }
-            if (attributes.hasAttribute("lspace")) {
-                mo.setLSpace(attributes.getString("lspace", ""));
-            }
-            if (attributes.hasAttribute("form")) {
-                final String form = attributes.getString("form", "uknown");
-                if (form.equals("uknown")) {
-                    mo.setForm(MathOperator.FORM_UKNOWN);
-                } else if (form.equals("infix")) {
-                    mo.setForm(OperatorDictionary.VALUE_INFIX);
-                } else if (form.equals("postfix")) {
-                    mo.setForm(OperatorDictionary.VALUE_POSTFIX);
-                } else if (form.equals("prefix")) {
-                    mo.setForm(OperatorDictionary.VALUE_PREFIX);
-                }
-            }
         } else if (tagname.equals(MathStyle.ELEMENT)) {
             if (attributes.hasAttribute("scriptsizemultiplier")) {
                 final float scrm = Float.valueOf(

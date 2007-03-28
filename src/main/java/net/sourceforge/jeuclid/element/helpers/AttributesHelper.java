@@ -86,7 +86,7 @@ public final class AttributesHelper {
     /**
      * Infinity. Should be reasonably large.
      */
-    private static final String INFINITY = "9999999pt";
+    public static final String INFINITY = "9999999pt";
 
     /**
      * Value of EM (horizontal size).

@@ -89,15 +89,24 @@ public class OperatorDictionary {
      */
     public static final int VALUE_PREFIX = 100;
 
+    /** Form value for prefix. */
+    public static final String FORM_PREFIX = "prefix";
+
     /**
      * Value for INFIX.
      */
     public static final int VALUE_INFIX = 101;
 
+    /** form value for infix. */
+    public static final String FORM_INFIX = "infix";
+
     /**
      * Value for POSTFIX.
      */
     public static final int VALUE_POSTFIX = 102;
+
+    /** form value for postfix. */
+    public static final String FORM_POSTFIX = "postfix";
 
     /**
      * This value is returned, when default value of operator attribute
@@ -136,7 +145,7 @@ public class OperatorDictionary {
      * Array of default values of operators attributes.
      */
     private static final String[][] ATTRIBUTE_DEFAULT_VALUES = {
-            { "form", "infix" }, { "fence", "false" },
+            { "form", OperatorDictionary.FORM_INFIX }, { "fence", "false" },
             { "separator", "false" },
             { "lspace", OperatorDictionary.NAME_THICKMATHSPACE },
             { "rspace", OperatorDictionary.NAME_THICKMATHSPACE },
@@ -172,6 +181,35 @@ public class OperatorDictionary {
         final XMLReader reader = factory.newSAXParser().getXMLReader();
         reader.setContentHandler(new DictionaryReader());
         reader.parse(new InputSource(dictInput));
+    }
+
+    /**
+     * Determines default value of the operator attribute.
+     * 
+     * @param operator
+     *            operator character
+     * @param form
+     *            form string
+     * @param attributeName
+     *            name of attribute
+     * @return VALUE_UNKOWN or value from dict.
+     * @throws UnknownAttributeException Raised, if wrong attributeName was provided.
+     * @see #getDefaultAttributeValue(String, int, String)
+     */
+    public static String getDefaultAttributeValue(final String operator,
+            final String form, final String attributeName)
+            throws UnknownAttributeException {
+        final int intForm;
+        if (OperatorDictionary.FORM_INFIX.equalsIgnoreCase(form)) {
+            intForm = OperatorDictionary.VALUE_INFIX;
+        } else if (OperatorDictionary.FORM_POSTFIX.equalsIgnoreCase(form)) {
+            intForm = OperatorDictionary.VALUE_POSTFIX;
+        } else if (OperatorDictionary.FORM_PREFIX.equalsIgnoreCase(form)) {
+            intForm = OperatorDictionary.VALUE_PREFIX;
+        } else {
+            intForm = OperatorDictionary.VALUE_INFIX;
+        }
+        return OperatorDictionary.getDefaultAttributeValue(operator, intForm, attributeName);
     }
 
     /**
@@ -227,7 +265,7 @@ public class OperatorDictionary {
                 return OperatorDictionary.VALUE_UNKNOWN;
             }
             final String[][] attribute = (String[][]) attr;
-            for (String[] element : attribute) {
+            for (final String[] element : attribute) {
                 if (element[0].equals(attributeName)) {
                     return element[1];
                 }
@@ -250,7 +288,7 @@ public class OperatorDictionary {
      * @return Default value of the attribute.
      */
     private static String getDefaultValue(final String attributeName) {
-        for (String[] element : OperatorDictionary.ATTRIBUTE_DEFAULT_VALUES) {
+        for (final String[] element : OperatorDictionary.ATTRIBUTE_DEFAULT_VALUES) {
             if (attributeName.equalsIgnoreCase(element[0])) {
                 return element[1];
             }
@@ -313,11 +351,11 @@ public class OperatorDictionary {
                     OperatorDictionary.DictionaryReader.LOGGER
                             .fatal("Error in dictionary, attribute 'form' is required attribute for the dictionary");
                 }
-                if (form.equals("prefix")) {
+                if (form.equals(OperatorDictionary.FORM_PREFIX)) {
                     this.currentFormIndex = OperatorDictionary.VALUE_PREFIX;
-                } else if (form.equals("infix")) {
+                } else if (form.equals(OperatorDictionary.FORM_INFIX)) {
                     this.currentFormIndex = OperatorDictionary.VALUE_INFIX;
-                } else if (form.equals("postfix")) {
+                } else if (form.equals(OperatorDictionary.FORM_POSTFIX)) {
                     this.currentFormIndex = OperatorDictionary.VALUE_POSTFIX;
                 }
                 int index = 0;

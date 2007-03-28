@@ -95,8 +95,8 @@ public class MathUnder extends AbstractMathElement {
         final MathElement e2 = this.getMathElement(1);
 
         if ((this.getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) this.getMathElement(0))
-                        .getMoveableLimits()) {
+                && Boolean.parseBoolean(((MathOperator) this.getMathElement(0))
+                        .getMovablelimits())) {
             final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT);
             int e1DescentHeight = e1.getDescentHeight(g);
             if (e1DescentHeight == 0) {
@@ -126,7 +126,7 @@ public class MathUnder extends AbstractMathElement {
     @Override
     public final int calculateWidth(final Graphics2D g) {
         if ((this.getMathElement(0) instanceof MathOperator)) {
-            if (((MathOperator) this.getMathElement(0)).getMoveableLimits()) {
+            if (Boolean.parseBoolean(((MathOperator) this.getMathElement(0)).getMovablelimits())) {
                 return this.getMathElement(0).getWidth(g)
                         + this.getMathElement(1).getWidth(g);
             }
@@ -146,8 +146,8 @@ public class MathUnder extends AbstractMathElement {
     public final int calculateDescentHeight(final Graphics2D g) {
         int res;
         if ((this.getMathElement(0) instanceof MathOperator)
-                && ((MathOperator) this.getMathElement(0))
-                        .getMoveableLimits()) {
+                && Boolean.parseBoolean(((MathOperator) this.getMathElement(0))
+                        .getMovablelimits())) {
             res = Math.max(this.getMathElement(0).getDescentHeight(g), this
                     .getMathElement(1).getHeight(g)
                     - this.getMiddleShift(g));
