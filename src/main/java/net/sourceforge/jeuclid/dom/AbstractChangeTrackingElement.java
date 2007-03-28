@@ -29,41 +29,56 @@ import org.w3c.dom.Node;
 public abstract class AbstractChangeTrackingElement extends
         AbstractPartialElementImpl {
 
-    private boolean changed = true;
-
     /** {@inheritDoc} */
     @Override
     public final Node appendChild(final Node newChild) {
-        this.setChanged(true);
-        return super.appendChild(newChild);
+        final Node retVal = super.appendChild(newChild);
+        this.fireChanged(true);
+        return retVal;
     }
 
     /** {@inheritDoc} */
     @Override
     public final void setAttribute(final String name, final String value) {
-        this.setChanged(true);
         super.setAttribute(name, value);
+        this.fireChanged(true);
     }
 
     /** {@inheritDoc} */
     @Override
     public final void setTextContent(final String newTextContent) {
-        this.setChanged(true);
         super.setTextContent(newTextContent);
+        this.fireChanged(true);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final Node replaceChild(final Node newChild, final Node oldChild) {
+        final Node retVal = super.replaceChild(newChild, oldChild);
+        this.fireChanged(true);
+        return retVal;
     }
 
     /**
-     * @return the hasChanged
+     * Called when the element has changed.
+     * <p>
+     * This function may become public or protected in the future.
      */
-    protected final boolean isChanged() {
-        return this.changed;
+    private void fireChanged(final boolean propagate) {
+        this.changeHook();
+        if (propagate) {
+            final Node superNode = this.getParentNode();
+            if (superNode instanceof AbstractChangeTrackingElement) {
+                ((AbstractChangeTrackingElement) superNode)
+                        .fireChanged(propagate);
+            }
+        }
     }
 
     /**
-     * @param hasChanged
-     *            the hasChanged to set
+     * Called on any change. Please override!
      */
-    protected void setChanged(final boolean hasChanged) {
-        this.changed = hasChanged;
+    protected void changeHook() {
+        // Override me!
     }
 }

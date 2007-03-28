@@ -237,11 +237,9 @@ public abstract class AbstractMathElement extends
 
     /** {@inheritDoc} */
     @Override
-    protected void setChanged(final boolean hasChanged) {
-        super.setChanged(hasChanged);
-        if (hasChanged) {
-            this.recalculateSize();
-        }
+    protected void changeHook() {
+        super.changeHook();
+        this.recalculateSize();
     }
 
     /**

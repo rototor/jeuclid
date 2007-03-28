@@ -411,10 +411,13 @@ public class MathOperator extends AbstractMathElement implements
      */
     @Override
     public void eventElementComplete() {
-        this.changeHook();
+        //this.changeHook();
     }
 
-    private void changeHook() {
+    /** {@inheritDoc} */
+    @Override
+    protected void changeHook() {
+        super.changeHook();
         this.detectFormParameter();
         this.loadAttributeFromDictionary(MathOperator.ATTR_LARGEOP, "false");
         this.loadAttributeFromDictionary(MathOperator.ATTR_SYMMETRIC, "true");
@@ -476,7 +479,7 @@ public class MathOperator extends AbstractMathElement implements
     /** {@inheritDoc} */
     @Override
     public void eventAllElementsComplete() {
-        this.changeHook();
+      //  this.changeHook();
     }
 
     /** {@inheritDoc} */

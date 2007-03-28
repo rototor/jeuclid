@@ -61,7 +61,6 @@ public abstract class AbstractElementWithDelegates extends
         for (final MathElement element : this.delegates) {
             element.setFakeParent(this);
         }
-        this.setChanged(false);
     }
 
     /** {@inheritDoc} */
@@ -74,38 +73,32 @@ public abstract class AbstractElementWithDelegates extends
     /** {@inheritDoc} */
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
-        if (this.isChanged()) {
-            this.prepareDelegates();
-        }
         return ElementListSupport.getAscentHeight(g, this.delegates);
     }
 
     /** {@inheritDoc} */
     @Override
     public int calculateDescentHeight(final Graphics2D g) {
-        if (this.isChanged()) {
-            this.prepareDelegates();
-        }
         return ElementListSupport.getDescentHeight(g, this.delegates);
     }
 
     /** {@inheritDoc} */
     @Override
     public int calculateWidth(final Graphics2D g) {
-        if (this.isChanged()) {
-            this.prepareDelegates();
-        }
         return ElementListSupport.getWidth(g, this.delegates);
     }
 
     /** {@inheritDoc} */
     @Override
     public void paint(final Graphics2D g, final int posX, final int posY) {
-        if (this.isChanged()) {
-            this.prepareDelegates();
-        }
         super.paint(g, posX, posY);
         ElementListSupport.paint(g, posX, posY, this.delegates);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected void changeHook() {
+        super.changeHook();
+        this.prepareDelegates();
+    }
 }
