@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="add" issue="1686545">
+        mtable: implemented rowlines and columnlines attributes
+      </action>
       <action dev="maxberger" type="update">
         Rewrote change management (still needs more work);
         added pmd plugin to report
