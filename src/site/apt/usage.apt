@@ -42,7 +42,7 @@ Installing Fonts (optional)
 
 Using JEuclid
 
-  Please note: This documentation refers to the 2.9.4 version.
+  Please note: This documentation refers to the 2.9.5 version.
 
 * MathViewer application
 
@@ -53,7 +53,7 @@ Using JEuclid
 
 * On the command line
 
-  You may use the included mml2xxx or mml2xx script from the bin/ directory in the distribution.
+  You may use the included mml2xxx (unix) or mml2xx.bat (windows) script from the bin/ directory in the distribution.
 
 * From ant
 
