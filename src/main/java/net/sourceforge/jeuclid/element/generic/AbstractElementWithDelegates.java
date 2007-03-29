@@ -65,13 +65,6 @@ public abstract class AbstractElementWithDelegates extends
 
     /** {@inheritDoc} */
     @Override
-    public void eventElementComplete() {
-        super.eventElementComplete();
-        this.prepareDelegates();
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public int calculateAscentHeight(final Graphics2D g) {
         return ElementListSupport.getAscentHeight(g, this.delegates);
     }

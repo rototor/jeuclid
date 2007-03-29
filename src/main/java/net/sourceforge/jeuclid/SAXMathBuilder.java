@@ -22,7 +22,6 @@ import java.util.Stack;
 
 import net.sourceforge.jeuclid.element.MathDocumentElement;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
-import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributeMap;
 import net.sourceforge.jeuclid.element.helpers.SAXAttributeMap;
 
@@ -88,8 +87,8 @@ public class SAXMathBuilder implements ContentHandler {
      * Receive notification of the end of a document.
      */
     public void endDocument() {
-      // TODO: When changeTracking is updated to be disabled during initial
-      // buildup, this is the place to trigger first changeEvents
+        // TODO: When changeTracking is updated to be disabled during initial
+        // buildup, this is the place to trigger first changeEvents
     }
 
     /**
@@ -109,12 +108,8 @@ public class SAXMathBuilder implements ContentHandler {
     public void endElement(final String namespaceURI, final String localName,
             final String qName) {
         if (!this.stack.empty()) {
-            final Node element = this.stack.pop();
+            this.stack.pop();
 
-            if (element instanceof MathElement) {
-                final MathElement aElement = (MathElement) element;
-                aElement.eventElementComplete();
-            }
         }
     }
 

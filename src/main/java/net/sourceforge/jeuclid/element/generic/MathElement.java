@@ -43,14 +43,6 @@ public interface MathElement extends MathMLElement, DisplayableNode, MathNode {
     void setFakeParent(final MathElement parent);
 
     /**
-     * Methos is called, when all content of the element is known (i.e.
-     * structure of the element, child elements). Warning: reference to the
-     * mathbase class is still null here, so all related content (font,
-     * logger, etc.) will be unavailable.
-     */
-    void eventElementComplete();
-
-    /**
      * This method is called when all attributes for the element are known.
      * The element contents are not necesarrily complete.
      * 
