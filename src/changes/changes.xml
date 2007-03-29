@@ -5,7 +5,12 @@
     <author>Max Berger</author>
   </properties>
   <body>
-    <release version="2.9.5-SNAPSHOT" date="2007-03-29" description="The big bugfix release">
+    <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
+      <action dev="maxberger" type="add">
+        Released 2.9.5; updated website
+      </action>
+    </release>
+    <release version="2.9.5" date="2007-03-29" description="The big bugfix release">
       <action dev="maxberger" type="add" issue="1532309">
         mtable: now supports w3c dom model; this was the last one!
       </action>
