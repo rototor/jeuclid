@@ -469,54 +469,56 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
         return this.getMathElement(0).getDescentHeight(g) + e2h;
     }
 
-    /**
-     * Write errors in conditions.
-     */
-    @Override
-    public final void eventAllElementsComplete() {
-        super.eventAllElementsComplete();
-        if (this.getMathElementCount() == 0) {
-            MathMultiScripts.LOGGER
-                    .error("Wrong number of parametrs, must be 1 or more");
-        } else if (this.getMathElement(0) instanceof MathPreScripts) {
-            MathMultiScripts.LOGGER.error("The first argument must be base.");
-        }
-        boolean isMultMPrescripts = false;
-        if (this.getMathElementCount() > 0) {
-            int prPos = -1;
-            for (int i = 0; i < this.getMathElementCount(); i++) {
-                if (this.getMathElement(i) instanceof MathPreScripts) {
-                    if (prPos != -1) {
-                        MathMultiScripts.LOGGER
-                                .error("The empty element mprescripts must be declared once.");
-                        isMultMPrescripts = true;
-                        break;
-                    }
-                    prPos = i;
-
-                }
-            }
-            if (!isMultMPrescripts) {
-                if (prPos == -1 && this.getMathElementCount() % 2 == 0) {
-                    MathMultiScripts.LOGGER
-                            .error("The total number of the arguments must be odd.\n"
-                                    + "Some elements may not be drown. ");
-                } else if (prPos != -1) {
-                    if (prPos % 2 == 0) {
-                        MathMultiScripts.LOGGER
-                                .error("The total number of the postcripts elements must be even.\n"
-                                        + "Some elements may not be drown.");
-                    }
-                    if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
-                        MathMultiScripts.LOGGER
-                                .error("The total number of the prestcripts elements must be even.\n"
-                                        + "Some elements may not be drown.");
-                    }
-
-                }
-            }
-        }
-    };
+    // All this function does is error messaging.
+    // TODO: Look for a good place to do this.
+    // /**
+    // * Write errors in conditions.
+    // */
+    // @Override
+    // public final void eventAllElementsComplete() {
+    // super.eventAllElementsComplete();
+    // if (this.getMathElementCount() == 0) {
+    // MathMultiScripts.LOGGER
+    // .error("Wrong number of parametrs, must be 1 or more");
+    // } else if (this.getMathElement(0) instanceof MathPreScripts) {
+    // MathMultiScripts.LOGGER.error("The first argument must be base.");
+    // }
+    // boolean isMultMPrescripts = false;
+    // if (this.getMathElementCount() > 0) {
+    // int prPos = -1;
+    // for (int i = 0; i < this.getMathElementCount(); i++) {
+    // if (this.getMathElement(i) instanceof MathPreScripts) {
+    // if (prPos != -1) {
+    // MathMultiScripts.LOGGER
+    // .error("The empty element mprescripts must be declared once.");
+    // isMultMPrescripts = true;
+    // break;
+    // }
+    // prPos = i;
+    //
+    // }
+    // }
+    // if (!isMultMPrescripts) {
+    // if (prPos == -1 && this.getMathElementCount() % 2 == 0) {
+    // MathMultiScripts.LOGGER
+    // .error("The total number of the arguments must be odd.\n"
+    // + "Some elements may not be drown. ");
+    // } else if (prPos != -1) {
+    // if (prPos % 2 == 0) {
+    // MathMultiScripts.LOGGER
+    // .error("The total number of the postcripts elements must be even.\n"
+    // + "Some elements may not be drown.");
+    // }
+    // if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
+    // MathMultiScripts.LOGGER
+    // .error("The total number of the prestcripts elements must be even.\n"
+    // + "Some elements may not be drown.");
+    // }
+    //
+    // }
+    // }
+    // }
+    // };
 
     /** {@inheritDoc} */
     @Override

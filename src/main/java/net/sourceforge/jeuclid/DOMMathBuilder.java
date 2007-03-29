@@ -78,7 +78,8 @@ public class DOMMathBuilder {
         mathBase.setRootElement(this.rootElement);
 
         this.traverse(documentElement, this.rootElement, null);
-        this.rootElement.eventAllElementsComplete();
+        // TODO: When changeTracking is updated to be disabled during initial
+        // buildup, this is the place to trigger first changeEvents
     }
 
     /**

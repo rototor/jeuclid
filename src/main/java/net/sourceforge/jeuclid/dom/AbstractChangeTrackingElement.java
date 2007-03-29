@@ -18,6 +18,9 @@
 
 package net.sourceforge.jeuclid.dom;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.w3c.dom.Node;
 
 /**
@@ -27,7 +30,9 @@ import org.w3c.dom.Node;
  * @author Max Berger
  */
 public abstract class AbstractChangeTrackingElement extends
-        AbstractPartialElementImpl {
+        AbstractPartialElementImpl implements ChangeTrackingInterface {
+
+    private final Set<ChangeTrackingInterface> listeners = new HashSet<ChangeTrackingInterface>();
 
     /** {@inheritDoc} */
     @Override
@@ -59,18 +64,16 @@ public abstract class AbstractChangeTrackingElement extends
         return retVal;
     }
 
-    /**
-     * Called when the element has changed.
-     * <p>
-     * This function may become public or protected in the future.
-     */
-    private void fireChanged(final boolean propagate) {
+    /** {@inheritDoc} */
+    public void fireChanged(final boolean propagate) {
         this.changeHook();
         if (propagate) {
             final Node superNode = this.getParentNode();
-            if (superNode instanceof AbstractChangeTrackingElement) {
-                ((AbstractChangeTrackingElement) superNode)
-                        .fireChanged(propagate);
+            if (superNode instanceof ChangeTrackingInterface) {
+                ((ChangeTrackingInterface) superNode).fireChanged(propagate);
+            }
+            for (final ChangeTrackingInterface listener : this.listeners) {
+                listener.fireChanged(false);
             }
         }
     }
@@ -81,4 +84,10 @@ public abstract class AbstractChangeTrackingElement extends
     protected void changeHook() {
         // Override me!
     }
+
+    /** {@inheritDoc} */
+    public void addListener(final ChangeTrackingInterface listener) {
+        this.listeners.add(listener);
+    }
+
 }

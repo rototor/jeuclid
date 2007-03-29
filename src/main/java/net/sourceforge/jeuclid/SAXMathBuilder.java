@@ -88,7 +88,8 @@ public class SAXMathBuilder implements ContentHandler {
      * Receive notification of the end of a document.
      */
     public void endDocument() {
-        this.rootElement.eventAllElementsComplete();
+      // TODO: When changeTracking is updated to be disabled during initial
+      // buildup, this is the place to trigger first changeEvents
     }
 
     /**

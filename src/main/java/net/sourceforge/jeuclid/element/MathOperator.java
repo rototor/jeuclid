@@ -24,6 +24,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
@@ -411,7 +412,7 @@ public class MathOperator extends AbstractMathElement implements
      */
     @Override
     public void eventElementComplete() {
-        //this.changeHook();
+        // this.changeHook();
     }
 
     /** {@inheritDoc} */
@@ -434,7 +435,13 @@ public class MathOperator extends AbstractMathElement implements
         }
         if (!this.isChildBlock(null)) {
             // TODO: Check if this logic is correct.
-            this.setDefaultMathAttribute(MathOperator.ATTR_MOVEABLELIMITS, "false");
+            this.setDefaultMathAttribute(MathOperator.ATTR_MOVEABLELIMITS,
+                    "false");
+        }
+
+        final MathElement parent = this.getParent();
+        if (parent instanceof ChangeTrackingInterface) {
+            ((ChangeTrackingInterface) parent).addListener(this);
         }
     }
 
@@ -474,12 +481,6 @@ public class MathOperator extends AbstractMathElement implements
         }
         this.setDefaultMathAttribute(MathOperator.ATTR_FORM, form);
         // TODO: Exception for embelished operators
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void eventAllElementsComplete() {
-      //  this.changeHook();
     }
 
     /** {@inheritDoc} */
