@@ -330,8 +330,7 @@ public class MathOperator extends AbstractMathElement implements
     /** {@inheritDoc} */
     @Override
     public int calculateWidth(final Graphics2D g) {
-        final float space = this.getLspaceAsFloat()
-                + this.getRspaceAsFloat();
+        final float space = this.getLspaceAsFloat() + this.getRspaceAsFloat();
         if (this.getText().equals("")) {
             return (int) space;
         } else {
@@ -400,15 +399,6 @@ public class MathOperator extends AbstractMathElement implements
                     * scaleFactor + this.calcBaselineShift);
         }
 
-    }
-
-    /**
-     * Calculates parameters based on given attributes and default values for
-     * the enclosed operator.
-     */
-    @Override
-    public void eventElementComplete() {
-        // this.changeHook();
     }
 
     /** {@inheritDoc} */

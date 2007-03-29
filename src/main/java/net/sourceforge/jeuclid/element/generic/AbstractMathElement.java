@@ -942,10 +942,6 @@ public abstract class AbstractMathElement extends
     }
 
     /** {@inheritDoc} */
-    public void eventElementComplete() {
-    }
-
-    /** {@inheritDoc} */
     public void setMathAttributes(final AttributeMap attributes) {
         final Map attrsAsMap = attributes.getAsMap();
         for (final Iterator i = attrsAsMap.entrySet().iterator(); i.hasNext();) {

@@ -209,7 +209,6 @@ public class DOMMathBuilder {
             }
         }
 
-        element.eventElementComplete();
         if (prevScope != null) {
             alignmentScope = prevScope;
         }
