@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="fix">
+        removed several PMD errors
+      </action>
       <action dev="maxberger" type="add">
         Added ChangeTrackingInterface; moperator now properly registeres with parent;
         removed eventAllElementsComplete (obsolete through changeHook());

@@ -23,7 +23,6 @@ import net.sourceforge.jeuclid.element.MathAlignMark;
 import net.sourceforge.jeuclid.element.MathDocumentElement;
 import net.sourceforge.jeuclid.element.MathEnclose;
 import net.sourceforge.jeuclid.element.MathLabeledTableRow;
-import net.sourceforge.jeuclid.element.MathOperator;
 import net.sourceforge.jeuclid.element.MathOver;
 import net.sourceforge.jeuclid.element.MathStyle;
 import net.sourceforge.jeuclid.element.MathTable;
@@ -33,7 +32,6 @@ import net.sourceforge.jeuclid.element.MathUnderOver;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributeMap;
 import net.sourceforge.jeuclid.element.helpers.DOMAttributeMap;
-import net.sourceforge.jeuclid.element.helpers.OperatorDictionary;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -186,11 +184,6 @@ public class DOMMathBuilder {
             }
         } else {
             parent.appendChild(element);
-        }
-
-        if (attributes.hasAttribute("mathbackground")) {
-            // element.setMathBackground(attributes.getColor("mathbackground",
-            // null));
         }
 
         final NodeList childs = node.getChildNodes();
