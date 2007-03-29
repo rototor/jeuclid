@@ -31,13 +31,19 @@ import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 
+import org.w3c.dom.mathml.MathMLLabeledRowElement;
+import org.w3c.dom.mathml.MathMLNodeList;
+import org.w3c.dom.mathml.MathMLTableElement;
+import org.w3c.dom.mathml.MathMLTableRowElement;
+
 /**
  * This class presents a table.
  * 
  * @author Unknown
  * @author Max Berger
  */
-public class MathTable extends AbstractMathElement {
+public class MathTable extends AbstractMathElement implements
+        MathMLTableElement {
 
     /** attribute for rowlines. */
     public static final String ATTR_ROWLINES = "rowlines";
@@ -128,11 +134,6 @@ public class MathTable extends AbstractMathElement {
     public static final String DEFAULT_ROWSPACING = "1.0ex";
 
     /**
-     * Default frame spacing.
-     */
-    private static final String DEFAULT_FRAMESPACING = "0.4em 0.5ex";
-
-    /**
      * Align constant: center align.
      */
     public static final int ALIGN_CENTER = 2;
@@ -178,68 +179,9 @@ public class MathTable extends AbstractMathElement {
     public static final int WIDTH_FIT = -2;
 
     /**
-     * Lines constant: no lines.
+     * Default frame spacing.
      */
-    public static final int LINE_NONE = 0;
-
-    /**
-     * Lines constant: solid lines.
-     */
-    public static final int LINE_SOLID = 1;
-
-    /**
-     * Lines constant: dashed lines.
-     */
-    public static final int LINE_DASHED = 2;
-
-    /**  */
-    public static final int SIDE_LEFT = 0;
-
-    /**  */
-    public static final int SIDE_RIGHT = 1;
-
-    /**  */
-    public static final int SIDE_LEFTOVERLAP = 2;
-
-    /**  */
-    public static final int SIDE_RIGHTOVERLAP = 3;
-
-    /**
-     * Alignment variable.
-     */
-    private int m_align = MathTable.ALIGN_CENTER;
-
-    /**
-     * Alignment of the row variable.
-     */
-    private int m_rowalign = MathTable.ALIGN_CENTER;
-
-    /**
-     * Alignment of the column variable.
-     */
-    private int m_columnalign = MathTable.ALIGN_CENTER;
-
-    /**
-     * Alignment of the group variable.
-     */
-    private int m_groupalign = MathTable.ALIGN_CENTER;
-
-    /**
-     * Alignment scope variable.
-     */
-    private boolean m_alignmentscope = false;
-
-    /**
-     * Array with row spacing values..
-     */
-    private final List<String> m_rowspacing = new Vector<String>();
-
-    /**
-     * Array with column spacing values..
-     */
-    private final List<String> m_columnspacing = new Vector<String>();
-
-    private int[] groupsalignvalues = null;
+    private static final String DEFAULT_FRAMESPACING = "0.4em 0.5ex";
 
     /**
      * Class for line types.
@@ -273,6 +215,59 @@ public class MathTable extends AbstractMathElement {
     };
 
     /**
+     * Class for alignment types.
+     */
+    public enum AlignmentType {
+        /** Align to top. */
+        TOP,
+        /** Align to bottom. */
+        BOTTOM,
+        /** Align to center. */
+        CENTER,
+        /** Align to baseline. */
+        BASELINE,
+        /** Align to axis. */
+        AXIS,
+        /** Align to left. */
+        LEFT,
+        /** Align to right. */
+        RIGHT,
+        /** Align to decimalpoint. */
+        DECIMALPOINT,
+        /** Align to alignment markers. */
+        MARK;
+
+        /**
+         * Parse a string and return a alignment.
+         * 
+         * @param s
+         *            the string to parse
+         * @return an alignment for this string type
+         */
+        public static AlignmentType parseAlignmentType(final String s) {
+            final AlignmentType retVal;
+            if ("top".equalsIgnoreCase(s)) {
+                retVal = MathTable.AlignmentType.TOP;
+            } else if ("bottom".equalsIgnoreCase(s)) {
+                retVal = MathTable.AlignmentType.BOTTOM;
+            } else if ("baseline".equalsIgnoreCase(s)) {
+                retVal = MathTable.AlignmentType.BASELINE;
+            } else if ("axis".equalsIgnoreCase(s)) {
+                retVal = MathTable.AlignmentType.AXIS;
+            } else if ("left".equalsIgnoreCase(s)) {
+                retVal = MathTable.AlignmentType.LEFT;
+            } else if ("right".equalsIgnoreCase(s)) {
+                retVal = MathTable.AlignmentType.RIGHT;
+            } else if ("decimalpoint".equalsIgnoreCase(s)) {
+                retVal = MathTable.AlignmentType.DECIMALPOINT;
+            } else {
+                retVal = MathTable.AlignmentType.CENTER;
+            }
+            return retVal;
+        }
+    }
+
+    /**
      * Creates a math element.
      * 
      * @param base
@@ -287,8 +282,10 @@ public class MathTable extends AbstractMathElement {
         this.setDefaultMathAttribute(MathTable.ATTR_ALIGNMENTSCOPE, "true");
         this.setDefaultMathAttribute(MathTable.ATTR_COLUMNWIDTH, "auto");
         this.setDefaultMathAttribute(MathTable.ATTR_WIDTH, "auto");
-        this.setDefaultMathAttribute(MathTable.ATTR_ROWSPACING, "1.0ex");
-        this.setDefaultMathAttribute(MathTable.ATTR_COLUMNSPACING, "0.8em");
+        this.setDefaultMathAttribute(MathTable.ATTR_ROWSPACING,
+                MathTable.DEFAULT_ROWSPACING);
+        this.setDefaultMathAttribute(MathTable.ATTR_COLUMNSPACING,
+                MathTable.DEFAULT_COLUMNSPACING);
         this.setDefaultMathAttribute(MathTable.ATTR_ROWLINES,
                 MathTable.VALUE_NONE);
         this.setDefaultMathAttribute(MathTable.ATTR_COLUMNLINES,
@@ -296,7 +293,7 @@ public class MathTable extends AbstractMathElement {
         this.setDefaultMathAttribute(MathTable.ATTR_FRAME,
                 MathTable.VALUE_NONE);
         this.setDefaultMathAttribute(MathTable.ATTR_FRAMESPACING,
-                DEFAULT_FRAMESPACING);
+                MathTable.DEFAULT_FRAMESPACING);
         this.setDefaultMathAttribute(MathTable.ATTR_EQUALROWS, "false");
         this.setDefaultMathAttribute(MathTable.ATTR_EQUALCOLUMNS, "false");
         this.setDefaultMathAttribute(MathTable.ATTR_DISPLAYSTYLE, "false");
@@ -308,180 +305,6 @@ public class MathTable extends AbstractMathElement {
     @Override
     public boolean isChildBlock(final MathElement child) {
         return false;
-    }
-
-    /**
-     * @return Table align
-     */
-    public int getAlign() {
-        return this.m_align;
-    }
-
-    /**
-     * @param align
-     *            Align of the table
-     */
-    public void setAlign(final String align) {
-        if (align.equals("axis")) {
-            this.m_align = MathTable.ALIGN_AXIS;
-        } else if (align.equals("bottom")) {
-            this.m_align = MathTable.ALIGN_BOTTOM;
-        } else if (align.equals("center")) {
-            this.m_align = MathTable.ALIGN_CENTER;
-        } else if (align.equals("baseline")) {
-            this.m_align = MathTable.ALIGN_BASELINE;
-        } else if (align.equals("top")) {
-            this.m_align = MathTable.ALIGN_TOP;
-        }
-    }
-
-    /**
-     * @return Row Align
-     */
-    public int getRowAlign() {
-        return this.m_rowalign;
-    }
-
-    /**
-     * @param rowalign
-     *            Row Align
-     */
-    public void setRowAlign(final int rowalign) {
-        if ((rowalign == MathTable.ALIGN_TOP)
-                || (rowalign == MathTable.ALIGN_BOTTOM)
-                || (rowalign == MathTable.ALIGN_CENTER)
-                || (rowalign == MathTable.ALIGN_BASELINE)
-                || (rowalign == MathTable.ALIGN_AXIS)) {
-            this.m_rowalign = rowalign;
-        }
-    }
-
-    /**
-     * @return Column align
-     */
-    public int getColumnalign() {
-        return this.m_columnalign;
-    }
-
-    /**
-     * @param columnalign
-     *            Column align
-     */
-    public void setColumnalign(final int columnalign) {
-        if ((columnalign == MathTable.ALIGN_LEFT)
-                || (columnalign == MathTable.ALIGN_RIGHT)
-                || (columnalign == MathTable.ALIGN_CENTER)) {
-            this.m_columnalign = columnalign;
-        }
-    }
-
-    /**
-     * @param groupalign
-     *            Group align
-     */
-    public void setGroupalign(final int groupalign) {
-        if ((groupalign == MathTable.ALIGN_LEFT)
-                || (groupalign == MathTable.ALIGN_RIGHT)
-                || (groupalign == MathTable.ALIGN_CENTER)
-                || (groupalign == MathTable.ALIGN_DECIMALPOINT)) {
-            this.m_groupalign = groupalign;
-        }
-    }
-
-    /**
-     * 
-     * @return Group Align
-     */
-    public int getGroupalign() {
-        return this.m_groupalign;
-    }
-
-    /**
-     * @return Alignment scope
-     */
-    public boolean getAlignmentscope() {
-        return this.m_alignmentscope;
-    }
-
-    /**
-     * @param alignmentscope
-     *            Alignment scope
-     */
-    public void setAlignmentscope(final boolean alignmentscope) {
-        this.m_alignmentscope = alignmentscope;
-    }
-
-    /**
-     * 
-     * @param row
-     *            Row number
-     * @return Row spacing after [row] row
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public int getRowspacing(final Graphics2D g, final int row) {
-        if (row < this.m_rowspacing.size()) {
-            return (int) AttributesHelper.convertSizeToPt(this.m_rowspacing
-                    .get(row), this, AttributesHelper.PT);
-        } else {
-            return (int) AttributesHelper.convertSizeToPt(
-                    MathTable.DEFAULT_ROWSPACING, this, AttributesHelper.PT);
-        }
-    }
-
-    /**
-     * @param rowspacing
-     *            Row spacing
-     */
-    public void setRowspacing(String rowspacing) {
-        int pos;
-        while (!rowspacing.equals("")) {
-            pos = rowspacing.indexOf(' ');
-            if (pos < 0) {
-                pos = rowspacing.length();
-            }
-            this.m_rowspacing.add(rowspacing.substring(0, pos));
-            if (pos == rowspacing.length()) {
-                rowspacing = "";
-            } else {
-                rowspacing = rowspacing.substring(pos + 1);
-            }
-        }
-    }
-
-    /**
-     * 
-     * @param col
-     *            Column number
-     * @return Column spacing
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public int getColumnspacing(final Graphics2D g, final int col) {
-        if (col < this.m_columnspacing.size()) {
-            return (int) AttributesHelper.convertSizeToPt(
-                    this.m_columnspacing.get(col), this, AttributesHelper.PT);
-        } else {
-            return (int) AttributesHelper.convertSizeToPt(
-                    MathTable.DEFAULT_COLUMNSPACING, this,
-                    AttributesHelper.PT);
-        }
-    }
-
-    /**
-     * @param columnspacing
-     *            Column spacing
-     */
-    public void setColumnspacing(String columnspacing) {
-        int pos;
-        while (!columnspacing.equals("")) {
-            pos = columnspacing.indexOf(' ');
-            if (pos < 0) {
-                pos = columnspacing.length() - 1;
-            }
-            this.m_columnspacing.add(columnspacing.substring(0, pos));
-            columnspacing = columnspacing.substring(pos + 1);
-        }
     }
 
     /**
@@ -576,7 +399,7 @@ public class MathTable extends AbstractMathElement {
                             - row.getMathElement(j).getWidth(g) / 2;
                     row.getMathElement(j).paint(g, xx, posY);
                 }
-                final int currentColSpacing = this.getColumnspacing(g, j);
+                final int currentColSpacing = this.getColumnspacing(j);
                 x += maxcolumnwidth[j];
                 if ((i == 0) && (j < maxcolumns - 1)) {
                     // TODO: This only sets columnlines if the first row
@@ -587,7 +410,7 @@ public class MathTable extends AbstractMathElement {
             }
 
             posY += maxrowdescentheight[i];
-            final int currentRowSpacing = this.getRowspacing(g, i);
+            final int currentRowSpacing = this.getRowspacing(i);
             if (i < (this.getMathElementCount() - 1)) {
                 rowlines.add(posY + currentRowSpacing / 2.0f);
             }
@@ -722,7 +545,7 @@ public class MathTable extends AbstractMathElement {
         for (int i = 0; i < maxcolumns; i++) {
             width = width + this.getMaxColumnWidth(g, i);
             if (i + 1 < maxcolumns) {
-                width = width + this.getColumnspacing(g, i);
+                width = width + this.getColumnspacing(i);
             }
         }
         width = width + this.getFramespacingh() * 2;
@@ -736,7 +559,7 @@ public class MathTable extends AbstractMathElement {
             height = height + this.getMaxRowAscentHeight(g, i)
                     + this.getMaxRowDescentHeight(g, i);
             if (i + 1 < mec) {
-                height = height + this.getRowspacing(g, i);
+                height = height + this.getRowspacing(i);
             }
         }
         height = height + this.getFramespacingv() * 2;
@@ -746,14 +569,14 @@ public class MathTable extends AbstractMathElement {
     /** {@inheritDoc} */
     @Override
     public int calculateAscentHeight(final Graphics2D g) {
-        if (this.getAlign() == MathTable.ALIGN_BOTTOM) {
+        final AlignmentType align = AlignmentType.parseAlignmentType(this
+                .getAlign());
+        if (MathTable.AlignmentType.BOTTOM.equals(align)) {
             return this.calculateActualHeight(g);
-        }
-        if (this.getAlign() == MathTable.ALIGN_TOP) {
+        } else if (MathTable.AlignmentType.TOP.equals(align)) {
             return this.getRowCount() > 0 ? this.getMaxRowAscentHeight(g, 0)
                     : 0;
-        }
-        if (this.getAlign() == MathTable.ALIGN_AXIS) {
+        } else if (MathTable.AlignmentType.AXIS.equals(align)) {
             // add +1 to eliminate rounding errors
             return (this.calculateActualHeight(g) + 1) / 2;
         }
@@ -766,15 +589,15 @@ public class MathTable extends AbstractMathElement {
     /** {@inheritDoc} */
     @Override
     public int calculateDescentHeight(final Graphics2D g) {
-        if (this.getAlign() == MathTable.ALIGN_BOTTOM) {
+        final AlignmentType align = AlignmentType.parseAlignmentType(this
+                .getAlign());
+        if (MathTable.AlignmentType.BOTTOM.equals(align)) {
             return 0;
-        }
-        if (this.getAlign() == MathTable.ALIGN_TOP) {
+        } else if (MathTable.AlignmentType.TOP.equals(align)) {
             return this.calculateActualHeight(g)
                     - (this.getRowCount() > 0 ? this.getMaxRowAscentHeight(g,
                             0) : 0);
-        }
-        if (this.getAlign() == MathTable.ALIGN_AXIS) {
+        } else if (MathTable.AlignmentType.AXIS.equals(align)) {
             // add +1 to eliminate rounding errors
             return (this.calculateActualHeight(g) + 1) / 2;
         }
@@ -790,75 +613,6 @@ public class MathTable extends AbstractMathElement {
      */
 
     /**
-     * Set "groupalign" attribute.
-     * 
-     * @param groupalign
-     *            Contains string with "groupalign" attribute.
-     */
-    public void setGroupAlign(final String groupalign) {
-        this.groupsalignvalues = MathTable.createGroupAlignValues(groupalign);
-    }
-
-    /**
-     * Creates array with alignments according string in parameter.
-     * 
-     * @param groupalign
-     *            String with value of attribute "groupalign"
-     * @return Array with alignment constants
-     */
-    public static int[] createGroupAlignValues(final String groupalign) {
-        final List<Integer> alignArray = new Vector<Integer>();
-        String alignString = groupalign.trim();
-        alignString = alignString.substring(1, alignString.length() - 1)
-                + " ";
-
-        // parsing string and filling out ArrayList object
-        int spaceIndex = alignString.indexOf(" ");
-        while (spaceIndex > 0) {
-            final String valueString = alignString.substring(0, spaceIndex)
-                    .toLowerCase();
-            int valueInt = MathTable.ALIGN_LEFT;
-
-            if (valueString.equals("center")) { // 2
-                valueInt = MathTable.ALIGN_CENTER;
-            } else {
-                if (valueString.equals("left")) { // 5
-                    valueInt = MathTable.ALIGN_LEFT;
-                } else {
-                    if (valueString.equals("right")) { // 6
-                        valueInt = MathTable.ALIGN_RIGHT;
-                    } else {
-                        if (valueString.equals("decimalpoint")) { // 7
-                            valueInt = MathTable.ALIGN_DECIMALPOINT;
-                        }
-                    }
-                }
-            }
-
-            alignArray.add(new Integer(valueInt));
-            alignString = alignString.substring(spaceIndex + 1);
-            spaceIndex = alignString.indexOf(" ");
-        }
-
-        // copy to internal array
-        final int[] result = new int[alignArray.size()];
-        for (int i = 0; i < alignArray.size(); i++) {
-            result[i] = (alignArray.get(i)).intValue();
-        }
-
-        return result;
-    }
-
-    /**
-     * Get array with group alignment constants.
-     * 
-     * @return Array with group alignment constants.
-     */
-    public int[] getGroupAlign() {
-        return this.groupsalignvalues;
-    }
-
-    /**
      * Retrieves groupalign values from mtd element. If requested cell doesn't
      * contain groupalign attribute, the current row (and after it current
      * table) will be requested.
@@ -867,26 +621,33 @@ public class MathTable extends AbstractMathElement {
      *            Cell to get groupalign values.
      * @return Array with groupalign values.
      */
-    public int[] getGroupAlign(final MathTableData cell) {
-        int[] result = null;
+    public List<AlignmentType> getGroupAlign(final MathTableData cell) {
+        final List<AlignmentType> result = new Vector<AlignmentType>();
+
+        String groupAlign;
 
         if (cell == null) {
-            return new int[0];
+            return result;
         }
-
-        if (cell.getGroupAlignArray() == null
-                || cell.getGroupAlignArray().length == 0) {
-            result = ((MathTableRow) cell.getParent()).getGroupAlignArray();
+        final String cellGroupAlign = cell.getGroupalign();
+        if (cellGroupAlign == null || cellGroupAlign.length() == 0) {
+            groupAlign = ((MathTableRow) cell.getParent()).getGroupalign();
         } else {
-            result = cell.getGroupAlignArray();
+            groupAlign = cell.getGroupalign();
         }
 
-        if (result == null) {
-            result = this.getGroupAlign();
+        if (groupAlign == null) {
+            groupAlign = this.getGroupalign();
         }
 
-        if (result == null) {
-            result = new int[0];
+        if (groupAlign != null) {
+
+            String[] gAlign = groupAlign.split("\\w");
+            for (String value : gAlign) {
+                if (value.length() > 0) {
+                    result.add(AlignmentType.parseAlignmentType(value));
+                }
+            }
         }
 
         return result;
@@ -1037,7 +798,7 @@ public class MathTable extends AbstractMathElement {
         // array of aligngropus of the cell
         MathAlignGroup[] aligngroups; // align values of aligngroups in the
         // cell
-        int[] groupalignvalues; // elements of the aligngroup
+        List<AlignmentType> groupalignvalues; // elements of the aligngroup
         List<MathElement> elements;
         for (int col = 0; col < columnsCount; col++) { // walking through the
             // column "column"
@@ -1051,20 +812,22 @@ public class MathTable extends AbstractMathElement {
                 if (cell != null) { // all align components of the cell
                     aligngroups = this.getAlignGroups(cell);
                     groupalignvalues = this.getGroupAlign(cell);
-                    if (groupalignvalues.length == 0) {
+                    if (groupalignvalues.size() == 0) {
                         // values of alignment didn't mentioned, have to use
                         // default
-                        groupalignvalues = new int[aligngroups.length];
+                        groupalignvalues = new Vector<AlignmentType>(
+                                aligngroups.length);
                         for (int i = 0; i < aligngroups.length; i++) {
-                            groupalignvalues[i] = MathTable.ALIGN_LEFT;
+                            groupalignvalues.add(AlignmentType.LEFT);
                         }
                     }
                     if (aligngroups.length == 0
-                            || aligngroups.length < groupalignvalues.length) {
+                            || aligngroups.length < groupalignvalues.size()) {
                         continue; // there is no aligngroups in the cell or
                         // wrong count
                     }
-                    for (int alignIndex = 0; alignIndex < groupalignvalues.length; alignIndex++) {
+                    for (int alignIndex = 0; alignIndex < groupalignvalues
+                            .size(); alignIndex++) {
                         // widths of align group
                         elements = MathAlignGroup
                                 .getElementsOfAlignGroup(aligngroups[alignIndex]);
@@ -1098,7 +861,8 @@ public class MathTable extends AbstractMathElement {
                             alignwidths[col][MathTable.LEFT_WIDTH][row][alignIndex] = 0;
                             alignwidths[col][MathTable.RIGHT_WIDTH][row][alignIndex] = alignwidths[col][MathTable.WHOLE_WIDTH][row][alignIndex];
                             // but! may be, we have alignment decimalpoint...
-                            if (groupalignvalues[alignIndex] == MathTable.ALIGN_DECIMALPOINT) {
+                            if (groupalignvalues.get(alignIndex).equals(
+                                    AlignmentType.DECIMALPOINT)) {
                                 // width of the left (till decimal point)
                                 // value
                                 // of MathNumber
@@ -1127,7 +891,7 @@ public class MathTable extends AbstractMathElement {
         } // cycle: columns
 
         // calculating shifts of MathAlignGroup elements
-        int alignOfTheGroup = MathTable.ALIGN_LEFT;
+        AlignmentType alignOfTheGroup = AlignmentType.LEFT;
         int currentWidth = 0;
         int maxWidth = 0;
         int leftWidth = 0;
@@ -1148,22 +912,24 @@ public class MathTable extends AbstractMathElement {
                 if (cell != null) {
                     aligngroups = this.getAlignGroups(cell);
                     groupalignvalues = this.getGroupAlign(cell);
-                    if (groupalignvalues.length == 0) {
+                    if (groupalignvalues.size() == 0) {
                         // values of alignment didn't mentioned, have to use
                         // default
-                        groupalignvalues = new int[aligngroups.length];
+                        groupalignvalues = new Vector<AlignmentType>(
+                                aligngroups.length);
                         for (int i = 0; i < aligngroups.length; i++) {
-                            groupalignvalues[i] = MathTable.ALIGN_LEFT;
+                            groupalignvalues.add(AlignmentType.LEFT);
                         }
                     }
                     if (aligngroups.length == 0
-                            || aligngroups.length < groupalignvalues.length) {
+                            || aligngroups.length < groupalignvalues.size()) {
                         continue;
                     }
-                    for (int alignIndex = 0; alignIndex < groupalignvalues.length; alignIndex++) {
+                    for (int alignIndex = 0; alignIndex < groupalignvalues
+                            .size(); alignIndex++) {
                         // retrieving previously calculated information about
                         // aligngroups widths
-                        alignOfTheGroup = groupalignvalues[alignIndex];
+                        alignOfTheGroup = groupalignvalues.get(alignIndex);
                         currentWidth = alignwidths[col][MathTable.WHOLE_WIDTH][row][alignIndex];
                         maxWidth = alignwidths[col][MathTable.WHOLE_WIDTH][MAX_WIDTH_IN_COLUMN][alignIndex];
                         leftWidth = alignwidths[col][MathTable.LEFT_WIDTH][row][alignIndex];
@@ -1172,30 +938,30 @@ public class MathTable extends AbstractMathElement {
                         rightMaxWidth = alignwidths[col][MathTable.RIGHT_WIDTH][MAX_WIDTH_IN_COLUMN][alignIndex];
                         group = aligngroups[alignIndex];
                         if (usesMarks[col][alignIndex]) {
-                            alignOfTheGroup = MathTable.ALIGN_MARK;
+                            alignOfTheGroup = AlignmentType.MARK;
                         }
-                        if (alignIndex < groupalignvalues.length - 1) {
+                        if (alignIndex < groupalignvalues.size() - 1) {
                             nextGroup = aligngroups[alignIndex + 1];
                         }
                         switch (alignOfTheGroup) {
-                        case ALIGN_RIGHT:
+                        case RIGHT:
                             group.width += maxWidth - currentWidth;
                             break;
-                        case ALIGN_LEFT:
-                            if (alignIndex < groupalignvalues.length - 1) {
+                        case LEFT:
+                            if (alignIndex < groupalignvalues.size() - 1) {
                                 nextGroup.width += maxWidth - currentWidth;
                             }
                             break;
-                        case ALIGN_CENTER:
+                        case CENTER:
                             group.width += (maxWidth - currentWidth) / 2;
-                            if (alignIndex < groupalignvalues.length - 1) {
+                            if (alignIndex < groupalignvalues.size() - 1) {
                                 nextGroup.width += (maxWidth - currentWidth) / 2;
                             }
                             break;
-                        case ALIGN_DECIMALPOINT:
-                        case ALIGN_MARK:
+                        case DECIMALPOINT:
+                        case MARK:
                             group.width += (leftMaxWidth - leftWidth);
-                            if (alignIndex < groupalignvalues.length - 1) {
+                            if (alignIndex < groupalignvalues.size() - 1) {
                                 nextGroup.width += rightMaxWidth - rightWidth;
                             }
                             break;
@@ -1450,21 +1216,88 @@ public class MathTable extends AbstractMathElement {
         this.setAttribute(MathTable.ATTR_WIDTH, width);
     }
 
-    // public String getAlign();
-    // public void setAlign(String align);
-    // public String getRowalign();
-    // public void setRowalign(String rowalign);
-    // public String getColumnalign();
-    // public void setColumnalign(String columnalign);
-    // public String getGroupalign();
-    // public void setGroupalign(String groupalign);
-    // public String getAlignmentscope();
-    // public void setAlignmentscope(String alignmentscope);
+    /** {@inheritDoc} */
+    public String getAlign() {
+        return this.getMathAttribute(MathTable.ATTR_ALIGN);
+    }
 
-    // public String getRowspacing();
-    // public void setRowspacing(String rowspacing);
-    // public String getColumnspacing();
-    // public void setColumnspacing(String columnspacing);
+    /** {@inheritDoc} */
+    public void setAlign(String align) {
+        this.setAttribute(MathTable.ATTR_ALIGN, align);
+    }
+
+    /** {@inheritDoc} */
+    public String getRowalign() {
+        return this.getMathAttribute(MathTable.ATTR_ROWALIGN);
+    }
+
+    /** {@inheritDoc} */
+    public void setRowalign(final String rowalign) {
+        this.setAttribute(MathTable.ATTR_ROWALIGN, rowalign);
+    }
+
+    /** {@inheritDoc} */
+    public String getColumnalign() {
+        return this.getMathAttribute(MathTable.ATTR_COLUMNALIGN);
+    }
+
+    /** {@inheritDoc} */
+    public void setColumnalign(final String columnalign) {
+        this.setAttribute(MathTable.ATTR_COLUMNALIGN, columnalign);
+
+    }
+
+    /** {@inheritDoc} */
+    public String getGroupalign() {
+        return this.getMathAttribute(MathTable.ATTR_GROUPALIGN);
+    }
+
+    /** {@inheritDoc} */
+    public void setGroupalign(String groupalign) {
+        this.setAttribute(ATTR_GROUPALIGN, groupalign);
+    }
+
+    /** {@inheritDoc} */
+    public String getAlignmentscope() {
+        return this.getMathAttribute(MathTable.ATTR_ALIGNMENTSCOPE);
+    }
+
+    /** {@inheritDoc} */
+    public void setAlignmentscope(String alignmentscope) {
+        this.setAttribute(ATTR_ALIGNMENTSCOPE, alignmentscope);
+    }
+
+    /** {@inheritDoc} */
+    public String getRowspacing() {
+        return this.getMathAttribute(MathTable.ATTR_ROWSPACING);
+    }
+
+    private int getRowspacing(final int row) {
+        return (int) AttributesHelper.convertSizeToPt(this
+                .getSpaceArrayEntry(this.getRowspacing(), row), this,
+                AttributesHelper.PT);
+    }
+
+    /** {@inheritDoc} */
+    public void setRowspacing(final String rowspacing) {
+        this.setAttribute(MathTable.ATTR_ROWSPACING, rowspacing);
+    }
+
+    /** {@inheritDoc} */
+    public String getColumnspacing() {
+        return this.getMathAttribute(MathTable.ATTR_COLUMNSPACING);
+    }
+
+    private int getColumnspacing(final int column) {
+        return (int) AttributesHelper.convertSizeToPt(this
+                .getSpaceArrayEntry(this.getColumnspacing(), column), this,
+                AttributesHelper.PT);
+    }
+
+    /** {@inheritDoc} */
+    public void setColumnspacing(final String columnspacing) {
+        this.setAttribute(MathTable.ATTR_COLUMNSPACING, columnspacing);
+    }
 
     /** {@inheritDoc} */
     public String getFrame() {
@@ -1482,7 +1315,7 @@ public class MathTable extends AbstractMathElement {
     }
 
     /** {@inheritDoc} */
-    public void setFramespacing(String framespacing) {
+    public void setFramespacing(final String framespacing) {
         this.setAttribute(MathTable.ATTR_FRAMESPACING, framespacing);
     }
 
@@ -1536,21 +1369,52 @@ public class MathTable extends AbstractMathElement {
         this.setAttribute(MathTable.ATTR_MINLABELSPACING, minlabelspacing);
     }
 
-    // public MathMLNodeList getRows();
-    // public MathMLTableRowElement insertEmptyRow(int index)
-    // throws DOMException;
-    // public MathMLLabeledRowElement insertEmptyLabeledRow(int index)
-    // throws DOMException;
-    // public MathMLTableRowElement getRow(int index);
-    // public MathMLTableRowElement insertRow(int index,
-    // MathMLTableRowElement newRow)
-    // throws DOMException;
-    // public MathMLTableRowElement setRow(int index,
-    // MathMLTableRowElement newRow)
-    // throws DOMException;
-    // public void deleteRow(int index)
-    // throws DOMException;
-    // public MathMLTableRowElement removeRow(int index)
-    // throws DOMException;
+    /** {@inheritDoc} */
+    public MathMLNodeList getRows() {
+        // TODO: Implement
+        return null;
+    }
 
+    /** {@inheritDoc} */
+    public MathMLTableRowElement insertEmptyRow(final int index) {
+        // TODO: Implement
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLLabeledRowElement insertEmptyLabeledRow(final int index) {
+        // TODO: Implement
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableRowElement getRow(final int index) {
+        // TODO: Implement
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableRowElement insertRow(final int index,
+            final MathMLTableRowElement newRow) {
+        // TODO: Implement
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableRowElement setRow(final int index,
+            final MathMLTableRowElement newRow) {
+        // TODO: Implement
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public void deleteRow(final int index) {
+        // TODO: Implement
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableRowElement removeRow(final int index) {
+        // TODO: Implement
+        return null;
+    }
 }

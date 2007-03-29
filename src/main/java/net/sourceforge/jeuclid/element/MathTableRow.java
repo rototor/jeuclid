@@ -197,15 +197,6 @@ public class MathTableRow extends AbstractMathElement implements
         return height;
     }
 
-    /**
-     * Gets alignments of the align group.
-     * 
-     * @return Array with group alignments values.
-     */
-    public int[] getGroupAlignArray() {
-        return MathTable.createGroupAlignValues(this.getGroupalign());
-    }
-
     /** {@inheritDoc} */
     public String getTagName() {
         return MathTableRow.ELEMENT;

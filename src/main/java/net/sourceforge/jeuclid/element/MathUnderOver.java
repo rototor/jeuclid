@@ -21,15 +21,18 @@ package net.sourceforge.jeuclid.element;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.AbstractUnderOverElement;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
+
+import org.w3c.dom.mathml.MathMLElement;
 
 /**
  * This class arrange an element under, and an other element over an element.
  * 
+ * @todo common functionality should be merged into AbstractUnderOverElement
  */
-public class MathUnderOver extends AbstractMathElement {
+public class MathUnderOver extends AbstractUnderOverElement {
 
     /**
      * The XML element from this class.
@@ -42,16 +45,6 @@ public class MathUnderOver extends AbstractMathElement {
     public static final String UNDER_OVER_SPACE = "0.2em";
 
     /**
-     * Value of accentunder property.
-     */
-    private boolean m_accentunder = false;
-
-    /**
-     * Value of accent property.
-     */
-    private boolean m_accent = false;
-
-    /**
      * Creates a math element.
      * 
      * @param base
@@ -59,44 +52,6 @@ public class MathUnderOver extends AbstractMathElement {
      */
     public MathUnderOver(final MathBase base) {
         super(base);
-    }
-
-    /**
-     * Sets value of accentunder property.
-     * 
-     * @param accentunder
-     *            Value of accentunder property.
-     */
-    public void setAccentUnder(final boolean accentunder) {
-        this.m_accentunder = accentunder;
-    }
-
-    /**
-     * Gets value of accentunder property.
-     * 
-     * @return Value of accentunder property.
-     */
-    public boolean getAccentUnder() {
-        return this.m_accentunder;
-    }
-
-    /**
-     * Sets value of accent property.
-     * 
-     * @param accent
-     *            Value of accent property.
-     */
-    public void setAccent(final boolean accent) {
-        this.m_accent = accent;
-    }
-
-    /**
-     * Gets value of accent property.
-     * 
-     * @return Value of accent property.
-     */
-    public boolean getAccent() {
-        return this.m_accent;
     }
 
     /**
@@ -155,10 +110,10 @@ public class MathUnderOver extends AbstractMathElement {
             posX2 = posX + (width - e3.getWidth(g)) / 2;
             posY2 = posY - e1.getAscentHeight(g) - e3.getDescentHeight(g)
                     - this.getUnderOverSpace(g) - 1;
-            if (this.getAccent()) {
+            if (this.getAccentAsBoolean()) {
                 posY1 = posY1 + this.getUnderOverSpace(g);
             }
-            if (this.getAccentUnder()) {
+            if (this.getAccentunderAsBoolean()) {
                 posY2 = posY2 - this.getUnderOverSpace(g);
             }
         }
@@ -198,7 +153,7 @@ public class MathUnderOver extends AbstractMathElement {
             res = this.getMathElement(0).getAscentHeight(g)
                     + this.getMathElement(2).getHeight(g)
                     + this.getUnderOverSpace(g);
-            if (this.getAccentUnder()) {
+            if (this.getAccentunderAsBoolean()) {
                 res = res + this.getUnderOverSpace(g);
             }
         }
@@ -221,7 +176,7 @@ public class MathUnderOver extends AbstractMathElement {
             res = this.getMathElement(0).getDescentHeight(g)
                     + this.getMathElement(1).getHeight(g)
                     + this.getUnderOverSpace(g);
-            if (this.getAccentUnder()) {
+            if (this.getAccentunderAsBoolean()) {
                 res = res + this.getUnderOverSpace(g);
             }
         }
@@ -253,4 +208,25 @@ public class MathUnderOver extends AbstractMathElement {
     public String getTagName() {
         return MathUnderOver.ELEMENT;
     }
+
+    /** {@inheritDoc} */
+    public MathMLElement getOverscript() {
+        return this.getMathElement(2);
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getUnderscript() {
+        return this.getMathElement(1);
+    }
+
+    /** {@inheritDoc} */
+    public void setOverscript(final MathMLElement overscript) {
+        this.setMathElement(2, overscript);
+    }
+
+    /** {@inheritDoc} */
+    public void setUnderscript(final MathMLElement underscript) {
+        this.setMathElement(1, underscript);
+    }
+
 }

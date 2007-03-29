@@ -5,7 +5,14 @@
     <author>Max Berger</author>
   </properties>
   <body>
-    <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+    <release version="2.9.5-SNAPSHOT" date="2007-03-29" description="The big bugfix release">
+      <action dev="maxberger" type="add" issue="1532309">
+        mtable: now supports w3c dom model; this was the last one!
+      </action>
+      <action dev="maxberger" type="add">
+        munderover, munder, mover: moved to DOM interface, prepared for cleanup;
+        enabled all DOM test cases;
+      </action>
       <action dev="maxberger" type="update">
         MathTable: preparations for move to w3c dom;
       </action>
