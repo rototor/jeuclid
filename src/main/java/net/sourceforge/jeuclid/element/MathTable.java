@@ -45,6 +45,45 @@ public class MathTable extends AbstractMathElement {
     /** attribute for columnlines. */
     public static final String ATTR_COLUMNLINES = "columnlines";
 
+    /** attribute for align. */
+    public static final String ATTR_ALIGN = "align";
+
+    /** attribute for alignmentscope. */
+    public static final String ATTR_ALIGNMENTSCOPE = "alignmentscope";
+
+    /** attribute for columnwidth. */
+    public static final String ATTR_COLUMNWIDTH = "columnwidth";
+
+    /** attribute for width. */
+    public static final String ATTR_WIDTH = "width";
+
+    /** attribute for rowspacing. */
+    public static final String ATTR_ROWSPACING = "rowspacing";
+
+    /** attribute for columnspacing. */
+    public static final String ATTR_COLUMNSPACING = "columnspacing";
+
+    /** attribute for frame. */
+    public static final String ATTR_FRAME = "frame";
+
+    /** attribute for framespacing. */
+    public static final String ATTR_FRAMESPACING = "framespacing";
+
+    /** attribute for equalrows. */
+    public static final String ATTR_EQUALROWS = "equalrows";
+
+    /** attribute for equalcolumns. */
+    public static final String ATTR_EQUALCOLUMNS = "equalcolumns";
+
+    /** attribute for displaystyle. */
+    public static final String ATTR_DISPLAYSTYLE = "displaystyle";
+
+    /** attribute for side. */
+    public static final String ATTR_SIDE = "side";
+
+    /** attribute for minlabelspacing. */
+    public static final String ATTR_MINLABELSPACING = "minlabelspacing";
+
     /** value for no lines. */
     public static final String VALUE_NONE = "none";
 
@@ -91,7 +130,7 @@ public class MathTable extends AbstractMathElement {
     /**
      * Default frame spacing.
      */
-    public static final String DEFAULT_FRAMESPACING = "0.4em 0.5ex";
+    private static final String DEFAULT_FRAMESPACING = "0.4em 0.5ex";
 
     /**
      * Align constant: center align.
@@ -191,16 +230,6 @@ public class MathTable extends AbstractMathElement {
     private boolean m_alignmentscope = false;
 
     /**
-     * Column width variable.
-     */
-    private int m_columnwidth = MathTable.WIDTH_AUTO;
-
-    /**
-     * Width variable.
-     */
-    private int m_width = MathTable.WIDTH_AUTO;
-
-    /**
      * Array with row spacing values..
      */
     private final List<String> m_rowspacing = new Vector<String>();
@@ -209,40 +238,6 @@ public class MathTable extends AbstractMathElement {
      * Array with column spacing values..
      */
     private final List<String> m_columnspacing = new Vector<String>();
-
-    /**
-     * Frame line value.
-     */
-    private int m_frame = MathTable.LINE_NONE;
-
-    /**
-     * Frame spacing value.
-     */
-    private String m_framespacing = "";
-
-    /**
-     * Horizontal frame spacing value.
-     */
-    private int framespacingh = -1;
-
-    /**
-     * Vertical frame spacing value.
-     */
-    private int framespacingv = -1;
-
-    /**
-     * Equal rows flag.
-     */
-    private boolean m_equalrows = false;
-
-    /**
-     * Equal columns flag.
-     */
-    private boolean m_equalcolumns = false;
-
-    private int m_side = MathTable.SIDE_LEFT;
-
-    private int m_minlabelspacing = 0;
 
     private int[] groupsalignvalues = null;
 
@@ -285,10 +280,28 @@ public class MathTable extends AbstractMathElement {
      */
     public MathTable(final MathBase base) {
         super(base);
+        this.setDefaultMathAttribute(MathTable.ATTR_ALIGN, "axis");
+        this.setDefaultMathAttribute(MathTable.ATTR_ROWALIGN, "baseline");
+        this.setDefaultMathAttribute(MathTable.ATTR_COLUMNALIGN, "center");
+        this.setDefaultMathAttribute(MathTable.ATTR_GROUPALIGN, "{left}");
+        this.setDefaultMathAttribute(MathTable.ATTR_ALIGNMENTSCOPE, "true");
+        this.setDefaultMathAttribute(MathTable.ATTR_COLUMNWIDTH, "auto");
+        this.setDefaultMathAttribute(MathTable.ATTR_WIDTH, "auto");
+        this.setDefaultMathAttribute(MathTable.ATTR_ROWSPACING, "1.0ex");
+        this.setDefaultMathAttribute(MathTable.ATTR_COLUMNSPACING, "0.8em");
         this.setDefaultMathAttribute(MathTable.ATTR_ROWLINES,
                 MathTable.VALUE_NONE);
         this.setDefaultMathAttribute(MathTable.ATTR_COLUMNLINES,
                 MathTable.VALUE_NONE);
+        this.setDefaultMathAttribute(MathTable.ATTR_FRAME,
+                MathTable.VALUE_NONE);
+        this.setDefaultMathAttribute(MathTable.ATTR_FRAMESPACING,
+                DEFAULT_FRAMESPACING);
+        this.setDefaultMathAttribute(MathTable.ATTR_EQUALROWS, "false");
+        this.setDefaultMathAttribute(MathTable.ATTR_EQUALCOLUMNS, "false");
+        this.setDefaultMathAttribute(MathTable.ATTR_DISPLAYSTYLE, "false");
+        this.setDefaultMathAttribute(MathTable.ATTR_SIDE, "right");
+        this.setDefaultMathAttribute(MathTable.ATTR_MINLABELSPACING, "0.8em");
     }
 
     /** {@inheritDoc} */
@@ -399,34 +412,6 @@ public class MathTable extends AbstractMathElement {
     }
 
     /**
-     * @return Column width
-     */
-    public int getColumnwidth() {
-        return this.m_columnwidth;
-    }
-
-    /**
-     * @param columnwidth
-     *            Column width
-     */
-    public void setColumnwidth(final int columnwidth) {
-        if ((columnwidth >= 0) || (columnwidth == MathTable.WIDTH_AUTO)
-                || (columnwidth == MathTable.WIDTH_FIT)) {
-            this.m_columnwidth = columnwidth;
-        }
-    }
-
-    /**
-     * @param width
-     *            Width of the table
-     */
-    public void setWidth(final int width) {
-        if ((width >= 0) || (width == MathTable.WIDTH_AUTO)) {
-            this.m_width = width;
-        }
-    }
-
-    /**
      * 
      * @param row
      *            Row number
@@ -500,142 +485,33 @@ public class MathTable extends AbstractMathElement {
     }
 
     /**
-     * @return Frame of the table
-     */
-    public int getFrame() {
-        return this.m_frame;
-    }
-
-    /**
-     * @param frame
-     *            Table frame
-     */
-    public void setFrame(final int frame) {
-        this.m_frame = frame;
-    }
-
-    /**
      * 
-     * @return Horisonatl frame spacing
-     * @param g
-     *            Graphics2D context to use.
+     * @return Horizontal frame spacing
      */
-    protected int getFramespacingh(final Graphics2D g) {
-        if (this.m_frame == MathTable.LINE_NONE) {
+    protected int getFramespacingh() {
+        if (MathTable.LineType.NONE.equals(this.getFrameAsLineType())) {
             return 0;
         }
-        if ("".equals(this.m_framespacing)) {
-            this.setFramespacing(MathTable.DEFAULT_FRAMESPACING);
-        }
-        if (this.framespacingh == -1) {
-            this.framespacingh = (int) AttributesHelper.convertSizeToPt(
-                    this.m_framespacing.substring(0, this.m_framespacing
-                            .indexOf(' ')), this, AttributesHelper.PT);
-            this.framespacingv = (int) AttributesHelper.convertSizeToPt(
-                    this.m_framespacing.substring(this.m_framespacing
-                            .indexOf(' ') + 1), this, AttributesHelper.PT);
-        }
-        return this.framespacingh;
+        final String spacing = this.getSpaceArrayEntry(
+                this.getFramespacing(), 0);
+        final float retVal = AttributesHelper.convertSizeToPt(spacing, this,
+                AttributesHelper.PT);
+        return (int) Math.ceil(retVal);
     }
 
     /**
      * 
      * @return Vertical frame spacing
-     * @param g
-     *            Graphics2D context to use.
      */
-    protected int getFramespacingv(final Graphics2D g) {
-        if (this.m_frame == MathTable.LINE_NONE) {
+    protected int getFramespacingv() {
+        if (MathTable.LineType.NONE.equals(this.getFrameAsLineType())) {
             return 0;
         }
-        if (this.m_framespacing == "") {
-            this.setFramespacing(MathTable.DEFAULT_FRAMESPACING);
-        }
-        if (this.framespacingh == -1) {
-            this.framespacingh = (int) AttributesHelper.convertSizeToPt(
-                    this.m_framespacing.substring(0, this.m_framespacing
-                            .indexOf(' ')), this, AttributesHelper.PT);
-            this.framespacingv = (int) AttributesHelper.convertSizeToPt(
-                    this.m_framespacing.substring(this.m_framespacing
-                            .indexOf(' ') + 1), this, AttributesHelper.PT);
-        }
-        return this.framespacingv;
-    }
-
-    /**
-     * @param framespacing
-     *            Frame spacing
-     */
-    public void setFramespacing(final String framespacing) {
-        this.m_framespacing = framespacing;
-    }
-
-    /**
-     * @return True if equal rows mode
-     */
-    public boolean getEqualrows() {
-        return this.m_equalrows;
-    }
-
-    /**
-     * @param equalrows
-     *            Equal row mode
-     */
-    public void setEqualrows(final boolean equalrows) {
-        this.m_equalrows = equalrows;
-    }
-
-    /**
-     * @return True if equal columns mode
-     */
-    public boolean getEqualcolumns() {
-        return this.m_equalcolumns;
-    }
-
-    /**
-     * @param equalcolumns
-     *            Equal columns mode
-     */
-    public void setEqualcolumns(final boolean equalcolumns) {
-        this.m_equalcolumns = equalcolumns;
-    }
-
-    /**
-     * @return Side
-     */
-    public int getSide() {
-        return this.m_side;
-    }
-
-    /**
-     * @param side
-     *            Side
-     */
-    public void setSide(final int side) {
-        if ((side == MathTable.SIDE_LEFT) || (side == MathTable.SIDE_RIGHT)
-                || (side == MathTable.SIDE_LEFTOVERLAP)
-                || (side == MathTable.SIDE_RIGHTOVERLAP)) {
-            this.m_side = side;
-        }
-    }
-
-    /**
-     * Gets value of minlabelspacing property.
-     * 
-     * @return Length.
-     */
-    public int getMinlabelspacing() {
-        return this.m_minlabelspacing;
-    }
-
-    /**
-     * Sets value of minlabelspacing property.
-     * 
-     * @param minlabelspacing
-     *            Length.
-     */
-    public void setMinlabelspacing(final int minlabelspacing) {
-        this.m_minlabelspacing = minlabelspacing;
+        final String spacing = this.getSpaceArrayEntry(
+                this.getFramespacing(), 1);
+        final float retVal = AttributesHelper.convertSizeToPt(spacing, this,
+                AttributesHelper.PT);
+        return (int) Math.ceil(retVal);
     }
 
     /**
@@ -651,8 +527,8 @@ public class MathTable extends AbstractMathElement {
     @Override
     public void paint(final Graphics2D g, int posX, int posY) {
         super.paint(g, posX, posY);
-        posX = posX + this.getFramespacingh(g);
-        posY = posY + this.getFramespacingv(g);
+        posX = posX + this.getFramespacingh();
+        posY = posY + this.getFramespacingv();
 
         int i;
         int j;
@@ -725,7 +601,7 @@ public class MathTable extends AbstractMathElement {
         final Stroke dashedStroke = new BasicStroke(1.0f,
                 BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 1.0f,
                 new float[] { 3.0f, 3.0f }, 0);
-        for (float lineX : columnlines) {
+        for (final float lineX : columnlines) {
             final LineType lt = this.getColumnLine(col);
             col++;
             if (MathTable.LineType.SOLID.equals(lt)) {
@@ -738,7 +614,7 @@ public class MathTable extends AbstractMathElement {
             }
         }
         int row = 0;
-        for (float lineY : rowlines) {
+        for (final float lineY : rowlines) {
             // TODO: This only works if the last entry has all column. Maybe
             // this needs to be changed?
             final LineType lt = this.getRowLine(row);
@@ -849,7 +725,7 @@ public class MathTable extends AbstractMathElement {
                 width = width + this.getColumnspacing(g, i);
             }
         }
-        width = width + this.getFramespacingh(g) * 2;
+        width = width + this.getFramespacingh() * 2;
         return width;
     }
 
@@ -863,7 +739,7 @@ public class MathTable extends AbstractMathElement {
                 height = height + this.getRowspacing(g, i);
             }
         }
-        height = height + this.getFramespacingv(g) * 2;
+        height = height + this.getFramespacingv() * 2;
         return height;
     }
 
@@ -1521,6 +1397,10 @@ public class MathTable extends AbstractMathElement {
                 .getColumnlines(), col));
     }
 
+    private LineType getFrameAsLineType() {
+        return MathTable.LineType.parseLineType(this.getFrame());
+    }
+
     /**
      * Gets an entry in a white-space separated string.
      * <p>
@@ -1549,5 +1429,128 @@ public class MathTable extends AbstractMathElement {
         }
         return last;
     }
+
+    /** {@inheritDoc} */
+    public String getColumnwidth() {
+        return this.getMathAttribute(MathTable.ATTR_COLUMNWIDTH);
+    }
+
+    /** {@inheritDoc} */
+    public void setColumnwidth(final String columnwidth) {
+        this.setAttribute(MathTable.ATTR_COLUMNWIDTH, columnwidth);
+    }
+
+    /** {@inheritDoc} */
+    public String getWidth() {
+        return this.getMathAttribute(MathTable.ATTR_WIDTH);
+    }
+
+    /** {@inheritDoc} */
+    public void setWidth(final String width) {
+        this.setAttribute(MathTable.ATTR_WIDTH, width);
+    }
+
+    // public String getAlign();
+    // public void setAlign(String align);
+    // public String getRowalign();
+    // public void setRowalign(String rowalign);
+    // public String getColumnalign();
+    // public void setColumnalign(String columnalign);
+    // public String getGroupalign();
+    // public void setGroupalign(String groupalign);
+    // public String getAlignmentscope();
+    // public void setAlignmentscope(String alignmentscope);
+
+    // public String getRowspacing();
+    // public void setRowspacing(String rowspacing);
+    // public String getColumnspacing();
+    // public void setColumnspacing(String columnspacing);
+
+    /** {@inheritDoc} */
+    public String getFrame() {
+        return this.getMathAttribute(MathTable.ATTR_FRAME);
+    }
+
+    /** {@inheritDoc} */
+    public void setFrame(final String frame) {
+        this.setAttribute(MathTable.ATTR_FRAME, frame);
+    }
+
+    /** {@inheritDoc} */
+    public String getFramespacing() {
+        return this.getMathAttribute(MathTable.ATTR_FRAMESPACING);
+    }
+
+    /** {@inheritDoc} */
+    public void setFramespacing(String framespacing) {
+        this.setAttribute(MathTable.ATTR_FRAMESPACING, framespacing);
+    }
+
+    /** {@inheritDoc} */
+    public String getEqualrows() {
+        return this.getMathAttribute(MathTable.ATTR_EQUALROWS);
+    }
+
+    /** {@inheritDoc} */
+    public void setEqualrows(final String equalrows) {
+        this.setAttribute(MathTable.ATTR_EQUALROWS, equalrows);
+    }
+
+    /** {@inheritDoc} */
+    public String getEqualcolumns() {
+        return this.getMathAttribute(MathTable.ATTR_EQUALCOLUMNS);
+    }
+
+    /** {@inheritDoc} */
+    public void setEqualcolumns(final String equalcolumns) {
+        this.setAttribute(MathTable.ATTR_EQUALCOLUMNS, equalcolumns);
+    }
+
+    /** {@inheritDoc} */
+    public String getDisplaystyle() {
+        return this.getMathAttribute(MathTable.ATTR_DISPLAYSTYLE);
+    }
+
+    /** {@inheritDoc} */
+    public void setDisplaystyle(final String displaystyle) {
+        this.setAttribute(MathTable.ATTR_DISPLAYSTYLE, displaystyle);
+    }
+
+    /** {@inheritDoc} */
+    public String getSide() {
+        return this.getMathAttribute(MathTable.ATTR_SIDE);
+    }
+
+    /** {@inheritDoc} */
+    public void setSide(final String side) {
+        this.setAttribute(MathTable.ATTR_SIDE, side);
+    }
+
+    /** {@inheritDoc} */
+    public String getMinlabelspacing() {
+        return this.getMathAttribute(MathTable.ATTR_MINLABELSPACING);
+    }
+
+    /** {@inheritDoc} */
+    public void setMinlabelspacing(final String minlabelspacing) {
+        this.setAttribute(MathTable.ATTR_MINLABELSPACING, minlabelspacing);
+    }
+
+    // public MathMLNodeList getRows();
+    // public MathMLTableRowElement insertEmptyRow(int index)
+    // throws DOMException;
+    // public MathMLLabeledRowElement insertEmptyLabeledRow(int index)
+    // throws DOMException;
+    // public MathMLTableRowElement getRow(int index);
+    // public MathMLTableRowElement insertRow(int index,
+    // MathMLTableRowElement newRow)
+    // throws DOMException;
+    // public MathMLTableRowElement setRow(int index,
+    // MathMLTableRowElement newRow)
+    // throws DOMException;
+    // public void deleteRow(int index)
+    // throws DOMException;
+    // public MathMLTableRowElement removeRow(int index)
+    // throws DOMException;
 
 }

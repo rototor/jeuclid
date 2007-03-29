@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="2.9.5-SNAPSHOT" date="in SVN" description="Alpha for 3.0">
+      <action dev="maxberger" type="update">
+        MathTable: preparations for move to w3c dom;
+      </action>
       <action dev="maxberger" type="remove">
         removed eventElementComplete (obsolete through changeHook());
       </action>
