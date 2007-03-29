@@ -157,10 +157,8 @@ public class MathOperator extends AbstractMathElement implements
      * Gets value of lspace property of the operator.
      * 
      * @return Flag of lspace property.
-     * @param g
-     *            Graphics2D context to use.
      */
-    private float getLspaceAsFloat(final Graphics2D g) {
+    private float getLspaceAsFloat() {
         return AttributesHelper.convertSizeToPt(this.getLspace(), this,
                 AttributesHelper.PT);
 
@@ -182,10 +180,8 @@ public class MathOperator extends AbstractMathElement implements
      * Gets value of rspace property of the operator.
      * 
      * @return Flag of rspace property.
-     * @param g
-     *            Graphics2D context to use.
      */
-    private float getRspaceAsFloat(final Graphics2D g) {
+    private float getRspaceAsFloat() {
         return AttributesHelper.convertSizeToPt(this.getRspace(), this,
                 AttributesHelper.PT);
     }
@@ -262,7 +258,7 @@ public class MathOperator extends AbstractMathElement implements
         if (this.getText().length() > 0) {
             final TextLayout theLayout = this.produceUnstrechtedLayout(g);
             final AffineTransform saveAt = g.getTransform();
-            g.translate(this.getLspaceAsFloat(g) + posX, posY
+            g.translate(this.getLspaceAsFloat() + posX, posY
                     + this.calcBaselineShift);
             g.transform(AffineTransform.getScaleInstance(this.calcScaleX,
                     this.calcScaleY));
@@ -334,8 +330,8 @@ public class MathOperator extends AbstractMathElement implements
     /** {@inheritDoc} */
     @Override
     public int calculateWidth(final Graphics2D g) {
-        final float space = this.getLspaceAsFloat(g)
-                + this.getRspaceAsFloat(g);
+        final float space = this.getLspaceAsFloat()
+                + this.getRspaceAsFloat();
         if (this.getText().equals("")) {
             return (int) space;
         } else {

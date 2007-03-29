@@ -48,9 +48,10 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
 
     /**
      * Logger for this class
-     */
-    private static final Log LOGGER = LogFactory
-            .getLog(MathMultiScripts.class);
+     */ 
+    // currently unused
+    //private static final Log LOGGER = LogFactory
+    //        .getLog(MathMultiScripts.class);
 
     /**
      * Default constructor.

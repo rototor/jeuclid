@@ -74,7 +74,7 @@ public abstract class AbstractAttributeMap implements AttributeMap {
     public boolean getBoolean(String attrName, boolean defaultValue) {
         final String strValue = this.getString(attrName, Boolean
                 .toString(defaultValue));
-        return new Boolean(strValue).booleanValue();
+        return Boolean.parseBoolean(strValue);
     }
 
 }

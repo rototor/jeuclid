@@ -754,6 +754,7 @@ public class MathTable extends AbstractMathElement {
                 g.draw(new Line2D.Float(x1, lineY, x, lineY));
             }
         }
+        g.setStroke(oldStroke);
     }
 
     /**
