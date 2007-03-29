@@ -21,22 +21,24 @@ package net.sourceforge.jeuclid.element;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
+import net.sourceforge.jeuclid.element.generic.AbstractUnderOverElement;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
+
+import org.w3c.dom.DOMException;
+import org.w3c.dom.mathml.MathMLElement;
 
 /**
  * This class arrange a element over an other element.
  * 
+ * @todo common functionality should be merged into AbstractUnderOverElement
  */
-public class MathOver extends AbstractMathElement {
+public class MathOver extends AbstractUnderOverElement {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mover";
-
-    private boolean m_accent = false;
 
     /**
      * Creates a math element.
@@ -46,23 +48,6 @@ public class MathOver extends AbstractMathElement {
      */
     public MathOver(final MathBase base) {
         super(base);
-    }
-
-    /**
-     * Set accent for mover.
-     * 
-     * @param accent
-     *            Value of accent attribute
-     */
-    public void setAccent(final boolean accent) {
-        this.m_accent = accent;
-    }
-
-    /**
-     * @return Accent
-     */
-    public boolean getAccent() {
-        return this.m_accent;
     }
 
     /**
@@ -90,8 +75,8 @@ public class MathOver extends AbstractMathElement {
         final MathElement e2 = this.getMathElement(1);
 
         if ((this.getMathElement(0) instanceof MathOperator)
-                && Boolean.parseBoolean(((MathOperator) this.getMathElement(0))
-                        .getMovablelimits())) {
+                && Boolean.parseBoolean(((MathOperator) this
+                        .getMathElement(0)).getMovablelimits())) {
             final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT);
             int e1DescentHeight = e1.getDescentHeight(g);
             if (e1DescentHeight == 0) {
@@ -111,7 +96,7 @@ public class MathOver extends AbstractMathElement {
             e1.paint(g, posX + (width - e1.getWidth(g)) / 2, posY);
             posY = posY - e1.getAscentHeight(g) - e2.getDescentHeight(g)
                     - this.getOverSpace(g) - 1;
-            if (this.getAccent()) {
+            if (this.getAccentAsBoolean()) {
                 posY = posY - this.getOverSpace(g);
             }
             e2.paint(g, posX + (width - e2.getWidth(g)) / 2, posY);
@@ -122,7 +107,8 @@ public class MathOver extends AbstractMathElement {
     @Override
     public int calculateWidth(final Graphics2D g) {
         if ((this.getMathElement(0) instanceof MathOperator)) {
-            if (Boolean.parseBoolean(((MathOperator) this.getMathElement(0)).getMovablelimits())) {
+            if (Boolean.parseBoolean(((MathOperator) this.getMathElement(0))
+                    .getMovablelimits())) {
                 return this.getMathElement(0).getWidth(g)
                         + this.getMathElement(1).getWidth(g);
             }
@@ -136,8 +122,8 @@ public class MathOver extends AbstractMathElement {
     public int calculateAscentHeight(final Graphics2D g) {
         int res;
         if ((this.getMathElement(0) instanceof MathOperator)
-                && Boolean.parseBoolean(((MathOperator) this.getMathElement(0))
-                        .getMovablelimits())) {
+                && Boolean.parseBoolean(((MathOperator) this
+                        .getMathElement(0)).getMovablelimits())) {
             res = Math.max(this.getMathElement(0).getAscentHeight(g), this
                     .getMathElement(1).getHeight(g)
                     + this.getMiddleShift(g));
@@ -145,7 +131,7 @@ public class MathOver extends AbstractMathElement {
             res = this.getMathElement(0).getAscentHeight(g)
                     + this.getMathElement(1).getHeight(g)
                     + this.getOverSpace(g);
-            if (this.getAccent()) {
+            if (this.getAccentAsBoolean()) {
                 res = res + this.getOverSpace(g);
             }
         }
@@ -182,6 +168,27 @@ public class MathOver extends AbstractMathElement {
     /** {@inheritDoc} */
     public String getTagName() {
         return MathOver.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getOverscript() {
+        return this.getMathElement(1);
+    }
+
+    /** {@inheritDoc} */
+    public MathMLElement getUnderscript() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public void setOverscript(final MathMLElement overscript) {
+        this.setMathElement(1, overscript);
+    }
+
+    /** {@inheritDoc} */
+    public void setUnderscript(final MathMLElement underscript) {
+        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
+                "mover does not have underscript");
     }
 
 }

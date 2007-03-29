@@ -21,14 +21,9 @@ package net.sourceforge.jeuclid;
 import net.sourceforge.jeuclid.element.MathAlignGroup;
 import net.sourceforge.jeuclid.element.MathAlignMark;
 import net.sourceforge.jeuclid.element.MathDocumentElement;
-import net.sourceforge.jeuclid.element.MathEnclose;
 import net.sourceforge.jeuclid.element.MathLabeledTableRow;
-import net.sourceforge.jeuclid.element.MathOver;
 import net.sourceforge.jeuclid.element.MathStyle;
-import net.sourceforge.jeuclid.element.MathTable;
 import net.sourceforge.jeuclid.element.MathTableData;
-import net.sourceforge.jeuclid.element.MathUnder;
-import net.sourceforge.jeuclid.element.MathUnderOver;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.helpers.AttributeMap;
 import net.sourceforge.jeuclid.element.helpers.DOMAttributeMap;
@@ -117,45 +112,7 @@ public class DOMMathBuilder {
                 .elementFromName(tagname, attributes, this.m_base);
 
         // TODO: All theses should be handled within the appropriate class
-        if (tagname.equals(MathUnder.ELEMENT)) {
-            ((MathUnder) element).setAccentUnder(attributes.getBoolean(
-                    "accentunder", false));
-        } else if (tagname.equals(MathOver.ELEMENT)) {
-            ((MathOver) element).setAccent(attributes.getBoolean("accent",
-                    false));
-        } else if (tagname.equals(MathUnderOver.ELEMENT)) {
-            ((MathUnderOver) element).setAccent(attributes.getBoolean(
-                    "accent", false));
-            ((MathUnderOver) element).setAccentUnder(attributes.getBoolean(
-                    "accentunder", false));
-        } else if (tagname.equals(MathTable.ELEMENT)) {
-            final MathTable tabl = (MathTable) element;
-
-            if (attributes.hasAttribute("groupalign")) {
-                tabl.setGroupAlign(attributes.getString("groupalign", ""));
-            }
-            if (attributes.hasAttribute("rowspacing")) {
-                tabl.setRowspacing(attributes.getString("rowspacing", ""));
-            }
-            if (attributes.hasAttribute("columnpacing")) {
-                tabl.setColumnspacing(attributes
-                        .getString("columnpacing", ""));
-            }
-            if (attributes.hasAttribute("framespacing")) {
-                tabl
-                        .setFramespacing(attributes.getString("framespacing",
-                                ""));
-            }
-            if (attributes.hasAttribute("align")) {
-                tabl.setAlign(attributes.getString("align", "axis"));
-            }
-
-        } else if (tagname.equals(MathEnclose.ELEMENT)) {
-            if (attributes.hasAttribute("notation")) {
-                ((MathEnclose) element).setNotation(attributes.getString(
-                        "notation", ""));
-            }
-        } else if (tagname.equals(MathTableData.ELEMENT)) {
+        if (tagname.equals(MathTableData.ELEMENT)) {
             alignmentScope = (MathTableData) element;
         } else if (tagname.equals(MathStyle.ELEMENT)) {
             if (attributes.hasAttribute("scriptsizemultiplier")) {

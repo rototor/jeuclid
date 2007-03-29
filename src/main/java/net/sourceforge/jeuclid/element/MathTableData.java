@@ -175,15 +175,6 @@ public class MathTableData extends AbstractRowLikeElement implements
         this.setAttribute(MathTable.ATTR_GROUPALIGN, groupalign);
     }
 
-    /**
-     * Gets groupalign property values.
-     * 
-     * @return Array with tokenized values of groupalign property.
-     */
-    public int[] getGroupAlignArray() {
-        return MathTable.createGroupAlignValues(this.getGroupalign());
-    }
-
     /** {@inheritDoc} */
     public String getTagName() {
         return MathTableData.ELEMENT;
@@ -196,7 +187,7 @@ public class MathTableData extends AbstractRowLikeElement implements
 
     /** {@inheritDoc} */
     public boolean getHasaligngroups() {
-        return this.getGroupAlignArray().length > 0;
+        return this.getGroupalign() != null;
     }
 
 }

@@ -42,11 +42,22 @@ import org.w3c.dom.mathml.MathMLDocument;
 import org.w3c.dom.mathml.MathMLEncloseElement;
 import org.w3c.dom.mathml.MathMLFencedElement;
 import org.w3c.dom.mathml.MathMLFractionElement;
+import org.w3c.dom.mathml.MathMLLabeledRowElement;
 import org.w3c.dom.mathml.MathMLMathElement;
+import org.w3c.dom.mathml.MathMLMultiScriptsElement;
 import org.w3c.dom.mathml.MathMLOperatorElement;
 import org.w3c.dom.mathml.MathMLPresentationContainer;
 import org.w3c.dom.mathml.MathMLPresentationToken;
+import org.w3c.dom.mathml.MathMLRadicalElement;
+import org.w3c.dom.mathml.MathMLScriptElement;
 import org.w3c.dom.mathml.MathMLSemanticsElement;
+import org.w3c.dom.mathml.MathMLSpaceElement;
+import org.w3c.dom.mathml.MathMLStringLitElement;
+import org.w3c.dom.mathml.MathMLStyleElement;
+import org.w3c.dom.mathml.MathMLTableCellElement;
+import org.w3c.dom.mathml.MathMLTableElement;
+import org.w3c.dom.mathml.MathMLTableRowElement;
+import org.w3c.dom.mathml.MathMLUnderOverElement;
 
 /**
  * Various tests for the DOM model.
@@ -163,17 +174,16 @@ public class DOMModelTest {
         Assert
                 .assertTrue(MathElementFactory.elementFromName("mn", aMap,
                         base) instanceof MathMLPresentationToken);
-        // Assert
-        // .assertTrue(MathElementFactory.elementFromName("mo", aMap,
-        // base) instanceof MathMLOperatorElement);
+        Assert
+                .assertTrue(MathElementFactory.elementFromName("mo", aMap,
+                        base) instanceof MathMLOperatorElement);
         Assert.assertTrue(MathElementFactory.elementFromName("mtext", aMap,
                 base) instanceof MathMLPresentationToken);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mspace",
-        // aMap,
-        // base) instanceof MathMLSpaceElement);
-        // Assert
-        // .assertTrue(MathElementFactory.elementFromName("ms", aMap,
-        // base) instanceof MathMLStringLitElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("mspace", aMap,
+                base) instanceof MathMLSpaceElement);
+        Assert
+                .assertTrue(MathElementFactory.elementFromName("ms", aMap,
+                        base) instanceof MathMLStringLitElement);
         // Assert.assertTrue(MathElementFactory.elementFromName("mglyph",
         // aMap,
         // base) instanceof MathMLGlyphElement);
@@ -181,13 +191,12 @@ public class DOMModelTest {
                 base) instanceof MathMLPresentationContainer);
         Assert.assertTrue(MathElementFactory.elementFromName("mfrac", aMap,
                 base) instanceof MathMLFractionElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("msqrt", aMap,
-        // base) instanceof MathMLRadicalElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mroot", aMap,
-        // base) instanceof MathMLRadicalElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mstyle",
-        // aMap,
-        // base) instanceof MathMLStyleElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("msqrt", aMap,
+                base) instanceof MathMLRadicalElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("mroot", aMap,
+                base) instanceof MathMLRadicalElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("mstyle", aMap,
+                base) instanceof MathMLStyleElement);
         // Assert.assertTrue(MathElementFactory.elementFromName("merror",
         // aMap,
         // base) instanceof MathMLPresentationContainer);
@@ -200,31 +209,28 @@ public class DOMModelTest {
                 base) instanceof MathMLFencedElement);
         Assert.assertTrue(MathElementFactory.elementFromName("menclose",
                 aMap, base) instanceof MathMLEncloseElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("msub", aMap,
-        // base) instanceof MathMLScriptElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("msup", aMap,
-        // base) instanceof MathMLScriptElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("msubsup",
-        // aMap,
-        // base) instanceof MathMLScriptElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("munder",
-        // aMap,
-        // base) instanceof MathMLUnderOverElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mover", aMap,
-        // base) instanceof MathMLUnderOverElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("munderover",
-        // aMap, base) instanceof MathMLUnderOverElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mmultiscripts",
-        // aMap, base) instanceof MathMLMultiScriptsElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mtable",
-        // aMap,
-        // base) instanceof MathMLTableElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mlabeledtr",
-        // aMap, base) instanceof MathMLLabeledRowElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mtr", aMap,
-        // base) instanceof MathMLTableRowElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mtd", aMap,
-        // base) instanceof MathMLTableCellElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("msub", aMap,
+                base) instanceof MathMLScriptElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("msup", aMap,
+                base) instanceof MathMLScriptElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("msubsup", aMap,
+                base) instanceof MathMLScriptElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("munder", aMap,
+                base) instanceof MathMLUnderOverElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("mover", aMap,
+                base) instanceof MathMLUnderOverElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("munderover",
+                aMap, base) instanceof MathMLUnderOverElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("mmultiscripts",
+                aMap, base) instanceof MathMLMultiScriptsElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("mtable", aMap,
+                base) instanceof MathMLTableElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("mlabeledtr",
+                aMap, base) instanceof MathMLLabeledRowElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("mtr", aMap,
+                base) instanceof MathMLTableRowElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("mtd", aMap,
+                base) instanceof MathMLTableCellElement);
         Assert.assertTrue(MathElementFactory.elementFromName("maligngroup",
                 aMap, base) instanceof MathMLAlignGroupElement);
         Assert.assertTrue(MathElementFactory.elementFromName("malignmark",
