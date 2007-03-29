@@ -19,10 +19,12 @@
 package net.sourceforge.jeuclid.element;
 
 import java.awt.Graphics2D;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
-import net.sourceforge.jeuclid.element.generic.MathElement;
+import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.element.generic.MathNode;
 import net.sourceforge.jeuclid.element.helpers.ElementListSupport;
 
@@ -34,9 +36,11 @@ import org.w3c.dom.mathml.MathMLDocument;
  * @author Max Berger
  */
 public class MathDocumentElement extends AbstractPartialDocumentImpl
-        implements MathMLDocument, MathNode {
+        implements MathMLDocument, MathNode, ChangeTrackingInterface {
 
     private MathBase mathbase;
+
+    private final Set<ChangeTrackingInterface> listeners = new HashSet<ChangeTrackingInterface>();
 
     /**
      * Creates a math element.
@@ -61,20 +65,6 @@ public class MathDocumentElement extends AbstractPartialDocumentImpl
     /** {@inheritDoc} */
     public String getURI() {
         throw new UnsupportedOperationException();
-    }
-
-    /**
-     * This method is called, when all content of the element is known. In
-     * this method elements are supposed to make all necessary size
-     * pre-calculations, content examination and other font-related
-     * preparations.
-     */
-    public void eventAllElementsComplete() {
-        // TODO: This is duplicated in AbstractMathElement
-        final org.w3c.dom.NodeList childList = this.getChildNodes();
-        for (int i = 0; i < childList.getLength(); i++) {
-            ((MathElement) childList.item(i)).eventAllElementsComplete();
-        }
     }
 
     /**
@@ -120,7 +110,6 @@ public class MathDocumentElement extends AbstractPartialDocumentImpl
         this.mathbase = base;
     }
 
-
     /** {@inheritDoc} */
     public float getMathsizeInPoint() {
         return this.mathbase.getFontSize();
@@ -129,6 +118,21 @@ public class MathDocumentElement extends AbstractPartialDocumentImpl
     /** {@inheritDoc} */
     public float getFontsizeInPoint() {
         return this.mathbase.getFontSize();
+    }
+
+    /** {@inheritDoc} */
+    public void addListener(final ChangeTrackingInterface listener) {
+        this.listeners.add(listener);
+    }
+
+    /** {@inheritDoc} */
+    public void fireChanged(final boolean propagate) {
+        if (propagate) {
+            for (final ChangeTrackingInterface listener : this.listeners) {
+                listener.fireChanged(false);
+            }
+        }
+
     }
 
 }

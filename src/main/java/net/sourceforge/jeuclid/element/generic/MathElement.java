@@ -51,14 +51,6 @@ public interface MathElement extends MathMLElement, DisplayableNode, MathNode {
     void eventElementComplete();
 
     /**
-     * This method is called, when all content of the element is known. In
-     * this method elements are supposed to make all necessary size
-     * pre-calculations, content examination and other font-related
-     * preparations.
-     */
-    void eventAllElementsComplete();
-
-    /**
      * This method is called when all attributes for the element are known.
      * The element contents are not necesarrily complete.
      * 
