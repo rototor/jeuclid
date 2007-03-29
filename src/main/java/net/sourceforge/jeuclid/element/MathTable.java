@@ -18,7 +18,10 @@
 
 package net.sourceforge.jeuclid.element;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
+import java.awt.geom.Line2D;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -35,6 +38,21 @@ import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
  * @author Max Berger
  */
 public class MathTable extends AbstractMathElement {
+
+    /** attribute for rowlines. */
+    public static final String ATTR_ROWLINES = "rowlines";
+
+    /** attribute for columnlines. */
+    public static final String ATTR_COLUMNLINES = "columnlines";
+
+    /** value for no lines. */
+    public static final String VALUE_NONE = "none";
+
+    /** value for dashed lines. */
+    public static final String VALUE_DASHED = "dashed";
+
+    /** value for solid lines. */
+    public static final String VALUE_SOLID = "solid";
 
     /**
      * The XML element from this class.
@@ -111,6 +129,43 @@ public class MathTable extends AbstractMathElement {
     public static final int ALIGN_DECIMALPOINT = 7;
 
     /**
+     * Constant width auto.
+     */
+    public static final int WIDTH_AUTO = -1;
+
+    /**
+     * Constant width fit.
+     */
+    public static final int WIDTH_FIT = -2;
+
+    /**
+     * Lines constant: no lines.
+     */
+    public static final int LINE_NONE = 0;
+
+    /**
+     * Lines constant: solid lines.
+     */
+    public static final int LINE_SOLID = 1;
+
+    /**
+     * Lines constant: dashed lines.
+     */
+    public static final int LINE_DASHED = 2;
+
+    /**  */
+    public static final int SIDE_LEFT = 0;
+
+    /**  */
+    public static final int SIDE_RIGHT = 1;
+
+    /**  */
+    public static final int SIDE_LEFTOVERLAP = 2;
+
+    /**  */
+    public static final int SIDE_RIGHTOVERLAP = 3;
+
+    /**
      * Alignment variable.
      */
     private int m_align = MathTable.ALIGN_CENTER;
@@ -136,16 +191,6 @@ public class MathTable extends AbstractMathElement {
     private boolean m_alignmentscope = false;
 
     /**
-     * Constant width auto.
-     */
-    public static final int WIDTH_AUTO = -1;
-
-    /**
-     * Constant width fit.
-     */
-    public static final int WIDTH_FIT = -2;
-
-    /**
      * Column width variable.
      */
     private int m_columnwidth = MathTable.WIDTH_AUTO;
@@ -164,31 +209,6 @@ public class MathTable extends AbstractMathElement {
      * Array with column spacing values..
      */
     private final List<String> m_columnspacing = new Vector<String>();
-
-    /**
-     * Lines constant: no lines.
-     */
-    public static final int LINE_NONE = 0;
-
-    /**
-     * Lines constant: solid lines.
-     */
-    public static final int LINE_SOLID = 1;
-
-    /**
-     * Lines constant: dashed lines.
-     */
-    public static final int LINE_DASHED = 2;
-
-    /**
-     * Array with row lines values.
-     */
-    private int[] m_rowlines = new int[] { MathTable.LINE_NONE };
-
-    /**
-     * Array with column lines values.
-     */
-    private int[] m_columnlines = new int[] { MathTable.LINE_NONE };
 
     /**
      * Frame line value.
@@ -220,23 +240,42 @@ public class MathTable extends AbstractMathElement {
      */
     private boolean m_equalcolumns = false;
 
-    /**  */
-    public static final int SIDE_LEFT = 0;
-
-    /**  */
-    public static final int SIDE_RIGHT = 1;
-
-    /**  */
-    public static final int SIDE_LEFTOVERLAP = 2;
-
-    /**  */
-    public static final int SIDE_RIGHTOVERLAP = 3;
-
     private int m_side = MathTable.SIDE_LEFT;
 
     private int m_minlabelspacing = 0;
 
     private int[] groupsalignvalues = null;
+
+    /**
+     * Class for line types.
+     */
+    public enum LineType {
+        /** No lines. */
+        NONE,
+        /** Solid line. */
+        SOLID,
+        /** Dashed line. */
+        DASHED;
+
+        /**
+         * Parse a string and return a linetype.
+         * 
+         * @param s
+         *            the string to parse
+         * @return a line type for this string type
+         */
+        public static LineType parseLineType(final String s) {
+            final LineType retVal;
+            if (s.equalsIgnoreCase(MathTable.VALUE_NONE)) {
+                retVal = NONE;
+            } else if (s.equalsIgnoreCase(MathTable.VALUE_DASHED)) {
+                retVal = DASHED;
+            } else {
+                retVal = SOLID;
+            }
+            return retVal;
+        }
+    };
 
     /**
      * Creates a math element.
@@ -246,6 +285,10 @@ public class MathTable extends AbstractMathElement {
      */
     public MathTable(final MathBase base) {
         super(base);
+        this.setDefaultMathAttribute(MathTable.ATTR_ROWLINES,
+                MathTable.VALUE_NONE);
+        this.setDefaultMathAttribute(MathTable.ATTR_COLUMNLINES,
+                MathTable.VALUE_NONE);
     }
 
     /** {@inheritDoc} */
@@ -457,40 +500,6 @@ public class MathTable extends AbstractMathElement {
     }
 
     /**
-     * @return Table rows
-     */
-    public int[] getRowlines() {
-        return this.m_rowlines;
-    }
-
-    /**
-     * @param rowlines
-     *            Table rows
-     */
-    public void setRowlines(final int[] rowlines) {
-        if (rowlines.length > 0) {
-            this.m_rowlines = rowlines;
-        }
-    }
-
-    /**
-     * @return Table columns
-     */
-    public int[] getColumnlines() {
-        return this.m_columnlines;
-    }
-
-    /**
-     * @param columnlines
-     *            Table columns
-     */
-    public void setColumnlines(final int[] columnlines) {
-        if (columnlines.length > 0) {
-            this.m_columnlines = columnlines;
-        }
-    }
-
-    /**
      * @return Frame of the table
      */
     public int getFrame() {
@@ -645,7 +654,8 @@ public class MathTable extends AbstractMathElement {
         posX = posX + this.getFramespacingh(g);
         posY = posY + this.getFramespacingv(g);
 
-        int i, j;
+        int i;
+        int j;
         final int[] maxrowascentheight = new int[this.getMathElementCount()];
         final int[] maxrowdescentheight = new int[this.getMathElementCount()];
 
@@ -667,6 +677,11 @@ public class MathTable extends AbstractMathElement {
         int x = x1;
 
         posY = posY - this.getAscentHeight(g);
+        final int startY = posY;
+
+        final List<Float> rowlines = new Vector<Float>();
+        final List<Float> columnlines = new Vector<Float>(maxcolumns);
+
         for (i = 0; i < this.getMathElementCount(); i++) {
             final MathElement row = this.getMathElement(i);
             posY += maxrowascentheight[i];
@@ -685,11 +700,59 @@ public class MathTable extends AbstractMathElement {
                             - row.getMathElement(j).getWidth(g) / 2;
                     row.getMathElement(j).paint(g, xx, posY);
                 }
-                x += maxcolumnwidth[j] + this.getColumnspacing(g, j);
+                final int currentColSpacing = this.getColumnspacing(g, j);
+                x += maxcolumnwidth[j];
+                if ((i == 0) && (j < maxcolumns - 1)) {
+                    // TODO: This only sets columnlines if the first row
+                    // covers all the columns. Maybe this needs to be changed?
+                    columnlines.add(x + currentColSpacing / 2.0f);
+                }
+                x += currentColSpacing;
             }
 
             posY += maxrowdescentheight[i];
-            posY += this.getRowspacing(g, i);
+            final int currentRowSpacing = this.getRowspacing(g, i);
+            if (i < (this.getMathElementCount() - 1)) {
+                rowlines.add(posY + currentRowSpacing / 2.0f);
+            }
+            posY += currentRowSpacing;
+        }
+        int col = 0;
+        final Stroke oldStroke = g.getStroke();
+        // TODO: Make size dependent.
+        final Stroke solidStroke = new BasicStroke(1.0f);
+        // TODO: Make size dependent.
+        final Stroke dashedStroke = new BasicStroke(1.0f,
+                BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 1.0f,
+                new float[] { 3.0f, 3.0f }, 0);
+        for (float lineX : columnlines) {
+            final LineType lt = this.getColumnLine(col);
+            col++;
+            if (MathTable.LineType.SOLID.equals(lt)) {
+                g.setStroke(solidStroke);
+            } else if (MathTable.LineType.DASHED.equals(lt)) {
+                g.setStroke(dashedStroke);
+            }
+            if (!MathTable.LineType.NONE.equals(lt)) {
+                g.draw(new Line2D.Float(lineX, startY, lineX, posY));
+            }
+        }
+        int row = 0;
+        for (float lineY : rowlines) {
+            // TODO: This only works if the last entry has all column. Maybe
+            // this needs to be changed?
+            final LineType lt = this.getRowLine(row);
+            row++;
+            // TODO: This code is very similar to the one for columnlines.
+            // Refactor!
+            if (MathTable.LineType.SOLID.equals(lt)) {
+                g.setStroke(solidStroke);
+            } else if (MathTable.LineType.DASHED.equals(lt)) {
+                g.setStroke(dashedStroke);
+            }
+            if (!MathTable.LineType.NONE.equals(lt)) {
+                g.draw(new Line2D.Float(x1, lineY, x, lineY));
+            }
         }
     }
 
@@ -1425,6 +1488,65 @@ public class MathTable extends AbstractMathElement {
     /** {@inheritDoc} */
     public String getTagName() {
         return MathTable.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public String getRowlines() {
+        return this.getMathAttribute(MathTable.ATTR_ROWLINES);
+    }
+
+    /** {@inheritDoc} */
+    public void setRowlines(final String rowlines) {
+        this.setAttribute(MathTable.ATTR_ROWLINES, rowlines);
+    }
+
+    /** {@inheritDoc} */
+    public String getColumnlines() {
+        return this.getMathAttribute(MathTable.ATTR_COLUMNLINES);
+    }
+
+    /** {@inheritDoc} */
+    public void setColumnlines(final String columnlines) {
+        this.setAttribute(MathTable.ATTR_COLUMNLINES, columnlines);
+    }
+
+    private LineType getRowLine(final int row) {
+        return MathTable.LineType.parseLineType(this.getSpaceArrayEntry(this
+                .getRowlines(), row));
+    }
+
+    private LineType getColumnLine(final int col) {
+        return MathTable.LineType.parseLineType(this.getSpaceArrayEntry(this
+                .getColumnlines(), col));
+    }
+
+    /**
+     * Gets an entry in a white-space separated string.
+     * <p>
+     * If the entry requested is beyond the index, the last entry is returned.
+     * 
+     * @todo This method is probably useful for other attribute values.
+     *       Examine, and move to a more common place. (like AttrHelper)
+     * @param string
+     *            the string in which to look.
+     * @param index
+     *            index of the element (0-based)
+     * @return the element at that index
+     */
+    private String getSpaceArrayEntry(final String string, final int index) {
+        final String[] array = string.split("\\s");
+        int cur = -1;
+        String last = "";
+        for (final String s : array) {
+            if (s.length() > 0) {
+                cur++;
+                if (cur == index) {
+                    return s;
+                }
+                last = s;
+            }
+        }
+        return last;
     }
 
 }
