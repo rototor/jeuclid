@@ -2,9 +2,13 @@ Roadmap
 
 * Plans for 3.0
 
- * Support W3C DOM model for all existing elements.
+ * Support W3C DOM model for all existing elements. (done)
  
- * Make sure the most important checkstlye issues are addressed, such as full JavaDoc documentation.
+ * Make sure the most important checkstlye issues are addressed, such as full JavaDoc documentation. (done)
+
+ * Refactor to provide a more future-compatible API
+
+ * Modify layout code to use "float" instead of "int" coordinates
  
 * Plans for post-3.0
 

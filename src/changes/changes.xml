@@ -6,8 +6,11 @@
   </properties>
   <body>
     <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
+      <action dev="maxberger" type="update">
+        updated roadmap
+      </action>
       <action dev="maxberger" type="add">
-        Released 2.9.5; updated website
+        Released 2.9.5; updated website; 
       </action>
     </release>
     <release version="2.9.5" date="2007-03-29" description="The big bugfix release">
