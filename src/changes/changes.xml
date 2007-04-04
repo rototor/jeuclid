@@ -6,6 +6,10 @@
   </properties>
   <body>
     <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
+      <action dev="maxberger" type="update">
+        pom.xml: removed dependency on particular surefire version;
+        enabled DOM test for mpadded;
+      </action>
       <action dev="maxberger" type="add">
         Basic implementation of mpadded;
       </action>
