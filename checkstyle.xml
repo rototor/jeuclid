@@ -147,7 +147,9 @@ Description:
           <property name='legalComment' value='^\$.*\$$'/> 
         </module>
 -->
-        <module name="TodoComment"/>
+        <module name="TodoComment">
+          <property name="severity" value="ignore"/>
+        </module>
         <module name="RequiredRegexp"/>
         <module name="FinalParameters"/>
         <module name="DescendantToken"/>

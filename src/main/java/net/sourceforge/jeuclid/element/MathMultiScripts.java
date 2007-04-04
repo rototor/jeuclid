@@ -24,8 +24,6 @@ import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElementWithSubSuper;
 import net.sourceforge.jeuclid.element.generic.MathElement;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLMultiScriptsElement;
 import org.w3c.dom.mathml.MathMLNodeList;
@@ -48,11 +46,10 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
 
     /**
      * Logger for this class
-     */ 
+     */
     // currently unused
-    //private static final Log LOGGER = LogFactory
-    //        .getLog(MathMultiScripts.class);
-
+    // private static final Log LOGGER = LogFactory
+    // .getLog(MathMultiScripts.class);
     /**
      * Default constructor.
      * 
