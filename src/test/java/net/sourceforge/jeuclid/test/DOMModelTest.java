@@ -46,6 +46,7 @@ import org.w3c.dom.mathml.MathMLLabeledRowElement;
 import org.w3c.dom.mathml.MathMLMathElement;
 import org.w3c.dom.mathml.MathMLMultiScriptsElement;
 import org.w3c.dom.mathml.MathMLOperatorElement;
+import org.w3c.dom.mathml.MathMLPaddedElement;
 import org.w3c.dom.mathml.MathMLPresentationContainer;
 import org.w3c.dom.mathml.MathMLPresentationToken;
 import org.w3c.dom.mathml.MathMLRadicalElement;
@@ -200,9 +201,8 @@ public class DOMModelTest {
         // Assert.assertTrue(MathElementFactory.elementFromName("merror",
         // aMap,
         // base) instanceof MathMLPresentationContainer);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mpadded",
-        // aMap,
-        // base) instanceof MathMLPaddedElement);
+        Assert.assertTrue(MathElementFactory.elementFromName("mpadded", aMap,
+                base) instanceof MathMLPaddedElement);
         Assert.assertTrue(MathElementFactory.elementFromName("mphantom",
                 aMap, base) instanceof MathMLPresentationContainer);
         Assert.assertTrue(MathElementFactory.elementFromName("mfenced", aMap,
