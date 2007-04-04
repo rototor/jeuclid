@@ -31,6 +31,7 @@ import net.sourceforge.jeuclid.element.MathMultiScripts;
 import net.sourceforge.jeuclid.element.MathNumber;
 import net.sourceforge.jeuclid.element.MathOperator;
 import net.sourceforge.jeuclid.element.MathOver;
+import net.sourceforge.jeuclid.element.MathPadded;
 import net.sourceforge.jeuclid.element.MathPhantom;
 import net.sourceforge.jeuclid.element.MathPreScripts;
 import net.sourceforge.jeuclid.element.MathRoot;
@@ -149,8 +150,11 @@ public final class MathElementFactory {
             element = new MathSemantics(base);
         } else if (localName.equals(MathAnnotation.ELEMENT)) {
             element = new MathAnnotation(base);
+        } else if (localName.equals(MathPadded.ELEMENT)) {
+            element = new MathPadded(base);
         } else {
-            LOGGER.info("Unsupported element: " + localName);
+            MathElementFactory.LOGGER.info("Unsupported element: "
+                    + localName);
             element = new MathRow(base);
         }
 

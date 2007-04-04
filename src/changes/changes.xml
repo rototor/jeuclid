@@ -6,6 +6,13 @@
   </properties>
   <body>
     <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
+      <action dev="maxberger" type="add">
+        Basic implementation of mpadded;
+      </action>
+      <action dev="maxberger" type="update">
+        MathMultiScripts: Checkstyle fixes;
+        modified checkstyle configuration (disabled todo items);
+      </action>
       <action dev="maxberger" type="update">
         updated roadmap
       </action>
