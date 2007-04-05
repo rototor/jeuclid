@@ -7,6 +7,11 @@
   <body>
     <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
       <action dev="maxberger" type="update">
+        added DejaVu Sans to list of symbolcatchfonts. (needed for char 20D7);
+        changed mapping for old openoffice vector char;
+        added notes for OpenOffice; updated FAQ
+      </action>
+      <action dev="maxberger" type="update">
         pom.xml: removed dependency on particular surefire version;
         enabled DOM test for mpadded;
       </action>
