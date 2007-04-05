@@ -1,5 +1,20 @@
 FAQ
+
+* Supported MathML versions
+
+ Jeuclid has built-in support for:
  
+ * MathML 1.0.1
+ 
+ * MathML 2.0
+ 
+ * {{{./openoffice.html}OpenOffice MathML 1.0.1}}
+ 
+ []
+ 
+ You may load either an XML file (.xml, .mml) or an OpenDocument Formula file (.odf) directly
+ in all JEuclid applications.
+
 * Available image formats
  
 ** What output image types are supported?

@@ -275,18 +275,19 @@ public class MathBase {
         params.put(ParameterKey.ForegroundColor, "black");
         params.put(ParameterKey.BackgroundColor, "transparent");
 
+        // CHECKSTYLE:OFF
         final String symbolCatchFonts = "OpenSymbol," + "Standard Symbols L,"
                 + "Symbol," + "Webdings," + "Wingdings," + "Wingdings 2,"
-                + "Wingdings 3," + "Arial Unicode MS";
+                + "Wingdings 3," + "Arial Unicode MS," + "DejaVu Sans";
         params.put(ParameterKey.FontsSanserif, "Verdana," + "Helvetica,"
                 + "Arial," + "Arial Unicode MS," + "Lucida Sans Unicode,"
                 + "Lucida Sans," + "Lucida Grande," + "DejaVu Sans,"
                 + "Bitstream Vera Sans," + "Luxi Sans," + "FreeSans,"
                 + "sansserif," + symbolCatchFonts);
-        params.put(ParameterKey.FontsSerif, "Constantina," 
-                + "Times," + "Times New Roman," + "Lucida Bright,"
-                + "DejaVu Serif," + "Bitstream Vera Serif," + "Luxi Serif,"
-                + "FreeSerif," + "serif," + symbolCatchFonts);
+        params.put(ParameterKey.FontsSerif, "Constantina," + "Times,"
+                + "Times New Roman," + "Lucida Bright," + "DejaVu Serif,"
+                + "Bitstream Vera Serif," + "Luxi Serif," + "FreeSerif,"
+                + "serif," + symbolCatchFonts);
         params.put(ParameterKey.FontsMonospaced, "Andale Mono," + "Courier,"
                 + "Courier Mono," + "Courier New,"
                 + "Lucida Sans Typewriter," + "DejaVu Sans Mono,"
@@ -305,6 +306,7 @@ public class MathBase {
                 + "Caslon Openface," + "Cloister Open Face,"
                 + "Academy Engraved LET," + "Colonna MT,"
                 + "Imprint MT Shadow," + symbolCatchFonts);
+        // CHECKSTYLE:ON
         return params;
     }
 }
