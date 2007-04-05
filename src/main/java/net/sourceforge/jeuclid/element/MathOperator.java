@@ -33,6 +33,7 @@ import net.sourceforge.jeuclid.element.helpers.UnknownAttributeException;
 import net.sourceforge.jeuclid.util.StringUtil;
 
 import org.w3c.dom.mathml.MathMLOperatorElement;
+import org.w3c.dom.mathml.MathMLUnderOverElement;
 
 /**
  * This class presents a math operator, like "(" or "*".
@@ -307,15 +308,18 @@ public class MathOperator extends AbstractMathElement implements
                 this.calcBaselineShift = 0.0f;
             }
 
-            if (this.isHorizontalDelimeter()) {
+            final MathElement parent = this.getParent();
+            if ((this.isHorizontalDelimeter())
+                    && (parent instanceof MathMLUnderOverElement)) {
                 final float realwidth = (float) (textBounds.getWidth() + textBounds
                         .getX());
-                MathElement m = (MathElement) this.getNextSibling();
-                float targetwidth = realwidth;
-                while (m != null) {
-                    targetwidth = Math.max(targetwidth, m.getWidth(g));
-                    m = (MathElement) m.getNextSibling();
-                }
+
+                final MathMLUnderOverElement muo = (MathMLUnderOverElement) parent;
+                final MathElement base = (MathElement) muo.getBase();
+                parent.setCalculatingSize(true);
+                final float targetwidth = base.getWidth(g);
+                parent.setCalculatingSize(false);
+
                 this.calcScaleX = targetwidth / realwidth;
             } else {
                 this.calcScaleX = 1.0f;
