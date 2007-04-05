@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.xml.bind.PropertyException;
+
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.generic.MathNode;
 
@@ -87,6 +89,26 @@ public final class AttributesHelper {
      * Infinity. Should be reasonably large.
      */
     public static final String INFINITY = "9999999pt";
+
+    private static final int HASHSHORT_ALPHA = 5;
+
+    private static final int HASHSHORT_NO_ALPHA = 4;
+
+    private static final int HASHLEN_ALPHA = 9;
+
+    private static final int HASHLEN_NO_ALPHA = 7;
+
+    private static final int HEXBASE = 16;
+
+    private static final float MAX_HEXCHAR_AS_FLOAT = 15f;
+
+    private static final int MAX_BYTE = 255;
+
+    private static final float MAX_PERCENT_AS_FLOAT = 100.0f;
+
+    private static final float MAX_BYTE_AS_FLOAT = 255f;
+
+    private static final String PERCENT_SIGN = "%";
 
     /**
      * Value of EM (horizontal size).
@@ -165,7 +187,7 @@ public final class AttributesHelper {
         if (translatesTo != null) {
             tSize = translatesTo;
         }
-        if (tSize.endsWith("%")) {
+        if (tSize.endsWith(AttributesHelper.PERCENT_SIGN)) {
             // A nice trick because all other units are exactly 2 chars long.
             tSize += " ";
         }
@@ -270,7 +292,9 @@ public final class AttributesHelper {
      * @see java.awt.Color#toString()
      */
     private static Color parseAsJavaAWTColor(String value) {
-        float red = 0.0f, green = 0.0f, blue = 0.0f;
+        float red = 0.0f;
+        float green = 0.0f;
+        float blue = 0.0f;
         final int poss = value.indexOf("[");
         final int pose = value.indexOf("]");
         try {
@@ -279,15 +303,18 @@ public final class AttributesHelper {
                 final StringTokenizer st = new StringTokenizer(value, ",");
                 if (st.hasMoreTokens()) {
                     final String str = st.nextToken().trim();
-                    red = Float.parseFloat(str.substring(2)) / 255f;
+                    red = Float.parseFloat(str.substring(2))
+                            / AttributesHelper.MAX_BYTE_AS_FLOAT;
                 }
                 if (st.hasMoreTokens()) {
                     final String str = st.nextToken().trim();
-                    green = Float.parseFloat(str.substring(2)) / 255f;
+                    green = Float.parseFloat(str.substring(2))
+                            / AttributesHelper.MAX_BYTE_AS_FLOAT;
                 }
                 if (st.hasMoreTokens()) {
                     final String str = st.nextToken().trim();
-                    blue = Float.parseFloat(str.substring(2)) / 255f;
+                    blue = Float.parseFloat(str.substring(2))
+                            / AttributesHelper.MAX_BYTE_AS_FLOAT;
                 } else {
                     throw new NumberFormatException();
                 }
@@ -326,29 +353,35 @@ public final class AttributesHelper {
                 float blue = 0.0f;
                 if (st.hasMoreTokens()) {
                     final String str = st.nextToken().trim();
-                    if (str.endsWith("%")) {
+                    if (str.endsWith(AttributesHelper.PERCENT_SIGN)) {
                         red = Float.parseFloat(str.substring(0,
-                                str.length() - 1)) / 100.0f;
+                                str.length() - 1))
+                                / AttributesHelper.MAX_PERCENT_AS_FLOAT;
                     } else {
-                        red = Float.parseFloat(str) / 255f;
+                        red = Float.parseFloat(str)
+                                / AttributesHelper.MAX_BYTE_AS_FLOAT;
                     }
                 }
                 if (st.hasMoreTokens()) {
                     final String str = st.nextToken().trim();
-                    if (str.endsWith("%")) {
+                    if (str.endsWith(AttributesHelper.PERCENT_SIGN)) {
                         green = Float.parseFloat(str.substring(0, str
-                                .length() - 1)) / 100.0f;
+                                .length() - 1))
+                                / AttributesHelper.MAX_PERCENT_AS_FLOAT;
                     } else {
-                        green = Float.parseFloat(str) / 255f;
+                        green = Float.parseFloat(str)
+                                / AttributesHelper.MAX_BYTE_AS_FLOAT;
                     }
                 }
                 if (st.hasMoreTokens()) {
                     final String str = st.nextToken().trim();
-                    if (str.endsWith("%")) {
+                    if (str.endsWith(AttributesHelper.PERCENT_SIGN)) {
                         blue = Float.parseFloat(str.substring(0,
-                                str.length() - 1)) / 100.0f;
+                                str.length() - 1))
+                                / AttributesHelper.MAX_PERCENT_AS_FLOAT;
                     } else {
-                        blue = Float.parseFloat(str) / 255f;
+                        blue = Float.parseFloat(str)
+                                / AttributesHelper.MAX_BYTE_AS_FLOAT;
                     }
                 }
                 if ((red < 0.0 || red > 1.0) || (green < 0.0 || green > 1.0)
@@ -379,25 +412,41 @@ public final class AttributesHelper {
         Color parsedColor = null;
         try {
             final int len = value.length();
-            if ((len >= 4) && (len <= 5)) {
+            if ((len >= AttributesHelper.HASHSHORT_NO_ALPHA)
+                    && (len <= AttributesHelper.HASHSHORT_ALPHA)) {
                 // note: divide by 15 so F = FF = 1 and so on
-                final float red = Integer.parseInt(value.substring(1, 2), 16) / 15f;
+                final float red = Integer.parseInt(value.substring(1, 2),
+                        AttributesHelper.HEXBASE)
+                        / AttributesHelper.MAX_HEXCHAR_AS_FLOAT;
                 final float green = Integer.parseInt(value.substring(2, 3),
-                        16) / 15f;
-                final float blue = Integer
-                        .parseInt(value.substring(3, 4), 16) / 15f;
+                        AttributesHelper.HEXBASE)
+                        / AttributesHelper.MAX_HEXCHAR_AS_FLOAT;
+                final float blue = Integer.parseInt(value.substring(3,
+                        AttributesHelper.HASHSHORT_NO_ALPHA),
+                        AttributesHelper.HEXBASE)
+                        / AttributesHelper.MAX_HEXCHAR_AS_FLOAT;
                 float alpha = 1.0f;
-                if (len == 5) {
-                    alpha = Integer.parseInt(value.substring(4), 16) / 15f;
+                if (len == AttributesHelper.HASHSHORT_ALPHA) {
+                    alpha = Integer.parseInt(value
+                            .substring(AttributesHelper.HASHSHORT_NO_ALPHA),
+                            AttributesHelper.HEXBASE)
+                            / AttributesHelper.MAX_HEXCHAR_AS_FLOAT;
                 }
                 parsedColor = new Color(red, green, blue, alpha);
-            } else if ((len == 7) || (len == 9)) {
-                final int red = Integer.parseInt(value.substring(1, 3), 16);
-                final int green = Integer.parseInt(value.substring(3, 5), 16);
-                final int blue = Integer.parseInt(value.substring(5, 7), 16);
-                int alpha = 255;
-                if (len == 9) {
-                    alpha = Integer.parseInt(value.substring(7), 16);
+            } else if ((len == AttributesHelper.HASHLEN_NO_ALPHA)
+                    || (len == AttributesHelper.HASHLEN_ALPHA)) {
+                final int red = Integer.parseInt(value.substring(1, 3),
+                        AttributesHelper.HEXBASE);
+                final int green = Integer.parseInt(value.substring(3, 5),
+                        AttributesHelper.HEXBASE);
+                final int blue = Integer.parseInt(value.substring(5,
+                        AttributesHelper.HASHLEN_NO_ALPHA),
+                        AttributesHelper.HEXBASE);
+                int alpha = AttributesHelper.MAX_BYTE;
+                if (len == AttributesHelper.HASHLEN_ALPHA) {
+                    alpha = Integer.parseInt(value
+                            .substring(AttributesHelper.HASHLEN_NO_ALPHA),
+                            AttributesHelper.HEXBASE);
                 }
                 parsedColor = new Color(red, green, blue, alpha);
             } else {
@@ -441,7 +490,7 @@ public final class AttributesHelper {
             sbuf.append('0');
         }
         sbuf.append(s);
-        if (color.getAlpha() != 255) {
+        if (color.getAlpha() != AttributesHelper.MAX_BYTE) {
             s = Integer.toHexString(color.getAlpha());
             if (s.length() == 1) {
                 sbuf.append('0');
