@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.xml.bind.PropertyException;
-
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
 import net.sourceforge.jeuclid.element.generic.MathNode;
 
@@ -287,11 +285,9 @@ public final class AttributesHelper {
      * @param value
      *            the complete line
      * @return a color if possible
-     * @throws PropertyException
-     *             if the format is wrong.
      * @see java.awt.Color#toString()
      */
-    private static Color parseAsJavaAWTColor(String value) {
+    private static Color parseAsJavaAWTColor(final String value) {
         float red = 0.0f;
         float green = 0.0f;
         float blue = 0.0f;
@@ -299,8 +295,8 @@ public final class AttributesHelper {
         final int pose = value.indexOf("]");
         try {
             if (poss != -1 && pose != -1) {
-                value = value.substring(poss + 1, pose);
-                final StringTokenizer st = new StringTokenizer(value, ",");
+                final StringTokenizer st = new StringTokenizer(value
+                        .substring(poss + 1, pose), ",");
                 if (st.hasMoreTokens()) {
                     final String str = st.nextToken().trim();
                     red = Float.parseFloat(str.substring(2))
@@ -323,9 +319,9 @@ public final class AttributesHelper {
                     throw new NumberFormatException();
                 }
             } else {
-                throw new NullPointerException();
+                throw new NumberFormatException();
             }
-        } catch (final Exception e) {
+        } catch (final NumberFormatException e) {
             return null;
         }
         return new Color(red, green, blue);
@@ -337,16 +333,14 @@ public final class AttributesHelper {
      * @param value
      *            the complete line
      * @return a color if possible
-     * @throws PropertyException
-     *             if the format is wrong.
      */
-    private static Color parseAsRGB(String value) {
+    private static Color parseAsRGB(final String value) {
         Color parsedColor;
         final int poss = value.indexOf("(");
         final int pose = value.indexOf(")");
         if (poss != -1 && pose != -1) {
-            value = value.substring(poss + 1, pose);
-            final StringTokenizer st = new StringTokenizer(value, ",");
+            final StringTokenizer st = new StringTokenizer(value.substring(
+                    poss + 1, pose), ",");
             try {
                 float red = 0.0f;
                 float green = 0.0f;
@@ -390,7 +384,7 @@ public final class AttributesHelper {
                 } else {
                     parsedColor = new Color(red, green, blue);
                 }
-            } catch (final Exception e) {
+            } catch (final NumberFormatException e) {
                 return null;
             }
         } else {
@@ -405,8 +399,6 @@ public final class AttributesHelper {
      * @param value
      *            the complete line
      * @return a color if possible
-     * @throws PropertyException
-     *             if the format is wrong.
      */
     private static Color parseWithHash(final String value) {
         Color parsedColor = null;
