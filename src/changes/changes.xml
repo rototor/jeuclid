@@ -7,6 +7,9 @@
   <body>
     <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
       <action dev="maxberger" type="update">
+        AttrutesHelper: checkstyle fixes;
+      </action>
+      <action dev="maxberger" type="update">
         MathOperator: restored proper support for horizontal stretching;
         AttributesHelper: Checkstyle fixes;
       </action>
