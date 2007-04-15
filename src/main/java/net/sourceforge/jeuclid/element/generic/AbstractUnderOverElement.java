@@ -67,6 +67,27 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
                 .getMathAttribute(AbstractUnderOverElement.ATTR_ACCENTUNDER);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public int getScriptlevelForChild(final MathElement child) {
+        if (child.isSameNode(this.getBase())) {
+            return this.getAbsoluteScriptLevel();
+        } else {
+            // TODO: Should depend on type and accent
+            return this.getAbsoluteScriptLevel() + 1;
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isChildBlock(final MathElement child) {
+        if (child.isSameNode(this.getBase())) {
+            return super.isChildBlock(child);
+        } else {
+            return false;
+        }
+    }
+
     /**
      * returns the accentunder property as boolean.
      * 
@@ -77,7 +98,7 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
     }
 
     /** {@inheritDoc} */
-    public MathMLElement getBase() {
+    public MathElement getBase() {
         return this.getMathElement(0);
     }
 
