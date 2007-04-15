@@ -184,27 +184,6 @@ public class MathUnderOver extends AbstractUnderOverElement {
     }
 
     /** {@inheritDoc} */
-    @Override
-    public int getScriptlevelForChild(final MathElement child) {
-        if (child.isSameNode(this.getFirstChild())) {
-            return this.getAbsoluteScriptLevel();
-        } else {
-            // TODO: Should depend on type and accent
-            return this.getAbsoluteScriptLevel() + 1;
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean isChildBlock(final MathElement child) {
-        if (child.isSameNode(this.getFirstChild())) {
-            return super.isChildBlock(child);
-        } else {
-            return false;
-        }
-    }
-
-    /** {@inheritDoc} */
     public String getTagName() {
         return MathUnderOver.ELEMENT;
     }

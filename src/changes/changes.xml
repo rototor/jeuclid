@@ -7,7 +7,10 @@
   <body>
     <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
       <action dev="maxberger" type="update">
-        AttrutesHelper: checkstyle fixes;
+        MathUnder/Over: started to merge some common functionality;
+      </action>
+      <action dev="maxberger" type="update">
+        AttributesHelper: checkstyle fixes;
       </action>
       <action dev="maxberger" type="update">
         MathOperator: restored proper support for horizontal stretching;

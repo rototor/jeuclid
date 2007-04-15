@@ -27,6 +27,7 @@ import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.mathml.MathMLElement;
+import org.w3c.dom.mathml.MathMLOperatorElement;
 
 /**
  * This class arrange an element under an other element.
@@ -71,12 +72,12 @@ public class MathUnder extends AbstractUnderOverElement {
     @Override
     public final void paint(final Graphics2D g, final int posX, int posY) {
         super.paint(g, posX, posY);
-        final MathElement e1 = this.getMathElement(0);
-        final MathElement e2 = this.getMathElement(1);
+        final MathElement e1 = this.getBase();
+        final MathElement e2 = this.getUnderscript();
 
-        if ((this.getMathElement(0) instanceof MathOperator)
-                && Boolean.parseBoolean(((MathOperator) this
-                        .getMathElement(0)).getMovablelimits())) {
+        if ((this.getBase() instanceof MathOperator)
+                && Boolean.parseBoolean(((MathOperator) this.getBase())
+                        .getMovablelimits())) {
             final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT);
             int e1DescentHeight = e1.getDescentHeight(g);
             if (e1DescentHeight == 0) {
@@ -105,63 +106,42 @@ public class MathUnder extends AbstractUnderOverElement {
     /** {@inheritDoc} */
     @Override
     public final int calculateWidth(final Graphics2D g) {
-        if ((this.getMathElement(0) instanceof MathOperator)) {
-            if (Boolean.parseBoolean(((MathOperator) this.getMathElement(0))
+        if ((this.getBase() instanceof MathMLOperatorElement)) {
+            if (Boolean.parseBoolean(((MathMLOperatorElement) this.getBase())
                     .getMovablelimits())) {
-                return this.getMathElement(0).getWidth(g)
-                        + this.getMathElement(1).getWidth(g);
+                return this.getBase().getWidth(g)
+                        + this.getUnderscript().getWidth(g);
             }
         }
-        return Math.max(this.getMathElement(0).getWidth(g), this
-                .getMathElement(1).getWidth(g));
+        return Math.max(this.getBase().getWidth(g), this.getUnderscript()
+                .getWidth(g));
     }
 
     /** {@inheritDoc} */
     @Override
     public final int calculateAscentHeight(final Graphics2D g) {
-        return this.getMathElement(0).getAscentHeight(g);
+        return this.getBase().getAscentHeight(g);
     }
 
     /** {@inheritDoc} */
     @Override
     public final int calculateDescentHeight(final Graphics2D g) {
         int res;
-        if ((this.getMathElement(0) instanceof MathOperator)
-                && Boolean.parseBoolean(((MathOperator) this
-                        .getMathElement(0)).getMovablelimits())) {
-            res = Math.max(this.getMathElement(0).getDescentHeight(g), this
-                    .getMathElement(1).getHeight(g)
+        if ((this.getBase() instanceof MathOperator)
+                && Boolean.parseBoolean(((MathOperator) this.getBase())
+                        .getMovablelimits())) {
+            res = Math.max(this.getBase().getDescentHeight(g), this
+                    .getUnderscript().getHeight(g)
                     - this.getMiddleShift(g));
         } else {
-            res = this.getMathElement(0).getDescentHeight(g)
-                    + this.getMathElement(1).getHeight(g)
+            res = this.getBase().getDescentHeight(g)
+                    + this.getUnderscript().getHeight(g)
                     + this.getUnderSpace(g);
         }
         if (this.getAccentunderAsBoolean()) {
             res = res + this.getUnderSpace(g);
         }
         return res;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int getScriptlevelForChild(final MathElement child) {
-        if (child.isSameNode(this.getFirstChild())) {
-            return this.getAbsoluteScriptLevel();
-        } else {
-            // TODO: Should depend on type and accent
-            return this.getAbsoluteScriptLevel() + 1;
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean isChildBlock(final MathElement child) {
-        if (child.isSameNode(this.getFirstChild())) {
-            return super.isChildBlock(child);
-        } else {
-            return false;
-        }
     }
 
     /** {@inheritDoc} */
@@ -175,7 +155,7 @@ public class MathUnder extends AbstractUnderOverElement {
     }
 
     /** {@inheritDoc} */
-    public MathMLElement getUnderscript() {
+    public MathElement getUnderscript() {
         return this.getMathElement(1);
     }
 
