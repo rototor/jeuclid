@@ -7,6 +7,9 @@
   <body>
     <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
       <action dev="maxberger" type="update">
+        AbstractMathElement: changed whitespace handling, now only trivial spaces are collapsed
+      </action>
+      <action dev="maxberger" type="update">
         DOMMathBuilder: small performance tuning;
       </action>
       <action dev="maxberger" type="update">
