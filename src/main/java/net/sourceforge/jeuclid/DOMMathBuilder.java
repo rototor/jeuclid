@@ -152,13 +152,15 @@ public class DOMMathBuilder {
         }
 
         for (int i = 0; i < childs.getLength(); i++) {
-            if (childs.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                this.traverse(childs.item(i), element, alignmentScope);
-            } else if (childs.item(i).getNodeType() == Node.TEXT_NODE) {
-                element.addText(childs.item(i).getNodeValue());
-            } else if (childs.item(i).getNodeType() == Node.ENTITY_REFERENCE_NODE
-                    && childs.item(i).hasChildNodes()) {
-                final String entityValue = childs.item(i).getFirstChild()
+            final Node childNode = childs.item(i);
+            final short childNodeType = childNode.getNodeType();
+            if (childNodeType == Node.ELEMENT_NODE) {
+                this.traverse(childNode, element, alignmentScope);
+            } else if (childNodeType == Node.TEXT_NODE) {
+                element.addText(childNode.getNodeValue());
+            } else if (childNodeType == Node.ENTITY_REFERENCE_NODE
+                    && childNode.hasChildNodes()) {
+                final String entityValue = childNode.getFirstChild()
                         .getNodeValue();
                 if (entityValue != null) {
                     element.addText(entityValue);
