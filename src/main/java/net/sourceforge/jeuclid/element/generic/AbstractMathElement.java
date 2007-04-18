@@ -125,6 +125,12 @@ public abstract class AbstractMathElement extends
     public static final String ALIGN_RIGHT = "right";
 
     /**
+     * largest value for all trivial spaces (= spaces that can be ignored /
+     * shortened).
+     */
+    public static final int TRIVIAL_SPACE_MAX = 0x20;
+
+    /**
      * The URI from MathML.
      */
     public static final String URI = "http://www.w3.org/1998/Math/MathML";
@@ -201,7 +207,7 @@ public abstract class AbstractMathElement extends
     /**
      * Variable of "scriptsize" attribute, default value is 0.71.
      */
-    private float mscriptsizemultiplier = DEFAULT_SCIPTSIZEMULTIPLIER;
+    private float mscriptsizemultiplier = AbstractMathElement.DEFAULT_SCIPTSIZEMULTIPLIER;
 
     /**
      * This variable is intended to keep the value of vertical shift of the
@@ -489,23 +495,25 @@ public abstract class AbstractMathElement extends
      */
     public void addText(final String text) {
 
-        final StringBuffer newText = new StringBuffer();
+        final StringBuilder newText = new StringBuilder();
         if (this.getTextContent() != null) {
             newText.append(this.getTextContent());
         }
         if (text != null) {
-            newText.append(text);
+            newText.append(text.trim());
         }
 
         for (int i = 0; i < (newText.length() - 1); i++) {
-            if (Character.isWhitespace(newText.charAt(i))
-                    && Character.isWhitespace(newText.charAt(i + 1))) {
+            if ((newText.charAt(i) <= AbstractMathElement.TRIVIAL_SPACE_MAX)
+                    && Character.isSpaceChar(newText.charAt(i + 1))) {
+                newText.deleteCharAt(i);
+            } else if (Character.isSpaceChar(newText.charAt(i))
+                    && (newText.charAt(i + 1) <= AbstractMathElement.TRIVIAL_SPACE_MAX)) {
                 newText.deleteCharAt(i + 1);
             }
         }
 
-        final String toSet = CharConverter.convert(newText.toString().trim());
-
+        final String toSet = CharConverter.convert(newText.toString());
         if (toSet.length() > 0) {
             this.setTextContent(toSet);
         }
