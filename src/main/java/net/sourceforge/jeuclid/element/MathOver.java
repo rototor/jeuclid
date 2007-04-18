@@ -18,20 +18,18 @@
 
 package net.sourceforge.jeuclid.element;
 
-import java.awt.Graphics2D;
-
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractUnderOverElement;
 import net.sourceforge.jeuclid.element.generic.MathElement;
-import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.mathml.MathMLElement;
 
 /**
- * This class arrange a element over an other element.
+ * This class arranges a element over an other element.
  * 
- * @todo common functionality should be merged into AbstractUnderOverElement
+ * @author Unknown
+ * @author Max Berger
  */
 public class MathOver extends AbstractUnderOverElement {
 
@@ -50,112 +48,18 @@ public class MathOver extends AbstractUnderOverElement {
         super(base);
     }
 
-    /**
-     * Space between base and under in pixels
-     */
-    private int getOverSpace(final Graphics2D g) {
-        return (int) AttributesHelper.convertSizeToPt(
-                MathUnderOver.UNDER_OVER_SPACE, this, AttributesHelper.PT);
-    };
-
-    /**
-     * Paints this element.
-     * 
-     * @param g
-     *            The graphics context to use for painting
-     * @param posX
-     *            The first left position for painting
-     * @param posY
-     *            The position of the baseline
-     */
-    @Override
-    public void paint(final Graphics2D g, final int posX, int posY) {
-        super.paint(g, posX, posY);
-        final MathElement e1 = this.getMathElement(0);
-        final MathElement e2 = this.getMathElement(1);
-
-        if ((this.getMathElement(0) instanceof MathOperator)
-                && Boolean.parseBoolean(((MathOperator) this
-                        .getMathElement(0)).getMovablelimits())) {
-            final int middleshift = (int) (e1.getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT);
-            int e1DescentHeight = e1.getDescentHeight(g);
-            if (e1DescentHeight == 0) {
-                e1DescentHeight = this.getFontMetrics(g).getDescent();
-            }
-            int e1AscentHeight = e1.getAscentHeight(g);
-            if (e1AscentHeight == 0) {
-                e1AscentHeight = this.getFontMetrics(g).getAscent();
-            }
-            final int posY2 = posY - e1AscentHeight + middleshift
-                    - e2.getDescentHeight(g) + 1;
-
-            e1.paint(g, posX, posY);
-            e2.paint(g, posX + e1.getWidth(g), posY2);
-        } else {
-            final int width = this.getWidth(g);
-            e1.paint(g, posX + (width - e1.getWidth(g)) / 2, posY);
-            posY = posY - e1.getAscentHeight(g) - e2.getDescentHeight(g)
-                    - this.getOverSpace(g) - 1;
-            if (this.getAccentAsBoolean()) {
-                posY = posY - this.getOverSpace(g);
-            }
-            e2.paint(g, posX + (width - e2.getWidth(g)) / 2, posY);
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int calculateWidth(final Graphics2D g) {
-        if ((this.getMathElement(0) instanceof MathOperator)) {
-            if (Boolean.parseBoolean(((MathOperator) this.getMathElement(0))
-                    .getMovablelimits())) {
-                return this.getMathElement(0).getWidth(g)
-                        + this.getMathElement(1).getWidth(g);
-            }
-        }
-        return Math.max(this.getMathElement(0).getWidth(g), this
-                .getMathElement(1).getWidth(g));
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int calculateAscentHeight(final Graphics2D g) {
-        int res;
-        if ((this.getMathElement(0) instanceof MathOperator)
-                && Boolean.parseBoolean(((MathOperator) this
-                        .getMathElement(0)).getMovablelimits())) {
-            res = Math.max(this.getMathElement(0).getAscentHeight(g), this
-                    .getMathElement(1).getHeight(g)
-                    + this.getMiddleShift(g));
-        } else {
-            res = this.getMathElement(0).getAscentHeight(g)
-                    + this.getMathElement(1).getHeight(g)
-                    + this.getOverSpace(g);
-            if (this.getAccentAsBoolean()) {
-                res = res + this.getOverSpace(g);
-            }
-        }
-        return res;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int calculateDescentHeight(final Graphics2D g) {
-        return this.getMathElement(0).getDescentHeight(g);
-    }
-
     /** {@inheritDoc} */
     public String getTagName() {
         return MathOver.ELEMENT;
     }
 
     /** {@inheritDoc} */
-    public MathMLElement getOverscript() {
+    public MathElement getOverscript() {
         return this.getMathElement(1);
     }
 
     /** {@inheritDoc} */
-    public MathMLElement getUnderscript() {
+    public MathElement getUnderscript() {
         return null;
     }
 
