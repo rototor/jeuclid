@@ -33,6 +33,10 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
  * 
  * @todo This class has common functionality with
  *       AbstractMathElementWithSubSuper
+ * @todo over/under are sometimes a little off to 
+ *       the left / right of the character
+ * @todo some operators should "default" to being 
+ *       an accent, but currently they don't
  * @author Max Berger
  */
 public abstract class AbstractUnderOverElement extends AbstractMathElement
