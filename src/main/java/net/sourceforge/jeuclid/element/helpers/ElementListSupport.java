@@ -68,9 +68,9 @@ public final class ElementListSupport {
      *            List of elements.
      * @return the max ascent height.
      */
-    public static int getAscentHeight(final Graphics2D g,
+    public static float getAscentHeight(final Graphics2D g,
             final List<MathElement> elements) {
-        int height = 0;
+        float height = 0;
         for (final DisplayableNode element : elements) {
             height = Math.max(height, element.getAscentHeight(g));
         }
@@ -86,9 +86,9 @@ public final class ElementListSupport {
      *            List of elements.
      * @return the max descent height.
      */
-    public static int getDescentHeight(final Graphics2D g,
+    public static float getDescentHeight(final Graphics2D g,
             final List<MathElement> elements) {
-        int height = 0;
+        float height = 0;
         for (final DisplayableNode element : elements) {
             height = Math.max(height, element.getDescentHeight(g));
         }
@@ -104,7 +104,7 @@ public final class ElementListSupport {
      *            List of elements.
      * @return thetotal height.
      */
-    public static int getHeight(final Graphics2D g,
+    public static float getHeight(final Graphics2D g,
             final List<MathElement> elements) {
         return ElementListSupport.getAscentHeight(g, elements)
                 + ElementListSupport.getDescentHeight(g, elements);
@@ -119,9 +119,9 @@ public final class ElementListSupport {
      *            List of elements.
      * @return the total width.
      */
-    public static int getWidth(final Graphics2D g,
+    public static float getWidth(final Graphics2D g,
             final List<MathElement> elements) {
-        int width = 0;
+        float width = 0;
         for (final DisplayableNode element : elements) {
             width += element.getWidth(g);
         }
@@ -140,9 +140,9 @@ public final class ElementListSupport {
      * @param posY
      *            y-origin to use for painting.
      */
-    public static void paint(final Graphics2D g, final int posX,
-            final int posY, final List<MathElement> elements) {
-        int pos = posX;
+    public static void paint(final Graphics2D g, final float posX,
+            final float posY, final List<MathElement> elements) {
+        float pos = posX;
         for (final DisplayableNode element : elements) {
             element.paint(g, pos, posY);
             pos += element.getWidth(g);

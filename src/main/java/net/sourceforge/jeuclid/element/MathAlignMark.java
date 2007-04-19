@@ -56,7 +56,7 @@ public class MathAlignMark extends AbstractInvisibleMathElement implements
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
+    public float calculateWidth(final Graphics2D g) {
         return this.width;
     }
 

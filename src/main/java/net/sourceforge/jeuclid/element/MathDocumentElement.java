@@ -77,25 +77,25 @@ public class MathDocumentElement extends AbstractPartialDocumentImpl
      * @param posY
      *            y-offset to start from.
      */
-    public void paint(final Graphics2D g, final int posX, final int posY) {
+    public void paint(final Graphics2D g, final float posX, final float posY) {
         ElementListSupport.paint(g, posX, posY, ElementListSupport
                 .createListOfChildren(this));
     }
 
     /** {@inheritDoc} */
-    public int getWidth(final Graphics2D g) {
+    public float getWidth(final Graphics2D g) {
         return ElementListSupport.getWidth(g, ElementListSupport
                 .createListOfChildren(this));
     }
 
     /** {@inheritDoc} */
-    public int getAscentHeight(final Graphics2D g) {
+    public float getAscentHeight(final Graphics2D g) {
         return ElementListSupport.getAscentHeight(g, ElementListSupport
                 .createListOfChildren(this));
     }
 
     /** {@inheritDoc} */
-    public int getDescentHeight(final Graphics2D g) {
+    public float getDescentHeight(final Graphics2D g) {
         return ElementListSupport.getDescentHeight(g, ElementListSupport
                 .createListOfChildren(this));
     }

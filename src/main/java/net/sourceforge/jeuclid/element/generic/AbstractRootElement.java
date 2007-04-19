@@ -24,6 +24,7 @@ import java.awt.Shape;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
@@ -70,26 +71,27 @@ public abstract class AbstractRootElement extends AbstractMathElement {
 
     /** {@inheritDoc} */
     @Override
-    public int calculateAscentHeight(final Graphics2D g) {
+    public float calculateAscentHeight(final Graphics2D g) {
 
         final List<MathElement> elements = this.getContent();
-        final int asHeight = ElementListSupport.getAscentHeight(g, elements);
-        final int desHeight = ElementListSupport
-                .getDescentHeight(g, elements);
-        final int height = asHeight + desHeight;
+        final float asHeight = ElementListSupport
+                .getAscentHeight(g, elements);
+        final float desHeight = ElementListSupport.getDescentHeight(g,
+                elements);
+        final float height = asHeight + desHeight;
         return Math.max(asHeight + 2, height / 2 + 2 - desHeight
                 + this.getActualIndex().getHeight(g));
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateDescentHeight(final Graphics2D g) {
+    public float calculateDescentHeight(final Graphics2D g) {
         return ElementListSupport.getDescentHeight(g, this.getContent()) + 2;
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
+    public float calculateWidth(final Graphics2D g) {
         return ElementListSupport.getWidth(g, this.getContent())
                 + this.getRootWidth(g) + 1;
     }
@@ -105,14 +107,14 @@ public abstract class AbstractRootElement extends AbstractMathElement {
      *            The position of the baseline
      */
     @Override
-    public void paint(final Graphics2D g, final int posX, final int posY) {
+    public void paint(final Graphics2D g, final float posX, final float posY) {
 
         super.paint(g, posX, posY);
         final List<MathElement> content = this.getContent();
         final MathElement e2 = this.getActualIndex();
 
-        final int width1 = ElementListSupport.getWidth(g, content);
-        final int height1 = ElementListSupport.getHeight(g, content);
+        final float width1 = ElementListSupport.getWidth(g, content);
+        final float height1 = ElementListSupport.getHeight(g, content);
 
         final Font font = g.getFont().deriveFont(
                 this.getFontsizeInPoint()
@@ -121,18 +123,17 @@ public abstract class AbstractRootElement extends AbstractMathElement {
                 .getFontRenderContext(),
                 new char[] { AbstractRootElement.ROOT_CHAR });
         final Rectangle2D gbounds = gv.getGlyphMetrics(0).getBounds2D();
-        final double glyphWidth = gbounds.getWidth()
+        final float glyphWidth = (float) gbounds.getWidth()
                 / AbstractRootElement.INTERNAL_SCALE_FACTOR;
-        final double glyphHeight = gbounds.getHeight()
+        final float glyphHeight = (float) gbounds.getHeight()
                 / AbstractRootElement.INTERNAL_SCALE_FACTOR;
-        final double ascent = gbounds.getY()
+        final float ascent = (float) gbounds.getY()
                 / AbstractRootElement.INTERNAL_SCALE_FACTOR;
 
-        double yScale;
-        double xScale;
+        float yScale;
+        float xScale;
 
-        final int width2 = Math.max((int) Math.round(e2.getWidth(g)
-                - glyphWidth / 2), 0);
+        final float width2 = Math.max(e2.getWidth(g) - glyphWidth / 2, 0);
 
         yScale = (height1 + 4) / glyphHeight;
         xScale = 1;
@@ -141,30 +142,29 @@ public abstract class AbstractRootElement extends AbstractMathElement {
         final AffineTransform prevTransform = g.getTransform();
         transform.scale(xScale, yScale);
 
-        double y = posY + this.getDescentHeight(g);
+        float y = posY + this.getDescentHeight(g);
         y = y - (ascent + glyphHeight) * yScale;
-        double x = posX + width2;
+        float x = posX + width2;
         y = y / yScale;
         x = x / xScale;
 
         g.setTransform(transform);
-        g.drawString(String.valueOf(AbstractRootElement.ROOT_CHAR),
-                (float) x, (float) y);
+        g.drawString(String.valueOf(AbstractRootElement.ROOT_CHAR), x, y);
         g.setTransform(prevTransform);
         final Shape oldClip = g.getClip();
 
-        final int contentDes = ElementListSupport
-                .getDescentHeight(g, content);
+        final float contentDes = ElementListSupport.getDescentHeight(g,
+                content);
 
-        g.clipRect(posX + width2, posY + contentDes - height1 - 2,
-                (int) ((glyphWidth + width2) * xScale) + 1 + width1 - width2,
-                height1 + 4);
+        g.clip(new Rectangle2D.Float(posX + width2, posY + contentDes
+                - height1 - 2, ((glyphWidth + width2) * xScale) + 1 + width1
+                - width2, height1 + 4));
 
-        final int rightTopRootPoint = posY + contentDes - height1 - 2;
+        final float rightTopRootPoint = posY + contentDes - height1 - 2;
 
-        g.drawLine((int) (posX + (glyphWidth + width2) * xScale) + 1,
+        g.draw(new Line2D.Float((posX + (glyphWidth + width2) * xScale) + 1,
                 rightTopRootPoint, posX + this.getWidth(g) + 1,
-                rightTopRootPoint);
+                rightTopRootPoint));
         g.setClip(oldClip);
 
         ElementListSupport.paint(g, posX + this.getRootWidth(g) + 1, posY,
@@ -173,7 +173,7 @@ public abstract class AbstractRootElement extends AbstractMathElement {
                 - height1 / 2);
     }
 
-    private int getRootWidth(final Graphics2D g) {
+    private float getRootWidth(final Graphics2D g) {
         float result = 0;
 
         final FontRenderContext context = new FontRenderContext(
@@ -183,7 +183,7 @@ public abstract class AbstractRootElement extends AbstractMathElement {
         result = (float) (gv.getGlyphMetrics(0).getBounds2D().getWidth());
         result += Math.max(this.getActualIndex().getWidth(g) - result / 2.0f,
                 0);
-        return (int) Math.ceil(result);
+        return result;
     }
 
 }

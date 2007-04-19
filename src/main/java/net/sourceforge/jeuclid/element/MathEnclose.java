@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -127,12 +128,12 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
 
     /** {@inheritDoc} */
     @Override
-    public void paint(final Graphics2D g, final int posX, final int posY) {
+    public void paint(final Graphics2D g, final float posX, final float posY) {
         super.paint(g, posX, posY);
         Integer currentNotation = null;
-        final int width = this.getWidth(g);
-        final int ascHeight = this.getAscentHeight(g);
-        final int descHeight = this.getDescentHeight(g);
+        final float width = this.getWidth(g);
+        final float ascHeight = this.getAscentHeight(g);
+        final float descHeight = this.getDescentHeight(g);
         final NotationDesc nd = new NotationDesc(posX, posY, width,
                 ascHeight, descHeight);
         for (final Object element2 : this.notations) {
@@ -142,26 +143,26 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
         super.paint(g, nd.mposX, nd.mposY);
     }
 
-    private int getRootWidth(final char root) {
+    private float getRootWidth(final char root) {
         final java.awt.font.FontRenderContext context = new FontRenderContext(
                 new java.awt.geom.AffineTransform(), false, false);
         final GlyphVector gv = this.getFont().createGlyphVector(context,
                 new char[] { root });
-        final int result = (int) gv.getGlyphMetrics(0).getBounds2D()
+        final float result = (float) gv.getGlyphMetrics(0).getBounds2D()
                 .getWidth();
         return result + 2;
     }
 
     private class NotationDesc {
-        private int mposX;
+        private float mposX;
 
-        private int mposY;
+        private float mposY;
 
-        private int mwidth;
+        private float mwidth;
 
-        private int mascHeight;
+        private float mascHeight;
 
-        private int mdescHeight;
+        private float mdescHeight;
 
         /**
          * @param posX
@@ -170,8 +171,9 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
          * @param ascHeight
          * @param descHeight
          */
-        public NotationDesc(final int posX, final int posY, final int width,
-                final int ascHeight, final int descHeight) {
+        public NotationDesc(final float posX, final float posY,
+                final float width, final float ascHeight,
+                final float descHeight) {
             super();
             this.mposX = posX;
             this.mposY = posY;
@@ -199,10 +201,10 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
                     .getFontRenderContext(),
                     new char[] { MathEnclose.LONGDIV_CHAR });
             final Rectangle2D gbounds = gv.getGlyphMetrics(0).getBounds2D();
-            final double glyphWidth = gbounds.getWidth();
-            final double glyphHeight = gbounds.getHeight();
-            double yScale;
-            double xScale;
+            final float glyphWidth = (float) gbounds.getWidth();
+            final float glyphHeight = (float) gbounds.getHeight();
+            float yScale;
+            float xScale;
             yScale = (nd.mascHeight + nd.mdescHeight) / glyphHeight;
             xScale = 1;
             final java.awt.geom.AffineTransform transform = g2d
@@ -210,24 +212,23 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
             final java.awt.geom.AffineTransform prevTransform = g2d
                     .getTransform();
             transform.scale(xScale, yScale);
-            double y = nd.mposY + nd.mdescHeight;
-            y = y - (gbounds.getY() + gbounds.getHeight()) * yScale;
-            double x = nd.mposX;
+            float y = nd.mposY + nd.mdescHeight;
+            y = y - (float) ((gbounds.getY() + gbounds.getHeight()) * yScale);
+            float x = nd.mposX;
             y = y / yScale;
             x = x / xScale;
             final Shape oldClip = g2d.getClip();
-            g2d.clipRect(nd.mposX - 1,
-                    (int) (nd.mposY + nd.mdescHeight - glyphHeight * yScale),
-                    (int) (glyphWidth * xScale + 2), (int) (glyphHeight
-                            * yScale + 2));
+            g2d.clip(new Rectangle2D.Float(nd.mposX - 1, (nd.mposY
+                    + nd.mdescHeight - glyphHeight * yScale), (glyphWidth
+                    * xScale + 2), (glyphHeight * yScale + 2)));
             g2d.setTransform(transform);
             g2d.drawGlyphVector(gv, (float) x, (float) y);
             g2d.setTransform(prevTransform);
             g2d.setClip(oldClip);
-            final int rightTopPoint = (int) ((nd.mposY + nd.mdescHeight - glyphHeight
+            final float rightTopPoint = ((nd.mposY + nd.mdescHeight - glyphHeight
                     * yScale));
-            g2d.drawLine(nd.mposX + 1, rightTopPoint, nd.mposX + 1
-                    + nd.mwidth, rightTopPoint);
+            g2d.draw(new Line2D.Float(nd.mposX + 1, rightTopPoint, nd.mposX
+                    + 1 + nd.mwidth, rightTopPoint));
             nd.mposX = nd.mposX + this.getRootWidth(MathEnclose.LONGDIV_CHAR)
                     + 1;
             nd.mwidth = nd.mwidth
@@ -235,18 +236,18 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
             nd.mascHeight = nd.mascHeight - 2;
             nd.mdescHeight = nd.mdescHeight - 2;
         } else if (notation == this.isUpdiagonalstrike) {
-            g2d.drawLine(nd.mposX, nd.mposY + nd.mdescHeight, nd.mposX
-                    + nd.mwidth, nd.mposY - nd.mascHeight);
+            g2d.draw(new Line2D.Float(nd.mposX, nd.mposY + nd.mdescHeight,
+                    nd.mposX + nd.mwidth, nd.mposY - nd.mascHeight));
         } else if (notation == this.isDowndiagonalstrike) {
-            g2d.drawLine(nd.mposX, nd.mposY - nd.mascHeight, nd.mposX
-                    + nd.mwidth, nd.mposY + nd.mdescHeight);
+            g2d.draw(new Line2D.Float(nd.mposX, nd.mposY - nd.mascHeight,
+                    nd.mposX + nd.mwidth, nd.mposY + nd.mdescHeight));
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
-        int width = super.calculateChildrenWidth(g);
+    public float calculateWidth(final Graphics2D g) {
+        float width = super.calculateChildrenWidth(g);
         Integer notation = null;
         for (final Object element2 : this.notations) {
             notation = (Integer) element2;
@@ -260,8 +261,8 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
 
     /** {@inheritDoc} */
     @Override
-    public int calculateAscentHeight(final Graphics2D g) {
-        int ah = this.calculateChildrenAscentHeight(g);
+    public float calculateAscentHeight(final Graphics2D g) {
+        float ah = this.calculateChildrenAscentHeight(g);
         Integer notation = null;
         for (final Object element2 : this.notations) {
             notation = (Integer) element2;
@@ -274,8 +275,8 @@ public class MathEnclose extends AbstractMathElementWithChildren implements
 
     /** {@inheritDoc} */
     @Override
-    public int calculateDescentHeight(final Graphics2D g) {
-        int dh = super.calculateChildrenDescentHeight(g);
+    public float calculateDescentHeight(final Graphics2D g) {
+        float dh = super.calculateChildrenDescentHeight(g);
         Integer notation = null;
         for (final Object element2 : this.notations) {
             notation = (Integer) element2;

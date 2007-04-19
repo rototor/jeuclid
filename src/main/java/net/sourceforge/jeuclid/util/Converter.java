@@ -173,10 +173,9 @@ public final class Converter {
                 // Ask the test to render into the SVG Graphics2D
                 // implementation
 
-                svgGenerator
-                        .setSVGCanvasSize(new Dimension(base
-                                .getWidth(svgGenerator), base
-                                .getHeight(svgGenerator)));
+                svgGenerator.setSVGCanvasSize(new Dimension((int) Math
+                        .ceil(base.getWidth(svgGenerator)), (int) Math
+                        .ceil(base.getHeight(svgGenerator))));
                 base.paint(svgGenerator);
 
                 svgGenerator.stream(outFile.getAbsolutePath());
@@ -191,8 +190,8 @@ public final class Converter {
                             BufferedImage.TYPE_INT_ARGB);
                     final Graphics2D tempg = (Graphics2D) tempimage
                             .getGraphics();
-                    final int width = base.getWidth(tempg);
-                    final int height = base.getHeight(tempg);
+                    final int width = (int) Math.ceil(base.getWidth(tempg));
+                    final int height = (int) Math.ceil(base.getHeight(tempg));
 
                     final BufferedImage image = new BufferedImage(width,
                             height, BufferedImage.TYPE_INT_ARGB);

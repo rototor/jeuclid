@@ -121,28 +121,28 @@ public class MathSpace extends AbstractMathElement implements
      *            The position of the baseline
      */
     @Override
-    public void paint(final Graphics2D g, final int posX, final int posY) {
+    public void paint(final Graphics2D g, final float posX, final float posY) {
         super.paint(g, posX, posY);
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
-        return (int) AttributesHelper.convertSizeToPt(this.getWidth(), this,
+    public float calculateWidth(final Graphics2D g) {
+        return AttributesHelper.convertSizeToPt(this.getWidth(), this,
                 AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateAscentHeight(final Graphics2D g) {
-        return (int) AttributesHelper.convertSizeToPt(this.getHeight(), this,
+    public float calculateAscentHeight(final Graphics2D g) {
+        return AttributesHelper.convertSizeToPt(this.getHeight(), this,
                 AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateDescentHeight(final Graphics2D g) {
-        return (int) AttributesHelper.convertSizeToPt(this.getDepth(), this,
+    public float calculateDescentHeight(final Graphics2D g) {
+        return AttributesHelper.convertSizeToPt(this.getDepth(), this,
                 AttributesHelper.PT);
     }
 

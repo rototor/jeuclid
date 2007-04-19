@@ -65,7 +65,7 @@ public interface MathElement extends MathMLElement, DisplayableNode, MathNode {
      * @param g
      *            Graphics2D context to use.
      */
-    int calculateAscentHeight(Graphics2D g);
+    float calculateAscentHeight(Graphics2D g);
 
     /**
      * Calculates descent height (under the base line) of the element.
@@ -74,7 +74,7 @@ public interface MathElement extends MathMLElement, DisplayableNode, MathNode {
      * @param g
      *            Graphics2D context to use.
      */
-    int calculateDescentHeight(Graphics2D g);
+    float calculateDescentHeight(Graphics2D g);
 
     /**
      * @param calculatingSize
@@ -105,9 +105,9 @@ public interface MathElement extends MathMLElement, DisplayableNode, MathNode {
      * stored in the top-level element of the line.
      * 
      * @return Value of the corrector of the line.
-     * @see #setGlobalLineCorrector(int)
+     * @see #setGlobalLineCorrector(float)
      */
-    int getGlobalLineCorrector();
+    float getGlobalLineCorrector();
 
     /**
      * Gets index of child element.
@@ -136,7 +136,7 @@ public interface MathElement extends MathMLElement, DisplayableNode, MathNode {
      *            Value of corrector.
      * @see #getGlobalLineCorrector()
      */
-    void setGlobalLineCorrector(final int corrector);
+    void setGlobalLineCorrector(final float corrector);
 
     /**
      * Gets a child from this element.

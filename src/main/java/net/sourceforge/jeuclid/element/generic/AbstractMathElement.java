@@ -22,6 +22,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -135,7 +137,7 @@ public abstract class AbstractMathElement extends
      */
     public static final String URI = "http://www.w3.org/1998/Math/MathML";
 
-    private static final double MIDDLE_SHIFT = 0.38;
+    private static final float MIDDLE_SHIFT = 0.38f;
 
     private static final float DEFAULT_SCIPTSIZEMULTIPLIER = 0.71f;
 
@@ -155,41 +157,41 @@ public abstract class AbstractMathElement extends
     /**
      * Value of calculated height of the element .
      */
-    private int calculatedHeight = -1;
+    private float calculatedHeight = -1;
 
     /**
      * Value of calculated width of the element .
      */
-    private int calculatedWidth = -1;
+    private float calculatedWidth = -1;
 
     /**
      * Value of calculated ascent height of the element
      */
-    private int calculatedAscentHeight = -1;
+    private float calculatedAscentHeight = -1;
 
     /**
      * Value of calculated descent height of the element
      */
-    private int calculatedDescentHeight = -1;
+    private float calculatedDescentHeight = -1;
 
     /**
      * Value of calculated height of the element
      */
-    private int calculatedStretchHeight = -1;
+    private float calculatedStretchHeight = -1;
 
     /**
      * Value of calculated ascent height of the element
      */
-    private int calculatedStretchAscentHeight = -1;
+    private float calculatedStretchAscentHeight = -1;
 
     /**
      * Value of calculated descent height of the element .
      */
-    private int calculatedStretchDescentHeight = -1;
+    private float calculatedStretchDescentHeight = -1;
 
-    private int lastPaintedX = -1;
+    private float lastPaintedX = -1;
 
-    private int lastPaintedY = -1;
+    private float lastPaintedY = -1;
 
     /**
      * Reference to the MathBase object, which controls all font and metrics
@@ -215,7 +217,7 @@ public abstract class AbstractMathElement extends
      * line. This value affects only elements with enlarged parts (such as
      * "msubsup", "munderover", etc.)
      */
-    private int globalLineCorrecter;
+    private float globalLineCorrecter;
 
     /**
      * Creates a math element.
@@ -801,23 +803,24 @@ public abstract class AbstractMathElement extends
      * @param posY
      *            The position of the baseline
      */
-    public void debug(final Graphics2D g, final int posX, final int posY) {
+    public void debug(final Graphics2D g, final float posX, final float posY) {
         g.setColor(Color.blue);
-        g.drawLine(posX, posY - this.getAscentHeight(g), posX
-                + this.getWidth(g), posY - this.getAscentHeight(g));
-        g.drawLine(posX + this.getWidth(g), posY - this.getAscentHeight(g),
-                posX + this.getWidth(g), posY + this.getDescentHeight(g));
-        g.drawLine(posX, posY + this.getDescentHeight(g), posX
-                + this.getWidth(g), posY + this.getDescentHeight(g));
-        g.drawLine(posX, posY - this.getAscentHeight(g), posX, posY
-                + this.getDescentHeight(g));
+        g.draw(new Line2D.Float(posX, posY - this.getAscentHeight(g), posX
+                + this.getWidth(g), posY - this.getAscentHeight(g)));
+        g.draw(new Line2D.Float(posX + this.getWidth(g), posY
+                - this.getAscentHeight(g), posX + this.getWidth(g), posY
+                + this.getDescentHeight(g)));
+        g.draw(new Line2D.Float(posX, posY + this.getDescentHeight(g), posX
+                + this.getWidth(g), posY + this.getDescentHeight(g)));
+        g.draw(new Line2D.Float(posX, posY - this.getAscentHeight(g), posX,
+                posY + this.getDescentHeight(g)));
         g.setColor(Color.red);
-        g.drawLine(posX, posY, posX + this.getWidth(g), posY);
+        g.draw(new Line2D.Float(posX, posY, posX + this.getWidth(g), posY));
         g.setColor(Color.black);
     }
 
     /** {@inheritDoc} */
-    public void setGlobalLineCorrector(final int corrector) {
+    public void setGlobalLineCorrector(final float corrector) {
         if (this.getParent() == null) {
             return;
         }
@@ -835,7 +838,7 @@ public abstract class AbstractMathElement extends
     }
 
     /** {@inheritDoc} */
-    public int getGlobalLineCorrector() {
+    public float getGlobalLineCorrector() {
         if (this.getParent() == null) {
             return 0;
         }
@@ -852,8 +855,8 @@ public abstract class AbstractMathElement extends
     }
 
     /** {@inheritDoc} */
-    public int getWidth(final Graphics2D g) {
-        if (this.calculatedWidth == -1) {
+    public float getWidth(final Graphics2D g) {
+        if (this.calculatedWidth < 0) {
             this.calculatedWidth = this.calculateWidth(g);
         }
         return this.calculatedWidth;
@@ -866,19 +869,19 @@ public abstract class AbstractMathElement extends
      * @param g
      *            Graphics2D context to use.
      */
-    public abstract int calculateWidth(Graphics2D g);
+    public abstract float calculateWidth(Graphics2D g);
 
     /** {@inheritDoc} */
-    public int getHeight(final Graphics2D g) {
+    public float getHeight(final Graphics2D g) {
         if (this.calculatingSize
                 || ((this.getParent() != null) && (this.getParent()
                         .isCalculatingSize()))) {
-            if (this.calculatedStretchHeight == -1) {
+            if (this.calculatedStretchHeight < 0) {
                 this.calculatedStretchHeight = this.calculateHeight(g);
             }
             return this.calculatedStretchHeight;
         } else {
-            if (this.calculatedHeight == -1) {
+            if (this.calculatedHeight < 0) {
                 this.calculatedHeight = this.calculateHeight(g);
             }
             return this.calculatedHeight;
@@ -892,22 +895,22 @@ public abstract class AbstractMathElement extends
      * @param g
      *            Graphics2D context to use.
      */
-    public int calculateHeight(final Graphics2D g) {
+    public float calculateHeight(final Graphics2D g) {
         return this.getAscentHeight(g) + this.getDescentHeight(g);
     }
 
     /** {@inheritDoc} */
-    public int getAscentHeight(final Graphics2D g) {
+    public float getAscentHeight(final Graphics2D g) {
         if (this.calculatingSize
                 || ((this.getParent() != null) && (this.getParent()
                         .isCalculatingSize()))) {
-            if (this.calculatedStretchAscentHeight == -1) {
+            if (this.calculatedStretchAscentHeight < 0) {
                 this.calculatedStretchAscentHeight = this
                         .calculateAscentHeight(g);
             }
             return this.calculatedStretchAscentHeight;
         } else {
-            if (this.calculatedAscentHeight == -1) {
+            if (this.calculatedAscentHeight < 0) {
                 this.calculatedAscentHeight = this.calculateAscentHeight(g);
             }
             return this.calculatedAscentHeight;
@@ -915,20 +918,20 @@ public abstract class AbstractMathElement extends
     }
 
     /** {@inheritDoc} */
-    public abstract int calculateAscentHeight(Graphics2D g);
+    public abstract float calculateAscentHeight(Graphics2D g);
 
     /** {@inheritDoc} */
-    public int getDescentHeight(final Graphics2D g) {
+    public float getDescentHeight(final Graphics2D g) {
         if (this.calculatingSize
                 || ((this.getParent() != null) && (this.getParent()
                         .isCalculatingSize()))) {
-            if (this.calculatedStretchDescentHeight == -1) {
+            if (this.calculatedStretchDescentHeight < 0) {
                 this.calculatedStretchDescentHeight = this
                         .calculateDescentHeight(g);
             }
             return this.calculatedStretchDescentHeight;
         } else {
-            if (this.calculatedDescentHeight == -1) {
+            if (this.calculatedDescentHeight < 0) {
                 this.calculatedDescentHeight = this.calculateDescentHeight(g);
             }
             return this.calculatedDescentHeight;
@@ -936,7 +939,7 @@ public abstract class AbstractMathElement extends
     }
 
     /** {@inheritDoc} */
-    public abstract int calculateDescentHeight(Graphics2D g);
+    public abstract float calculateDescentHeight(Graphics2D g);
 
     /**
      * Returns the distance of the baseline and the middleline.
@@ -945,8 +948,9 @@ public abstract class AbstractMathElement extends
      * @param g
      *            Graphics2D context to use.
      */
-    public int getMiddleShift(final Graphics2D g) {
-        return (int) (this.getFontMetrics(g).getAscent() * AbstractMathElement.MIDDLE_SHIFT);
+    public float getMiddleShift(final Graphics2D g) {
+        return this.getFontMetrics(g).getAscent()
+                * AbstractMathElement.MIDDLE_SHIFT;
     }
 
     /** {@inheritDoc} */
@@ -1047,13 +1051,14 @@ public abstract class AbstractMathElement extends
     }
 
     /** {@inheritDoc} */
-    public void paint(final Graphics2D g, final int posX, final int posY) {
+    public void paint(final Graphics2D g, final float posX, final float posY) {
         this.lastPaintedX = posX;
         this.lastPaintedY = posY;
         if (this.getBackgroundColor() != null) {
             g.setColor(this.getBackgroundColor());
-            g.fillRect(posX, posY - this.getAscentHeight(g),
-                    this.getWidth(g), this.getHeight(g));
+            g.fill(new Rectangle2D.Float(posX,
+                    posY - this.getAscentHeight(g), this.getWidth(g), this
+                            .getHeight(g)));
         }
 
         if (this.getMathBase().isDebug()) {
@@ -1065,12 +1070,12 @@ public abstract class AbstractMathElement extends
     }
 
     /** {@inheritDoc} */
-    public int getPaintedPosX() {
+    public float getPaintedPosX() {
         return this.lastPaintedX;
     }
 
     /** {@inheritDoc} */
-    public int getPaintedPosY() {
+    public float getPaintedPosY() {
         return this.lastPaintedY;
     }
 

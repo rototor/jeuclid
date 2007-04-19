@@ -51,7 +51,7 @@ public class DOMMathBuilder {
      */
     private MathDocumentElement rootElement;
 
-    private MathBase m_base;
+    private MathBase mbase;
 
     /**
      * Constructs a builder.
@@ -63,11 +63,11 @@ public class DOMMathBuilder {
      */
     public DOMMathBuilder(final Document document, final MathBase mathBase) {
 
-        this.m_base = mathBase;
+        this.mbase = mathBase;
 
         final Element documentElement = document.getDocumentElement();
 
-        this.rootElement = new MathDocumentElement(this.m_base);
+        this.rootElement = new MathDocumentElement(this.mbase);
         mathBase.setRootElement(this.rootElement);
 
         this.traverse(documentElement, this.rootElement, null);
@@ -109,7 +109,7 @@ public class DOMMathBuilder {
                 .getAttributes());
 
         final AbstractMathElement element = (AbstractMathElement) MathElementFactory
-                .elementFromName(tagname, attributes, this.m_base);
+                .elementFromName(tagname, attributes, this.mbase);
 
         // TODO: All theses should be handled within the appropriate class
         if (tagname.equals(MathTableData.ELEMENT)) {

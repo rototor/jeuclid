@@ -46,7 +46,7 @@ public abstract class AbstractMathElementWithSubSuper extends
      * 
      * @todo Check this number. Where does it come from?
      */
-    public static final double DEFAULT_SCRIPTSHIFT = 0.215;
+    public static final float DEFAULT_SCRIPTSHIFT = 0.215f;
 
     private static final String NONE = "0";
 
@@ -112,11 +112,12 @@ public abstract class AbstractMathElementWithSubSuper extends
      *            Graphics context to use.
      * @return subscriptshift
      */
-    protected int getSubMiddleShift(final int reference, final Graphics2D g) {
-        return (int) (reference
-                * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT + AttributesHelper
-                .convertSizeToPt(this.getSubscriptshift(), this,
-                        AttributesHelper.PT));
+    protected float getSubMiddleShift(final float reference,
+            final Graphics2D g) {
+        return reference
+                * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT
+                + AttributesHelper.convertSizeToPt(this.getSubscriptshift(),
+                        this, AttributesHelper.PT);
     }
 
     /**
@@ -129,11 +130,13 @@ public abstract class AbstractMathElementWithSubSuper extends
      *            Graphics context to use.
      * @return actual supscriptshift
      */
-    protected int getSupMiddleShift(final int reference, final Graphics2D g) {
-        return (int) (reference
-                * (1.0 - AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT) + AttributesHelper
-                .convertSizeToPt(this.getSuperscriptshift(), this,
-                        AttributesHelper.PT));
+    protected float getSupMiddleShift(final float reference,
+            final Graphics2D g) {
+        return reference
+                * (1.0f - AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT)
+                + AttributesHelper
+                        .convertSizeToPt(this.getSuperscriptshift(), this,
+                                AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */
@@ -153,14 +156,13 @@ public abstract class AbstractMathElementWithSubSuper extends
      *            Graphics context to use
      * @return baseline shift for super elements
      */
-    protected int getSuperBaseLineShift(final Graphics2D g) {
+    protected float getSuperBaseLineShift(final Graphics2D g) {
         final MathElement supElement = this.getSuperscript();
         final MathElement baseElement = this.getBase();
-        final int middleshift = this.getSupMiddleShift(Math.max(baseElement
-                .getHeight(g), (int) (baseElement.getFontsizeInPoint() / 2)),
-                g);
-        final int baseDescentHeight = baseElement.getDescentHeight(g);
-        final int superDescentHeight = supElement.getDescentHeight(g);
+        final float middleshift = this.getSupMiddleShift(Math.max(baseElement
+                .getHeight(g), (baseElement.getFontsizeInPoint() / 2)), g);
+        final float baseDescentHeight = baseElement.getDescentHeight(g);
+        final float superDescentHeight = supElement.getDescentHeight(g);
 
         return -baseDescentHeight + middleshift + superDescentHeight;
     }
@@ -173,13 +175,13 @@ public abstract class AbstractMathElementWithSubSuper extends
      *            Graphics context to use
      * @return baseline shift for super elements
      */
-    protected int getSubBaseLineShift(final Graphics2D g) {
+    protected float getSubBaseLineShift(final Graphics2D g) {
         final MathElement subElement = this.getSubscript();
         final MathElement baseElement = this.getBase();
-        final int middleshift = this.getSubMiddleShift(Math.max(baseElement
-                .getHeight(g), (int) baseElement.getFontsizeInPoint()), g);
-        final int baseDescentHeight = baseElement.getDescentHeight(g);
-        final int subDescentHeight = subElement.getDescentHeight(g);
+        final float middleshift = this.getSubMiddleShift(Math.max(baseElement
+                .getHeight(g), baseElement.getFontsizeInPoint()), g);
+        final float baseDescentHeight = baseElement.getDescentHeight(g);
+        final float subDescentHeight = subElement.getDescentHeight(g);
 
         return baseDescentHeight + middleshift + subDescentHeight;
     }
@@ -191,7 +193,7 @@ public abstract class AbstractMathElementWithSubSuper extends
      *            Graphics context to use
      * @return ascent height
      */
-    protected int caclulateAscentHeightWithSuper(final Graphics2D g) {
+    protected float caclulateAscentHeightWithSuper(final Graphics2D g) {
         final MathElement supElement = this.getSuperscript();
         final MathElement baseElement = this.getBase();
         return Math.max(baseElement.getAscentHeight(g), this
@@ -207,7 +209,7 @@ public abstract class AbstractMathElementWithSubSuper extends
      *            Graphics context to use
      * @return descent height
      */
-    protected int caclulateDescentHeightWithSub(final Graphics2D g) {
+    protected float caclulateDescentHeightWithSub(final Graphics2D g) {
         final MathElement subElement = this.getSubscript();
         final MathElement baseElement = this.getBase();
         return Math.max(baseElement.getDescentHeight(g), this

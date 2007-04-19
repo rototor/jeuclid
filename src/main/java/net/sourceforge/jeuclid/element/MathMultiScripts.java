@@ -71,7 +71,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
      *            The position of the baseline
      */
     @Override
-    public final void paint(final Graphics2D g, int posX, final int posY) {
+    public final void paint(final Graphics2D g, float posX, final float posY) {
         super.paint(g, posX, posY);
         int prPos = -1;
         for (int i = 1; i < this.getMathElementCount(); i++) {
@@ -91,18 +91,19 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
                 }
             }
         }
-        int middleshift = 0;
+        float middleshift = 0;
         if (childElement != null) {
-            middleshift = (int) (baseElement.getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT);
+            middleshift = baseElement.getHeight(g)
+                    * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT;
         }
-        int e1DescentHeight = 0;
+        float e1DescentHeight = 0;
         if (baseElement != null) {
             e1DescentHeight = baseElement.getDescentHeight(g);
         }
         if (e1DescentHeight == 0) {
             e1DescentHeight = this.getFontMetrics(g).getDescent();
         }
-        int e1AscentHeight = 0;
+        float e1AscentHeight = 0;
         if (baseElement != null) {
             e1AscentHeight = baseElement.getAscentHeight(g);
         }
@@ -110,9 +111,9 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
             e1AscentHeight = this.getFontMetrics(g).getAscent();
         }
 
-        final int posY1 = posY + e1DescentHeight
+        final float posY1 = posY + e1DescentHeight
                 + this.calculateMaxElementAscentHeight(g) - middleshift;
-        final int posY2 = posY - e1AscentHeight + middleshift
+        final float posY2 = posY - e1AscentHeight + middleshift
                 - this.calculateMaxElementDescentHeight(g);
 
         int width = 0;
@@ -170,8 +171,8 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
 
     /** {@inheritDoc} */
     @Override
-    public final int calculateWidth(final Graphics2D g) { // done
-        int width = 0;
+    public final float calculateWidth(final Graphics2D g) { // done
+        float width = 0;
         if (this.getMathElementCount() > 0) {
             width += this.getMathElement(0).getWidth(g);
             int prPos = -1;
@@ -215,10 +216,10 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
      * @param g
      *            Graphics2D context to use.
      */
-    public final int calculateMaxElementAscentHeight(final Graphics2D g) {
+    public final float calculateMaxElementAscentHeight(final Graphics2D g) {
 
         int prPos = -1;
-        int descenHeight = 0;
+        float descenHeight = 0;
         for (int i = 0; i < this.getMathElementCount(); i++) {
             if (this.getMathElement(i) instanceof MathPreScripts) {
                 prPos = i;
@@ -252,9 +253,9 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
 
     /** {@inheritDoc} */
     @Override
-    public final int calculateAscentHeight(final Graphics2D g) {
+    public final float calculateAscentHeight(final Graphics2D g) {
         int prPos = -1;
-        int e2h = 0;
+        float e2h = 0;
         for (int i = 0; i < this.getMathElementCount(); i++) {
             if (this.getMathElement(i) instanceof MathPreScripts) {
                 prPos = i;
@@ -274,7 +275,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
                                         .max(
                                                 this.getMathElement(i)
                                                         .getHeight(g)
-                                                        - (int) (this
+                                                        - (this
                                                                 .getMathElement(
                                                                         0)
                                                                 .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),
@@ -291,7 +292,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
                                         .max(
                                                 this.getMathElement(i)
                                                         .getHeight(g)
-                                                        - (int) (this
+                                                        - (this
                                                                 .getMathElement(
                                                                         0)
                                                                 .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),
@@ -306,7 +307,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
                                         .max(
                                                 this.getMathElement(i)
                                                         .getHeight(g)
-                                                        - (int) (this
+                                                        - (this
                                                                 .getMathElement(
                                                                         0)
                                                                 .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),
@@ -323,8 +324,8 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
      * @param g
      *            Graphics2D context to use.
      */
-    public final int getMaxElementHeight(final Graphics2D g) {
-        int childHeight = 0;
+    public final float getMaxElementHeight(final Graphics2D g) {
+        float childHeight = 0;
         int prPos = -1;
         for (int i = 0; i < this.getMathElementCount(); i++) {
             if (this.getMathElement(i) instanceof MathPreScripts) {
@@ -366,9 +367,9 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
      *            Graphics2D context to use.
      */
 
-    public final int calculateMaxElementDescentHeight(final Graphics2D g) {
+    public final float calculateMaxElementDescentHeight(final Graphics2D g) {
         int prPos = -1;
-        int ascentHeight = 0;
+        float ascentHeight = 0;
         for (int i = 0; i < this.getMathElementCount(); i++) {
             if (this.getMathElement(i) instanceof MathPreScripts) {
                 prPos = i;
@@ -402,10 +403,10 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
 
     /** {@inheritDoc} */
     @Override
-    public final int calculateDescentHeight(final Graphics2D g) {
+    public final float calculateDescentHeight(final Graphics2D g) {
 
         int prPos = -1;
-        int e2h = 0;
+        float e2h = 0;
         for (int i = 0; i < this.getMathElementCount(); i++) {
             if (this.getMathElement(i) instanceof MathPreScripts) {
                 prPos = i;
@@ -425,7 +426,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
                                         .max(
                                                 this.getMathElement(i)
                                                         .getHeight(g)
-                                                        - (int) (this
+                                                        - (this
                                                                 .getMathElement(
                                                                         0)
                                                                 .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),
@@ -442,7 +443,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
                                         .max(
                                                 this.getMathElement(i)
                                                         .getHeight(g)
-                                                        - (int) (this
+                                                        - (this
                                                                 .getMathElement(
                                                                         0)
                                                                 .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),
@@ -457,7 +458,7 @@ public class MathMultiScripts extends AbstractMathElementWithSubSuper
                                         .max(
                                                 this.getMathElement(i)
                                                         .getHeight(g)
-                                                        - (int) (this
+                                                        - (this
                                                                 .getMathElement(
                                                                         0)
                                                                 .getHeight(g) * AbstractMathElementWithSubSuper.DEFAULT_SCRIPTSHIFT),

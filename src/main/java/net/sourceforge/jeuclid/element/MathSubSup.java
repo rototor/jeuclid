@@ -61,7 +61,7 @@ public class MathSubSup extends AbstractMathElementWithSubSuper implements
      *            The position of the baseline.
      */
     @Override
-    public void paint(final Graphics2D g, final int posX, final int posY) {
+    public void paint(final Graphics2D g, final float posX, final float posY) {
         super.paint(g, posX, posY);
         final MathElement e1 = this.getMathElement(0);
         final MathElement e2 = this.getMathElement(1);
@@ -77,7 +77,7 @@ public class MathSubSup extends AbstractMathElementWithSubSuper implements
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
+    public float calculateWidth(final Graphics2D g) {
         return this.getMathElement(0).getWidth(g)
                 + Math.max(this.getMathElement(1).getWidth(g), this
                         .getMathElement(2).getWidth(g)) + 1;
@@ -85,13 +85,13 @@ public class MathSubSup extends AbstractMathElementWithSubSuper implements
 
     /** {@inheritDoc} */
     @Override
-    public int calculateAscentHeight(final Graphics2D g) {
+    public float calculateAscentHeight(final Graphics2D g) {
         return this.caclulateAscentHeightWithSuper(g);
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateDescentHeight(final Graphics2D g) {
+    public float calculateDescentHeight(final Graphics2D g) {
         return this.caclulateDescentHeightWithSub(g);
     }
 

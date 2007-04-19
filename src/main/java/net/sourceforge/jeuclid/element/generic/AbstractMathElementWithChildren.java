@@ -57,25 +57,25 @@ public abstract class AbstractMathElementWithChildren extends
      * @param posY
      *            y-offset to start painting
      */
-    protected void paintChildren(final Graphics2D g, final int posX,
-            final int posY) {
+    protected void paintChildren(final Graphics2D g, final float posX,
+            final float posY) {
         super.paint(g, posX, posY);
         ElementListSupport.paint(g, posX, posY, this.getChildrenAsList());
     }
 
     /** {@inheritDoc} */
-    public int calculateChildrenWidth(final Graphics2D g) {
+    public float calculateChildrenWidth(final Graphics2D g) {
         return ElementListSupport.getWidth(g, this.getChildrenAsList());
     }
 
     /** {@inheritDoc} */
-    public int calculateChildrenAscentHeight(final Graphics2D g) {
+    public float calculateChildrenAscentHeight(final Graphics2D g) {
         return ElementListSupport
                 .getAscentHeight(g, this.getChildrenAsList());
     }
 
     /** {@inheritDoc} */
-    public int calculateChildrenDescentHeight(final Graphics2D g) {
+    public float calculateChildrenDescentHeight(final Graphics2D g) {
         return ElementListSupport.getDescentHeight(g, this
                 .getChildrenAsList());
     }

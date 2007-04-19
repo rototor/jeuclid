@@ -252,7 +252,7 @@ public class MathOperator extends AbstractMathElement implements
      *            The position of the baseline
      */
     @Override
-    public void paint(final Graphics2D g, final int posX, final int posY) {
+    public void paint(final Graphics2D g, final float posX, final float posY) {
         super.paint(g, posX, posY);
         this.calculateSpecs(g);
 
@@ -333,12 +333,12 @@ public class MathOperator extends AbstractMathElement implements
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
+    public float calculateWidth(final Graphics2D g) {
         final float space = this.getLspaceAsFloat() + this.getRspaceAsFloat();
         if (this.getText().equals("")) {
-            return (int) space;
+            return space;
         } else {
-            final double scaleFactor;
+            final float scaleFactor;
             if (this.getParent().isCalculatingSize()) {
                 scaleFactor = 1.0f;
             } else {
@@ -347,20 +347,20 @@ public class MathOperator extends AbstractMathElement implements
             }
             final Rectangle2D r2d = this.produceUnstrechtedLayout(g)
                     .getBounds();
-            return (int) Math.ceil((r2d.getWidth() + r2d.getX())
-                    * scaleFactor + space);
+            return (float) (r2d.getWidth() + r2d.getX()) * scaleFactor
+                    + space;
         }
 
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateAscentHeight(final Graphics2D g) {
+    public float calculateAscentHeight(final Graphics2D g) {
         if (this.getText().equals("")) {
             return g.getFontMetrics().getAscent();
         } else {
 
-            final double scaleFactor;
+            final float scaleFactor;
             if (this.getParent().isCalculatingSize()) {
                 scaleFactor = 1.0f;
             } else {
@@ -372,35 +372,34 @@ public class MathOperator extends AbstractMathElement implements
             // not the one for the actual content!
             final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
                     .getBounds();
-            return (int) Math.ceil(-textBounds.getY() * scaleFactor
-                    - this.calcBaselineShift);
+            return (float) (-textBounds.getY() * scaleFactor - this.calcBaselineShift);
         }
 
     }
 
-    private double descentWithoutScaleFactor(final Graphics2D g) {
+    private float descentWithoutScaleFactor(final Graphics2D g) {
         final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
                 .getBounds();
-        return textBounds.getY() + textBounds.getHeight();
+        return (float) (textBounds.getY() + textBounds.getHeight());
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateDescentHeight(final Graphics2D g) {
+    public float calculateDescentHeight(final Graphics2D g) {
 
         if (this.getText().equals("")) {
             return g.getFontMetrics().getDescent();
         } else {
 
-            final double scaleFactor;
+            final float scaleFactor;
             if (this.getParent().isCalculatingSize()) {
                 scaleFactor = 1.0f;
             } else {
                 this.calculateSpecs(g);
                 scaleFactor = this.calcScaleY;
             }
-            return (int) Math.ceil(this.descentWithoutScaleFactor(g)
-                    * scaleFactor + this.calcBaselineShift);
+            return this.descentWithoutScaleFactor(g) * scaleFactor
+                    + this.calcBaselineShift;
         }
 
     }
