@@ -73,7 +73,7 @@ public class MathText extends AbstractMathElement implements
      *            The position of the baseline.
      */
     @Override
-    public void paint(final Graphics2D g, final int posX, final int posY) {
+    public void paint(final Graphics2D g, final float posX, final float posY) {
         super.paint(g, posX, posY);
         if (this.getText().length() > 0) {
             this.produceTextLayout(g).draw(g, posX, posY);
@@ -103,18 +103,18 @@ public class MathText extends AbstractMathElement implements
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
+    public float calculateWidth(final Graphics2D g) {
         if (this.getText().equals("")) {
             return 0;
         } else {
             final Rectangle2D r2d = this.produceTextLayout(g).getBounds();
-            return (int) Math.ceil(r2d.getWidth() + r2d.getX());
+            return (float) (r2d.getWidth() + r2d.getX());
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateAscentHeight(final Graphics2D g) {
+    public float calculateAscentHeight(final Graphics2D g) {
         if (this.getText().equals("")) {
             return g.getFontMetrics().getAscent();
         } else {
@@ -122,13 +122,13 @@ public class MathText extends AbstractMathElement implements
             // not the one for the actual content!
             final Rectangle2D textBounds = this.produceTextLayout(g)
                     .getBounds();
-            return (int) Math.ceil(-textBounds.getY());
+            return (float) (-textBounds.getY());
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateDescentHeight(final Graphics2D g) {
+    public float calculateDescentHeight(final Graphics2D g) {
         if (this.getText().equals("")) {
             return g.getFontMetrics().getDescent();
         } else {
@@ -136,8 +136,7 @@ public class MathText extends AbstractMathElement implements
             // not the one for the actual content!
             final Rectangle2D textBounds = this.produceTextLayout(g)
                     .getBounds();
-            return (int) Math
-                    .ceil(textBounds.getY() + textBounds.getHeight());
+            return (float) (textBounds.getY() + textBounds.getHeight());
         }
     }
 
@@ -152,17 +151,17 @@ public class MathText extends AbstractMathElement implements
      * @param g
      *            Graphics2D context to use.
      */
-    public static int getCharsMaxDescentHeight(final Graphics2D g,
+    public static float getCharsMaxDescentHeight(final Graphics2D g,
             final Font font, final char[] chars) {
-        int result = 0;
+        float result = 0;
 
         final GlyphVector gv = font.createGlyphVector(new FontRenderContext(
                 new AffineTransform(), true, false), chars);
-        int descHeight = 0;
+        float descHeight = 0;
         Rectangle2D gr = null;
         for (int i = 0; i < chars.length; i++) {
             gr = gv.getGlyphMetrics(i).getBounds2D();
-            descHeight = (int) Math.ceil(gr.getHeight() + gr.getY());
+            descHeight = (float) (gr.getHeight() + gr.getY());
             if (descHeight < 0) {
                 descHeight = 0;
             }
@@ -183,18 +182,18 @@ public class MathText extends AbstractMathElement implements
      * @param g
      *            Graphics2D context to use.
      */
-    public static int getCharsMaxAscentHeight(final Graphics2D g,
+    public static float getCharsMaxAscentHeight(final Graphics2D g,
             final Font font, final char[] chars) {
-        int result = 0;
+        float result = 0;
 
         final GlyphVector gv = font.createGlyphVector(new FontRenderContext(
                 new AffineTransform(), true, false), chars);
-        int ascHeight = 0;
+        float ascHeight = 0;
         Rectangle2D gr = null;
         for (int i = 0; i < chars.length; i++) {
             gr = gv.getGlyphMetrics(i).getBounds2D();
             if (gr.getY() < 0) {
-                ascHeight = (int) Math.ceil(-gr.getY());
+                ascHeight = (float) (-gr.getY());
             } else {
                 ascHeight = 0;
             }

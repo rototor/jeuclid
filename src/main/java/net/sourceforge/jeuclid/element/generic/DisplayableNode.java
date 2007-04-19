@@ -38,7 +38,7 @@ public interface DisplayableNode {
      * @param posY
      *            The position of the baseline
      */
-    void paint(Graphics2D g, int posX, int posY);
+    void paint(Graphics2D g, float posX, float posY);
 
     /**
      * Returns the current height of the upper part of this component from the
@@ -48,7 +48,7 @@ public interface DisplayableNode {
      * @param g
      *            Graphics2D context to use.
      */
-    int getAscentHeight(Graphics2D g);
+    float getAscentHeight(Graphics2D g);
 
     /**
      * Returns the current height of the lower part of this component from the
@@ -58,7 +58,7 @@ public interface DisplayableNode {
      * @param g
      *            Graphics2D context to use.
      */
-    int getDescentHeight(Graphics2D g);
+    float getDescentHeight(Graphics2D g);
 
     /**
      * Return the current height of this element.
@@ -67,7 +67,7 @@ public interface DisplayableNode {
      * @param g
      *            Graphics2D context to use.
      */
-    int getHeight(Graphics2D g);
+    float getHeight(Graphics2D g);
 
     /**
      * Returns the current width of this element.
@@ -76,7 +76,7 @@ public interface DisplayableNode {
      * @param g
      *            Graphics2D context to use.
      */
-    int getWidth(Graphics2D g);
+    float getWidth(Graphics2D g);
 
     /**
      * Returns the last X position this node was painted on. May return -1 if
@@ -84,7 +84,7 @@ public interface DisplayableNode {
      * 
      * @return the x position.
      */
-    int getPaintedPosX();
+    float getPaintedPosX();
 
     /**
      * Returns the last Y position this node was painted on. May return -1 if
@@ -92,6 +92,6 @@ public interface DisplayableNode {
      * 
      * @return the y position.
      */
-    int getPaintedPosY();
+    float getPaintedPosY();
 
 }

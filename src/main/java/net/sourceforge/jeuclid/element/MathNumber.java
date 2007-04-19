@@ -69,8 +69,8 @@ public class MathNumber extends MathText {
      * @param g
      *            Graphics2D context to use.
      */
-    public int getPointWidth(final Graphics2D g) {
-        int result = 0;
+    public float getPointWidth(final Graphics2D g) {
+        float result = 0;
 
         final FontMetrics metrics = this.getFontMetrics(g);
         result = metrics.stringWidth(".");

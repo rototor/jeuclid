@@ -119,11 +119,11 @@ public class MathTableRow extends AbstractMathElement implements
      *            The position of the baseline.
      */
     @Override
-    public void paint(final Graphics2D g, final int posX, final int posY) {
+    public void paint(final Graphics2D g, final float posX, final float posY) {
         super.paint(g, posX, posY);
 
-        final int columnwidth = this.getMaxColumnWidth(g);
-        int pos = posX;
+        final float columnwidth = this.getMaxColumnWidth(g);
+        float pos = posX;
 
         for (int i = 0; i < this.getMathElementCount(); i++) {
             this.getMathElement(i).paint(g, pos, posY);
@@ -138,8 +138,8 @@ public class MathTableRow extends AbstractMathElement implements
      * @param g
      *            Graphics2D context to use.
      */
-    protected int getMaxColumnWidth(final Graphics2D g) {
-        int width = 0;
+    protected float getMaxColumnWidth(final Graphics2D g) {
+        float width = 0;
 
         for (int i = 0; i < this.getMathElementCount(); i++) {
             width = Math.max(width, this.getMathElement(i).getWidth(g));
@@ -155,7 +155,7 @@ public class MathTableRow extends AbstractMathElement implements
      *            Graphics2D context to use.
      */
     @Override
-    public int calculateWidth(final Graphics2D g) {
+    public float calculateWidth(final Graphics2D g) {
         return this.getMaxColumnWidth(g) * this.getMathElementCount();
     }
 
@@ -168,8 +168,8 @@ public class MathTableRow extends AbstractMathElement implements
      *            Graphics2D context to use.
      */
     @Override
-    public int calculateAscentHeight(final Graphics2D g) {
-        int height = 0;
+    public float calculateAscentHeight(final Graphics2D g) {
+        float height = 0;
 
         for (int i = 0; i < this.getMathElementCount(); i++) {
             height = Math.max(height, this.getMathElement(i).getAscentHeight(
@@ -187,8 +187,8 @@ public class MathTableRow extends AbstractMathElement implements
      *            Graphics2D context to use.
      */
     @Override
-    public int calculateDescentHeight(final Graphics2D g) {
-        int height = 0;
+    public float calculateDescentHeight(final Graphics2D g) {
+        float height = 0;
 
         for (int i = 0; i < this.getMathElementCount(); i++) {
             height = Math.max(height, this.getMathElement(i)

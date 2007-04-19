@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,19 +77,8 @@ public class MathBase {
      * @param g
      *            Graphics2D context to use.
      */
-    public int getAscender(final Graphics2D g) {
+    public float getAscender(final Graphics2D g) {
         return this.rootElement.getAscentHeight(g);
-    }
-
-    /**
-     * @return ascent height.
-     * @deprecated use {@link #getAscender(Graphics2D)}
-     */
-    @Deprecated
-    public int getAscender() {
-        final Graphics2D g = new BufferedImage(1, 1,
-                +BufferedImage.TYPE_INT_RGB).createGraphics();
-        return this.getAscender(g);
     }
 
     /**
@@ -100,19 +88,8 @@ public class MathBase {
      * @param g
      *            Graphics2D context to use.
      */
-    public int getDescender(final Graphics2D g) {
+    public float getDescender(final Graphics2D g) {
         return this.rootElement.getDescentHeight(g);
-    }
-
-    /**
-     * @return descent height.
-     * @deprecated use {@link #getDescender(Graphics2D)}
-     */
-    @Deprecated
-    public int getDescender() {
-        final Graphics2D g = new BufferedImage(1, 1,
-                +BufferedImage.TYPE_INT_RGB).createGraphics();
-        return this.getDescender(g);
     }
 
     /**
@@ -176,7 +153,7 @@ public class MathBase {
                         RenderingHints.VALUE_ANTIALIAS_ON);
                 g.setRenderingHints(hints);
             }
-            this.rootElement.paint(g, (int) x, (int) y
+            this.rootElement.paint(g, x, y
                     + this.rootElement.getAscentHeight(g));
         }
     }
@@ -199,35 +176,12 @@ public class MathBase {
      * @param g
      *            Graphics2D context to use.
      */
-    public int getWidth(final Graphics2D g) {
+    public float getWidth(final Graphics2D g) {
         if (this.rootElement != null) {
             return this.rootElement.getWidth(g);
         }
 
-        return 0;
-    }
-
-    /**
-     * @return the height
-     * @deprecated use {@link #getHeight(Graphics2D)}
-     */
-    @Deprecated
-    public int getHeight() {
-        final Graphics2D g = new BufferedImage(1, 1,
-                +BufferedImage.TYPE_INT_RGB).createGraphics();
-        return this.getHeight(g);
-    }
-
-    /**
-     * @deprecated use {@link #getWidth(Graphics2D)}
-     * @return width
-     */
-    @Deprecated
-    public int getWidth() {
-        final Graphics2D g = new BufferedImage(1, 1,
-                +BufferedImage.TYPE_INT_RGB).createGraphics();
-        return this.getWidth(g);
-
+        return 0f;
     }
 
     /**
@@ -237,12 +191,12 @@ public class MathBase {
      * @param g
      *            Graphics2D context to use.
      */
-    public int getHeight(final Graphics2D g) {
+    public float getHeight(final Graphics2D g) {
         if (this.rootElement != null) {
             return this.rootElement.getAscentHeight(g)
                     + this.rootElement.getDescentHeight(g);
         }
-        return 0;
+        return 0f;
     }
 
     /**

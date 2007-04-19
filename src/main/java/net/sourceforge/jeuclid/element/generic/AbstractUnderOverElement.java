@@ -33,10 +33,10 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
  * 
  * @todo This class has common functionality with
  *       AbstractMathElementWithSubSuper
- * @todo over/under are sometimes a little off to 
- *       the left / right of the character
- * @todo some operators should "default" to being 
- *       an accent, but currently they don't
+ * @todo over/under are sometimes a little off to the left / right of the
+ *       character
+ * @todo some operators should "default" to being an accent, but currently
+ *       they don't
  * @author Max Berger
  */
 public abstract class AbstractUnderOverElement extends AbstractMathElement
@@ -104,8 +104,9 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
         final float shift;
         if (this.limitsAreMoved()) {
 
-            final int middleshift = (int) (base.getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT);
-            int e1DescentHeight = (int) baseshift;
+            final float middleshift = base.getHeight(g)
+                    * MathSubSup.DEFAULT_SCRIPTSHIFT;
+            float e1DescentHeight = baseshift;
             if (e1DescentHeight == 0) {
                 e1DescentHeight = this.getFontMetrics(g).getDescent();
             }
@@ -135,7 +136,8 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
         final float baseAHeight = base.getAscentHeight(g);
         final float shift;
         if (this.limitsAreMoved()) {
-            final int middleshift = (int) (base.getHeight(g) * MathSubSup.DEFAULT_SCRIPTSHIFT);
+            final float middleshift = base.getHeight(g)
+                    * MathSubSup.DEFAULT_SCRIPTSHIFT;
             float e1AscentHeight = baseAHeight;
             if (e1AscentHeight == 0) {
                 e1AscentHeight = this.getFontMetrics(g).getAscent();
@@ -156,13 +158,13 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
 
     /** {@inheritDoc} */
     @Override
-    public final int calculateAscentHeight(final Graphics2D g) {
+    public final float calculateAscentHeight(final Graphics2D g) {
         final MathElement over = this.getOverscript();
-        final int baseAscent = this.getBase().getAscentHeight(g);
-        final int overAscent;
+        final float baseAscent = this.getBase().getAscentHeight(g);
+        final float overAscent;
         if (over != null) {
-            overAscent = (int) (this.getOverBaselineShift(g) + over
-                    .getAscentHeight(g));
+            overAscent = this.getOverBaselineShift(g)
+                    + over.getAscentHeight(g);
         } else {
             overAscent = 0;
         }
@@ -171,13 +173,13 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
 
     /** {@inheritDoc} */
     @Override
-    public final int calculateDescentHeight(final Graphics2D g) {
+    public final float calculateDescentHeight(final Graphics2D g) {
         final MathElement under = this.getUnderscript();
-        final int baseDescent = this.getBase().getDescentHeight(g);
-        final int underDescent;
+        final float baseDescent = this.getBase().getDescentHeight(g);
+        final float underDescent;
         if (under != null) {
-            underDescent = (int) (this.getUnderBaselineShift(g) + under
-                    .getDescentHeight(g));
+            underDescent = this.getUnderBaselineShift(g)
+                    + under.getDescentHeight(g);
         } else {
             underDescent = 0;
         }
@@ -186,18 +188,18 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
+    public float calculateWidth(final Graphics2D g) {
 
-        final int baseWidth = this.getBase().getWidth(g);
+        final float baseWidth = this.getBase().getWidth(g);
         final MathElement underElement = this.getUnderscript();
-        final int underWidth;
+        final float underWidth;
         if (underElement != null) {
             underWidth = underElement.getWidth(g);
         } else {
             underWidth = 0;
         }
         final MathElement overElement = this.getOverscript();
-        final int overWidth;
+        final float overWidth;
         if (overElement != null) {
             overWidth = overElement.getWidth(g);
         } else {
@@ -221,7 +223,8 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
      *            The position of the baseline.
      */
     @Override
-    public final void paint(final Graphics2D g, final int posX, final int posY) {
+    public final void paint(final Graphics2D g, final float posX,
+            final float posY) {
         super.paint(g, posX, posY);
 
         final float baseOffsetX;
@@ -237,7 +240,7 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
             underOffsetX = base.getWidth(g);
             overOffsetX = base.getWidth(g);
         } else {
-            final int width = this.getWidth(g);
+            final float width = this.getWidth(g);
             baseOffsetX = (width - base.getWidth(g)) / 2.0f;
             if (under != null) {
                 underOffsetX = (width - under.getWidth(g)) / 2.0f;
@@ -250,14 +253,14 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
                 overOffsetX = 0;
             }
         }
-        base.paint(g, posX + (int) baseOffsetX, posY);
+        base.paint(g, posX + baseOffsetX, posY);
         if (under != null) {
-            under.paint(g, posX + (int) underOffsetX, posY
-                    + (int) this.getUnderBaselineShift(g));
+            under.paint(g, posX + underOffsetX, posY
+                    + this.getUnderBaselineShift(g));
         }
         if (over != null) {
-            over.paint(g, posX + (int) overOffsetX, posY
-                    - (int) this.getOverBaselineShift(g));
+            over.paint(g, posX + overOffsetX, posY
+                    - this.getOverBaselineShift(g));
         }
     }
 

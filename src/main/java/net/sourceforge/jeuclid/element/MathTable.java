@@ -311,30 +311,28 @@ public class MathTable extends AbstractMathElement implements
      * 
      * @return Horizontal frame spacing
      */
-    protected int getFramespacingh() {
+    protected float getFramespacingh() {
         if (MathTable.LineType.NONE.equals(this.getFrameAsLineType())) {
             return 0;
         }
         final String spacing = this.getSpaceArrayEntry(
                 this.getFramespacing(), 0);
-        final float retVal = AttributesHelper.convertSizeToPt(spacing, this,
+        return AttributesHelper.convertSizeToPt(spacing, this,
                 AttributesHelper.PT);
-        return (int) Math.ceil(retVal);
     }
 
     /**
      * 
      * @return Vertical frame spacing
      */
-    protected int getFramespacingv() {
+    protected float getFramespacingv() {
         if (MathTable.LineType.NONE.equals(this.getFrameAsLineType())) {
             return 0;
         }
         final String spacing = this.getSpaceArrayEntry(
                 this.getFramespacing(), 1);
-        final float retVal = AttributesHelper.convertSizeToPt(spacing, this,
+        return AttributesHelper.convertSizeToPt(spacing, this,
                 AttributesHelper.PT);
-        return (int) Math.ceil(retVal);
     }
 
     /**
@@ -348,15 +346,17 @@ public class MathTable extends AbstractMathElement implements
      *            The position of the baseline.
      */
     @Override
-    public void paint(final Graphics2D g, int posX, int posY) {
+    public void paint(final Graphics2D g, float posX, float posY) {
         super.paint(g, posX, posY);
         posX = posX + this.getFramespacingh();
         posY = posY + this.getFramespacingv();
 
         int i;
         int j;
-        final int[] maxrowascentheight = new int[this.getMathElementCount()];
-        final int[] maxrowdescentheight = new int[this.getMathElementCount()];
+        final float[] maxrowascentheight = new float[this
+                .getMathElementCount()];
+        final float[] maxrowdescentheight = new float[this
+                .getMathElementCount()];
 
         for (i = 0; i < this.getMathElementCount(); i++) {
             maxrowascentheight[i] = this.getMaxRowAscentHeight(g, i);
@@ -366,17 +366,17 @@ public class MathTable extends AbstractMathElement implements
         final int maxcolumns = this.getMaxColumnCount();
         final boolean isAlignGroupsExist = this.getMaxGroupAlignCount() == 0 ? false
                 : true;
-        final int[] maxcolumnwidth = new int[maxcolumns];
+        final float[] maxcolumnwidth = new float[maxcolumns];
 
         for (i = 0; i < maxcolumns; i++) {
             maxcolumnwidth[i] = this.getMaxColumnWidth(g, i);
         }
 
-        final int x1 = posX;
-        int x = x1;
+        final float x1 = posX;
+        float x = x1;
 
         posY = posY - this.getAscentHeight(g);
-        final int startY = posY;
+        final float startY = posY;
 
         final List<Float> rowlines = new Vector<Float>();
         final List<Float> columnlines = new Vector<Float>(maxcolumns);
@@ -395,11 +395,11 @@ public class MathTable extends AbstractMathElement implements
                 } else {
                     // PG this code makes table to draw content of the cell in
                     // the middle of the cell
-                    final int xx = x + maxcolumnwidth[j] / 2
+                    final float xx = x + maxcolumnwidth[j] / 2
                             - row.getMathElement(j).getWidth(g) / 2;
                     row.getMathElement(j).paint(g, xx, posY);
                 }
-                final int currentColSpacing = this.getColumnspacing(j);
+                final float currentColSpacing = this.getColumnspacing(j);
                 x += maxcolumnwidth[j];
                 if ((i == 0) && (j < maxcolumns - 1)) {
                     // TODO: This only sets columnlines if the first row
@@ -410,7 +410,7 @@ public class MathTable extends AbstractMathElement implements
             }
 
             posY += maxrowdescentheight[i];
-            final int currentRowSpacing = this.getRowspacing(i);
+            final float currentRowSpacing = this.getRowspacing(i);
             if (i < (this.getMathElementCount() - 1)) {
                 rowlines.add(posY + currentRowSpacing / 2.0f);
             }
@@ -463,12 +463,12 @@ public class MathTable extends AbstractMathElement implements
      *            Row.
      * @return Maximal ascent height.
      */
-    private int getMaxRowAscentHeight(final Graphics2D g, final int row) {
+    private float getMaxRowAscentHeight(final Graphics2D g, final int row) {
         if (row >= this.getMathElementCount()) {
             return 0;
         }
         final MathElement child = this.getMathElement(row);
-        int height = 0;
+        float height = 0;
 
         for (int i = 0; i < child.getMathElementCount(); i++) {
             height = Math.max(height, child.getMathElement(i)
@@ -484,13 +484,13 @@ public class MathTable extends AbstractMathElement implements
      *            Row.
      * @return Maximal descent height.
      */
-    private int getMaxRowDescentHeight(final Graphics2D g, final int row) {
+    private float getMaxRowDescentHeight(final Graphics2D g, final int row) {
         if (row >= this.getMathElementCount()) {
             return 0;
         }
 
         final MathElement child = this.getMathElement(row);
-        int height = 0;
+        float height = 0;
 
         for (int i = 0; i < child.getMathElementCount(); i++) {
             height = Math.max(height, child.getMathElement(i)
@@ -506,8 +506,8 @@ public class MathTable extends AbstractMathElement implements
      *            Column.
      * @return Maximal width.
      */
-    private int getMaxColumnWidth(final Graphics2D g, final int column) {
-        int width = 0;
+    private float getMaxColumnWidth(final Graphics2D g, final int column) {
+        float width = 0;
 
         for (int i = 0; i < this.getMathElementCount(); i++) {
             final MathElement child = this.getMathElement(i); // row
@@ -537,9 +537,9 @@ public class MathTable extends AbstractMathElement implements
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
+    public float calculateWidth(final Graphics2D g) {
         this.calculateAlignmentGroups(g);
-        int width = 0;
+        float width = 0;
         final int maxcolumns = this.getMaxColumnCount();
 
         for (int i = 0; i < maxcolumns; i++) {
@@ -552,8 +552,8 @@ public class MathTable extends AbstractMathElement implements
         return width;
     }
 
-    private int calculateActualHeight(final Graphics2D g) {
-        int height = 0;
+    private float calculateActualHeight(final Graphics2D g) {
+        float height = 0;
         final int mec = this.getMathElementCount();
         for (int i = 0; i < mec; i++) {
             height = height + this.getMaxRowAscentHeight(g, i)
@@ -568,7 +568,7 @@ public class MathTable extends AbstractMathElement implements
 
     /** {@inheritDoc} */
     @Override
-    public int calculateAscentHeight(final Graphics2D g) {
+    public float calculateAscentHeight(final Graphics2D g) {
         final AlignmentType align = AlignmentType.parseAlignmentType(this
                 .getAlign());
         if (MathTable.AlignmentType.BOTTOM.equals(align)) {
@@ -588,7 +588,7 @@ public class MathTable extends AbstractMathElement implements
 
     /** {@inheritDoc} */
     @Override
-    public int calculateDescentHeight(final Graphics2D g) {
+    public float calculateDescentHeight(final Graphics2D g) {
         final AlignmentType align = AlignmentType.parseAlignmentType(this
                 .getAlign());
         if (MathTable.AlignmentType.BOTTOM.equals(align)) {
@@ -601,9 +601,9 @@ public class MathTable extends AbstractMathElement implements
             // add +1 to eliminate rounding errors
             return (this.calculateActualHeight(g) + 1) / 2;
         }
-        final int b = this.getMiddleShift(g);
+        final float b = this.getMiddleShift(g);
         // add +1 to eliminate rounding errors
-        final int c = (this.calculateActualHeight(g) + 1) / 2;
+        final float c = (this.calculateActualHeight(g) + 1) / 2;
         return c - b;
     }
 
@@ -642,8 +642,8 @@ public class MathTable extends AbstractMathElement implements
 
         if (groupAlign != null) {
 
-            String[] gAlign = groupAlign.split("\\w");
-            for (String value : gAlign) {
+            final String[] gAlign = groupAlign.split("\\w");
+            for (final String value : gAlign) {
                 if (value.length() > 0) {
                     result.add(AlignmentType.parseAlignmentType(value));
                 }
@@ -791,7 +791,7 @@ public class MathTable extends AbstractMathElement implements
         // [1] left width value (till malignmark or decimal point)
         // [2] right width value
         // rowsCount+1 - max width of element (or its part)
-        final int[][][][] alignwidths = new int[columnsCount][3][rowsCount + 1][maxGroupAlignCount];
+        final float[][][][] alignwidths = new float[columnsCount][3][rowsCount + 1][maxGroupAlignCount];
         // need to know, either this column of aligngroup uses malignmarks
         final boolean[][] usesMarks = new boolean[columnsCount][this
                 .getMaxGroupAlignCount()];
@@ -817,7 +817,7 @@ public class MathTable extends AbstractMathElement implements
                         // default
                         groupalignvalues = new Vector<AlignmentType>(
                                 aligngroups.length);
-                        for (int i = 0; i < aligngroups.length; i++) {
+                        for (MathAlignGroup element : aligngroups) {
                             groupalignvalues.add(AlignmentType.LEFT);
                         }
                     }
@@ -840,7 +840,7 @@ public class MathTable extends AbstractMathElement implements
                         // there is alignmark in the group
                         if (aligngroups[alignIndex].getMark() != null) {
                             usesMarks[col][alignIndex] = true;
-                            final int leftPart = this.getWidthTillMark(g,
+                            final float leftPart = this.getWidthTillMark(g,
                                     elements.iterator());
                             // left width = width till alignmark
                             alignwidths[col][MathTable.LEFT_WIDTH][row][alignIndex] = leftPart;
@@ -866,10 +866,11 @@ public class MathTable extends AbstractMathElement implements
                                 // width of the left (till decimal point)
                                 // value
                                 // of MathNumber
-                                final int tillPoint = this.getWidthTillPoint(
+                                final float tillPoint = this
+                                        .getWidthTillPoint(g, elements
+                                                .iterator());
+                                final float pointWidth = this.getPointWidth(
                                         g, elements.iterator());
-                                final int pointWidth = this.getPointWidth(g,
-                                        elements.iterator());
                                 // left width
                                 alignwidths[col][MathTable.LEFT_WIDTH][row][alignIndex] = tillPoint;
                                 // determine max left width till decimal point
@@ -892,12 +893,12 @@ public class MathTable extends AbstractMathElement implements
 
         // calculating shifts of MathAlignGroup elements
         AlignmentType alignOfTheGroup = AlignmentType.LEFT;
-        int currentWidth = 0;
-        int maxWidth = 0;
-        int leftWidth = 0;
-        int leftMaxWidth = 0;
-        int rightWidth = 0;
-        int rightMaxWidth = 0;
+        float currentWidth = 0;
+        float maxWidth = 0;
+        float leftWidth = 0;
+        float leftMaxWidth = 0;
+        float rightWidth = 0;
+        float rightMaxWidth = 0;
         MathAlignGroup group = null;
         MathAlignGroup nextGroup = null;
         for (int col = 0; col < columnsCount; col++) {
@@ -917,7 +918,7 @@ public class MathTable extends AbstractMathElement implements
                         // default
                         groupalignvalues = new Vector<AlignmentType>(
                                 aligngroups.length);
-                        for (int i = 0; i < aligngroups.length; i++) {
+                        for (MathAlignGroup element : aligngroups) {
                             groupalignvalues.add(AlignmentType.LEFT);
                         }
                     }
@@ -1012,8 +1013,9 @@ public class MathTable extends AbstractMathElement implements
      *            List of elements.
      * @return Width of elements till point.
      */
-    private int getWidthTillPoint(final Graphics2D g, final Iterator elements) {
-        int result = 0;
+    private float getWidthTillPoint(final Graphics2D g,
+            final Iterator elements) {
+        float result = 0;
 
         MathElement element = null;
         for (; elements.hasNext();) {
@@ -1050,8 +1052,8 @@ public class MathTable extends AbstractMathElement implements
      *            List of elements.
      * @return Width of the point.
      */
-    private int getPointWidth(final Graphics2D g, final Iterator iterator) {
-        int result = 0;
+    private float getPointWidth(final Graphics2D g, final Iterator iterator) {
+        float result = 0;
 
         for (; iterator.hasNext();) {
             final MathElement element = (MathElement) iterator.next();
@@ -1071,8 +1073,8 @@ public class MathTable extends AbstractMathElement implements
      *            List of elements.
      * @return Width of elements till malignmar.
      */
-    private int getWidthTillMark(final Graphics2D g, final Iterator elements) {
-        int result = 0;
+    private float getWidthTillMark(final Graphics2D g, final Iterator elements) {
+        float result = 0;
 
         MathElement element = null;
         for (; elements.hasNext();) {
@@ -1222,7 +1224,7 @@ public class MathTable extends AbstractMathElement implements
     }
 
     /** {@inheritDoc} */
-    public void setAlign(String align) {
+    public void setAlign(final String align) {
         this.setAttribute(MathTable.ATTR_ALIGN, align);
     }
 
@@ -1253,8 +1255,8 @@ public class MathTable extends AbstractMathElement implements
     }
 
     /** {@inheritDoc} */
-    public void setGroupalign(String groupalign) {
-        this.setAttribute(ATTR_GROUPALIGN, groupalign);
+    public void setGroupalign(final String groupalign) {
+        this.setAttribute(MathTable.ATTR_GROUPALIGN, groupalign);
     }
 
     /** {@inheritDoc} */
@@ -1263,8 +1265,8 @@ public class MathTable extends AbstractMathElement implements
     }
 
     /** {@inheritDoc} */
-    public void setAlignmentscope(String alignmentscope) {
-        this.setAttribute(ATTR_ALIGNMENTSCOPE, alignmentscope);
+    public void setAlignmentscope(final String alignmentscope) {
+        this.setAttribute(MathTable.ATTR_ALIGNMENTSCOPE, alignmentscope);
     }
 
     /** {@inheritDoc} */
@@ -1272,10 +1274,9 @@ public class MathTable extends AbstractMathElement implements
         return this.getMathAttribute(MathTable.ATTR_ROWSPACING);
     }
 
-    private int getRowspacing(final int row) {
-        return (int) AttributesHelper.convertSizeToPt(this
-                .getSpaceArrayEntry(this.getRowspacing(), row), this,
-                AttributesHelper.PT);
+    private float getRowspacing(final int row) {
+        return AttributesHelper.convertSizeToPt(this.getSpaceArrayEntry(this
+                .getRowspacing(), row), this, AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */
@@ -1288,10 +1289,9 @@ public class MathTable extends AbstractMathElement implements
         return this.getMathAttribute(MathTable.ATTR_COLUMNSPACING);
     }
 
-    private int getColumnspacing(final int column) {
-        return (int) AttributesHelper.convertSizeToPt(this
-                .getSpaceArrayEntry(this.getColumnspacing(), column), this,
-                AttributesHelper.PT);
+    private float getColumnspacing(final int column) {
+        return AttributesHelper.convertSizeToPt(this.getSpaceArrayEntry(this
+                .getColumnspacing(), column), this, AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */

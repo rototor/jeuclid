@@ -43,25 +43,25 @@ public abstract class AbstractRowLikeElement extends
 
     /** {@inheritDoc} */
     @Override
-    public int calculateAscentHeight(final Graphics2D g) {
+    public float calculateAscentHeight(final Graphics2D g) {
         return super.calculateChildrenAscentHeight(g);
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateDescentHeight(final Graphics2D g) {
+    public float calculateDescentHeight(final Graphics2D g) {
         return super.calculateChildrenDescentHeight(g);
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
+    public float calculateWidth(final Graphics2D g) {
         return super.calculateChildrenWidth(g);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void paint(final Graphics2D g, final int posX, final int posY) {
+    public void paint(final Graphics2D g, final float posX, final float posY) {
         super.paint(g, posX, posY);
         this.paintChildren(g, posX, posY);
     }

@@ -47,7 +47,7 @@ public class MathAlignGroup extends AbstractInvisibleMathElement implements
     public static final String ATTR_GROUPALIGN = "groupalign";
 
     /** The width is calculated within MathTable. */
-    protected int width;
+    protected float width;
 
     private MathAlignMark mathAlignMark;
 
@@ -68,13 +68,13 @@ public class MathAlignGroup extends AbstractInvisibleMathElement implements
      * @return Width of this element
      */
 
-    public int getWidth() {
+    public float getWidth() {
         return this.width;
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
+    public float calculateWidth(final Graphics2D g) {
         return this.width;
     }
 
@@ -102,9 +102,9 @@ public class MathAlignGroup extends AbstractInvisibleMathElement implements
      * @param g
      *            Graphics2D context to use.
      */
-    protected static int getElementsWholeWidth(final Graphics2D g,
+    protected static float getElementsWholeWidth(final Graphics2D g,
             final List<MathElement> elements) {
-        int result = 0;
+        float result = 0;
 
         if (elements == null || elements.size() == 0) {
             return result;

@@ -97,8 +97,8 @@ public class MathComponent extends Component {
             return new Dimension(1, 1);
         } else {
             final Graphics2D g2d = (Graphics2D) this.getGraphics();
-            return new Dimension(this.base.getWidth(g2d), this.base
-                    .getHeight(g2d));
+            return new Dimension((int) Math.ceil(this.base.getWidth(g2d)),
+                    (int) Math.ceil(this.base.getHeight(g2d)));
         }
     }
 

@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.element;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.geom.Line2D;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractMathElement;
@@ -45,7 +46,7 @@ public class MathFrac extends AbstractMathElement implements
     /**
      * Tilt angle for frac.
      */
-    public static final double FRAC_TILT_ANGLE = 0.577;
+    public static final float FRAC_TILT_ANGLE = 0.577f;
 
     /**
      * Attribute name of the linethickness property.
@@ -131,72 +132,67 @@ public class MathFrac extends AbstractMathElement implements
      *            The position of the baseline
      */
     @Override
-    public void paint(final Graphics2D g, int posX, final int posY) {
+    public void paint(final Graphics2D g, float posX, final float posY) {
         super.paint(g, posX, posY);
         final MathElement e1 = this.getMathElement(0);
         final MathElement e2 = this.getMathElement(1);
 
-        final int middle = posY - this.getMiddleShift(g);
-        final int dist = (int) AttributesHelper.convertSizeToPt("0.1em",
-                this, "");
+        final float middle = posY - this.getMiddleShift(g);
+        final float dist = AttributesHelper
+                .convertSizeToPt("0.1em", this, "");
 
         if (Boolean.parseBoolean(this.getBevelled())) {
-            final int w1 = Math.max((int) Math.round(e2.getHeight(g)
-                    * MathFrac.FRAC_TILT_ANGLE), e1.getWidth(g) + dist);
+            final float w1 = Math.max(e2.getHeight(g)
+                    * MathFrac.FRAC_TILT_ANGLE, e1.getWidth(g) + dist);
             e1.paint(g, posX + w1 - e1.getWidth(g), middle
                     - e1.getDescentHeight(g));
             final float linef = this.getLinethickness(g);
-            e2.paint(g, posX + w1 + dist + (int) (linef), posY
+            e2.paint(g, posX + w1 + dist + linef, posY
                     - this.getAscentHeight(g) + e1.getHeight(g)
                     + e2.getAscentHeight(g));
             final Stroke oldStroke = g.getStroke();
             g.setStroke(new BasicStroke(linef));
-            g.drawLine(posX
-                    + w1
-                    + (int) (linef / 2)
-                    - (int) Math.round(e2.getHeight(g)
-                            * MathFrac.FRAC_TILT_ANGLE), middle
-                    + e2.getHeight(g), posX
-                    + w1
-                    + (int) (linef / 2)
-                    + (int) Math.round(e1.getHeight(g)
-                            * MathFrac.FRAC_TILT_ANGLE), middle
-                    - e1.getHeight(g));
+            g.draw(new Line2D.Float(posX + w1 + (linef / 2) - e2.getHeight(g)
+                    * MathFrac.FRAC_TILT_ANGLE, middle + e2.getHeight(g),
+                    posX + w1 + (linef / 2) + e1.getHeight(g)
+                            * MathFrac.FRAC_TILT_ANGLE, middle
+                            - e1.getHeight(g)));
             g.setStroke(oldStroke);
         } else {
 
-            final int width = this.getWidth(g);
+            final float width = this.getWidth(g);
             posX = posX + dist;
             final float linef = this.getLinethickness(g);
 
             e1.paint(g, posX + (width - 2 * dist - e1.getWidth(g)) / 2,
                     middle - e1.getDescentHeight(g) - 2
-                            - (int) (this.getLinethickness(g) / 2));
+                            - (this.getLinethickness(g) / 2));
 
             final Stroke oldStroke = g.getStroke();
             g.setStroke(new BasicStroke(linef));
-            g.drawLine(posX, middle, posX + width - dist * 2, middle);
+            g.draw(new Line2D.Float(posX, middle, posX + width - dist * 2,
+                    middle));
             g.setStroke(oldStroke);
 
             e2.paint(g, posX + (width - 2 * dist - e2.getWidth(g)) / 2,
                     middle + e2.getAscentHeight(g) + 2
-                            + (int) (this.getLinethickness(g) / 2));
+                            + (this.getLinethickness(g) / 2));
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateWidth(final Graphics2D g) {
+    public float calculateWidth(final Graphics2D g) {
         final MathElement e1 = this.getMathElement(0);
         final MathElement e2 = this.getMathElement(1);
-        final int dist = (int) AttributesHelper.convertSizeToPt("0.1em",
-                this, "");
+        final float dist = AttributesHelper
+                .convertSizeToPt("0.1em", this, "");
         if (Boolean.parseBoolean(this.getBevelled())) {
-            final int w1 = Math.max((int) Math.round(e2.getHeight(g)
-                    * MathFrac.FRAC_TILT_ANGLE), e1.getWidth(g) + dist);
-            final int w2 = Math.max((int) Math.round(e1.getHeight(g)
-                    * MathFrac.FRAC_TILT_ANGLE), e2.getWidth(g) + dist);
-            return w1 + w2 + (int) this.getLinethickness(g);
+            final float w1 = Math.max(e2.getHeight(g)
+                    * MathFrac.FRAC_TILT_ANGLE, e1.getWidth(g) + dist);
+            final float w2 = Math.max(e1.getHeight(g)
+                    * MathFrac.FRAC_TILT_ANGLE, e2.getWidth(g) + dist);
+            return w1 + w2 + this.getLinethickness(g);
         } else {
             return Math.max(e1.getWidth(g), e2.getWidth(g)) + dist * 2;
         }
@@ -204,27 +200,27 @@ public class MathFrac extends AbstractMathElement implements
 
     /** {@inheritDoc} */
     @Override
-    public int calculateAscentHeight(final Graphics2D g) {
+    public float calculateAscentHeight(final Graphics2D g) {
         if (Boolean.parseBoolean(this.getBevelled())) {
             return this.getMathElement(0).getHeight(g)
                     + this.getMiddleShift(g);
         } else {
             return this.getMathElement(0).getHeight(g) + 2
-                    + (int) (this.getLinethickness(g) / 2)
-                    + this.getMiddleShift(g);
+                    + (this.getLinethickness(g) / 2) + this.getMiddleShift(g);
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public int calculateDescentHeight(final Graphics2D g) {
+    public float calculateDescentHeight(final Graphics2D g) {
         if (Boolean.parseBoolean(this.getBevelled())) {
             return Math.max(0, this.getMathElement(1).getHeight(g)
                     - this.getMiddleShift(g));
         } else {
-            return Math.max(0, this.getMathElement(1).getHeight(g) + 2
-                    + (int) (this.getLinethickness(g) / 2)
-                    - this.getMiddleShift(g));
+            return Math
+                    .max(0, this.getMathElement(1).getHeight(g) + 2
+                            + (this.getLinethickness(g) / 2)
+                            - this.getMiddleShift(g));
         }
     }
 
