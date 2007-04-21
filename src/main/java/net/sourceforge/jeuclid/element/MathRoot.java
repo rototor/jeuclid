@@ -90,4 +90,15 @@ public class MathRoot extends AbstractRootElement implements
     public void setRadicand(final MathMLElement radicand) {
         this.setMathElement(0, radicand);
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public int getScriptlevelForChild(final MathElement child) {
+        if (child.isSameNode(this.getIndex())) {
+            return this.getAbsoluteScriptLevel() + 2;
+        } else {
+            return this.getAbsoluteScriptLevel();
+        }
+    }
+
 }

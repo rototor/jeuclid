@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.element;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.element.generic.AbstractRowLikeElement;
+import net.sourceforge.jeuclid.element.generic.MathElement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,6 +65,7 @@ public class MathStyle extends AbstractRowLikeElement implements
      */
     public MathStyle(final MathBase base) {
         super(base);
+        this.setDefaultMathAttribute(ATTR_DISPLAYSTYLE, "");
     }
 
     /**
@@ -135,6 +137,19 @@ public class MathStyle extends AbstractRowLikeElement implements
     }
 
     /** {@inheritDoc} */
+    @Override
+    public boolean isChildBlock(final MathElement child) {
+        final String displayStyle = this.getDisplaystyle();
+        if (displayStyle.length() > 0) {
+            final boolean dValue = Boolean.parseBoolean(displayStyle);
+            return dValue;
+        } else {
+            return super.isChildBlock(child);
+        }
+
+    }
+
+    /** {@inheritDoc} */
     public String getTagName() {
         return MathStyle.ELEMENT;
     }
@@ -176,7 +191,8 @@ public class MathStyle extends AbstractRowLikeElement implements
 
     /** {@inheritDoc} */
     public void setScriptsizemultiplier(final String scriptsizemultiplier) {
-        this.setAttribute(MathStyle.ATTR_SCRIPTSIZEMULTIPLIER, scriptsizemultiplier);
+        this.setAttribute(MathStyle.ATTR_SCRIPTSIZEMULTIPLIER,
+                scriptsizemultiplier);
     }
 
 }

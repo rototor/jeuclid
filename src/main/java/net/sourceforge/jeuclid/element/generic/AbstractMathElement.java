@@ -33,6 +33,7 @@ import java.util.Set;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
 import net.sourceforge.jeuclid.element.MathMathElement;
+import net.sourceforge.jeuclid.element.MathOperator;
 import net.sourceforge.jeuclid.element.MathRow;
 import net.sourceforge.jeuclid.element.MathTable;
 import net.sourceforge.jeuclid.element.MathTableRow;
@@ -1088,6 +1089,11 @@ public abstract class AbstractMathElement extends
         return (MathMLNodeList) this.getChildNodes();
     }
 
+    /** {@inheritDoc} */
+    public float getXCenter(final Graphics2D g) {
+        return this.getWidth(g) / 2.0f;
+    }
+
     {
         AbstractMathElement.DEPRECATED_ATTRIBUTES
                 .add(AbstractMathElement.ATTR_DEPRECATED_COLOR);
@@ -1101,5 +1107,8 @@ public abstract class AbstractMathElement extends
                 .add(AbstractMathElement.ATTR_DEPRECATED_FONTSTYLE);
         AbstractMathElement.DEPRECATED_ATTRIBUTES
                 .add(AbstractMathElement.ATTR_DEPRECATED_FONTFAMILY);
+
+        AbstractMathElement.DEPRECATED_ATTRIBUTES
+                .add(MathOperator.ATTR_MOVEABLEWRONG);
     }
 }
