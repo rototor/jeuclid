@@ -19,6 +19,8 @@
 package net.sourceforge.jeuclid.util;
 
 import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 import java.util.HashMap;
 import java.util.List;
@@ -145,9 +147,26 @@ public final class StringUtil {
         return aString;
     }
 
+    /**
+     * Retrieves the real width from a given text layout.
+     * 
+     * @param layout
+     *            the textlayout
+     * @return width
+     */
+    public static float getWidthForTextLayout(final TextLayout layout) {
+        final Rectangle2D r2d = layout.getBounds();
+        float realWidth = (float) r2d.getWidth();
+        final float xo = (float) r2d.getX();
+        if (xo > 0) {
+            realWidth += xo;
+        }
+        return Math.max(realWidth, layout.getAdvance());
+    }
+
     static {
         // CHECKSTYLE:OFF
-        
+
         // From: http://www.w3.org/TR/MathML2/fraktur.html
         StringUtil.FRAKTUR_MAPPING.put((int) 'C', 0x0212D);
         StringUtil.FRAKTUR_MAPPING.put((int) 'H', 0x0210C);

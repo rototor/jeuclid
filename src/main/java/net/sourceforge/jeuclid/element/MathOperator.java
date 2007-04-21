@@ -345,10 +345,9 @@ public class MathOperator extends AbstractMathElement implements
                 this.calculateSpecs(g);
                 scaleFactor = this.calcScaleX;
             }
-            final Rectangle2D r2d = this.produceUnstrechtedLayout(g)
-                    .getBounds();
-            return (float) (r2d.getWidth() + r2d.getX()) * scaleFactor
-                    + space;
+            return (float) StringUtil.getWidthForTextLayout(this
+                    .produceUnstrechtedLayout(g))
+                    * scaleFactor + space;
         }
 
     }

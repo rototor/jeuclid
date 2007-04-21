@@ -6,6 +6,11 @@
   </properties>
   <body>
     <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
+      <action dev="maxberger" type="update">
+        MathText: better support for text containing spaces at the end;
+        MathText: better support for characters which extend to the left;
+        MathOperator: now uses the same width-calculation as MathText;
+      </action>
       <action dev="maxberger" type="add">
         Mathviewer: added toggle for debug; 
         JMathComponent: fix handling of debug flag;

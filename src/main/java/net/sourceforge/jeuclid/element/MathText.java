@@ -18,12 +18,8 @@
 
 package net.sourceforge.jeuclid.element;
 
-import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
 import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import net.sourceforge.jeuclid.MathBase;
@@ -52,6 +48,8 @@ public class MathText extends AbstractMathElement implements
      */
     private TextLayout layout;
 
+    private float xOffset;
+
     /**
      * Creates a math element.
      * 
@@ -76,20 +74,28 @@ public class MathText extends AbstractMathElement implements
     public void paint(final Graphics2D g, final float posX, final float posY) {
         super.paint(g, posX, posY);
         if (this.getText().length() > 0) {
-            this.produceTextLayout(g).draw(g, posX, posY);
+            this.produceTextLayout(g);
+            this.layout.draw(g, posX + this.xOffset, posY);
             // g.draw(this.produceTextLayout(g).getOutline(
             // AffineTransform.getTranslateInstance(posX, posY)));
         }
     }
 
-    private TextLayout produceTextLayout(final Graphics2D g2d) {
-        final TextLayout theLayout = new TextLayout(StringUtil
-                .convertStringtoAttributedString(this.getText(),
-                        this.getMathvariantAsVariant(),
-                        this.getFontsizeInPoint(), this.mbase).getIterator(),
-                g2d.getFontRenderContext());
-        this.layout = theLayout;
-        return theLayout;
+    private void produceTextLayout(final Graphics2D g2d) {
+        if (this.layout == null) {
+            this.layout = new TextLayout(StringUtil
+                    .convertStringtoAttributedString(this.getText(),
+                            this.getMathvariantAsVariant(),
+                            this.getFontsizeInPoint(), this.mbase)
+                    .getIterator(), g2d.getFontRenderContext());
+            final Rectangle2D r2d = this.layout.getBounds();
+            final float xo = (float) r2d.getX();
+            if (xo < 0) {
+                this.xOffset = -xo;
+            } else {
+                this.xOffset = 0.0f;
+            }
+        }
     }
 
     /**
@@ -107,8 +113,9 @@ public class MathText extends AbstractMathElement implements
         if (this.getText().equals("")) {
             return 0;
         } else {
-            final Rectangle2D r2d = this.produceTextLayout(g).getBounds();
-            return (float) (r2d.getWidth() + r2d.getX());
+            this.produceTextLayout(g);
+            return StringUtil.getWidthForTextLayout(this.layout)
+                    + this.xOffset;
         }
     }
 
@@ -118,10 +125,10 @@ public class MathText extends AbstractMathElement implements
         if (this.getText().equals("")) {
             return g.getFontMetrics().getAscent();
         } else {
+            this.produceTextLayout(g);
             // TextLayout.getAscent returns the max ascent for this font,
             // not the one for the actual content!
-            final Rectangle2D textBounds = this.produceTextLayout(g)
-                    .getBounds();
+            final Rectangle2D textBounds = this.layout.getBounds();
             return (float) (-textBounds.getY());
         }
     }
@@ -132,74 +139,12 @@ public class MathText extends AbstractMathElement implements
         if (this.getText().equals("")) {
             return g.getFontMetrics().getDescent();
         } else {
+            this.produceTextLayout(g);
             // TextLayout.getDescent returns the max descent for this font,
             // not the one for the actual content!
-            final Rectangle2D textBounds = this.produceTextLayout(g)
-                    .getBounds();
+            final Rectangle2D textBounds = this.layout.getBounds();
             return (float) (textBounds.getY() + textBounds.getHeight());
         }
-    }
-
-    /**
-     * Utility method calculates descent height of the line.
-     * 
-     * @param font
-     *            Current font.
-     * @param chars
-     *            Array of characrets.
-     * @return Value of descent height.
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public static float getCharsMaxDescentHeight(final Graphics2D g,
-            final Font font, final char[] chars) {
-        float result = 0;
-
-        final GlyphVector gv = font.createGlyphVector(new FontRenderContext(
-                new AffineTransform(), true, false), chars);
-        float descHeight = 0;
-        Rectangle2D gr = null;
-        for (int i = 0; i < chars.length; i++) {
-            gr = gv.getGlyphMetrics(i).getBounds2D();
-            descHeight = (float) (gr.getHeight() + gr.getY());
-            if (descHeight < 0) {
-                descHeight = 0;
-            }
-            result = Math.max(result, descHeight);
-        }
-
-        return result;
-    }
-
-    /**
-     * Utility method calculates ascent height of the line.
-     * 
-     * @param font
-     *            Current font.
-     * @param chars
-     *            Array of characrets.
-     * @return Value of ascent height.
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public static float getCharsMaxAscentHeight(final Graphics2D g,
-            final Font font, final char[] chars) {
-        float result = 0;
-
-        final GlyphVector gv = font.createGlyphVector(new FontRenderContext(
-                new AffineTransform(), true, false), chars);
-        float ascHeight = 0;
-        Rectangle2D gr = null;
-        for (int i = 0; i < chars.length; i++) {
-            gr = gv.getGlyphMetrics(i).getBounds2D();
-            if (gr.getY() < 0) {
-                ascHeight = (float) (-gr.getY());
-            } else {
-                ascHeight = 0;
-            }
-            result = Math.max(result, ascHeight);
-        }
-        return result;
     }
 
     /**
@@ -218,6 +163,13 @@ public class MathText extends AbstractMathElement implements
     /** {@inheritDoc} */
     public String getTagName() {
         return MathText.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void changeHook() {
+        super.changeHook();
+        this.layout = null;
     }
 
 }
