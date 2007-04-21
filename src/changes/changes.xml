@@ -6,6 +6,10 @@
   </properties>
   <body>
     <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
+      <action dev="maxberger" type="add">
+        Mathviewer: added toggle for debug; 
+        JMathComponent: fix handling of debug flag;
+      </action>
       <action dev="maxberger" type="update">
         Internal coordinates are now all float. THIS BREAKS THE API!
       </action>

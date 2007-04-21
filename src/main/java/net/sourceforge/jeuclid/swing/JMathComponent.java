@@ -72,8 +72,6 @@ public class JMathComponent extends JComponent {
      */
     private MathBase base;
 
-    private boolean debug;
-
     private Document document;
 
     private final Map<ParameterKey, String> parameters = MathBase
@@ -203,7 +201,6 @@ public class JMathComponent extends JComponent {
         if (this.document != null) {
             this.base = new MathBase(this.parameters);
             new DOMMathBuilder(this.document, this.base);
-            this.base.setDebug(this.debug);
         } else {
             this.base = null;
         }
@@ -217,7 +214,7 @@ public class JMathComponent extends JComponent {
      *            Debug mode.
      */
     public void setDebug(final boolean dbg) {
-        this.debug = dbg;
+        this.parameters.put(ParameterKey.DebugMode, Boolean.toString(dbg));
         this.redo();
     }
 
