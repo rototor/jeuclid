@@ -104,6 +104,8 @@ public class MainFrame extends JFrame {
 
     private JCheckBoxMenuItem aliasMenuItem;
 
+    private JCheckBoxMenuItem debugMenuItem;
+
     /**
      * This is the default constructor.
      */
@@ -359,6 +361,7 @@ public class MainFrame extends JFrame {
             this.viewMenu.add(this.getBiggerMenuItem());
             this.viewMenu.add(this.getSmallerMenuItem());
             this.viewMenu.add(this.getAliasMenuItem());
+            this.viewMenu.add(this.getDebugMenuItem());
         }
         return this.viewMenu;
     }
@@ -509,7 +512,8 @@ public class MainFrame extends JFrame {
     private JCheckBoxMenuItem getAliasMenuItem() {
         if (this.aliasMenuItem == null) {
             this.aliasMenuItem = new JCheckBoxMenuItem();
-            this.aliasMenuItem.setText("Anti Alias");
+            this.aliasMenuItem
+                    .setText(Messages.getString("MathViewer.alias")); //$NON-NLS-1$
             this.aliasMenuItem.setSelected(Boolean.parseBoolean(MathBase
                     .getDefaultParameters().get(ParameterKey.AntiAlias)));
             this.aliasMenuItem
@@ -527,6 +531,35 @@ public class MainFrame extends JFrame {
                     });
         }
         return this.aliasMenuItem;
+    }
+
+    /**
+     * This method initializes debugMenuItem
+     * 
+     * @return javax.swing.JCheckBoxMenuItem
+     */
+    private JCheckBoxMenuItem getDebugMenuItem() {
+        if (this.debugMenuItem == null) {
+            this.debugMenuItem = new JCheckBoxMenuItem();
+            this.debugMenuItem
+                    .setText(Messages.getString("MathViewer.debug")); //$NON-NLS-1$
+            this.debugMenuItem.setSelected(Boolean.parseBoolean(MathBase
+                    .getDefaultParameters().get(ParameterKey.DebugMode)));
+            this.debugMenuItem
+                    .addItemListener(new java.awt.event.ItemListener() {
+                        public void itemStateChanged(
+                                final java.awt.event.ItemEvent e) {
+                            MainFrame.this
+                                    .getMathComponent()
+                                    .setParameter(
+                                            ParameterKey.DebugMode,
+                                            Boolean
+                                                    .toString(MainFrame.this.debugMenuItem
+                                                            .isSelected()));
+                        }
+                    });
+        }
+        return this.debugMenuItem;
     }
 
 }
