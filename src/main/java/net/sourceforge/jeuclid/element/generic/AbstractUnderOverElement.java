@@ -48,7 +48,7 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
     public static final String UNDER_OVER_SPACE = "0.1ex";
 
     /** Space for non-accents multiplied by this value. */
-    public static final float NON_ACCENT_MULTIPLIER = 5.0f;
+    public static final float NON_ACCENT_MULTIPLIER = 2.5f;
 
     /** attribute for accent property. */
     public static final String ATTR_ACCENT = "accent";
@@ -88,7 +88,8 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
         return (!this.getAccentAsBoolean())
                 && (this.getBase() instanceof MathOperator)
                 && Boolean.parseBoolean(((MathOperator) this.getBase())
-                        .getMovablelimits());
+                        .getMovablelimits())
+                && !(this.getParent().isChildBlock(this));
     }
 
     /**
@@ -188,6 +189,33 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
 
     /** {@inheritDoc} */
     @Override
+    public float getXCenter(final Graphics2D g) {
+
+        final float baseCenter = this.getBase().getXCenter(g);
+
+        if (this.limitsAreMoved()) {
+            return baseCenter;
+        } else {
+            final MathElement underElement = this.getUnderscript();
+            final float underCenter;
+            if (underElement != null) {
+                underCenter = underElement.getXCenter(g);
+            } else {
+                underCenter = 0;
+            }
+            final MathElement overElement = this.getOverscript();
+            final float overCenter;
+            if (overElement != null) {
+                overCenter = overElement.getXCenter(g);
+            } else {
+                overCenter = 0;
+            }
+            return Math.max(baseCenter, Math.max(overCenter, underCenter));
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public float calculateWidth(final Graphics2D g) {
 
         final float baseWidth = this.getBase().getWidth(g);
@@ -206,10 +234,74 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
             overWidth = 0;
         }
 
-        if (this.limitsAreMoved()) {
-            return baseWidth + Math.max(underWidth, overWidth) + 1;
+        final Offsets o = this.calculateOffsets(g);
+        return Math.max(baseWidth + o.getBase(), Math.max(overWidth
+                + o.getOver(), underWidth + o.getUnder()));
+    }
+
+    private class Offsets {
+        private final float base;
+
+        private final float under;
+
+        private final float over;
+
+        public Offsets(final float b, final float u, final float o) {
+            this.base = b;
+            this.under = u;
+            this.over = o;
         }
-        return Math.max(baseWidth, Math.max(overWidth, underWidth));
+
+        public float getBase() {
+            return this.base;
+        }
+
+        public float getUnder() {
+            return this.under;
+        }
+
+        public float getOver() {
+            return this.over;
+        }
+    }
+
+    private Offsets calculateOffsets(final Graphics2D g) {
+        final float baseOffsetX;
+        final float underOffsetX;
+        final float overOffsetX;
+
+        final MathElement base = this.getBase();
+        final MathElement under = this.getUnderscript();
+        final MathElement over = this.getOverscript();
+
+        if (this.limitsAreMoved()) {
+            baseOffsetX = 0;
+            final float baseWidth = base.getWidth(g);
+            underOffsetX = baseWidth;
+            overOffsetX = baseWidth;
+        } else {
+            final float baseCenter = base.getXCenter(g);
+            final float underCenter;
+            final float overCenter;
+            if (under != null) {
+                underCenter = under.getXCenter(g);
+            } else {
+                underCenter = 0;
+            }
+            if (over != null) {
+                overCenter = over.getXCenter(g);
+            } else {
+                overCenter = 0;
+            }
+
+            final float totalXCenter = Math.max(baseCenter, Math.max(
+                    underCenter, overCenter));
+
+            underOffsetX = totalXCenter - underCenter;
+            overOffsetX = totalXCenter - overCenter;
+            baseOffsetX = totalXCenter - baseCenter;
+        }
+        return new Offsets(baseOffsetX, underOffsetX, overOffsetX);
     }
 
     /**
@@ -227,32 +319,15 @@ public abstract class AbstractUnderOverElement extends AbstractMathElement
             final float posY) {
         super.paint(g, posX, posY);
 
-        final float baseOffsetX;
-        final float underOffsetX;
-        final float overOffsetX;
+        final Offsets o = this.calculateOffsets(g);
+        final float baseOffsetX = o.getBase();
+        final float underOffsetX = o.getUnder();
+        final float overOffsetX = o.getOver();
 
         final MathElement base = this.getBase();
         final MathElement under = this.getUnderscript();
         final MathElement over = this.getOverscript();
 
-        if (this.limitsAreMoved()) {
-            baseOffsetX = 0;
-            underOffsetX = base.getWidth(g);
-            overOffsetX = base.getWidth(g);
-        } else {
-            final float width = this.getWidth(g);
-            baseOffsetX = (width - base.getWidth(g)) / 2.0f;
-            if (under != null) {
-                underOffsetX = (width - under.getWidth(g)) / 2.0f;
-            } else {
-                underOffsetX = 0;
-            }
-            if (over != null) {
-                overOffsetX = (width - over.getWidth(g)) / 2.0f;
-            } else {
-                overOffsetX = 0;
-            }
-        }
         base.paint(g, posX + baseOffsetX, posY);
         if (under != null) {
             under.paint(g, posX + underOffsetX, posY

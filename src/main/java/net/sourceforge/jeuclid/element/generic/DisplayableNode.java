@@ -79,6 +79,17 @@ public interface DisplayableNode {
     float getWidth(Graphics2D g);
 
     /**
+     * Returns the center X coordinate of the content. In most cases, this
+     * will be width/2. In some cases, an element may have extra space on one
+     * side, therefore moving the content.
+     * 
+     * @param g
+     *            X-offset of the horizontal center of the actual content.
+     * @return Graphics2D context to use.
+     */
+    float getXCenter(Graphics2D g);
+
+    /**
      * Returns the last X position this node was painted on. May return -1 if
      * the node was not painted recently.
      * 

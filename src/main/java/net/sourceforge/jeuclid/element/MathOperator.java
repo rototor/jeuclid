@@ -62,8 +62,11 @@ public class MathOperator extends AbstractMathElement implements
     /** Attribute for max size. */
     public static final String ATTR_MAXSIZE = "maxsize";
 
+    /** Wrong attribute name for movable limits. */
+    public static final String ATTR_MOVEABLEWRONG = "moveablelimits";
+
     /** Attribute for moveable limits. */
-    public static final String ATTR_MOVEABLELIMITS = "moveablelimits";
+    public static final String ATTR_MOVABLELIMITS = "movablelimits";
 
     /** Attribute for accent. */
     public static final String ATTR_ACCENT = "accent";
@@ -148,8 +151,9 @@ public class MathOperator extends AbstractMathElement implements
                 AttributesHelper.INFINITY);
         this.setDefaultMathAttribute(MathOperator.ATTR_MINSIZE, "1");
         this.setDefaultMathAttribute(MathOperator.ATTR_LARGEOP, "false");
-        this.setDefaultMathAttribute(MathOperator.ATTR_MOVEABLELIMITS,
-                "false");
+        this
+                .setDefaultMathAttribute(MathOperator.ATTR_MOVABLELIMITS,
+                        "false");
         this.setDefaultMathAttribute(MathOperator.ATTR_ACCENT, "false");
         // CHECKSTYLE:ON
     }
@@ -160,9 +164,13 @@ public class MathOperator extends AbstractMathElement implements
      * @return Flag of lspace property.
      */
     private float getLspaceAsFloat() {
+        // TODO: decide if this is necessary
+        // if (this.getParent().isChildBlock(this)) {
         return AttributesHelper.convertSizeToPt(this.getLspace(), this,
                 AttributesHelper.PT);
-
+        // } else {
+        // return 0.0f;
+        // }
     }
 
     /**
@@ -183,8 +191,13 @@ public class MathOperator extends AbstractMathElement implements
      * @return Flag of rspace property.
      */
     private float getRspaceAsFloat() {
+        // TODO: Decide if this is necessary
+        // if (this.getParent().isChildBlock(this)) {
         return AttributesHelper.convertSizeToPt(this.getRspace(), this,
                 AttributesHelper.PT);
+        // } else {
+        // return 0.0f;
+        // }
     }
 
     private boolean isFence() {
@@ -354,6 +367,14 @@ public class MathOperator extends AbstractMathElement implements
 
     /** {@inheritDoc} */
     @Override
+    public float getXCenter(final Graphics2D g) {
+        return (this.getWidth(g) - this.getRspaceAsFloat() + this
+                .getLspaceAsFloat()) / 2.0f;
+
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public float calculateAscentHeight(final Graphics2D g) {
         if (this.getText().equals("")) {
             return g.getFontMetrics().getAscent();
@@ -416,15 +437,13 @@ public class MathOperator extends AbstractMathElement implements
                 AttributesHelper.THICKMATHSPACE);
         this.loadAttributeFromDictionary(MathOperator.ATTR_RSPACE,
                 AttributesHelper.THICKMATHSPACE);
+        this.loadAttributeFromDictionary(MathOperator.ATTR_MOVABLELIMITS,
+                "false");
+
         // TODO: Load all.
 
         if (this.isFence()) {
             this.setDefaultMathAttribute(MathOperator.ATTR_STRETCHY, "true");
-        }
-        if (!this.isChildBlock(null)) {
-            // TODO: Check if this logic is correct.
-            this.setDefaultMathAttribute(MathOperator.ATTR_MOVEABLELIMITS,
-                    "false");
         }
 
         final MathElement parent = this.getParent();
@@ -488,7 +507,13 @@ public class MathOperator extends AbstractMathElement implements
 
     /** {@inheritDoc} */
     public String getMovablelimits() {
-        return this.getMathAttribute(MathOperator.ATTR_MOVEABLELIMITS);
+        final String wrongAttr = this
+                .getMathAttribute(MathOperator.ATTR_MOVEABLEWRONG);
+        if (wrongAttr != null) {
+            return wrongAttr;
+        } else {
+            return this.getMathAttribute(MathOperator.ATTR_MOVABLELIMITS);
+        }
     }
 
     /** {@inheritDoc} */
@@ -523,7 +548,7 @@ public class MathOperator extends AbstractMathElement implements
 
     /** {@inheritDoc} */
     public void setMovablelimits(final String movablelimits) {
-        this.setAttribute(MathOperator.ATTR_MOVEABLELIMITS, movablelimits);
+        this.setAttribute(MathOperator.ATTR_MOVABLELIMITS, movablelimits);
     }
 
     /** {@inheritDoc} */
