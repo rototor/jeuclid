@@ -4,7 +4,7 @@
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid</artifactId>
   <name>JEuclid</name>
-  <version>2.9.6-SNAPSHOT</version>
+  <version>2.9.6</version>
   <description>
     JEuclid is a complete MathML rendering solution, consisting of a MathViewer
     application, Command line converters from MathML to other formats, an ant
@@ -158,9 +158,9 @@
     </contributor>
   </contributors>
   <scm>
-    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</connection>
-    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</developerConnection>
-    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk/</url>
+    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-2.9.6</connection>
+    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-2.9.6</developerConnection>
+    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-2.9.6</url>
   </scm>
   <properties>
   </properties>
@@ -204,7 +204,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
-        <version>1.0-20070124.085332-18</version>
+<!--        <version>1.0-20070124.085332-18</version>-->
         <configuration>
           <programs>
             <program>
@@ -231,7 +231,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appbundler-maven-plugin</artifactId>
-        <version>1.0-20070228.220112-5</version>
+<!--        <version>1.0-20070228.220112-5</version>-->
         <configuration>
           <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
           <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
@@ -249,7 +249,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-20070317.055642-36</version> 
+<!--        <version>2.2-20070317.055642-36</version>  -->
         <configuration>
           <descriptors>
             <descriptor>src/assemble/distribution.xml</descriptor>
