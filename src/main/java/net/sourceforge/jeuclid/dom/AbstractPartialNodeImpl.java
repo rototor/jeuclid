@@ -34,6 +34,7 @@ import org.w3c.dom.UserDataHandler;
  * to implement whatever functions you need.
  * 
  * @author Max Berger
+ * @version $Revision$
  */
 public abstract class AbstractPartialNodeImpl implements Node {
 

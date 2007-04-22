@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
  * Class to load i18n messages.
  * 
  * @author Max Berger
+ * @version $Revision$
  */
 public final class Messages {
     private static final String BUNDLE_NAME = "intl.mathviewer"; //$NON-NLS-1$

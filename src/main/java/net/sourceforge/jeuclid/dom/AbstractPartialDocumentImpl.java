@@ -39,6 +39,7 @@ import org.w3c.dom.Text;
  * to implement whatever functions you need.
  * 
  * @author Max Berger
+ * @version $Revision$
  */
 public abstract class AbstractPartialDocumentImpl extends
         AbstractPartialNodeImpl implements Document {

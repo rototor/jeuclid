@@ -24,9 +24,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Map;
 
-import net.sourceforge.jeuclid.DOMMathBuilder;
+import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.util.ParameterKey;
+import net.sourceforge.jeuclid.ParameterKey;
 
 import org.w3c.dom.Document;
 
@@ -35,6 +35,7 @@ import org.w3c.dom.Document;
  * 
  * @author Unknown, Max Berger
  * @see net.sourceforge.jeuclid.swing.JMathComponent
+ * @version $Revision$
  */
 public class MathComponent extends Component {
     /**
@@ -129,7 +130,7 @@ public class MathComponent extends Component {
     private void redo() {
         if (this.document != null) {
             this.base = new MathBase(this.parameters);
-            new DOMMathBuilder(this.document, this.base);
+            new DOMBuilder(this.document, this.base);
             this.base.setDebug(this.debug);
         } else {
             this.base = null;

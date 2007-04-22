@@ -41,12 +41,12 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
+import net.sourceforge.jeuclid.Converter;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.app.MathViewer;
 import net.sourceforge.jeuclid.swing.JMathComponent;
-import net.sourceforge.jeuclid.util.Converter;
-import net.sourceforge.jeuclid.util.MathMLParserSupport;
-import net.sourceforge.jeuclid.util.ParameterKey;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,6 +56,7 @@ import org.xml.sax.SAXException;
  * Main frame for the MathViewer application.
  * 
  * @author Max Berger
+ * @version $Revision$
  */
 public class MainFrame extends JFrame {
 

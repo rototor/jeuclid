@@ -5,8 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
 
+import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.swing.JMathComponent;
-import net.sourceforge.jeuclid.util.MathMLParserSupport;
 
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;

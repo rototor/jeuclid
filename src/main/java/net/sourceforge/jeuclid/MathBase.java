@@ -23,8 +23,7 @@ import java.awt.RenderingHints;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sourceforge.jeuclid.element.MathDocumentElement;
-import net.sourceforge.jeuclid.util.ParameterKey;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
 /**
  * The base for management a MathElements tree.
@@ -32,6 +31,7 @@ import net.sourceforge.jeuclid.util.ParameterKey;
  * @author Max Berger
  * @author <a href="mailto:stephan@vern.chem.tu-berlin.de">Stephan Michels</a>
  * @author <a href="mailto:sielaff@vern.chem.tu-berlin.de">Marco Sielaff</a>
+ * @version $Revision$
  */
 public class MathBase {
     /**
@@ -51,7 +51,7 @@ public class MathBase {
     /**
      * Reference to the root element of mathelements tree.
      */
-    private MathDocumentElement rootElement;
+    private DocumentElement rootElement;
 
     private final Map<ParameterKey, String> renderParams;
 
@@ -98,7 +98,7 @@ public class MathBase {
      * @param element
      *            Root element of a math tree
      */
-    public void setRootElement(final MathDocumentElement element) {
+    public void setRootElement(final DocumentElement element) {
         if (element == null) {
             return;
         }
@@ -109,7 +109,7 @@ public class MathBase {
     /**
      * @return the Document element associated with this mathbase.
      */
-    public MathDocumentElement getRootElement() {
+    public DocumentElement getRootElement() {
         return this.rootElement;
     }
 

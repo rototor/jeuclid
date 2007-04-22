@@ -21,7 +21,7 @@ package net.sourceforge.jeuclid.ant;
 import java.io.File;
 import java.io.IOException;
 
-import net.sourceforge.jeuclid.util.Converter;
+import net.sourceforge.jeuclid.Converter;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -33,7 +33,7 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
  * 
  * @author Unkown
  * @author Max Berger
- * @version $Revision$ $Date$
+ * @version $Revision$
  */
 public class MathMLConverter extends MatchingTask {
 

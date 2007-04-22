@@ -35,6 +35,7 @@ import javax.swing.ImageIcon;
  * 
  * @author Matthias Hanisch
  * @author Max Berger
+ * @version $Revision$
  */
 public class JMathComponentBeanInfo extends SimpleBeanInfo {
     private static final Class BEANCLASS = JMathComponent.class;

@@ -27,9 +27,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.ResourceEntityResolver;
 import net.sourceforge.jeuclid.awt.MathComponent;
-import net.sourceforge.jeuclid.util.MathMLParserSupport;
-import net.sourceforge.jeuclid.util.ResourceEntityResolver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

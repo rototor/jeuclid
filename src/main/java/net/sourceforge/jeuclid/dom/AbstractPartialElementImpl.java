@@ -36,6 +36,7 @@ import org.w3c.dom.TypeInfo;
  * to implement whatever functions you need.
  * 
  * @author Max Berger
+ * @version $Revision$
  */
 public abstract class AbstractPartialElementImpl extends
         AbstractPartialNodeImpl implements Element {

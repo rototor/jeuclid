@@ -32,6 +32,7 @@ import javax.swing.SwingConstants;
  * About Dialog for MathViewer.
  * 
  * @author Max Berger
+ * @version $Revision$
  */
 public class AboutDialog extends JDialog {
 
@@ -81,7 +82,8 @@ public class AboutDialog extends JDialog {
         if (this.jContentPane == null) {
             this.wwwLabel = new JLabel();
             this.wwwLabel.setText(" http://jeuclid.sourceforge.net ");
-            this.wwwLabel.setFont(new Font(AboutDialog.ABOUT_FONT, Font.PLAIN, AboutDialog.SMALL_FONT));
+            this.wwwLabel.setFont(new Font(AboutDialog.ABOUT_FONT,
+                    Font.PLAIN, AboutDialog.SMALL_FONT));
             this.wwwLabel.setHorizontalAlignment(SwingConstants.CENTER);
             this.jeuclidLabel = new JLabel();
             this.jeuclidLabel.setText("JEuclid MathViewer");
