@@ -47,6 +47,7 @@ import net.sourceforge.jeuclid.elements.presentation.table.Mlabeledtr;
 import net.sourceforge.jeuclid.elements.presentation.table.Mtable;
 import net.sourceforge.jeuclid.elements.presentation.table.Mtd;
 import net.sourceforge.jeuclid.elements.presentation.table.Mtr;
+import net.sourceforge.jeuclid.elements.presentation.token.Mglyph;
 import net.sourceforge.jeuclid.elements.presentation.token.Mi;
 import net.sourceforge.jeuclid.elements.presentation.token.Mn;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
@@ -159,6 +160,8 @@ public final class JEuclidElementFactory {
             element = new Merror(base);
         } else if (localName.equals(Maction.ELEMENT)) {
             element = new Maction(base);
+        } else if (localName.equals(Mglyph.ELEMENT)) {
+            element = new Mglyph(base);
         } else {
             JEuclidElementFactory.LOGGER.info("Unsupported element: "
                     + localName);

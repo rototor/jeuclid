@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,34 +18,43 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
+import java.text.AttributedString;
+
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
 /**
- * This class presents a mathematical idenifier, like "x".
+ * Common functionality for all tokens where the text layout is based on the
+ * text content.
  * 
- * @author Unknown
  * @author Max Berger
  * @version $Revision$
  */
-public class Mi extends AbstractTokenWithStandardLayout {
-    /**
-     * The XML element from this class.
-     */
-    public static final String ELEMENT = "mi";
+public abstract class AbstractTokenWithStandardLayout extends
+        AbstractTokenWithTextLayout {
 
     /**
      * Default constructor.
      * 
      * @param base
-     *            The base for math element
+     *            The base for the math element tree.
      */
-    public Mi(final MathBase base) {
+    public AbstractTokenWithStandardLayout(final MathBase base) {
         super(base);
-        this.setDefaultMathAttribute(ATTR_MATHVARIANT, "italic");
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Mi.ELEMENT;
+    @Override
+    protected AttributedString textContentAsAttributedString() {
+        return StringUtil.convertStringtoAttributedString(this.getText(),
+                this.getMathvariantAsVariant(), this.getFontsizeInPoint(),
+                this.mbase);
     }
+
+    /** {@inheritDoc} */
+    @Override
+    protected boolean isEmpty() {
+        return this.getText().length() == 0;
+    }
+
 }

@@ -30,7 +30,7 @@ import net.sourceforge.jeuclid.MathBase;
  * @author Max Berger
  * @version $Revision$
  */
-public class Mn extends Mtext {
+public class Mn extends AbstractTokenWithStandardLayout {
 
     /**
      * The XML element from this class.
@@ -82,7 +82,6 @@ public class Mn extends Mtext {
     }
 
     /** {@inheritDoc} */
-    @Override
     public String getTagName() {
         return Mn.ELEMENT;
     }
