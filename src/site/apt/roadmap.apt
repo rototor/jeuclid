@@ -6,9 +6,9 @@ Roadmap
  
  * Make sure the most important checkstlye issues are addressed, such as full JavaDoc documentation. (done)
 
- * Refactor to provide a more future-compatible API
+ * Refactor to provide a more future-compatible API (done)
 
- * Modify layout code to use "float" instead of "int" coordinates
+ * Modify layout code to use "float" instead of "int" coordinates (done)
  
 * Plans for post-3.0
 
