@@ -33,6 +33,7 @@
       </action>
       <action dev="maxberger" type="update">
         DOMMathBuilder: Checkstyle fixes;
+      </action>
       <action dev="maxberger" type="update">
         AbstractMathElement: changed whitespace handling, now only trivial spaces are collapsed
       </action>
