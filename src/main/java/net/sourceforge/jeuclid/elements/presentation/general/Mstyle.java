@@ -64,7 +64,7 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
      */
     public Mstyle(final MathBase base) {
         super(base);
-        this.setDefaultMathAttribute(ATTR_DISPLAYSTYLE, "");
+        this.setDefaultMathAttribute(Mstyle.ATTR_DISPLAYSTYLE, "");
     }
 
     /**

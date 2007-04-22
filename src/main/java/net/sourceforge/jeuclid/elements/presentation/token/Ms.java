@@ -95,8 +95,8 @@ public class Ms extends AbstractTokenWithTextLayout implements
     protected AttributedString textContentAsAttributedString() {
         return StringUtil.convertStringtoAttributedString(this.getLquote()
                 + this.getText() + this.getRquote(), this
-                .getMathvariantAsVariant(), this.getFontsizeInPoint(),
-                this.mbase);
+                .getMathvariantAsVariant(), this.getFontsizeInPoint(), this
+                .getMathBase());
     }
 
     /** {@inheritDoc} */

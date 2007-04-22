@@ -568,8 +568,8 @@ public class Mtable extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     @Override
     public float calculateAscentHeight(final Graphics2D g) {
-        final AlignmentType align = AlignmentType.parseAlignmentType(this
-                .getAlign());
+        final AlignmentType align = Mtable.AlignmentType
+                .parseAlignmentType(this.getAlign());
         if (Mtable.AlignmentType.BOTTOM.equals(align)) {
             return this.calculateActualHeight(g);
         } else if (Mtable.AlignmentType.TOP.equals(align)) {
@@ -588,8 +588,8 @@ public class Mtable extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     @Override
     public float calculateDescentHeight(final Graphics2D g) {
-        final AlignmentType align = AlignmentType.parseAlignmentType(this
-                .getAlign());
+        final Mtable.AlignmentType align = Mtable.AlignmentType
+                .parseAlignmentType(this.getAlign());
         if (Mtable.AlignmentType.BOTTOM.equals(align)) {
             return 0;
         } else if (Mtable.AlignmentType.TOP.equals(align)) {
@@ -620,8 +620,8 @@ public class Mtable extends AbstractJEuclidElement implements
      *            Cell to get groupalign values.
      * @return Array with groupalign values.
      */
-    public List<AlignmentType> getGroupAlign(final Mtd cell) {
-        final List<AlignmentType> result = new Vector<AlignmentType>();
+    public List<Mtable.AlignmentType> getGroupAlign(final Mtd cell) {
+        final List<Mtable.AlignmentType> result = new Vector<Mtable.AlignmentType>();
 
         String groupAlign;
 
@@ -644,7 +644,9 @@ public class Mtable extends AbstractJEuclidElement implements
             final String[] gAlign = groupAlign.split("\\w");
             for (final String value : gAlign) {
                 if (value.length() > 0) {
-                    result.add(AlignmentType.parseAlignmentType(value));
+                    result
+                            .add(Mtable.AlignmentType
+                                    .parseAlignmentType(value));
                 }
             }
         }
@@ -796,7 +798,8 @@ public class Mtable extends AbstractJEuclidElement implements
         // array of aligngropus of the cell
         Maligngroup[] aligngroups; // align values of aligngroups in the
         // cell
-        List<AlignmentType> groupalignvalues; // elements of the aligngroup
+        List<Mtable.AlignmentType> groupalignvalues; // elements of the
+        // aligngroup
         List<JEuclidElement> elements;
         for (int col = 0; col < columnsCount; col++) { // walking through the
             // column "column"
@@ -813,10 +816,10 @@ public class Mtable extends AbstractJEuclidElement implements
                     if (groupalignvalues.size() == 0) {
                         // values of alignment didn't mentioned, have to use
                         // default
-                        groupalignvalues = new Vector<AlignmentType>(
+                        groupalignvalues = new Vector<Mtable.AlignmentType>(
                                 aligngroups.length);
-                        for (Maligngroup element : aligngroups) {
-                            groupalignvalues.add(AlignmentType.LEFT);
+                        for (final Maligngroup element : aligngroups) {
+                            groupalignvalues.add(Mtable.AlignmentType.LEFT);
                         }
                     }
                     if (aligngroups.length == 0
@@ -860,7 +863,7 @@ public class Mtable extends AbstractJEuclidElement implements
                             alignwidths[col][Mtable.RIGHT_WIDTH][row][alignIndex] = alignwidths[col][Mtable.WHOLE_WIDTH][row][alignIndex];
                             // but! may be, we have alignment decimalpoint...
                             if (groupalignvalues.get(alignIndex).equals(
-                                    AlignmentType.DECIMALPOINT)) {
+                                    Mtable.AlignmentType.DECIMALPOINT)) {
                                 // width of the left (till decimal point)
                                 // value
                                 // of MathNumber
@@ -890,7 +893,7 @@ public class Mtable extends AbstractJEuclidElement implements
         } // cycle: columns
 
         // calculating shifts of MathAlignGroup elements
-        AlignmentType alignOfTheGroup = AlignmentType.LEFT;
+        Mtable.AlignmentType alignOfTheGroup = Mtable.AlignmentType.LEFT;
         float currentWidth = 0;
         float maxWidth = 0;
         float leftWidth = 0;
@@ -914,10 +917,10 @@ public class Mtable extends AbstractJEuclidElement implements
                     if (groupalignvalues.size() == 0) {
                         // values of alignment didn't mentioned, have to use
                         // default
-                        groupalignvalues = new Vector<AlignmentType>(
+                        groupalignvalues = new Vector<Mtable.AlignmentType>(
                                 aligngroups.length);
-                        for (Maligngroup element : aligngroups) {
-                            groupalignvalues.add(AlignmentType.LEFT);
+                        for (final Maligngroup element : aligngroups) {
+                            groupalignvalues.add(Mtable.AlignmentType.LEFT);
                         }
                     }
                     if (aligngroups.length == 0
@@ -937,7 +940,7 @@ public class Mtable extends AbstractJEuclidElement implements
                         rightMaxWidth = alignwidths[col][Mtable.RIGHT_WIDTH][MAX_WIDTH_IN_COLUMN][alignIndex];
                         group = aligngroups[alignIndex];
                         if (usesMarks[col][alignIndex]) {
-                            alignOfTheGroup = AlignmentType.MARK;
+                            alignOfTheGroup = Mtable.AlignmentType.MARK;
                         }
                         if (alignIndex < groupalignvalues.size() - 1) {
                             nextGroup = aligngroups[alignIndex + 1];

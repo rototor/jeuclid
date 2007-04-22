@@ -31,7 +31,7 @@ import org.xml.sax.Attributes;
  */
 public class SAXAttributeMap extends AbstractAttributeMap {
 
-    final Attributes attributes;
+    private final Attributes attributes;
 
     /**
      * Creates a new AttributeMap based on SAX attributes.
