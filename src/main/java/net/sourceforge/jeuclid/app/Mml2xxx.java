@@ -70,16 +70,17 @@ public final class Mml2xxx {
                     } else if (count == 1) {
                         target = new File(curArg);
                     } else {
-                        throw new IllegalArgumentException();
+                        throw new IllegalArgumentException(
+                                "To many files given");
                     }
                     count++;
                 }
             }
 
             if (count != 2) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Number of files given");
             } else if (!source.isFile()) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Source is not a file");
             }
 
             if (!mimeTypeIsSet) {
@@ -95,8 +96,12 @@ public final class Mml2xxx {
 
         } catch (ArrayIndexOutOfBoundsException aiobe) {
             Mml2xxx.showUsage();
+            System.out.println(aiobe.getClass().toString() + ": "
+                    + aiobe.getMessage());
         } catch (IllegalArgumentException ia) {
             Mml2xxx.showUsage();
+            System.out.println(ia.getClass().toString() + ": "
+                    + ia.getMessage());
         } catch (final IOException e) {
             Mml2xxx.showUsage();
             System.out.println(e.getClass().toString() + ": "
