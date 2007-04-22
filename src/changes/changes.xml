@@ -7,6 +7,9 @@
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
       <action dev="maxberger" type="update">
+        Updated webstart config settings; 
+      </action>
+      <action dev="maxberger" type="update">
        Mml2xxx now prints more information in case of failure;
       </action>
       <action dev="maxberger" type="add">
