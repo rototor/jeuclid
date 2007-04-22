@@ -5,7 +5,15 @@
     <author>Max Berger</author>
   </properties>
   <body>
-    <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
+     <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
+      <action dev="maxberger" type="update">
+       Mml2xxx now prints more information in case of failure;
+      </action>
+      <action dev="maxberger" type="add">
+        Released 2.9.6; updated website; re-rendered testsuite
+      </action>
+     </release>
+     <release version="2.9.6" date="2007-04-22" description="Beta-1 for 3.0">
       <action dev="maxberger" type="update">
         DOMAttributeMap, Mtable, Mstyle, 
         SAXAttributeMap, AbstractJEuclidElement: checkstyle fixes;

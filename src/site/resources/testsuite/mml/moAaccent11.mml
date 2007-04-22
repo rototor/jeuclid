@@ -16,17 +16,17 @@
   <mrow>
     <mover>
       <mrow><mi>G</mi><mo>-</mo><mn>1</mn></mrow>
-      <mo accent=false>&OverBar;</mo>
+      <mo accent='false'>&OverBar;</mo>
     </mover>
-    <mo accent=false>+</mo>
+    <mo accent='false'>+</mo>
     <mover accent='true'>
       <mrow><mi>G</mi><mo>-</mo><mn>1</mn></mrow>
-      <mo accent=false>&OverBar;</mo>
+      <mo accent='false'>&OverBar;</mo>
     </mover>
-    <mo accent=true>+</mo>
+    <mo accent='true'>+</mo>
     <mover accent='false'>
       <mrow><mi>G</mi><mo>-</mo><mn>1</mn></mrow>
-      <mo accent=false>&OverBar;</mo>
+      <mo accent='false'>&OverBar;</mo>
     </mover>
   </mrow>
 </math>

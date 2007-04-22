@@ -18,6 +18,20 @@
 
 News
 
+ * JEuclid 2.9.6 is released
+
+ This release has had a lot of refactoring. Many elements have moved and been renamed. All internal coordinates have been changed to use "float" instead of int. Please update your code accordingly.
+
+ The good news is that the refactoring is done, and therefore the API WILL REMAIN STABLE until 3.0. No existing public functionality will be removed! There may be some deprecations before 3.0, but this is not anticipated! It is now time to update JEuclid referencing projects, such as the FOP-Plugin.
+
+ It is also noteworthy that this release of JEuclid supports ALL MATHML 2.0 PRESENTATION ELEMENTS. Any valid MathML 2.0 presentation can therefore be rendered with. Some lesser used attributes are still missing, but they do not hinder rendering. 
+
+ Also noteworthy is that this release features and FULLY MODIFIABLE INTERNAL TREE, based on the standard W3C DOM mapping.
+
+ And last, but not least FULL SUPPORT FOR ALL OPENOFFICE FOMULAR (.ODF) files.
+
+ With all these features, this is now BETA-1 for JEuclid 3.0; Please file bug reports, and send your wishes to the jeuclid-* mailing list, so that I can release 3.0 soon!
+
  * JEuclid 2.9.5 is released
 
  * Don't want to download? Try our new {{{./webstart.html}Webstartable MathViewer application}}. 
@@ -32,7 +46,7 @@ News
 
 Current Status
 	
-	The lastest released version is 2.9.5.
+	The lastest released version is 2.9.6. (= 3.0b1)
 	Please {{{./issue-tracking.html}report any issues}}.
 
 
