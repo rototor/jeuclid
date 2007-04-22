@@ -36,11 +36,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import net.sourceforge.jeuclid.DOMMathBuilder;
+import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.element.helpers.AttributesHelper;
-import net.sourceforge.jeuclid.util.MathMLParserSupport;
-import net.sourceforge.jeuclid.util.ParameterKey;
+import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,10 +50,11 @@ import org.xml.sax.SAXException;
 /**
  * A class for displaying MathML content in a Swing Component.
  * 
- * @author Unknown, Max Berger
  * @see net.sourceforge.jeuclid.awt.MathComponent
+ * @author Unkown
+ * @author Max Berger
+ * @version $Revision$
  */
-
 public class JMathComponent extends JComponent {
     /**
      * Logger for this class
@@ -200,7 +201,7 @@ public class JMathComponent extends JComponent {
     private void redo() {
         if (this.document != null) {
             this.base = new MathBase(this.parameters);
-            new DOMMathBuilder(this.document, this.base);
+            new DOMBuilder(this.document, this.base);
         } else {
             this.base = null;
         }

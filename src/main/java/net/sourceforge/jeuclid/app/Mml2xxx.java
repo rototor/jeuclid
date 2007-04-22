@@ -22,14 +22,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import net.sourceforge.jeuclid.Converter;
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.util.Converter;
-import net.sourceforge.jeuclid.util.ParameterKey;
+import net.sourceforge.jeuclid.ParameterKey;
 
 /**
  * Utility class to be used from the command line to call the converters.
  * 
  * @author Max Berger
+ * @version $Revision$
  */
 public final class Mml2xxx {
 

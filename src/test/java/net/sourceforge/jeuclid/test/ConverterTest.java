@@ -5,10 +5,10 @@ import static org.testng.Assert.assertTrue;
 import java.io.File;
 import java.util.Map;
 
+import net.sourceforge.jeuclid.Converter;
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.util.Converter;
-import net.sourceforge.jeuclid.util.MathMLParserSupport;
-import net.sourceforge.jeuclid.util.ParameterKey;
+import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.ParameterKey;
 
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;

@@ -28,6 +28,7 @@ import org.w3c.dom.Node;
  * happened.
  * 
  * @author Max Berger
+ * @version $Revision$
  */
 public abstract class AbstractChangeTrackingElement extends
         AbstractPartialElementImpl implements ChangeTrackingInterface {

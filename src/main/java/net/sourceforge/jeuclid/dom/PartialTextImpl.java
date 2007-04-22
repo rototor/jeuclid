@@ -31,6 +31,7 @@ import org.w3c.dom.Text;
  * @todo This class is currently unused.
  * 
  * @author Max Berger
+ * @version $Revision$
  */
 public class PartialTextImpl extends AbstractPartialNodeImpl implements Text {
 

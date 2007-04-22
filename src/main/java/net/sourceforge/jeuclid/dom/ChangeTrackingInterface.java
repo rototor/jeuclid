@@ -22,6 +22,7 @@ package net.sourceforge.jeuclid.dom;
  * Interface for nodes which are capable of tracking changes.
  * 
  * @author Max Berger
+ * @version $Revision$
  */
 public interface ChangeTrackingInterface {
     /**

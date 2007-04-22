@@ -23,9 +23,9 @@ import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sourceforge.jeuclid.DOMMathBuilder;
+import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.util.MathMLParserSupport;
+import net.sourceforge.jeuclid.MathMLParserSupport;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,7 +72,7 @@ public class MathBaseTest {
             final Document document = MathBaseTest.loadDocument(exName);
             final MathBase base = new MathBase(MathBase
                     .getDefaultParameters());
-            new DOMMathBuilder(document, base);
+            new DOMBuilder(document, base);
         }
     }
 
