@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathFrac.java 136 2007-04-19 13:58:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
@@ -36,7 +36,7 @@ import org.w3c.dom.mathml.MathMLFractionElement;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mfrac extends AbstractJEuclidElement implements
         MathMLFractionElement {

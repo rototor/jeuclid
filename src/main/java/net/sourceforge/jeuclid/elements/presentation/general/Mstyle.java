@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathStyle.java 139 2007-04-21 16:12:43Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
@@ -30,7 +30,7 @@ import org.w3c.dom.mathml.MathMLStyleElement;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
 

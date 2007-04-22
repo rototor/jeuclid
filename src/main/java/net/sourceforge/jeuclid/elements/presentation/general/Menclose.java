@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathEnclose.java 136 2007-04-19 13:58:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
@@ -34,7 +34,7 @@ import org.w3c.dom.mathml.MathMLEncloseElement;
 /**
  * @author Dmitry Mironovich
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Menclose extends AbstractMathElementWithChildren implements
         MathMLEncloseElement {

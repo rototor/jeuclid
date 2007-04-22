@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathLabeledTableRow.java 50 2007-02-22 17:57:51Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
@@ -29,7 +29,7 @@ import org.w3c.dom.mathml.MathMLLabeledRowElement;
  * @todo add proper support for labels. They are currently silently ignored.
  * @author PG
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mlabeledtr extends Mtr implements MathMLLabeledRowElement {
     /**

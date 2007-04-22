@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathTableData.java 119 2007-03-29 20:58:15Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
@@ -31,7 +31,7 @@ import org.w3c.dom.mathml.MathMLTableCellElement;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mtd extends AbstractRowLike implements MathMLTableCellElement {
 

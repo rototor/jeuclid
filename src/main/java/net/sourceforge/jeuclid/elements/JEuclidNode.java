@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathNode.java 78 2007-03-01 20:51:02Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements;
 
@@ -22,7 +22,7 @@ package net.sourceforge.jeuclid.elements;
  * Generic interface for all MathNodes, including document Element.
  * 
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public interface JEuclidNode {
 

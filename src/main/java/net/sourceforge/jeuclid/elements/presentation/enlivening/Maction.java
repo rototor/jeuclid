@@ -16,27 +16,30 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.elements.presentation.script;
+package net.sourceforge.jeuclid.elements.presentation.enlivening;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
 
-import org.w3c.dom.DOMException;
-import org.w3c.dom.mathml.MathMLElement;
+import org.w3c.dom.mathml.MathMLActionElement;
 
 /**
- * This class arranges a element over an other element.
+ * Represents an maction element.
  * 
- * @author Unknown
+ * @todo This element does not actually implement any action.
  * @author Max Berger
  * @version $Revision$
  */
-public class Mover extends AbstractUnderOver {
+public class Maction extends AbstractRowLike implements MathMLActionElement {
 
     /**
      * The XML element from this class.
      */
-    public static final String ELEMENT = "mover";
+    public static final String ELEMENT = "maction";
+
+    private static final String ATTR_ACTIONTYPE = "actiontype";
+
+    private static final String ATTR_SELECTION = "selection";
 
     /**
      * Creates a math element.
@@ -44,34 +47,33 @@ public class Mover extends AbstractUnderOver {
      * @param base
      *            The base for the math element tree.
      */
-    public Mover(final MathBase base) {
+    public Maction(final MathBase base) {
         super(base);
     }
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return Mover.ELEMENT;
+        return Maction.ELEMENT;
     }
 
     /** {@inheritDoc} */
-    public JEuclidElement getOverscript() {
-        return this.getMathElement(1);
+    public String getActiontype() {
+        return this.getMathAttribute(Maction.ATTR_ACTIONTYPE);
     }
 
     /** {@inheritDoc} */
-    public JEuclidElement getUnderscript() {
-        return null;
+    public String getSelection() {
+        return this.getMathAttribute(Maction.ATTR_SELECTION);
     }
 
     /** {@inheritDoc} */
-    public void setOverscript(final MathMLElement overscript) {
-        this.setMathElement(1, overscript);
+    public void setActiontype(final String actiontype) {
+        this.setAttribute(Maction.ATTR_ACTIONTYPE, actiontype);
     }
 
     /** {@inheritDoc} */
-    public void setUnderscript(final MathMLElement underscript) {
-        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
-                "mover does not have underscript");
+    public void setSelection(final String selection) {
+        this.setAttribute(Maction.ATTR_SELECTION, selection);
     }
 
 }

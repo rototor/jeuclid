@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathString.java 52 2007-02-26 16:46:55Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
@@ -27,7 +27,7 @@ import org.w3c.dom.mathml.MathMLStringLitElement;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Ms extends Mtext implements MathMLStringLitElement {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathPadded.java 125 2007-04-04 08:48:36Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
@@ -27,7 +27,7 @@ import org.w3c.dom.mathml.MathMLPaddedElement;
  * 
  * @author Max Berger
  * @todo none of the attributes are actually implemented yet.
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mpadded extends AbstractRowLike implements MathMLPaddedElement {
 

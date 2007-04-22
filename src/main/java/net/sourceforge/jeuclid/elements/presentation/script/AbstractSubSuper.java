@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractMathElementWithSubSuper.java 136 2007-04-19 13:58:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
@@ -32,7 +32,7 @@ import org.w3c.dom.mathml.MathMLScriptElement;
  * attribute.
  * 
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public abstract class AbstractSubSuper extends AbstractJEuclidElement
         implements MathMLScriptElement {

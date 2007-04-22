@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathSemantics.java 27 2007-02-15 21:26:58Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.generic;
 
@@ -28,7 +28,7 @@ import org.w3c.dom.mathml.MathMLSemanticsElement;
  * This class represents a semantics element.
  * 
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Semantics extends AbstractRowLike implements
         MathMLSemanticsElement {

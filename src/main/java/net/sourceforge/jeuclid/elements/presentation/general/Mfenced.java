@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathFenced.java 111 2007-03-28 17:47:12Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
@@ -35,7 +35,7 @@ import org.w3c.dom.mathml.MathMLFencedElement;
  * @author AH
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mfenced extends AbstractElementWithDelegates implements
         MathMLFencedElement {

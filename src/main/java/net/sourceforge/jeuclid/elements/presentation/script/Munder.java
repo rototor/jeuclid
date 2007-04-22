@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathUnder.java 132 2007-04-18 07:55:39Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
@@ -29,7 +29,7 @@ import org.w3c.dom.mathml.MathMLElement;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Munder extends AbstractUnderOver {
 

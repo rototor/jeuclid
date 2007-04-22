@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathAnnotation.java 19 2007-02-13 17:51:09Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.generic;
 
@@ -27,7 +27,7 @@ import org.w3c.dom.mathml.MathMLAnnotationElement;
  * This class represents a annotation element.
  * 
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Annotation extends AbstractInvisibleJEuclidElement implements
         MathMLAnnotationElement {

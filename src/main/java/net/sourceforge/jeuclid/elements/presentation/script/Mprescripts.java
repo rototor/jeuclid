@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathPreScripts.java 33 2007-02-19 19:52:17Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
@@ -26,7 +26,7 @@ import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mprescripts extends AbstractInvisibleJEuclidElement {
 

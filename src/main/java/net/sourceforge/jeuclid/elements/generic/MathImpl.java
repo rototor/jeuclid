@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathMathElement.java 50 2007-02-22 17:57:51Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.generic;
 
@@ -29,7 +29,7 @@ import org.w3c.dom.mathml.MathMLMathElement;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class MathImpl extends AbstractRowLike implements MathMLMathElement {
 

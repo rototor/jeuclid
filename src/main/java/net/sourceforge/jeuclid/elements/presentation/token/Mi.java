@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathIdentifier.java 33 2007-02-19 19:52:17Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
@@ -25,7 +25,7 @@ import net.sourceforge.jeuclid.MathBase;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mi extends Mtext {
     /**

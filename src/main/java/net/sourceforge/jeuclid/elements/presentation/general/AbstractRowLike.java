@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractRowLikeElement.java 136 2007-04-19 13:58:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
@@ -27,7 +27,7 @@ import net.sourceforge.jeuclid.MathBase;
  * children, like the mrow element.
  * 
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public abstract class AbstractRowLike extends AbstractMathElementWithChildren {
 
