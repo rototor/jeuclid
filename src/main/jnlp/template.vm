@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp
-    spec="1.5+"
+    spec="1.0+"
     codebase="http://jeuclid.sf.net/webstart"
     href="$outputFile">
   <information>

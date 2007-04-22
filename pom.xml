@@ -270,6 +270,7 @@
 <!-- Fortunately having this config here does not hurt -->
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>webstart-maven-plugin</artifactId>
+        <version>1.0-alpha-2-20070131.210003-5</version>
         <configuration>
           <jnlp>
             <outputFile>mathviewer.jnlp</outputFile>
