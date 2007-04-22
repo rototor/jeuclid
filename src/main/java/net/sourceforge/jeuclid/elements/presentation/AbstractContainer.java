@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractMathContainer.java 4 2007-02-12 12:46:37Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation;
 
@@ -31,7 +31,7 @@ import org.w3c.dom.mathml.MathMLNodeList;
  * MathMLContainer interface.
  * 
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public abstract class AbstractContainer extends AbstractJEuclidElement
         implements MathMLContainer {

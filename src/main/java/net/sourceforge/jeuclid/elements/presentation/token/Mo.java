@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathOperator.java 139 2007-04-21 16:12:43Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
@@ -41,7 +41,7 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mo extends AbstractJEuclidElement implements
         MathMLOperatorElement {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathPhantom.java 136 2007-04-19 13:58:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
@@ -27,7 +27,7 @@ import net.sourceforge.jeuclid.MathBase;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mphantom extends AbstractMathElementWithChildren {
 

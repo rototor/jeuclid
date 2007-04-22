@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathElementFactory.java 125 2007-04-04 08:48:36Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements;
 
@@ -22,7 +22,9 @@ import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.generic.Annotation;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
 import net.sourceforge.jeuclid.elements.generic.Semantics;
+import net.sourceforge.jeuclid.elements.presentation.enlivening.Maction;
 import net.sourceforge.jeuclid.elements.presentation.general.Menclose;
+import net.sourceforge.jeuclid.elements.presentation.general.Merror;
 import net.sourceforge.jeuclid.elements.presentation.general.Mfenced;
 import net.sourceforge.jeuclid.elements.presentation.general.Mfrac;
 import net.sourceforge.jeuclid.elements.presentation.general.Mpadded;
@@ -61,7 +63,7 @@ import org.w3c.dom.mathml.MathMLElement;
  * Creates MathElements from given element strings.
  * 
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public final class JEuclidElementFactory {
 
@@ -153,6 +155,10 @@ public final class JEuclidElementFactory {
             element = new Annotation(base);
         } else if (localName.equals(Mpadded.ELEMENT)) {
             element = new Mpadded(base);
+        } else if (localName.equals(Merror.ELEMENT)) {
+            element = new Merror(base);
+        } else if (localName.equals(Maction.ELEMENT)) {
+            element = new Maction(base);
         } else {
             JEuclidElementFactory.LOGGER.info("Unsupported element: "
                     + localName);

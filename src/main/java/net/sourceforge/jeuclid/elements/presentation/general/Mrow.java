@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathRow.java 33 2007-02-19 19:52:17Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
@@ -27,7 +27,7 @@ import org.w3c.dom.mathml.MathMLPresentationContainer;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mrow extends AbstractRowLike implements
         MathMLPresentationContainer {

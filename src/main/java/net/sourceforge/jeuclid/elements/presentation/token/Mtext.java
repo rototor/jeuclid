@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathText.java 138 2007-04-21 14:09:30Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
@@ -33,7 +33,7 @@ import org.w3c.dom.mathml.MathMLPresentationToken;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Mtext extends AbstractJEuclidElement implements
         MathMLPresentationToken {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathAlignGroup.java 136 2007-04-19 13:58:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
@@ -35,7 +35,7 @@ import org.w3c.dom.mathml.MathMLAlignGroupElement;
  * 
  * @author PG
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 
 public class Maligngroup extends AbstractInvisibleJEuclidElement implements

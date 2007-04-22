@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathMultiScripts.java 136 2007-04-19 13:58:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
@@ -36,7 +36,7 @@ import org.w3c.dom.mathml.MathMLNodeList;
  *       getSupMiddleShifft
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 
 public class Mmultiscripts extends AbstractSubSuper implements

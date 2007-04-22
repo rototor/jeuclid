@@ -6,6 +6,10 @@
   </properties>
   <body>
     <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
+      <action dev="maxberger" type="add">
+        implemented merror;
+        implemented (empty) support for maction;
+      </action>
       <action dev="maxberger" type="update">
         version tag is now forced for classes;
         Major refactoring; almost everything has moved and been renamed;

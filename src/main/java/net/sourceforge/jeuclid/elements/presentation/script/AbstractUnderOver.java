@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractUnderOverElement.java 139 2007-04-21 16:12:43Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
@@ -39,7 +39,7 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
  * @todo some operators should "default" to being an accent, but currently
  *       they don't
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public abstract class AbstractUnderOver extends AbstractJEuclidElement
         implements MathMLUnderOverElement {

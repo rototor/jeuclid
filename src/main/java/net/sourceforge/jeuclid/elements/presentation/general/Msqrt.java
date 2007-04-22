@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathSqrt.java 55 2007-02-26 21:36:06Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
@@ -33,7 +33,7 @@ import org.w3c.dom.mathml.MathMLRadicalElement;
  * 
  * @author Unknown
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class Msqrt extends AbstractRoot implements MathMLRadicalElement {
 

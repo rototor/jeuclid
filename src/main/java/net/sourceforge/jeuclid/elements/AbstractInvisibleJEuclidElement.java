@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractInvisibleMathElement.java 136 2007-04-19 13:58:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements;
 
@@ -26,7 +26,7 @@ import net.sourceforge.jeuclid.MathBase;
  * Represents a MathElement with no content.
  * 
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public abstract class AbstractInvisibleJEuclidElement extends
         AbstractJEuclidElement {

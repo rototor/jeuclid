@@ -16,27 +16,22 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.elements.presentation.script;
+package net.sourceforge.jeuclid.elements.presentation.general;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
-
-import org.w3c.dom.DOMException;
-import org.w3c.dom.mathml.MathMLElement;
 
 /**
- * This class arranges a element over an other element.
+ * Represents an merror element.
  * 
- * @author Unknown
  * @author Max Berger
  * @version $Revision$
  */
-public class Mover extends AbstractUnderOver {
+public class Merror extends AbstractRowLike {
 
     /**
      * The XML element from this class.
      */
-    public static final String ELEMENT = "mover";
+    public static final String ELEMENT = "merror";
 
     /**
      * Creates a math element.
@@ -44,34 +39,13 @@ public class Mover extends AbstractUnderOver {
      * @param base
      *            The base for the math element tree.
      */
-    public Mover(final MathBase base) {
+    public Merror(final MathBase base) {
         super(base);
     }
 
     /** {@inheritDoc} */
     public String getTagName() {
-        return Mover.ELEMENT;
-    }
-
-    /** {@inheritDoc} */
-    public JEuclidElement getOverscript() {
-        return this.getMathElement(1);
-    }
-
-    /** {@inheritDoc} */
-    public JEuclidElement getUnderscript() {
-        return null;
-    }
-
-    /** {@inheritDoc} */
-    public void setOverscript(final MathMLElement overscript) {
-        this.setMathElement(1, overscript);
-    }
-
-    /** {@inheritDoc} */
-    public void setUnderscript(final MathMLElement underscript) {
-        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
-                "mover does not have underscript");
+        return Merror.ELEMENT;
     }
 
 }

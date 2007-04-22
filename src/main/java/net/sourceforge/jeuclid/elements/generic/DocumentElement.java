@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathDocumentElement.java 136 2007-04-19 13:58:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.generic;
 
@@ -34,7 +34,7 @@ import org.w3c.dom.mathml.MathMLDocument;
  * Class for MathML Document Nodes.
  * 
  * @author Max Berger
- * @version $Revision: 108 $
+ * @version $Revision$
  */
 public class DocumentElement extends AbstractPartialDocumentImpl implements
         MathMLDocument, JEuclidNode, ChangeTrackingInterface {
