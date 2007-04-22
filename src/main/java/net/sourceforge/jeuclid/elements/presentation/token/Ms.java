@@ -18,7 +18,10 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
+import java.text.AttributedString;
+
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
 import org.w3c.dom.mathml.MathMLStringLitElement;
 
@@ -29,7 +32,8 @@ import org.w3c.dom.mathml.MathMLStringLitElement;
  * @author Max Berger
  * @version $Revision$
  */
-public class Ms extends Mtext implements MathMLStringLitElement {
+public class Ms extends AbstractTokenWithTextLayout implements
+        MathMLStringLitElement {
 
     /**
      * The XML element from this class.
@@ -86,18 +90,22 @@ public class Ms extends Mtext implements MathMLStringLitElement {
         return this.getMathAttribute(Ms.ATTR_RQUOTE);
     }
 
-    /**
-     * Returns the text contentof this element.
-     * 
-     * @return Text content
-     */
+    /** {@inheritDoc} */
     @Override
-    public String getText() {
-        return this.getLquote() + super.getText() + this.getRquote();
+    protected AttributedString textContentAsAttributedString() {
+        return StringUtil.convertStringtoAttributedString(this.getLquote()
+                + this.getText() + this.getRquote(), this
+                .getMathvariantAsVariant(), this.getFontsizeInPoint(),
+                this.mbase);
     }
 
     /** {@inheritDoc} */
     @Override
+    protected boolean isEmpty() {
+        return false;
+    }
+
+    /** {@inheritDoc} */
     public String getTagName() {
         return Ms.ELEMENT;
     }

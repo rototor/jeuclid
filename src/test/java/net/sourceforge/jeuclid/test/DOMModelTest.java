@@ -43,6 +43,7 @@ import org.w3c.dom.mathml.MathMLDocument;
 import org.w3c.dom.mathml.MathMLEncloseElement;
 import org.w3c.dom.mathml.MathMLFencedElement;
 import org.w3c.dom.mathml.MathMLFractionElement;
+import org.w3c.dom.mathml.MathMLGlyphElement;
 import org.w3c.dom.mathml.MathMLLabeledRowElement;
 import org.w3c.dom.mathml.MathMLMathElement;
 import org.w3c.dom.mathml.MathMLMultiScriptsElement;
@@ -177,9 +178,8 @@ public class DOMModelTest {
                 aMap, base) instanceof MathMLSpaceElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("ms", aMap,
                 base) instanceof MathMLStringLitElement);
-        // Assert.assertTrue(MathElementFactory.elementFromName("mglyph",
-        // aMap,
-        // base) instanceof MathMLGlyphElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mglyph",
+                aMap, base) instanceof MathMLGlyphElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mrow", aMap,
                 base) instanceof MathMLPresentationContainer);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mfrac",
