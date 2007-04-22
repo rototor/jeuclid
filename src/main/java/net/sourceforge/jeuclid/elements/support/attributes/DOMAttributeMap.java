@@ -32,7 +32,7 @@ import org.w3c.dom.Node;
  */
 public class DOMAttributeMap extends AbstractAttributeMap {
 
-    final NamedNodeMap namedNodeMap;
+    private final NamedNodeMap namedNodeMap;
 
     /**
      * Creates a new AttributesMap based on DOM attributes.
@@ -40,12 +40,13 @@ public class DOMAttributeMap extends AbstractAttributeMap {
      * @param attributeMap
      *            the DOM attributes.
      */
-    public DOMAttributeMap(NamedNodeMap attributeMap) {
+    public DOMAttributeMap(final NamedNodeMap attributeMap) {
         this.namedNodeMap = attributeMap;
     }
 
     /** {@inheritDoc} */
-    protected String getAttribute(String attrName) {
+    @Override
+    protected String getAttribute(final String attrName) {
         final Node valueNode = this.namedNodeMap.getNamedItem(attrName);
         if (valueNode == null) {
             return null;
@@ -55,7 +56,9 @@ public class DOMAttributeMap extends AbstractAttributeMap {
     }
 
     /** {@inheritDoc} */
-    protected String getAttributeNS(String namespace, String attrName) {
+    @Override
+    protected String getAttributeNS(final String namespace,
+            final String attrName) {
         final Node valueNode = this.namedNodeMap.getNamedItemNS(namespace,
                 attrName);
         if (valueNode == null) {
@@ -76,6 +79,7 @@ public class DOMAttributeMap extends AbstractAttributeMap {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String toString() {
         return this.getAsMap().toString();
     }

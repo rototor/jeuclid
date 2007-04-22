@@ -288,7 +288,8 @@ public class Mo extends AbstractJEuclidElement implements
         final TextLayout theLayout = new TextLayout(StringUtil
                 .convertStringtoAttributedString(this.getText(),
                         this.getMathvariantAsVariant(), fontSizeInPoint,
-                        this.mbase).getIterator(), g.getFontRenderContext());
+                        this.getMathBase()).getIterator(), g
+                .getFontRenderContext());
         return theLayout;
     }
 

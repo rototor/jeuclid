@@ -144,7 +144,7 @@ public class Mfenced extends AbstractElementWithDelegates implements
             retVal.add(this.getMathElement(i));
 
             if (i < (this.getMathElementCount() - 1)) {
-                final Mo opSep = new Mo(this.mbase);
+                final Mo opSep = new Mo(this.getMathBase());
                 opSep.setSeparator("true");
                 final String sep = this.getSeparators();
                 if (i < sep.length()) {

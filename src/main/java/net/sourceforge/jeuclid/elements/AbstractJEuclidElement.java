@@ -152,6 +152,12 @@ public abstract class AbstractJEuclidElement extends
     private static final Set<String> DEPRECATED_ATTRIBUTES = new HashSet<String>();
 
     /**
+     * Reference to the MathBase object, which controls all font and metrics
+     * computing.
+     */
+    private MathBase mbase;
+
+    /**
      * flag - true when runing calculationg of the element.
      */
     private boolean calculatingSize;
@@ -194,12 +200,6 @@ public abstract class AbstractJEuclidElement extends
     private float lastPaintedX = -1;
 
     private float lastPaintedY = -1;
-
-    /**
-     * Reference to the MathBase object, which controls all font and metrics
-     * computing.
-     */
-    protected MathBase mbase;
 
     /**
      * Reference to the element acting as parent if there is no parent.

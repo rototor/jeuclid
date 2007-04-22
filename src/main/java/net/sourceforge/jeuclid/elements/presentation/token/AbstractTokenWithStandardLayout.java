@@ -48,7 +48,7 @@ public abstract class AbstractTokenWithStandardLayout extends
     protected AttributedString textContentAsAttributedString() {
         return StringUtil.convertStringtoAttributedString(this.getText(),
                 this.getMathvariantAsVariant(), this.getFontsizeInPoint(),
-                this.mbase);
+                this.getMathBase());
     }
 
     /** {@inheritDoc} */

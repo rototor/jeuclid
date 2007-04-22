@@ -6,6 +6,10 @@
   </properties>
   <body>
     <release version="2.9.6-SNAPSHOT" date="in SVN" description="TBD">
+      <action dev="maxberger" type="update">
+        DOMAttributeMap, Mtable, Mstyle, 
+        SAXAttributeMap, AbstractJEuclidElement: checkstyle fixes;
+      </action>
       <action dev="maxberger" type="add">
         refactored mtext into abstract classes;
         implemented mglyph element;

@@ -77,7 +77,7 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
         } else {
             retVal = StringUtil.convertStringtoAttributedString(
                     this.getAlt(), this.getMathvariantAsVariant(), this
-                            .getFontsizeInPoint(), this.mbase);
+                            .getFontsizeInPoint(), this.getMathBase());
         }
         return retVal;
     }
