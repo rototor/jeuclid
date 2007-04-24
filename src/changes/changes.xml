@@ -6,6 +6,9 @@
   </properties>
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
+      <action dev="maxberger" type="add" issue="1706016">
+         started to work on desriptor for source distribution, which also supplies ant build.xml file
+      </action>
       <action dev="maxberger" type="update">
         Changed default rendering params;
       </action>

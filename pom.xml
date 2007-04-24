@@ -202,6 +202,18 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+         <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>ant</goal>
+            </goals>
+          </execution>
+        </executions>
+        <artifactId>maven-ant-plugin</artifactId>
+     </plugin>
+       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>1.0-20070124.085332-18</version>
@@ -254,6 +266,7 @@
           <descriptors>
             <descriptor>src/assemble/distribution.xml</descriptor>
             <descriptor>src/assemble/osx.xml</descriptor>
+            <descriptor>src/assemble/source.xml</descriptor>
           </descriptors>
         </configuration>
         <executions>
