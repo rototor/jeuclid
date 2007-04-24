@@ -7,6 +7,9 @@
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
       <action dev="maxberger" type="update">
+        Changed default rendering params;
+      </action>
+      <action dev="maxberger" type="update">
         Updated webstart config settings; 
       </action>
       <action dev="maxberger" type="update">
