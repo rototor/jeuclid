@@ -26,6 +26,7 @@ import java.awt.geom.Line2D;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
 import org.w3c.dom.mathml.MathMLElement;
@@ -72,7 +73,7 @@ public class Mfrac extends AbstractJEuclidElement implements
      */
     public Mfrac(final MathBase base) {
         super(base);
-        this.setDefaultMathAttribute(Mfrac.ATTR_LINETHICKNESS, "1px");
+        this.setDefaultMathAttribute(Mfrac.ATTR_LINETHICKNESS, "1");
         this.setDefaultMathAttribute(Mfrac.ATTR_BEVELLED, "false");
         this.setDefaultMathAttribute(Mfrac.ATTR_NUMALIGN,
                 AbstractJEuclidElement.ALIGN_CENTER);
@@ -102,8 +103,16 @@ public class Mfrac extends AbstractJEuclidElement implements
      *            Graphics2D context to use.
      */
     public float getLinethickness(final Graphics2D g) {
-        return AttributesHelper.convertSizeToPt(this.getLinethickness(),
-                this, AttributesHelper.PT);
+        final String sThickness = this.getLinethickness();
+        float thickness;
+        try {
+            thickness = Float.parseFloat(sThickness);
+            thickness *= GraphicsSupport.lineWidth(this);
+        } catch (NumberFormatException nfe) {
+            thickness = AttributesHelper.convertSizeToPt(sThickness, this,
+                    AttributesHelper.PT);
+        }
+        return thickness;
     }
 
     /**

@@ -30,6 +30,7 @@ import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mn;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
 import org.w3c.dom.mathml.MathMLLabeledRowElement;
@@ -417,12 +418,12 @@ public class Mtable extends AbstractJEuclidElement implements
         }
         int col = 0;
         final Stroke oldStroke = g.getStroke();
-        // TODO: Make size dependent.
-        final Stroke solidStroke = new BasicStroke(1.0f);
-        // TODO: Make size dependent.
-        final Stroke dashedStroke = new BasicStroke(1.0f,
-                BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 1.0f,
-                new float[] { 3.0f, 3.0f }, 0);
+        final float lineWidth = GraphicsSupport.lineWidth(this);
+        final float dashWidth = 3.0f * lineWidth;
+        final Stroke solidStroke = new BasicStroke(lineWidth);
+        final Stroke dashedStroke = new BasicStroke(lineWidth,
+                BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, lineWidth,
+                new float[] { dashWidth, dashWidth }, 0);
         for (final float lineX : columnlines) {
             final LineType lt = this.getColumnLine(col);
             col++;
