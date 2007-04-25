@@ -49,6 +49,11 @@ public class MathBase {
     public static final int DISPLAY = 1;
 
     /**
+     * Default font size.
+     */
+    public static final float DEFAULT_FONTSIZE = 12.0f;
+
+    /**
      * Reference to the root element of mathelements tree.
      */
     private DocumentElement rootElement;
@@ -226,7 +231,8 @@ public class MathBase {
      */
     public static Map<ParameterKey, String> getDefaultParameters() {
         final Map<ParameterKey, String> params = new HashMap<ParameterKey, String>();
-        params.put(ParameterKey.FontSize, "12");
+        params.put(ParameterKey.FontSize, Float
+                .toString(MathBase.DEFAULT_FONTSIZE));
         params.put(ParameterKey.DebugMode, "false");
         params.put(ParameterKey.OutFileType, "image/png");
         params.put(ParameterKey.AntiAlias, "true");

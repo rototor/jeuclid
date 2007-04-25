@@ -6,6 +6,10 @@
   </properties>
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
+      <action dev="maxberger" type="add">
+        Added support function for default line thickness, to support scaling lines
+        along with the font size; used it in mtable and mfrac;
+      </action>
       <action dev="maxberger" type="add" issue="1706016">
          started to work on desriptor for source distribution, which also supplies ant build.xml file
       </action>
