@@ -51,8 +51,6 @@ public abstract class AbstractSubSuper extends AbstractJEuclidElement
      */
     public static final float DEFAULT_SCRIPTSHIFT = 0.215f;
 
-    private static final String NONE = "0";
-
     /**
      * Default constructor.
      * 
@@ -62,9 +60,9 @@ public abstract class AbstractSubSuper extends AbstractJEuclidElement
     public AbstractSubSuper(final MathBase base) {
         super(base);
         this.setDefaultMathAttribute(AbstractSubSuper.ATTR_SUBSCRIPTSHIFT,
-                AbstractSubSuper.NONE);
+                MathBase.VALUE_ZERO);
         this.setDefaultMathAttribute(AbstractSubSuper.ATTR_SUPERSCRIPTSHIFT,
-                AbstractSubSuper.NONE);
+                MathBase.VALUE_ZERO);
     }
 
     /**
@@ -157,7 +155,7 @@ public abstract class AbstractSubSuper extends AbstractJEuclidElement
         final JEuclidElement supElement = this.getSuperscript();
         final JEuclidElement baseElement = this.getBase();
         final float middleshift = this.getSupMiddleShift(Math.max(baseElement
-                .getHeight(g), (baseElement.getFontsizeInPoint() / 2)), g);
+                .getHeight(g), baseElement.getFontsizeInPoint() / 2), g);
         final float baseDescentHeight = baseElement.getDescentHeight(g);
         final float superDescentHeight = supElement.getDescentHeight(g);
 
@@ -213,6 +211,12 @@ public abstract class AbstractSubSuper extends AbstractJEuclidElement
                 .getSubBaseLineShift(g)
                 + subElement.getDescentHeight(g));
 
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean hasChildPostscripts(final JEuclidElement child) {
+        return child.isSameNode(this.getBase());
     }
 
 }

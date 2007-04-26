@@ -532,6 +532,13 @@ public class Mmultiscripts extends AbstractSubSuper implements
     }
 
     /** {@inheritDoc} */
+    @Override
+    public boolean hasChildPrescripts(final JEuclidElement child) {
+        // TODO: Actually implement
+        return child.isSameNode(this.getBase());
+    }
+
+    /** {@inheritDoc} */
     public String getTagName() {
         return Mmultiscripts.ELEMENT;
     }
