@@ -6,6 +6,9 @@
   </properties>
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
+      <action dev="maxberger" type="update">
+         created constants for "true" and "false"
+      </action>
       <action dev="maxberger" type="add">
         Added support function for default line thickness, to support scaling lines
         along with the font size; used it in mtable and mfrac;

@@ -130,11 +130,11 @@ public class Mfenced extends AbstractElementWithDelegates implements
         final List<JEuclidElement> retVal = new Vector<JEuclidElement>();
 
         final Mo opOpen = new Mo(this.getMathBase());
-        opOpen.setFence("true");
-        opOpen.setStretchy("true");
+        opOpen.setFence(MathBase.TRUE);
+        opOpen.setStretchy(MathBase.TRUE);
         opOpen.setRspace(Mfenced.FENCE_SPACE);
         opOpen.setLspace(Mfenced.FENCE_SPACE);
-        opOpen.setSymmetric("false");
+        opOpen.setSymmetric(MathBase.FALSE);
         opOpen.setForm(OperatorDictionary.FORM_PREFIX);
         opOpen.addText(this.getOpen());
 
@@ -145,7 +145,7 @@ public class Mfenced extends AbstractElementWithDelegates implements
 
             if (i < (this.getMathElementCount() - 1)) {
                 final Mo opSep = new Mo(this.getMathBase());
-                opSep.setSeparator("true");
+                opSep.setSeparator(MathBase.TRUE);
                 final String sep = this.getSeparators();
                 if (i < sep.length()) {
                     opSep.addText(String.valueOf(sep.charAt(i)));
@@ -158,11 +158,11 @@ public class Mfenced extends AbstractElementWithDelegates implements
 
         }
         final Mo opClose = new Mo(this.getMathBase());
-        opClose.setFence("true");
+        opClose.setFence(MathBase.TRUE);
         opClose.setRspace(Mfenced.FENCE_SPACE);
         opClose.setLspace(Mfenced.FENCE_SPACE);
-        opClose.setStretchy("true");
-        opClose.setSymmetric("false");
+        opClose.setStretchy(MathBase.TRUE);
+        opClose.setSymmetric(MathBase.FALSE);
         opClose.setForm(OperatorDictionary.FORM_POSTFIX);
         opClose.addText(this.getClose());
         retVal.add(opClose);

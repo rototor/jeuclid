@@ -282,7 +282,8 @@ public class Mtable extends AbstractJEuclidElement implements
         this.setDefaultMathAttribute(Mtable.ATTR_ROWALIGN, "baseline");
         this.setDefaultMathAttribute(Mtable.ATTR_COLUMNALIGN, "center");
         this.setDefaultMathAttribute(Mtable.ATTR_GROUPALIGN, "{left}");
-        this.setDefaultMathAttribute(Mtable.ATTR_ALIGNMENTSCOPE, "true");
+        this.setDefaultMathAttribute(Mtable.ATTR_ALIGNMENTSCOPE,
+                MathBase.TRUE);
         this.setDefaultMathAttribute(Mtable.ATTR_COLUMNWIDTH, "auto");
         this.setDefaultMathAttribute(Mtable.ATTR_WIDTH, "auto");
         this.setDefaultMathAttribute(Mtable.ATTR_ROWSPACING,
@@ -295,9 +296,13 @@ public class Mtable extends AbstractJEuclidElement implements
         this.setDefaultMathAttribute(Mtable.ATTR_FRAME, Mtable.VALUE_NONE);
         this.setDefaultMathAttribute(Mtable.ATTR_FRAMESPACING,
                 Mtable.DEFAULT_FRAMESPACING);
-        this.setDefaultMathAttribute(Mtable.ATTR_EQUALROWS, "false");
-        this.setDefaultMathAttribute(Mtable.ATTR_EQUALCOLUMNS, "false");
-        this.setDefaultMathAttribute(Mtable.ATTR_DISPLAYSTYLE, "false");
+        this.setDefaultMathAttribute(Mtable.ATTR_EQUALROWS, MathBase.FALSE);
+        this
+                .setDefaultMathAttribute(Mtable.ATTR_EQUALCOLUMNS,
+                        MathBase.FALSE);
+        this
+                .setDefaultMathAttribute(Mtable.ATTR_DISPLAYSTYLE,
+                        MathBase.FALSE);
         this.setDefaultMathAttribute(Mtable.ATTR_SIDE, "right");
         this.setDefaultMathAttribute(Mtable.ATTR_MINLABELSPACING, "0.8em");
     }

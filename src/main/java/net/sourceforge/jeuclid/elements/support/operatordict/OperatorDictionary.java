@@ -26,6 +26,9 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
+import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.elements.presentation.token.Mo;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
@@ -149,42 +152,41 @@ public class OperatorDictionary {
      * Array of default values of operators attributes.
      */
     private static final String[][] ATTRIBUTE_DEFAULT_VALUES = {
-            { "form", OperatorDictionary.FORM_INFIX }, { "fence", "false" },
-            { "separator", "false" },
+            { Mo.ATTR_FORM, OperatorDictionary.FORM_INFIX },
+            { "fence", MathBase.FALSE }, { "separator", MathBase.FALSE },
             { "lspace", OperatorDictionary.NAME_THICKMATHSPACE },
             { "rspace", OperatorDictionary.NAME_THICKMATHSPACE },
-            { "stretchy", "false" }, { "symmetric", "true" },
+            { "stretchy", MathBase.FALSE }, { "symmetric", MathBase.TRUE },
             { "maxsize", OperatorDictionary.NAME_INFINITY },
-            { "minsize", "1" }, { "largeop", "false" },
-            { "movablelimits", "false" }, { "accent", "false" }, };
+            { "minsize", "1" }, { "largeop", MathBase.FALSE },
+            { "movablelimits", MathBase.FALSE },
+            { "accent", MathBase.FALSE }, };
 
     OperatorDictionary() throws DictionaryException {
-        try {
-            this.initialize();
-        } catch (final ParserConfigurationException e) {
-            throw new DictionaryException("Cannot get SAXParser:"
-                    + e.getMessage());
-        } catch (final SAXException e) {
-            throw new DictionaryException(
-                    "SAXException during parsing dictionary:"
-                            + e.getMessage());
-        } catch (final IOException e) {
-            throw new DictionaryException(
-                    "The problems with dictionary XML reading", e);
-        }
+        this.initialize();
     }
 
     /**
      * Initializes Dictionary
      */
-    private void initialize() throws ParserConfigurationException,
-            SAXException, IOException {
-        final InputStream dictInput = OperatorDictionary.class
-                .getResourceAsStream(OperatorDictionary.DICTIONARY_FILE);
-        final SAXParserFactory factory = SAXParserFactory.newInstance();
-        final XMLReader reader = factory.newSAXParser().getXMLReader();
-        reader.setContentHandler(new DictionaryReader());
-        reader.parse(new InputSource(dictInput));
+    private void initialize() throws DictionaryException {
+        try {
+            final InputStream dictInput = OperatorDictionary.class
+                    .getResourceAsStream(OperatorDictionary.DICTIONARY_FILE);
+            final SAXParserFactory factory = SAXParserFactory.newInstance();
+            final XMLReader reader = factory.newSAXParser().getXMLReader();
+            reader.setContentHandler(new DictionaryReader());
+            reader.parse(new InputSource(dictInput));
+        } catch (final ParserConfigurationException e) {
+            throw new DictionaryException("Cannot get SAXParser:"
+                    + e.getMessage());
+        } catch (final SAXException e) {
+            throw new DictionaryException(
+                    "SAXException while parsing dictionary:" + e.getMessage());
+        } catch (final IOException e) {
+            throw new DictionaryException(
+                    "Read error while accessing XML dictionary", e);
+        }
     }
 
     /**
@@ -349,7 +351,7 @@ public class OperatorDictionary {
                 // [currentLength -number of atrribute][2 - attribute name,
                 // value of attribute]
                 this.currentEntry = new String[this.currentLength][2];
-                final String form = attlist.getValue("form");
+                final String form = attlist.getValue(Mo.ATTR_FORM);
                 if (form == null) {
                     // it is impossibhle because "form" is required attribute
                     // for the dictionary.
@@ -368,7 +370,7 @@ public class OperatorDictionary {
                 for (int i = 0; i < this.currentLength + 1; i++) {
                     final String attName = attlist.getQName(i);
                     final String attValue = attlist.getValue(i);
-                    if (!attName.equals("form")) {
+                    if (!attName.equals(Mo.ATTR_FORM)) {
                         this.currentEntry[index][0] = attName;
                         this.currentEntry[index][1] = attValue;
                         index++;
