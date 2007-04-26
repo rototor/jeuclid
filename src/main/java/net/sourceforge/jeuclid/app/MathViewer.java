@@ -23,6 +23,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.app.mathviewer.MainFrame;
 
 import org.apache.commons.logging.Log;
@@ -59,7 +60,7 @@ public final class MathViewer {
     public static void main(final String[] args) {
 
         if (MathViewer.OSX) {
-            System.setProperty("apple.laf.useScreenMenuBar", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+            System.setProperty("apple.laf.useScreenMenuBar", MathBase.TRUE); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         try {

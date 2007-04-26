@@ -53,6 +53,12 @@ public class MathBase {
      */
     public static final float DEFAULT_FONTSIZE = 12.0f;
 
+    /** Constant for string "true". */
+    public static final String TRUE = Boolean.TRUE.toString();
+
+    /** Constant for string "false". */
+    public static final String FALSE = Boolean.FALSE.toString();
+
     /**
      * Reference to the root element of mathelements tree.
      */
@@ -233,9 +239,9 @@ public class MathBase {
         final Map<ParameterKey, String> params = new HashMap<ParameterKey, String>();
         params.put(ParameterKey.FontSize, Float
                 .toString(MathBase.DEFAULT_FONTSIZE));
-        params.put(ParameterKey.DebugMode, "false");
+        params.put(ParameterKey.DebugMode, MathBase.FALSE);
         params.put(ParameterKey.OutFileType, "image/png");
-        params.put(ParameterKey.AntiAlias, "true");
+        params.put(ParameterKey.AntiAlias, MathBase.TRUE);
         params.put(ParameterKey.ForegroundColor, "black");
         params.put(ParameterKey.BackgroundColor, "transparent");
 

@@ -74,7 +74,7 @@ public class Mfrac extends AbstractJEuclidElement implements
     public Mfrac(final MathBase base) {
         super(base);
         this.setDefaultMathAttribute(Mfrac.ATTR_LINETHICKNESS, "1");
-        this.setDefaultMathAttribute(Mfrac.ATTR_BEVELLED, "false");
+        this.setDefaultMathAttribute(Mfrac.ATTR_BEVELLED, MathBase.FALSE);
         this.setDefaultMathAttribute(Mfrac.ATTR_NUMALIGN,
                 AbstractJEuclidElement.ALIGN_CENTER);
         this.setDefaultMathAttribute(Mfrac.ATTR_DENOMALIGN,

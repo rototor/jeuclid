@@ -139,23 +139,22 @@ public class Mo extends AbstractJEuclidElement implements
      */
     public Mo(final MathBase base) {
         super(base);
-        // CHECKSTYLE:OFF
-        this.setDefaultMathAttribute(Mo.ATTR_FORM, "infix");
-        this.setDefaultMathAttribute(Mo.ATTR_FENCE, "false");
-        this.setDefaultMathAttribute(Mo.ATTR_SEPARATOR, "false");
+        this.setDefaultMathAttribute(Mo.ATTR_FORM,
+                OperatorDictionary.FORM_INFIX);
+        this.setDefaultMathAttribute(Mo.ATTR_FENCE, MathBase.FALSE);
+        this.setDefaultMathAttribute(Mo.ATTR_SEPARATOR, MathBase.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_LSPACE,
                 AttributesHelper.THICKMATHSPACE);
         this.setDefaultMathAttribute(Mo.ATTR_RSPACE,
                 AttributesHelper.THICKMATHSPACE);
-        this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, "false");
-        this.setDefaultMathAttribute(Mo.ATTR_SYMMETRIC, "true");
+        this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, MathBase.FALSE);
+        this.setDefaultMathAttribute(Mo.ATTR_SYMMETRIC, MathBase.TRUE);
         this.setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
                 AttributesHelper.INFINITY);
         this.setDefaultMathAttribute(Mo.ATTR_MINSIZE, "1");
-        this.setDefaultMathAttribute(Mo.ATTR_LARGEOP, "false");
-        this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, "false");
-        this.setDefaultMathAttribute(Mo.ATTR_ACCENT, "false");
-        // CHECKSTYLE:ON
+        this.setDefaultMathAttribute(Mo.ATTR_LARGEOP, MathBase.FALSE);
+        this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, MathBase.FALSE);
+        this.setDefaultMathAttribute(Mo.ATTR_ACCENT, MathBase.FALSE);
     }
 
     /**
@@ -429,20 +428,21 @@ public class Mo extends AbstractJEuclidElement implements
     protected void changeHook() {
         super.changeHook();
         this.detectFormParameter();
-        this.loadAttributeFromDictionary(Mo.ATTR_LARGEOP, "false");
-        this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC, "true");
-        this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY, "false");
-        this.loadAttributeFromDictionary(Mo.ATTR_FENCE, "false");
+        this.loadAttributeFromDictionary(Mo.ATTR_LARGEOP, MathBase.FALSE);
+        this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC, MathBase.TRUE);
+        this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY, MathBase.FALSE);
+        this.loadAttributeFromDictionary(Mo.ATTR_FENCE, MathBase.FALSE);
         this.loadAttributeFromDictionary(Mo.ATTR_LSPACE,
                 AttributesHelper.THICKMATHSPACE);
         this.loadAttributeFromDictionary(Mo.ATTR_RSPACE,
                 AttributesHelper.THICKMATHSPACE);
-        this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS, "false");
+        this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS,
+                MathBase.FALSE);
 
         // TODO: Load all.
 
         if (this.isFence()) {
-            this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, "true");
+            this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, MathBase.TRUE);
         }
 
         final JEuclidElement parent = this.getParent();
