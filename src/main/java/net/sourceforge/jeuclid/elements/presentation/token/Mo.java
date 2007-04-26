@@ -440,15 +440,25 @@ public class Mo extends AbstractJEuclidElement implements
                 MathBase.FALSE);
 
         // TODO: Load all.
+        final JEuclidElement parent = this.getParent();
+        if (parent != null) {
+            if (parent.hasChildPostscripts(this)) {
+                this.setDefaultMathAttribute(Mo.ATTR_RSPACE,
+                        MathBase.VALUE_ZERO);
+            }
+            if (parent.hasChildPrescripts(this)) {
+                this.setDefaultMathAttribute(Mo.ATTR_LSPACE,
+                        MathBase.VALUE_ZERO);
+            }
+            if (parent instanceof ChangeTrackingInterface) {
+                ((ChangeTrackingInterface) parent).addListener(this);
+            }
+        }
 
         if (this.isFence()) {
             this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, MathBase.TRUE);
         }
 
-        final JEuclidElement parent = this.getParent();
-        if (parent instanceof ChangeTrackingInterface) {
-            ((ChangeTrackingInterface) parent).addListener(this);
-        }
     }
 
     private void loadAttributeFromDictionary(final String attrname,

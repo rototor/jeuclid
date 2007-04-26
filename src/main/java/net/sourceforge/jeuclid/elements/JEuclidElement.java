@@ -188,6 +188,26 @@ public interface JEuclidElement extends MathMLElement, DisplayableNode,
     boolean isChildBlock(final JEuclidElement child);
 
     /**
+     * returns true is the child has prescripts attached to it. In this case,
+     * there should be no extra space on the left.
+     * 
+     * @param child
+     *            child to test
+     * @return true if there are attached prescripts
+     */
+    boolean hasChildPrescripts(final JEuclidElement child);
+
+    /**
+     * returns true is the child has postscripts attached to it. In this case,
+     * there should be no extra space on the left.
+     * 
+     * @param child
+     *            child to test
+     * @return true if there are attached postscripts
+     */
+    boolean hasChildPostscripts(final JEuclidElement child);
+
+    /**
      * Returns the count of childs from this element.
      * 
      * @return Count of childs.

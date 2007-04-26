@@ -1059,6 +1059,16 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /** {@inheritDoc} */
+    public boolean hasChildPrescripts(final JEuclidElement child) {
+        return false;
+    }
+
+    /** {@inheritDoc} */
+    public boolean hasChildPostscripts(final JEuclidElement child) {
+        return false;
+    }
+
+    /** {@inheritDoc} */
     public void paint(final Graphics2D g, final float posX, final float posY) {
         this.lastPaintedX = posX;
         this.lastPaintedY = posY;

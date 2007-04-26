@@ -7,6 +7,10 @@
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
       <action dev="maxberger" type="update">
+         removed extra spacing around operators with pre / postscripts;
+         created constant for "0";
+      </action>
+      <action dev="maxberger" type="update">
          created constants for "true" and "false"
       </action>
       <action dev="maxberger" type="add">

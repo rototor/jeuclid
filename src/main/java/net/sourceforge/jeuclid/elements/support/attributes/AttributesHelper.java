@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
@@ -530,7 +531,7 @@ public final class AttributesHelper {
         AttributesHelper.SIZETRANSLATIONS.put("medium", "1");
         AttributesHelper.SIZETRANSLATIONS.put("thick", "2");
 
-        AttributesHelper.SIZETRANSLATIONS.put("null", "0");
+        AttributesHelper.SIZETRANSLATIONS.put("null", MathBase.VALUE_ZERO);
 
         AttributesHelper.RELATIVE_UNITS.put("em", AttributesHelper.EM);
         AttributesHelper.RELATIVE_UNITS.put("ex", AttributesHelper.EX);

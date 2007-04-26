@@ -59,6 +59,9 @@ public class MathBase {
     /** Constant for string "false". */
     public static final String FALSE = Boolean.FALSE.toString();
 
+    /** Constant for zero-value (0). */
+    public static final String VALUE_ZERO = "0";
+
     /**
      * Reference to the root element of mathelements tree.
      */

@@ -403,4 +403,10 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         this.setMathElement(0, base);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public boolean hasChildPostscripts(final JEuclidElement child) {
+        return this.limitsAreMoved() && child.isSameNode(this.getBase());
+    }
+
 }

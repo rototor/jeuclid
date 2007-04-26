@@ -50,8 +50,6 @@ public class Mspace extends AbstractJEuclidElement implements
     /** Attribute for depth. */
     public static final String ATTR_DEPTH = "depth";
 
-    private static final String VALUE_ZERO = "0";
-
     /**
      * Creates a math element.
      * 
@@ -60,9 +58,9 @@ public class Mspace extends AbstractJEuclidElement implements
      */
     public Mspace(final MathBase base) {
         super(base);
-        this.setDefaultMathAttribute(Mspace.ATTR_DEPTH, Mspace.VALUE_ZERO);
-        this.setDefaultMathAttribute(Mspace.ATTR_HEIGHT, Mspace.VALUE_ZERO);
-        this.setDefaultMathAttribute(Mspace.ATTR_WIDTH, Mspace.VALUE_ZERO);
+        this.setDefaultMathAttribute(Mspace.ATTR_DEPTH, MathBase.VALUE_ZERO);
+        this.setDefaultMathAttribute(Mspace.ATTR_HEIGHT, MathBase.VALUE_ZERO);
+        this.setDefaultMathAttribute(Mspace.ATTR_WIDTH, MathBase.VALUE_ZERO);
     }
 
     /**
