@@ -26,12 +26,12 @@
     <file>
       <source>LICENSE.txt</source>
       <outputDirectory/>
-      <fileMode>420</fileMode>
+      <fileMode>0644</fileMode>
     </file>
     <file>
       <source>NOTICE</source>
       <outputDirectory/>
-      <fileMode>420</fileMode>
+      <fileMode>0644</fileMode>
     </file>
   </files>
 </assembly>
