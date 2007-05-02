@@ -195,11 +195,13 @@ public class MathBase {
      *            Graphics2D context to use.
      */
     public float getWidth(final Graphics2D g) {
+        final float realWidth;
         if (this.rootElement != null) {
-            return this.rootElement.getWidth(g);
+            realWidth = this.rootElement.getWidth(g);
+        } else {
+            realWidth = 0f;
         }
-
-        return 0f;
+        return Math.max(1.0f, realWidth);
     }
 
     /**
@@ -210,11 +212,14 @@ public class MathBase {
      *            Graphics2D context to use.
      */
     public float getHeight(final Graphics2D g) {
+        final float realHeight;
         if (this.rootElement != null) {
-            return this.rootElement.getAscentHeight(g)
+            realHeight = this.rootElement.getAscentHeight(g)
                     + this.rootElement.getDescentHeight(g);
+        } else {
+            realHeight = 0f;
         }
-        return 0f;
+        return Math.max(1.0f, realHeight);
     }
 
     /**
