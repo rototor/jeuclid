@@ -7,6 +7,10 @@
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
       <action dev="maxberger" type="update">
+        Mo: Changed list of horizontal delimiters;
+        added fix for potential division by zero;
+      </action>
+      <action dev="maxberger" type="update">
          removed extra spacing around operators with pre / postscripts;
          created constant for "0";
       </action>
