@@ -256,11 +256,6 @@ public class Mo extends AbstractJEuclidElement implements
     }
 
     private boolean isHorizontalDelimeter() {
-
-        System.out.println("X" + this.getText() + "Y");
-        System.out.println("P: "
-                + Mo.HOR_DELIMITERS.indexOf(this.getText().charAt(0)));
-
         return this.getText().length() == 1
                 && (Mo.HOR_DELIMITERS.indexOf(this.getText().charAt(0)) >= 0);
     }
@@ -297,8 +292,10 @@ public class Mo extends AbstractJEuclidElement implements
         if (Boolean.parseBoolean(this.getLargeop())) {
             fontSizeInPoint *= this.getLargeOpCorrector();
         }
+
+        final String theText = this.getText();
         final TextLayout theLayout = new TextLayout(StringUtil
-                .convertStringtoAttributedString(this.getText(),
+                .convertStringtoAttributedString(theText,
                         this.getMathvariantAsVariant(), fontSizeInPoint,
                         this.getMathBase()).getIterator(), g
                 .getFontRenderContext());
