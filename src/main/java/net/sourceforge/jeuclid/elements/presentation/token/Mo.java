@@ -110,8 +110,16 @@ public class Mo extends AbstractJEuclidElement implements
 
     /**
      * Horizontal delimiters.
+     * 
+     * @todo Check the uncommented ones, possibly add more / remove some?
      */
-    public static final String HOR_DELIMITERS = "\uFE37\uFE38\u005F\u00AF\u2190\u2192\u2194\u0333\u033F";
+    public static final String HOR_DELIMITERS = /* _ */"\u005F"
+            + /* OverBar */"\u00AF" + /* UnderBar */"\u0332" + "\u0333"
+            + "\u033F" + "\u2190" + "\u2192" + "\u2194"
+            + /* OverBracket */"\u23B4" + /* UnderBracket */"\u23B5"
+            + /* OverParenthesis */"\uFE35"
+            + /* UnderParenthesis */"\uFE36" + /* OverBrace */"\uFE37"
+            + /* UnderBrace */"\uFE38";
 
     /**
      * Vertical delimiters.
@@ -248,6 +256,11 @@ public class Mo extends AbstractJEuclidElement implements
     }
 
     private boolean isHorizontalDelimeter() {
+
+        System.out.println("X" + this.getText() + "Y");
+        System.out.println("P: "
+                + Mo.HOR_DELIMITERS.indexOf(this.getText().charAt(0)));
+
         return this.getText().length() == 1
                 && (Mo.HOR_DELIMITERS.indexOf(this.getText().charAt(0)) >= 0);
     }
@@ -309,8 +322,11 @@ public class Mo extends AbstractJEuclidElement implements
                         + descent);
 
                 // TODO: use minsize / maxsize
-
-                this.calcScaleY = targetheight / realheight;
+                if (realheight > 0) {
+                    this.calcScaleY = targetheight / realheight;
+                } else {
+                    this.calcScaleY = 1.0f;
+                }
 
                 final float realDescent = (float) ((textBounds.getY() + textBounds
                         .getHeight()) * this.calcScaleY);
@@ -331,8 +347,11 @@ public class Mo extends AbstractJEuclidElement implements
                 parent.setCalculatingSize(true);
                 final float targetwidth = base.getWidth(g);
                 parent.setCalculatingSize(false);
-
-                this.calcScaleX = targetwidth / realwidth;
+                if (realwidth > 0) {
+                    this.calcScaleX = targetwidth / realwidth;
+                } else {
+                    this.calcScaleX = 1.0f;
+                }
             } else {
                 this.calcScaleX = 1.0f;
             }
