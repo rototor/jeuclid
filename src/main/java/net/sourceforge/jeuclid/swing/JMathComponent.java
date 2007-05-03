@@ -56,6 +56,8 @@ import org.xml.sax.SAXException;
  * @version $Revision$
  */
 public class JMathComponent extends JComponent {
+    private static final String FONT_SEPARATOR = ",";
+
     /**
      * Logger for this class
      */
@@ -243,6 +245,7 @@ public class JMathComponent extends JComponent {
      */
     public void setFontSize(final float fontSize) {
         this.parameters.put(ParameterKey.FontSize, Float.toString(fontSize));
+        this.fontCompat();
         this.redo();
     }
 
@@ -362,6 +365,7 @@ public class JMathComponent extends JComponent {
      */
     public void setFontsSerif(final String newFonts) {
         this.parameters.put(ParameterKey.FontsSerif, newFonts);
+        this.fontCompat();
         this.redo();
     }
 
@@ -470,15 +474,31 @@ public class JMathComponent extends JComponent {
      * <p>
      * Emulates the standard setFont function by setting the font Size and
      * adding the font to the front of the serif font list.
+     * <p>
+     * Please use the separate setters if possible.
      * 
      * @param f
      *            font to set.
+     * @see #setFontSize(float)
+     * @see #setFontsSerif(String)
+     * @deprecated
      */
     @Override
     public void setFont(final Font f) {
         super.setFont(f);
         this.setFontSize(f.getSize2D());
-        this.setFontsSerif(f.getFamily() + "," + this.getFontsSerif());
+        this.setFontsSerif(f.getFamily() + JMathComponent.FONT_SEPARATOR
+                + this.getFontsSerif());
+    }
+
+    /**
+     * Provide compatiblity for standard get/setFont() operations.
+     */
+    private void fontCompat() {
+        final String fontName = this.getFontsSerif().split(
+                JMathComponent.FONT_SEPARATOR)[0];
+        final float fontSize = this.getFontSize();
+        super.setFont(new Font(fontName, 0, (int) fontSize));
     }
 
     /**

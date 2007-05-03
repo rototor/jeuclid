@@ -6,6 +6,9 @@
   </properties>
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
+      <action dev="maxberger" type="update">
+        Improved get/setFont compatiblity in Swing Component
+      </action>
       <action dev="maxberger" type="add" issue="1706016">
         added readme for build.xml 
       </action>
