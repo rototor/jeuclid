@@ -85,6 +85,7 @@ public class JMathComponent extends JComponent {
      */
     public JMathComponent() {
         this.setOpaque(false);
+        this.fontCompat();
     }
 
     /**
