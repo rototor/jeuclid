@@ -37,6 +37,22 @@ public final class CharConverter {
             { "\u2062", "" },
             { "\u2148", "i" },
             /*
+             * This maps UnderBar -> Overbar. The regular mapping of underbars
+             * (0332) is a combining character, which produces incorrect text
+             * metrics.
+             * 
+             * Underscore (_) should be used, but then the information about
+             * strechting is lost.
+             * 
+             * OverBars are higher in the layout. Howver, UnderBars are
+             * usually only used in underscripts, where this produces no
+             * problem.
+             * 
+             * TODO: Check if there are other combining characters among the
+             * default entities and map them accordingly.
+             */
+            { "\u0332", "\u00AF" },
+            /*
              * These are created by Openoffice formula. See
              * http://www.openoffice.org/servlets/ReadMsg?list=dev&msgNo=543
              * 

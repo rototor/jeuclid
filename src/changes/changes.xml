@@ -6,13 +6,16 @@
   </properties>
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
+      <action dev="maxberger" type="update" issue="1707586">
+        Added mapping UnderBar to OverBar;
+      </action>
       <action dev="maxberger" type="update">
         pom: updated dependency for appassembler, updated assemble descriptors;
       </action>
-      <action dev="maxberger" type="update">
+      <action dev="maxberger" type="update" issue="1710738">
         MathBase now returns a size >= 1x1
       </action>
-      <action dev="maxberger" type="update">
+      <action dev="maxberger" type="update" issue="1707586">
         Mo: Changed list of horizontal delimiters;
         added fix for potential division by zero;
       </action>
