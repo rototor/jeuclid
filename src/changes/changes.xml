@@ -6,6 +6,9 @@
   </properties>
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
+      <action dev="maxberger" type="update">
+        Improved documentation on source webpage
+      </action>
       <action dev="maxberger" type="update" due-to="Ernest Mishkin">
         DOMBuilder now supports building from Document, DocumentFragment, 
         Element

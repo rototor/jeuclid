@@ -13,6 +13,15 @@ Hacking JEuclid
  * {{{http://maven.apache.org/eclipse-plugin.html}Maven 2.x Plug-in for Eclipse}} (required if you use Eclipse)
 
  []
+ 
+  If you have commiter access, the following extra plugins for eclipse are
+  highly recommended:
+  
+  * {{{http://subclipse.tigris.org/}Subclipse}}
+  
+  * {{{http://eclipse-cs.sourceforge.net/}Eclipse Checkstyle Plugin}}
+  
+  []
 
  Then, access the sourcecode as described on the {{{./source-repository.html}JEuclid repository site}}. 
 
@@ -24,7 +33,7 @@ Hacking JEuclid
  
  * <<<mvn clean>>> will remove the target directory, forcing a clean build
 
- * <<<mvn site>>> will create the updated website
+ * <<<mvn site>>> will create the updated website, so you can check the reports
 
  * <<<mvn test>>> will compile and run the tests
 
@@ -39,6 +48,28 @@ Patches
  to create a patch, please execute <<<mvn scm::diff>>>. The resulting patch will be saved as <<<jeuclid.diff>>>. Please rename your
  patch before submitting it through {{{.//issue-tracking.html}issue tracking}}.
 
+ When you create a patch please:
+ 
+ * Add a test if possible (in directory 
+ <<<src/test/java/net/sourceforge/jeuclid/>>> )
+
+ * Provide a short entry for the changelog in <<<src/changes/changes.xml>>>
+ 
+ * Try to follow the coding style
+ 
+ []
+ 
+ Please note: By submitting a patch, you agree to publish it under the same
+ {{{./license.html}license}} as the rest of JEuclid.
+
+Coding style
+
+  The coding guidelines are given as a set of 
+  {{{http://checkstyle.sourceforge.net/}Checkstyle}} rules. 
+  Please run checkstyle with <<<mvn checkstyle:checkstyle>>> and view the
+  results in <<<target/target/checkstyle-result.xml>>> or 
+  <<<target/site/checkstyle.html>>>
+  
 Developer settings
 
  If you have developer access, please add the following to your <<<~/.m2/settings.xml>>> file:
