@@ -30,6 +30,7 @@ import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.DOMAttributeMap;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -58,16 +59,33 @@ public class DOMBuilder {
     /**
      * Constructs a builder.
      * 
-     * @param document
-     *            The MathML document.
+     * @param node
+     *            The MathML document. Can be an instance of Document, Element
+     *            or DocumentFragment with Element child
      * @param mathBase
      *            Math base
      */
-    public DOMBuilder(final Document document, final MathBase mathBase) {
+    public DOMBuilder(final Node node, final MathBase mathBase) {
+        final Element documentElement;
+        if (node instanceof Document) {
+            documentElement = ((Document) node).getDocumentElement();
+        } else if (node instanceof Element) {
+            documentElement = (Element) node;
+        } else if (node instanceof DocumentFragment) {
+            final Node child = node.getFirstChild();
+            if (!(child instanceof Element)) {
+                throw new IllegalArgumentException(
+                        "Expected DocumentFragment with Element child");
+            }
+            documentElement = (Element) child;
+        } else {
+            throw new IllegalArgumentException(
+                    "Unsupported node: "
+                            + node
+                            + ". Expected either Document, Element or DocumentFragment");
+        }
 
         this.mbase = mathBase;
-
-        final Element documentElement = document.getDocumentElement();
 
         this.rootElement = new DocumentElement(this.mbase);
         mathBase.setRootElement(this.rootElement);
