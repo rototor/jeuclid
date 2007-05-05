@@ -6,6 +6,10 @@
   </properties>
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
+      <action dev="maxberger" type="update" issue="1710738">
+        Proper support for serialization of DOM Tree (needed for swing 
+        component's content property);
+      </action>
       <action dev="maxberger" type="update">
         Improved documentation on source webpage
       </action>
