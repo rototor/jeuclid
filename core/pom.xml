@@ -17,5 +17,10 @@
       <artifactId>jeuclid-w3cdom</artifactId>
       <version>2.9.7-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging-api</artifactId>
+      <version>1.1</version>
+    </dependency>
   </dependencies>
 </project>

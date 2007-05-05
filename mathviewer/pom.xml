@@ -10,7 +10,25 @@
     <version>2.9.7-SNAPSHOT</version>
   </parent>
   <build>
-</build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
+              <addClasspath>true</addClasspath>
+              <addExtensions/>
+              <classpathPrefix/>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
