@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sourceforge.jeuclid</groupId>
+  <artifactId>jeuclid-webstart</artifactId>
+  <name>JEuclid Webstart Module</name>
+  <parent>
+    <groupId>net.sourceforge.jeuclid</groupId>
+    <artifactId>jeuclid-parent</artifactId>
+    <version>2.9.7-SNAPSHOT</version>
+  </parent>
+  <build>
+    <plugins>
+      <plugin>
+<!-- Please note: This requires version >= 1.0-alpha-2 (currently in SVN) -->
+<!-- Fortunately having this config here does not hurt -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>webstart-maven-plugin</artifactId>
+        <version>1.0-alpha-2-20070131.210003-5</version>
+        <configuration>
+          <jnlp>
+            <outputFile>mathviewer.jnlp</outputFile>
+            <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
+          </jnlp>
+          <sign>
+            <keystore>${basedir}/keystore</keystore>
+            <keypass>verysecret</keypass>
+            <storepass>evenmoresecret</storepass>
+            <alias>signKey</alias>
+            <validity>365</validity>
+            <dnameCn>jeuclid.sf.net</dnameCn>
+            <verify>true</verify>
+          </sign>
+          <keystore>
+            <delete>true</delete>
+            <gen>true</gen>
+          </keystore>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jnlp</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>jeuclid-mathviewer</artifactId>
+      <version>2.9.7-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>

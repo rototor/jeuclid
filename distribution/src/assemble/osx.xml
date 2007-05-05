@@ -24,12 +24,12 @@
   </fileSets>
   <files>
     <file>
-      <source>LICENSE.txt</source>
+      <source>../LICENSE.txt</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>NOTICE</source>
+      <source>../NOTICE</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
