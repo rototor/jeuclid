@@ -191,23 +191,8 @@
           <target>1.5</target>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
-              <addClasspath>true</addClasspath>
-              <addExtensions/>
-              <classpathPrefix/>
-              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
+<!-- Currently not needed -->
+<!--      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
@@ -218,7 +203,7 @@
             </property>
           </systemProperties>
         </configuration>
-      </plugin>
+      </plugin> -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <executions>
@@ -234,40 +219,7 @@
     </plugins>
   </build>
   <dependencies>
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging-api</artifactId>
-      <version>1.1</version>
-    </dependency>
-    <dependency>
-      <groupId>ant</groupId>
-      <artifactId>ant</artifactId>
-      <version>1.6.5</version>
-    </dependency>
-    <dependency>
-      <groupId>batik</groupId>
-      <artifactId>batik-svggen</artifactId>
-      <version>1.6-1</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.3</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>xml-apis</groupId>
-      <artifactId>xmlParserAPIs</artifactId>
-      <version>2.0.2</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-      <version>2.5.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
+   <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>5.1</version>
