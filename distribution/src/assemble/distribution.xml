@@ -7,7 +7,7 @@
   <fileSets>
     <fileSet>
       <directory>target/appassembler</directory>
-      <outputDirectory></outputDirectory>
+      <outputDirectory/>
       <includes>
         <include>bin/mathviewer</include>
         <include>bin/mml2xxx</include>
@@ -16,7 +16,7 @@
     </fileSet>
     <fileSet>
       <directory>target/appassembler</directory>
-      <outputDirectory></outputDirectory>
+      <outputDirectory/>
       <excludes>
         <exclude>bin/mathviewer</exclude>
         <exclude>bin/mml2xxx</exclude>
@@ -26,12 +26,12 @@
   </fileSets>
   <files>
     <file>
-      <source>LICENSE.txt</source>
+      <source>../LICENSE.txt</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>NOTICE</source>
+      <source>../NOTICE</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>

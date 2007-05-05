@@ -2,9 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.jeuclid</groupId>
-  <artifactId>jeuclid</artifactId>
-  <name>JEuclid</name>
+  <artifactId>jeuclid-parent</artifactId>
+  <name>JEuclid Parent</name>
   <version>2.9.7-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>w3cdom</module>
+    <module>core</module>
+    <module>awt</module>
+    <module>swing</module>
+    <module>swt</module>
+    <module>converter</module>
+    <module>appsupport</module>
+    <module>ant</module>
+    <module>mml2xxx</module>
+    <module>mathviewer</module>
+    <module>distribution</module>
+    <module>webstart</module>
+  </modules>
   <description>
     JEuclid is a complete MathML rendering solution, consisting of a MathViewer
     application, Command line converters from MathML to other formats, an ant
@@ -94,7 +109,7 @@
     </contributor>
     <contributor>
       <name>Ernest Mishkin</name>
-    </contributor> 
+    </contributor>
     <contributor>
       <name>Andreas Hoffmann</name>
       <roles>
@@ -184,8 +199,8 @@
             <manifest>
               <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
               <addClasspath>true</addClasspath>
-              <addExtensions />
-              <classpathPrefix />
+              <addExtensions/>
+              <classpathPrefix/>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
@@ -206,7 +221,7 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-         <executions>
+        <executions>
           <execution>
             <phase>package</phase>
             <goals>
@@ -215,97 +230,6 @@
           </execution>
         </executions>
         <artifactId>maven-ant-plugin</artifactId>
-     </plugin>
-       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>appassembler-maven-plugin</artifactId>
-        <version>1.0-20070124.085332-18</version>
-        <configuration>
-          <programs>
-            <program>
-              <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
-              <name>mathviewer</name>
-            </program>
-            <program>
-              <mainClass>net.sourceforge.jeuclid.app.Mml2xxx</mainClass>
-              <name>mml2xxx</name>
-            </program>
-          </programs>
-<!--          <repositoryLayout>flat</repositoryLayout> -->
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>create-repository</goal>
-              <goal>assemble</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>appbundler-maven-plugin</artifactId>
-        <version>1.0-20070228.220112-5</version>
-        <configuration>
-          <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
-          <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
-          <iconFile>${basedir}/src/main/app-resources/jeuclid.icns</iconFile>
-          <jvmVersion>1.5+</jvmVersion>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>bundle</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-1</version>  
-        <configuration>
-          <descriptors>
-            <descriptor>src/assemble/distribution.xml</descriptor>
-            <descriptor>src/assemble/osx.xml</descriptor>
-            <descriptor>src/assemble/source.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>attached</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-<!-- Please note: This requires version >= 1.0-alpha-2 (currently in SVN) -->
-<!-- Fortunately having this config here does not hurt -->
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>webstart-maven-plugin</artifactId>
-        <version>1.0-alpha-2-20070131.210003-5</version>
-        <configuration>
-          <jnlp>
-            <outputFile>mathviewer.jnlp</outputFile>
-            <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
-          </jnlp>
-          <sign>
-            <keystore>${basedir}/keystore</keystore>
-            <keypass>verysecret</keypass>
-            <storepass>evenmoresecret</storepass>
-            <alias>signKey</alias>
-            <validity>365</validity>
-            <dnameCn>jeuclid.sf.net</dnameCn>
-            <verify>true</verify>
-          </sign>
-          <keystore>
-            <delete>true</delete>
-            <gen>true</gen>
-          </keystore>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -431,7 +355,7 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
       </plugin>
-      <plugin>
+<!--      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
@@ -439,6 +363,7 @@
           <propertyExpansion>config_loc=${basedir}</propertyExpansion>
         </configuration>
       </plugin>
+-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
