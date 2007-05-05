@@ -301,9 +301,11 @@ public class JMathComponent extends JComponent {
     }
 
     /**
-     * Tries to return the content as a String. WARNING: This is currently
-     * only partially supported! The most notable examples are all text nodes,
-     * which are currently missing.
+     * Tries to return the content as a String.
+     * <p>
+     * This transforms the internal DOM tree back into a string, which may is
+     * not guaranteed to be the literally same as the original content.
+     * However, it will represent the same XML document.
      * 
      * @return the content string.
      */
