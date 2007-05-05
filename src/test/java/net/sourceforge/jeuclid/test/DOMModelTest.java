@@ -18,8 +18,14 @@
 
 package net.sourceforge.jeuclid.test;
 
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
@@ -111,6 +117,31 @@ public class DOMModelTest {
                 .getFirstChild();
         Assert.assertNotNull(row);
         Assert.assertEquals(row.getId(), "abc");
+    }
+
+    /**
+     * Tests is serialization works.
+     * 
+     * @throws Exception
+     *             if anything goes wrong.
+     */
+    @Test
+    public void testSerialization() throws Exception {
+        final Document origDoc = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+                        + "<mrow id='abc'><mn>1</mn></mrow></math>");
+        final MathMLDocument mathMLDoc = new DOMBuilder(origDoc,
+                new MathBase(MathBase.getDefaultParameters()))
+                .getMathRootElement();
+        final StringWriter writer = new StringWriter();
+        final Transformer transformer = TransformerFactory.newInstance()
+                .newTransformer();
+        final DOMSource source = new DOMSource(mathMLDoc);
+        final StreamResult result = new StreamResult(writer);
+        transformer.transform(source, result);
+        Document reserial = MathMLParserSupport
+                .parseString(writer.toString());
+        Assert.assertTrue(reserial.isEqualNode(origDoc));
     }
 
     /**

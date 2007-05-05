@@ -55,7 +55,10 @@ public final class ElementListSupport {
         final List<JEuclidElement> children = new ArrayList<JEuclidElement>(
                 len);
         for (int i = 0; i < len; i++) {
-            children.add((JEuclidElement) childList.item(i));
+            final Node child = childList.item(i);
+            if (child instanceof JEuclidElement) {
+                children.add((JEuclidElement) child);
+            }
         }
         return children;
 
