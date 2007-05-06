@@ -6,6 +6,16 @@
   </properties>
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
+      <action dev="maxberger" type="add">
+        implemented CommandLineParser (moved out of mml2xxx)
+        MathViewer now accepts command line arguments
+      </action>
+      <action dev="maxberger" type="update">
+        AWT componet test is now a proper test;
+      </action>
+      <action dev="maxberger" type="update">
+        added dashboard report
+      </action>
       <action dev="maxberger" type="update">
         repaired website; contains ugly hack in menus;
       </action>

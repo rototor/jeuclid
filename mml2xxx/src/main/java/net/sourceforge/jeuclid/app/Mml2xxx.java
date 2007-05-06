@@ -25,6 +25,7 @@ import java.util.Map;
 import net.sourceforge.jeuclid.Converter;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.app.support.CommandLineParser;
 
 /**
  * Utility class to be used from the command line to call the converters.
@@ -46,39 +47,22 @@ public final class Mml2xxx {
      */
     public static void main(final String[] args) {
 
-        int count = 0;
-        File source = null;
-        File target = null;
-        boolean mimeTypeIsSet = false;
-        final Map<ParameterKey, String> params = MathBase
-                .getDefaultParameters();
         try {
-            for (int i = 0; i < args.length; i++) {
-                final String curArg = args[i];
-                if (curArg.startsWith("-")) {
-                    final String option = curArg.substring(1);
-                    i++;
-                    final String value = args[i];
-                    final ParameterKey key = ParameterKey.valueOf(option);
-                    if (key.equals(ParameterKey.OutFileType)) {
-                        mimeTypeIsSet = true;
-                    }
-                    params.put(key, value);
-                } else {
-                    if (count == 0) {
-                        source = new File(curArg);
-                    } else if (count == 1) {
-                        target = new File(curArg);
-                    } else {
-                        throw new IllegalArgumentException(
-                                "To many files given");
-                    }
-                    count++;
-                }
-            }
+            final CommandLineParser.ParseResults parseResults = CommandLineParser
+                    .parseCommandLine(args);
+            final File source = parseResults.getSource();
+            final File target = parseResults.getTarget();
 
-            if (count != 2) {
-                throw new IllegalArgumentException("Number of files given");
+            final Map<ParameterKey, String> params = MathBase
+                    .getDefaultParameters();
+            final boolean mimeTypeIsSet = parseResults.getParams()
+                    .containsKey(ParameterKey.OutFileType);
+            params.putAll(parseResults.getParams());
+
+            if (source == null) {
+                throw new IllegalArgumentException("No source given");
+            } else if (target == null) {
+                throw new IllegalArgumentException("No target given");
             } else if (!source.isFile()) {
                 throw new IllegalArgumentException("Source is not a file");
             }

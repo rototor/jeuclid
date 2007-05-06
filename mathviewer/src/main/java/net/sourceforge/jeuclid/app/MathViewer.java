@@ -18,6 +18,8 @@
 
 package net.sourceforge.jeuclid.app;
 
+import java.io.File;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -25,6 +27,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.app.mathviewer.MainFrame;
+import net.sourceforge.jeuclid.app.support.CommandLineParser;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -47,6 +50,8 @@ public final class MathViewer {
      */
     private static final Log LOGGER = LogFactory.getLog(MathViewer.class);
 
+    private static File source;
+
     private MathViewer() {
         // Empty on purpose
     }
@@ -59,6 +64,9 @@ public final class MathViewer {
      */
     public static void main(final String[] args) {
 
+        final CommandLineParser.ParseResults parseResults = CommandLineParser
+                .parseCommandLine(args);
+        MathViewer.source = parseResults.getSource();
         if (MathViewer.OSX) {
             System.setProperty("apple.laf.useScreenMenuBar", MathBase.TRUE); //$NON-NLS-1$ //$NON-NLS-2$
         }
@@ -77,8 +85,11 @@ public final class MathViewer {
         }
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                final JFrame mainFrame = new MainFrame();
+                final MainFrame mainFrame = new MainFrame();
                 mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                if (MathViewer.source != null) {
+                    mainFrame.loadFile(MathViewer.source);
+                }
                 mainFrame.setVisible(true);
             }
         });

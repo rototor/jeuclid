@@ -14,16 +14,114 @@
  * limitations under the License.
  */
 
-/* $Id: Converter.java 172 2007-05-05 13:30:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.app.support;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sourceforge.jeuclid.ParameterKey;
+
 /**
- * This class will contain a command line parser for JEuclid apps.
+ * This class contains a command line parser for JEuclid apps.
  * 
- * @todo
  * @author Max Berger
- * @version $Revision: 172 $
+ * @version $Revision$
  */
 public final class CommandLineParser {
+
+    private CommandLineParser() {
+        // empty on purpose
+    }
+
+    /**
+     * Results from command line parsing.
+     */
+    public static class ParseResults {
+        private final File source;
+
+        private final File target;
+
+        private final Map<ParameterKey, String> params;
+
+        /**
+         * Construct a ParseResults Object.
+         * 
+         * @param s
+         *            source file
+         * @param t
+         *            target file
+         * @param p
+         *            rendering parameters
+         */
+        public ParseResults(final File s, final File t,
+                final Map<ParameterKey, String> p) {
+            this.source = s;
+            this.target = t;
+            this.params = p;
+        }
+
+        /**
+         * @return the params
+         */
+        public final Map<ParameterKey, String> getParams() {
+            return this.params;
+        }
+
+        /**
+         * @return the source
+         */
+        public final File getSource() {
+            return this.source;
+        }
+
+        /**
+         * @return the target
+         */
+        public final File getTarget() {
+            return this.target;
+        }
+
+    }
+
+    /**
+     * parses the command line and returns its values.
+     * 
+     * @param args
+     *            the command line
+     * @return a ParseResults instance
+     */
+    public static ParseResults parseCommandLine(final String[] args) {
+        File source = null;
+        File target = null;
+        int count = 0;
+        final Map<ParameterKey, String> params = new HashMap<ParameterKey, String>();
+        String option = null;
+        for (int i = 0; i < args.length; i++) {
+            final String curArg = args[i];
+            if (curArg.startsWith("-")) {
+                option = curArg.substring(1);
+            } else {
+                if (option != null) {
+                    final String value = args[i];
+                    final ParameterKey key = ParameterKey.valueOf(option);
+                    params.put(key, value);
+                    option = null;
+                } else if (count == 0) {
+                    source = new File(curArg);
+                } else if (count == 1) {
+                    target = new File(curArg);
+                } else {
+                    throw new IllegalArgumentException("To many files given");
+                }
+                count++;
+            }
+        }
+        if (option != null) {
+            throw new IllegalArgumentException("No value given for " + option);
+        }
+        return new ParseResults(source, target, params);
+    }
 }

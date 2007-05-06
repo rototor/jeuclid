@@ -278,6 +278,33 @@ public class MainFrame extends JFrame {
     }
 
     /**
+     * Load the given file.
+     * 
+     * @param selectedFile
+     *            File object to load.
+     */
+    public void loadFile(final File selectedFile) {
+        try {
+            this.getMathComponent().setDocument(
+                    MathMLParserSupport.parseFile(selectedFile));
+        } catch (final SAXException e) {
+            MainFrame.LOGGER.warn(e.getMessage(), e);
+            JOptionPane
+                    .showMessageDialog(
+                            this,
+                            e.getMessage(),
+                            Messages.getString("MathViewer.errorParsing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+        } catch (final IOException e) {
+            MainFrame.LOGGER.warn(e.getMessage(), e);
+            JOptionPane
+                    .showMessageDialog(
+                            this,
+                            e.getMessage(),
+                            Messages.getString("MathViewer.errorAccessing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+        }
+    }
+
+    /**
      * carries out the actual file-open procedure.
      */
     protected void openFile() {
@@ -293,25 +320,7 @@ public class MainFrame extends JFrame {
             final File selectedFile = new File(chooser.getDirectory(),
                     fileName);
             this.lastPath = selectedFile.getParentFile();
-            try {
-                this.getMathComponent().setDocument(
-                        MathMLParserSupport.parseFile(selectedFile));
-            } catch (final SAXException e) {
-                MainFrame.LOGGER.warn(e.getMessage(), e);
-                JOptionPane
-                        .showMessageDialog(
-                                this,
-                                e.getMessage(),
-                                Messages.getString("MathViewer.errorParsing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
-            } catch (final IOException e) {
-                MainFrame.LOGGER.warn(e.getMessage(), e);
-                JOptionPane
-                        .showMessageDialog(
-                                this,
-                                e.getMessage(),
-                                Messages
-                                        .getString("MathViewer.errorAccessing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
-            }
+            this.loadFile(selectedFile);
         }
     }
 
@@ -336,7 +345,7 @@ public class MainFrame extends JFrame {
     }
 
     /**
-     * This method initializes mathComponent
+     * This method initializes mathComponent.
      * 
      * @return net.sourceforge.jeuclid.swing.JMathComponent
      */
