@@ -27,6 +27,23 @@
           </archive>
         </configuration>
       </plugin>
+<!--
+      <plugin>
+        <groupId>com.pyx4me</groupId>
+        <artifactId>proguard-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>proguard</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <proguardInclude>${common.dir}/proguard.app.conf</proguardInclude>
+        </configuration>
+      </plugin>
+-->
     </plugins>
   </build>
   <dependencies>
