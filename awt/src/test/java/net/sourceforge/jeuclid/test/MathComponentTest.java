@@ -20,19 +20,15 @@ package net.sourceforge.jeuclid.test;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
-import java.io.File;
 import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
-import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.ResourceEntityResolver;
 import net.sourceforge.jeuclid.awt.MathComponent;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -43,11 +39,6 @@ import org.xml.sax.InputSource;
  * 
  */
 public class MathComponentTest {
-    /**
-     * Logger for this class
-     */
-    private static final Log logger = LogFactory
-            .getLog(MathComponentTest.class);
 
     /**
      * Test string with xml header.
@@ -56,51 +47,30 @@ public class MathComponentTest {
             + "<mrow><munderover><mo>&#x0222B;</mo><mn>1</mn><mi>x</mi></munderover>"
             + "<mfrac><mi>dt</mi><mi>t</mi></mfrac></mrow></math>";
 
-    /**
-     * Main method.
-     * 
-     * @param args
-     *            Command line arguments
-     */
-    public static void main(String[] args) {
-        try {
-            Document document;
-            if (args.length > 0) {
-                document = MathMLParserSupport.parseFile(new File(args[0]));
-            } else {
-                final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-                        .newInstance();
-                final DocumentBuilder parser = documentBuilderFactory
-                        .newDocumentBuilder();
-                parser.setEntityResolver(new ResourceEntityResolver());
-                document = parser.parse(new InputSource(
-                        new StringReader(test)));
-            }
-            Frame frame = new Frame("Test MathComponent");
+    @Test
+    public void testAWTComponent() throws Exception {
+        Document document;
 
-            frame.setLayout(new BorderLayout());
-            MathComponent component = new MathComponent();
-            component.setDocument(document);
-            component.setDebug(false);
-            frame.add(component, BorderLayout.CENTER);
-            frame.setVisible(true);
-            frame.pack();
-            // frame.invalidate();
-            // frame.validate();
+        final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
+                .newInstance();
+        final DocumentBuilder parser = documentBuilderFactory
+                .newDocumentBuilder();
+        parser.setEntityResolver(new ResourceEntityResolver());
+        document = parser.parse(new InputSource(new StringReader(test)));
 
-            frame.addWindowListener(new java.awt.event.WindowAdapter() {
-                public void windowClosing(java.awt.event.WindowEvent evt) {
-                    System.exit(0);
-                }
-            });
+        Frame frame = new Frame("Test MathComponent");
 
-        } catch (org.xml.sax.SAXException e) {
-            logger.fatal("SAXException:" + e.getMessage(), e);
-        } catch (java.io.IOException e) {
-            logger.fatal("IOException:" + e.getMessage(), e);
-        } catch (ParserConfigurationException e) {
-            logger.fatal("ParserConfigurationException:" + e.getMessage(), e);
-        }
+        frame.setLayout(new BorderLayout());
+        MathComponent component = new MathComponent();
+        component.setDocument(document);
+        component.setDebug(false);
+        frame.add(component, BorderLayout.CENTER);
+        frame.setVisible(true);
+        frame.pack();
+        frame.invalidate();
+        frame.validate();
+        frame.dispose();
+
     }
 
 }

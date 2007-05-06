@@ -187,7 +187,9 @@
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
-        </configuration>
+<!--          <debug>false</debug>
+          <optimize>true</optimize>
+-->        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -271,6 +273,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -316,6 +319,11 @@
         <configuration>
           <targetJdk>1.5</targetJdk>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>dashboard-maven-plugin</artifactId>
+        <version>1.0-20070324.094245-8</version>
       </plugin>
     </plugins>
   </reporting>
