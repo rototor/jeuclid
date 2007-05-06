@@ -9,6 +9,7 @@
     <artifactId>jeuclid-parent</artifactId>
     <version>2.9.7-SNAPSHOT</version>
   </parent>
+  <description>This is the core module containing the basic JEuclid rendering and document handling classes.</description>
   <build>
     <plugins>
 <!--      <plugin>

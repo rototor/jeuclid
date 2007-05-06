@@ -9,6 +9,7 @@
     <artifactId>jeuclid-parent</artifactId>
     <version>2.9.7-SNAPSHOT</version>
   </parent>
+  <description>This module contains a swing MathViewer application.</description>
   <build>
     <plugins>
       <plugin>

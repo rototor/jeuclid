@@ -33,15 +33,15 @@ Hacking JEuclid
  
  * <<<mvn clean>>> will remove the target directory, forcing a clean build
 
- * <<<mvn site>>> will create the updated website, so you can check the reports
+ * <<<mvn compile site>>> will create the updated website, so you can check the reports
 
  * <<<mvn test>>> will compile and run the tests
 
   []
 
- The results of these commands can be found in the <<<target/>>> directory.
+ The results of these commands can be found in the <<<target/>>> directory of each module.
 
- The most notable artifacts are jeuclid-...-distribution.zip (binary distribution) and jeuclid-...-osx.zip (OS X application bundle).
+ The most notable artifacts are in <<<distribution/target>>> <<<jeuclid-...-distribution.zip>>> (binary distribution) and <<<jeuclid-...-osx.zip>>> (OS X application bundle).
 
 Patches
 

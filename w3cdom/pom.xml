@@ -9,7 +9,7 @@
     <artifactId>jeuclid-parent</artifactId>
     <version>2.9.7-SNAPSHOT</version>
   </parent>
-  <packaging>jar</packaging>
+  <description>This module contains the standard W3C MahtML DOM bindings.</description>
   <build>
 </build>
   <dependencies>

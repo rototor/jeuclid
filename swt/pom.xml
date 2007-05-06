@@ -9,6 +9,7 @@
     <artifactId>jeuclid-parent</artifactId>
     <version>2.9.7-SNAPSHOT</version>
   </parent>
+  <description>This module is currently empty. It will contain a component for SWT MathML rendering.</description>
   <build>
 </build>
   <dependencies>

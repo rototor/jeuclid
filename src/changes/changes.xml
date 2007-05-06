@@ -7,6 +7,9 @@
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
       <action dev="maxberger" type="update">
+        repaired website; contains ugly hack in menus;
+      </action>
+      <action dev="maxberger" type="update">
         repeared checkstyle; 
         added proguard configuration (disabled because it saves only approx. 0.5%)
       </action>
