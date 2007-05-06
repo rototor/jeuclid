@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-parent</artifactId>
-  <name>JEuclid Parent</name>
+  <name>JEuclid Umbrella</name>
   <version>2.9.7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
@@ -180,8 +180,6 @@
     <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</developerConnection>
     <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</url>
   </scm>
-  <properties>
-  </properties>
   <build>
     <plugins>
       <plugin>
@@ -191,19 +189,6 @@
           <target>1.5</target>
         </configuration>
       </plugin>
-<!-- Currently not needed -->
-<!--      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <systemProperties>
-            <property>
-              <name>log4j.configuration</name>
-              <value>log4j.properties</value>
-            </property>
-          </systemProperties>
-        </configuration>
-      </plugin> -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <executions>
@@ -216,10 +201,20 @@
         </executions>
         <artifactId>maven-ant-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>com.pyx4me</groupId>
+        <artifactId>proguard-maven-plugin</artifactId>
+        <configuration>
+          <libs>
+            <lib>${runtime.lib}</lib>
+          </libs>
+          <proguardInclude>${common.dir}/proguard.lib.conf</proguardInclude>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
-   <dependency>
+    <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>5.1</version>
@@ -307,15 +302,14 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
       </plugin>
-<!--      <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <configLocation>checkstyle.xml</configLocation>
-          <propertyExpansion>config_loc=${basedir}</propertyExpansion>
+          <propertyExpansion>config_loc=${common.dir}</propertyExpansion>
         </configuration>
       </plugin>
--->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
@@ -342,4 +336,21 @@
       <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs</url>
     </site>
   </distributionManagement>
+  <properties>
+    <runtime.lib>${java.home}/lib/rt.jar</runtime.lib>
+    <common.dir>${basedir}/..</common.dir>
+  </properties>
+  <profiles>
+    <profile>
+      <id>osx-rtlib</id>
+      <activation>
+        <os>
+          <name>mac os x</name>
+        </os>
+      </activation>
+      <properties>
+        <runtime.lib>/System/Library/Frameworks/JavaVM.framework/Classes/classes.jar</runtime.lib>
+      </properties>
+    </profile>
+  </profiles>
 </project>

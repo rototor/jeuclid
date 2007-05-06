@@ -6,6 +6,10 @@
   </properties>
   <body>
      <release version="2.9.7-SNAPSHOT" date="in SVN" description="none yet">
+      <action dev="maxberger" type="update">
+        repeared checkstyle; 
+        added proguard configuration (disabled because it saves only approx. 0.5%)
+      </action>
       <action dev="maxberger" type="update" issue="1710627">
         Split up the main JEuclid into many smaller components, this is
         work in progress;
