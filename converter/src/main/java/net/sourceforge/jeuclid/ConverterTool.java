@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
  * Utility class for conversion from MathML to other formats.
@@ -78,6 +80,21 @@ public final class ConverterTool {
     public static boolean convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
         return convInstance.convert(inFile, outFile, outFileType);
+    }
+    
+
+    /**
+     * Renders a document into an image
+     * @param doc DOM mathml document
+     * @param params parameters
+     * @return
+     * @throws SAXException
+     * @throws IOException
+     */
+    public BufferedImage render(final Document doc,
+            final Map<ParameterKey, String> params) throws SAXException,
+            IOException {
+        return convInstance.render(doc, params);
     }
 
     /**
