@@ -22,7 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import net.sourceforge.jeuclid.Converter;
+import net.sourceforge.jeuclid.BasicConverter;
+import net.sourceforge.jeuclid.ConverterTool;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.app.support.CommandLineParser;
@@ -71,12 +72,12 @@ public final class Mml2xxx {
                 final String fileName = target.getName();
                 final String extension = fileName.substring(fileName
                         .lastIndexOf('.') + 1);
-                final String mimetype = Converter
+                final String mimetype = ConverterTool
                         .getMimeTypeForSuffix(extension);
                 params.put(ParameterKey.OutFileType, mimetype);
             }
 
-            Converter.convert(source, target, params);
+            ConverterTool.convert(source, target, params);
 
         } catch (ArrayIndexOutOfBoundsException aiobe) {
             Mml2xxx.showUsage();
@@ -94,7 +95,7 @@ public final class Mml2xxx {
     }
 
     private static void showUsage() {
-        System.out.println("JEuclid Converter");
+        System.out.println("JEuclid BasicConverter");
         System.out.println("");
         System.out.println("Usage:");
         System.out.println("");
@@ -115,7 +116,7 @@ public final class Mml2xxx {
         }
         System.out.println("The following output types are supported:");
         System.out.print("   ");
-        for (final String type : Converter.getAvailableOutfileTypes()) {
+        for (final String type : ConverterTool.getAvailableOutfileTypes()) {
             System.out.print(" " + type);
         }
         System.out.println();
