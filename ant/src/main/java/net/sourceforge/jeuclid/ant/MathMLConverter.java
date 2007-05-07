@@ -21,7 +21,9 @@ package net.sourceforge.jeuclid.ant;
 import java.io.File;
 import java.io.IOException;
 
-import net.sourceforge.jeuclid.Converter;
+import net.sourceforge.jeuclid.BasicConverter;
+import net.sourceforge.jeuclid.ConverterTool;
+import net.sourceforge.jeuclid.SVGConverter;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -75,7 +77,7 @@ public class MathMLConverter extends MatchingTask {
         // if we have an in file and out then process them
         if ((this.minFile != null) && (this.moutFile != null)) {
             try {
-                Converter.convert(this.minFile, this.moutFile, this.moutType);
+                ConverterTool.convert(this.minFile, this.moutFile, this.moutType);
             } catch (final IOException io) {
                 throw new BuildException(io);
             }
@@ -207,7 +209,7 @@ public class MathMLConverter extends MatchingTask {
         File outFile = null;
         File inFile = null;
         final String suffix = "."
-                + Converter.getSuffixForMimeType(this.moutType);
+                + ConverterTool.getSuffixForMimeType(this.moutType);
 
         try {
             inFile = new File(baseDir, xmlFile);
@@ -223,7 +225,7 @@ public class MathMLConverter extends MatchingTask {
             if (this.mforce
                     || (inFile.lastModified() > outFile.lastModified())) {
                 this.ensureDirectoryFor(outFile);
-                Converter.convert(inFile, outFile, this.moutType);
+                ConverterTool.convert(inFile, outFile, this.moutType);
             }
         } catch (final Exception ex) {
             // If failed to process document, must delete target document,

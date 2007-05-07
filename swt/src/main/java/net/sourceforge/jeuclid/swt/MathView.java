@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Converter.java 172 2007-05-05 13:30:28Z maxberger $ */
+/* $Id: BasicConverter.java 172 2007-05-05 13:30:28Z maxberger $ */
 
 package net.sourceforge.jeuclid.swt;
 
