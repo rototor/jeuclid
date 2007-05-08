@@ -37,6 +37,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import net.sourceforge.jeuclid.DOMBuilder;
+import net.sourceforge.jeuclid.Defense;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.ParameterKey;
@@ -56,6 +57,22 @@ import org.xml.sax.SAXException;
  * @version $Revision$
  */
 public class JMathComponent extends JComponent {
+    
+    private static final String DEFAULT_DOCUMENT = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
+                            + "<!DOCTYPE math PUBLIC \"-//W3C//DTD MathML 2.0//EN\" \"http://www.w3.org/TR/MathML2/dtd/mathml2.dtd\">\n"
+                            + "<math mode=\"display\">\n"
+                            + "    <mrow>\n"
+                            + "        <munderover>\n"
+                            + "            <mo>&#x0222B;</mo>\n"
+                            + "            <mn>1</mn>\n"
+                            + "            <mi>x</mi>\n"
+                            + "        </munderover>\n"
+                            + "        <mfrac>\n"
+                            + "            <mi>dt</mi>\n"
+                            + "            <mi>t</mi>\n"
+                            + "        </mfrac>\n"
+                            + "    </mrow>\n" + "</math>";
+
     private static final String FONT_SEPARATOR = ",";
 
     /**
@@ -86,6 +103,7 @@ public class JMathComponent extends JComponent {
     public JMathComponent() {
         this.setOpaque(false);
         this.fontCompat();
+        this.setContent(DEFAULT_DOCUMENT);
     }
 
     /**
@@ -125,10 +143,11 @@ public class JMathComponent extends JComponent {
      */
     @Override
     public Dimension getMinimumSize() {
-        if (this.base == null) {
+        if (this.base == null || this.getGraphics() == null ) {
             return new Dimension(1, 1);
         } else {
-            final Graphics2D g2d = (Graphics2D) this.getGraphics();
+            final Graphics2D g2d = (Graphics2D) this.getGraphics();            
+            Defense.NotNull(g2d, "g2d");
             return new Dimension((int) Math.ceil(this.base.getWidth(g2d)),
                     (int) Math.ceil(this.base.getHeight(g2d)));
         }

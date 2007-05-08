@@ -59,7 +59,7 @@ import org.xml.sax.SAXException;
  * @author Erik Putrycz
  * @version $Revision$
  */
-public class BasicConverter implements Converter {
+public class BasicConverter implements ConverterAPI {
 
     /**
      * Logger for this class
