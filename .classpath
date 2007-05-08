@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="w3cdom/src/main/java"/>
-	<classpathentry kind="src" path="core/src/main/java"/>
-	<classpathentry kind="src" path="core/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="core/src/main/resources" path="core/src/main/resources"/>
-	<classpathentry kind="src" path="awt/src/main/java"/>
-	<classpathentry kind="src" path="awt/src/test/java"/>
-	<classpathentry kind="src" path="swing/src/main/java"/>
-	<classpathentry kind="src" path="swing/src/test/java"/>
-	<classpathentry kind="src" path="swt/src/main/java"/>
-	<classpathentry kind="src" path="converter/src/main/java"/>
-	<classpathentry kind="src" path="converter/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="converter/src/test/resources" path="converter/src/test/resources"/>
-	<classpathentry kind="src" path="appsupport/src/main/java"/>
-	<classpathentry kind="src" path="ant/src/main/java"/>
-	<classpathentry kind="src" path="mml2xxx/src/main/java"/>
-	<classpathentry kind="src" path="mathviewer/src/main/java"/>
-	<classpathentry excluding="**" kind="src" output="mathviewer/src/main/resources" path="mathviewer/src/main/resources"/>
+	<classpathentry kind="src" path="jeuclid-w3cdom/src/main/java"/>
+	<classpathentry kind="src" path="jeuclid-core/src/main/java"/>
+	<classpathentry kind="src" path="jeuclid-core/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="jeuclid-core/src/main/resources" path="jeuclid-core/src/main/resources"/>
+	<classpathentry kind="src" path="jeuclid-awt/src/main/java"/>
+	<classpathentry kind="src" path="jeuclid-awt/src/test/java"/>
+	<classpathentry kind="src" path="jeuclid-swing/src/main/java"/>
+	<classpathentry kind="src" path="jeuclid-swing/src/test/java"/>
+	<classpathentry kind="src" path="jeuclid-swt/src/main/java"/>
+	<classpathentry kind="src" path="jeuclid-fop/src/main/java"/>
+	<classpathentry kind="src" path="jeuclid-fop/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="jeuclid-fop/src/main/resources" path="jeuclid-fop/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="jeuclid-fop/src/test/resources" path="jeuclid-fop/src/test/resources"/>
+	<classpathentry kind="src" path="jeuclid-converter/src/main/java"/>
+	<classpathentry kind="src" path="jeuclid-converter/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="jeuclid-converter/src/test/resources" path="jeuclid-converter/src/test/resources"/>
+	<classpathentry kind="src" path="jeuclid-appsupport/src/main/java"/>
+	<classpathentry kind="src" path="jeuclid-ant/src/main/java"/>
+	<classpathentry kind="src" path="jeuclid-mml2xxx/src/main/java"/>
+	<classpathentry kind="src" path="jeuclid-mathviewer/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="jeuclid-mathviewer/src/main/resources" path="jeuclid-mathviewer/src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
