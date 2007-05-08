@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: BasicConverter.java 172 2007-05-05 13:30:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid;
 
@@ -46,7 +46,7 @@ import org.xml.sax.SAXException;
  * </ul>
  * 
  * @author Max Berger
- * @version $Revision: 172 $
+ * @version $Revision$
  */
 public class SVGConverter extends BasicConverter implements Converter {
     /**
