@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.support.attributes;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -180,7 +181,7 @@ public final class AttributesHelper {
         if (sizeString == null) {
             return 0;
         }
-        String tSize = sizeString.trim().toLowerCase();
+        String tSize = sizeString.trim().toLowerCase(Locale.ENGLISH);
 
         final String translatesTo = AttributesHelper.SIZETRANSLATIONS
                 .get(tSize);
@@ -258,7 +259,7 @@ public final class AttributesHelper {
             return null;
         }
 
-        final String lowVal = value.toLowerCase();
+        final String lowVal = value.toLowerCase(Locale.ENGLISH);
         Color parsedColor = null;
 
         if (!AttributesHelper.COLOR_MAPPINGS.containsKey(lowVal)) {

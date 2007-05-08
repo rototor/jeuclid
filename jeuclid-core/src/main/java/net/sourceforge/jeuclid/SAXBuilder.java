@@ -42,7 +42,7 @@ import org.xml.sax.Locator;
 public class SAXBuilder implements ContentHandler {
     private DocumentElement rootElement;
 
-    private Stack<Node> stack;
+    private final Stack<Node> stack = new Stack<Node>();;
 
     private final MathBase mbase;
 
@@ -120,7 +120,7 @@ public class SAXBuilder implements ContentHandler {
      */
     public void startDocument() {
         this.rootElement = null;
-        this.stack = new Stack<Node>();
+        this.stack.clear();
         this.rootElement = new DocumentElement(this.mbase);
         this.mbase.setRootElement(this.rootElement);
         this.stack.push(this.rootElement);

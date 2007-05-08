@@ -37,6 +37,8 @@ public class Mn extends AbstractTokenWithStandardLayout {
      */
     public static final String ELEMENT = "mn";
 
+    private static final String DOT = ".";
+
     /**
      * Default constructor.
      * 
@@ -60,8 +62,9 @@ public class Mn extends AbstractTokenWithStandardLayout {
         }
         final FontMetrics metrics = this.getFontMetrics(g);
         String integer = this.getText();
-        if (integer.indexOf(".") > 0) {
-            integer = integer.substring(0, integer.indexOf("."));
+        final int dotIndex = integer.indexOf(Mn.DOT);
+        if (dotIndex >= 0) {
+            integer = integer.substring(0, dotIndex);
         }
         result = metrics.stringWidth(integer);
         return result;
@@ -76,7 +79,7 @@ public class Mn extends AbstractTokenWithStandardLayout {
         float result = 0;
 
         final FontMetrics metrics = this.getFontMetrics(g);
-        result = metrics.stringWidth(".");
+        result = metrics.stringWidth(Mn.DOT);
 
         return result;
     }

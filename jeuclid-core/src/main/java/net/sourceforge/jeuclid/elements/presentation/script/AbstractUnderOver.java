@@ -241,7 +241,7 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
                 + o.getOver(), underWidth + o.getUnder()));
     }
 
-    private class Offsets {
+    private static class Offsets {
         private final float base;
 
         private final float under;

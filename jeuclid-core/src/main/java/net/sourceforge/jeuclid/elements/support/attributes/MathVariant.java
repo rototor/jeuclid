@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.support.attributes;
 
 import java.awt.Font;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sourceforge.jeuclid.MathBase;
@@ -175,7 +176,7 @@ public final class MathVariant {
         }
 
         return (MathVariant) MathVariant.ATTRIBUTEMAP.get(variant
-                .toLowerCase());
+                .toLowerCase(Locale.ENGLISH));
     }
 
     /**

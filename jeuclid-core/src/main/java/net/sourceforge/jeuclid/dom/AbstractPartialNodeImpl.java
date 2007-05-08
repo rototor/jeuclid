@@ -51,7 +51,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
     /**
      * @see org.w3c.dom.NodeList
      */
-    public class NodeList implements org.w3c.dom.NodeList {
+    public static class NodeList implements org.w3c.dom.NodeList {
         private final List<Node> children;
 
         /**
