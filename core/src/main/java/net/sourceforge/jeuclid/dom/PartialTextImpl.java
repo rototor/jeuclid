@@ -24,11 +24,8 @@ import org.w3c.dom.Text;
 /**
  * Partial implementation of org.w3c.dom.Text.
  * <p>
- * This implements only the functions necesessay for MathElements. Feel free
- * to implement whatever functions you need.
- * <p>
- * 
- * @todo This class is currently unused.
+ * This implements only the functions necessary for MathElements. Feel free to
+ * implement whatever functions you need.
  * 
  * @author Max Berger
  * @version $Revision$

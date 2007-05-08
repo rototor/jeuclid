@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sourceforge.jeuclid</groupId>
+  <artifactId>jeuclid-fop</artifactId>
+  <name>JEuclid FOP Plugin</name>
+  <parent>
+    <groupId>net.sourceforge.jeuclid</groupId>
+    <artifactId>jeuclid-parent</artifactId>
+    <version>2.9.7-SNAPSHOT</version>
+  </parent>
+  <description>This module contains the FOP plugin to support MathML in FOP through JEuclid.</description>
+  <build>
+</build>
+  <dependencies>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>jeuclid-converter</artifactId>
+      <version>2.9.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>fop</artifactId>
+      <version>0.93</version>
+    </dependency>
+  </dependencies>
+</project>
