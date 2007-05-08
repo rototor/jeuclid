@@ -7,18 +7,18 @@
   <version>2.9.7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-    <module>w3cdom</module>
-    <module>core</module>
-    <module>awt</module>
-    <module>swing</module>
-    <module>swt</module>
-    <module>converter</module>
-    <module>appsupport</module>
-    <module>ant</module>
-    <module>mml2xxx</module>
-    <module>mathviewer</module>
-    <module>distribution</module>
-    <module>webstart</module>
+    <module>jeuclid-w3cdom</module>
+    <module>jeuclid-core</module>
+    <module>jeuclid-awt</module>
+    <module>jeuclid-swing</module>
+    <module>jeuclid-swt</module>
+    <module>jeuclid-converter</module>
+    <module>jeuclid-appsupport</module>
+    <module>jeuclid-ant</module>
+    <module>jeuclid-mml2xxx</module>
+    <module>jeuclid-mathviewer</module>
+    <module>jeuclid</module>
+    <module>jeuclid-webstart</module>
   </modules>
   <description>
     JEuclid is a complete MathML rendering solution, consisting of a MathViewer

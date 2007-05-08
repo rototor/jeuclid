@@ -7,10 +7,13 @@
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
+			<action dev="maxberger" type="update">
+ 				renamed modules for compatiblity with
+				continuum
+			</action>
 			<action dev="maxberger" type="add">
 			   imported fop classes from fop, modified to compile with current jeuclid;
 			</action>
-			<action dev="maxberger" type="update">
 			<action dev="maxberger" type="add">
 			   started work on fop-module
 			</action>
