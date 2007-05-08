@@ -42,6 +42,7 @@ import org.xml.sax.SAXException;
  * </ul>
  * 
  * @author Max Berger
+ * @author Erik Putrycz
  * @version $Revision$
  */
 public final class ConverterTool {
@@ -49,19 +50,28 @@ public final class ConverterTool {
      * Logger for this class
      */
     private static final Log LOGGER = LogFactory.getLog(ConverterTool.class);
-    
+
     private static Converter convInstance;
 
     static {
         try {
-            Thread.currentThread().getContextClassLoader().loadClass("org.apache.batik.svggen.SVGGraphics2D");
-            LOGGER.debug("Using SVG capable converter");
-            convInstance = new SVGConverter();
-        } catch (ClassNotFoundException e) {            
-            //load the basic converter
-            convInstance = new BasicConverter();
-            LOGGER.debug("Using basic converter without SVG capabilities");
+            Thread.currentThread().getContextClassLoader().loadClass(
+                    "org.apache.batik.svggen.SVGGraphics2D");
+            ConverterTool.LOGGER.debug("Using SVG capable converter");
+            ConverterTool.convInstance = new SVGConverter();
+        } catch (final ClassNotFoundException e) {
+            // load the basic converter
+            ConverterTool.convInstance = new BasicConverter();
+            ConverterTool.LOGGER
+                    .debug("Using basic converter without SVG capabilities");
         }
+    }
+
+    /**
+     * Default constructor.
+     */
+    private ConverterTool() {
+        // Empty on purpose
     }
 
     /**
@@ -79,22 +89,27 @@ public final class ConverterTool {
      */
     public static boolean convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
-        return convInstance.convert(inFile, outFile, outFileType);
+        return ConverterTool.convInstance.convert(inFile, outFile,
+                outFileType);
     }
-    
 
     /**
-     * Renders a document into an image
-     * @param doc DOM mathml document
-     * @param params parameters
-     * @return
+     * Renders a document into an image.
+     * 
+     * @param doc
+     *            DOM MathML document
+     * @param params
+     *            parameters
+     * @return a BufferedImage containing rendered version of the document.
      * @throws SAXException
+     *             if the Document could not be parsed as MathML.
      * @throws IOException
+     *             if an I/O error occurred during read or write.
      */
     public BufferedImage render(final Document doc,
             final Map<ParameterKey, String> params) throws SAXException,
             IOException {
-        return convInstance.render(doc, params);
+        return ConverterTool.convInstance.render(doc, params);
     }
 
     /**
@@ -106,13 +121,13 @@ public final class ConverterTool {
      *            output file.
      * @param params
      *            rendering parameters.
-     * @return true if the conversion was sucessful.
+     * @return true if the conversion was successful.
      * @throws IOException
-     *             if an io error occured during read or write.
+     *             if an I/O error occurred during read or write.
      */
     public static boolean convert(final File inFile, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
-        return convInstance.convert(inFile, outFile, params);
+        return ConverterTool.convInstance.convert(inFile, outFile, params);
     }
 
     /**
@@ -124,13 +139,13 @@ public final class ConverterTool {
      *            output file.
      * @param params
      *            parameter set to use for conversion.
-     * @return true if the conversion was sucessful.
+     * @return true if the conversion was successful.
      * @throws IOException
-     *             if an io error occured during read or write.
+     *             if an I/O error occurred during read or write.
      */
     public static boolean convert(final Document doc, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
-        return convInstance.convert(doc, outFile, params);
+        return ConverterTool.convInstance.convert(doc, outFile, params);
     }
 
     /**
@@ -139,7 +154,7 @@ public final class ConverterTool {
      * @return a List&lt;String&gt; containing all valid mime-types.
      */
     public static List<String> getAvailableOutfileTypes() {
-        return convInstance.getAvailableOutfileTypes();
+        return ConverterTool.convInstance.getAvailableOutfileTypes();
     }
 
     /**
@@ -153,7 +168,7 @@ public final class ConverterTool {
      * @return the three letter suffix common for this type.
      */
     public static String getSuffixForMimeType(final String mimeType) {
-        return convInstance.getSuffixForMimeType(mimeType);
+        return ConverterTool.convInstance.getSuffixForMimeType(mimeType);
     }
 
     /**
@@ -164,6 +179,6 @@ public final class ConverterTool {
      * @return the mime-type
      */
     public static String getMimeTypeForSuffix(final String suffix) {
-        return convInstance.getMimeTypeForSuffix(suffix);
+        return ConverterTool.convInstance.getMimeTypeForSuffix(suffix);
     }
 }

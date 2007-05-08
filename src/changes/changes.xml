@@ -7,6 +7,9 @@
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
+			<action dev="maxberger" type="update">
+				converter: checkstyle and documentation fixes.
+			</action>
 			<action dev="eputrycz" type="add">
 				refactored converter, static calls should use
 				net.sourceforge.jeuclid.ConverterTool instead of
