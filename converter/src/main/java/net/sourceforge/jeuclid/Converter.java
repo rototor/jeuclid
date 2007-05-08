@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id$ */
+/* $Id: BasicConverter.java 172 2007-05-05 13:30:28Z maxberger $ */
 
 package net.sourceforge.jeuclid;
 
@@ -24,17 +24,45 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- * Generic interface for all MathML converters.
+ * Utility class for conversion from MathML to other formats.
+ * <p>
+ * This class supports easy conversion from a MathML or ODF file to any
+ * supported output format.
+ * <p>
+ * Currently supported output formats:
+ * <ul>
+ * <li>image/svg+xml
+ * <li>All images supported by ImageIO
+ * </ul>
  * 
- * @author Erik Putrycz
  * @author Max Berger
- * @version $Revision$
+ * @version $Revision: 172 $
  */
-public interface Converter {
+public final class Converter {
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory.getLog(Converter.class);
+    
+    private static ConverterAPI convInstance;
+
+    static {
+        try {
+            Thread.currentThread().getContextClassLoader().loadClass("org.apache.batik.svggen.SVGGraphics2D");
+            LOGGER.debug("Using SVG capable converter");
+            convInstance = new SVGConverter();
+        } catch (ClassNotFoundException e) {            
+            //load the basic converter
+            convInstance = new BasicConverter();
+            LOGGER.debug("Using basic converter without SVG capabilities");
+        }
+    }
 
     /**
      * Converts an existing file from MathML or ODF to the given type.
@@ -45,12 +73,29 @@ public interface Converter {
      *            output file.
      * @param outFileType
      *            mimetype for the output file.
-     * @return true if the conversion was successful.
+     * @return true if the conversion was sucessful.
      * @throws IOException
-     *             if an I/O error occurred during read or write.
+     *             if an io error occured during read or write.
      */
-    boolean convert(final File inFile, final File outFile,
-            final String outFileType) throws IOException;
+    public static boolean convert(final File inFile, final File outFile,
+            final String outFileType) throws IOException {
+        return convInstance.convert(inFile, outFile, outFileType);
+    }
+    
+
+    /**
+     * Renders a document into an image.
+     * @param doc DOM mathml document
+     * @param params parameters
+     * @return the rendered image
+     * @throws SAXException if an error occurs reading the dom document
+     * @throws IOException if an io error occurs
+     */
+    public static BufferedImage render(final Document doc,
+            final Map<ParameterKey, String> params) throws SAXException,
+            IOException {
+        return convInstance.render(doc, params);
+    }
 
     /**
      * Converts an existing file from MathML or ODF to the given type.
@@ -61,12 +106,14 @@ public interface Converter {
      *            output file.
      * @param params
      *            rendering parameters.
-     * @return true if the conversion was successful.
+     * @return true if the conversion was sucessful.
      * @throws IOException
-     *             if an I/O error occurred during read or write.
+     *             if an io error occured during read or write.
      */
-    boolean convert(final File inFile, final File outFile,
-            final Map<ParameterKey, String> params) throws IOException;
+    public static boolean convert(final File inFile, final File outFile,
+            final Map<ParameterKey, String> params) throws IOException {
+        return convInstance.convert(inFile, outFile, params);
+    }
 
     /**
      * Converts an existing file from MathML or ODF to the given type.
@@ -77,36 +124,23 @@ public interface Converter {
      *            output file.
      * @param params
      *            parameter set to use for conversion.
-     * @return true if the conversion was successful.
+     * @return true if the conversion was sucessful.
      * @throws IOException
-     *             if an I/O error occurred during read or write.
+     *             if an io error occured during read or write.
      */
-    boolean convert(final Document doc, final File outFile,
-            final Map<ParameterKey, String> params) throws IOException;
-
-    /**
-     * Renders a given MathML Document into a BufferedImage.
-     * 
-     * @param doc
-     *            the document
-     * @param params
-     *            rendering parameters
-     * @return a BufferedImage containing the rendered formula.
-     * @throws SAXException
-     *             if the Document could not be parsed as MathML.
-     * @throws IOException
-     *             if an I/O error occurred during read or write.
-     */
-    BufferedImage render(final Document doc,
-            final Map<ParameterKey, String> params) throws SAXException,
-            IOException;
+    public static boolean convert(final Document doc, final File outFile,
+            final Map<ParameterKey, String> params) throws IOException {
+        return convInstance.convert(doc, outFile, params);
+    }
 
     /**
      * Retrieve a list of available mime types for conversion.
      * 
      * @return a List&lt;String&gt; containing all valid mime-types.
      */
-    List<String> getAvailableOutfileTypes();
+    public static List<String> getAvailableOutfileTypes() {
+        return convInstance.getAvailableOutfileTypes();
+    }
 
     /**
      * Returns the file suffix suitable for the given mime type.
@@ -118,7 +152,9 @@ public interface Converter {
      *            {@link #getAvailableOutfileTypes()}.
      * @return the three letter suffix common for this type.
      */
-    String getSuffixForMimeType(final String mimeType);
+    public static String getSuffixForMimeType(final String mimeType) {
+        return convInstance.getSuffixForMimeType(mimeType);
+    }
 
     /**
      * Returns the MimeType for a given suffix.
@@ -127,6 +163,7 @@ public interface Converter {
      *            the suffix, e.g. png
      * @return the mime-type
      */
-    String getMimeTypeForSuffix(final String suffix);
-
+    public static String getMimeTypeForSuffix(final String suffix) {
+        return convInstance.getMimeTypeForSuffix(suffix);
+    }
 }
