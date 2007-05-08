@@ -46,6 +46,7 @@ import org.xml.sax.SAXException;
  * </ul>
  * 
  * @author Max Berger
+ * @author Erik Putrycz
  * @version $Revision$
  */
 public class SVGConverter extends BasicConverter implements Converter {
@@ -65,6 +66,13 @@ public class SVGConverter extends BasicConverter implements Converter {
     private static final Log LOGGER = LogFactory.getLog(SVGConverter.class);
 
     /**
+     * Default constructor.
+     */
+    public SVGConverter() {
+        // Empty on purpose
+    }
+
+    /**
      * Converts an existing file from MathML or ODF to the given type.
      * 
      * @param doc
@@ -77,6 +85,7 @@ public class SVGConverter extends BasicConverter implements Converter {
      * @throws IOException
      *             if an io error occured during read or write.
      */
+    @Override
     public boolean convert(final Document doc, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
 
@@ -115,11 +124,11 @@ public class SVGConverter extends BasicConverter implements Converter {
                 svgGenerator.stream(outFile.getAbsolutePath());
 
             } else {
-                super.convert(doc, outFile, params);                
+                super.convert(doc, outFile, params);
             }
         } catch (final SAXException ex) {
-            SVGConverter.LOGGER.fatal("Failed to process: " + ex.getMessage(),
-                    ex);
+            SVGConverter.LOGGER.fatal(
+                    "Failed to process: " + ex.getMessage(), ex);
             if (outFile != null) {
                 outFile.delete();
             }

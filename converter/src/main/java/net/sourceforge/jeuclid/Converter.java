@@ -1,3 +1,21 @@
+/*
+ * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* $Id$ */
+
 package net.sourceforge.jeuclid;
 
 import java.awt.image.BufferedImage;
@@ -9,6 +27,13 @@ import java.util.Map;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+/**
+ * Generic interface for all MathML converters.
+ * 
+ * @author Erik Putrycz
+ * @author Max Berger
+ * @version $Revision$
+ */
 public interface Converter {
 
     /**
@@ -20,11 +45,11 @@ public interface Converter {
      *            output file.
      * @param outFileType
      *            mimetype for the output file.
-     * @return true if the conversion was sucessful.
+     * @return true if the conversion was successful.
      * @throws IOException
-     *             if an io error occured during read or write.
+     *             if an I/O error occurred during read or write.
      */
-    public abstract boolean convert(final File inFile, final File outFile,
+    boolean convert(final File inFile, final File outFile,
             final String outFileType) throws IOException;
 
     /**
@@ -36,11 +61,11 @@ public interface Converter {
      *            output file.
      * @param params
      *            rendering parameters.
-     * @return true if the conversion was sucessful.
+     * @return true if the conversion was successful.
      * @throws IOException
-     *             if an io error occured during read or write.
+     *             if an I/O error occurred during read or write.
      */
-    public abstract boolean convert(final File inFile, final File outFile,
+    boolean convert(final File inFile, final File outFile,
             final Map<ParameterKey, String> params) throws IOException;
 
     /**
@@ -52,20 +77,27 @@ public interface Converter {
      *            output file.
      * @param params
      *            parameter set to use for conversion.
-     * @return true if the conversion was sucessful.
+     * @return true if the conversion was successful.
      * @throws IOException
-     *             if an io error occured during read or write.
+     *             if an I/O error occurred during read or write.
      */
-    public abstract boolean convert(final Document doc, final File outFile,
+    boolean convert(final Document doc, final File outFile,
             final Map<ParameterKey, String> params) throws IOException;
 
     /**
-     * @param base
-     * @return
-     * @throws IOException
+     * Renders a given MathML Document into a BufferedImage.
+     * 
+     * @param doc
+     *            the document
+     * @param params
+     *            rendering parameters
+     * @return a BufferedImage containing the rendered formula.
      * @throws SAXException
+     *             if the Document could not be parsed as MathML.
+     * @throws IOException
+     *             if an I/O error occurred during read or write.
      */
-    public abstract BufferedImage render(final Document doc,
+    BufferedImage render(final Document doc,
             final Map<ParameterKey, String> params) throws SAXException,
             IOException;
 
@@ -74,7 +106,7 @@ public interface Converter {
      * 
      * @return a List&lt;String&gt; containing all valid mime-types.
      */
-    public abstract List<String> getAvailableOutfileTypes();
+    List<String> getAvailableOutfileTypes();
 
     /**
      * Returns the file suffix suitable for the given mime type.
@@ -86,7 +118,7 @@ public interface Converter {
      *            {@link #getAvailableOutfileTypes()}.
      * @return the three letter suffix common for this type.
      */
-    public abstract String getSuffixForMimeType(final String mimeType);
+    String getSuffixForMimeType(final String mimeType);
 
     /**
      * Returns the MimeType for a given suffix.
@@ -95,6 +127,6 @@ public interface Converter {
      *            the suffix, e.g. png
      * @return the mime-type
      */
-    public abstract String getMimeTypeForSuffix(final String suffix);
+    String getMimeTypeForSuffix(final String suffix);
 
 }

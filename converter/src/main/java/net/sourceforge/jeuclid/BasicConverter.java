@@ -56,6 +56,7 @@ import org.xml.sax.SAXException;
  * </ul>
  * 
  * @author Max Berger
+ * @author Erik Putrycz
  * @version $Revision$
  */
 public class BasicConverter implements Converter {
@@ -65,73 +66,72 @@ public class BasicConverter implements Converter {
      */
     private static final Log LOGGER = LogFactory.getLog(BasicConverter.class);
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.jeuclid.Converter#convert(java.io.File, java.io.File, java.lang.String)
+    /**
+     * Default constructor.
      */
+    public BasicConverter() {
+        // Empty on purpose
+    }
+
+    /** {@inheritDoc} */
     public boolean convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
         final Map<ParameterKey, String> params = MathBase
                 .getDefaultParameters();
         params.put(ParameterKey.OutFileType, outFileType);
-        return convert(inFile, outFile, params);
+        return this.convert(inFile, outFile, params);
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.jeuclid.Converter#convert(java.io.File, java.io.File, java.util.Map)
-     */
+    /** {@inheritDoc} */
     public boolean convert(final File inFile, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
         Document doc;
         try {
             doc = MathMLParserSupport.parseFile(inFile);
-            return convert(doc, outFile, params);
+            return this.convert(doc, outFile, params);
         } catch (final SAXException e) {
             BasicConverter.LOGGER.error("Failed to parse file:" + inFile, e);
             return false;
         }
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.jeuclid.Converter#convert(org.w3c.dom.Document, java.io.File, java.util.Map)
-     */
+    /** {@inheritDoc} */
     public boolean convert(final Document doc, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
+        boolean result = true;
         try {
             BasicConverter.LOGGER.info("Converting " + doc + " to " + outFile
                     + " ...");
 
-            final Iterator it = ImageIO.getImageWritersByMIMEType(params
-                    .get(ParameterKey.OutFileType));
+            final Iterator<ImageWriter> it = ImageIO
+                    .getImageWritersByMIMEType(params
+                            .get(ParameterKey.OutFileType));
             if (it.hasNext()) {
                 final ImageWriter writer = (ImageWriter) it.next();
-
 
                 final ImageOutputStream ios = new FileImageOutputStream(
                         outFile);
                 writer.setOutput(ios);
-                writer.write(render(doc, params));
+                writer.write(this.render(doc, params));
                 ios.close();
-
             } else {
                 BasicConverter.LOGGER.fatal("Unsupported output type: "
                         + params.get(ParameterKey.OutFileType));
-                return false;
+                result = false;
             }
 
         } catch (final SAXException ex) {
-            BasicConverter.LOGGER.fatal("Failed to process: " + ex.getMessage(),
-                    ex);
+            BasicConverter.LOGGER.fatal("Failed to process: "
+                    + ex.getMessage(), ex);
             if (outFile != null) {
                 outFile.delete();
             }
-            return false;
+            result = false;
         }
-        return true;
+        return result;
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.jeuclid.Converter#render(org.w3c.dom.Document, java.util.Map)
-     */
+    /** {@inheritDoc} */
     public BufferedImage render(final Document doc,
             final Map<ParameterKey, String> params) throws SAXException,
             IOException {
@@ -158,18 +158,14 @@ public class BasicConverter implements Converter {
         return image;
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.jeuclid.Converter#getAvailableOutfileTypes()
-     */
+    /** {@inheritDoc} */
     public List<String> getAvailableOutfileTypes() {
         final List<String> fileTypes = new Vector<String>(Arrays
                 .asList(ImageIO.getWriterMIMETypes()));
         return fileTypes;
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.jeuclid.Converter#getSuffixForMimeType(java.lang.String)
-     */
+    /** {@inheritDoc} */
     public String getSuffixForMimeType(final String mimeType) {
         return BasicConverter.getSuffixForMimeTypeFromImageIO(mimeType);
     }
@@ -198,11 +194,9 @@ public class BasicConverter implements Converter {
         }
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.jeuclid.Converter#getMimeTypeForSuffix(java.lang.String)
-     */
+    /** {@inheritDoc} */
     public String getMimeTypeForSuffix(final String suffix) {
-            return BasicConverter.getMimeTypeForSuffixFromImageIO(suffix);
+        return BasicConverter.getMimeTypeForSuffixFromImageIO(suffix);
     }
 
     private static String getMimeTypeForSuffixFromImageIO(final String suffix) {
