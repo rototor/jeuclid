@@ -23,6 +23,7 @@ import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
+import net.sourceforge.jeuclid.Defense;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
@@ -288,6 +289,7 @@ public class Mo extends AbstractJEuclidElement implements
     }
 
     private TextLayout produceUnstrechtedLayout(final Graphics2D g) {
+        Defense.NotNull(g, "g");
         float fontSizeInPoint = this.getFontsizeInPoint();
         if (Boolean.parseBoolean(this.getLargeop())) {
             fontSizeInPoint *= this.getLargeOpCorrector();

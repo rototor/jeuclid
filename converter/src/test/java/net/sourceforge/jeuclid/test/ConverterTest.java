@@ -5,8 +5,8 @@ import static org.testng.Assert.assertTrue;
 import java.io.File;
 import java.util.Map;
 
+import net.sourceforge.jeuclid.ConverterAPI;
 import net.sourceforge.jeuclid.Converter;
-import net.sourceforge.jeuclid.ConverterTool;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.ParameterKey;
@@ -32,7 +32,7 @@ public class ConverterTest {
         Map<ParameterKey, String> params = MathBase.getDefaultParameters();
         params.put(ParameterKey.FontSize, "25");
         params.put(ParameterKey.OutFileType, "image/png");
-        ConverterTool.convert(doc, outFile, params);
+        Converter.convert(doc, outFile, params);
         assertTrue(outFile.exists());
         assertTrue(outFile.length() > 0);
 
@@ -46,7 +46,7 @@ public class ConverterTest {
         Map<ParameterKey, String> params = MathBase.getDefaultParameters();
         params.put(ParameterKey.FontSize, "25");
         params.put(ParameterKey.OutFileType, SVGConverter.TYPE_SVG);
-        ConverterTool.convert(doc, outFile, params);
+        Converter.convert(doc, outFile, params);
         assertTrue(outFile.exists());
         assertTrue(outFile.length() > 0);
 
@@ -76,7 +76,7 @@ public class ConverterTest {
             String exName = "example" + example + ".mml";
             File outFile = new File(getOutDir(), "example" + example + ".png");
             Document document = MathBaseTest.loadDocument(exName);
-            ConverterTool.convert(document, outFile, params);
+            Converter.convert(document, outFile, params);
             assertTrue(outFile.exists());
             assertTrue(outFile.length() > 0);
         }
@@ -84,14 +84,14 @@ public class ConverterTest {
 
     @Test
     public void testConverterMimeTypes() throws Exception {
-        assertTrue(SVGConverter.TYPE_SVG.equalsIgnoreCase(ConverterTool
+        assertTrue(SVGConverter.TYPE_SVG.equalsIgnoreCase(Converter
                 .getMimeTypeForSuffix(SVGConverter.EXTENSION_SVG)));
-        assertTrue(SVGConverter.EXTENSION_SVG.equalsIgnoreCase(ConverterTool
+        assertTrue(SVGConverter.EXTENSION_SVG.equalsIgnoreCase(Converter
                 .getSuffixForMimeType(SVGConverter.TYPE_SVG)));
 
-        assertTrue("image/png".equalsIgnoreCase(ConverterTool
+        assertTrue("image/png".equalsIgnoreCase(Converter
                 .getMimeTypeForSuffix("png")));
-        assertTrue("png".equalsIgnoreCase(ConverterTool
+        assertTrue("png".equalsIgnoreCase(Converter
                 .getSuffixForMimeType("image/png")));
 
     }

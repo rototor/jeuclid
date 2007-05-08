@@ -42,7 +42,7 @@ import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
 import net.sourceforge.jeuclid.BasicConverter;
-import net.sourceforge.jeuclid.ConverterTool;
+import net.sourceforge.jeuclid.Converter;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.ParameterKey;
@@ -494,13 +494,13 @@ public class MainFrame extends JFrame {
         final String fileName = selectedFile.getName();
         final String extension = fileName
                 .substring(fileName.lastIndexOf('.') + 1);
-        final String mimetype = ConverterTool.getMimeTypeForSuffix(extension);
+        final String mimetype = Converter.getMimeTypeForSuffix(extension);
         try {
 
             final Map<ParameterKey, String> params = this.getMathComponent()
                     .getMathBase().getParams();
             params.put(ParameterKey.OutFileType, mimetype);
-            if (!ConverterTool.convert(this.getMathComponent().getDocument(),
+            if (!Converter.convert(this.getMathComponent().getDocument(),
                     selectedFile, params)) {
                 JOptionPane.showMessageDialog(this, "Failed to write to "
                         + fileName, Messages
