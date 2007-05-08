@@ -44,7 +44,8 @@ public abstract class AbstractPartialElementImpl extends
     private final Map<String, String> attributes = new HashMap<String, String>();
 
     /** Partial implementation of Attr. */
-    public class AttrImpl extends AbstractPartialNodeImpl implements Attr {
+    public static class AttrImpl extends AbstractPartialNodeImpl implements
+            Attr {
 
         private final String name;
 

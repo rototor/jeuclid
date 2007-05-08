@@ -8,6 +8,11 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
 			<action dev="maxberger" type="update">
+			  FindBug fixes in MathBase, SaxBuilder, AbstractPartialElementIml,
+			  AbstractPartialNodeImpl, AbstractUnderOver, Mn, AttributesHelper,
+			  MathVariant;
+			</action>
+			<action dev="maxberger" type="update">
  				renamed modules for compatiblity with
 				continuum
 			</action>

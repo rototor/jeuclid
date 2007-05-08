@@ -82,6 +82,7 @@ public class MathBase {
         if (params != null) {
             this.renderParams.putAll(params);
         }
+        this.rootElement = new DocumentElement(this);
     }
 
     /**
