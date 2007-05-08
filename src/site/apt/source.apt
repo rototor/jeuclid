@@ -72,6 +72,14 @@ Coding style
   
 Developer settings
 
+* SVN settings
+  
+ Your should login to SVN with your sourceforge username and password. It should ask you for it the first time you try to submit
+
+ When you add new Java files, please set the property <<<svn:keywords>>> to <<<Revision Date Id>>>
+
+* Maven settings
+
  If you have developer access, please add the following to your <<<~/.m2/settings.xml>>> file:
 
 ---
