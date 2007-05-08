@@ -12,6 +12,8 @@ Hacking JEuclid
 
  * {{{http://maven.apache.org/eclipse-plugin.html}Maven 2.x Plug-in for Eclipse}} (required if you use Eclipse)
 
+ * {{{http://maven.apache.org/netbeans-module.html}Maven 2.x Plug-in for NetBeans}} (required if you use NetBeans)
+
  []
  
   If you have commiter access, the following extra plugins for eclipse are
