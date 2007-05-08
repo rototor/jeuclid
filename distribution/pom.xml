@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid</artifactId>
-  <name>JEuclid</name>
+  <name>JEuclid Distribution</name>
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
@@ -48,6 +48,7 @@
           <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
           <iconFile>${basedir}/src/main/app-resources/jeuclid.icns</iconFile>
           <jvmVersion>1.5+</jvmVersion>
+          <bundleName>JEuclid MathViewer</bundleName>
         </configuration>
         <executions>
           <execution>

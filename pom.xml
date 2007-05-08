@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-parent</artifactId>
-  <name>JEuclid Umbrella</name>
+  <name>JEuclid</name>
   <version>2.9.7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
