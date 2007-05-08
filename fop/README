@@ -1,0 +1,21 @@
+This module is intentionally not enabled yet.
+
+Please downlaod:
+
+http://people.apache.org/~jeremias/fop/maven/fop-0.93-bundle.jar
+http://people.apache.org/~jeremias/fop/maven/xmlgraphics-commons-1.1-bundle.jar
+
+extract to a temp dir (each separately), and run:
+
+(for fop)
+
+mvn install:install-file -Dfile=fop-0.93.jar -DartifactId=fop -DgroupId=org.apache.xmlgraphics -Dpackaging=jar -Dversion=0.93 -DpomFile=pom.xml
+
+(for xmlgraphics)
+
+mvn install:install-file -Dfile=xmlgraphics-commons-1.1.jar -DartifactId=xmlgraphics-commons -DgroupId=org.apache.xmlgraphics -Dpackaging=jar -Dversion=1.1 -DpomFile=pom.xml
+
+
+this will be obsolete when these bugs are closed:
+http://jira.codehaus.org/browse/MAVENUPLOAD-1517
+http://jira.codehaus.org/browse/MAVENUPLOAD-1518

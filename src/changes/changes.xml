@@ -7,6 +7,12 @@
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
+			<action dev="maxberger" type="add">
+			   started work on fop-module
+			</action>
+			<action dev="maxberger" type="update">
+			   PartialTextImpl: JavaDoc fixes
+			</action>
 			<action dev="maxberger" type="update">
 				converter: checkstyle and documentation fixes.
 			</action>
