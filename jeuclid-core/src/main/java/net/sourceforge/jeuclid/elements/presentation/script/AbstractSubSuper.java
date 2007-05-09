@@ -97,43 +97,6 @@ public abstract class AbstractSubSuper extends AbstractJEuclidElement
                 superscriptshift);
     }
 
-    /**
-     * Retrieve the actual middleshift for sub elements based on reference
-     * height.
-     * 
-     * @param reference
-     *            the height of the reference element
-     * @param g
-     *            Graphics context to use.
-     * @return subscriptshift
-     */
-    protected float getSubMiddleShift(final float reference,
-            final Graphics2D g) {
-        return reference
-                * AbstractSubSuper.DEFAULT_SCRIPTSHIFT
-                + AttributesHelper.convertSizeToPt(this.getSubscriptshift(),
-                        this, AttributesHelper.PT);
-    }
-
-    /**
-     * Retrieve the actual middleshift for sup elements based on reference
-     * height.
-     * 
-     * @param reference
-     *            height of the reference element
-     * @param g
-     *            Graphics context to use.
-     * @return actual supscriptshift
-     */
-    protected float getSupMiddleShift(final float reference,
-            final Graphics2D g) {
-        return reference
-                * (1.0f - AbstractSubSuper.DEFAULT_SCRIPTSHIFT)
-                + AttributesHelper
-                        .convertSizeToPt(this.getSuperscriptshift(), this,
-                                AttributesHelper.PT);
-    }
-
     /** {@inheritDoc} */
     public abstract JEuclidElement getBase();
 
@@ -152,14 +115,12 @@ public abstract class AbstractSubSuper extends AbstractJEuclidElement
      * @return baseline shift for super elements
      */
     protected float getSuperBaseLineShift(final Graphics2D g) {
-        final JEuclidElement supElement = this.getSuperscript();
-        final JEuclidElement baseElement = this.getBase();
-        final float middleshift = this.getSupMiddleShift(Math.max(baseElement
-                .getHeight(g), baseElement.getFontsizeInPoint() / 2), g);
-        final float baseDescentHeight = baseElement.getDescentHeight(g);
-        final float superDescentHeight = supElement.getDescentHeight(g);
 
-        return -baseDescentHeight + middleshift + superDescentHeight;
+        return ScriptSupport.getSuperBaselineShift(g, this.getBase(), this
+                .getSubscript(), this.getSuperscript())
+                + AttributesHelper
+                        .convertSizeToPt(this.getSuperscriptshift(), this,
+                                AttributesHelper.PT);
     }
 
     /**
@@ -171,14 +132,10 @@ public abstract class AbstractSubSuper extends AbstractJEuclidElement
      * @return baseline shift for super elements
      */
     protected float getSubBaseLineShift(final Graphics2D g) {
-        final JEuclidElement subElement = this.getSubscript();
-        final JEuclidElement baseElement = this.getBase();
-        final float middleshift = this.getSubMiddleShift(Math.max(baseElement
-                .getHeight(g), baseElement.getFontsizeInPoint()), g);
-        final float baseDescentHeight = baseElement.getDescentHeight(g);
-        final float subDescentHeight = subElement.getDescentHeight(g);
-
-        return baseDescentHeight + middleshift + subDescentHeight;
+        return ScriptSupport.getSubBaselineShift(g, this.getBase(), this
+                .getSubscript(), this.getSuperscript())
+                + AttributesHelper.convertSizeToPt(this.getSubscriptshift(),
+                        this, AttributesHelper.PT);
     }
 
     /**
