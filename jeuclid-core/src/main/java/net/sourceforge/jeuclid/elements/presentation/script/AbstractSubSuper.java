@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
@@ -30,18 +29,14 @@ import org.w3c.dom.mathml.MathMLScriptElement;
 /**
  * Generic support for alle elements that have a subscript or a superscript
  * attribute.
+ * <p>
+ * Supported elements: msub, msup, msubsup.
  * 
  * @author Max Berger
  * @version $Revision$
  */
-public abstract class AbstractSubSuper extends AbstractJEuclidElement
+public abstract class AbstractSubSuper extends AbstractScriptElement
         implements MathMLScriptElement {
-
-    /** attribute for subscriptshift. */
-    public static final String ATTR_SUBSCRIPTSHIFT = "subscriptshift";
-
-    /** attribute for superscriptshift. */
-    public static final String ATTR_SUPERSCRIPTSHIFT = "superscriptshift";
 
     /**
      * Magic constant describing the default middleshift for sub and sup
@@ -59,42 +54,6 @@ public abstract class AbstractSubSuper extends AbstractJEuclidElement
      */
     public AbstractSubSuper(final MathBase base) {
         super(base);
-        this.setDefaultMathAttribute(AbstractSubSuper.ATTR_SUBSCRIPTSHIFT,
-                MathBase.VALUE_ZERO);
-        this.setDefaultMathAttribute(AbstractSubSuper.ATTR_SUPERSCRIPTSHIFT,
-                MathBase.VALUE_ZERO);
-    }
-
-    /**
-     * @return attribute subscriptshift.
-     */
-    public String getSubscriptshift() {
-        return this.getMathAttribute(AbstractSubSuper.ATTR_SUBSCRIPTSHIFT);
-    }
-
-    /**
-     * @param subscriptshift
-     *            new value for subscriptshift
-     */
-    public void setSubscriptshift(final String subscriptshift) {
-        this.setAttribute(AbstractSubSuper.ATTR_SUBSCRIPTSHIFT,
-                subscriptshift);
-    }
-
-    /**
-     * @return attribtue superscriptshift
-     */
-    public String getSuperscriptshift() {
-        return this.getMathAttribute(AbstractSubSuper.ATTR_SUPERSCRIPTSHIFT);
-    }
-
-    /**
-     * @param superscriptshift
-     *            new value for superscriptshift
-     */
-    public void setSuperscriptshift(final String superscriptshift) {
-        this.setAttribute(AbstractSubSuper.ATTR_SUPERSCRIPTSHIFT,
-                superscriptshift);
     }
 
     /** {@inheritDoc} */

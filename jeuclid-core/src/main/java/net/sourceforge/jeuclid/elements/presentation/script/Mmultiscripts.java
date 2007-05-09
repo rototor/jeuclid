@@ -23,23 +23,22 @@ import java.awt.Graphics2D;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLMultiScriptsElement;
 import org.w3c.dom.mathml.MathMLNodeList;
 
 /**
- * This class aranges a element lower, and a other elements upper to an
- * element.
- * 
+ * Prescripts and Tensor Indices.
  * 
  * @todo This class has to be rewritten to use getSubMiddleShift and
- *       getSupMiddleShifft
+ *       getSupMiddleShift, and cleaned up.
  * @author Unknown
  * @author Max Berger
  * @version $Revision$
  */
 
-public class Mmultiscripts extends AbstractSubSuper implements
+public class Mmultiscripts extends AbstractScriptElement implements
         MathMLMultiScriptsElement {
     /**
      * The XML element from this class.
@@ -534,8 +533,15 @@ public class Mmultiscripts extends AbstractSubSuper implements
     /** {@inheritDoc} */
     @Override
     public boolean hasChildPrescripts(final JEuclidElement child) {
-        // TODO: Actually implement
-        return child.isSameNode(this.getBase());
+        return child.isSameNode(this.getBase())
+                && (this.getNumprescriptcolumns() > 0);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean hasChildPostscripts(final JEuclidElement child) {
+        return child.isSameNode(this.getBase())
+                && (this.getNumscriptcolumns() > 0);
     }
 
     /** {@inheritDoc} */
@@ -544,23 +550,8 @@ public class Mmultiscripts extends AbstractSubSuper implements
     }
 
     /** {@inheritDoc} */
-    @Override
     public JEuclidElement getBase() {
         return this.getMathElement(0);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public JEuclidElement getSubscript() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public JEuclidElement getSuperscript() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     /** {@inheritDoc} */
@@ -568,28 +559,28 @@ public class Mmultiscripts extends AbstractSubSuper implements
         this.setMathElement(0, base);
     }
 
-    /** {@inheritDoc} */
-    public void setSubscript(final MathMLElement subscript) {
-        // TODO Auto-generated method stub
-
-    }
-
-    /** {@inheritDoc} */
-    public void setSuperscript(final MathMLElement superscript) {
-        // TODO Auto-generated method stub
-
+    private int getPrescriptsIndex() {
+        final org.w3c.dom.NodeList childList = this.getChildNodes();
+        final int len = childList.getLength();
+        for (int i = 0; i < len; i++) {
+            final Node child = childList.item(i);
+            if (child instanceof Mprescripts) {
+                return i;
+            }
+        }
+        return len;
     }
 
     /** {@inheritDoc} */
     public int getNumprescriptcolumns() {
-        // TODO Auto-generated method stub
-        return 0;
+        final int fulllength = this.getChildNodes().getLength();
+        final int prescriptstart = this.getPrescriptsIndex() + 1;
+        return (fulllength - prescriptstart) / 2;
     }
 
     /** {@inheritDoc} */
     public int getNumscriptcolumns() {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.getPrescriptsIndex() / 2;
     }
 
     /** {@inheritDoc} */
