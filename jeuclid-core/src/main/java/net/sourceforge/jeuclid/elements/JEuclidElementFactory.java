@@ -41,6 +41,7 @@ import net.sourceforge.jeuclid.elements.presentation.script.Msubsup;
 import net.sourceforge.jeuclid.elements.presentation.script.Msup;
 import net.sourceforge.jeuclid.elements.presentation.script.Munder;
 import net.sourceforge.jeuclid.elements.presentation.script.Munderover;
+import net.sourceforge.jeuclid.elements.presentation.script.None;
 import net.sourceforge.jeuclid.elements.presentation.table.Maligngroup;
 import net.sourceforge.jeuclid.elements.presentation.table.Malignmark;
 import net.sourceforge.jeuclid.elements.presentation.table.Mlabeledtr;
@@ -110,6 +111,8 @@ public final class JEuclidElementFactory {
             element = new Mmultiscripts(base);
         } else if (localName.equals(Mprescripts.ELEMENT)) {
             element = new Mprescripts(base);
+        } else if (localName.equals(None.ELEMENT)) {
+            element = new None(base);
         } else if (localName.equals(Msubsup.ELEMENT)) {
             element = new Msubsup(base);
         } else if (localName.equals(Munder.ELEMENT)) {
