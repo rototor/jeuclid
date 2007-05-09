@@ -147,7 +147,7 @@ public class JMathComponent extends JComponent {
             return new Dimension(1, 1);
         } else {
             final Graphics2D g2d = (Graphics2D) this.getGraphics();            
-            Defense.NotNull(g2d, "g2d");
+            Defense.notNull(g2d, "g2d");
             return new Dimension((int) Math.ceil(this.base.getWidth(g2d)),
                     (int) Math.ceil(this.base.getHeight(g2d)));
         }

@@ -289,7 +289,7 @@ public class Mo extends AbstractJEuclidElement implements
     }
 
     private TextLayout produceUnstrechtedLayout(final Graphics2D g) {
-        Defense.NotNull(g, "g");
+        Defense.notNull(g, "g");
         float fontSizeInPoint = this.getFontsizeInPoint();
         if (Boolean.parseBoolean(this.getLargeop())) {
             fontSizeInPoint *= this.getLargeOpCorrector();
