@@ -7,6 +7,10 @@
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
+			<action dev="maxberger" type="add">
+			  created class ScriptSupport; Moved Sub/Super baselineshift calculation there,
+			  reworked calucation to center sub/supers.
+			</action>
 			<action dev="maxberger" type="update">
 			   Defense: Checkstyle fixes;
 			   added package.html for AWT, Swing Component;

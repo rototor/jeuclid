@@ -32,10 +32,6 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
 /**
  * Implementation and helper methods for munder, mover, and munderover.
  * 
- * @todo This class has common functionality with
- *       AbstractMathElementWithSubSuper
- * @todo over/under are sometimes a little off to the left / right of the
- *       character
  * @todo some operators should "default" to being an accent, but currently
  *       they don't
  * @author Max Berger
@@ -106,15 +102,8 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         final float baseshift = base.getDescentHeight(g);
         final float shift;
         if (this.limitsAreMoved()) {
-
-            final float middleshift = base.getHeight(g)
-                    * Msubsup.DEFAULT_SCRIPTSHIFT;
-            float e1DescentHeight = baseshift;
-            if (e1DescentHeight == 0) {
-                e1DescentHeight = this.getFontMetrics(g).getDescent();
-            }
-            shift = +e1DescentHeight + underScript.getAscentHeight(g)
-                    - middleshift - 1;
+            shift = ScriptSupport.getSubBaselineShift(g, base, underScript,
+                    this.getOverscript());
         } else {
             float extraShift = AttributesHelper.convertSizeToPt(
                     AbstractUnderOver.UNDER_OVER_SPACE, this,
@@ -139,14 +128,8 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         final float baseAHeight = base.getAscentHeight(g);
         final float shift;
         if (this.limitsAreMoved()) {
-            final float middleshift = base.getHeight(g)
-                    * Msubsup.DEFAULT_SCRIPTSHIFT;
-            float e1AscentHeight = baseAHeight;
-            if (e1AscentHeight == 0) {
-                e1AscentHeight = this.getFontMetrics(g).getAscent();
-            }
-            shift = e1AscentHeight - middleshift
-                    + overScript.getDescentHeight(g);
+            shift = ScriptSupport.getSuperBaselineShift(g, base, this
+                    .getUnderscript(), overScript);
         } else {
             float extraShift = AttributesHelper.convertSizeToPt(
                     AbstractUnderOver.UNDER_OVER_SPACE, this,
