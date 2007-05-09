@@ -8,6 +8,10 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
 			<action dev="maxberger" type="update">
+			   Defense: Checkstyle fixes;
+			   added package.html for AWT, Swing Component;
+			</action>
+			<action dev="maxberger" type="update">
 			  FindBug fixes in MathBase, SaxBuilder, AbstractPartialElementIml,
 			  AbstractPartialNodeImpl, AbstractUnderOver, Mn, AttributesHelper,
 			  MathVariant;

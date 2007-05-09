@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: JMathComponent.java 172 2007-05-05 13:30:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid;
 
@@ -22,46 +22,63 @@ import java.io.File;
 
 /**
  * Internal class for defensive programming.
+ * <p>
+ * Even though these methods are declared as public, there are not guaranteed
+ * to be stable or work outside JEuclid.
+ * <p>
  * http://en.wikipedia.org/wiki/Defensive_programming
+ * 
  * @author putrycze
- * @version $Revision: 172 $
- *
+ * @version $Revision$
+ * 
  */
-public class Defense {
+public final class Defense {
+
+    /** Default constructor. */
+    private Defense() {
+        // Empty on purpose
+    }
 
     /**
      * Makes sure a parameter is not null.
-     * @param o parameter
-     * @param name name of the parameter
+     * 
+     * @param o
+     *            parameter
+     * @param name
+     *            name of the parameter
      */
-	public static final void NotNull(Object o, String name) {
-		if (o != null)
-			return;
-		throw new NullPointerException("'" + name + "' cannot be null");
-	}
-	
-	
+    public static void notNull(final Object o, final String name) {
+        if (o != null) {
+            return;
+        }
+        throw new NullPointerException("'" + name + "' cannot be null");
+    }
 
-	/**
+    /**
      * Makes sure a file exists.
-	 * @param file the file
-	 */
-	public static void FileExists(File file) {
-		if (!file.exists())
-			throw new AssertionError(file.toString() + " doesn't exist");
-		
-	}
+     * 
+     * @param file
+     *            the file
+     */
+    public static void fileExists(final File file) {
+        if (!file.exists()) {
+            throw new AssertionError(file.toString() + " doesn't exist");
+        }
 
+    }
 
-
-	/**
+    /**
      * Makes sure a condition is true.
-	 * @param b condition
-	 * @param string value
-	 */
-	public static void assertTrue(final boolean b, final String string) {
-		if (!b)
-			throw new AssertionError("Condition failed:" + string);		
-	}
-	
+     * 
+     * @param b
+     *            condition
+     * @param string
+     *            value
+     */
+    public static void assertTrue(final boolean b, final String string) {
+        if (!b) {
+            throw new AssertionError("Condition failed:" + string);
+        }
+    }
+
 }
