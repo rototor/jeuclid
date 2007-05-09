@@ -8,6 +8,10 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
 			<action dev="maxberger" type="add">
+			  refactored Script element support; added new class AbstractScriptElement;
+			  started cleanup of Mmultiscripts
+			</action>
+			<action dev="maxberger" type="add">
 			  Added support for the "none" element
 			</action>
 			<action dev="maxberger" type="add">
