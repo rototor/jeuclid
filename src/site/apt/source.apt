@@ -45,6 +45,11 @@ Hacking JEuclid
 
  The most notable artifacts are in <<<jeuclid/target>>> <<<jeuclid-...-distribution.zip>>> (binary distribution) and <<<jeuclid-...-osx.zip>>> (OS X application bundle).
 
+* Out of Memory
+
+ If you get an out of memory error during build, you need to adjust the memory available to maven. You can do this by setting the <<<MAVEN_OPTS>>> environment variable to <<<-Xmx512m>>>
+
+
 Patches
 
  to create a patch, please execute <<<mvn scm::diff>>>. The resulting patch will be saved as <<<jeuclid.diff>>>. Please rename your
