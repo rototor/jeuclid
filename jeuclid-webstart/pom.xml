@@ -4,6 +4,7 @@
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-webstart</artifactId>
   <name>JEuclid Webstart Module</name>
+  <packaging>pom</packaging>
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
