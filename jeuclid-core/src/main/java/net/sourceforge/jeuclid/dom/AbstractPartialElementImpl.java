@@ -123,7 +123,7 @@ public abstract class AbstractPartialElementImpl extends
     }
 
     /** Partial Implementation for an NodeMap describing Attributes. */
-    public class AttributeNodeMap implements NamedNodeMap {
+    public static class AttributeNodeMap implements NamedNodeMap {
 
         private final Map<String, String> attributes;
 
