@@ -1,5 +1,5 @@
 #FindBugs User Preferences
-#Fri May 11 09:15:36 GMT+01:00 2007
+#Fri May 11 13:57:04 GMT+01:00 2007
 detectorBadAppletConstructor=BadAppletConstructor|false
 detectorBadResultSetAccess=BadResultSetAccess|true
 detectorBadSyntaxForRegularExpression=BadSyntaxForRegularExpression|true
@@ -101,5 +101,6 @@ detectorWaitInLoop=WaitInLoop|true
 detectorWrongMapIterator=WrongMapIterator|true
 detectorXMLFactoryBypass=XMLFactoryBypass|true
 detector_threshold=2
+effort=min
 filter_settings=Medium|MALICIOUS_CODE,STYLE,BAD_PRACTICE,CORRECTNESS,I18N,PERFORMANCE,MT_CORRECTNESS|false
 filter_settings_neg=|
