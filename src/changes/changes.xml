@@ -8,6 +8,10 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
 			<action dev="maxberger" type="add">
+			  added an implementation for MathMLNodeList;
+			  more cleanups for mmultiscripts;
+			</action>
+			<action dev="maxberger" type="add">
 			  refactored Script element support; added new class AbstractScriptElement;
 			  started cleanup of Mmultiscripts
 			</action>

@@ -19,9 +19,12 @@
 package net.sourceforge.jeuclid.elements.presentation.script;
 
 import java.awt.Graphics2D;
+import java.util.List;
+import java.util.Vector;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.support.MathMLNodeListImpl;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
@@ -585,38 +588,60 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     /** {@inheritDoc} */
     public MathMLElement getPreSubScript(final int colIndex) {
-        // TODO Auto-generated method stub
-        return null;
+        return this.getMathElement(this.getPrescriptsIndex() + colIndex * 2
+                + 1);
     }
 
     /** {@inheritDoc} */
     public MathMLElement getPreSuperScript(final int colIndex) {
-        // TODO Auto-generated method stub
-        return null;
+        return this.getMathElement(this.getPrescriptsIndex() + colIndex * 2
+                + 2);
     }
 
     /** {@inheritDoc} */
     public MathMLNodeList getPrescripts() {
-        // TODO Auto-generated method stub
-        return null;
+        final List<Node> list = new Vector<Node>();
+        final org.w3c.dom.NodeList childList = this.getChildNodes();
+        final int len = childList.getLength();
+        boolean inPrescripts = false;
+        for (int i = 0; i < len; i++) {
+            final Node child = childList.item(i);
+            if (inPrescripts) {
+                list.add(child);
+            }
+            if (child instanceof Mprescripts) {
+                inPrescripts = true;
+            }
+        }
+        return new MathMLNodeListImpl(list);
     }
 
     /** {@inheritDoc} */
     public MathMLNodeList getScripts() {
-        // TODO Auto-generated method stub
-        return null;
+        final List<Node> list = new Vector<Node>();
+        final org.w3c.dom.NodeList childList = this.getChildNodes();
+        final int len = childList.getLength();
+        boolean inPostscripts = true;
+        for (int i = 1; i < len; i++) {
+            final Node child = childList.item(i);
+            if (child instanceof Mprescripts) {
+                inPostscripts = true;
+            }
+            if (inPostscripts) {
+                list.add(child);
+            }
+        }
+        return new MathMLNodeListImpl(list);
     }
 
     /** {@inheritDoc} */
     public MathMLElement getSubScript(final int colIndex) {
-        // TODO Auto-generated method stub
-        return null;
+        return this.getMathElement(colIndex * 2 + 1);
     }
 
     /** {@inheritDoc} */
     public MathMLElement getSuperScript(final int colIndex) {
-        // TODO Auto-generated method stub
-        return null;
+        return this.getMathElement(colIndex * 2 + 2);
     }
 
     /** {@inheritDoc} */
