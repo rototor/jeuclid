@@ -5,14 +5,12 @@ import static org.testng.Assert.assertTrue;
 import java.io.File;
 import java.util.Map;
 
-import net.sourceforge.jeuclid.ConverterAPI;
 import net.sourceforge.jeuclid.Converter;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.SVGConverter;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 
@@ -21,7 +19,7 @@ public class ConverterTest {
     /**
      * Test string with xml header.
      */
-    public static String TEST1 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+    public static final String TEST1 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
             + "<mrow><munderover><mo>&#x0222B;</mo><mn>1</mn><mi>x</mi></munderover>"
             + "<mfrac><mi>dt</mi><mi>t</mi></mfrac></mrow></math>";
 
