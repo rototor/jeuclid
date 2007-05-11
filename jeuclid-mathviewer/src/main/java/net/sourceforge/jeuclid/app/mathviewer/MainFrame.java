@@ -41,12 +41,10 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
-import net.sourceforge.jeuclid.BasicConverter;
 import net.sourceforge.jeuclid.Converter;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.ParameterKey;
-import net.sourceforge.jeuclid.SVGConverter;
 import net.sourceforge.jeuclid.app.MathViewer;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 
