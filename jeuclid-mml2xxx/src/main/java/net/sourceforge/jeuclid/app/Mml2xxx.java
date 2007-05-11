@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import net.sourceforge.jeuclid.BasicConverter;
 import net.sourceforge.jeuclid.Converter;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.ParameterKey;
