@@ -21,9 +21,7 @@ package net.sourceforge.jeuclid.ant;
 import java.io.File;
 import java.io.IOException;
 
-import net.sourceforge.jeuclid.BasicConverter;
 import net.sourceforge.jeuclid.Converter;
-import net.sourceforge.jeuclid.SVGConverter;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -38,6 +36,10 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
  * @version $Revision$
  */
 public class MathMLConverter extends MatchingTask {
+
+    private static final String CURRENT_DIR = "./";
+
+    private static final String EXTENSION_SEP = ".";
 
     /**
      * 
@@ -71,7 +73,8 @@ public class MathMLConverter extends MatchingTask {
         String[] dirs;
 
         if (this.mbaseDir == null) {
-            this.mbaseDir = this.getProject().resolveFile(".");
+            this.mbaseDir = this.getProject().resolveFile(
+                    MathMLConverter.CURRENT_DIR);
         }
 
         // if we have an in file and out then process them
@@ -208,7 +211,7 @@ public class MathMLConverter extends MatchingTask {
 
         File outFile = null;
         File inFile = null;
-        final String suffix = "."
+        final String suffix = MathMLConverter.EXTENSION_SEP
                 + Converter.getSuffixForMimeType(this.moutType);
 
         try {
@@ -227,7 +230,7 @@ public class MathMLConverter extends MatchingTask {
                 this.ensureDirectoryFor(outFile);
                 Converter.convert(inFile, outFile, this.moutType);
             }
-        } catch (final Exception ex) {
+        } catch (final IOException ex) {
             // If failed to process document, must delete target document,
             // or it will not attempt to process it the second time
             this.log("Failed to process " + inFile, Project.MSG_INFO);

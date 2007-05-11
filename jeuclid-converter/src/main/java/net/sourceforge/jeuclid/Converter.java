@@ -49,19 +49,25 @@ public final class Converter {
      * Logger for this class
      */
     private static final Log LOGGER = LogFactory.getLog(Converter.class);
-    
+
     private static ConverterAPI convInstance;
 
     static {
         try {
-            Thread.currentThread().getContextClassLoader().loadClass("org.apache.batik.svggen.SVGGraphics2D");
-            LOGGER.debug("Using SVG capable converter");
-            convInstance = new SVGConverter();
-        } catch (ClassNotFoundException e) {            
-            //load the basic converter
-            convInstance = new BasicConverter();
-            LOGGER.debug("Using basic converter without SVG capabilities");
+            Thread.currentThread().getContextClassLoader().loadClass(
+                    "org.apache.batik.svggen.SVGGraphics2D");
+            Converter.LOGGER.debug("Using SVG capable converter");
+            Converter.convInstance = new SVGConverter();
+        } catch (final ClassNotFoundException e) {
+            // load the basic converter
+            Converter.convInstance = new BasicConverter();
+            Converter.LOGGER
+                    .debug("Using basic converter without SVG capabilities");
         }
+    }
+
+    private Converter() {
+        // Empty on purpose.
     }
 
     /**
@@ -79,22 +85,26 @@ public final class Converter {
      */
     public static boolean convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
-        return convInstance.convert(inFile, outFile, outFileType);
+        return Converter.convInstance.convert(inFile, outFile, outFileType);
     }
-    
 
     /**
      * Renders a document into an image.
-     * @param doc DOM mathml document
-     * @param params parameters
+     * 
+     * @param doc
+     *            DOM mathml document
+     * @param params
+     *            parameters
      * @return the rendered image
-     * @throws SAXException if an error occurs reading the dom document
-     * @throws IOException if an io error occurs
+     * @throws SAXException
+     *             if an error occurs reading the dom document
+     * @throws IOException
+     *             if an io error occurs
      */
     public static BufferedImage render(final Document doc,
             final Map<ParameterKey, String> params) throws SAXException,
             IOException {
-        return convInstance.render(doc, params);
+        return Converter.convInstance.render(doc, params);
     }
 
     /**
@@ -112,7 +122,7 @@ public final class Converter {
      */
     public static boolean convert(final File inFile, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
-        return convInstance.convert(inFile, outFile, params);
+        return Converter.convInstance.convert(inFile, outFile, params);
     }
 
     /**
@@ -130,7 +140,7 @@ public final class Converter {
      */
     public static boolean convert(final Document doc, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
-        return convInstance.convert(doc, outFile, params);
+        return Converter.convInstance.convert(doc, outFile, params);
     }
 
     /**
@@ -139,7 +149,7 @@ public final class Converter {
      * @return a List&lt;String&gt; containing all valid mime-types.
      */
     public static List<String> getAvailableOutfileTypes() {
-        return convInstance.getAvailableOutfileTypes();
+        return Converter.convInstance.getAvailableOutfileTypes();
     }
 
     /**
@@ -153,7 +163,7 @@ public final class Converter {
      * @return the three letter suffix common for this type.
      */
     public static String getSuffixForMimeType(final String mimeType) {
-        return convInstance.getSuffixForMimeType(mimeType);
+        return Converter.convInstance.getSuffixForMimeType(mimeType);
     }
 
     /**
@@ -164,6 +174,6 @@ public final class Converter {
      * @return the mime-type
      */
     public static String getMimeTypeForSuffix(final String suffix) {
-        return convInstance.getMimeTypeForSuffix(suffix);
+        return Converter.convInstance.getMimeTypeForSuffix(suffix);
     }
 }

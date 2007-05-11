@@ -28,11 +28,12 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- * Interface for converting files.
- * Enables to have several implementations to provide additional capabilities.
+ * Interface for converting files. Enables to have several implementations to
+ * provide additional capabilities.
+ * 
  * @author putrycze
  * @version $Revision: 178 $
- *
+ * 
  */
 public interface ConverterAPI {
 
@@ -49,7 +50,7 @@ public interface ConverterAPI {
      * @throws IOException
      *             if an io error occured during read or write.
      */
-    public abstract boolean convert(final File inFile, final File outFile,
+    boolean convert(final File inFile, final File outFile,
             final String outFileType) throws IOException;
 
     /**
@@ -65,7 +66,7 @@ public interface ConverterAPI {
      * @throws IOException
      *             if an io error occured during read or write.
      */
-    public abstract boolean convert(final File inFile, final File outFile,
+    boolean convert(final File inFile, final File outFile,
             final Map<ParameterKey, String> params) throws IOException;
 
     /**
@@ -81,17 +82,21 @@ public interface ConverterAPI {
      * @throws IOException
      *             if an io error occured during read or write.
      */
-    public abstract boolean convert(final Document doc, final File outFile,
+    boolean convert(final Document doc, final File outFile,
             final Map<ParameterKey, String> params) throws IOException;
 
     /**
-     * @param doc the DOM document
-     * @param params usual Jeuclid parameters
+     * @param doc
+     *            the DOM document
+     * @param params
+     *            usual Jeuclid parameters
      * @return rendered image
-     * @throws IOException if an io error occured
-     * @throws SAXException if an error occured reading the dom document
+     * @throws IOException
+     *             if an io error occured
+     * @throws SAXException
+     *             if an error occured reading the dom document
      */
-    public abstract BufferedImage render(final Document doc,
+    BufferedImage render(final Document doc,
             final Map<ParameterKey, String> params) throws SAXException,
             IOException;
 
@@ -100,7 +105,7 @@ public interface ConverterAPI {
      * 
      * @return a List&lt;String&gt; containing all valid mime-types.
      */
-    public abstract List<String> getAvailableOutfileTypes();
+    List<String> getAvailableOutfileTypes();
 
     /**
      * Returns the file suffix suitable for the given mime type.

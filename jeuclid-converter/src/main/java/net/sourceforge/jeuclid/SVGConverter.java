@@ -64,6 +64,11 @@ public class SVGConverter extends BasicConverter implements ConverterAPI {
      */
     private static final Log LOGGER = LogFactory.getLog(SVGConverter.class);
 
+    /** Default constructor. */
+    public SVGConverter() {
+        // Empty on purpose.
+    }
+
     /**
      * Converts an existing file from MathML or ODF to the given type.
      * 
@@ -115,11 +120,11 @@ public class SVGConverter extends BasicConverter implements ConverterAPI {
                 svgGenerator.stream(outFile.getAbsolutePath());
 
             } else {
-                super.convert(doc, outFile, params);                
+                super.convert(doc, outFile, params);
             }
         } catch (final SAXException ex) {
-            SVGConverter.LOGGER.fatal("Failed to process: " + ex.getMessage(),
-                    ex);
+            SVGConverter.LOGGER.fatal(
+                    "Failed to process: " + ex.getMessage(), ex);
             if (outFile != null) {
                 outFile.delete();
             }
