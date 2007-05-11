@@ -18,6 +18,12 @@
 
 package net.sourceforge.jeuclid.elements;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.generic.Annotation;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
@@ -75,6 +81,8 @@ public final class JEuclidElementFactory {
     private static final Log LOGGER = LogFactory
             .getLog(JEuclidElementFactory.class);
 
+    private static final Map<String, Constructor<?>> IMPL_CLASSES = new HashMap<String, Constructor<?>>();;
+
     private JEuclidElementFactory() {
         // Empty on purpose
     }
@@ -92,88 +100,87 @@ public final class JEuclidElementFactory {
      */
     public static MathMLElement elementFromName(final String localName,
             final AttributeMap aMap, final MathBase base) {
-        MathMLElement element;
-        if (localName.equals(MathImpl.ELEMENT)) {
-            element = new MathImpl(base);
-        } else if (localName.equals(Mfenced.ELEMENT)) {
-            element = new Mfenced(base);
-        } else if (localName.equals(Mfrac.ELEMENT)) {
-            element = new Mfrac(base);
-        } else if (localName.equals(Menclose.ELEMENT)) {
-            element = new Menclose(base);
-        } else if (localName.equals(Mphantom.ELEMENT)) {
-            element = new Mphantom(base);
-        } else if (localName.equals(Msup.ELEMENT)) {
-            element = new Msup(base);
-        } else if (localName.equals(Msub.ELEMENT)) {
-            element = new Msub(base);
-        } else if (localName.equals(Mmultiscripts.ELEMENT)) {
-            element = new Mmultiscripts(base);
-        } else if (localName.equals(Mprescripts.ELEMENT)) {
-            element = new Mprescripts(base);
-        } else if (localName.equals(None.ELEMENT)) {
-            element = new None(base);
-        } else if (localName.equals(Msubsup.ELEMENT)) {
-            element = new Msubsup(base);
-        } else if (localName.equals(Munder.ELEMENT)) {
-            element = new Munder(base);
-        } else if (localName.equals(Mover.ELEMENT)) {
-            element = new Mover(base);
-        } else if (localName.equals(Munderover.ELEMENT)) {
-            element = new Munderover(base);
-        } else if (localName.equals(Mspace.ELEMENT)) {
-            element = new Mspace(base);
-        } else if (localName.equals(Ms.ELEMENT)) {
-            element = new Ms(base);
-        } else if (localName.equals(Mstyle.ELEMENT)) {
-            element = new Mstyle(base);
-        } else if (localName.equals(Msqrt.ELEMENT)) {
-            element = new Msqrt(base);
-        } else if (localName.equals(Mroot.ELEMENT)) {
-            element = new Mroot(base);
-        } else if (localName.equals(Mtable.ELEMENT)) {
-            element = new Mtable(base);
-        } else if (localName.equals(Mtr.ELEMENT)) {
-            element = new Mtr(base);
-        } else if (localName.equals(Mlabeledtr.ELEMENT)) {
-            element = new Mlabeledtr(base);
-        } else if (localName.equals(Mtd.ELEMENT)) {
-            element = new Mtd(base);
-        } else if (localName.equals(Mo.ELEMENT)) {
-            element = new Mo(base);
-        } else if (localName.equals(Mi.ELEMENT)) {
-            element = new Mi(base);
-        } else if (localName.equals(Mn.ELEMENT)) {
-            element = new Mn(base);
-        } else if (localName.equals(Mtext.ELEMENT)) {
-            element = new Mtext(base);
-        } else if (localName.equals(Mrow.ELEMENT)) {
-            element = new Mrow(base);
-        } else if (localName.equals(Maligngroup.ELEMENT)) {
-            element = new Maligngroup(base);
-        } else if (localName.equals(Malignmark.ELEMENT)) {
-            element = new Malignmark(base);
-        } else if (localName.equals(Semantics.ELEMENT)) {
-            element = new Semantics(base);
-        } else if (localName.equals(Annotation.ELEMENT)) {
-            element = new Annotation(base);
-        } else if (localName.equals(Mpadded.ELEMENT)) {
-            element = new Mpadded(base);
-        } else if (localName.equals(Merror.ELEMENT)) {
-            element = new Merror(base);
-        } else if (localName.equals(Maction.ELEMENT)) {
-            element = new Maction(base);
-        } else if (localName.equals(Mglyph.ELEMENT)) {
-            element = new Mglyph(base);
-        } else {
+
+        final Constructor con = JEuclidElementFactory.IMPL_CLASSES
+                .get(localName);
+
+        JEuclidElement element = null;
+        if (con != null) {
+            try {
+                element = (JEuclidElement) con.newInstance(base);
+            } catch (InstantiationException e) {
+                element = null;
+            } catch (IllegalAccessException e) {
+                element = null;
+            } catch (InvocationTargetException e) {
+                element = null;
+            }
+        }
+        if (element == null) {
             JEuclidElementFactory.LOGGER.info("Unsupported element: "
                     + localName);
             element = new Mrow(base);
         }
 
-        ((AbstractJEuclidElement) element).setMathAttributes(aMap);
-
+        element.setMathAttributes(aMap);
         return element;
+    }
+
+    private static void addClass(final Class<?> c) {
+        try {
+            final Field f = c.getField("ELEMENT");
+            final String tag = (String) f.get(null);
+            JEuclidElementFactory.IMPL_CLASSES.put(tag, c
+                    .getConstructor(MathBase.class));
+        } catch (NoSuchFieldException e) {
+            JEuclidElementFactory.LOGGER.warn(c.toString(), e);
+        } catch (NoSuchMethodException e) {
+            JEuclidElementFactory.LOGGER.warn(c.toString(), e);
+        } catch (IllegalAccessException e) {
+            JEuclidElementFactory.LOGGER.warn(c.toString(), e);
+        }
+
+    }
+
+    // CHECKSTYLE:OFF
+    static {
+        // CHECKSTYLE:ON
+        JEuclidElementFactory.addClass(MathImpl.class);
+        JEuclidElementFactory.addClass(Mfenced.class);
+        JEuclidElementFactory.addClass(Mfrac.class);
+        JEuclidElementFactory.addClass(Menclose.class);
+        JEuclidElementFactory.addClass(Mphantom.class);
+        JEuclidElementFactory.addClass(Msup.class);
+        JEuclidElementFactory.addClass(Msub.class);
+        JEuclidElementFactory.addClass(Mmultiscripts.class);
+        JEuclidElementFactory.addClass(Mprescripts.class);
+        JEuclidElementFactory.addClass(None.class);
+        JEuclidElementFactory.addClass(Msubsup.class);
+        JEuclidElementFactory.addClass(Munder.class);
+        JEuclidElementFactory.addClass(Mover.class);
+        JEuclidElementFactory.addClass(Munderover.class);
+        JEuclidElementFactory.addClass(Mspace.class);
+        JEuclidElementFactory.addClass(Ms.class);
+        JEuclidElementFactory.addClass(Mstyle.class);
+        JEuclidElementFactory.addClass(Msqrt.class);
+        JEuclidElementFactory.addClass(Mroot.class);
+        JEuclidElementFactory.addClass(Mtable.class);
+        JEuclidElementFactory.addClass(Mtr.class);
+        JEuclidElementFactory.addClass(Mlabeledtr.class);
+        JEuclidElementFactory.addClass(Mtd.class);
+        JEuclidElementFactory.addClass(Mo.class);
+        JEuclidElementFactory.addClass(Mi.class);
+        JEuclidElementFactory.addClass(Mn.class);
+        JEuclidElementFactory.addClass(Mtext.class);
+        JEuclidElementFactory.addClass(Mrow.class);
+        JEuclidElementFactory.addClass(Maligngroup.class);
+        JEuclidElementFactory.addClass(Malignmark.class);
+        JEuclidElementFactory.addClass(Semantics.class);
+        JEuclidElementFactory.addClass(Annotation.class);
+        JEuclidElementFactory.addClass(Mpadded.class);
+        JEuclidElementFactory.addClass(Merror.class);
+        JEuclidElementFactory.addClass(Maction.class);
+        JEuclidElementFactory.addClass(Mglyph.class);
     }
 
 }
