@@ -309,53 +309,59 @@ public class Mo extends AbstractJEuclidElement implements
         if (Boolean.parseBoolean(this.getStretchy())) {
             final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
                     .getBounds();
-            if (this.isVerticalDelimeter()) {
-                this.getParent().setCalculatingSize(true);
-                final float ascent = this.getParent()
-                        .calculateAscentHeight(g);
-                final float descent = this.getParent()
-                        .calculateDescentHeight(g);
-                this.getParent().setCalculatingSize(false);
-                final float realheight = (float) textBounds.getHeight();
-                final float targetheight = Math.max(realheight, ascent
-                        + descent);
+            this.calculateVerticalStretchAndBaseline(g, textBounds);
+            this.calculateHorizontalStrech(g, textBounds);
+        } else {
+            this.calcScaleX = 1.0f;
+            this.calcScaleY = 1.0f;
+            this.calcBaselineShift = 0.0f;
+        }
+    }
 
-                // TODO: use minsize / maxsize
-                if (realheight > 0) {
-                    this.calcScaleY = targetheight / realheight;
-                } else {
-                    this.calcScaleY = 1.0f;
-                }
+    private void calculateHorizontalStrech(final Graphics2D g,
+            final Rectangle2D textBounds) {
+        final JEuclidElement parent = this.getParent();
+        if ((this.isHorizontalDelimeter())
+                && (parent instanceof MathMLUnderOverElement)) {
+            final float realwidth = (float) (textBounds.getWidth() + textBounds
+                    .getX());
 
-                final float realDescent = (float) ((textBounds.getY() + textBounds
-                        .getHeight()) * this.calcScaleY);
-                this.calcBaselineShift = descent - realDescent;
-            } else {
-                this.calcScaleY = 1.0f;
-                this.calcBaselineShift = 0.0f;
-            }
-
-            final JEuclidElement parent = this.getParent();
-            if ((this.isHorizontalDelimeter())
-                    && (parent instanceof MathMLUnderOverElement)) {
-                final float realwidth = (float) (textBounds.getWidth() + textBounds
-                        .getX());
-
-                final MathMLUnderOverElement muo = (MathMLUnderOverElement) parent;
-                final JEuclidElement base = (JEuclidElement) muo.getBase();
-                parent.setCalculatingSize(true);
-                final float targetwidth = base.getWidth(g);
-                parent.setCalculatingSize(false);
-                if (realwidth > 0) {
-                    this.calcScaleX = targetwidth / realwidth;
-                } else {
-                    this.calcScaleX = 1.0f;
-                }
+            final MathMLUnderOverElement muo = (MathMLUnderOverElement) parent;
+            final JEuclidElement base = (JEuclidElement) muo.getBase();
+            parent.setCalculatingSize(true);
+            final float targetwidth = base.getWidth(g);
+            parent.setCalculatingSize(false);
+            if (realwidth > 0) {
+                this.calcScaleX = targetwidth / realwidth;
             } else {
                 this.calcScaleX = 1.0f;
             }
         } else {
             this.calcScaleX = 1.0f;
+        }
+    }
+
+    private void calculateVerticalStretchAndBaseline(final Graphics2D g,
+            final Rectangle2D textBounds) {
+        if (this.isVerticalDelimeter()) {
+            this.getParent().setCalculatingSize(true);
+            final float ascent = this.getParent().calculateAscentHeight(g);
+            final float descent = this.getParent().calculateDescentHeight(g);
+            this.getParent().setCalculatingSize(false);
+            final float realheight = (float) textBounds.getHeight();
+            final float targetheight = Math.max(realheight, ascent + descent);
+
+            // TODO: use minsize / maxsize
+            if (realheight > 0) {
+                this.calcScaleY = targetheight / realheight;
+            } else {
+                this.calcScaleY = 1.0f;
+            }
+
+            final float realDescent = (float) ((textBounds.getY() + textBounds
+                    .getHeight()) * this.calcScaleY);
+            this.calcBaselineShift = descent - realDescent;
+        } else {
             this.calcScaleY = 1.0f;
             this.calcBaselineShift = 0.0f;
         }
