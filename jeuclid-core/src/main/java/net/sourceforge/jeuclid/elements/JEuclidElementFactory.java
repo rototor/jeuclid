@@ -101,7 +101,7 @@ public final class JEuclidElementFactory {
     public static MathMLElement elementFromName(final String localName,
             final AttributeMap aMap, final MathBase base) {
 
-        final Constructor con = JEuclidElementFactory.IMPL_CLASSES
+        final Constructor<?> con = JEuclidElementFactory.IMPL_CLASSES
                 .get(localName);
 
         JEuclidElement element = null;
