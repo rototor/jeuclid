@@ -23,8 +23,6 @@ Hacking JEuclid
   
   * {{{http://eclipse-cs.sourceforge.net/}Eclipse Checkstyle Plugin}}
   
-  * {{{http://findbugs.cs.umd.edu/eclipse/}FindBugs Eclipse Plugin}}
-  
   []
 
  Then, access the sourcecode as described on the {{{./source-repository.html}JEuclid repository site}}. 
