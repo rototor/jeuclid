@@ -8,6 +8,10 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
 			<action dev="maxberger" type="update">
+			  StringUtil: cleaned up; better mapping for high plane chars; 
+			  adde mapping for most high-plane chars;
+			</action>
+			<action dev="maxberger" type="update">
 			  JEuclidElementFactory: is now Map-based;
 			</action>
 			<action dev="maxberger" type="add">
