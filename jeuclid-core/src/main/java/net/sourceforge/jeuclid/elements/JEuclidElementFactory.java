@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.elements.generic.Annotation;
+import net.sourceforge.jeuclid.content.semantic.Annotation;
+import net.sourceforge.jeuclid.content.semantic.Semantics;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
-import net.sourceforge.jeuclid.elements.generic.Semantics;
 import net.sourceforge.jeuclid.elements.presentation.enlivening.Maction;
 import net.sourceforge.jeuclid.elements.presentation.general.Menclose;
 import net.sourceforge.jeuclid.elements.presentation.general.Merror;
