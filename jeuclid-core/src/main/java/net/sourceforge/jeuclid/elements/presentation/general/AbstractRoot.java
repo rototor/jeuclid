@@ -46,6 +46,8 @@ public abstract class AbstractRoot extends AbstractJEuclidElement {
      */
     public static final char ROOT_CHAR = '\u221A';
 
+    private static final int EXTRA_VERTICAL_SPACE = 4;
+
     private static final float INTERNAL_SCALE_FACTOR = 100.0f;
 
     /**
@@ -138,7 +140,7 @@ public abstract class AbstractRoot extends AbstractJEuclidElement {
 
         final float width2 = Math.max(e2.getWidth(g) - glyphWidth / 2, 0);
 
-        yScale = (height1 + 4) / glyphHeight;
+        yScale = (height1 + AbstractRoot.EXTRA_VERTICAL_SPACE) / glyphHeight;
         xScale = 1;
 
         final AffineTransform transform = g.getTransform();
@@ -161,7 +163,7 @@ public abstract class AbstractRoot extends AbstractJEuclidElement {
 
         g.clip(new Rectangle2D.Float(posX + width2, posY + contentDes
                 - height1 - 2, ((glyphWidth + width2) * xScale) + 1 + width1
-                - width2, height1 + 4));
+                - width2, height1 + AbstractRoot.EXTRA_VERTICAL_SPACE));
 
         final float rightTopRootPoint = posY + contentDes - height1 - 2;
 
