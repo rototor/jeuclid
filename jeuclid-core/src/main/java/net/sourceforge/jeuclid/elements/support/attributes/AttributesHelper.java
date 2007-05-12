@@ -95,6 +95,12 @@ public final class AttributesHelper {
 
     private static final int HASHSHORT_NO_ALPHA = 4;
 
+    private static final int SHORT_INDEX_RED = 1;
+
+    private static final int SHORT_INDEX_GREEN = 2;
+
+    private static final int SHORT_INDEX_BLUE = 3;
+
     private static final int HASHLEN_ALPHA = 9;
 
     private static final int HASHLEN_NO_ALPHA = 7;
@@ -110,6 +116,8 @@ public final class AttributesHelper {
     private static final float MAX_BYTE_AS_FLOAT = 255f;
 
     private static final String PERCENT_SIGN = "%";
+
+    private static final String COMMA = ",";
 
     /**
      * Value of EM (horizontal size).
@@ -291,43 +299,16 @@ public final class AttributesHelper {
      * @see java.awt.Color#toString()
      */
     private static Color parseAsJavaAWTColor(final String value) {
-        float red = 0.0f;
-        float green = 0.0f;
-        float blue = 0.0f;
+        final Color parsedColor;
         final int poss = value.indexOf("[");
         final int pose = value.indexOf("]");
-        try {
-            if (poss != -1 && pose != -1) {
-                final StringTokenizer st = new StringTokenizer(value
-                        .substring(poss + 1, pose), ",");
-                if (st.hasMoreTokens()) {
-                    final String str = st.nextToken().trim();
-                    red = Float.parseFloat(str.substring(2))
-                            / AttributesHelper.MAX_BYTE_AS_FLOAT;
-                }
-                if (st.hasMoreTokens()) {
-                    final String str = st.nextToken().trim();
-                    green = Float.parseFloat(str.substring(2))
-                            / AttributesHelper.MAX_BYTE_AS_FLOAT;
-                }
-                if (st.hasMoreTokens()) {
-                    final String str = st.nextToken().trim();
-                    blue = Float.parseFloat(str.substring(2))
-                            / AttributesHelper.MAX_BYTE_AS_FLOAT;
-                } else {
-                    throw new NumberFormatException();
-                }
-                if ((red < 0.0 || red > 1.0) || (green < 0.0 || green > 1.0)
-                        || (blue < 0.0 || blue > 1.0)) {
-                    throw new NumberFormatException();
-                }
-            } else {
-                throw new NumberFormatException();
-            }
-        } catch (final NumberFormatException e) {
-            return null;
+        if (poss != -1 && pose != -1) {
+            parsedColor = AttributesHelper.parseCommaSeparatedString(value
+                    .substring(poss + 1, pose), poss, pose);
+        } else {
+            parsedColor = null;
         }
-        return new Color(red, green, blue);
+        return parsedColor;
     }
 
     /**
@@ -338,62 +319,60 @@ public final class AttributesHelper {
      * @return a color if possible
      */
     private static Color parseAsRGB(final String value) {
-        Color parsedColor;
+        final Color parsedColor;
         final int poss = value.indexOf("(");
         final int pose = value.indexOf(")");
         if (poss != -1 && pose != -1) {
-            final StringTokenizer st = new StringTokenizer(value.substring(
-                    poss + 1, pose), ",");
-            try {
-                float red = 0.0f;
-                float green = 0.0f;
-                float blue = 0.0f;
-                if (st.hasMoreTokens()) {
-                    final String str = st.nextToken().trim();
-                    if (str.endsWith(AttributesHelper.PERCENT_SIGN)) {
-                        red = Float.parseFloat(str.substring(0,
-                                str.length() - 1))
-                                / AttributesHelper.MAX_PERCENT_AS_FLOAT;
-                    } else {
-                        red = Float.parseFloat(str)
-                                / AttributesHelper.MAX_BYTE_AS_FLOAT;
-                    }
-                }
-                if (st.hasMoreTokens()) {
-                    final String str = st.nextToken().trim();
-                    if (str.endsWith(AttributesHelper.PERCENT_SIGN)) {
-                        green = Float.parseFloat(str.substring(0, str
-                                .length() - 1))
-                                / AttributesHelper.MAX_PERCENT_AS_FLOAT;
-                    } else {
-                        green = Float.parseFloat(str)
-                                / AttributesHelper.MAX_BYTE_AS_FLOAT;
-                    }
-                }
-                if (st.hasMoreTokens()) {
-                    final String str = st.nextToken().trim();
-                    if (str.endsWith(AttributesHelper.PERCENT_SIGN)) {
-                        blue = Float.parseFloat(str.substring(0,
-                                str.length() - 1))
-                                / AttributesHelper.MAX_PERCENT_AS_FLOAT;
-                    } else {
-                        blue = Float.parseFloat(str)
-                                / AttributesHelper.MAX_BYTE_AS_FLOAT;
-                    }
-                }
-                if ((red < 0.0 || red > 1.0) || (green < 0.0 || green > 1.0)
-                        || (blue < 0.0 || blue > 1.0)) {
-                    parsedColor = null;
-                } else {
-                    parsedColor = new Color(red, green, blue);
-                }
-            } catch (final NumberFormatException e) {
-                return null;
-            }
+            parsedColor = AttributesHelper.parseCommaSeparatedString(value
+                    .substring(poss + 1, pose), poss, pose);
         } else {
-            return null;
+            parsedColor = null;
         }
         return parsedColor;
+    }
+
+    private static Color parseCommaSeparatedString(final String value,
+            final int poss, final int pose) {
+        Color parsedColor;
+        final StringTokenizer st = new StringTokenizer(value,
+                AttributesHelper.COMMA);
+        try {
+            float red = 0.0f;
+            float green = 0.0f;
+            float blue = 0.0f;
+            if (st.hasMoreTokens()) {
+                final String str = st.nextToken().trim();
+                red = AttributesHelper.parseFloatOrPercent(str);
+            }
+            if (st.hasMoreTokens()) {
+                final String str = st.nextToken().trim();
+                green = AttributesHelper.parseFloatOrPercent(str);
+            }
+            if (st.hasMoreTokens()) {
+                final String str = st.nextToken().trim();
+                blue = AttributesHelper.parseFloatOrPercent(str);
+            }
+            parsedColor = new Color(red, green, blue);
+        } catch (final NumberFormatException e) {
+            AttributesHelper.LOGGER.warn(e);
+            parsedColor = null;
+        }
+        return parsedColor;
+    }
+
+    private static float parseFloatOrPercent(final String str) {
+        final float value;
+        if (str.endsWith(AttributesHelper.PERCENT_SIGN)) {
+            value = Float.parseFloat(str.substring(0, str.length() - 1))
+                    / AttributesHelper.MAX_PERCENT_AS_FLOAT;
+        } else {
+            value = Float.parseFloat(str)
+                    / AttributesHelper.MAX_BYTE_AS_FLOAT;
+        }
+        if ((value < 0.0f) || (value > 1.0f)) {
+            throw new NumberFormatException(str + " is out of Range");
+        }
+        return value;
     }
 
     /**
@@ -410,14 +389,19 @@ public final class AttributesHelper {
             if ((len >= AttributesHelper.HASHSHORT_NO_ALPHA)
                     && (len <= AttributesHelper.HASHSHORT_ALPHA)) {
                 // note: divide by 15 so F = FF = 1 and so on
-                final float red = Integer.parseInt(value.substring(1, 2),
+                final float red = Integer.parseInt(value.substring(
+                        AttributesHelper.SHORT_INDEX_RED,
+                        AttributesHelper.SHORT_INDEX_RED + 1),
                         AttributesHelper.HEXBASE)
                         / AttributesHelper.MAX_HEXCHAR_AS_FLOAT;
-                final float green = Integer.parseInt(value.substring(2, 3),
+                final float green = Integer.parseInt(value.substring(
+                        AttributesHelper.SHORT_INDEX_GREEN,
+                        AttributesHelper.SHORT_INDEX_GREEN + 1),
                         AttributesHelper.HEXBASE)
                         / AttributesHelper.MAX_HEXCHAR_AS_FLOAT;
-                final float blue = Integer.parseInt(value.substring(3,
-                        AttributesHelper.HASHSHORT_NO_ALPHA),
+                final float blue = Integer.parseInt(value.substring(
+                        AttributesHelper.SHORT_INDEX_BLUE,
+                        AttributesHelper.SHORT_INDEX_BLUE + 1),
                         AttributesHelper.HEXBASE)
                         / AttributesHelper.MAX_HEXCHAR_AS_FLOAT;
                 float alpha = 1.0f;
