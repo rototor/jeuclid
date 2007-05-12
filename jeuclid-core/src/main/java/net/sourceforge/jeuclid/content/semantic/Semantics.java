@@ -16,7 +16,7 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.elements.generic;
+package net.sourceforge.jeuclid.content.semantic;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
