@@ -26,7 +26,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,7 +58,9 @@ import org.w3c.dom.mathml.MathMLNodeList;
  * @author Max Berger
  * @version $Revision$
  */
+// CHECKSTYLE:OFF
 public abstract class AbstractJEuclidElement extends
+// CHECKSTYLE:ON
         AbstractChangeTrackingElement implements JEuclidElement {
 
     /** Constant for mathvariant attribute. */
@@ -264,7 +265,7 @@ public abstract class AbstractJEuclidElement extends
 
         // This results in a size 8 for a default size of 12.
         // TODO: This should use scriptminsize (3.3.4.2)
-        final float minSize = this.mbase.getFontSize() * 2 / 3;
+        final float minSize = this.mbase.getFontSize() * 0.66f;
         if (size < minSize) {
             size = minSize;
         }
@@ -843,19 +844,21 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public float getGlobalLineCorrector() {
+        final float retVal;
         if (this.getParent() == null) {
-            return 0;
-        }
+            retVal = 0;
+        } else
 
         // if this is a top-element of the line, it contains the correct
         // number
         if (this instanceof Mtr
                 || (this instanceof Mrow && this.getParent() instanceof Mtable)
                 || this.getParent() instanceof MathImpl) {
-            return this.globalLineCorrecter;
+            retVal = this.globalLineCorrecter;
         } else {
-            return this.getParent().getGlobalLineCorrector();
+            retVal = this.getParent().getGlobalLineCorrector();
         }
+        return retVal;
     }
 
     /** {@inheritDoc} */
@@ -959,17 +962,16 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public void setMathAttributes(final AttributeMap attributes) {
-        final Map attrsAsMap = attributes.getAsMap();
-        for (final Iterator i = attrsAsMap.entrySet().iterator(); i.hasNext();) {
-            final Map.Entry e = (Map.Entry) i.next();
-            final String attrName = (String) e.getKey();
+        final Map<String, String> attrsAsMap = attributes.getAsMap();
+        for (Map.Entry<String, String> e : attrsAsMap.entrySet()) {
+            final String attrName = e.getKey();
             if (AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
                     .contains(attrName)) {
                 AbstractJEuclidElement.LOGGER
                         .warn("Deprecated attribute for " + this.getTagName()
                                 + ": " + attrName);
             }
-            this.setAttribute(attrName, (String) e.getValue());
+            this.setAttribute(attrName, e.getValue());
         }
         this.recalculateSize();
     }
