@@ -41,6 +41,7 @@ import org.w3c.dom.mathml.MathMLFractionElement;
  */
 public class Mfrac extends AbstractJEuclidElement implements
         MathMLFractionElement {
+
     /**
      * The XML element from this class.
      */
@@ -64,6 +65,8 @@ public class Mfrac extends AbstractJEuclidElement implements
 
     /** The denomalign attribute. NOT YET SUPPORTED. */
     public static final String ATTR_DENOMALIGN = "denomalign";
+
+    private static final String EXTRA_SPACE_AROUND = "0.1em";
 
     /**
      * Creates a math element.
@@ -143,14 +146,14 @@ public class Mfrac extends AbstractJEuclidElement implements
      *            The position of the baseline
      */
     @Override
-    public void paint(final Graphics2D g, float posX, final float posY) {
+    public void paint(final Graphics2D g, final float posX, final float posY) {
         super.paint(g, posX, posY);
         final JEuclidElement e1 = this.getMathElement(0);
         final JEuclidElement e2 = this.getMathElement(1);
 
         final float middle = posY - this.getMiddleShift(g);
-        final float dist = AttributesHelper
-                .convertSizeToPt("0.1em", this, "");
+        final float dist = AttributesHelper.convertSizeToPt(
+                Mfrac.EXTRA_SPACE_AROUND, this, "");
 
         if (Boolean.parseBoolean(this.getBevelled())) {
             final float w1 = Math.max(
@@ -172,20 +175,20 @@ public class Mfrac extends AbstractJEuclidElement implements
         } else {
 
             final float width = this.getWidth(g);
-            posX = posX + dist;
+            final float startX = posX + dist;
             final float linef = this.getLinethickness(g);
 
-            e1.paint(g, posX + (width - 2 * dist - e1.getWidth(g)) / 2,
+            e1.paint(g, startX + (width - 2 * dist - e1.getWidth(g)) / 2,
                     middle - e1.getDescentHeight(g) - 2
                             - (this.getLinethickness(g) / 2));
 
             final Stroke oldStroke = g.getStroke();
             g.setStroke(new BasicStroke(linef));
-            g.draw(new Line2D.Float(posX, middle, posX + width - dist * 2,
-                    middle));
+            g.draw(new Line2D.Float(startX, middle,
+                    startX + width - dist * 2, middle));
             g.setStroke(oldStroke);
 
-            e2.paint(g, posX + (width - 2 * dist - e2.getWidth(g)) / 2,
+            e2.paint(g, startX + (width - 2 * dist - e2.getWidth(g)) / 2,
                     middle + e2.getAscentHeight(g) + 2
                             + (this.getLinethickness(g) / 2));
         }
@@ -196,8 +199,8 @@ public class Mfrac extends AbstractJEuclidElement implements
     public float calculateWidth(final Graphics2D g) {
         final JEuclidElement e1 = this.getMathElement(0);
         final JEuclidElement e2 = this.getMathElement(1);
-        final float dist = AttributesHelper
-                .convertSizeToPt("0.1em", this, "");
+        final float dist = AttributesHelper.convertSizeToPt(
+                Mfrac.EXTRA_SPACE_AROUND, this, "");
         if (Boolean.parseBoolean(this.getBevelled())) {
             final float w1 = Math.max(
                     e2.getHeight(g) * Mfrac.FRAC_TILT_ANGLE, e1.getWidth(g)

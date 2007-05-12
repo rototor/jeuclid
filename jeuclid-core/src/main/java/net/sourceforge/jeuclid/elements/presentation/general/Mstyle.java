@@ -104,26 +104,26 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
         try {
             String attr = this.getScriptlevel();
             if (attr == null) {
+                attr = "";
+            }
+            attr = attr.trim();
+            if (attr.length() == 0) {
                 theLevel = this.getInheritedScriptlevel();
             } else {
-                attr = attr.trim();
-                if (attr.length() == 0) {
-                    theLevel = this.getInheritedScriptlevel();
+                final char firstchar = attr.charAt(0);
+                boolean relative = false;
+                if (firstchar == '+') {
+                    relative = true;
+                    attr = attr.substring(1);
+                } else if (firstchar == '-') {
+                    relative = true;
+                }
+                final int iValue = Integer.parseInt(attr);
+                if (relative) {
+                    theLevel = this.getInheritedScriptlevel() + iValue;
                 } else {
-                    final char firstchar = attr.charAt(0);
-                    boolean relative = false;
-                    if (firstchar == '+') {
-                        relative = true;
-                        attr = attr.substring(1);
-                    } else if (firstchar == '-') {
-                        relative = true;
-                    }
-                    final int iValue = new Integer(attr).intValue();
-                    if (relative) {
-                        theLevel = this.getInheritedScriptlevel() + iValue;
-                    } else {
-                        theLevel = iValue;
-                    }
+                    theLevel = iValue;
+
                 }
             }
         } catch (final NumberFormatException e) {
