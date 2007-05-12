@@ -9,10 +9,6 @@
 	<classpathentry kind="src" path="jeuclid-swing/src/main/java"/>
 	<classpathentry kind="src" path="jeuclid-swing/src/test/java"/>
 	<classpathentry kind="src" path="jeuclid-swt/src/main/java"/>
-	<classpathentry kind="src" path="jeuclid-fop/src/main/java"/>
-	<classpathentry kind="src" path="jeuclid-fop/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="jeuclid-fop/src/main/resources" path="jeuclid-fop/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="jeuclid-fop/src/test/resources" path="jeuclid-fop/src/test/resources"/>
 	<classpathentry kind="src" path="jeuclid-converter/src/main/java"/>
 	<classpathentry kind="src" path="jeuclid-converter/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="jeuclid-converter/src/test/resources" path="jeuclid-converter/src/test/resources"/>
