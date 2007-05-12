@@ -105,8 +105,6 @@ public final class StringUtil {
         final StringBuilder builder = new StringBuilder();
         final List<MathVariant> variants = new Vector<MathVariant>();
 
-        System.out.println(plainString.length() + " " + plainString);
-
         for (int i = 0; i < plainString.length(); i++) {
             if (!Character.isLowSurrogate(plainString.charAt(i))) {
 
@@ -284,7 +282,7 @@ public final class StringUtil {
         StringUtil
                 .addHighMapping(0x1D63C, MathVariant.SANS_SERIF_BOLD_ITALIC);
         StringUtil.addHighMapping(0x1D670, MathVariant.MONOSPACE);
-        
+
         // TODO: Greek Mappings
         // TODO: Number mappings
         // CHECKSTYLE:ON
