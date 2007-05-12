@@ -10,9 +10,13 @@ Roadmap
 
  * Modify layout code to use "float" instead of "int" coordinates (done)
  
-* Plans for post-3.0
+* Plans for post-3.0 (no order / priority implied)
+
+ * support content markup
 
  * use axsl-font-r for automatic font selection.
+ 
+ * provide support for CSS, maybe through {{{http://xmlgraphics.apache.org/batik}batik-css}}.
 
 * General Issues
 
