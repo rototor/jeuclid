@@ -49,7 +49,7 @@ public class Msqrt extends AbstractRoot implements MathMLRadicalElement {
      *            The base for the math element tree.
      */
     public Msqrt(final MathBase base) {
-        super(base);
+        super(base, AbstractRoot.STANDARD_ROOT_CHAR);
     }
 
     /** {@inheritDoc} */

@@ -48,7 +48,7 @@ public class Mroot extends AbstractRoot implements MathMLRadicalElement {
      *            The base for the math element tree.
      */
     public Mroot(final MathBase base) {
-        super(base);
+        super(base, AbstractRoot.STANDARD_ROOT_CHAR);
     }
 
     /** {@inheritDoc} */
