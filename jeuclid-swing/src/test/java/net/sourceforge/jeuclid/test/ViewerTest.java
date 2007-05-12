@@ -22,16 +22,16 @@ public class ViewerTest {
 
     @Test
     public void testViewer() throws Exception {
-        Document doc = MathMLParserSupport.parseString(TEST1);
+        final Document doc = MathMLParserSupport.parseString(TEST1);
         displayDocument(doc);
     }
 
     public void displayDocument(final Document document)
             throws InterruptedException, InvocationTargetException {
-        JFrame frame = new JFrame("Test MathComponent");
+        final JFrame frame = new JFrame("Test MathComponent");
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout());
-        JMathComponent component = new JMathComponent();
+        final JMathComponent component = new JMathComponent();
         component.setDocument(document);
         component.setDebug(false);
         frame.getContentPane().add(component, BorderLayout.CENTER);

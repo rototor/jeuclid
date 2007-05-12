@@ -19,10 +19,13 @@
 package net.sourceforge.jeuclid.swing;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
@@ -202,7 +205,7 @@ public class JMathComponent extends JComponent {
             this.base.paint((Graphics2D) g, xo, yo);
         }
     }
-
+    
     private Color getRealBackgroundColor() {
         Color back = this.getBackground();
         if (this.isOpaque()) {
@@ -246,8 +249,12 @@ public class JMathComponent extends JComponent {
      *            the document to set
      */
     public void setDocument(final Document doc) {
+        final Document oldValue = this.document; 
+        this.firePropertyChange("document", oldValue, doc);
+        if (doc == null || oldValue == null || doc != oldValue) {
+            this.redo();
+        }
         this.document = doc;
-        this.redo();
     }
 
     /**
@@ -308,14 +315,11 @@ public class JMathComponent extends JComponent {
         try {
             this.setDocument(MathMLParserSupport.parseString(contentString));
         } catch (final SAXException e) {
-            JMathComponent.LOGGER.warn(e);
-            this.setDocument(null);
+            throw new RuntimeException(e);
         } catch (final ParserConfigurationException e) {
-            JMathComponent.LOGGER.warn(e);
-            this.setDocument(null);
+            throw new RuntimeException(e);
         } catch (final IOException e) {
-            JMathComponent.LOGGER.warn(e);
-            this.setDocument(null);
+            throw new RuntimeException(e);
         }
     }
 

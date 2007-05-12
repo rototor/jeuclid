@@ -35,10 +35,11 @@ import net.sourceforge.jeuclid.DOMBuilder;
 
 /**
  * This class provides the element mapping for FOP.
+ * @version $Revision$
  */
 public class MathMLElementMapping extends ElementMapping {
 
-    /** MathML Namespace */
+    /** MathML Namespace. */
     public static final String NAMESPACE = "http://www.w3.org/1998/Math/MathML";
 
     /** Main constructor. */
@@ -46,12 +47,12 @@ public class MathMLElementMapping extends ElementMapping {
         this.namespaceURI = NAMESPACE;
     }
 
-    /** @see org.apache.fop.fo.ElementMapping#getDOMImplementation() */
+    /** {@inheritDoc} */
     public DOMImplementation getDOMImplementation() {
         return getDefaultDOMImplementation();
     }
 
-    /** @see org.apache.fop.fo.ElementMapping#initialize() */
+    /** {@inheritDoc} */
     protected void initialize() {
         if (foObjs == null) {
             foObjs = new HashMap();
