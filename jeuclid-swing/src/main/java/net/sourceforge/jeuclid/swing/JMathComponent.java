@@ -19,13 +19,10 @@
 package net.sourceforge.jeuclid.swing;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
@@ -60,21 +57,20 @@ import org.xml.sax.SAXException;
  * @version $Revision$
  */
 public class JMathComponent extends JComponent {
-    
+
     private static final String DEFAULT_DOCUMENT = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
-                            + "<!DOCTYPE math PUBLIC \"-//W3C//DTD MathML 2.0//EN\" \"http://www.w3.org/TR/MathML2/dtd/mathml2.dtd\">\n"
-                            + "<math mode=\"display\">\n"
-                            + "    <mrow>\n"
-                            + "        <munderover>\n"
-                            + "            <mo>&#x0222B;</mo>\n"
-                            + "            <mn>1</mn>\n"
-                            + "            <mi>x</mi>\n"
-                            + "        </munderover>\n"
-                            + "        <mfrac>\n"
-                            + "            <mi>dt</mi>\n"
-                            + "            <mi>t</mi>\n"
-                            + "        </mfrac>\n"
-                            + "    </mrow>\n" + "</math>";
+            + "<!DOCTYPE math PUBLIC \"-//W3C//DTD MathML 2.0//EN\" \"http://www.w3.org/TR/MathML2/dtd/mathml2.dtd\">\n"
+            + "<math mode=\"display\">\n"
+            + "    <mrow>\n"
+            + "        <munderover>\n"
+            + "            <mo>&#x0222B;</mo>\n"
+            + "            <mn>1</mn>\n"
+            + "            <mi>x</mi>\n"
+            + "        </munderover>\n"
+            + "        <mfrac>\n"
+            + "            <mi>dt</mi>\n"
+            + "            <mi>t</mi>\n"
+            + "        </mfrac>\n" + "    </mrow>\n" + "</math>";
 
     private static final String FONT_SEPARATOR = ",";
 
@@ -146,10 +142,10 @@ public class JMathComponent extends JComponent {
      */
     @Override
     public Dimension getMinimumSize() {
-        if (this.base == null || this.getGraphics() == null ) {
+        if (this.base == null || this.getGraphics() == null) {
             return new Dimension(1, 1);
         } else {
-            final Graphics2D g2d = (Graphics2D) this.getGraphics();            
+            final Graphics2D g2d = (Graphics2D) this.getGraphics();
             Defense.notNull(g2d, "g2d");
             return new Dimension((int) Math.ceil(this.base.getWidth(g2d)),
                     (int) Math.ceil(this.base.getHeight(g2d)));
@@ -205,7 +201,7 @@ public class JMathComponent extends JComponent {
             this.base.paint((Graphics2D) g, xo, yo);
         }
     }
-    
+
     private Color getRealBackgroundColor() {
         Color back = this.getBackground();
         if (this.isOpaque()) {
@@ -249,12 +245,12 @@ public class JMathComponent extends JComponent {
      *            the document to set
      */
     public void setDocument(final Document doc) {
-        final Document oldValue = this.document; 
+        final Document oldValue = this.document;
         this.firePropertyChange("document", oldValue, doc);
+        this.document = doc;
         if (doc == null || oldValue == null || doc != oldValue) {
             this.redo();
         }
-        this.document = doc;
     }
 
     /**
