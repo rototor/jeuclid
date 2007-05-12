@@ -18,56 +18,180 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Stack;
+import java.util.Vector;
 
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
+import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.mathml.MathMLEncloseElement;
 
 /**
- * @author Dmitry Mironovich
+ * Class for supporting "menclose" elements.
+ * 
  * @author Max Berger
  * @version $Revision$
  */
-public class Menclose extends AbstractMathElementWithChildren implements
+public class Menclose extends AbstractElementWithDelegates implements
         MathMLEncloseElement {
 
-    // TODO: This class needs to be cleaned up.
+    /**
+     * Char for rendering left part of the long division.
+     */
+    public static final char LONGDIV_CHAR = ')';
+
+    /**
+     * Represents the US long-division notation, to support the notation
+     * "longdiv".
+     * 
+     * @author Max Berger
+     */
+    public static class Longdiv extends AbstractRoot {
+        /**
+         * Default constructor.
+         * 
+         * @param base
+         *            MathBase to use.
+         */
+        public Longdiv(final MathBase base) {
+            super(base, Menclose.LONGDIV_CHAR);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected JEuclidElement getActualIndex() {
+            return new Mspace(this.getMathBase());
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected List<JEuclidElement> getContent() {
+            return ElementListSupport.createListOfChildren(this);
+        }
+
+        /** {@inheritDoc} */
+        public String getTagName() {
+            return "";
+        }
+
+    }
+
+    /**
+     * base class for all row-like notations.
+     * 
+     * @author Max Berger
+     */
+    public abstract static class AbstractRowLikeNotation extends
+            AbstractRowLike {
+
+        /**
+         * Default constructor.
+         * 
+         * @param base
+         *            MathBase to use.
+         */
+        public AbstractRowLikeNotation(final MathBase base) {
+            super(base);
+        }
+
+        /** {@inheritDoc} */
+        public String getTagName() {
+            return "";
+        }
+    }
+
+    /**
+     * base class for all row-like notations.
+     * 
+     * @author Max Berger
+     */
+    public static class Updiagonalstrike extends
+            Menclose.AbstractRowLikeNotation {
+
+        /**
+         * Default constructor.
+         * 
+         * @param base
+         *            MathBase to use.
+         */
+        public Updiagonalstrike(final MathBase base) {
+            super(base);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void paint(final Graphics2D g, final float posX,
+                final float posY) {
+            super.paint(g, posX, posY);
+            final Stroke oldStroke = g.getStroke();
+            g.setStroke(new BasicStroke(GraphicsSupport.lineWidth(this)));
+            g.draw(new Line2D.Float(posX, posY, posX + this.getWidth(g), posY
+                    - this.getHeight(g)));
+            g.setStroke(oldStroke);
+        }
+    }
+
+    /**
+     * base class for all row-like notations.
+     * 
+     * @author Max Berger
+     */
+    public static class Downdiagonalstrike extends
+            Menclose.AbstractRowLikeNotation {
+
+        /**
+         * Default constructor.
+         * 
+         * @param base
+         *            MathBase to use.
+         */
+        public Downdiagonalstrike(final MathBase base) {
+            super(base);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void paint(final Graphics2D g, final float posX,
+                final float posY) {
+            super.paint(g, posX, posY);
+            final Stroke oldStroke = g.getStroke();
+            g.setStroke(new BasicStroke(GraphicsSupport.lineWidth(this)));
+            g.draw(new Line2D.Float(posX, posY - this.getHeight(g), posX
+                    + this.getWidth(g), posY));
+            g.setStroke(oldStroke);
+        }
+    }
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "menclose";
 
-    /**
-     * Char for rendering left part of the lonogdivision.
-     */
-    public static final char LONGDIV_CHAR = ')';
-
     /** The notation attribute. */
     public static final String ATTR_NOTATION = "notation";
 
-    // longdiv | actuarial | radical | box | roundedbox | circle | left |
-    // right
-    // | top | bottom |
-    // updiagonalstrike | downdiagonalstrike
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory.getLog(Menclose.class);
 
-    private Integer isLongdiv;
-
-    private Integer isRadical;
-
-    private Integer isUpdiagonalstrike;
-
-    private Integer isDowndiagonalstrike;
-
-    private final SortedSet<Integer> notations = new TreeSet<Integer>();
+    private static final Map<String, Constructor<?>> IMPL_CLASSES = new HashMap<String, Constructor<?>>();;
 
     /**
      * Creates a math element.
@@ -77,6 +201,7 @@ public class Menclose extends AbstractMathElementWithChildren implements
      */
     public Menclose(final MathBase base) {
         super(base);
+        this.setDefaultMathAttribute(Menclose.ATTR_NOTATION, "");
     }
 
     /**
@@ -94,196 +219,6 @@ public class Menclose extends AbstractMathElementWithChildren implements
      */
     public void setNotation(final String notation) {
         this.setAttribute(Menclose.ATTR_NOTATION, notation);
-        this.parseNotation();
-    }
-
-    private void parseNotation() {
-        final String notation = this.getNotation();
-        this.isLongdiv = new Integer(notation.indexOf("longdiv"));
-        if (this.isLongdiv.intValue() > -1) {
-            this.notations.add(this.isLongdiv);
-        }
-        this.isUpdiagonalstrike = new Integer(notation
-                .indexOf("updiagonalstrike"));
-        if (this.isUpdiagonalstrike.intValue() > -1) {
-            this.notations.add(this.isUpdiagonalstrike);
-        }
-        this.isDowndiagonalstrike = new Integer(notation
-                .indexOf("downdiagonalstrike"));
-        if (this.isDowndiagonalstrike.intValue() > -1) {
-            this.notations.add(this.isDowndiagonalstrike);
-        }
-        this.isRadical = new Integer(notation.indexOf("radical"));
-        if (this.isRadical.intValue() > -1) {
-            this.notations.add(this.isRadical);
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void changeHook() {
-        super.changeHook();
-        this.parseNotation();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        super.paint(g, posX, posY);
-        Integer currentNotation = null;
-        final float width = this.getWidth(g);
-        final float ascHeight = this.getAscentHeight(g);
-        final float descHeight = this.getDescentHeight(g);
-        final NotationDesc nd = new NotationDesc(posX, posY, width,
-                ascHeight, descHeight);
-        for (final Object element2 : this.notations) {
-            currentNotation = (Integer) element2;
-            this.drawNotation(currentNotation, g, nd);
-        }
-        super.paint(g, nd.mposX, nd.mposY);
-    }
-
-    private float getRootWidth(final char root) {
-        final java.awt.font.FontRenderContext context = new FontRenderContext(
-                new java.awt.geom.AffineTransform(), false, false);
-        final GlyphVector gv = this.getFont().createGlyphVector(context,
-                new char[] { root });
-        final float result = (float) gv.getGlyphMetrics(0).getBounds2D()
-                .getWidth();
-        return result + 2;
-    }
-
-    private class NotationDesc {
-        private float mposX;
-
-        private float mposY;
-
-        private float mwidth;
-
-        private float mascHeight;
-
-        private float mdescHeight;
-
-        /**
-         * @param posX
-         * @param posY
-         * @param width
-         * @param ascHeight
-         * @param descHeight
-         */
-        public NotationDesc(final float posX, final float posY,
-                final float width, final float ascHeight,
-                final float descHeight) {
-            super();
-            this.mposX = posX;
-            this.mposY = posY;
-            this.mwidth = width;
-            this.mascHeight = ascHeight;
-            this.mdescHeight = descHeight;
-        }
-    }
-
-    /**
-     * Render notation
-     * 
-     * @param notation
-     *            Notation
-     * @param g
-     *            Graphics2D for rendering
-     * @param nd
-     *            dimensions of the natation
-     */
-    private void drawNotation(final Integer notation, final Graphics2D g2d,
-            final NotationDesc nd) {
-        if (notation == this.isLongdiv) {
-            final java.awt.Font font = this.getFont();
-            final GlyphVector gv = font.createGlyphVector(g2d
-                    .getFontRenderContext(),
-                    new char[] { Menclose.LONGDIV_CHAR });
-            final Rectangle2D gbounds = gv.getGlyphMetrics(0).getBounds2D();
-            final float glyphWidth = (float) gbounds.getWidth();
-            final float glyphHeight = (float) gbounds.getHeight();
-            float yScale;
-            float xScale;
-            yScale = (nd.mascHeight + nd.mdescHeight) / glyphHeight;
-            xScale = 1;
-            final java.awt.geom.AffineTransform transform = g2d
-                    .getTransform();
-            final java.awt.geom.AffineTransform prevTransform = g2d
-                    .getTransform();
-            transform.scale(xScale, yScale);
-            float y = nd.mposY + nd.mdescHeight;
-            y = y - (float) ((gbounds.getY() + gbounds.getHeight()) * yScale);
-            float x = nd.mposX;
-            y = y / yScale;
-            x = x / xScale;
-            final Shape oldClip = g2d.getClip();
-            g2d.clip(new Rectangle2D.Float(nd.mposX - 1, (nd.mposY
-                    + nd.mdescHeight - glyphHeight * yScale), (glyphWidth
-                    * xScale + 2), (glyphHeight * yScale + 2)));
-            g2d.setTransform(transform);
-            g2d.drawGlyphVector(gv, (float) x, (float) y);
-            g2d.setTransform(prevTransform);
-            g2d.setClip(oldClip);
-            final float rightTopPoint = ((nd.mposY + nd.mdescHeight - glyphHeight
-                    * yScale));
-            g2d.draw(new Line2D.Float(nd.mposX + 1, rightTopPoint, nd.mposX
-                    + 1 + nd.mwidth, rightTopPoint));
-            nd.mposX = nd.mposX + this.getRootWidth(Menclose.LONGDIV_CHAR)
-                    + 1;
-            nd.mwidth = nd.mwidth - this.getRootWidth(Menclose.LONGDIV_CHAR)
-                    - 2;
-            nd.mascHeight = nd.mascHeight - 2;
-            nd.mdescHeight = nd.mdescHeight - 2;
-        } else if (notation == this.isUpdiagonalstrike) {
-            g2d.draw(new Line2D.Float(nd.mposX, nd.mposY + nd.mdescHeight,
-                    nd.mposX + nd.mwidth, nd.mposY - nd.mascHeight));
-        } else if (notation == this.isDowndiagonalstrike) {
-            g2d.draw(new Line2D.Float(nd.mposX, nd.mposY - nd.mascHeight,
-                    nd.mposX + nd.mwidth, nd.mposY + nd.mdescHeight));
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        float width = super.calculateChildrenWidth(g);
-        Integer notation = null;
-        for (final Object element2 : this.notations) {
-            notation = (Integer) element2;
-            if (notation == this.isLongdiv) {
-                width = width + this.getRootWidth(Menclose.LONGDIV_CHAR) + 2;
-            }
-        }
-        return width;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateAscentHeight(final Graphics2D g) {
-        float ah = this.calculateChildrenAscentHeight(g);
-        Integer notation = null;
-        for (final Object element2 : this.notations) {
-            notation = (Integer) element2;
-            if (notation == this.isLongdiv) {
-                ah = ah + 2;
-            }
-        }
-        return ah;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-        float dh = super.calculateChildrenDescentHeight(g);
-        Integer notation = null;
-        for (final Object element2 : this.notations) {
-            notation = (Integer) element2;
-            if (notation == this.isLongdiv) {
-                dh = dh + 2;
-            }
-        }
-        return dh;
     }
 
     /** {@inheritDoc} */
@@ -291,4 +226,67 @@ public class Menclose extends AbstractMathElementWithChildren implements
         return Menclose.ELEMENT;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected List<JEuclidElement> createDelegates() {
+        final String[] notations = this.getNotation().split(" ");
+        final Stack<Constructor<?>> notationImpls = new Stack<Constructor<?>>();
+        for (final String curNotation : notations) {
+            final Constructor<?> con = Menclose.IMPL_CLASSES.get(curNotation
+                    .toLowerCase(Locale.ENGLISH));
+            if (con != null) {
+                notationImpls.push(con);
+            } else if (curNotation.length() > 0) {
+                Menclose.LOGGER.info("Unsupported notation for menclose: "
+                        + curNotation);
+            }
+        }
+        // This is just to make sure that there is at least one delegate, and
+        // that each of the standard delegates has exactly one child.
+        JEuclidElement lastChild;
+        if (this.getMathElementCount() != 1) {
+            lastChild = new Mrow(this.getMathBase());
+            for (final JEuclidElement child : ElementListSupport
+                    .createListOfChildren(this)) {
+                lastChild.appendChild(child);
+            }
+        } else {
+            lastChild = this.getMathElement(0);
+        }
+        while (!notationImpls.isEmpty()) {
+            final Constructor<?> con = notationImpls.pop();
+            try {
+                final JEuclidElement element = (JEuclidElement) con
+                        .newInstance(this.getMathBase());
+                element.appendChild(lastChild);
+                lastChild = element;
+            } catch (final InstantiationException e) {
+                Menclose.LOGGER.warn(e);
+            } catch (final IllegalAccessException e) {
+                Menclose.LOGGER.warn(e);
+            } catch (final InvocationTargetException e) {
+                Menclose.LOGGER.warn(e);
+            }
+        }
+        final List<JEuclidElement> delegates = new Vector<JEuclidElement>(1);
+        delegates.add(lastChild);
+        return delegates;
+    }
+
+    static {
+        try {
+            Menclose.IMPL_CLASSES.put("radical", Msqrt.class
+                    .getConstructor(MathBase.class));
+            Menclose.IMPL_CLASSES.put("longdiv", Menclose.Longdiv.class
+                    .getConstructor(MathBase.class));
+            Menclose.IMPL_CLASSES.put("updiagonalstrike",
+                    Menclose.Updiagonalstrike.class
+                            .getConstructor(MathBase.class));
+            Menclose.IMPL_CLASSES.put("downdiagonalstrike",
+                    Menclose.Downdiagonalstrike.class
+                            .getConstructor(MathBase.class));
+        } catch (NoSuchMethodException e) {
+            Menclose.LOGGER.fatal(e);
+        }
+    }
 }

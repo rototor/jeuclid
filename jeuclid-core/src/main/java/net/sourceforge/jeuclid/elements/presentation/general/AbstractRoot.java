@@ -18,9 +18,10 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
@@ -32,6 +33,7 @@ import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 
 /**
  * common superclass for root like elements (root, sqrt).
@@ -44,20 +46,25 @@ public abstract class AbstractRoot extends AbstractJEuclidElement {
     /**
      * Char for left part of root rendering.
      */
-    public static final char ROOT_CHAR = '\u221A';
+    public static final char STANDARD_ROOT_CHAR = '\u221A';
 
     private static final int EXTRA_VERTICAL_SPACE = 4;
 
     private static final float INTERNAL_SCALE_FACTOR = 100.0f;
+
+    private final char rootChar;
 
     /**
      * Default constructor.
      * 
      * @param base
      *            MathBase to use.
+     * @param root
+     *            Character to use for the root symbol.
      */
-    public AbstractRoot(final MathBase base) {
+    public AbstractRoot(final MathBase base, final char root) {
         super(base);
+        this.rootChar = root;
     }
 
     /**
@@ -118,15 +125,13 @@ public abstract class AbstractRoot extends AbstractJEuclidElement {
         final List<JEuclidElement> content = this.getContent();
         final JEuclidElement e2 = this.getActualIndex();
 
-        final float width1 = ElementListSupport.getWidth(g, content);
         final float height1 = ElementListSupport.getHeight(g, content);
 
         final Font font = g.getFont().deriveFont(
                 this.getFontsizeInPoint()
                         * AbstractRoot.INTERNAL_SCALE_FACTOR);
         final GlyphVector gv = font.createGlyphVector(g
-                .getFontRenderContext(),
-                new char[] { AbstractRoot.ROOT_CHAR });
+                .getFontRenderContext(), new char[] { this.rootChar });
         final Rectangle2D gbounds = gv.getGlyphMetrics(0).getBounds2D();
         final float glyphWidth = (float) gbounds.getWidth()
                 / AbstractRoot.INTERNAL_SCALE_FACTOR;
@@ -143,39 +148,42 @@ public abstract class AbstractRoot extends AbstractJEuclidElement {
         yScale = (height1 + AbstractRoot.EXTRA_VERTICAL_SPACE) / glyphHeight;
         xScale = 1;
 
-        final AffineTransform transform = g.getTransform();
-        final AffineTransform prevTransform = g.getTransform();
-        transform.scale(xScale, yScale);
-
         float y = posY + this.getDescentHeight(g);
         y = y - (ascent + glyphHeight) * yScale;
-        float x = posX + width2;
-        y = y / yScale;
-        x = x / xScale;
+        final float x = posX + width2;
 
-        g.setTransform(transform);
-        g.drawString(String.valueOf(AbstractRoot.ROOT_CHAR), x, y);
-        g.setTransform(prevTransform);
-        final Shape oldClip = g.getClip();
+        this.drawScaledChar(g, x, y, xScale, yScale);
 
         final float contentDes = ElementListSupport.getDescentHeight(g,
                 content);
 
-        g.clip(new Rectangle2D.Float(posX + width2, posY + contentDes
-                - height1 - 2, ((glyphWidth + width2) * xScale) + 1 + width1
-                - width2, height1 + AbstractRoot.EXTRA_VERTICAL_SPACE));
-
+        final Stroke oldStroke = g.getStroke();
+        g.setStroke(new BasicStroke(GraphicsSupport.lineWidth(this) / 2));
         final float rightTopRootPoint = posY + contentDes - height1 - 2;
-
         g.draw(new Line2D.Float((posX + (glyphWidth + width2) * xScale) + 1,
-                rightTopRootPoint, posX + this.getWidth(g) + 1,
+                rightTopRootPoint, posX + this.getWidth(g) - 1,
                 rightTopRootPoint));
-        g.setClip(oldClip);
+        g.setStroke(oldStroke);
 
         ElementListSupport.paint(g, posX + this.getRootWidth(g) + 1, posY,
                 content);
         e2.paint(g, posX, posY + contentDes - e2.getDescentHeight(g)
                 - height1 / 2);
+    }
+
+    private void drawScaledChar(final Graphics2D g, final float posX,
+            final float posY, final float xScale, final float yScale) {
+        final AffineTransform transform = g.getTransform();
+        final AffineTransform prevTransform = g.getTransform();
+        transform.scale(xScale, yScale);
+
+        final float y = posY / yScale;
+        final float x = posX / xScale;
+
+        g.setTransform(transform);
+        g.drawString(String.valueOf(this.rootChar), x, y);
+        g.setTransform(prevTransform);
+
     }
 
     private float getRootWidth(final Graphics2D g) {
@@ -184,7 +192,7 @@ public abstract class AbstractRoot extends AbstractJEuclidElement {
         final FontRenderContext context = new FontRenderContext(
                 new AffineTransform(), false, false);
         final GlyphVector gv = this.getFont().createGlyphVector(context,
-                new char[] { AbstractRoot.ROOT_CHAR });
+                new char[] { this.rootChar });
         result = (float) (gv.getGlyphMetrics(0).getBounds2D().getWidth());
         result += Math.max(this.getActualIndex().getWidth(g) - result / 2.0f,
                 0);
