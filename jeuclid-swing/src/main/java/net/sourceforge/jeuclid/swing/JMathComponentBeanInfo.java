@@ -38,7 +38,7 @@ import javax.swing.ImageIcon;
  * @version $Revision$
  */
 public class JMathComponentBeanInfo extends SimpleBeanInfo {
-    private static final Class BEANCLASS = JMathComponent.class;
+    private static final Class<JMathComponent> BEANCLASS = JMathComponent.class;
 
     private final Image icoColor16 = new ImageIcon(
             JMathComponentBeanInfo.BEANCLASS
@@ -57,7 +57,7 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
                     .getResource("/icons/jeuclid_32x32_bw.png")).getImage();
 
     /**
-     * Default Contructor.
+     * Default Constructor.
      */
     public JMathComponentBeanInfo() {
         // Empty on purpose.
@@ -104,74 +104,61 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
     @Override
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
-            final PropertyDescriptor propertyFontSize = new PropertyDescriptor(
-                    "fontSize", JMathComponentBeanInfo.BEANCLASS);
-            propertyFontSize.setDisplayName("Font size");
-            propertyFontSize
-                    .setShortDescription("This will modify the font size of the displayed MathML elements");
+            final PropertyDescriptor propertyFontSize = this
+                    .createPropertyDescriptor("fontSize", "Font size",
+                            "This will modify the font size of the displayed MathML elements");
 
-            final PropertyDescriptor propertyContent = new PropertyDescriptor(
-                    "content", JMathComponentBeanInfo.BEANCLASS);
-            propertyContent.setDisplayName("Content");
-            propertyContent
-                    .setShortDescription("The XML content for the JEuclid Bean");
+            final PropertyDescriptor propertyContent = this
+                    .createPropertyDescriptor("content", "Content",
+                            "The XML content for the JEuclid Bean");
 
-            final PropertyDescriptor fgContent = new PropertyDescriptor(
-                    "foreground", JMathComponentBeanInfo.BEANCLASS);
-            fgContent.setDisplayName("Foreground Color");
-            fgContent
-                    .setShortDescription("Foreground color if not specified within the document");
+            final PropertyDescriptor fgContent = this
+                    .createPropertyDescriptor("foreground",
+                            "Foreground Color",
+                            "Foreground color if not specified within the document");
 
-            final PropertyDescriptor bgContent = new PropertyDescriptor(
-                    "background", JMathComponentBeanInfo.BEANCLASS);
-            bgContent.setDisplayName("Background Color");
-            bgContent
-                    .setShortDescription("Background color for this component");
+            final PropertyDescriptor bgContent = this
+                    .createPropertyDescriptor("background",
+                            "Background Color",
+                            "Background color for this component");
 
-            final PropertyDescriptor opaqueContent = new PropertyDescriptor(
-                    "opaque", JMathComponentBeanInfo.BEANCLASS);
-            opaqueContent.setDisplayName("Opaque");
-            opaqueContent
-                    .setShortDescription("If true, will always overpaint the background");
+            final PropertyDescriptor opaqueContent = this
+                    .createPropertyDescriptor("opaque", "Opaque",
+                            "If true, will always overpaint the background");
 
-            final PropertyDescriptor fontsContent1 = new PropertyDescriptor(
-                    "fontsSerif", JMathComponentBeanInfo.BEANCLASS);
-            fontsContent1.setDisplayName("Serif Fonts");
-            fontsContent1
-                    .setShortDescription("Fonts to use for Serif characters (the default font)");
-            final PropertyDescriptor fontsContent2 = new PropertyDescriptor(
-                    "fontsSanserif", JMathComponentBeanInfo.BEANCLASS);
-            fontsContent2.setDisplayName("Sans-Serif Fonts");
-            fontsContent2
-                    .setShortDescription("Fonts to use for Sans-Serif characters");
-            final PropertyDescriptor fontsContent3 = new PropertyDescriptor(
-                    "fontsMonospaced", JMathComponentBeanInfo.BEANCLASS);
-            fontsContent3.setDisplayName("Monospaced Fonts");
-            fontsContent3
-                    .setShortDescription("Fonts to use for Monospaced characters");
-            final PropertyDescriptor fontsContent4 = new PropertyDescriptor(
-                    "fontsScript", JMathComponentBeanInfo.BEANCLASS);
-            fontsContent4.setDisplayName("Script Fonts");
-            fontsContent4
-                    .setShortDescription("Fonts to use for Script characters");
-            final PropertyDescriptor fontsContent5 = new PropertyDescriptor(
-                    "fontsFraktur", JMathComponentBeanInfo.BEANCLASS);
-            fontsContent5.setDisplayName("Fraktur Fonts");
-            fontsContent5
-                    .setShortDescription("Fonts to use for Fraktur characters");
-            final PropertyDescriptor fontsContent6 = new PropertyDescriptor(
-                    "fontsDoublestruck", JMathComponentBeanInfo.BEANCLASS);
-            fontsContent6.setDisplayName("Double-Struck Fonts");
-            fontsContent6
-                    .setShortDescription("Fonts to use for Double-Struck characters");
+            final PropertyDescriptor fontsContent1 = this
+                    .createPropertyDescriptor("fontsSerif", "Serif Fonts",
+                            "Fonts to use for Serif characters (the default font)");
+            final PropertyDescriptor fontsContent2 = this
+                    .createPropertyDescriptor("fontsSanserif",
+                            "Sans-Serif Fonts",
+                            "Fonts to use for Sans-Serif characters");
+            final PropertyDescriptor fontsContent3 = this
+                    .createPropertyDescriptor("fontsMonospaced",
+                            "Monospaced Fonts",
+                            "Fonts to use for Monospaced characters");
+            final PropertyDescriptor fontsContent4 = this
+                    .createPropertyDescriptor("fontsScript", "Script Fonts",
+                            "Fonts to use for Script characters");
+            final PropertyDescriptor fontsContent5 = this
+                    .createPropertyDescriptor("fontsFraktur",
+                            "Fraktur Fonts",
+                            "Fonts to use for Fraktur characters");
+            final PropertyDescriptor fontsContent6 = this
+                    .createPropertyDescriptor("fontsDoublestruck",
+                            "Double-Struck Fonts",
+                            "Fonts to use for Double-Struck characters");
 
-            final PropertyDescriptor vAlign = new PropertyDescriptor(
-                    "verticalAlignment", JMathComponentBeanInfo.BEANCLASS);
-            vAlign.setDisplayName("Vertical Alignment");
+            final PropertyDescriptor vAlign = this
+                    .createPropertyDescriptor("verticalAlignment",
+                            "Vertical Alignment",
+                            "Vertical alignment, as defined by javax.swing.JLabel#getHorizontalAlignment");
 
-            final PropertyDescriptor hAlign = new PropertyDescriptor(
-                    "horizontalAlignment", JMathComponentBeanInfo.BEANCLASS);
-            hAlign.setDisplayName("Horizontal Alignment");
+            final PropertyDescriptor hAlign = this
+                    .createPropertyDescriptor(
+                            "horizontalAlignment",
+                            "Horizontal Alignment",
+                            "Horizontal alignment, as defined by javax.swing.JLabel#getHorizontalAlignment");
 
             return new PropertyDescriptor[] { propertyContent,
                     propertyFontSize, fgContent, bgContent, opaqueContent,
@@ -183,5 +170,15 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
             // in this BeanInfo class
             return super.getPropertyDescriptors();
         }
+    }
+
+    private PropertyDescriptor createPropertyDescriptor(
+            final String attribute, final String displayName,
+            final String description) throws IntrospectionException {
+        final PropertyDescriptor propertyFontSize = new PropertyDescriptor(
+                attribute, JMathComponentBeanInfo.BEANCLASS);
+        propertyFontSize.setDisplayName(displayName);
+        propertyFontSize.setShortDescription(description);
+        return propertyFontSize;
     }
 }
