@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.jeuclid</groupId>
@@ -64,4 +64,47 @@
       <version>2.9.7-SNAPSHOT</version>
     </dependency>
   </dependencies>
+  <profiles>
+    <profile>
+      <id>netbeans-public</id>
+      <activation>
+        <property>
+          <name>netbeans.execution</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addClasspath>true</addClasspath>
+                  <classpathPrefix>lib</classpathPrefix>
+                  <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
+                </manifest>
+              </archive>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>nb</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>directory</goal>
+                </goals>
+                <configuration>
+                  <descriptor>${basedir}/src/main/assemblies/netbeans-run.xml</descriptor>
+                  <finalName>executable</finalName>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
