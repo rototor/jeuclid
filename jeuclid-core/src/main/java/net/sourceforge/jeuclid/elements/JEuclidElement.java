@@ -45,8 +45,7 @@ public interface JEuclidElement extends MathMLElement, DisplayableNode,
     void setFakeParent(final JEuclidElement parent);
 
     /**
-     * This method is called when all attributes for the element are known.
-     * The element contents are not necesarrily complete.
+     * convenience method to set multiple attributes at once.
      * 
      * @param attributes
      *            List of attribute names and values.
@@ -56,7 +55,7 @@ public interface JEuclidElement extends MathMLElement, DisplayableNode,
     /**
      * returns true if the parent is currently calculating its size.
      * 
-     * @return true if parent is caculating size.
+     * @return true if parent is calculating size.
      */
     boolean isCalculatingSize();
 
@@ -102,7 +101,7 @@ public interface JEuclidElement extends MathMLElement, DisplayableNode,
     /**
      * Returns value of the vertical shift for the specific elements in the
      * line. This applies to "munderover", "msubsup", "mover", etc.. In case
-     * such elements containes enlarged operator, other elements on the right
+     * such elements contains enlarged operator, other elements on the right
      * should be positioned in the center of the line. Value of the shift is
      * stored in the top-level element of the line.
      * 
@@ -142,9 +141,12 @@ public interface JEuclidElement extends MathMLElement, DisplayableNode,
 
     /**
      * Gets a child from this element.
+     * <p>
+     * Please note, that unlike the MathML DOM model functions this function
+     * uses a 0-based index.
      * 
      * @param index
-     *            Index of the child.
+     *            Index of the child (0-based).
      * @return The child MathElement object.
      */
     JEuclidElement getMathElement(final int index);
