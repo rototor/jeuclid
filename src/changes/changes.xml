@@ -8,6 +8,9 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
 			<action dev="maxberger" type="update">
+			  DocumentElement not implements DisplayableNode
+			</action>
+			<action dev="maxberger" type="update">
 			  complete rewrite of menclose;
 			  update of root to scale bar;
 			</action>

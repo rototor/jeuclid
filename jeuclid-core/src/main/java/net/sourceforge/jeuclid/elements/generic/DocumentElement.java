@@ -25,6 +25,7 @@ import java.util.Set;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
+import net.sourceforge.jeuclid.elements.DisplayableNode;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 
@@ -37,11 +38,15 @@ import org.w3c.dom.mathml.MathMLDocument;
  * @version $Revision$
  */
 public class DocumentElement extends AbstractPartialDocumentImpl implements
-        MathMLDocument, JEuclidNode, ChangeTrackingInterface {
+        MathMLDocument, JEuclidNode, ChangeTrackingInterface, DisplayableNode {
 
     private MathBase mathbase;
 
     private final Set<ChangeTrackingInterface> listeners = new HashSet<ChangeTrackingInterface>();
+
+    private float lastX;
+
+    private float lastY;
 
     /**
      * Creates a math element.
@@ -81,6 +86,8 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
     public void paint(final Graphics2D g, final float posX, final float posY) {
         ElementListSupport.paint(g, posX, posY, ElementListSupport
                 .createListOfChildren(this));
+        this.lastX = posX;
+        this.lastY = posY;
     }
 
     /** {@inheritDoc} */
@@ -134,6 +141,26 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
             }
         }
 
+    }
+
+    /** {@inheritDoc} */
+    public float getHeight(final Graphics2D g) {
+        return this.getAscentHeight(g) + this.getDescentHeight(g);
+    }
+
+    /** {@inheritDoc} */
+    public float getPaintedPosX() {
+        return this.lastX;
+    }
+
+    /** {@inheritDoc} */
+    public float getPaintedPosY() {
+        return this.lastY;
+    }
+
+    /** {@inheritDoc} */
+    public float getXCenter(final Graphics2D g) {
+        return this.getWidth(g) / 2;
     }
 
 }
