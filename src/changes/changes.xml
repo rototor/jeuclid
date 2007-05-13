@@ -8,6 +8,10 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
 			<action dev="maxberger" type="update">
+			  Generated W3C DOM model from Spec; This added documentation and exposed a few
+			  inconsistencies in the DOM model as available from the webpage.
+			</action>
+			<action dev="maxberger" type="update">
 			  DocumentElement not implements DisplayableNode
 			</action>
 			<action dev="maxberger" type="update">

@@ -1,0 +1,14 @@
+This directory contains support for auto-generating the W3C interfaces.
+
+As the downloadable interfaces do not contain any documentation, the
+are regenerated with instructions. The stylesheet here can be used as a base. The mathml-dom.xml file is taken straight from the MathML spec source.
+
+Pleae note: the generated files must be formatted.
+
+To generate the files run xsltproc:
+
+  xsltproc int_gen.xslt mathml-dom.xml 
+
+and then copy the results to the source directory, organize imports, and reformat.
+
+WARNING: A little manual post-processing is still required!

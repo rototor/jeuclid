@@ -15,6 +15,7 @@
  */
 package org.w3c.dom.mathml;
 
+
 /*
  * Please note: This file was automatically generated from the source of the
  * MathML specification. Do not edit it. If there are errors or missing
@@ -22,27 +23,28 @@ package org.w3c.dom.mathml;
  */
 
 /**
- * The lambda element is used to construct a user-defined function from an
- * expression and one or more free variables.
+ * The tendsto element expresses that a quantity is tending to a specified
+ * value. An interface derived from the MathMLPredefinedSymbol is used to
+ * allow for the inclusion of the type attribute.
  * 
  * 
  */
-public interface MathMLLambdaElement extends MathMLContentContainer {
+public interface MathMLTendsToElement extends MathMLPredefinedSymbol {
     /**
-     * The MathMLElement representing the expression. This is included only as
-     * a convenience; getting it should give the same result as
-     * MathMLContentContainer::getArgument(1).
+     * A string describing how the quantity approaches the specified value.
+     * Predefined values of the string include above, below, and two-sided.
+     * The default value is two-sided.
      * 
-     * @return value of the expression attribute.
+     * @return value of the type attribute.
      */
-    MathMLElement getExpression();
+    String getType();
 
     /**
-     * setter for the expression attribute.
+     * setter for the type attribute.
      * 
-     * @param expression
-     *            new value for expression.
-     * @see #getExpression()
+     * @param type
+     *            new value for type.
+     * @see #getType()
      */
-    void setExpression(MathMLElement expression);
+    void setType(String type);
 };

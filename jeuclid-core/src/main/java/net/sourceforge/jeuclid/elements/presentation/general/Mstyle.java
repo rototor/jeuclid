@@ -193,4 +193,177 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
                 scriptsizemultiplier);
     }
 
+    /** {@inheritDoc} */
+    public String getMediummathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getNegativemediummathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getNegativethickmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getNegativethinmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getNegativeverythickmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getNegativeverythinmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getNegativeveryverythickmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getNegativeveryverythinmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getThickmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getThinmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getVerythickmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getVerythinmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getVeryverythickmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public String getVeryverythinmathspace() {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setMediummathspace(final String mediummathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setNegativemediummathspace(
+            final String negativemediummathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setNegativethickmathspace(final String negativethickmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setNegativethinmathspace(final String negativethinmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setNegativeverythickmathspace(
+            final String negativeverythickmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setNegativeverythinmathspace(
+            final String negativeverythinmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setNegativeveryverythickmathspace(
+            final String negativeveryverythickmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setNegativeveryverythinmathspace(
+            final String negativeveryverythinmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setThickmathspace(final String thickmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setThinmathspace(final String thinmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setVerythickmathspace(final String verythickmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setVerythinmathspace(final String verythinmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setVeryverythickmathspace(final String veryverythickmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
+    /** {@inheritDoc} */
+    public void setVeryverythinmathspace(final String veryverythinmathspace) {
+        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+    }
+
 }
