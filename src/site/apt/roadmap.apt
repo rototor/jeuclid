@@ -18,6 +18,8 @@ Roadmap
  
  * provide support for CSS, maybe through {{{http://xmlgraphics.apache.org/batik}batik-css}}.
 
+ * support {{{http://www.w3.org/TR/MathML3}MathML 3}}.
+
 * General Issues
 
   * Adress the Issues from the {{{./issue-tracking.html}issue tracking system}}.
