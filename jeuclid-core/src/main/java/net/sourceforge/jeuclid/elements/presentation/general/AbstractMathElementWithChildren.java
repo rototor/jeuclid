@@ -37,7 +37,7 @@ import org.w3c.dom.mathml.MathMLPresentationContainer;
 public abstract class AbstractMathElementWithChildren extends
         AbstractContainer implements MathMLPresentationContainer {
     /**
-     * S Default constructor.
+     * Default constructor.
      * 
      * @param base
      *            MathBase to use.
@@ -66,18 +66,36 @@ public abstract class AbstractMathElementWithChildren extends
         ElementListSupport.paint(g, posX, posY, this.getChildrenAsList());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Calculates the width of all contained children.
+     * 
+     * @param g
+     *            Graphics context to use.
+     * @return the width.
+     */
     public float calculateChildrenWidth(final Graphics2D g) {
         return ElementListSupport.getWidth(g, this.getChildrenAsList());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Calculates the ascent height of all contained children children.
+     * 
+     * @param g
+     *            Graphics context to use.
+     * @return the ascent height.
+     */
     public float calculateChildrenAscentHeight(final Graphics2D g) {
         return ElementListSupport
                 .getAscentHeight(g, this.getChildrenAsList());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Calculates the descent height of all contained children children.
+     * 
+     * @param g
+     *            Graphics context to use.
+     * @return the ascent height.
+     */
     public float calculateChildrenDescentHeight(final Graphics2D g) {
         return ElementListSupport.getDescentHeight(g, this
                 .getChildrenAsList());
