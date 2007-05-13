@@ -24,27 +24,20 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.Defense;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -91,8 +84,9 @@ public class JMathComponent extends JComponent {
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory.getLog(JMathComponent.class);
-
+    // unused
+    // private static final Log LOGGER =
+    // LogFactory.getLog(JMathComponent.class);
     /** */
     private static final long serialVersionUID = 1L;
 
@@ -343,17 +337,8 @@ public class JMathComponent extends JComponent {
      * @return the content string.
      */
     public String getContent() {
-        final StringWriter writer = new StringWriter();
-        try {
-            final Transformer transformer = TransformerFactory.newInstance()
-                    .newTransformer();
-            final DOMSource source = new DOMSource(this.getDocument());
-            final StreamResult result = new StreamResult(writer);
-            transformer.transform(source, result);
-        } catch (final TransformerException e) {
-            JMathComponent.LOGGER.warn(e);
-        }
-        return writer.toString();
+        return MathMLSerializer.serializeDocument(this.getDocument(), false,
+                false);
     }
 
     /**
