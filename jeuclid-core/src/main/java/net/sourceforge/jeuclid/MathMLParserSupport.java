@@ -180,8 +180,8 @@ public final class MathMLParserSupport {
     }
 
     /**
-     * Create a DOM Document from a given string containg MathML content. This
-     * function used a DOM Parser specialy configured for MathML
+     * Create a DOM Document from a given string containing MathML content.
+     * This function uses a DOM Parser configured for MathML.
      * 
      * @param content
      *            A String containing MathML.
@@ -189,7 +189,7 @@ public final class MathMLParserSupport {
      * @throws SAXException
      *             a parsing error occurred.
      * @throws ParserConfigurationException
-     *             a configuration error occured.
+     *             a configuration error occurred.
      * @throws IOException
      *             for any other IO exception.
      */
