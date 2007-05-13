@@ -238,6 +238,67 @@ public class OperatorDictionary {
             final int form, final String attributeName)
             throws UnknownAttributeException {
 
+        OperatorDictionary.loadDictIfNeeded();
+        String retVal = null;
+        if (OperatorDictionary.instance != null) {
+            retVal = OperatorDictionary.getAttrFromDict(operator, form,
+                    attributeName);
+        }
+        if (retVal == null) {
+            retVal = OperatorDictionary.getDefaultValue(attributeName);
+        }
+        if (retVal != null) {
+            return retVal;
+        } else {
+            throw new UnknownAttributeException(attributeName);
+        }
+    }
+
+    private static String getAttrFromDict(final String operator,
+            final int form, final String attributeName) {
+        String retVal = null;
+        final String[][] attribute = OperatorDictionary
+                .readDictValueWithForm(operator, form);
+        if (attribute == null) {
+            retVal = OperatorDictionary.VALUE_UNKNOWN;
+        } else {
+            for (final String[] element : attribute) {
+                if (element[0].equals(attributeName)) {
+                    retVal = element[1];
+                    break;
+                }
+            }
+        }
+        return retVal;
+    }
+
+    private static String[][] readDictValueWithForm(final String operator,
+            final int form) {
+        /*
+         * If the operator does not occur in the dictionary with the specified
+         * form, the renderer should use one of the forms that is available
+         * there, in the order of preference: infix, postfix, prefix; if no
+         * forms are available for the given mo element content, the renderer
+         * should use the defaults given in parentheses in the table of
+         * attributes for mo.
+         */
+        String[][] attr = OperatorDictionary.dictionary.get(operator + form);
+        if (attr == null && form != OperatorDictionary.VALUE_INFIX) {
+            attr = OperatorDictionary.dictionary.get(operator
+                    + OperatorDictionary.VALUE_INFIX);
+        }
+        if (attr == null && form != OperatorDictionary.VALUE_POSTFIX) {
+            attr = OperatorDictionary.dictionary.get(operator
+                    + OperatorDictionary.VALUE_POSTFIX);
+        }
+        if (attr == null && form != OperatorDictionary.VALUE_PREFIX) {
+            attr = OperatorDictionary.dictionary.get(operator
+                    + OperatorDictionary.VALUE_PREFIX);
+        }
+        return attr;
+    }
+
+    private static void loadDictIfNeeded() {
         if (!OperatorDictionary.isDictionaryRead) {
             try {
                 OperatorDictionary.isDictionaryRead = true;
@@ -246,45 +307,6 @@ public class OperatorDictionary {
                 OperatorDictionary.LOGGER.error(e.getMessage(), e);
 
             }
-        }
-        if (OperatorDictionary.instance != null) {
-            /*
-             * If the operator does not occur in the dictionary with the
-             * specified form, the renderer should use one of the forms that
-             * is available there, in the order of preference: infix, postfix,
-             * prefix; if no forms are available for the given mo element
-             * content, the renderer should use the defaults given in
-             * parentheses in the table of attributes for mo.
-             */
-            Object attr = OperatorDictionary.dictionary.get(operator + form);
-            if (attr == null && form != OperatorDictionary.VALUE_INFIX) {
-                attr = OperatorDictionary.dictionary.get(operator
-                        + OperatorDictionary.VALUE_INFIX);
-            }
-            if (attr == null && form != OperatorDictionary.VALUE_POSTFIX) {
-                attr = OperatorDictionary.dictionary.get(operator
-                        + OperatorDictionary.VALUE_POSTFIX);
-            }
-            if (attr == null && form != OperatorDictionary.VALUE_PREFIX) {
-                attr = OperatorDictionary.dictionary.get(operator
-                        + OperatorDictionary.VALUE_PREFIX);
-            }
-            if (attr == null) {
-                return OperatorDictionary.VALUE_UNKNOWN;
-            }
-            final String[][] attribute = (String[][]) attr;
-            for (final String[] element : attribute) {
-                if (element[0].equals(attributeName)) {
-                    return element[1];
-                }
-            }
-        }
-        final String result = OperatorDictionary
-                .getDefaultValue(attributeName);
-        if (result != null) {
-            return result;
-        } else {
-            throw new UnknownAttributeException(attributeName);
         }
     }
 
@@ -358,8 +380,8 @@ public class OperatorDictionary {
                     // todo: what is here?
                     OperatorDictionary.DictionaryReader.LOGGER
                             .fatal("Error in dictionary, attribute 'form' is required attribute for the dictionary");
-                }
-                if (form.equals(OperatorDictionary.FORM_PREFIX)) {
+                    this.currentFormIndex = OperatorDictionary.VALUE_INFIX;
+                } else if (form.equals(OperatorDictionary.FORM_PREFIX)) {
                     this.currentFormIndex = OperatorDictionary.VALUE_PREFIX;
                 } else if (form.equals(OperatorDictionary.FORM_INFIX)) {
                     this.currentFormIndex = OperatorDictionary.VALUE_INFIX;
