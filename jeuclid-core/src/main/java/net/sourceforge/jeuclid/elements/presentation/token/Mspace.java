@@ -29,6 +29,7 @@ import org.w3c.dom.mathml.MathMLSpaceElement;
 /**
  * This class presents a mspace.
  * 
+ * @todo linebreak is unimplemented
  * @author Unknown
  * @author Max Berger
  * @version $Revision$
@@ -50,6 +51,9 @@ public class Mspace extends AbstractJEuclidElement implements
     /** Attribute for depth. */
     public static final String ATTR_DEPTH = "depth";
 
+    /** Attribute for linebreak. */
+    public static final String ATTR_LINEBREAK = "linebreak";
+
     /**
      * Creates a math element.
      * 
@@ -61,6 +65,7 @@ public class Mspace extends AbstractJEuclidElement implements
         this.setDefaultMathAttribute(Mspace.ATTR_DEPTH, MathBase.VALUE_ZERO);
         this.setDefaultMathAttribute(Mspace.ATTR_HEIGHT, MathBase.VALUE_ZERO);
         this.setDefaultMathAttribute(Mspace.ATTR_WIDTH, MathBase.VALUE_ZERO);
+        this.setDefaultMathAttribute(Mspace.ATTR_LINEBREAK, "auto");
     }
 
     /**
@@ -147,5 +152,15 @@ public class Mspace extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     public String getTagName() {
         return Mspace.ELEMENT;
+    }
+
+    /** {@inheritDoc} */
+    public String getLinebreak() {
+        return this.getMathAttribute(Mspace.ATTR_LINEBREAK);
+    }
+
+    /** {@inheritDoc} */
+    public void setLinebreak(final String linebreak) {
+        this.setAttribute(Mspace.ATTR_LINEBREAK, linebreak);
     }
 }

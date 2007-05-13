@@ -111,7 +111,7 @@ public class Mfrac extends AbstractJEuclidElement implements
         try {
             thickness = Float.parseFloat(sThickness);
             thickness *= GraphicsSupport.lineWidth(this);
-        } catch (NumberFormatException nfe) {
+        } catch (final NumberFormatException nfe) {
             thickness = AttributesHelper.convertSizeToPt(sThickness, this,
                     AttributesHelper.PT);
         }
@@ -167,9 +167,9 @@ public class Mfrac extends AbstractJEuclidElement implements
                     + e2.getAscentHeight(g));
             final Stroke oldStroke = g.getStroke();
             g.setStroke(new BasicStroke(linef));
-            g.draw(new Line2D.Float(posX + w1 + (linef / 2) - e2.getHeight(g)
+            g.draw(new Line2D.Float(posX + w1 + linef / 2 - e2.getHeight(g)
                     * Mfrac.FRAC_TILT_ANGLE, middle + e2.getHeight(g), posX
-                    + w1 + (linef / 2) + e1.getHeight(g)
+                    + w1 + linef / 2 + e1.getHeight(g)
                     * Mfrac.FRAC_TILT_ANGLE, middle - e1.getHeight(g)));
             g.setStroke(oldStroke);
         } else {
@@ -180,7 +180,7 @@ public class Mfrac extends AbstractJEuclidElement implements
 
             e1.paint(g, startX + (width - 2 * dist - e1.getWidth(g)) / 2,
                     middle - e1.getDescentHeight(g) - 2
-                            - (this.getLinethickness(g) / 2));
+                            - this.getLinethickness(g) / 2);
 
             final Stroke oldStroke = g.getStroke();
             g.setStroke(new BasicStroke(linef));
@@ -190,7 +190,7 @@ public class Mfrac extends AbstractJEuclidElement implements
 
             e2.paint(g, startX + (width - 2 * dist - e2.getWidth(g)) / 2,
                     middle + e2.getAscentHeight(g) + 2
-                            + (this.getLinethickness(g) / 2));
+                            + this.getLinethickness(g) / 2);
         }
     }
 
@@ -222,7 +222,7 @@ public class Mfrac extends AbstractJEuclidElement implements
                     + this.getMiddleShift(g);
         } else {
             return this.getMathElement(0).getHeight(g) + 2
-                    + (this.getLinethickness(g) / 2) + this.getMiddleShift(g);
+                    + this.getLinethickness(g) / 2 + this.getMiddleShift(g);
         }
     }
 
@@ -233,10 +233,8 @@ public class Mfrac extends AbstractJEuclidElement implements
             return Math.max(0, this.getMathElement(1).getHeight(g)
                     - this.getMiddleShift(g));
         } else {
-            return Math
-                    .max(0, this.getMathElement(1).getHeight(g) + 2
-                            + (this.getLinethickness(g) / 2)
-                            - this.getMiddleShift(g));
+            return Math.max(0, this.getMathElement(1).getHeight(g) + 2
+                    + this.getLinethickness(g) / 2 - this.getMiddleShift(g));
         }
     }
 
@@ -268,6 +266,26 @@ public class Mfrac extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     public void setNumerator(final MathMLElement numerator) {
         this.setMathElement(0, numerator);
+    }
+
+    /** {@inheritDoc} */
+    public String getDenomalign() {
+        return this.getMathAttribute(Mfrac.ATTR_DENOMALIGN);
+    }
+
+    /** {@inheritDoc} */
+    public String getNumalign() {
+        return this.getMathAttribute(Mfrac.ATTR_NUMALIGN);
+    }
+
+    /** {@inheritDoc} */
+    public void setDenomalign(final String denomalign) {
+        this.setAttribute(Mfrac.ATTR_DENOMALIGN, denomalign);
+    }
+
+    /** {@inheritDoc} */
+    public void setNumalign(final String numalign) {
+        this.setAttribute(Mfrac.ATTR_NUMALIGN, numalign);
     }
 
 }

@@ -33,6 +33,7 @@ import net.sourceforge.jeuclid.elements.presentation.token.Mn;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.mathml.MathMLLabeledRowElement;
 import org.w3c.dom.mathml.MathMLNodeList;
 import org.w3c.dom.mathml.MathMLTableElement;
@@ -1422,6 +1423,52 @@ public class Mtable extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     public MathMLTableRowElement removeRow(final int index) {
         // TODO: Implement
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public void deleteRow(long index) throws DOMException {
+        // TODO Auto-generated method stub
+
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableRowElement getRow(long index) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLLabeledRowElement insertEmptyLabeledRow(long index)
+            throws DOMException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableRowElement insertEmptyRow(long index)
+            throws DOMException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableRowElement insertRow(long index,
+            MathMLTableRowElement newRow) throws DOMException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableRowElement removeRow(long index) throws DOMException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public MathMLTableRowElement setRow(long index,
+            MathMLTableRowElement newRow) throws DOMException {
+        // TODO Auto-generated method stub
         return null;
     }
 }
