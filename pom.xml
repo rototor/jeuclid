@@ -32,6 +32,10 @@
     <url>https://sourceforge.net/tracker/?group_id=44862</url>
   </issueManagement>
   <inceptionYear>2002</inceptionYear>
+  <organization>
+    <name>The JEuclid project</name>
+    <url>http://jeuclid.sourceforge.net/</url>
+  </organization>
   <mailingLists>
     <mailingList>
       <name>JEuclid Users List</name>
@@ -189,7 +193,8 @@
           <target>1.5</target>
 <!--          <debug>false</debug>
           <optimize>true</optimize>
--->        </configuration>
+-->
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -263,11 +268,20 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <linksource>true</linksource>
+          <aggregate>true</aggregate>
+          <keywords>true</keywords>
           <links>
             <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
             <link>http://testng.org/javadocs/</link>
             <link>http://jakarta.apache.org/commons/logging/apidocs/</link>
           </links>
+          <tags>
+            <tag>
+              <name>todo</name>
+              <placement>a</placement>
+              <head>This needs to be done:</head>
+            </tag>
+          </tags>
         </configuration>
       </plugin>
       <plugin>
