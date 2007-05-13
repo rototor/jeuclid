@@ -49,10 +49,24 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- * A class for displaying MathML content in a Swing Component.
+ * Displays MathML content in a Swing Component.
+ * <p>
+ * There are two properties which expose the actual content, accessible though
+ * {@link #getDocument()} / {@link #setDocument(Document)} for content already
+ * available as a DOM model, and {@link #getContent()} and
+ * {@link #setContent(String)} for content available as a String.
+ * <p>
+ * This class exposes most of the rendering parameters as standard bean
+ * attributes. If you need to set additional attributes, you may use the
+ * {@link #setParameter(ParameterKey, String)} function.
+ * <p>
+ * Please use only the attributes exposed through the attached
+ * {@link JMathComponentBeanInfo} class. Additional attributes, such as
+ * {@link #getFont()} and {@link #setFont(Font)} are provided for Swing
+ * compatibility, but they may not work exactly as expected.
  * 
  * @see net.sourceforge.jeuclid.awt.MathComponent
- * @author Unkown
+ * @author Unknown
  * @author Max Berger
  * @version $Revision$
  */
@@ -102,12 +116,12 @@ public class JMathComponent extends JComponent {
     public JMathComponent() {
         this.setOpaque(false);
         this.fontCompat();
-        this.setContent(DEFAULT_DOCUMENT);
+        this.setContent(JMathComponent.DEFAULT_DOCUMENT);
     }
 
     /**
-     * Sets a generic parameter. Please see {@link ParameterKey} for a list of
-     * possible values.
+     * Sets a generic JEuclid rendering parameter. Please see
+     * {@link ParameterKey} for a list of possible values.
      * 
      * @param key
      *            the parameter to set.
@@ -136,7 +150,7 @@ public class JMathComponent extends JComponent {
     }
 
     /**
-     * Gets the mininimum size of this component.
+     * Gets the minimum size of this component.
      * 
      * @return A dimension object indicating this component's minimum size.
      */
@@ -181,11 +195,11 @@ public class JMathComponent extends JComponent {
         }
         if (this.base != null) {
             final float xo;
-            if ((this.horizontalAlignment == SwingConstants.LEADING)
-                    || (this.horizontalAlignment == SwingConstants.LEFT)) {
+            if (this.horizontalAlignment == SwingConstants.LEADING
+                    || this.horizontalAlignment == SwingConstants.LEFT) {
                 xo = 0.0f;
-            } else if ((this.horizontalAlignment == SwingConstants.TRAILING)
-                    || (this.horizontalAlignment == SwingConstants.RIGHT)) {
+            } else if (this.horizontalAlignment == SwingConstants.TRAILING
+                    || this.horizontalAlignment == SwingConstants.RIGHT) {
                 xo = width - this.base.getWidth(g2);
             } else {
                 xo = (width - this.base.getWidth(g2)) / 2.0f;
@@ -505,6 +519,7 @@ public class JMathComponent extends JComponent {
      * @see #setFontsSerif(String)
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setFont(final Font f) {
         super.setFont(f);
