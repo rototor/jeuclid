@@ -33,6 +33,10 @@ import org.xml.sax.InputSource;
  */
 public class ResourceEntityResolver implements EntityResolver {
 
+    static final String MML2_SYSTEMID = "http://www.w3.org/TR/MathML2/dtd/mathml2.dtd";
+
+    static final String MML2_PUBLICID = "-//W3C//DTD MathML 2.0//EN";
+
     private static final String MML1_SYSTEMID_PATH = "http://www.w3.org/Math/DTD/mathml1";
 
     private static final Map<String, String> PUBLIC_ID_TO_INTERNAL = new HashMap<String, String>();
@@ -92,12 +96,11 @@ public class ResourceEntityResolver implements EntityResolver {
                 "-//OpenOffice.org//DTD Modified W3C MathML 1.01//EN",
                 "/openoffice.mathml.1.0.1/math.dtd");
 
-        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
-                "-//W3C//DTD MathML 2.0//EN", "/mathml.2.0/mathml2.dtd");
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(MML2_PUBLICID,
+                "/mathml.2.0/mathml2.dtd");
 
-        ResourceEntityResolver.PUBLIC_ID_TO_SYSYEM.put(
-                "-//W3C//DTD MathML 2.0//EN",
-                "http://www.w3.org/TR/MathML2/dtd/mathml2.dtd");
+        ResourceEntityResolver.PUBLIC_ID_TO_SYSYEM.put(MML2_PUBLICID,
+                MML2_SYSTEMID);
 
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES MathML 2.0 Qualified Names 1.0//EN",

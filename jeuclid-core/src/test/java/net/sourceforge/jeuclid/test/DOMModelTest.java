@@ -18,18 +18,13 @@
 
 package net.sourceforge.jeuclid.test;
 
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.presentation.general.Mfrac;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
@@ -133,14 +128,10 @@ public class DOMModelTest {
         final MathMLDocument mathMLDoc = new DOMBuilder(origDoc,
                 new MathBase(MathBase.getDefaultParameters()))
                 .getMathRootElement();
-        final StringWriter writer = new StringWriter();
-        final Transformer transformer = TransformerFactory.newInstance()
-                .newTransformer();
-        final DOMSource source = new DOMSource(mathMLDoc);
-        final StreamResult result = new StreamResult(writer);
-        transformer.transform(source, result);
-        Document reserial = MathMLParserSupport
-                .parseString(writer.toString());
+        String reserialStr = MathMLSerializer.serializeDocument(mathMLDoc,
+                false, false);
+
+        Document reserial = MathMLParserSupport.parseString(reserialStr);
         Assert.assertTrue(reserial.isEqualNode(origDoc));
     }
 
