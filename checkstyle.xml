@@ -111,7 +111,9 @@ Description:
         <module name="MultipleStringLiterals"/>
         <module name="MultipleVariableDeclarations"/>
         <module name="NestedIfDepth"/>
-        <module name="NestedTryDepth"/>
+        <module name="NestedTryDepth">
+            <property name="max" value="2"/>
+        </module>
         <module name="PackageDeclaration"/>
         <module name="ParameterAssignment"/>
         <module name="RedundantThrows"/>
@@ -132,7 +134,7 @@ Description:
         <module name="InterfaceIsType"/>
         <module name="MutableException"/>
         <module name="ThrowsCount">
-          <property name="max" value="2"/>
+          <property name="max" value="3"/>
         </module>
         <module name="VisibilityModifier"/>
         <module name="BooleanExpressionComplexity"/>
