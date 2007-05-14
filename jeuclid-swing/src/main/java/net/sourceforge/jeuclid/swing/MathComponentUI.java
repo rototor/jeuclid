@@ -66,7 +66,6 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     @Override
     public void paint(final Graphics g, final JComponent c) {
-        System.out.println("painting:" + this.mathComponent.getContent());
         final Graphics2D g2 = (Graphics2D) g;
         final Color back = this.getRealBackgroundColor();
         final int width = this.mathComponent.getWidth();
