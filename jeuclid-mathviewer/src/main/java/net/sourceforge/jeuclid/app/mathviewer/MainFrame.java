@@ -495,8 +495,7 @@ public class MainFrame extends JFrame {
         final String mimetype = Converter.getMimeTypeForSuffix(extension);
         try {
 
-            final Map<ParameterKey, String> params = this.getMathComponent()
-                    .getMathBase().getParams();
+            final Map<ParameterKey, String> params = this.getMathComponent().getParameters();
             params.put(ParameterKey.OutFileType, mimetype);
             if (!Converter.convert(this.getMathComponent().getDocument(),
                     selectedFile, params)) {
