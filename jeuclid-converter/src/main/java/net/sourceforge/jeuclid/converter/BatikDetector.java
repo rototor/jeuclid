@@ -56,7 +56,6 @@ public final class BatikDetector {
                     net.sourceforge.jeuclid.Converter.TYPE_SVG,
                     new BatikConverter(), true);
         } catch (final ClassNotFoundException e) {
-            System.out.println("Blup!");
             BatikDetector.LOGGER.debug("Batik is not in classpath!");
         }
     }
