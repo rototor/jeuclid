@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Jthis.mathComponent.java 214 2007-05-12 03:45:53 +0000 (Sat, 12 May 2007) eputrycz $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.swing;
 
@@ -44,7 +44,7 @@ import org.w3c.dom.Document;
  * for details.
  * 
  * @author putrycze
- * @version $Revision: 214 $
+ * @version $Revision$
  * 
  */
 public class MathComponentUI extends ComponentUI implements
