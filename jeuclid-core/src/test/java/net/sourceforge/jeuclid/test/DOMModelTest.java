@@ -649,6 +649,29 @@ public class DOMModelTest {
         Mi mi = new Mi(base);
         multi.insertPreSubScriptBefore(0, mi);
         Assert.assertEquals(multi.getNumprescriptcolumns(), 2);
+        Assert.assertEquals(multi.getChildNodes().getLength(), 8);
+    }
+
+    @Test
+    public void testMMultiScripts2() throws Exception {
+        final Document doc = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+                        + "<mmultiscripts>" + "</mmultiscripts>" + "</math>");
+        final MathBase base = new MathBase(MathBase.getDefaultParameters());
+        final MathMLDocument docElement = new DOMBuilder(doc, base)
+                .getMathRootElement();
+        final MathMLMathElement mathElement = (MathMLMathElement) docElement
+                .getFirstChild();
+        final MathMLMultiScriptsElement multi = (MathMLMultiScriptsElement) mathElement
+                .getChildNodes().item(0);
+        multi.setSubScriptAt(1, new Mi(base));
+        Assert.assertEquals(multi.getChildNodes().getLength(), 3);
+        multi.setSuperScriptAt(1, new Mi(base));
+        Assert.assertEquals(multi.getChildNodes().getLength(), 3);
+        multi.insertPreSuperScriptBefore(0, new Mi(base));
+        Assert.assertEquals(multi.getChildNodes().getLength(), 6);
+        multi.insertPreSubScriptBefore(0, new Mi(base));
+        Assert.assertEquals(multi.getChildNodes().getLength(), 8);
     }
 
 }
