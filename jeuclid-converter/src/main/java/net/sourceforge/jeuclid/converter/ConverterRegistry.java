@@ -57,6 +57,8 @@ public final class ConverterRegistry {
                     .detectConversionPlugins(ConverterRegistry.converterRegisty);
             BatikDetector
                     .detectConversionPlugins(ConverterRegistry.converterRegisty);
+            FreeHepDetector
+                    .detectConversionPlugins(ConverterRegistry.converterRegisty);
         }
         return ConverterRegistry.converterRegisty;
     }
