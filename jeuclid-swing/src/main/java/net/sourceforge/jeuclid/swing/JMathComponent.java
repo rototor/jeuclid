@@ -22,68 +22,73 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- * A class for displaying MathML content in a Swing Component.
+ * Displays MathML content in a Swing Component.
+ * <p>
+ * There are two properties which expose the actual content, accessible though
+ * {@link #getDocument()} / {@link #setDocument(Document)} for content already
+ * available as a DOM model, and {@link #getContent()} and
+ * {@link #setContent(String)} for content available as a String.
+ * <p>
+ * This class exposes most of the rendering parameters as standard bean
+ * attributes. If you need to set additional attributes, you may use the
+ * {@link #setParameter(ParameterKey, String)} function.
+ * <p>
+ * Please use only the attributes exposed through the attached
+ * {@link JMathComponentBeanInfo} class. Additional attributes, such as
+ * {@link #getFont()} and {@link #setFont(Font)} are provided for Swing
+ * compatibility, but they may not work exactly as expected.
  * 
  * @see net.sourceforge.jeuclid.awt.MathComponent
- * @author Unkown
+ * @author Unknown
  * @author Max Berger
  * @version $Revision$
  */
 public class JMathComponent extends JComponent implements SwingConstants {
-    
+
     private static final String DEFAULT_DOCUMENT = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
-                            + "<!DOCTYPE math PUBLIC \"-//W3C//DTD MathML 2.0//EN\" \"http://www.w3.org/TR/MathML2/dtd/mathml2.dtd\">\n"
-                            + "<math mode=\"display\">\n"
-                            + "    <mrow>\n"
-                            + "        <munderover>\n"
-                            + "            <mo>&#x0222B;</mo>\n"
-                            + "            <mn>1</mn>\n"
-                            + "            <mi>x</mi>\n"
-                            + "        </munderover>\n"
-                            + "        <mfrac>\n"
-                            + "            <mi>dt</mi>\n"
-                            + "            <mi>t</mi>\n"
-                            + "        </mfrac>\n"
-                            + "    </mrow>\n" + "</math>";
+            + "<!DOCTYPE math PUBLIC \"-//W3C//DTD MathML 2.0//EN\" \"http://www.w3.org/TR/MathML2/dtd/mathml2.dtd\">\n"
+            + "<math mode=\"display\">\n"
+            + "    <mrow>\n"
+            + "        <munderover>\n"
+            + "            <mo>&#x0222B;</mo>\n"
+            + "            <mn>1</mn>\n"
+            + "            <mi>x</mi>\n"
+            + "        </munderover>\n"
+            + "        <mfrac>\n"
+            + "            <mi>dt</mi>\n"
+            + "            <mi>t</mi>\n"
+            + "        </mfrac>\n" + "    </mrow>\n" + "</math>";
 
     private static final String FONT_SEPARATOR = ",";
 
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory.getLog(JMathComponent.class);
-
+    // currently unused.
+    // private static final Log LOGGER =
+    // LogFactory.getLog(JMathComponent.class);
     /** */
     private static final long serialVersionUID = 1L;
 
     private static final String UI_CLASS_ID = "MathComponentUI";
 
-
-    
     private Document document;
 
     private int horizontalAlignment = SwingConstants.CENTER;
@@ -122,17 +127,8 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @return the content string.
      */
     public String getContent() {
-        final StringWriter writer = new StringWriter();
-        try {
-            final Transformer transformer = TransformerFactory.newInstance()
-                    .newTransformer();
-            final DOMSource source = new DOMSource(this.getDocument());
-            final StreamResult result = new StreamResult(writer);
-            transformer.transform(source, result);
-        } catch (final TransformerException e) {
-            JMathComponent.LOGGER.warn(e);
-        }
-        return writer.toString();
+        return MathMLSerializer.serializeDocument(this.getDocument(), false,
+                false);
     }
 
     /**
@@ -248,17 +244,18 @@ public class JMathComponent extends JComponent implements SwingConstants {
     public Dimension getPreferredSize() {
         return this.getMinimumSize();
     }
-    
+
     /**
      * @return the UI implementation.
      */
     public MathComponentUI getUI() {
-        return (MathComponentUI) ui;
+        return (MathComponentUI) this.ui;
     }
 
     /**
      * @return The default UI class
      */
+    @Override
     public String getUIClassID() {
         return JMathComponent.UI_CLASS_ID;
     }
@@ -323,7 +320,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      *            the document to set
      */
     public void setDocument(final Document doc) {
-        final Document oldValue = this.document; 
+        final Document oldValue = this.document;
         this.firePropertyChange("document", oldValue, doc);
         this.document = doc;
         if (doc != oldValue) {
@@ -346,6 +343,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @see #setFontsSerif(String)
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setFont(final Font f) {
         super.setFont(f);
@@ -364,7 +362,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @see ParameterKey#FontsDoublestruck
      */
     public void setFontsDoublestruck(final String newFonts) {
-        parameterChange(ParameterKey.FontsDoublestruck, newFonts);        
+        this.parameterChange(ParameterKey.FontsDoublestruck, newFonts);
     }
 
     /**
@@ -376,13 +374,15 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @see ParameterKey#FontsFraktur
      */
     public void setFontsFraktur(final String newFonts) {
-        parameterChange(ParameterKey.FontsFraktur, newFonts);        
+        this.parameterChange(ParameterKey.FontsFraktur, newFonts);
     }
 
     private void parameterChange(final ParameterKey key, final Object newFonts) {
-        final String oldValue = this.parameters.get(ParameterKey.FontsFraktur);
+        final String oldValue = this.parameters
+                .get(ParameterKey.FontsFraktur);
         this.parameters.put(key, newFonts.toString());
-        this.firePropertyChange(key.name(), oldValue, this.parameters.get(ParameterKey.FontsFraktur));
+        this.firePropertyChange(key.name(), oldValue, this.parameters
+                .get(ParameterKey.FontsFraktur));
         this.revalidate();
         this.repaint();
     }
@@ -394,7 +394,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      *            the font size.
      */
     public void setFontSize(final float fontSize) {
-        parameterChange(ParameterKey.FontSize, fontSize);        
+        this.parameterChange(ParameterKey.FontSize, fontSize);
     }
 
     /**
@@ -407,7 +407,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @see ParameterKey#FontsMonospaced
      */
     public void setFontsMonospaced(final String newFonts) {
-        parameterChange(ParameterKey.FontsMonospaced, newFonts);        
+        this.parameterChange(ParameterKey.FontsMonospaced, newFonts);
     }
 
     /**
@@ -419,7 +419,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @see ParameterKey#FontsSanserif
      */
     public void setFontsSanserif(final String newFonts) {
-        parameterChange(ParameterKey.FontsSanserif, newFonts);        
+        this.parameterChange(ParameterKey.FontsSanserif, newFonts);
     }
 
     /**
@@ -431,7 +431,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @see ParameterKey#FontsScript
      */
     public void setFontsScript(final String newFonts) {
-        parameterChange(ParameterKey.FontsScript, newFonts);        
+        this.parameterChange(ParameterKey.FontsScript, newFonts);
     }
 
     /**
@@ -443,7 +443,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @see ParameterKey#FontsSerif
      */
     public void setFontsSerif(final String newFonts) {
-        parameterChange(ParameterKey.FontsSerif, newFonts);        
+        this.parameterChange(ParameterKey.FontsSerif, newFonts);
         this.fontCompat();
     }
 
@@ -451,7 +451,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
     @Override
     public void setForeground(final Color fg) {
         super.setForeground(fg);
-        parameterChange(ParameterKey.ForegroundColor, "" + fg.getRGB());        
+        this.parameterChange(ParameterKey.ForegroundColor, "" + fg.getRGB());
     }
 
     /**
@@ -478,8 +478,8 @@ public class JMathComponent extends JComponent implements SwingConstants {
     }
 
     /**
-     * Sets a generic parameter. Please see {@link ParameterKey} for a list of
-     * possible values.
+     * Sets a generic JEuclid rendering parameter. Please see
+     * {@link ParameterKey} for a list of possible values.
      * 
      * @param key
      *            the parameter to set.
@@ -505,10 +505,11 @@ public class JMathComponent extends JComponent implements SwingConstants {
         this.verticalAlignment = vAlignment;
     }
 
-    /** {@inheritDoc} */    
+    /** {@inheritDoc} */
+    @Override
     public void updateUI() {
         if (UIManager.get(this.getUIClassID()) != null) {
-            this.setUI((MathComponentUI) UIManager.getUI(this));
+            this.setUI(UIManager.getUI(this));
         } else {
             this.setUI(new MathComponentUI());
         }
@@ -522,4 +523,3 @@ public class JMathComponent extends JComponent implements SwingConstants {
     }
 
 }
-
