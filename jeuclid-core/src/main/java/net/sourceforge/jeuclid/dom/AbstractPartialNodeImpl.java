@@ -226,7 +226,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
 
     /** {@inheritDoc} */
     public final boolean hasAttributes() {
-        throw new UnsupportedOperationException("hasAttributes");
+        return this.getAttributes().getLength() > 0;
     }
 
     /** {@inheritDoc} */
@@ -236,7 +236,16 @@ public abstract class AbstractPartialNodeImpl implements Node {
 
     /** {@inheritDoc} */
     public final Node removeChild(final Node oldChild) {
-        throw new UnsupportedOperationException("removeChild");
+        for (int i = 0; i < this.children.size(); i++) {
+            final Node oldChildAtIndex = this.children.get(i);
+            if (oldChildAtIndex.equals(oldChild)) {
+                this.children.remove(i);
+                return oldChildAtIndex;
+            }
+        }
+        throw new DOMException(DOMException.NOT_FOUND_ERR,
+                "Could not find node: " + oldChild);
+
     }
 
     /** {@inheritDoc} */
