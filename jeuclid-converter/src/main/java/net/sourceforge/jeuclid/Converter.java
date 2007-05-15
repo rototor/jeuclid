@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: BasicConverter.java 172 2007-05-05 13:30:28Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid;
 
@@ -23,9 +23,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sourceforge.jeuclid.converter.ConverterRegistry;
+
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -40,32 +41,31 @@ import org.xml.sax.SAXException;
  * <li>image/svg+xml
  * <li>All images supported by ImageIO
  * </ul>
+ * Conversion is done through the Converter class in the new interface. This
+ * class will be deprecated some time after the 3.0 release. However, the new
+ * API is not to be considered stable yet, so please use these functions for
+ * the time being.
  * 
  * @author Max Berger
- * @version $Revision: 172 $
+ * @version $Revision$
  */
 public final class Converter {
+
+    /**
+     * Mime type for SVG.
+     */
+    public static final String TYPE_SVG = "image/svg+xml";
+
+    /**
+     * File extension for SVG.
+     */
+    public static final String EXTENSION_SVG = "svg";
+
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory.getLog(Converter.class);
-
-    private static ConverterAPI convInstance;
-
-    static {
-        try {
-            Thread.currentThread().getContextClassLoader().loadClass(
-                    "org.apache.batik.svggen.SVGGraphics2D");
-            Converter.LOGGER.debug("Using SVG capable converter");
-            Converter.convInstance = new SVGConverter();
-        } catch (final ClassNotFoundException e) {
-            // load the basic converter
-            Converter.convInstance = new BasicConverter();
-            Converter.LOGGER
-                    .debug("Using basic converter without SVG capabilities");
-        }
-    }
-
+    // unused
+    // private static final Log LOGGER = LogFactory.getLog(Converter.class);
     private Converter() {
         // Empty on purpose.
     }
@@ -79,32 +79,36 @@ public final class Converter {
      *            output file.
      * @param outFileType
      *            mimetype for the output file.
-     * @return true if the conversion was sucessful.
+     * @return true if the conversion was successful.
      * @throws IOException
-     *             if an io error occured during read or write.
+     *             if an I/O error occurred during read or write.
      */
     public static boolean convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
-        return Converter.convInstance.convert(inFile, outFile, outFileType);
+        return net.sourceforge.jeuclid.converter.Converter.getConverter()
+                .convert(inFile, outFile, outFileType);
     }
 
     /**
      * Renders a document into an image.
      * 
      * @param doc
-     *            DOM mathml document
+     *            DOM MathML document
      * @param params
      *            parameters
      * @return the rendered image
      * @throws SAXException
-     *             if an error occurs reading the dom document
+     *             if an error occurs reading the DOM document
      * @throws IOException
-     *             if an io error occurs
+     *             if an I/O error occurred.
      */
     public static BufferedImage render(final Document doc,
             final Map<ParameterKey, String> params) throws SAXException,
             IOException {
-        return Converter.convInstance.render(doc, params);
+        return net.sourceforge.jeuclid.converter.Converter.getConverter()
+                .render(
+                        MathMLParserSupport.createMathBaseFromDocument(doc,
+                                params));
     }
 
     /**
@@ -116,13 +120,14 @@ public final class Converter {
      *            output file.
      * @param params
      *            rendering parameters.
-     * @return true if the conversion was sucessful.
+     * @return true if the conversion was successful.
      * @throws IOException
-     *             if an io error occured during read or write.
+     *             if an I/O error occurred during read or write.
      */
     public static boolean convert(final File inFile, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
-        return Converter.convInstance.convert(inFile, outFile, params);
+        return net.sourceforge.jeuclid.converter.Converter.getConverter()
+                .convert(inFile, outFile, params);
     }
 
     /**
@@ -134,13 +139,14 @@ public final class Converter {
      *            output file.
      * @param params
      *            parameter set to use for conversion.
-     * @return true if the conversion was sucessful.
+     * @return true if the conversion was successful.
      * @throws IOException
-     *             if an io error occured during read or write.
+     *             if an I/O error occurred during read or write.
      */
     public static boolean convert(final Document doc, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
-        return Converter.convInstance.convert(doc, outFile, params);
+        return net.sourceforge.jeuclid.converter.Converter.getConverter()
+                .convert(doc, outFile, params);
     }
 
     /**
@@ -149,7 +155,8 @@ public final class Converter {
      * @return a List&lt;String&gt; containing all valid mime-types.
      */
     public static List<String> getAvailableOutfileTypes() {
-        return Converter.convInstance.getAvailableOutfileTypes();
+        return new Vector<String>(ConverterRegistry.getRegisty()
+                .getAvailableOutfileTypes());
     }
 
     /**
@@ -163,7 +170,7 @@ public final class Converter {
      * @return the three letter suffix common for this type.
      */
     public static String getSuffixForMimeType(final String mimeType) {
-        return Converter.convInstance.getSuffixForMimeType(mimeType);
+        return ConverterRegistry.getRegisty().getSuffixForMimeType(mimeType);
     }
 
     /**
@@ -174,6 +181,6 @@ public final class Converter {
      * @return the mime-type
      */
     public static String getMimeTypeForSuffix(final String suffix) {
-        return Converter.convInstance.getMimeTypeForSuffix(suffix);
+        return ConverterRegistry.getRegisty().getMimeTypeForSuffix(suffix);
     }
 }
