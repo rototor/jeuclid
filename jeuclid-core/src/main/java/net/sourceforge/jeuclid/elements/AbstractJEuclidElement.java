@@ -551,7 +551,10 @@ public abstract class AbstractJEuclidElement extends
         this.mbase = base;
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         for (int i = 0; i < childList.getLength(); i++) {
-            ((AbstractJEuclidElement) childList.item(i)).setMathBase(base);
+            final Node node = childList.item(i);
+            if (node instanceof AbstractJEuclidElement) {
+                ((AbstractJEuclidElement) node).setMathBase(base);
+            }
         }
     }
 
