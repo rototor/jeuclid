@@ -1,6 +1,6 @@
 /*
  * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -34,8 +34,7 @@ import org.w3c.dom.mathml.MathMLNodeList;
 /**
  * Prescripts and Tensor Indices.
  * 
- * @todo This class has to be rewritten to use getSubMiddleShift and
- *       getSupMiddleShift, and cleaned up.
+ * @todo This class needs to be cleaned up.
  * @author Unknown
  * @author Max Berger
  * @version $Revision$
@@ -48,12 +47,30 @@ public class Mmultiscripts extends AbstractScriptElement implements
      */
     public static final String ELEMENT = "mmultiscripts";
 
-    /**
-     * Logger for this class
-     */
+    // /**
+    // * Logger for this class
+    // */
     // currently unused
     // private static final Log LOGGER = LogFactory
     // .getLog(MathMultiScripts.class);
+    private static final int STATE_POSTSUB = 0;
+
+    private static final int STATE_POSTSUPER = 1;
+
+    private static final int STATE_PRESUB = 2;
+
+    private static final int STATE_PRESUPER = 3;
+
+    private final List<JEuclidElement> postsubscripts = new Vector<JEuclidElement>();
+
+    private final List<JEuclidElement> postsuperscripts = new Vector<JEuclidElement>();
+
+    private final List<JEuclidElement> presubscripts = new Vector<JEuclidElement>();
+
+    private final List<JEuclidElement> presuperscripts = new Vector<JEuclidElement>();
+
+    private boolean inRewriteChildren;
+
     /**
      * Default constructor.
      * 
@@ -62,6 +79,47 @@ public class Mmultiscripts extends AbstractScriptElement implements
      */
     public Mmultiscripts(final MathBase base) {
         super(base);
+        this.inRewriteChildren = false;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void changeHook() {
+        super.changeHook();
+        if (!this.inRewriteChildren) {
+            this.presubscripts.clear();
+            this.presuperscripts.clear();
+            this.postsubscripts.clear();
+            this.postsuperscripts.clear();
+            final org.w3c.dom.NodeList childList = this.getChildNodes();
+            int state = Mmultiscripts.STATE_POSTSUB;
+            final int len = childList.getLength();
+            for (int i = 0; i < len; i++) {
+                final JEuclidElement child = (JEuclidElement) childList
+                        .item(i);
+                if (child instanceof Mprescripts) {
+                    state = Mmultiscripts.STATE_PRESUB;
+                } else if (state == Mmultiscripts.STATE_POSTSUB) {
+                    this.postsubscripts.add(child);
+                    state = Mmultiscripts.STATE_POSTSUPER;
+                } else if (state == Mmultiscripts.STATE_POSTSUPER) {
+                    this.postsuperscripts.add(child);
+                    state = Mmultiscripts.STATE_POSTSUB;
+                } else if (state == Mmultiscripts.STATE_PRESUB) {
+                    this.presubscripts.add(child);
+                    state = Mmultiscripts.STATE_PRESUPER;
+                } else {
+                    this.presuperscripts.add(child);
+                    state = Mmultiscripts.STATE_PRESUB;
+                }
+            }
+            if (this.postsuperscripts.size() < this.postsubscripts.size()) {
+                this.postsuperscripts.add(new None(this.getMathBase()));
+            }
+            if (this.presuperscripts.size() < this.presubscripts.size()) {
+                this.presuperscripts.add(new None(this.getMathBase()));
+            }
+        }
     }
 
     /**
@@ -562,56 +620,32 @@ public class Mmultiscripts extends AbstractScriptElement implements
         this.setMathElement(0, base);
     }
 
-    private int getPrescriptsIndex() {
-        final org.w3c.dom.NodeList childList = this.getChildNodes();
-        final int len = childList.getLength();
-        for (int i = 0; i < len; i++) {
-            final Node child = childList.item(i);
-            if (child instanceof Mprescripts) {
-                return i;
-            }
-        }
-        return len;
-    }
-
     /** {@inheritDoc} */
     public int getNumprescriptcolumns() {
-        final int fulllength = this.getChildNodes().getLength();
-        final int prescriptstart = this.getPrescriptsIndex() + 1;
-        return (fulllength - prescriptstart) / 2;
+        return this.presubscripts.size();
     }
 
     /** {@inheritDoc} */
     public int getNumscriptcolumns() {
-        return this.getPrescriptsIndex() / 2;
+        return this.postsubscripts.size();
     }
 
     /** {@inheritDoc} */
     public MathMLElement getPreSubScript(final int colIndex) {
-        return this.getMathElement(this.getPrescriptsIndex() + colIndex * 2
-                + 1);
+        return this.presubscripts.get(colIndex - 1);
     }
 
     /** {@inheritDoc} */
     public MathMLElement getPreSuperScript(final int colIndex) {
-        return this.getMathElement(this.getPrescriptsIndex() + colIndex * 2
-                + 2);
+        return this.presuperscripts.get(colIndex - 1);
     }
 
     /** {@inheritDoc} */
     public MathMLNodeList getPrescripts() {
         final List<Node> list = new Vector<Node>();
-        final org.w3c.dom.NodeList childList = this.getChildNodes();
-        final int len = childList.getLength();
-        boolean inPrescripts = false;
-        for (int i = 0; i < len; i++) {
-            final Node child = childList.item(i);
-            if (inPrescripts) {
-                list.add(child);
-            }
-            if (child instanceof Mprescripts) {
-                inPrescripts = true;
-            }
+        for (int i = 0; i < this.presubscripts.size(); i++) {
+            list.add(this.presubscripts.get(i));
+            list.add(this.presuperscripts.get(i));
         }
         return new MathMLNodeListImpl(list);
     }
@@ -619,85 +653,160 @@ public class Mmultiscripts extends AbstractScriptElement implements
     /** {@inheritDoc} */
     public MathMLNodeList getScripts() {
         final List<Node> list = new Vector<Node>();
-        final org.w3c.dom.NodeList childList = this.getChildNodes();
-        final int len = childList.getLength();
-        boolean inPostscripts = true;
-        for (int i = 1; i < len; i++) {
-            final Node child = childList.item(i);
-            if (child instanceof Mprescripts) {
-                inPostscripts = true;
-            }
-            if (inPostscripts) {
-                list.add(child);
-            }
+        for (int i = 0; i < this.postsubscripts.size(); i++) {
+            list.add(this.postsubscripts.get(i));
+            list.add(this.postsuperscripts.get(i));
         }
         return new MathMLNodeListImpl(list);
     }
 
     /** {@inheritDoc} */
     public MathMLElement getSubScript(final int colIndex) {
-        return this.getMathElement(colIndex * 2 + 1);
+        return this.postsubscripts.get(colIndex - 1);
     }
 
     /** {@inheritDoc} */
     public MathMLElement getSuperScript(final int colIndex) {
-        return this.getMathElement(colIndex * 2 + 2);
+        return this.postsuperscripts.get(colIndex - 1);
+    }
+
+    private void rewriteChildren() {
+        this.inRewriteChildren = true;
+
+        final org.w3c.dom.NodeList childList = this.getChildNodes();
+        final int len = childList.getLength();
+        // start at 1 since 0 is the base!
+        for (int i = 1; i < len; i++) {
+            this.removeChild(childList.item(i));
+        }
+        if (len == 0) {
+            this.addMathElement(new None(this.getMathBase()));
+        }
+        for (int i = 0; i < this.postsubscripts.size(); i++) {
+            this.addMathElement(this.postsubscripts.get(i));
+            this.addMathElement(this.postsuperscripts.get(i));
+        }
+        final int numprescripts = this.presubscripts.size();
+        if (numprescripts > 0) {
+            this.addMathElement(new Mprescripts(this.getMathBase()));
+            for (int i = 0; i < numprescripts; i++) {
+                this.addMathElement(this.presubscripts.get(i));
+                this.addMathElement(this.presuperscripts.get(i));
+            }
+        }
+        this.inRewriteChildren = false;
     }
 
     /** {@inheritDoc} */
     public MathMLElement insertPreSubScriptBefore(final int colIndex,
             final MathMLElement newScript) {
-        // TODO Auto-generated method stub
-        return null;
+        final int targetIndex;
+        if (colIndex == 0) {
+            targetIndex = this.presubscripts.size();
+        } else {
+            targetIndex = colIndex - 1;
+        }
+        this.presubscripts.add(targetIndex, (JEuclidElement) newScript);
+        this.presuperscripts.add(targetIndex, new None(this.getMathBase()));
+        this.rewriteChildren();
+        return newScript;
     }
 
     /** {@inheritDoc} */
     public MathMLElement insertPreSuperScriptBefore(final int colIndex,
             final MathMLElement newScript) {
-        // TODO Auto-generated method stub
-        return null;
+        final int targetIndex;
+        if (colIndex == 0) {
+            targetIndex = this.presubscripts.size();
+        } else {
+            targetIndex = colIndex - 1;
+        }
+        this.presubscripts.add(targetIndex, new None(this.getMathBase()));
+        this.presuperscripts.add(targetIndex, (JEuclidElement) newScript);
+        this.rewriteChildren();
+        return newScript;
     }
 
     /** {@inheritDoc} */
     public MathMLElement insertSubScriptBefore(final int colIndex,
             final MathMLElement newScript) {
-        // TODO Auto-generated method stub
-        return null;
+        final int targetIndex;
+        if (colIndex == 0) {
+            targetIndex = this.postsubscripts.size();
+        } else {
+            targetIndex = colIndex - 1;
+        }
+        this.postsubscripts.add(targetIndex, (JEuclidElement) newScript);
+        this.postsuperscripts.add(targetIndex, new None(this.getMathBase()));
+        this.rewriteChildren();
+        return newScript;
     }
 
     /** {@inheritDoc} */
     public MathMLElement insertSuperScriptBefore(final int colIndex,
             final MathMLElement newScript) {
-        // TODO Auto-generated method stub
-        return null;
+        final int targetIndex;
+        if (colIndex == 0) {
+            targetIndex = this.postsubscripts.size();
+        } else {
+            targetIndex = colIndex - 1;
+        }
+        this.postsubscripts.add(targetIndex, new None(this.getMathBase()));
+        this.postsuperscripts.add(targetIndex, (JEuclidElement) newScript);
+        this.rewriteChildren();
+        return newScript;
     }
 
     /** {@inheritDoc} */
     public MathMLElement setPreSubScriptAt(final int colIndex,
             final MathMLElement newScript) {
-        // TODO Auto-generated method stub
-        return null;
+        final int targetCol = colIndex - 1;
+        if (targetCol == this.presubscripts.size()) {
+            return this.insertPreSubScriptBefore(0, newScript);
+        } else {
+            this.presubscripts.set(targetCol, (JEuclidElement) newScript);
+            this.rewriteChildren();
+            return newScript;
+        }
     }
 
     /** {@inheritDoc} */
     public MathMLElement setPreSuperScriptAt(final int colIndex,
             final MathMLElement newScript) {
-        // TODO Auto-generated method stub
-        return null;
+        final int targetCol = colIndex - 1;
+        if (targetCol == this.presuperscripts.size()) {
+            return this.insertPreSuperScriptBefore(0, newScript);
+        } else {
+            this.presuperscripts.set(targetCol, (JEuclidElement) newScript);
+            this.rewriteChildren();
+            return newScript;
+        }
     }
 
     /** {@inheritDoc} */
     public MathMLElement setSubScriptAt(final int colIndex,
             final MathMLElement newScript) {
-        // TODO Auto-generated method stub
-        return null;
+        final int targetCol = colIndex - 1;
+        if (targetCol == this.postsubscripts.size()) {
+            return this.insertSubScriptBefore(0, newScript);
+        } else {
+            this.postsubscripts.set(targetCol, (JEuclidElement) newScript);
+            this.rewriteChildren();
+            return newScript;
+        }
     }
 
     /** {@inheritDoc} */
     public MathMLElement setSuperScriptAt(final int colIndex,
             final MathMLElement newScript) {
-        // TODO Auto-generated method stub
-        return null;
+        final int targetCol = colIndex - 1;
+        if (targetCol == this.postsuperscripts.size()) {
+            return this.insertSuperScriptBefore(0, newScript);
+        } else {
+            this.postsuperscripts.set(targetCol, (JEuclidElement) newScript);
+            this.rewriteChildren();
+            return newScript;
+        }
     }
 
 }
