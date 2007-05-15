@@ -161,8 +161,8 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     @Override
     public Dimension getMinimumSize(final JComponent c) {
-        final Dimension d = this.getPreferredSize(c);
         if (this.base == null || c.getGraphics() == null) {
+            final Dimension d = this.getPreferredSize(c);
             // return new Dimension(1, 1);
             return d;
         } else {
