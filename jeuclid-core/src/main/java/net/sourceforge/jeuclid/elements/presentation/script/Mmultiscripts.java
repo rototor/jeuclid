@@ -87,19 +87,24 @@ public class Mmultiscripts extends AbstractScriptElement implements
     protected void changeHook() {
         super.changeHook();
         if (!this.inRewriteChildren) {
-            this.presubscripts.clear();
-            this.presuperscripts.clear();
-            this.postsubscripts.clear();
-            this.postsuperscripts.clear();
-            final org.w3c.dom.NodeList childList = this.getChildNodes();
-            int state = Mmultiscripts.STATE_POSTSUB;
-            final int len = childList.getLength();
-            for (int i = 0; i < len; i++) {
-                final JEuclidElement child = (JEuclidElement) childList
-                        .item(i);
-                if (child instanceof Mprescripts) {
-                    state = Mmultiscripts.STATE_PRESUB;
-                } else if (state == Mmultiscripts.STATE_POSTSUB) {
+            this.parseChildren();
+        }
+    }
+
+    private void parseChildren() {
+        this.presubscripts.clear();
+        this.presuperscripts.clear();
+        this.postsubscripts.clear();
+        this.postsuperscripts.clear();
+        final org.w3c.dom.NodeList childList = this.getChildNodes();
+        int state = Mmultiscripts.STATE_POSTSUB;
+        final int len = childList.getLength();
+        for (int i = 1; i < len; i++) {
+            final JEuclidElement child = (JEuclidElement) childList.item(i);
+            if (child instanceof Mprescripts) {
+                state = Mmultiscripts.STATE_PRESUB;
+            } else if (child instanceof JEuclidElement) {
+                if (state == Mmultiscripts.STATE_POSTSUB) {
                     this.postsubscripts.add(child);
                     state = Mmultiscripts.STATE_POSTSUPER;
                 } else if (state == Mmultiscripts.STATE_POSTSUPER) {
@@ -113,12 +118,12 @@ public class Mmultiscripts extends AbstractScriptElement implements
                     state = Mmultiscripts.STATE_PRESUB;
                 }
             }
-            if (this.postsuperscripts.size() < this.postsubscripts.size()) {
-                this.postsuperscripts.add(new None(this.getMathBase()));
-            }
-            if (this.presuperscripts.size() < this.presubscripts.size()) {
-                this.presuperscripts.add(new None(this.getMathBase()));
-            }
+        }
+        if (this.postsuperscripts.size() < this.postsubscripts.size()) {
+            this.postsuperscripts.add(new None(this.getMathBase()));
+        }
+        if (this.presuperscripts.size() < this.presubscripts.size()) {
+            this.presuperscripts.add(new None(this.getMathBase()));
         }
     }
 
@@ -677,7 +682,7 @@ public class Mmultiscripts extends AbstractScriptElement implements
         final int len = childList.getLength();
         // start at 1 since 0 is the base!
         for (int i = 1; i < len; i++) {
-            this.removeChild(childList.item(i));
+            this.removeChild(childList.item(1));
         }
         if (len == 0) {
             this.addMathElement(new None(this.getMathBase()));
