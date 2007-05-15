@@ -39,8 +39,10 @@ import net.sourceforge.jeuclid.ParameterKey;
 import org.w3c.dom.Document;
 
 /**
- * See http://today.java.net/pub/a/today/2007/02/22/how-to-write-custom-swing-component.html
+ * See
+ * http://today.java.net/pub/a/today/2007/02/22/how-to-write-custom-swing-component.html
  * for details.
+ * 
  * @author putrycze
  * @version $Revision: 214 $
  * 
@@ -57,12 +59,12 @@ public class MathComponentUI extends ComponentUI implements
 
     /**
      * Creates a new UI.
-     *
+     * 
      */
     public MathComponentUI() {
         // nothing to do
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public void paint(final Graphics g, final JComponent c) {
@@ -118,45 +120,48 @@ public class MathComponentUI extends ComponentUI implements
         this.installDefaults(this.mathComponent);
     }
 
-
     /**
      * Configures the default properties from L&F.
-     * @param c the component
+     * 
+     * @param c
+     *            the component
      */
     protected void installDefaults(final JMathComponent c) {
-        //LookAndFeel.installColorsAndFont(c, "Label.background", "Label.foreground", "Label.font");
+        // LookAndFeel.installColorsAndFont(c, "Label.background",
+        // "Label.foreground", "Label.font");
         LookAndFeel.installProperty(c, "opaque", Boolean.FALSE);
-     }    
-    
+    }
+
     /** {@inheritDoc} */
     @Override
     public void uninstallUI(final JComponent c) {
         this.mathComponent = null;
     }
 
-    /** {@inheritDoc} */    
+    /** {@inheritDoc} */
     public void propertyChange(final PropertyChangeEvent evt) {
         final String name = evt.getPropertyName();
         if (name.equals("document") || name.equals("property")) {
             final JMathComponent jc = (JMathComponent) evt.getSource();
-            this.redo((Document) evt.getNewValue(), jc.getParameters());   
-            //jc.repaint();
+            this.redo((Document) evt.getNewValue(), jc.getParameters());
+            // jc.repaint();
         }
     }
 
-    private void redo(final Document doc, final Map<ParameterKey, String> parameters) {
+    private void redo(final Document doc,
+            final Map<ParameterKey, String> parameters) {
         if (doc != null) {
             this.base = new MathBase(parameters);
             new DOMBuilder(doc, this.base);
         } else {
             this.base = null;
-        }        
+        }
     }
 
     /** {@inheritDoc} */
     @Override
     public Dimension getMinimumSize(final JComponent c) {
-        final Dimension d = getPreferredSize(c);
+        final Dimension d = this.getPreferredSize(c);
         if (this.base == null || c.getGraphics() == null) {
             // return new Dimension(1, 1);
             return d;
