@@ -241,18 +241,14 @@
         <enabled>false</enabled>
       </releases>
     </pluginRepository>
-    <pluginRepository>
-      <id>apache.org</id>
-      <name>Maven Plugin Snapshots</name>
-      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
   </pluginRepositories>
+  <repositories>
+    <repository>
+      <id>freehep-maven</id>
+      <name>Maven FreeHEP</name>
+      <url>http://java.freehep.org/maven2</url>
+    </repository>
+  </repositories>
   <reporting>
     <plugins>
       <plugin>
