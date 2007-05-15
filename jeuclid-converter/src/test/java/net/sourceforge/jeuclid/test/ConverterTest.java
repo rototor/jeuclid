@@ -9,7 +9,6 @@ import net.sourceforge.jeuclid.Converter;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.ParameterKey;
-import net.sourceforge.jeuclid.SVGConverter;
 
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
@@ -43,7 +42,7 @@ public class ConverterTest {
         File outFile = new File(getOutDir(), "test1.svg");
         Map<ParameterKey, String> params = MathBase.getDefaultParameters();
         params.put(ParameterKey.FontSize, "25");
-        params.put(ParameterKey.OutFileType, SVGConverter.TYPE_SVG);
+        params.put(ParameterKey.OutFileType, Converter.TYPE_SVG);
         Converter.convert(doc, outFile, params);
         assertTrue(outFile.exists());
         assertTrue(outFile.length() > 0);
@@ -82,10 +81,10 @@ public class ConverterTest {
 
     @Test
     public void testConverterMimeTypes() throws Exception {
-        assertTrue(SVGConverter.TYPE_SVG.equalsIgnoreCase(Converter
-                .getMimeTypeForSuffix(SVGConverter.EXTENSION_SVG)));
-        assertTrue(SVGConverter.EXTENSION_SVG.equalsIgnoreCase(Converter
-                .getSuffixForMimeType(SVGConverter.TYPE_SVG)));
+        assertTrue(Converter.TYPE_SVG.equalsIgnoreCase(Converter
+                .getMimeTypeForSuffix(Converter.EXTENSION_SVG)));
+        assertTrue(Converter.EXTENSION_SVG.equalsIgnoreCase(Converter
+                .getSuffixForMimeType(Converter.TYPE_SVG)));
 
         assertTrue("image/png".equalsIgnoreCase(Converter
                 .getMimeTypeForSuffix("png")));
