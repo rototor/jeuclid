@@ -7,6 +7,9 @@
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
+			<action dev="maxberger" type="add">
+			  added first draft of SWF output through FreeHEP
+			</action>
 			<action dev="maxberger" type="update">
 			  Re-wrote converter API again, inspired by Eric's changes.
 			</action>
