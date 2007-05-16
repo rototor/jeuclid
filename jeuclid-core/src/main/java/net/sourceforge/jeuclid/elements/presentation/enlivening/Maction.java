@@ -18,8 +18,12 @@
 
 package net.sourceforge.jeuclid.elements.presentation.enlivening;
 
+import java.util.List;
+import java.util.Vector;
+
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
+import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
+import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.mathml.MathMLActionElement;
 
@@ -30,7 +34,8 @@ import org.w3c.dom.mathml.MathMLActionElement;
  * @author Max Berger
  * @version $Revision$
  */
-public class Maction extends AbstractRowLike implements MathMLActionElement {
+public class Maction extends AbstractElementWithDelegates implements
+        MathMLActionElement {
 
     /**
      * The XML element from this class.
@@ -49,6 +54,7 @@ public class Maction extends AbstractRowLike implements MathMLActionElement {
      */
     public Maction(final MathBase base) {
         super(base);
+        this.setDefaultMathAttribute(Maction.ATTR_SELECTION, "1");
     }
 
     /** {@inheritDoc} */
@@ -74,6 +80,23 @@ public class Maction extends AbstractRowLike implements MathMLActionElement {
     /** {@inheritDoc} */
     public void setSelection(final String selection) {
         this.setAttribute(Maction.ATTR_SELECTION, selection);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected List<JEuclidElement> createDelegates() {
+        JEuclidElement selectedElement;
+        try {
+            final int selected = Integer.parseInt(this.getSelection());
+            selectedElement = this.getMathElement(selected - 1);
+        } catch (NumberFormatException nfe) {
+            selectedElement = null;
+        }
+        final List<JEuclidElement> list = new Vector<JEuclidElement>(1);
+        if (selectedElement != null) {
+            list.add(selectedElement);
+        }
+        return list;
     }
 
 }

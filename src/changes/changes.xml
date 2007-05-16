@@ -8,6 +8,9 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
 			<action dev="maxberger" type="update">
+			  fixed maction to only display selected content, as per spec.
+			</action>
+			<action dev="maxberger" type="update">
 			  re-merged most modules, added "minimal" module
 			</action>
 			<action dev="maxberger" type="add">
