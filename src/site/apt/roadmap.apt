@@ -19,6 +19,8 @@ Roadmap
  * provide support for CSS, maybe through {{{http://xmlgraphics.apache.org/batik}batik-css}}.
 
  * support {{{http://www.w3.org/TR/MathML3}MathML 3}}.
+ 
+ * Implement  a linebreaking algorithm
 
 * General Issues
 
