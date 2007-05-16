@@ -36,7 +36,7 @@ public final class ScriptSupport {
         // Empty on purpose.
     }
 
-    static float getSubBaselineShift(final Graphics2D g,
+    private static float getOptimalSubBaselineShift(final Graphics2D g,
             final JEuclidElement base, final JEuclidElement sub,
             final JEuclidElement sup) {
 
@@ -56,12 +56,10 @@ public final class ScriptSupport {
             subAscent = 0.0f;
             subDescent = 0.0f;
         }
-        // TODO: When there is a sup element, check that sub and sup don't
-        // overlap!
         return baseDescent + (subAscent - subDescent) / 2.0f;
     }
 
-    static float getSuperBaselineShift(final Graphics2D g,
+    private static float getOptimalSuperBaselineShift(final Graphics2D g,
             final JEuclidElement base, final JEuclidElement sub,
             final JEuclidElement sup) {
         final float baseAscent;
@@ -81,8 +79,55 @@ public final class ScriptSupport {
             subAscent = 0.0f;
             subDescent = 0.0f;
         }
-        // TODO: When there is a sub element, check that sub and sup don't
-        // overlap!
         return baseAscent - (subAscent - subDescent) / 2.0f;
+    }
+
+    private static float getOverlap(final Graphics2D g,
+            final JEuclidElement sub, final JEuclidElement sup,
+            final float optimalSubBaselineShift,
+            final float optimalSuperBaselineShift) {
+
+        final float topSub = -optimalSubBaselineShift
+                + sub.getAscentHeight(g) + 1.0f;
+        final float bottomSuper = optimalSuperBaselineShift
+                - sup.getDescentHeight(g) - 1.0f;
+
+        final float overlap = topSub - bottomSuper;
+
+        return Math.max(0.0f, overlap);
+    }
+
+    static float getSubBaselineShift(final Graphics2D g,
+            final JEuclidElement base, final JEuclidElement sub,
+            final JEuclidElement sup) {
+        final float optimalSubBaselineShift = ScriptSupport
+                .getOptimalSubBaselineShift(g, base, sub, sup);
+
+        final float overlap;
+        if (sup != null) {
+            overlap = ScriptSupport.getOverlap(g, sub, sup,
+                    optimalSubBaselineShift, ScriptSupport
+                            .getOptimalSuperBaselineShift(g, base, sub, sup));
+        } else {
+            overlap = 0.0f;
+        }
+
+        return optimalSubBaselineShift + overlap / 2.0f;
+    }
+
+    static float getSuperBaselineShift(final Graphics2D g,
+            final JEuclidElement base, final JEuclidElement sub,
+            final JEuclidElement sup) {
+        final float optimalSuperBaselineShift = ScriptSupport
+                .getOptimalSuperBaselineShift(g, base, sub, sup);
+        final float overlap;
+        if (sub != null) {
+            overlap = ScriptSupport.getOverlap(g, sub, sup, ScriptSupport
+                    .getOptimalSubBaselineShift(g, base, sub, sup),
+                    optimalSuperBaselineShift);
+        } else {
+            overlap = 0.0f;
+        }
+        return optimalSuperBaselineShift + overlap / 2.0f;
     }
 }

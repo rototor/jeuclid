@@ -68,15 +68,7 @@ public class Msup extends AbstractSubSuper implements MathMLScriptElement {
         final JEuclidElement e2 = this.getMathElement(1);
 
         final float posY2 = posY - this.getSuperBaseLineShift(g);
-        // final int posY1 = posY + e1DescentHeight + e2.getAscentHeight(g)
-        // - middleshift;
-        //
-        // if (posY2 + e2.getHeight(g) > posY1) {
-        // // TODO: This belongs in SubSup, but not in Sup!
-        // posY2 = posY1 - e2.getHeight(g);
-        // // if main symbol is too small, sup- and subsymblos have not to be
-        // // laid one on onother.
-        // }
+
         e1.paint(g, posX, posY);
         e2.paint(g, posX + e1.getWidth(g), posY2);
     }
