@@ -13,4 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class FopIntegrationTest {}
+
+/* $Id$ */
+
+package net.sourceforge.jeuclid.fop.test;
+
+/**
+ * This class needs to be implemented.
+ * 
+ * @version $Revision$
+ */
+public class FopIntegrationTest {
+}

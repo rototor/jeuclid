@@ -15,7 +15,7 @@
  */
 
 /* $Id$ */
- 
+
 package net.sourceforge.jeuclid.fop;
 
 // FOP
@@ -24,22 +24,30 @@ import org.apache.fop.fo.XMLObj;
 
 /**
  * Catch all MathML objects as default element.
+ * 
+ * @version $Revision$
  */
 public class MathMLObj extends XMLObj {
 
-    /** {@inheritDoc} */
-    public MathMLObj(FONode parent) {
+    /**
+     * Default constructor.
+     * 
+     * @param parent
+     *            Parent node in FO Tree
+     */
+    public MathMLObj(final FONode parent) {
         super(parent);
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getNamespaceURI() {
         return MathMLElementMapping.NAMESPACE;
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getNormalNamespacePrefix() {
         return "mathml";
     }
 }
-
