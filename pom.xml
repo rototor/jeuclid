@@ -84,6 +84,15 @@
       </properties>
 -->
     </developer>
+    <developer>
+      <id>eric239</id>
+      <name>Ernest Mishkin</name>
+      <email>ernest_mishkin AT mcgraw-hill DOT com</email>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-5</timezone>
+    </developer>    
   </developers>
   <contributors>
     <contributor>
@@ -104,9 +113,6 @@
     </contributor>
     <contributor>
       <name>Tomas Studva</name>
-    </contributor>
-    <contributor>
-      <name>Ernest Mishkin</name>
     </contributor>
     <contributor>
       <name>Andreas Hoffmann</name>
