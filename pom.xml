@@ -93,15 +93,17 @@
       </roles>
       <timezone>-5</timezone>
     </developer>    
-  </developers>
-  <contributors>
-    <contributor>
+    <developer>
+	    <id>eputrycz</id>
       <name>Erik Putrycz</name>
       <roles>
         <role>delevoper</role>
         <role>management</role>
       </roles>
-    </contributor>
+      <timezone>-5</timezone>
+    </developer>
+  </developers>
+  <contributors>
     <contributor>
       <name>Matthias Hanisch</name>
     </contributor>
