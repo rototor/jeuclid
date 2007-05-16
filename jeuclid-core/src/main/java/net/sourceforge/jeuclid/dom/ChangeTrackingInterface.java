@@ -43,4 +43,9 @@ public interface ChangeTrackingInterface {
      */
     void addListener(ChangeTrackingInterface listener);
 
+    /**
+     * fires a change on this element and all its children, but no listeners
+     * and parents.
+     */
+    void fireChangeForSubTree();
 }
