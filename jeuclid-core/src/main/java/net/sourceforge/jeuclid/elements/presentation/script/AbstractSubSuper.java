@@ -75,11 +75,10 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
      */
     protected float getSuperBaseLineShift(final Graphics2D g) {
 
-        return ScriptSupport.getSuperBaselineShift(g, this.getBase(), this
-                .getSubscript(), this.getSuperscript())
-                + AttributesHelper
-                        .convertSizeToPt(this.getSuperscriptshift(), this,
-                                AttributesHelper.PT);
+        return Math.max(ScriptSupport.getSuperBaselineShift(g,
+                this.getBase(), this.getSubscript(), this.getSuperscript()),
+                AttributesHelper.convertSizeToPt(this.getSuperscriptshift(),
+                        this, AttributesHelper.PT));
     }
 
     /**
@@ -91,10 +90,10 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
      * @return baseline shift for super elements
      */
     protected float getSubBaseLineShift(final Graphics2D g) {
-        return ScriptSupport.getSubBaselineShift(g, this.getBase(), this
-                .getSubscript(), this.getSuperscript())
-                + AttributesHelper.convertSizeToPt(this.getSubscriptshift(),
-                        this, AttributesHelper.PT);
+        return Math.max(ScriptSupport.getSubBaselineShift(g, this.getBase(),
+                this.getSubscript(), this.getSuperscript()), AttributesHelper
+                .convertSizeToPt(this.getSubscriptshift(), this,
+                        AttributesHelper.PT));
     }
 
     /**
