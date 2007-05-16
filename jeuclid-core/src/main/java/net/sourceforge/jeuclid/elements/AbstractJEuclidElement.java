@@ -505,17 +505,20 @@ public abstract class AbstractJEuclidElement extends
         if (this.getTextContent() != null) {
             newText.append(this.getTextContent());
         }
+
+        // As seen in 2.4.6
         if (text != null) {
             newText.append(text.trim());
         }
 
         for (int i = 0; i < (newText.length() - 1); i++) {
             if ((newText.charAt(i) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX)
-                    && Character.isSpaceChar(newText.charAt(i + 1))) {
-                newText.deleteCharAt(i);
-            } else if (Character.isSpaceChar(newText.charAt(i))
                     && (newText.charAt(i + 1) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX)) {
-                newText.deleteCharAt(i + 1);
+                newText.deleteCharAt(i);
+                // CHECKSTYLE:OFF
+                // This is intentional
+                i--;
+                // CHECKSTYLE:ON
             }
         }
 
