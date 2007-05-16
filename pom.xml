@@ -92,9 +92,9 @@
         <role>developer</role>
       </roles>
       <timezone>-5</timezone>
-    </developer>    
+    </developer>
     <developer>
-	    <id>eputrycz</id>
+      <id>eputrycz</id>
       <name>Erik Putrycz</name>
       <email>erik.putrycz AT nrc-cnrc DOT gc DOT ca</email>
       <roles>
@@ -105,6 +105,12 @@
     </developer>
   </developers>
   <contributors>
+    <contributor>
+      <name>Jean Roland</name>
+      <roles>
+        <role>testing</role>
+      </roles>
+    </contributor>
     <contributor>
       <name>Matthias Hanisch</name>
     </contributor>
