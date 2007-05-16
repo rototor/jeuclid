@@ -7,7 +7,6 @@
   <version>2.9.7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-    <module>jeuclid-w3cdom</module>
     <module>jeuclid-core</module>
     <module>jeuclid-awt</module>
     <module>jeuclid-swing</module>
