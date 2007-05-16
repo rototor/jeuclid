@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id$ */
+/* $Id: MathComponentTest.java 177 2007-05-06 18:58:35Z maxberger $ */
 
 package net.sourceforge.jeuclid.test;
 
