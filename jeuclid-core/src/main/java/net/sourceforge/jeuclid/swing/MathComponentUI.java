@@ -36,6 +36,8 @@ import net.sourceforge.jeuclid.Defense;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.ParameterKey;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 
 /**
@@ -56,6 +58,12 @@ public class MathComponentUI extends ComponentUI implements
      * Reference to the MathBase class.
      */
     private MathBase base;
+
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory
+            .getLog(MathComponentUI.class);
 
     /**
      * Creates a new UI.
@@ -145,6 +153,13 @@ public class MathComponentUI extends ComponentUI implements
             final JMathComponent jc = (JMathComponent) evt.getSource();
             this.redo((Document) evt.getNewValue(), jc.getParameters());
             // jc.repaint();
+        } else {
+            try {
+                final ParameterKey key = ParameterKey.valueOf(name);
+                this.base.setParam(key, evt.getNewValue().toString());
+            } catch (IllegalArgumentException ia) {
+                MathComponentUI.LOGGER.debug(ia);
+            }
         }
     }
 

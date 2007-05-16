@@ -232,11 +232,28 @@ public class MathBase {
 
     /**
      * Retrieves the current set of parametes.
+     * <p>
+     * Please note that it is not recommended to change any of these
+     * parameters, but rather to use {@link #setParam(ParameterKey, String)}
+     * instead.
      * 
      * @return The current set of rendering parameters.
      */
     public Map<ParameterKey, String> getParams() {
         return this.renderParams;
+    }
+
+    /**
+     * Sets a rendering parameter.
+     * 
+     * @param key
+     *            Key of the rendering parameter.
+     * @param value
+     *            new value.
+     */
+    public void setParam(final ParameterKey key, final String value) {
+        this.renderParams.put(key, value);
+        this.rootElement.fireChangeForSubTree();
     }
 
     /**

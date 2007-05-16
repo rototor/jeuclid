@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.DisplayableNode;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
@@ -152,6 +153,21 @@ public final class ElementListSupport {
             element.paint(g, pos, posY);
             pos += element.getWidth(g);
         }
+    }
+
+    /**
+     * Calls {@link ChangeTrackingInterface#fireChangeForSubTree()} on all the
+     * given elements.
+     * 
+     * @param elements
+     *            a list of elements to fire the change on.
+     */
+    public static void fireChangeForSubTree(
+            final List<JEuclidElement> elements) {
+        for (final ChangeTrackingInterface element : elements) {
+            element.fireChangeForSubTree();
+        }
+
     }
 
 }

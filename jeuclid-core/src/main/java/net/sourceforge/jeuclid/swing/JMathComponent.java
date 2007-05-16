@@ -311,8 +311,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      *            Debug mode.
      */
     public void setDebug(final boolean dbg) {
-        this.parameters.put(ParameterKey.DebugMode, Boolean.toString(dbg));
-        this.repaint();
+        this.parameterChange(ParameterKey.DebugMode, Boolean.toString(dbg));
     }
 
     /**
@@ -377,12 +376,11 @@ public class JMathComponent extends JComponent implements SwingConstants {
         this.parameterChange(ParameterKey.FontsFraktur, newFonts);
     }
 
-    private void parameterChange(final ParameterKey key, final Object newFonts) {
-        final String oldValue = this.parameters
-                .get(ParameterKey.FontsFraktur);
-        this.parameters.put(key, newFonts.toString());
+    private void parameterChange(final ParameterKey key, final String newValue) {
+        final String oldValue = this.parameters.get(key);
+        this.parameters.put(key, newValue);
         this.firePropertyChange(key.name(), oldValue, this.parameters
-                .get(ParameterKey.FontsFraktur));
+                .get(key));
         this.revalidate();
         this.repaint();
     }
@@ -394,7 +392,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      *            the font size.
      */
     public void setFontSize(final float fontSize) {
-        this.parameterChange(ParameterKey.FontSize, fontSize);
+        this.parameterChange(ParameterKey.FontSize, Float.toString(fontSize));
     }
 
     /**

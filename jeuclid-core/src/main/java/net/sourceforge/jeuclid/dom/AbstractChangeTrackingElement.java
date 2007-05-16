@@ -21,6 +21,8 @@ package net.sourceforge.jeuclid.dom;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+
 import org.w3c.dom.Node;
 
 /**
@@ -77,6 +79,13 @@ public abstract class AbstractChangeTrackingElement extends
                 listener.fireChanged(false);
             }
         }
+    }
+
+    /** {@inheritDoc} */
+    public void fireChangeForSubTree() {
+        this.fireChanged(false);
+        ElementListSupport.fireChangeForSubTree(ElementListSupport
+                .createListOfChildren(this));
     }
 
     /**

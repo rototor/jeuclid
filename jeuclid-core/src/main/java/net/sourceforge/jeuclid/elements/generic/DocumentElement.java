@@ -140,7 +140,12 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
                 listener.fireChanged(false);
             }
         }
+    }
 
+    /** {@inheritDoc} */
+    public void fireChangeForSubTree() {
+        ElementListSupport.fireChangeForSubTree(ElementListSupport
+                .createListOfChildren(this));
     }
 
     /** {@inheritDoc} */
