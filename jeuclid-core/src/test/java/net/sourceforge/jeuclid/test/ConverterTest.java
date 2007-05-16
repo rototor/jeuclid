@@ -86,8 +86,9 @@ public class ConverterTest {
         assertTrue(Converter.EXTENSION_SVG.equalsIgnoreCase(Converter
                 .getSuffixForMimeType(Converter.TYPE_SVG)));
 
-        assertTrue("image/png".equalsIgnoreCase(Converter
-                .getMimeTypeForSuffix("png")));
+        final String pngType = Converter
+                .getMimeTypeForSuffix("png");
+        assertTrue("image/png".equalsIgnoreCase(pngType)||"image/x-png".equalsIgnoreCase(pngType));
         assertTrue("png".equalsIgnoreCase(Converter
                 .getSuffixForMimeType("image/png")));
 
