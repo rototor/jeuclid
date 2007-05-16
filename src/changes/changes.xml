@@ -7,6 +7,9 @@
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
+			<action dev="eric239" type="add">
+				introduced FontFactory and changed MathVariant & Mglyph to use it
+			</action>
 			<action dev="maxberger" type="update">
 			  repaired property setting in swing component.
 			</action>
