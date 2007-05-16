@@ -214,7 +214,11 @@ public final class StringUtil {
         if (xo > 0) {
             realWidth += xo;
         }
-        return Math.max(realWidth, layout.getAdvance());
+        // Unfotunately this is necessesary, although it does not look like it
+        // makes a lot of sense.
+        final float invisibleAdvance = layout.getAdvance()
+                - layout.getVisibleAdvance();
+        return realWidth + invisibleAdvance;
     }
 
     private static void addHighMapping(final int codePointStart,
