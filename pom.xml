@@ -8,13 +8,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>jeuclid-core</module>
-    <module>jeuclid-awt</module>
-    <module>jeuclid-swing</module>
     <module>jeuclid-swt</module>
-    <module>jeuclid-converter</module>
-    <module>jeuclid-appsupport</module>
-    <module>jeuclid-ant</module>
-    <module>jeuclid-mml2xxx</module>
     <module>jeuclid-mathviewer</module>
     <module>jeuclid</module>
     <module>jeuclid-webstart</module>
