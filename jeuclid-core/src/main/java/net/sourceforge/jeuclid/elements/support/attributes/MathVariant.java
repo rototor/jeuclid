@@ -25,6 +25,7 @@ import java.util.Map;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.font.FontFactory;
 
 /**
  * Class to represent and use MathVariants.
@@ -197,8 +198,9 @@ public final class MathVariant {
         final String paramValue = base.getParams().get(theParam);
         final String[] fontArray = paramValue.split(",");
         Font font = null;
+        final FontFactory fontFactory = FontFactory.getInstance();
         for (int i = 0; (i < fontArray.length) && (font == null); i++) {
-            font = new Font(fontArray[i], this.awtStyle, (int) size);
+            font = fontFactory.getFont(fontArray[i], this.awtStyle, (int) size);
             if (font.getFamily().equalsIgnoreCase(fontArray[i].trim())) {
                 if (!font.canDisplay(c)) {
                     font = null;
@@ -208,8 +210,8 @@ public final class MathVariant {
             }
         }
         if (font == null) {
-            font = new Font(MathVariant.AWT_SANSSERIF, this.awtStyle,
-                    (int) size);
+            font = fontFactory.getFont(MathVariant.AWT_SANSSERIF, 
+                    this.awtStyle, (int) size);
         }
         return font;
     }

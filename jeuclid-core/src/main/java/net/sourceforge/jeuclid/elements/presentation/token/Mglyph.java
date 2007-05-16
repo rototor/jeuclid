@@ -24,6 +24,7 @@ import java.text.AttributedString;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
+import net.sourceforge.jeuclid.font.FontFactory;
 
 import org.w3c.dom.mathml.MathMLGlyphElement;
 
@@ -66,8 +67,8 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
     protected AttributedString textContentAsAttributedString() {
         final AttributedString retVal;
         final String fontFamily = this.getFontfamily().trim();
-        final Font font = new Font(fontFamily, Font.PLAIN, (int) this
-                .getFontsizeInPoint());
+        final Font font = FontFactory.getInstance().getFont(
+                fontFamily, Font.PLAIN, (int) this.getFontsizeInPoint());
         final int codePoint = this.getIndex();
         if ((font.getFamily().equalsIgnoreCase(fontFamily))
                 && (font.canDisplay(codePoint))) {
