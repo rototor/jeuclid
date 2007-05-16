@@ -67,12 +67,13 @@ public abstract class FontFactory {
      * for future use.
      * @param format font format (TTF or TYPE_1 currently supported by the platform)
      * @param fontFile file which contains the font
+     * @return The newly created Font instance
      * @throws FontFormatException if font contained in the file 
      *         doesn't match the specified format
      * @throws IOException in case of problem while reading the file
      * @see java.awt.Font#createFont(int, File)
      */
-    public abstract void registerFont(int format, File fontFile) 
+    public abstract Font registerFont(int format, File fontFile) 
         throws IOException, FontFormatException;
 
     /**
@@ -80,11 +81,12 @@ public abstract class FontFactory {
      * for future use.
      * @param format font format (TTF or TYPE_1 currently supported by the platform)
      * @param fontStream file which contains the font
+     * @return The newly created Font instance
      * @throws FontFormatException if font contained in the stream 
      *         doesn't match the specified format
      * @throws IOException in case of problem while reading the stream
      * @see java.awt.Font#createFont(int, InputStream)
      */
-    public abstract void registerFont(int format, InputStream fontStream) 
+    public abstract Font registerFont(int format, InputStream fontStream) 
         throws IOException, FontFormatException;
 }

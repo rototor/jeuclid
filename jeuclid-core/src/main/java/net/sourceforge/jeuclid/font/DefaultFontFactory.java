@@ -67,15 +67,16 @@ public class DefaultFontFactory extends FontFactory {
      * for future use.
      * @param format font format (TTF or TYPE_1 currently supported by the platform)
      * @param fontFile file which contains the font
+     * @return The newly created Font instance
      * @throws FontFormatException if font contained in the file 
      *         doesn't match the specified format
      * @throws IOException in case of problem while reading the file
      * @see java.awt.Font#createFont(int, File)
      */
-    public void registerFont(final int format, final File fontFile) 
+    public Font registerFont(final int format, final File fontFile) 
         throws IOException, FontFormatException {
         
-        this.cacheFont(Font.createFont(format, fontFile));
+        return this.cacheFont(Font.createFont(format, fontFile));
     }
 
     /**
@@ -83,26 +84,29 @@ public class DefaultFontFactory extends FontFactory {
      * for future use.
      * @param format font format (TTF or TYPE_1 currently supported by the platform)
      * @param fontStream file which contains the font
+     * @return The newly created Font instance
      * @throws FontFormatException if font contained in the stream 
      *         doesn't match the specified format
      * @throws IOException in case of problem while reading the stream
      * @see java.awt.Font#createFont(int, InputStream)
      */
-    public void registerFont(final int format, final InputStream fontStream) 
+    public Font registerFont(final int format, final InputStream fontStream) 
         throws IOException, FontFormatException {
     
-        this.cacheFont(Font.createFont(format, fontStream));
+        return this.cacheFont(Font.createFont(format, fontStream));
     }
     
     
     /**
      * Actually stores a font in the cache.
      * Uses font name and font family as keys.
-     * @param font Font instance to cache 
+     * @param font Font instance to cache
+     * @return the font instance that was cached 
      */
-    protected void cacheFont(final Font font) {
+    protected Font cacheFont(final Font font) {
         this.fontCache.put(font.getFontName(), font);
         this.fontCache.put(font.getFamily(), font);
+        return font;
     }
     
 }

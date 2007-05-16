@@ -7,6 +7,9 @@
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
+			<action dev="eric239" type="update">
+				minor refactoring of FontFactory
+			</action>
 			<action dev="maxberger" type="update">
 			  better implementation for width of text elements.
 			</action>
