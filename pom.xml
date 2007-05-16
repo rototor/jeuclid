@@ -11,6 +11,7 @@
     <module>jeuclid-swt</module>
     <module>jeuclid-mathviewer</module>
     <module>jeuclid</module>
+    <module>jeuclid-minimal</module>
     <module>jeuclid-webstart</module>
   </modules>
   <description>
