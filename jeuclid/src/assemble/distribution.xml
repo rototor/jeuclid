@@ -35,5 +35,10 @@
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
+    <file>
+      <source>../LICENSE.FreeHEP</source>
+      <outputDirectory/>
+      <fileMode>0644</fileMode>
+    </file>
   </files>
 </assembly>
