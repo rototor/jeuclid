@@ -21,7 +21,7 @@
 			  implemented non-overlap for sub/super elements.
 			</action>
 			<action dev="eric239" type="add">
-				introduced FontFactory and changed MathVariant & Mglyph to use it
+				introduced FontFactory and changed MathVariant &amp; Mglyph to use it
 			</action>
 			<action dev="maxberger" type="update">
 			  repaired property setting in swing component.
