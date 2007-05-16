@@ -31,6 +31,7 @@ import java.util.Map;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -308,17 +309,33 @@ public class MainFrame extends JFrame {
      * carries out the actual file-open procedure.
      */
     protected void openFile() {
-        // Have to use AWT file chooser for Mac-friendlyness
-        final FileDialog chooser = new FileDialog(this,
-                "Please select a MathML file");
-        if (this.lastPath != null) {
-            chooser.setDirectory(this.lastPath.toString());
+
+        final File selectedFile;
+
+        if (MathViewer.OSX) {
+            // Have to use AWT file chooser for Mac-friendlyness
+            final FileDialog chooser = new FileDialog(this,
+                    "Please select a MathML file");
+            if (this.lastPath != null) {
+                chooser.setDirectory(this.lastPath.toString());
+            }
+            chooser.setVisible(true);
+            final String fileName = chooser.getFile();
+            if (fileName != null) {
+                selectedFile = new File(chooser.getDirectory(), fileName);
+            } else {
+                selectedFile = null;
+            }
+        } else {
+            final JFileChooser fc = new JFileChooser(this.lastPath);
+            final int returnVal = fc.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                selectedFile = fc.getSelectedFile();
+            } else {
+                selectedFile = null;
+            }
         }
-        chooser.setVisible(true);
-        final String fileName = chooser.getFile();
-        if (fileName != null) {
-            final File selectedFile = new File(chooser.getDirectory(),
-                    fileName);
+        if (selectedFile != null) {
             this.lastPath = selectedFile.getParentFile();
             this.loadFile(selectedFile);
         }
@@ -459,17 +476,34 @@ public class MainFrame extends JFrame {
      * Carries out the actual export File operation.
      */
     protected void exportFile() {
-        // Have to use AWT file chooser for Mac-friendlyness
-        final FileDialog chooser = new FileDialog(this, "Export to...",
-                FileDialog.SAVE);
-        if (this.lastPath != null) {
-            chooser.setDirectory(this.lastPath.toString());
+
+        final File selectedFile;
+
+        if (MathViewer.OSX) {
+            // Have to use AWT file chooser for Mac-friendlyness
+            final FileDialog chooser = new FileDialog(this, "Export to...",
+                    FileDialog.SAVE);
+            if (this.lastPath != null) {
+                chooser.setDirectory(this.lastPath.toString());
+            }
+            chooser.setVisible(true);
+            final String fileName = chooser.getFile();
+            if (fileName != null) {
+                selectedFile = new File(chooser.getDirectory(), fileName);
+            } else {
+                selectedFile = null;
+            }
+        } else {
+            final JFileChooser fc = new JFileChooser(this.lastPath);
+            final int returnVal = fc.showSaveDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                selectedFile = fc.getSelectedFile();
+            } else {
+                selectedFile = null;
+            }
+
         }
-        chooser.setVisible(true);
-        final String fileName = chooser.getFile();
-        if (fileName != null) {
-            final File selectedFile = new File(chooser.getDirectory(),
-                    fileName);
+        if (selectedFile != null) {
             this.lastPath = selectedFile.getParentFile();
 
             MainFrame.LOGGER.info(selectedFile);
@@ -477,7 +511,8 @@ public class MainFrame extends JFrame {
             int doIt = JOptionPane.YES_OPTION;
 
             if (selectedFile.exists()) {
-                doIt = JOptionPane.showConfirmDialog(this, "File " + fileName
+                doIt = JOptionPane.showConfirmDialog(this, "File "
+                        + selectedFile.getName()
                         + " already exists. Overwrite?", "Confirm Overwrite",
                         JOptionPane.YES_NO_OPTION);
             }
@@ -495,7 +530,8 @@ public class MainFrame extends JFrame {
         final String mimetype = Converter.getMimeTypeForSuffix(extension);
         try {
 
-            final Map<ParameterKey, String> params = this.getMathComponent().getParameters();
+            final Map<ParameterKey, String> params = this.getMathComponent()
+                    .getParameters();
             params.put(ParameterKey.OutFileType, mimetype);
             if (!Converter.convert(this.getMathComponent().getDocument(),
                     selectedFile, params)) {
