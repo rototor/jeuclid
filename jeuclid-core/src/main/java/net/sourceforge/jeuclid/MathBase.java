@@ -166,6 +166,10 @@ public class MathBase {
                     .get(ParameterKey.AntiAlias))) {
                 hints.add(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON));
+                // It looks like this is necessary for jdk 1.6 / windows
+                hints.add(new RenderingHints(
+                        RenderingHints.KEY_TEXT_ANTIALIASING,
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON));
             }
             hints.add(new RenderingHints(RenderingHints.KEY_STROKE_CONTROL,
                     RenderingHints.VALUE_STROKE_NORMALIZE));
