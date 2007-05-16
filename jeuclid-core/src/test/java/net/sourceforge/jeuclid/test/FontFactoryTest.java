@@ -26,44 +26,52 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * Test for {@link net.sourceforge.jeuclid.font.FontFactory} class 
- * and its concrete subclasses.
+ * Test for {@link net.sourceforge.jeuclid.font.FontFactory} class and its
+ * concrete subclasses.
  * 
  * @author Ernest Mishkin
- * @version $Revision:   $
+ * @version $Revision: $
  */
 public class FontFactoryTest {
-    
+
     /** */
     public FontFactoryTest() {
     }
-    
+
     /**
-     * Tests basic FontFactory functionality 
-     * (returning standard fonts, defaulting to standard fonts).
+     * Tests basic FontFactory functionality (returning standard fonts,
+     * defaulting to standard fonts).
      * 
-     * @throws Exception if anything goes wrong
+     * @throws Exception
+     *             if anything goes wrong
      */
     @Test
     public void fontFactoryTest() throws Exception {
         final String builtInFamily = "Monospaced";
         final String defaultFamily = "Dialog";
         final String customFamily = "Bitstream Vera Sans Mono";
+        final String customAltname = "BitstreamVeraSansMono-Roman";
         final FontFactory fontFactory = FontFactory.getInstance();
-        
+
         // get a non-default built-in font
-        final Font builtInFont = fontFactory.getFont(builtInFamily, Font.PLAIN, 14);
+        final Font builtInFont = fontFactory.getFont(builtInFamily,
+                Font.PLAIN, 14);
         Assert.assertEquals(builtInFamily, builtInFont.getFamily());
-        
+
         // get a non-default, not cached font
         final Font foo = fontFactory.getFont("foo", Font.PLAIN, 14);
         Assert.assertEquals(defaultFamily, foo.getFamily());
-        
+
         // register a custom font and then get it
-        fontFactory.registerFont(Font.TRUETYPE_FONT, 
-                this.getClass().getResourceAsStream("/VeraMono.ttf"));
-        final Font customFont = fontFactory.getFont(customFamily, Font.PLAIN, 14);
-        Assert.assertEquals(customFamily, customFont.getFamily());
+        fontFactory.registerFont(Font.TRUETYPE_FONT, this.getClass()
+                .getResourceAsStream("/VeraMono.ttf"));
+        Font customFont = fontFactory.getFont(customFamily, Font.PLAIN, 14);
+        if (customFont.getFamily().equals("Dialog")) {
+            customFont = fontFactory.getFont(customAltname, Font.PLAIN, 14);
+            Assert.assertEquals(customAltname, customFont.getFamily());
+        } else {
+            Assert.assertEquals(customFamily, customFont.getFamily());
+        }
         Assert.assertEquals(14, customFont.getSize());
     }
 
