@@ -50,17 +50,7 @@
   <dependencies>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
-      <artifactId>jeuclid-swing</artifactId>
-      <version>2.9.7-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>net.sourceforge.jeuclid</groupId>
-      <artifactId>jeuclid-appsupport</artifactId>
-      <version>2.9.7-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>net.sourceforge.jeuclid</groupId>
-      <artifactId>jeuclid-converter</artifactId>
+      <artifactId>jeuclid-core</artifactId>
       <version>2.9.7-SNAPSHOT</version>
     </dependency>
   </dependencies>
