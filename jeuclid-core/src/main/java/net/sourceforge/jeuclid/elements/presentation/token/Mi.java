@@ -41,7 +41,17 @@ public class Mi extends AbstractTokenWithStandardLayout {
      */
     public Mi(final MathBase base) {
         super(base);
-        this.setDefaultMathAttribute(ATTR_MATHVARIANT, "italic");
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void changeHook() {
+        super.changeHook();
+        if (this.getText().length() == 1) {
+            this.setDefaultMathAttribute(ATTR_MATHVARIANT, "italic");
+        } else {
+            this.setDefaultMathAttribute(ATTR_MATHVARIANT, "normal");
+        }
     }
 
     /** {@inheritDoc} */
