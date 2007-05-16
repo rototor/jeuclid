@@ -23,6 +23,7 @@ import java.util.Vector;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
+import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
@@ -110,7 +111,18 @@ public class Mfenced extends AbstractElementWithDelegates implements
      * @return separators
      */
     public String getSeparators() {
-        return this.getMathAttribute(Mfenced.ATTR_SEPARATORS);
+        final StringBuilder retVal = new StringBuilder();
+        final String attValue = this
+                .getMathAttribute(Mfenced.ATTR_SEPARATORS);
+        if (attValue != null) {
+            for (int i = 0; i < attValue.length(); i++) {
+                final char c = attValue.charAt(i);
+                if (c >= AbstractJEuclidElement.TRIVIAL_SPACE_MAX) {
+                    retVal.append(c);
+                }
+            }
+        }
+        return retVal.toString();
     }
 
     /**
@@ -139,6 +151,7 @@ public class Mfenced extends AbstractElementWithDelegates implements
         opOpen.addText(this.getOpen());
 
         retVal.add(opOpen);
+        final String sep = this.getSeparators();
 
         for (int i = 0; i < this.getMathElementCount(); i++) {
             retVal.add(this.getMathElement(i));
@@ -146,7 +159,6 @@ public class Mfenced extends AbstractElementWithDelegates implements
             if (i < (this.getMathElementCount() - 1)) {
                 final Mo opSep = new Mo(this.getMathBase());
                 opSep.setSeparator(MathBase.TRUE);
-                final String sep = this.getSeparators();
                 if (i < sep.length()) {
                     opSep.addText(String.valueOf(sep.charAt(i)));
                 } else {
