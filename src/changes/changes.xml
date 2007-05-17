@@ -8,6 +8,9 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
 			<action dev="maxberger" type="update">
+			   finished rework of mmultiscripts
+			</action>
+			<action dev="maxberger" type="update">
 			   minor refactoring in MathViewer
 			</action>
 			<action dev="maxberger" type="update">
