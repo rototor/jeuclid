@@ -27,7 +27,7 @@ import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import org.w3c.dom.mathml.MathMLScriptElement;
 
 /**
- * Generic support for alle elements that have a subscript or a superscript
+ * Generic support for all elements that have a subscript or a superscript
  * attribute.
  * <p>
  * Supported elements: msub, msup, msubsup.
@@ -37,14 +37,6 @@ import org.w3c.dom.mathml.MathMLScriptElement;
  */
 public abstract class AbstractSubSuper extends AbstractScriptElement
         implements MathMLScriptElement {
-
-    /**
-     * Magic constant describing the default middleshift for sub and sup
-     * elements.
-     * 
-     * @todo Check this number. Where does it come from?
-     */
-    public static final float DEFAULT_SCRIPTSHIFT = 0.215f;
 
     /**
      * Default constructor.

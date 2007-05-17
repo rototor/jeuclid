@@ -34,7 +34,6 @@ import org.w3c.dom.mathml.MathMLNodeList;
 /**
  * Prescripts and Tensor Indices.
  * 
- * @todo This class needs to be cleaned up.
  * @author Unknown
  * @author Max Berger
  * @version $Revision$
@@ -71,6 +70,18 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     private boolean inRewriteChildren;
 
+    private Graphics2D lastCalculatedFor;
+
+    private float subBaselineShift;
+
+    private float superBaselineShift;
+
+    private float ascentHeight;
+
+    private float descentHeight;
+
+    private float width;
+
     /**
      * Default constructor.
      * 
@@ -80,6 +91,7 @@ public class Mmultiscripts extends AbstractScriptElement implements
     public Mmultiscripts(final MathBase base) {
         super(base);
         this.inRewriteChildren = false;
+        this.lastCalculatedFor = null;
     }
 
     /** {@inheritDoc} */
@@ -89,6 +101,7 @@ public class Mmultiscripts extends AbstractScriptElement implements
         if (!this.inRewriteChildren) {
             this.parseChildren();
         }
+        this.lastCalculatedFor = null;
     }
 
     private void parseChildren() {
@@ -127,6 +140,58 @@ public class Mmultiscripts extends AbstractScriptElement implements
         }
     }
 
+    private void calculateSpecs(final Graphics2D g) {
+        if (g == this.lastCalculatedFor) {
+            return;
+        }
+        this.lastCalculatedFor = g;
+        final JEuclidElement base = this.getBase();
+
+        this.subBaselineShift = 0.0f;
+        this.superBaselineShift = 0.0f;
+
+        float maxSupAscent = 0.0f;
+        float maxSubDescent = 0.0f;
+
+        this.width = base.getWidth(g);
+
+        for (int i = 0; i < this.postsubscripts.size(); i++) {
+            final JEuclidElement sub = this.postsubscripts.get(i);
+            final JEuclidElement sup = this.postsuperscripts.get(i);
+            final float esubbaselineshift = ScriptSupport
+                    .getSubBaselineShift(g, base, sub, sup);
+            final float esupbaselineshift = ScriptSupport
+                    .getSuperBaselineShift(g, base, sub, sup);
+            this.subBaselineShift = Math.max(this.subBaselineShift,
+                    esubbaselineshift);
+            this.superBaselineShift = Math.max(this.superBaselineShift,
+                    esupbaselineshift);
+            maxSupAscent = Math.max(maxSupAscent, sup.getAscentHeight(g));
+            maxSubDescent = Math.max(maxSubDescent, sub.getDescentHeight(g));
+            this.width += Math.max(sub.getWidth(g), sup.getWidth(g));
+        }
+        for (int i = 0; i < this.presubscripts.size(); i++) {
+            final JEuclidElement sub = this.presubscripts.get(i);
+            final JEuclidElement sup = this.presuperscripts.get(i);
+            final float esubbaselineshift = ScriptSupport
+                    .getSubBaselineShift(g, base, sub, sup);
+            final float esupbaselineshift = ScriptSupport
+                    .getSuperBaselineShift(g, base, sub, sup);
+            this.subBaselineShift = Math.max(this.subBaselineShift,
+                    esubbaselineshift);
+            this.superBaselineShift = Math.max(this.superBaselineShift,
+                    esupbaselineshift);
+            maxSupAscent = Math.max(maxSupAscent, sup.getAscentHeight(g));
+            maxSubDescent = Math.max(maxSubDescent, sub.getDescentHeight(g));
+            this.width += Math.max(sub.getWidth(g), sup.getWidth(g));
+        }
+
+        this.ascentHeight = Math.max(base.getAscentHeight(g),
+                this.superBaselineShift + maxSupAscent);
+        this.descentHeight = Math.max(base.getDescentHeight(g),
+                this.subBaselineShift + maxSubDescent);
+    }
+
     /**
      * Paints this element.
      * 
@@ -138,453 +203,52 @@ public class Mmultiscripts extends AbstractScriptElement implements
      *            The position of the baseline
      */
     @Override
-    public final void paint(final Graphics2D g, float posX, final float posY) {
+    public final void paint(final Graphics2D g, final float posX,
+            final float posY) {
         super.paint(g, posX, posY);
-        int prPos = -1;
-        for (int i = 1; i < this.getMathElementCount(); i++) {
-            if (this.getMathElement(i) instanceof Mprescripts) {
-                prPos = i;
-                break;
-            }
-        }
-        JEuclidElement baseElement = null;
-        baseElement = this.getMathElement(0);
-        JEuclidElement childElement = null;
-        if (this.getMathElementCount() > 2) {
-            for (int i = 1; i < this.getMathElementCount(); i++) {
-                if (!(this.getMathElement(i) instanceof Mprescripts)) {
-                    childElement = this.getMathElement(i);
-                    break;
-                }
-            }
-        }
-        float middleshift = 0;
-        if (childElement != null) {
-            middleshift = baseElement.getHeight(g)
-                    * AbstractSubSuper.DEFAULT_SCRIPTSHIFT;
-        }
-        float e1DescentHeight = 0;
-        if (baseElement != null) {
-            e1DescentHeight = baseElement.getDescentHeight(g);
-        }
-        if (e1DescentHeight == 0) {
-            e1DescentHeight = this.getFontMetrics(g).getDescent();
-        }
-        float e1AscentHeight = 0;
-        if (baseElement != null) {
-            e1AscentHeight = baseElement.getAscentHeight(g);
-        }
-        if (e1AscentHeight == 0) {
-            e1AscentHeight = this.getFontMetrics(g).getAscent();
-        }
+        this.calculateSpecs(g);
+        final JEuclidElement base = this.getBase();
 
-        final float posY1 = posY + e1DescentHeight
-                + this.calculateMaxElementAscentHeight(g) - middleshift;
-        final float posY2 = posY - e1AscentHeight + middleshift
-                - this.calculateMaxElementDescentHeight(g);
-
-        int width = 0;
-        if (prPos != -1) {
-            int p = 0;
-            if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
-                p = 1;
-            }
-            for (int i = prPos + 1; i < this.getMathElementCount() - p; i++) {
-                if ((i - (prPos + 1)) > 1) {
-                    if ((i - (prPos + 1)) % 2 == 0) {
-                        width += Math.max(this.getMathElement(i - 2)
-                                .getWidth(g), this.getMathElement(i - 1)
-                                .getWidth(g));
-                    }
-                }
-                if ((i - (prPos + 1)) % 2 == 0) {
-                    this.getMathElement(i).paint(g, posX + width, posY1);
-                } else {
-                    this.getMathElement(i).paint(g, posX + width, posY2);
-                }
-            }
-            width += Math.max(this.getMathElement(
-                    this.getMathElementCount() - 2 - p).getWidth(g), this
-                    .getMathElement(this.getMathElementCount() - 1 - p)
-                    .getWidth(g));
-
+        float pos = posX;
+        for (int i = 0; i < this.presubscripts.size(); i++) {
+            final JEuclidElement sub = this.presubscripts.get(i);
+            final JEuclidElement sup = this.presuperscripts.get(i);
+            sub.paint(g, pos, posY + this.subBaselineShift);
+            sup.paint(g, pos, posY - this.superBaselineShift);
+            pos += Math.max(sub.getWidth(g), sup.getWidth(g));
         }
-        if (baseElement != null) {
-            baseElement.paint(g, posX + width, posY);
-            posX += baseElement.getWidth(g);
-        }
-        if (prPos == -1) {
-            prPos = this.getMathElementCount();
-        }
-        int p = 0;
-        if (prPos % 2 == 0) {
-            p = 1;
-        }
-
-        for (int i = 1; i < prPos - p; i++) {
-            if ((i - 1) > 1) {
-                if ((i - 1) % 2 == 0) {
-                    width += Math.max(this.getMathElement(i - 2).getWidth(g),
-                            this.getMathElement(i - 1).getWidth(g));
-                }
-            }
-            if ((i - 1) % 2 == 0) {
-                this.getMathElement(i).paint(g, posX + width, posY1);
-            } else {
-                this.getMathElement(i).paint(g, posX + width, posY2);
-            }
+        base.paint(g, pos, posY);
+        pos += base.getWidth(g);
+        for (int i = 0; i < this.postsubscripts.size(); i++) {
+            final JEuclidElement sub = this.postsubscripts.get(i);
+            final JEuclidElement sup = this.postsuperscripts.get(i);
+            sub.paint(g, pos, posY + this.subBaselineShift);
+            sup.paint(g, pos, posY - this.superBaselineShift);
+            pos += Math.max(sub.getWidth(g), sup.getWidth(g));
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public final float calculateWidth(final Graphics2D g) { // done
-        float width = 0;
-        if (this.getMathElementCount() > 0) {
-            width += this.getMathElement(0).getWidth(g);
-            int prPos = -1;
-            for (int i = 0; i < this.getMathElementCount(); i++) {
-                if (this.getMathElement(i) instanceof Mprescripts) {
-                    prPos = i;
-                    break;
-                }
-            }
-            if (prPos == -1) {
-                prPos = this.getMathElementCount();
-            }
-            int p = 0;
-            if (prPos % 2 == 0) {
-                p = 1;
-            }
-            for (int i = 1; i < prPos - p; i = i + 2) {
-                width += Math.max(this.getMathElement(i).getWidth(g), this
-                        .getMathElement(i + 1).getWidth(g));
-            }
-            if (prPos != this.getMathElementCount()) {
-                if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
-                    p = 1;
-                } else {
-                    p = 0;
-                }
-                for (int i = prPos + 1; i < this.getMathElementCount() - p; i = i + 2) {
-                    width += Math.max(this.getMathElement(i).getWidth(g),
-                            this.getMathElement(i + 1).getWidth(g));
-                }
-            }
-        }
-        return width + 1;
-    }
-
-    /**
-     * Return the current height of the upper part of child component from the
-     * baseline.
-     * 
-     * @return Height of the upper part
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public final float calculateMaxElementAscentHeight(final Graphics2D g) {
-
-        int prPos = -1;
-        float descenHeight = 0;
-        for (int i = 0; i < this.getMathElementCount(); i++) {
-            if (this.getMathElement(i) instanceof Mprescripts) {
-                prPos = i;
-                break;
-            }
-        }
-        if (prPos != -1) {
-            int p = 0;
-            if (prPos % 2 == 0) {
-                p = 1;
-            }
-            for (int i = 1; i < prPos - p; i = i + 2) {
-                descenHeight = Math.max(descenHeight, this.getMathElement(i)
-                        .getAscentHeight(g));
-            }
-            if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
-                p = 1;
-            }
-            for (int i = prPos + 1; i < this.getMathElementCount() - p; i = i + 2) {
-                descenHeight = Math.max(descenHeight, this.getMathElement(i)
-                        .getAscentHeight(g));
-            }
-        } else {
-            for (int i = 1; i < this.getMathElementCount(); i = i + 2) {
-                descenHeight = Math.max(descenHeight, this.getMathElement(i)
-                        .getAscentHeight(g));
-            }
-        }
-        return descenHeight;
+    public final float calculateWidth(final Graphics2D g) {
+        this.calculateSpecs(g);
+        return this.width;
     }
 
     /** {@inheritDoc} */
     @Override
     public final float calculateAscentHeight(final Graphics2D g) {
-        int prPos = -1;
-        float e2h = 0;
-        for (int i = 0; i < this.getMathElementCount(); i++) {
-            if (this.getMathElement(i) instanceof Mprescripts) {
-                prPos = i;
-                break;
-            }
-        }
-        if (prPos != -1) {
-            int p = 0;
-            if (prPos % 2 == 0) {
-                p = 1;
-            }
-            for (int i = 2; i < prPos - p; i = i + 2) {
-                e2h = Math
-                        .max(
-                                e2h,
-                                Math
-                                        .max(
-                                                this.getMathElement(i)
-                                                        .getHeight(g)
-                                                        - (this
-                                                                .getMathElement(
-                                                                        0)
-                                                                .getHeight(g) * AbstractSubSuper.DEFAULT_SCRIPTSHIFT),
-                                                0));
-            }
-            if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
-                p = 1;
-            }
-            for (int i = prPos + 2; i < this.getMathElementCount() - p; i = i + 2) {
-                e2h = Math
-                        .max(
-                                e2h,
-                                Math
-                                        .max(
-                                                this.getMathElement(i)
-                                                        .getHeight(g)
-                                                        - (this
-                                                                .getMathElement(
-                                                                        0)
-                                                                .getHeight(g) * AbstractSubSuper.DEFAULT_SCRIPTSHIFT),
-                                                0));
-            }
-        } else {
-            for (int i = 2; i < this.getMathElementCount(); i = i + 2) {
-                e2h = Math
-                        .max(
-                                e2h,
-                                Math
-                                        .max(
-                                                this.getMathElement(i)
-                                                        .getHeight(g)
-                                                        - (this
-                                                                .getMathElement(
-                                                                        0)
-                                                                .getHeight(g) * AbstractSubSuper.DEFAULT_SCRIPTSHIFT),
-                                                0));
-            }
-        }
-        return this.getMathElement(0).getAscentHeight(g) + e2h;
-    }
-
-    /**
-     * Return the max height of the sub element.
-     * 
-     * @return max height of the sub element
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public final float getMaxElementHeight(final Graphics2D g) {
-        float childHeight = 0;
-        int prPos = -1;
-        for (int i = 0; i < this.getMathElementCount(); i++) {
-            if (this.getMathElement(i) instanceof Mprescripts) {
-                prPos = i;
-                break;
-            }
-        }
-        if (prPos != -1) {
-            int p = 0;
-            if (prPos % 2 == 0) {
-                p = 1;
-            }
-            for (int i = 2; i < prPos - p; i = i + 2) {
-                childHeight = Math.max(childHeight, this.getMathElement(i)
-                        .getHeight(g));
-            }
-            if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
-                p = 1;
-            }
-            for (int i = prPos + 2; i < this.getMathElementCount() - p; i = i + 2) {
-                childHeight = Math.max(childHeight, this.getMathElement(i)
-                        .getHeight(g));
-            }
-        } else {
-            for (int i = 2; i < this.getMathElementCount(); i = i + 2) {
-                childHeight = Math.max(childHeight, this.getMathElement(i)
-                        .getHeight(g));
-            }
-        }
-        return childHeight;
-    }
-
-    /**
-     * Return the current height of the lower part of child component from the
-     * baseline.
-     * 
-     * @return Height of the lower part
-     * @param g
-     *            Graphics2D context to use.
-     */
-
-    public final float calculateMaxElementDescentHeight(final Graphics2D g) {
-        int prPos = -1;
-        float ascentHeight = 0;
-        for (int i = 0; i < this.getMathElementCount(); i++) {
-            if (this.getMathElement(i) instanceof Mprescripts) {
-                prPos = i;
-                break;
-            }
-        }
-        if (prPos != -1) {
-            int p = 0;
-            if (prPos % 2 == 0) {
-                p = 1;
-            }
-            for (int i = 2; i < prPos - p; i = i + 2) {
-                ascentHeight = Math.max(ascentHeight, this.getMathElement(i)
-                        .getDescentHeight(g));
-            }
-            if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
-                p = 1;
-            }
-            for (int i = prPos + 2; i < this.getMathElementCount() - p; i = i + 2) {
-                ascentHeight = Math.max(ascentHeight, this.getMathElement(i)
-                        .getDescentHeight(g));
-            }
-        } else {
-            for (int i = 2; i < this.getMathElementCount(); i = i + 2) {
-                ascentHeight = Math.max(ascentHeight, this.getMathElement(i)
-                        .getDescentHeight(g));
-            }
-        }
-        return ascentHeight;
+        this.calculateSpecs(g);
+        return this.ascentHeight;
     }
 
     /** {@inheritDoc} */
     @Override
     public final float calculateDescentHeight(final Graphics2D g) {
+        this.calculateSpecs(g);
+        return this.descentHeight;
 
-        int prPos = -1;
-        float e2h = 0;
-        for (int i = 0; i < this.getMathElementCount(); i++) {
-            if (this.getMathElement(i) instanceof Mprescripts) {
-                prPos = i;
-                break;
-            }
-        }
-        if (prPos != -1) {
-            int p = 0;
-            if (prPos % 2 == 0) {
-                p = 1;
-            }
-            for (int i = 1; i < prPos - p; i = i + 2) {
-                e2h = Math
-                        .max(
-                                e2h,
-                                Math
-                                        .max(
-                                                this.getMathElement(i)
-                                                        .getHeight(g)
-                                                        - (this
-                                                                .getMathElement(
-                                                                        0)
-                                                                .getHeight(g) * AbstractSubSuper.DEFAULT_SCRIPTSHIFT),
-                                                0));
-            }
-            if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
-                p = 1;
-            }
-            for (int i = prPos + 1; i < this.getMathElementCount() - p; i = i + 2) {
-                e2h = Math
-                        .max(
-                                e2h,
-                                Math
-                                        .max(
-                                                this.getMathElement(i)
-                                                        .getHeight(g)
-                                                        - (this
-                                                                .getMathElement(
-                                                                        0)
-                                                                .getHeight(g) * AbstractSubSuper.DEFAULT_SCRIPTSHIFT),
-                                                0));
-            }
-        } else {
-            for (int i = 1; i < this.getMathElementCount(); i = i + 2) {
-                e2h = Math
-                        .max(
-                                e2h,
-                                Math
-                                        .max(
-                                                this.getMathElement(i)
-                                                        .getHeight(g)
-                                                        - (this
-                                                                .getMathElement(
-                                                                        0)
-                                                                .getHeight(g) * AbstractSubSuper.DEFAULT_SCRIPTSHIFT),
-                                                0));
-            }
-        }
-        return this.getMathElement(0).getDescentHeight(g) + e2h;
     }
-
-    // All this function does is error messaging.
-    // TODO: Look for a good place to do this.
-    // /**
-    // * Write errors in conditions.
-    // */
-    // @Override
-    // public final void eventAllElementsComplete() {
-    // super.eventAllElementsComplete();
-    // if (this.getMathElementCount() == 0) {
-    // MathMultiScripts.LOGGER
-    // .error("Wrong number of parametrs, must be 1 or more");
-    // } else if (this.getMathElement(0) instanceof MathPreScripts) {
-    // MathMultiScripts.LOGGER.error("The first argument must be base.");
-    // }
-    // boolean isMultMPrescripts = false;
-    // if (this.getMathElementCount() > 0) {
-    // int prPos = -1;
-    // for (int i = 0; i < this.getMathElementCount(); i++) {
-    // if (this.getMathElement(i) instanceof MathPreScripts) {
-    // if (prPos != -1) {
-    // MathMultiScripts.LOGGER
-    // .error("The empty element mprescripts must be declared once.");
-    // isMultMPrescripts = true;
-    // break;
-    // }
-    // prPos = i;
-    //
-    // }
-    // }
-    // if (!isMultMPrescripts) {
-    // if (prPos == -1 && this.getMathElementCount() % 2 == 0) {
-    // MathMultiScripts.LOGGER
-    // .error("The total number of the arguments must be odd.\n"
-    // + "Some elements may not be drown. ");
-    // } else if (prPos != -1) {
-    // if (prPos % 2 == 0) {
-    // MathMultiScripts.LOGGER
-    // .error("The total number of the postcripts elements must be even.\n"
-    // + "Some elements may not be drown.");
-    // }
-    // if ((this.getMathElementCount() - prPos - 1) % 2 != 0) {
-    // MathMultiScripts.LOGGER
-    // .error("The total number of the prestcripts elements must be even.\n"
-    // + "Some elements may not be drown.");
-    // }
-    //
-    // }
-    // }
-    // }
-    // };
 
     /** {@inheritDoc} */
     @Override
@@ -600,14 +264,14 @@ public class Mmultiscripts extends AbstractScriptElement implements
     @Override
     public boolean hasChildPrescripts(final JEuclidElement child) {
         return child.isSameNode(this.getBase())
-                && (this.getNumprescriptcolumns() > 0);
+                && this.getNumprescriptcolumns() > 0;
     }
 
     /** {@inheritDoc} */
     @Override
     public boolean hasChildPostscripts(final JEuclidElement child) {
         return child.isSameNode(this.getBase())
-                && (this.getNumscriptcolumns() > 0);
+                && this.getNumscriptcolumns() > 0;
     }
 
     /** {@inheritDoc} */
@@ -617,7 +281,12 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     /** {@inheritDoc} */
     public JEuclidElement getBase() {
-        return this.getMathElement(0);
+        final JEuclidElement base = this.getMathElement(0);
+        if (base == null) {
+            return new None(this.getMathBase());
+        } else {
+            return base;
+        }
     }
 
     /** {@inheritDoc} */
