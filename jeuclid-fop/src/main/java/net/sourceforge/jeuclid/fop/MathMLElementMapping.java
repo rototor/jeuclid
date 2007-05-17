@@ -16,6 +16,12 @@
 
 /* $Id$ */
 
+/* 
+ * Please note: This file was originally taken from the Apache FOP project,
+ * available at http://xmlgraphics.apache.org/fop/ It is therefore
+ * partially copyright (c) 1999-2007 The Apache Software Foundation.
+ */
+
 package net.sourceforge.jeuclid.fop;
 
 import java.util.HashMap;

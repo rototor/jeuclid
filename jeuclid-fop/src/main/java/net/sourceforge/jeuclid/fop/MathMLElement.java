@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,12 @@
  */
 
 /* $Id$ */
+
+/* 
+ * Please note: This file was originally taken from the Apache FOP project,
+ * available at http://xmlgraphics.apache.org/fop/ It is therefore
+ * partially copyright (c) 1999-2007 The Apache Software Foundation.
+ */
 
 package net.sourceforge.jeuclid.fop;
 
