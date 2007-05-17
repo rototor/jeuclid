@@ -19,6 +19,7 @@
 package net.sourceforge.jeuclid.converter;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -70,6 +71,21 @@ public final class ConverterRegistry {
      */
     public Set<String> getAvailableOutfileTypes() {
         return this.mimetype2converter.keySet();
+    }
+
+    /**
+     * Retrieve a list of all available extensions.
+     * 
+     * @return a list of available extensions.
+     */
+    public Set<String> getAvailableExtensions() {
+        final Set<String> extensions = new HashSet<String>();
+        for (Map.Entry<String, String> e : this.suffix2mimetype.entrySet()) {
+            if (this.mimetype2converter.containsKey(e.getValue())) {
+                extensions.add(e.getKey());
+            }
+        }
+        return extensions;
     }
 
     /**
