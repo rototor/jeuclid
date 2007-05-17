@@ -26,6 +26,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.app.mathviewer.FileIO;
 import net.sourceforge.jeuclid.app.mathviewer.MainFrame;
 import net.sourceforge.jeuclid.app.support.CommandLineParser;
 
@@ -41,7 +42,7 @@ import org.apache.commons.logging.LogFactory;
 public final class MathViewer {
 
     /**
-     * Set to true if we're runing under Mac OS X.
+     * Set to true if we're running under Mac OS X.
      */
     public static final boolean OSX = System.getProperty("mrj.version") != null; //$NON-NLS-1$
 
@@ -88,7 +89,9 @@ public final class MathViewer {
                 final MainFrame mainFrame = new MainFrame();
                 mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 if (MathViewer.source != null) {
-                    mainFrame.loadFile(MathViewer.source);
+                    mainFrame.getMathComponent().setDocument(
+                            FileIO.getFileIO().loadFile(mainFrame,
+                                    MathViewer.source));
                 }
                 mainFrame.setVisible(true);
             }

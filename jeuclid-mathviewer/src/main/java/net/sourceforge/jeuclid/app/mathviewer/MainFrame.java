@@ -19,39 +19,31 @@
 package net.sourceforge.jeuclid.app.mathviewer;
 
 import java.awt.BorderLayout;
-import java.awt.FileDialog;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
-import net.sourceforge.jeuclid.Converter;
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.app.MathViewer;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
+import org.w3c.dom.Document;
 
 /**
  * Main frame for the MathViewer application.
@@ -93,8 +85,6 @@ public class MainFrame extends JFrame {
     private JScrollPane scrollPane;
 
     private JMathComponent mathComponent;
-
-    private File lastPath;
 
     private JMenu viewMenu;
 
@@ -279,65 +269,12 @@ public class MainFrame extends JFrame {
     }
 
     /**
-     * Load the given file.
-     * 
-     * @param selectedFile
-     *            File object to load.
-     */
-    public void loadFile(final File selectedFile) {
-        try {
-            this.getMathComponent().setDocument(
-                    MathMLParserSupport.parseFile(selectedFile));
-        } catch (final SAXException e) {
-            MainFrame.LOGGER.warn(e.getMessage(), e);
-            JOptionPane
-                    .showMessageDialog(
-                            this,
-                            e.getMessage(),
-                            Messages.getString("MathViewer.errorParsing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
-        } catch (final IOException e) {
-            MainFrame.LOGGER.warn(e.getMessage(), e);
-            JOptionPane
-                    .showMessageDialog(
-                            this,
-                            e.getMessage(),
-                            Messages.getString("MathViewer.errorAccessing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
-        }
-    }
-
-    /**
      * carries out the actual file-open procedure.
      */
     protected void openFile() {
-
-        final File selectedFile;
-
-        if (MathViewer.OSX) {
-            // Have to use AWT file chooser for Mac-friendlyness
-            final FileDialog chooser = new FileDialog(this,
-                    "Please select a MathML file");
-            if (this.lastPath != null) {
-                chooser.setDirectory(this.lastPath.toString());
-            }
-            chooser.setVisible(true);
-            final String fileName = chooser.getFile();
-            if (fileName != null) {
-                selectedFile = new File(chooser.getDirectory(), fileName);
-            } else {
-                selectedFile = null;
-            }
-        } else {
-            final JFileChooser fc = new JFileChooser(this.lastPath);
-            final int returnVal = fc.showOpenDialog(this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                selectedFile = fc.getSelectedFile();
-            } else {
-                selectedFile = null;
-            }
-        }
-        if (selectedFile != null) {
-            this.lastPath = selectedFile.getParentFile();
-            this.loadFile(selectedFile);
+        final Document doc = FileIO.getFileIO().loadDocument(this);
+        if (doc != null) {
+            this.getMathComponent().setDocument(doc);
         }
     }
 
@@ -366,7 +303,7 @@ public class MainFrame extends JFrame {
      * 
      * @return net.sourceforge.jeuclid.swing.JMathComponent
      */
-    private JMathComponent getMathComponent() {
+    public JMathComponent getMathComponent() {
         if (this.mathComponent == null) {
             this.mathComponent = new JMathComponent();
             this.mathComponent
@@ -476,77 +413,9 @@ public class MainFrame extends JFrame {
      * Carries out the actual export File operation.
      */
     protected void exportFile() {
-
-        final File selectedFile;
-
-        if (MathViewer.OSX) {
-            // Have to use AWT file chooser for Mac-friendlyness
-            final FileDialog chooser = new FileDialog(this, "Export to...",
-                    FileDialog.SAVE);
-            if (this.lastPath != null) {
-                chooser.setDirectory(this.lastPath.toString());
-            }
-            chooser.setVisible(true);
-            final String fileName = chooser.getFile();
-            if (fileName != null) {
-                selectedFile = new File(chooser.getDirectory(), fileName);
-            } else {
-                selectedFile = null;
-            }
-        } else {
-            final JFileChooser fc = new JFileChooser(this.lastPath);
-            final int returnVal = fc.showSaveDialog(this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                selectedFile = fc.getSelectedFile();
-            } else {
-                selectedFile = null;
-            }
-
-        }
-        if (selectedFile != null) {
-            this.lastPath = selectedFile.getParentFile();
-
-            MainFrame.LOGGER.info(selectedFile);
-
-            int doIt = JOptionPane.YES_OPTION;
-
-            if (selectedFile.exists()) {
-                doIt = JOptionPane.showConfirmDialog(this, "File "
-                        + selectedFile.getName()
-                        + " already exists. Overwrite?", "Confirm Overwrite",
-                        JOptionPane.YES_NO_OPTION);
-            }
-
-            if (doIt == JOptionPane.YES_OPTION) {
-                this.exportAs(selectedFile);
-            }
-        }
-    }
-
-    private void exportAs(final File selectedFile) {
-        final String fileName = selectedFile.getName();
-        final String extension = fileName
-                .substring(fileName.lastIndexOf('.') + 1);
-        final String mimetype = Converter.getMimeTypeForSuffix(extension);
-        try {
-
-            final Map<ParameterKey, String> params = this.getMathComponent()
-                    .getParameters();
-            params.put(ParameterKey.OutFileType, mimetype);
-            if (!Converter.convert(this.getMathComponent().getDocument(),
-                    selectedFile, params)) {
-                JOptionPane.showMessageDialog(this, "Failed to write to "
-                        + fileName, Messages
-                        .getString("MathViewer.exportError"), //$NON-NLS-1$,
-                        JOptionPane.ERROR_MESSAGE);
-
-            }
-        } catch (final IOException e) {
-            MainFrame.LOGGER.warn(e);
-            JOptionPane.showMessageDialog(this, e.getMessage(), Messages
-                    .getString("MathViewer.exportError"), //$NON-NLS-1$,
-                    JOptionPane.ERROR_MESSAGE);
-        }
+        FileIO.getFileIO().saveDocument(this,
+                this.getMathComponent().getDocument(),
+                this.getMathComponent().getParameters());
     }
 
     /**
