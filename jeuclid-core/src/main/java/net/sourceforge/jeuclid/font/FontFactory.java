@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.font;
 
@@ -36,7 +36,7 @@ import java.io.InputStream;
  * in the future versions.
  * 
  * @author Ernest Mishkin
- * @version $Revision:   $
+ * @version $Revision$
  */
 public abstract class FontFactory {
     
