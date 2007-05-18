@@ -44,7 +44,7 @@ public class BatikConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public void convert(final MathBase base, final OutputStream outStream)
+    public Dimension convert(final MathBase base, final OutputStream outStream)
             throws IOException {
         // Get a DOMImplementation
         final DOMImplementation domImpl = GenericDOMImplementation
@@ -62,13 +62,14 @@ public class BatikConverter implements ConverterPlugin {
         // Ask the test to render into the SVG Graphics2D
         // implementation
 
-        svgGenerator.setSVGCanvasSize(new Dimension((int) Math.ceil(base
-                .getWidth(svgGenerator)), (int) Math.ceil(base
-                .getHeight(svgGenerator))));
+        final Dimension size = new Dimension(
+                (int) Math.ceil(base.getWidth(svgGenerator)), 
+                (int) Math.ceil(base.getHeight(svgGenerator)));
+        svgGenerator.setSVGCanvasSize(size);
         base.paint(svgGenerator);
 
         svgGenerator.stream(new OutputStreamWriter(outStream));
-
+        return size;
     }
 
 }

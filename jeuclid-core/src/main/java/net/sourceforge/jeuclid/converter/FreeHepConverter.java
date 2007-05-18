@@ -49,7 +49,7 @@ public class FreeHepConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public void convert(final MathBase base, final OutputStream outStream)
+    public Dimension convert(final MathBase base, final OutputStream outStream)
             throws IOException {
         final Properties p = new Properties();
         // p.setProperty("PageSize","A5");
@@ -67,6 +67,8 @@ public class FreeHepConverter implements ConverterPlugin {
             g.startExport();
             base.paint(g);
             g.endExport();
+            
+            return size;
         } catch (InstantiationException e) {
             throw new IOException();
         } catch (IllegalAccessException e) {

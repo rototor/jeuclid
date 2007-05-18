@@ -86,7 +86,7 @@ public final class Converter {
     public static boolean convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
         return net.sourceforge.jeuclid.converter.Converter.getConverter()
-                .convert(inFile, outFile, outFileType);
+                .convert(inFile, outFile, outFileType) != null;
     }
 
     /**
@@ -127,7 +127,7 @@ public final class Converter {
     public static boolean convert(final File inFile, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
         return net.sourceforge.jeuclid.converter.Converter.getConverter()
-                .convert(inFile, outFile, params);
+                .convert(inFile, outFile, params) != null;
     }
 
     /**
@@ -146,7 +146,7 @@ public final class Converter {
     public static boolean convert(final Document doc, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
         return net.sourceforge.jeuclid.converter.Converter.getConverter()
-                .convert(doc, outFile, params);
+                .convert(doc, outFile, params) != null;
     }
 
     /**

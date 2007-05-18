@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.converter;
 
+import java.awt.Dimension;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -42,9 +43,11 @@ public interface ConverterPlugin {
      *            parameters.
      * @param outStream
      *            Target output stream.
+     * @return Rendering's dimension based on the spefic plugin's 
+     *         Graphics2D implementation.
      * @throws IOException
      *             if an I/O error occurred during write.
      */
-    void convert(MathBase base, OutputStream outStream) throws IOException;
+    Dimension convert(MathBase base, OutputStream outStream) throws IOException;
 
 }
