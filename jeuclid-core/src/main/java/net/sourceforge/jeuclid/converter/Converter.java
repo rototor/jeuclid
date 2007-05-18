@@ -19,6 +19,7 @@
 package net.sourceforge.jeuclid.converter;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -83,11 +84,11 @@ public final class Converter {
      *            output file.
      * @param outFileType
      *            mimetype for the output file.
-     * @return true if the conversion was successful.
+     * @return Dimension of converted image upon success, null otherwise
      * @throws IOException
      *             if an I/O error occurred during read or write.
      */
-    public boolean convert(final File inFile, final File outFile,
+    public Dimension convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
         final Map<ParameterKey, String> params = MathBase
                 .getDefaultParameters();
@@ -104,11 +105,11 @@ public final class Converter {
      *            output file.
      * @param params
      *            rendering parameters.
-     * @return true if the conversion was successful.
+     * @return Dimension of converted image upon success, null otherwise
      * @throws IOException
      *             if an I/O error occurred during read or write.
      */
-    public boolean convert(final File inFile, final File outFile,
+    public Dimension convert(final File inFile, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
         Document doc;
         try {
@@ -116,7 +117,7 @@ public final class Converter {
             return this.convert(doc, outFile, params);
         } catch (final SAXException e) {
             Converter.LOGGER.error("Failed to parse file:" + inFile, e);
-            return false;
+            return null;
         }
     }
 
@@ -131,17 +132,17 @@ public final class Converter {
      *            output file.
      * @param params
      *            parameter set to use for conversion.
-     * @return true if the conversion was successful.
+     * @return Dimension of converted image upon success, null otherwise
      * @throws IOException
      *             if an I/O error occurred during read or write.
      */
-    public boolean convert(final Node doc, final File outFile,
+    public Dimension convert(final Node doc, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
 
         final OutputStream outStream = new BufferedOutputStream(
                 new FileOutputStream(outFile));
-        final boolean result = this.convert(doc, outStream, params);
-        if (result) {
+        final Dimension result = this.convert(doc, outStream, params);
+        if (result != null) {
             // should be closed by wrapper image streams, but just in case...
             try {
                 outStream.close();
@@ -163,29 +164,26 @@ public final class Converter {
      *            output stream.
      * @param params
      *            parameter set to use for conversion.
-     * @return true if the conversion was successful.
+     * @return Dimension of converted image upon success, null otherwise
      * @throws IOException
      *             if an I/O error occurred during read or write.
      */
-    public boolean convert(final Node doc, final OutputStream outStream,
+    public Dimension convert(final Node doc, final OutputStream outStream,
             final Map<ParameterKey, String> params) throws IOException {
         final ConverterPlugin plugin = ConverterRegistry.getRegisty()
                 .getConverter(params.get(ParameterKey.OutFileType));
-        boolean result;
+        Dimension result = null;
         if (plugin != null) {
             try {
-                plugin.convert(MathMLParserSupport
+                result = plugin.convert(MathMLParserSupport
                         .createMathBaseFromDocument(doc, params), outStream);
-                result = true;
             } catch (final SAXException ex) {
                 Converter.LOGGER.fatal("Failed to process: "
                         + ex.getMessage(), ex);
-                result = false;
             }
         } else {
             Converter.LOGGER.fatal("Unsupported output type: "
                     + params.get(ParameterKey.OutFileType));
-            result = false;
         }
         return result;
     }

@@ -231,8 +231,8 @@ public final class FileIO {
         if (mimetype != null) {
             try {
                 params.put(ParameterKey.OutFileType, mimetype);
-                if (!Converter.getConverter().convert(document, selectedFile,
-                        params)) {
+                if (Converter.getConverter().convert(document, selectedFile,
+                        params) == null) {
                     JOptionPane.showMessageDialog(parent,
                             "Failed to write to " + fileName, Messages
                                     .getString(FileIO.EXPORT_ERROR),

@@ -18,6 +18,9 @@
 
 package net.sourceforge.jeuclid.converter;
 
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -48,12 +51,17 @@ public class ImageIOConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public void convert(final MathBase base, final OutputStream outStream)
+    public Dimension convert(final MathBase base, final OutputStream outStream)
             throws IOException {
         final ImageOutputStream ios = new MemoryCacheImageOutputStream(outStream);
         this.writer.setOutput(ios);
-        this.writer.write(Converter.getConverter().render(base));
+        final BufferedImage image = Converter.getConverter().render(base);
+        this.writer.write(image);
         ios.close();
+        final Graphics2D temp = (Graphics2D) image.getGraphics();
+        return new Dimension(
+                (int) Math.ceil(base.getWidth(temp)), 
+                (int) Math.ceil(base.getWidth(temp)));
     }
 
 }
