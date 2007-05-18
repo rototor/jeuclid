@@ -19,8 +19,9 @@
 package net.sourceforge.jeuclid.converter;
 
 import java.awt.Dimension;
-import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 import net.sourceforge.jeuclid.MathBase;
 
@@ -43,7 +44,7 @@ public class BatikConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public void convert(final MathBase base, final File outFile)
+    public void convert(final MathBase base, final OutputStream outStream)
             throws IOException {
         // Get a DOMImplementation
         final DOMImplementation domImpl = GenericDOMImplementation
@@ -66,7 +67,7 @@ public class BatikConverter implements ConverterPlugin {
                 .getHeight(svgGenerator))));
         base.paint(svgGenerator);
 
-        svgGenerator.stream(outFile.getAbsolutePath());
+        svgGenerator.stream(new OutputStreamWriter(outStream));
 
     }
 

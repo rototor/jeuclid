@@ -7,6 +7,11 @@
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
+			<action dev="eric239" type="update">
+					refactored new Converter, ConverterPlugin and 
+					its concrete implementations to accept OutputStream
+					instead of File
+			</action>
 			<action dev="maxberger" type="update">
 			   finished rework of mmultiscripts
 			</action>

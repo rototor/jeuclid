@@ -18,8 +18,8 @@
 
 package net.sourceforge.jeuclid.converter;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import net.sourceforge.jeuclid.MathBase;
 
@@ -35,16 +35,16 @@ import net.sourceforge.jeuclid.MathBase;
 public interface ConverterPlugin {
     /**
      * Write the given MathBase object with its rendering parameters into the
-     * given output file.
+     * given output stream.
      * 
      * @param base
      *            MathBase containing the MathML tree and the rendering
      *            parameters.
-     * @param outFile
-     *            Target file.
+     * @param outStream
+     *            Target output stream.
      * @throws IOException
      *             if an I/O error occurred during write.
      */
-    void convert(MathBase base, File outFile) throws IOException;
+    void convert(MathBase base, OutputStream outStream) throws IOException;
 
 }
