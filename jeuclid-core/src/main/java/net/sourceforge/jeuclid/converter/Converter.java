@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 
+import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.ParameterKey;
@@ -36,6 +37,7 @@ import net.sourceforge.jeuclid.ParameterKey;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -123,6 +125,8 @@ public final class Converter {
      * 
      * @param doc
      *            input document.
+     *            See {@link DOMBuilder#DOMBuilder(Node, MathBase)}
+     *            for the list of valid node types.
      * @param outFile
      *            output file.
      * @param params
@@ -131,7 +135,7 @@ public final class Converter {
      * @throws IOException
      *             if an I/O error occurred during read or write.
      */
-    public boolean convert(final Document doc, final File outFile,
+    public boolean convert(final Node doc, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
 
         final OutputStream outStream = new BufferedOutputStream(
@@ -153,6 +157,8 @@ public final class Converter {
      * 
      * @param doc
      *            input document.
+     *            See {@link DOMBuilder#DOMBuilder(Node, MathBase)}
+     *            for the list of valid node types.
      * @param outStream
      *            output stream.
      * @param params
@@ -161,7 +167,7 @@ public final class Converter {
      * @throws IOException
      *             if an I/O error occurred during read or write.
      */
-    public boolean convert(final Document doc, final OutputStream outStream,
+    public boolean convert(final Node doc, final OutputStream outStream,
             final Map<ParameterKey, String> params) throws IOException {
         final ConverterPlugin plugin = ConverterRegistry.getRegisty()
                 .getConverter(params.get(ParameterKey.OutFileType));

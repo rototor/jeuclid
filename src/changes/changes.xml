@@ -8,6 +8,11 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
 			<action dev="eric239" type="update">
+					Modified Converter (the new one) and MathMLParserSupport
+					to take Node instead of Document consistent with 
+					DOMBuilder's capabilities.
+			</action>
+			<action dev="eric239" type="update">
 					refactored new Converter, ConverterPlugin and 
 					its concrete implementations to accept OutputStream
 					instead of File
