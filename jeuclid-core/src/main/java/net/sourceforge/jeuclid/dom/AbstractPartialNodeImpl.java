@@ -42,6 +42,8 @@ import org.w3c.dom.UserDataHandler;
  */
 public abstract class AbstractPartialNodeImpl implements Node {
 
+    private static final String COULD_NOT_FIND_NODE = "Could not find node: ";
+
     private final List<Node> children = new Vector<Node>();
 
     private String textContent = "";
@@ -196,7 +198,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
             }
         }
         throw new DOMException(DOMException.NOT_FOUND_ERR,
-                "Could not find node: " + oldChild);
+                AbstractPartialNodeImpl.COULD_NOT_FIND_NODE + oldChild);
     }
 
     /** {@inheritDoc} */
@@ -244,7 +246,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
             }
         }
         throw new DOMException(DOMException.NOT_FOUND_ERR,
-                "Could not find node: " + oldChild);
+                AbstractPartialNodeImpl.COULD_NOT_FIND_NODE + oldChild);
 
     }
 
