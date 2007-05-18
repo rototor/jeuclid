@@ -22,8 +22,11 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
 
 import net.sourceforge.jeuclid.MathBase;
@@ -130,20 +133,47 @@ public final class Converter {
      */
     public boolean convert(final Document doc, final File outFile,
             final Map<ParameterKey, String> params) throws IOException {
+
+        final OutputStream outStream = new BufferedOutputStream(
+                new FileOutputStream(outFile));
+        final boolean result = this.convert(doc, outStream, params);
+        if (result) {
+            // should be closed by wrapper image streams, but just in case...
+            try {
+                outStream.close();
+            } catch (IOException e) {}
+        } else {
+            outFile.delete();
+        }
+        return result;
+    }    
+    
+    /**
+     * Converts an existing file from MathML or ODF to the given type.
+     * 
+     * @param doc
+     *            input document.
+     * @param outStream
+     *            output stream.
+     * @param params
+     *            parameter set to use for conversion.
+     * @return true if the conversion was successful.
+     * @throws IOException
+     *             if an I/O error occurred during read or write.
+     */
+    public boolean convert(final Document doc, final OutputStream outStream,
+            final Map<ParameterKey, String> params) throws IOException {
         final ConverterPlugin plugin = ConverterRegistry.getRegisty()
                 .getConverter(params.get(ParameterKey.OutFileType));
         boolean result;
         if (plugin != null) {
             try {
                 plugin.convert(MathMLParserSupport
-                        .createMathBaseFromDocument(doc, params), outFile);
+                        .createMathBaseFromDocument(doc, params), outStream);
                 result = true;
             } catch (final SAXException ex) {
                 Converter.LOGGER.fatal("Failed to process: "
                         + ex.getMessage(), ex);
-                if (outFile != null) {
-                    outFile.delete();
-                }
                 result = false;
             }
         } else {

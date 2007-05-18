@@ -18,12 +18,12 @@
 
 package net.sourceforge.jeuclid.converter;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.imageio.ImageWriter;
-import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
+import javax.imageio.stream.MemoryCacheImageOutputStream;
 
 import net.sourceforge.jeuclid.MathBase;
 
@@ -48,9 +48,9 @@ public class ImageIOConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public void convert(final MathBase base, final File outFile)
+    public void convert(final MathBase base, final OutputStream outStream)
             throws IOException {
-        final ImageOutputStream ios = new FileImageOutputStream(outFile);
+        final ImageOutputStream ios = new MemoryCacheImageOutputStream(outStream);
         this.writer.setOutput(ios);
         this.writer.write(Converter.getConverter().render(base));
         ios.close();

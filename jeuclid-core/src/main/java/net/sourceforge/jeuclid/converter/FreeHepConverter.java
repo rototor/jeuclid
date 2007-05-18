@@ -41,19 +41,15 @@ public class FreeHepConverter implements ConverterPlugin {
 
     private final Constructor<?> streamConst;
 
-    private final Constructor<?> fileConst;
-
     FreeHepConverter(final Class<?> converterClass)
             throws NoSuchMethodException {
 
         this.streamConst = converterClass.getConstructor(OutputStream.class,
                 Dimension.class);
-        this.fileConst = converterClass.getConstructor(File.class,
-                Dimension.class);
     }
 
     /** {@inheritDoc} */
-    public void convert(final MathBase base, final File outFile)
+    public void convert(final MathBase base, final OutputStream outStream)
             throws IOException {
         final Properties p = new Properties();
         // p.setProperty("PageSize","A5");
@@ -65,8 +61,8 @@ public class FreeHepConverter implements ConverterPlugin {
             final Dimension size = new Dimension((int) Math.ceil(base
                     .getWidth(temp)), (int) Math.ceil(base.getHeight(temp)));
 
-            final VectorGraphics g = (VectorGraphics) this.fileConst
-                    .newInstance(outFile, size);
+            final VectorGraphics g = (VectorGraphics) this.streamConst
+                    .newInstance(outStream, size);
             g.setProperties(p);
             g.startExport();
             base.paint(g);
