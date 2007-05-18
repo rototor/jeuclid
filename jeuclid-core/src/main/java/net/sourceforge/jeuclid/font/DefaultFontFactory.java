@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.font;
 
@@ -31,7 +31,7 @@ import java.util.Map;
  * loaded via {@link Font#createFont(int, File)} APIs.
  * 
  * @author Ernest Mishkin
- * @version $Revision:   $
+ * @version $Revision$
  */
 public class DefaultFontFactory extends FontFactory {
     

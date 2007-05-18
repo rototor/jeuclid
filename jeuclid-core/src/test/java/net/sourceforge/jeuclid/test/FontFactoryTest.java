@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.test;
 
@@ -30,7 +30,7 @@ import org.testng.annotations.Test;
  * concrete subclasses.
  * 
  * @author Ernest Mishkin
- * @version $Revision: $
+ * @version $Revision$
  */
 public class FontFactoryTest {
 
