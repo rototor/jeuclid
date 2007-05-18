@@ -33,6 +33,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -66,6 +67,8 @@ public final class MathMLParserSupport {
      *            set of parameters to use.
      * @param document
      *            the document to parse.
+     *            See {@link DOMBuilder#DOMBuilder(Node, MathBase)}
+     *            for the list of valid node types.
      * @return the MathBase object.
      * @throws SAXException
      *             if a parse error occurs.
@@ -73,7 +76,7 @@ public final class MathMLParserSupport {
      *             if a read io error occurs.
      */
     public static MathBase createMathBaseFromDocument(
-            final Document document, final Map<ParameterKey, String> params)
+            final Node document, final Map<ParameterKey, String> params)
             throws SAXException, IOException {
         final MathBase base = new MathBase(params);
 
