@@ -159,12 +159,14 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
                             "horizontalAlignment",
                             "Horizontal Alignment",
                             "Horizontal alignment, as defined by javax.swing.JLabel#getHorizontalAlignment");
+            final PropertyDescriptor border = this.createPropertyDescriptor(
+                    "border", "Border", "Swing Border Property");
 
             return new PropertyDescriptor[] { propertyContent,
                     propertyFontSize, fgContent, bgContent, opaqueContent,
                     fontsContent1, fontsContent2, fontsContent3,
                     fontsContent4, fontsContent5, fontsContent6, vAlign,
-                    hAlign, };
+                    hAlign, border, };
         } catch (final IntrospectionException ex) {
             // should never occur as we know which classes/methods can be used
             // in this BeanInfo class
