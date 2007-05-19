@@ -45,13 +45,13 @@ public final class BatikDetector {
      */
     public static void detectConversionPlugins(
             final ConverterRegistry registry) {
-        registry.registerMimeTypeAndSuffix(
-                net.sourceforge.jeuclid.Converter.TYPE_SVG,
-                net.sourceforge.jeuclid.Converter.EXTENSION_SVG, true);
         try {
             Thread.currentThread().getContextClassLoader().loadClass(
                     "org.apache.batik.svggen.SVGGraphics2D");
             BatikDetector.LOGGER.debug("Batik detected!");
+            registry.registerMimeTypeAndSuffix(
+                    net.sourceforge.jeuclid.Converter.TYPE_SVG,
+                    net.sourceforge.jeuclid.Converter.EXTENSION_SVG, true);
             registry.registerConverter(
                     net.sourceforge.jeuclid.Converter.TYPE_SVG,
                     new BatikConverter(), true);
