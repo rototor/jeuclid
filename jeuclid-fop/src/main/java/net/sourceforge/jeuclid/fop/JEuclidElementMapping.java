@@ -27,10 +27,14 @@
 
 package net.sourceforge.jeuclid.fop;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 import org.apache.fop.fo.ElementMapping;
@@ -66,6 +70,7 @@ public class JEuclidElementMapping extends ElementMapping {
             foObjs = new HashMap();
             foObjs.put("math", new ME());
             foObjs.put(ElementMapping.DEFAULT, new MathMLMaker());
+            XMLReader.setConverter(this.namespaceURI, new MathMLConverter());
 
         }
     }
@@ -81,6 +86,34 @@ public class JEuclidElementMapping extends ElementMapping {
         @Override
         public FONode make(final FONode parent) {
             return new JEuclidElement(parent);
+        }
+    }
+
+    static class MathMLConverter implements XMLReader.Converter {
+        public FopImage.ImageInfo convert(final Document doc) {
+            try {
+                final FopImage.ImageInfo info = new FopImage.ImageInfo();
+                final MathBase base = MathMLParserSupport
+                        .createMathBaseFromDocument(doc, MathBase
+                                .getDefaultParameters());
+                final Image tempimage = new BufferedImage(1, 1,
+                        BufferedImage.TYPE_INT_ARGB);
+                final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
+                info.data = doc;
+
+                info.width = (int) Math.ceil(base.getWidth(tempg));
+                info.height = (int) Math.ceil(base.getHeight(tempg));
+
+// info.mimeType = "application/mathml+xml";
+                info.mimeType = "text/xml";
+                info.str = AbstractJEuclidElement.URI;
+
+                return info;
+            } catch (Throwable t) {
+                /** @todo log that properly */
+            }
+            return null;
+
         }
     }
 
