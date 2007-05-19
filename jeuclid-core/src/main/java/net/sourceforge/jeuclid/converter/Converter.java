@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 
-import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.ParameterKey;
@@ -125,8 +124,8 @@ public final class Converter {
      * Converts an existing file from MathML or ODF to the given type.
      * 
      * @param doc
-     *            input document.
-     *            See {@link DOMBuilder#DOMBuilder(Node, MathBase)}
+     *            input document. See
+     *            {@link net.sourceforge.jeuclid.DOMBuilder#DOMBuilder(Node, MathBase)}
      *            for the list of valid node types.
      * @param outFile
      *            output file.
@@ -146,19 +145,21 @@ public final class Converter {
             // should be closed by wrapper image streams, but just in case...
             try {
                 outStream.close();
-            } catch (IOException e) {}
+            } catch (IOException e) {
+                Converter.LOGGER.debug(e);
+            }
         } else {
             outFile.delete();
         }
         return result;
-    }    
-    
+    }
+
     /**
      * Converts an existing file from MathML or ODF to the given type.
      * 
      * @param doc
-     *            input document.
-     *            See {@link DOMBuilder#DOMBuilder(Node, MathBase)}
+     *            input document. See
+     *            {@link net.sourceforge.jeuclid.DOMBuilder#DOMBuilder(Node, MathBase)}
      *            for the list of valid node types.
      * @param outStream
      *            output stream.

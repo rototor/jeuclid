@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.converter;
 
 import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
@@ -67,7 +66,7 @@ public class FreeHepConverter implements ConverterPlugin {
             g.startExport();
             base.paint(g);
             g.endExport();
-            
+
             return size;
         } catch (InstantiationException e) {
             throw new IOException();

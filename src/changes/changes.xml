@@ -7,6 +7,9 @@
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
+			<action dev="maxberger" type="add">
+			   implemented all of FreeHEP supported filetypes
+			</action>
 			<action dev="eric239" type="update">
 					refactored convert methods to return rendering's dimensions;
 					original Converter still returns boolean.

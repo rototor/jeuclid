@@ -31,7 +31,8 @@ public final class FreeHepDetector {
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory.getLog(BatikDetector.class);
+    private static final Log LOGGER = LogFactory
+            .getLog(FreeHepDetector.class);
 
     private FreeHepDetector() {
         // Empty on purpose
@@ -45,17 +46,11 @@ public final class FreeHepDetector {
      */
     public static void detectConversionPlugins(
             final ConverterRegistry registry) {
-        // TODO: This needs to be autodetected from FreeHEP!
-        final String flash = "application/x-shockwave-flash";
-        registry.registerMimeTypeAndSuffix(flash, "swf", true);
+
         try {
-            final Class<?> swfos = Thread.currentThread()
-                    .getContextClassLoader().loadClass(
-                            "org.freehep.graphicsio.swf.SWFGraphics2D");
-            registry.registerConverter(flash, new FreeHepConverter(swfos),
-                    false);
-        } catch (final NoSuchMethodException e) {
-            FreeHepDetector.LOGGER.debug(e);
+            Thread.currentThread().getContextClassLoader().loadClass(
+                    "org.freehep.util.export.ExportFileType");
+            FreeHepInternalDetector.actuallyDetectConversionPlugins(registry);
         } catch (final ClassNotFoundException e) {
             FreeHepDetector.LOGGER.debug(e);
         }
