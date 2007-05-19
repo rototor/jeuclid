@@ -7,6 +7,9 @@
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
+			<action dev="maxberger" type="update">
+			   Rewrote xml-fop to draw directly onto G2D adapter.
+			</action>
 			<action dev="maxberger" type="add">
 			   SwingComponent: support Border property.
 			</action>
