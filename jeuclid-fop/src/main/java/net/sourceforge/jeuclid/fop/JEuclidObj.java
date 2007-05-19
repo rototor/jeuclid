@@ -1,6 +1,6 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
- * 
+ * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,15 +16,19 @@
 
 /* $Id$ */
 
-/* 
+/*
  * Please note: This file was originally taken from the Apache FOP project,
  * available at http://xmlgraphics.apache.org/fop/ It is therefore
  * partially copyright (c) 1999-2007 The Apache Software Foundation.
+ * 
+ * Parts of the contents are heavily inspired by work done for Barcode4J by
+ * Jeremias Maerki, available at http://barcode4j.sf.net/
  */
 
 package net.sourceforge.jeuclid.fop;
 
 // FOP
+import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.XMLObj;
 
@@ -32,8 +36,9 @@ import org.apache.fop.fo.XMLObj;
  * Catch all MathML objects as default element.
  * 
  * @version $Revision$
+ * @author Max Berger
  */
-public class MathMLObj extends XMLObj {
+public class JEuclidObj extends XMLObj {
 
     /**
      * Default constructor.
@@ -41,14 +46,14 @@ public class MathMLObj extends XMLObj {
      * @param parent
      *            Parent node in FO Tree
      */
-    public MathMLObj(final FONode parent) {
+    public JEuclidObj(final FONode parent) {
         super(parent);
     }
 
     /** {@inheritDoc} */
     @Override
     public String getNamespaceURI() {
-        return MathMLElementMapping.NAMESPACE;
+        return AbstractJEuclidElement.URI;
     }
 
     /** {@inheritDoc} */

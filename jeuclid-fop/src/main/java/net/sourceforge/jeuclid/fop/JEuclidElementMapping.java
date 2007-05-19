@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,9 @@
  * Please note: This file was originally taken from the Apache FOP project,
  * available at http://xmlgraphics.apache.org/fop/ It is therefore
  * partially copyright (c) 1999-2007 The Apache Software Foundation.
+ * 
+ * Parts of the contents are heavily inspired by work done for Barcode4J by
+ * Jeremias Maerki, available at http://barcode4j.sf.net/
  */
 
 package net.sourceforge.jeuclid.fop;
@@ -28,6 +31,7 @@ import java.util.HashMap;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 import org.apache.fop.fo.ElementMapping;
 import org.apache.fop.fo.FONode;
@@ -39,16 +43,14 @@ import org.w3c.dom.Document;
 /**
  * This class provides the element mapping for FOP.
  * 
+ * @author Max Berger
  * @version $Revision$
  */
-public class MathMLElementMapping extends ElementMapping {
-
-    /** MathML Namespace. */
-    public static final String NAMESPACE = "http://www.w3.org/1998/Math/MathML";
+public class JEuclidElementMapping extends ElementMapping {
 
     /** Main constructor. */
-    public MathMLElementMapping() {
-        this.namespaceURI = MathMLElementMapping.NAMESPACE;
+    public JEuclidElementMapping() {
+        this.namespaceURI = AbstractJEuclidElement.URI;
     }
 
     /** {@inheritDoc} */
@@ -65,58 +67,20 @@ public class MathMLElementMapping extends ElementMapping {
             foObjs.put("math", new ME());
             foObjs.put(ElementMapping.DEFAULT, new MathMLMaker());
 
-            XMLReader.setConverter(this.namespaceURI, new MathMLConverter());
         }
     }
 
     static class MathMLMaker extends ElementMapping.Maker {
         @Override
         public FONode make(final FONode parent) {
-            return new MathMLObj(parent);
+            return new JEuclidObj(parent);
         }
     }
 
     static class ME extends ElementMapping.Maker {
         @Override
         public FONode make(final FONode parent) {
-            return new MathMLElement(parent);
-        }
-    }
-
-    static class MathMLConverter implements XMLReader.Converter {
-        public FopImage.ImageInfo convert(final Document doc) {
-            try {
-                final FopImage.ImageInfo info = new FopImage.ImageInfo();
-                final String fontname = "Helvetica";
-                final int fontstyle = 0;
-                final int inlinefontstyle = 0;
-                final int inlinefontsize = 12;
-                final int displayfontsize = 12;
-
-                final MathBase base = new MathBase(MathBase
-                        .getDefaultParameters());
-                new DOMBuilder(doc, base);
-
-                base.setDebug(false);
-
-                final MathMLElement.SVGCreated svgc = MathMLElement
-                        .createSVG(base);
-                info.data = svgc.getDocument();
-
-                info.width = (int) Math.ceil(base
-                        .getWidth(svgc.getGraphics()));
-                info.height = (int) Math.ceil(base.getHeight(svgc
-                        .getGraphics()));
-
-                info.mimeType = "image/svg+xml";
-                info.str = "http://www.w3.org/2000/svg";
-
-                return info;
-            } catch (final Throwable t) {
-                /** @todo log that properly */
-            }
-            return null;
-
+            return new JEuclidElement(parent);
         }
     }
 
