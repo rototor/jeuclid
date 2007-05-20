@@ -37,10 +37,11 @@
                         <delete>true</delete>
                         <gen>true</gen>
                     </keystore>
+                    <workDirectory>${project.build.directory}/site</workDirectory>
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>site</phase>
                         <goals>
                             <goal>jnlp</goal>
                         </goals>
