@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp
     spec="1.0+"
-    codebase="http://jeuclid.sf.net/webstart"
+    codebase="http://jeuclid.sf.net/jeuclid-webstart"
     href="$outputFile">
   <information>
     <title>JEuclid MathViewer</title>
