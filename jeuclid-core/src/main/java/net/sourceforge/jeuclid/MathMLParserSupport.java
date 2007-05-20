@@ -25,6 +25,7 @@ import java.io.StringReader;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -51,6 +52,10 @@ import org.xml.sax.SAXParseException;
  * @version $Revision$
  */
 public final class MathMLParserSupport {
+    private static final String COULD_NOT_CREATE_PARSER = "Could not create Parser: ";
+
+    private static final String CONTENT_XML = "content.xml";
+
     /**
      * Logger for this class
      */
@@ -66,18 +71,18 @@ public final class MathMLParserSupport {
      * @param params
      *            set of parameters to use.
      * @param document
-     *            the document to parse.
-     *            See {@link DOMBuilder#DOMBuilder(Node, MathBase)}
-     *            for the list of valid node types.
+     *            the document to parse. See
+     *            {@link DOMBuilder#DOMBuilder(Node, MathBase)} for the list
+     *            of valid node types.
      * @return the MathBase object.
      * @throws SAXException
      *             if a parse error occurs.
      * @throws IOException
      *             if a read io error occurs.
      */
-    public static MathBase createMathBaseFromDocument(
-            final Node document, final Map<ParameterKey, String> params)
-            throws SAXException, IOException {
+    public static MathBase createMathBaseFromDocument(final Node document,
+            final Map<ParameterKey, String> params) throws SAXException,
+            IOException {
         final MathBase base = new MathBase(params);
 
         if (document != null) {
@@ -142,7 +147,71 @@ public final class MathMLParserSupport {
     }
 
     /**
+     * Parse an input stream in MathML XML format.
+     * 
+     * @param inStream
+     *            the stream to parse.
+     * @return the DOM Tree
+     * @throws SAXException
+     *             if a parse error occurs.
+     * @throws IOException
+     *             if a read I/O error occurs.
+     */
+    public static Document parseInputStreamXML(final InputStream inStream)
+            throws SAXException, IOException {
+        Document document = null;
+        try {
+            final DocumentBuilder parser = MathMLParserSupport
+                    .createDocumentBuilder();
+            document = parser.parse(inStream);
+        } catch (final ParserConfigurationException pce) {
+            MathMLParserSupport.LOGGER.fatal(
+                    MathMLParserSupport.COULD_NOT_CREATE_PARSER
+                            + pce.getMessage(), pce);
+        }
+        return document;
+    }
+
+    /**
+     * Parse an input stream in ODF format.
+     * 
+     * @param inStream
+     *            the stream to parse.
+     * @return the DOM Tree
+     * @throws SAXException
+     *             if a parse error occurs.
+     * @throws IOException
+     *             if a read I/O error occurs.
+     */
+    public static Document parseInputStreamODF(final InputStream inStream)
+            throws SAXException, IOException {
+        final ZipInputStream zipStream = new ZipInputStream(inStream);
+        Document document = null;
+        try {
+            final DocumentBuilder parser = MathMLParserSupport
+                    .createDocumentBuilder();
+            ZipEntry entry = zipStream.getNextEntry();
+            while (entry != null) {
+                if (MathMLParserSupport.CONTENT_XML.equals(entry.getName())) {
+                    document = parser.parse(zipStream);
+                    entry = null;
+                } else {
+                    entry = zipStream.getNextEntry();
+                }
+            }
+        } catch (final ParserConfigurationException pce) {
+            MathMLParserSupport.LOGGER.fatal(
+                    MathMLParserSupport.COULD_NOT_CREATE_PARSER
+                            + pce.getMessage(), pce);
+        }
+        return document;
+    }
+
+    /**
      * Parse an input file and return the DOM tree.
+     * <p>
+     * This function will auto-detect if the given input is in MathML or ODF
+     * format.
      * 
      * @param inFile
      *            the file to parse.
@@ -150,7 +219,7 @@ public final class MathMLParserSupport {
      * @throws SAXException
      *             if a parse error occurs.
      * @throws IOException
-     *             if a read io error occurs.
+     *             if a read I/O error occurs.
      */
     public static Document parseFile(final File inFile) throws SAXException,
             IOException {
@@ -165,7 +234,7 @@ public final class MathMLParserSupport {
                     // Also try as ODF:
                     final ZipFile zipFile = new ZipFile(inFile);
                     final ZipEntry contentEntry = zipFile
-                            .getEntry("content.xml");
+                            .getEntry(MathMLParserSupport.CONTENT_XML);
                     final InputStream contentStream = zipFile
                             .getInputStream(contentEntry);
                     document = parser.parse(new InputSource(contentStream));
@@ -176,8 +245,9 @@ public final class MathMLParserSupport {
                 }
             }
         } catch (final ParserConfigurationException pce) {
-            MathMLParserSupport.LOGGER.fatal("Could not create Parser: "
-                    + pce.getMessage(), pce);
+            MathMLParserSupport.LOGGER.fatal(
+                    MathMLParserSupport.COULD_NOT_CREATE_PARSER
+                            + pce.getMessage(), pce);
         }
         return document;
     }
