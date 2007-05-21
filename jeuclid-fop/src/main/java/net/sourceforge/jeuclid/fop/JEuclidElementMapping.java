@@ -32,7 +32,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
@@ -40,6 +39,7 @@ import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import org.apache.fop.fo.ElementMapping;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.image.FopImage;
+import org.apache.fop.image.analyser.ImageReaderFactory;
 import org.apache.fop.image.analyser.XMLReader;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -70,8 +70,10 @@ public class JEuclidElementMapping extends ElementMapping {
             foObjs = new HashMap();
             foObjs.put("math", new ME());
             foObjs.put(ElementMapping.DEFAULT, new MathMLMaker());
-            XMLReader.setConverter(this.namespaceURI, new MathMLConverter());
 
+            // Additional Initialization
+            XMLReader.setConverter(this.namespaceURI, new MathMLConverter());
+            ImageReaderFactory.registerFormat(new ODFReader());
         }
     }
 
