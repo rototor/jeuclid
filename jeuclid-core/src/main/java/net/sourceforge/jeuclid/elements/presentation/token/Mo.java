@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 import net.sourceforge.jeuclid.Defense;
 import net.sourceforge.jeuclid.MathBase;
@@ -29,6 +30,7 @@ import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
 import net.sourceforge.jeuclid.elements.support.operatordict.UnknownAttributeException;
@@ -344,10 +346,15 @@ public class Mo extends AbstractJEuclidElement implements
     private void calculateVerticalStretchAndBaseline(final Graphics2D g,
             final Rectangle2D textBounds) {
         if (this.isVerticalDelimeter()) {
-            this.getParent().setCalculatingSize(true);
-            final float ascent = this.getParent().calculateAscentHeight(g);
-            final float descent = this.getParent().calculateDescentHeight(g);
-            this.getParent().setCalculatingSize(false);
+            final JEuclidElement parent = this.getParent();
+            parent.setCalculatingSize(true);
+            final List<JEuclidElement> parentsChildren = ElementListSupport
+                    .createListOfChildren(parent);
+            final float ascent = ElementListSupport.getAscentHeight(g,
+                    parentsChildren);
+            final float descent = ElementListSupport.getDescentHeight(g,
+                    parentsChildren);
+            parent.setCalculatingSize(false);
             final float realheight = (float) textBounds.getHeight();
             final float targetheight = Math.max(realheight, ascent + descent);
 
