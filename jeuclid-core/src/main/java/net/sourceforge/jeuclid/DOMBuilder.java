@@ -36,7 +36,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * The builder for creating a MathElement tree.
+ * Builds a MathML tree from a given DOM tree.
  * 
  * @author <a href="mailto:stephan@vern.chem.tu-berlin.de">Stephan Michels</a>
  * @author Max Berger
@@ -58,12 +58,16 @@ public class DOMBuilder {
 
     /**
      * Constructs a builder.
+     * <p>
+     * This constructor needs a valid DOM Tree. To obtain a DOM tree, you may
+     * use {@link MathMLParserSupport}.
      * 
      * @param node
      *            The MathML document. Can be an instance of Document, Element
      *            or DocumentFragment with Element child
      * @param mathBase
      *            Math base
+     * @see MathMLParserSupport
      */
     public DOMBuilder(final Node node, final MathBase mathBase) {
         final Element documentElement;

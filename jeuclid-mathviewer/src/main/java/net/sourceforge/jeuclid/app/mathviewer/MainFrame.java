@@ -41,8 +41,6 @@ import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.app.MathViewer;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 
 /**
@@ -51,16 +49,18 @@ import org.w3c.dom.Document;
  * @author Max Berger
  * @version $Revision$
  */
+// CHECKSTYLE:OFF
 public class MainFrame extends JFrame {
-
+    // CHECKSTYLE:ON
     private static final int DEFAULT_HEIGHT = 200;
 
     private static final int DEFAULT_WIDTH = 300;
 
-    /**
-     * Logger for this class
-     */
-    private static final Log LOGGER = LogFactory.getLog(MathViewer.class);
+    // /**
+    // * Logger for this class
+    // */
+    // currently unused.
+    // private static final Log LOGGER = LogFactory.getLog(MathViewer.class);
 
     private static final long serialVersionUID = 1L;
 

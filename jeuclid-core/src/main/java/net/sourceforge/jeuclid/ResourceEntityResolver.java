@@ -26,7 +26,15 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
 /**
- * Entity Resolver that resources in class path.
+ * Entity Resolver for standard MathML entities.
+ * <p>
+ * This class contains support for resolving all entities which are in the
+ * default MathML namespaces. It currently has support for
+ * <ul>
+ * <li>MathML 1.0.1</li>
+ * <li>OpenOffice MathML 1.0.1</li>
+ * <li>MathML 2.0</li>
+ * </ul>
  * 
  * @author Max Berger
  * @version $Revision$

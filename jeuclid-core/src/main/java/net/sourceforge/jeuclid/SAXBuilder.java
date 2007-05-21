@@ -33,7 +33,7 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 
 /**
- * The generator for creating a MathElement tree.
+ * Generator for creating a MathElement tree from SAX events.
  * 
  * @author <a href="mailto:stephan@vern.chem.tu-berlin.de">Stephan Michels</a>
  * @author Max Berger

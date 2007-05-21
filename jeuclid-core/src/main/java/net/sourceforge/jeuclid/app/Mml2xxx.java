@@ -35,6 +35,10 @@ import net.sourceforge.jeuclid.app.support.CommandLineParser;
  */
 public final class Mml2xxx {
 
+    private static final String COLON = ": ";
+
+    private static final String SPACE = " ";
+
     private Mml2xxx() {
         // Empty on purpose
     }
@@ -80,15 +84,15 @@ public final class Mml2xxx {
 
         } catch (ArrayIndexOutOfBoundsException aiobe) {
             Mml2xxx.showUsage();
-            System.out.println(aiobe.getClass().toString() + ": "
+            System.out.println(aiobe.getClass().toString() + Mml2xxx.COLON
                     + aiobe.getMessage());
         } catch (IllegalArgumentException ia) {
             Mml2xxx.showUsage();
-            System.out.println(ia.getClass().toString() + ": "
+            System.out.println(ia.getClass().toString() + Mml2xxx.COLON
                     + ia.getMessage());
         } catch (final IOException e) {
             Mml2xxx.showUsage();
-            System.out.println(e.getClass().toString() + ": "
+            System.out.println(e.getClass().toString() + Mml2xxx.COLON
                     + e.getMessage());
         }
     }
@@ -110,13 +114,13 @@ public final class Mml2xxx {
             final ParameterKey param = options[i];
             final String name = param.name();
             System.out.print(" -" + name);
-            System.out.print(" ");
+            System.out.print(Mml2xxx.SPACE);
             System.out.println(MathBase.getDefaultParameters().get(param));
         }
         System.out.println("The following output types are supported:");
         System.out.print("   ");
         for (final String type : Converter.getAvailableOutfileTypes()) {
-            System.out.print(" " + type);
+            System.out.print(Mml2xxx.SPACE + type);
         }
         System.out.println();
         System.out.println("Example: ");
