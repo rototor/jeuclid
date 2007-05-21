@@ -8,6 +8,9 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
 			<action dev="maxberger" type="update">
+			  added ODF Reader to fop-plugin (requires fix of bug in fop)
+			</action>
+			<action dev="maxberger" type="update">
 			  fixed a scaling bug in Mo
 			</action>
 			<action dev="maxberger" type="update">

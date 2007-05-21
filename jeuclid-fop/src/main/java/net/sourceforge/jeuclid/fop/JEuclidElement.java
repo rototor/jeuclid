@@ -33,8 +33,10 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.PropertyList;
@@ -73,8 +75,8 @@ public class JEuclidElement extends JEuclidObj {
     @Override
     public Point2D getDimension(final Point2D view) {
         try {
-            MathBase base = MathMLParserSupport.createMathBaseFromDocument(doc,
-                    MathBase.getDefaultParameters());
+            MathBase base = MathMLParserSupport.createMathBaseFromDocument(
+                    doc, MathBase.getDefaultParameters());
             final Image tempimage = new BufferedImage(1, 1,
                     BufferedImage.TYPE_INT_ARGB);
             final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
