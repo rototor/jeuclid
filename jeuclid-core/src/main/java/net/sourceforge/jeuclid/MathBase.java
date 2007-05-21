@@ -26,7 +26,13 @@ import java.util.Map;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
 /**
- * The base for management a MathElements tree.
+ * Keeps a MathML Tree and its Rendering attributes.
+ * <p>
+ * This is the main class for MathML handling. It stores a MathML Tree and its
+ * rendering attributes.
+ * <p>
+ * To obtain a renderable MathML tree, create an instance of this class, and
+ * fill its tree with the help of {@link DOMBuilder}.
  * 
  * @author Max Berger
  * @author <a href="mailto:stephan@vern.chem.tu-berlin.de">Stephan Michels</a>
@@ -71,6 +77,13 @@ public class MathBase {
 
     /**
      * Default constructor.
+     * <p>
+     * Allocates a new MathBase with the given rendering parameters. You may
+     * use {@link #getDefaultParameters()} to obtain a default set of
+     * rendering parameters.
+     * <p>
+     * The root element will initially be empty. You may use
+     * {@link DOMBuilder} or {@link SAXBuilder} to fill it.
      * 
      * @param params
      *            Rendering parameters.

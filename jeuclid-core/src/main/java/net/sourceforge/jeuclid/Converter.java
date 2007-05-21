@@ -38,8 +38,9 @@ import org.xml.sax.SAXException;
  * <p>
  * Currently supported output formats:
  * <ul>
- * <li>image/svg+xml
  * <li>All images supported by ImageIO
+ * <li>SVG if Batik is in the classpath.
+ * <li>EMF, GIF, PDF, PS, SVG, SWF if FreeHEP is in the classpath.
  * </ul>
  * Conversion is done through the Converter class in the new interface. This
  * class will be deprecated some time after the 3.0 release. However, the new
