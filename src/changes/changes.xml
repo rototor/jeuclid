@@ -7,6 +7,9 @@
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="none yet">
+			<action dev="maxberger" type="update">
+			  Anti-Alias fix for sun jdk 1.5
+			</action>
 			<action dev="maxberger" type="add">
 			  MathMLParserSupport: Added functionality to parse InputStreams.
 			</action>
