@@ -19,11 +19,13 @@
 package net.sourceforge.jeuclid.elements.presentation.token;
 
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
@@ -91,8 +93,21 @@ public abstract class AbstractTokenWithTextLayout extends
 
     private void produceTextLayout(final Graphics2D g2d) {
         if (this.layout == null) {
+
+            // This is an evil and totally not-understandable workaround which
+            // is essential to get Anti-aliasing on SUNS JDK 1.5
+            // It is not needed for JDK >= 1.6 or OS X
+            final FontRenderContext suggestedFontRenderContext = g2d
+                    .getFontRenderContext();
+            final boolean antialiasing = Boolean.parseBoolean(this.getMathBase()
+                    .getParams().get(ParameterKey.AntiAlias));
+            final FontRenderContext realFontRenderContext = new FontRenderContext(
+                    suggestedFontRenderContext.getTransform(), antialiasing, true);
+            // TODO: We may want to turn off anti-aliasing below a certain
+            // size threshold (such as 8pt)
+
             this.layout = new TextLayout(this.textContentAsAttributedString()
-                    .getIterator(), g2d.getFontRenderContext());
+                    .getIterator(), realFontRenderContext);
             final Rectangle2D r2d = this.layout.getBounds();
             final float xo = (float) r2d.getX();
             if (xo < 0) {
