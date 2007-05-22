@@ -83,8 +83,8 @@ public class MathComponentUI extends ComponentUI implements
         final Graphics2D g2 = (Graphics2D) g;
         final Dimension dim = new Dimension(this.mathComponent.getWidth(),
                 this.mathComponent.getHeight());
-        Point start;
-        start = this.getStartPointWithBorders(dim);
+        final Point start = this
+                .getStartPointWithBordersAndAdjustDimension(dim);
         this.paintBackground(g, dim, start);
         if (this.base != null) {
             final Point2D alignOffset = this.calucateAlignmentOffset(g2, dim);
@@ -127,18 +127,17 @@ public class MathComponentUI extends ComponentUI implements
         }
     }
 
-    private Point getStartPointWithBorders(final Dimension dim) {
-        Point start;
+    private Point getStartPointWithBordersAndAdjustDimension(
+            final Dimension dim) {
+        Point start = new Point(0, 0);
         final Border border = this.mathComponent.getBorder();
         if (border != null) {
             final Insets insets = border.getBorderInsets(this.mathComponent);
             if (insets != null) {
-                dim.width -= insets.left + insets.right; // here -
-                dim.height -= insets.top + insets.bottom; // here -
+                dim.width -= insets.left + insets.right;
+                dim.height -= insets.top + insets.bottom;
+                start = new Point(insets.left, insets.top);
             }
-            start = new Point(insets.left, insets.top);
-        } else {
-            start = new Point(0, 0);
         }
         return start;
     }
