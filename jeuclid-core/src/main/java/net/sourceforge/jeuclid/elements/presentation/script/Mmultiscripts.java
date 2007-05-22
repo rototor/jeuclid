@@ -113,21 +113,22 @@ public class Mmultiscripts extends AbstractScriptElement implements
         int state = Mmultiscripts.STATE_POSTSUB;
         final int len = childList.getLength();
         for (int i = 1; i < len; i++) {
-            final JEuclidElement child = (JEuclidElement) childList.item(i);
+            final Node child = childList.item(i);
             if (child instanceof Mprescripts) {
                 state = Mmultiscripts.STATE_PRESUB;
             } else if (child instanceof JEuclidElement) {
+                final JEuclidElement jchild = (JEuclidElement) child;
                 if (state == Mmultiscripts.STATE_POSTSUB) {
-                    this.postsubscripts.add(child);
+                    this.postsubscripts.add(jchild);
                     state = Mmultiscripts.STATE_POSTSUPER;
                 } else if (state == Mmultiscripts.STATE_POSTSUPER) {
-                    this.postsuperscripts.add(child);
+                    this.postsuperscripts.add(jchild);
                     state = Mmultiscripts.STATE_POSTSUB;
                 } else if (state == Mmultiscripts.STATE_PRESUB) {
-                    this.presubscripts.add(child);
+                    this.presubscripts.add(jchild);
                     state = Mmultiscripts.STATE_PRESUPER;
                 } else {
-                    this.presuperscripts.add(child);
+                    this.presuperscripts.add(jchild);
                     state = Mmultiscripts.STATE_PRESUB;
                 }
             }
