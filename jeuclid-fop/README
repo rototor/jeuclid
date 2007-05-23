@@ -1,11 +1,14 @@
-This module is intentionally not enabled yet.
+By now the fop bundles are in the JEuclid repository. Should this break, or need an update, these are the instructions:
 
 Please downlaod:
 
 http://people.apache.org/~jeremias/fop/maven/fop-0.93-bundle.jar
 http://people.apache.org/~jeremias/fop/maven/xmlgraphics-commons-1.1-bundle.jar
 
-extract to a temp dir (each separately), and run:
+extract to a temp dir (each separately).
+
+
+To deploy LOCALLY:
 
 (for fop)
 
@@ -16,6 +19,30 @@ mvn install:install-file -Dfile=fop-0.93.jar -DartifactId=fop -DgroupId=org.apac
 mvn install:install-file -Dfile=xmlgraphics-commons-1.1.jar -DartifactId=xmlgraphics-commons -DgroupId=org.apache.xmlgraphics -Dpackaging=jar -Dversion=1.1 -DpomFile=pom.xml
 
 
-this will be obsolete when these bugs are closed:
-http://jira.codehaus.org/browse/MAVENUPLOAD-1517
-http://jira.codehaus.org/browse/MAVENUPLOAD-1518
+To deploy REMOTELY:
+
+ensure the following settings in your settings.xml:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                        http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <interactiveMode>false</interactiveMode>
+  <servers>
+   <server>
+      <id>sourceforge</id>
+      <username>YOURUSERNAME</username>
+      <privateKey>/YOURHOME/.ssh/id_dsa</privateKey>
+      <filePermissions>664</filePermissions>
+      <directoryPermissions>775</directoryPermissions>
+      <configuration></configuration>
+    </server>
+  </servers>
+</settings>
+
+
+(for fop)
+
+mvn deploy:deploy-file -DpomFile=pom.xml -Dfile=fop-0.93.jar -DrepositoryId=sourceforge -Durl=sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2
+
+(for xmlgraphics)
+
+mvn deploy:deploy-file -DpomFile=pom.xml -Dfile=xmlgraphics-commons-1.1.jar -DrepositoryId=sourceforge -Durl=sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2

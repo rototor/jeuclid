@@ -44,4 +44,11 @@
       <optional>true</optional>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <id>jeuclid-deps</id>
+      <name>JEuclid dependencies</name>
+      <url>http://jeuclid.sf.net/m2</url>
+    </repository>
+  </repositories>
 </project>

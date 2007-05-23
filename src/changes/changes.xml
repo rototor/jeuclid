@@ -6,7 +6,11 @@
 	</properties>
 	<body>
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
-			description="none yet">
+			description="split and joined">
+			<action dev="maxberger" type="add">
+			  createad our own m2 repository;
+                          enabled fop-plugin to build by default
+			</action>
 			<action dev="maxberger" type="update">
 			  added ODF Reader to fop-plugin (requires fix of bug in fop)
 			</action>
