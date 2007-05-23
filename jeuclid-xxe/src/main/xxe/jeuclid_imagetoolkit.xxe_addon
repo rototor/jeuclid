@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<a:addon xmlns:ns="http://www.w3.org/1999/xhtml"
+         xmlns:a="http://www.xmlmind.com/xmleditor/schema/addon">
+  <a:category>
+    <a:imageToolkitPlugin />
+  </a:category>
+
+  <a:name>JEuclid MathML / ODF image plug-in</a:name>
+
+  <a:version>2.9.6</a:version>
+
+  <a:author><ns:a href="mailto:max@berger.name">Max Berger</ns:a></a:author>
+
+  <a:date>2007-05-20</a:date>
+
+  <a:abstract>Provides support for MathML formulas and OpenDocument formulas
+  through the use of
+  JEuclid.<ns:br />To be recognized, MathML files must have the
+  extension .mml or .odf.<ns:br />For more information please see <ns:a
+  href="http://jeuclid.sf.net/">http://jeuclid.sf.net</ns:a>.</a:abstract>
+
+  <a:xxeVersion>3.6.0</a:xxeVersion>
+</a:addon>
