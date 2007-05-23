@@ -8,6 +8,9 @@
 		<release version="2.9.7-SNAPSHOT" date="in SVN"
 			description="split and joined">
 			<action dev="maxberger" type="add">
+                           added new module: plugin for XXE
+			</action>
+			<action dev="maxberger" type="add">
 			  createad our own m2 repository;
                           enabled fop-plugin to build by default
 			</action>
