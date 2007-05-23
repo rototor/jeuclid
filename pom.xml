@@ -10,6 +10,7 @@
     <module>jeuclid-core</module>
     <module>jeuclid-swt</module>
     <module>jeuclid-mathviewer</module>
+    <module>jeuclid-fop</module>
     <module>jeuclid</module>
     <module>jeuclid-minimal</module>
     <module>jeuclid-webstart</module>
