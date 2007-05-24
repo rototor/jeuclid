@@ -2,12 +2,14 @@ package net.sourceforge.jeuclid.xxe;
 
 import java.awt.Image;
 import java.io.InputStream;
+import java.util.Map;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.converter.Converter;
 
 import org.w3c.dom.Document;
@@ -43,8 +45,11 @@ public class JEuclidImageRenderer extends ImageRendererAdapter {
                 throw se;
             }
         }
+        final Map<ParameterKey, String> renderingParams = MathBase
+                .getDefaultParameters();
+        renderingParams.put(ParameterKey.AntiAlias, "true");
         final MathBase base = MathMLParserSupport.createMathBaseFromDocument(
-                doc, MathBase.getDefaultParameters());
+                doc, renderingParams);
         final Image mml = Converter.getConverter().render(base);
         final Image scaledImage = ImageToolkitUtil.scaleImage(mml, width,
                 widthType, height, heightType, preserveAspectRatio, smooth);

@@ -45,11 +45,14 @@
     fileset(dir: "${project.basedir}/target") {
       include(name: "jeuclid_imagetoolkit.jar")
     }
-    fileset(dir: "${user.home}/.m2/repository/commons-logging/commons-logging-api/1.1/") {
-      include(name: "commons-logging-api-1.1.jar")
+    fileset(dir: "${user.home}/.m2/repository/commons-logging/commons-logging/1.1/") {
+      include(name: "commons-logging-1.1.jar")
     }
     fileset(dir: "${project.basedir}/../jeuclid-core/target/") {
       include(name: "jeuclid-core-2.9.7-SNAPSHOT.jar")
+    }
+    fileset(dir: "${project.basedir}/src/samples/") {
+      include(name: "*")
     }
     fileset(dir: "${project.basedir}/src/main/xxe/") {
       include(name: "jeuclid_imagetoolkit.xxe_addon")
