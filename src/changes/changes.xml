@@ -5,7 +5,13 @@
 		<author>Max Berger</author>
 	</properties>
 	<body>
-		<release version="2.9.7-SNAPSHOT" date="in SVN"
+		<release version="2.9.8-SNAPSHOT" date="in SVN"
+			description="none yet">
+		<action dev="maxberger" type="update">
+                  Released 2.9.7;
+		</action>
+		</release>
+		<release version="2.9.7" date="2007-05-24"
 			description="split and joined">
 			<action dev="maxberger" type="add">
                            added new module: plugin for XXE
