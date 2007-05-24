@@ -11,12 +11,14 @@
 
   <a:author><ns:a href="mailto:max@berger.name">Max Berger</ns:a></a:author>
 
-  <a:date>2007-05-20</a:date>
+  <a:date>2007-05-24</a:date>
 
   <a:abstract>Provides support for MathML formulas and OpenDocument formulas
-  through the use of
-  JEuclid.<ns:br />To be recognized, MathML files must have the
-  extension .mml or .odf.<ns:br />For more information please see <ns:a
+  through the use of JEuclid.<ns:br /><ns:br />Notes:<ns:br />To be
+  recognized, MathML files must have the extension .mml or .odf. In the
+  current version, only external MathML is
+  recognized.<ns:br /><ns:strong>Requires Java<ns:sup>TM</ns:sup> 1.5 or
+  newer</ns:strong><ns:br /><ns:br />For more information please see <ns:a
   href="http://jeuclid.sf.net/">http://jeuclid.sf.net</ns:a>.</a:abstract>
 
   <a:xxeVersion>3.6.0</a:xxeVersion>

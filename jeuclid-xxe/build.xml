@@ -8,8 +8,8 @@
   <property name="maven.repo.local" value="${user.home}/.m2/repository"/>
   <path id="build.classpath">
     <fileset dir="${maven.repo.local}">
+      <include name="commons-logging/commons-logging/1.1/commons-logging-1.1.jar"/>
       <include name="net/sourceforge/jeuclid/jeuclid-core/2.9.7-SNAPSHOT/jeuclid-core-2.9.7-SNAPSHOT.jar"/>
-      <include name="commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar"/>
       <include name="com/xmlmind/xxe/3.6.0/xxe-3.6.0.jar"/>
     </fileset>
   </path>
@@ -50,10 +50,10 @@
   </target>
   <target name="get-deps" depends="test-offline" description="Download all dependencies" unless="maven.mode.offline">
     <mkdir dir="${maven.repo.local}"/>
+    <get src="http://java.freehep.org/maven2/commons-logging/commons-logging/1.1/commons-logging-1.1.jar" dest="${maven.repo.local}/commons-logging/commons-logging/1.1/commons-logging-1.1.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://repo1.maven.org/maven2/commons-logging/commons-logging/1.1/commons-logging-1.1.jar" dest="${maven.repo.local}/commons-logging/commons-logging/1.1/commons-logging-1.1.jar" usetimestamp="true" ignoreerrors="true"/>
     <get src="http://java.freehep.org/maven2/net/sourceforge/jeuclid/jeuclid-core/2.9.7-SNAPSHOT/jeuclid-core-2.9.7-SNAPSHOT.jar" dest="${maven.repo.local}/net/sourceforge/jeuclid/jeuclid-core/2.9.7-SNAPSHOT/jeuclid-core-2.9.7-SNAPSHOT.jar" usetimestamp="true" ignoreerrors="true"/>
     <get src="http://repo1.maven.org/maven2/net/sourceforge/jeuclid/jeuclid-core/2.9.7-SNAPSHOT/jeuclid-core-2.9.7-SNAPSHOT.jar" dest="${maven.repo.local}/net/sourceforge/jeuclid/jeuclid-core/2.9.7-SNAPSHOT/jeuclid-core-2.9.7-SNAPSHOT.jar" usetimestamp="true" ignoreerrors="true"/>
-    <get src="http://java.freehep.org/maven2/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar" dest="${maven.repo.local}/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar" usetimestamp="true" ignoreerrors="true"/>
-    <get src="http://repo1.maven.org/maven2/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar" dest="${maven.repo.local}/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar" usetimestamp="true" ignoreerrors="true"/>
     <get src="http://java.freehep.org/maven2/com/xmlmind/xxe/3.6.0/xxe-3.6.0.jar" dest="${maven.repo.local}/com/xmlmind/xxe/3.6.0/xxe-3.6.0.jar" usetimestamp="true" ignoreerrors="true"/>
     <get src="http://repo1.maven.org/maven2/com/xmlmind/xxe/3.6.0/xxe-3.6.0.jar" dest="${maven.repo.local}/com/xmlmind/xxe/3.6.0/xxe-3.6.0.jar" usetimestamp="true" ignoreerrors="true"/>
   </target>
