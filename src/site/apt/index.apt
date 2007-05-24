@@ -25,12 +25,19 @@ News
  Some of the most notable changes:
 
    * compatibility improvements in Swing component: It behaves more like a "standard" swing component.
+
    * split up into smaller modules to allow better selection of required components.
+
    * batik for SVG support is now optional.
+
    * Two distributions: a "minimal" distribution (approx. 600k) without extra image converters, and a "complete" distribution (approx. 3300k) with extra image converters
+
    * support for new output formats: EMF, GIF, PDF, PS, SWF through the help of FreeHEP
+
    * an updated plug-in for fop 0.93
+
    * numerous bugfixes which improve stability and rendering quality.
+
    []
 
  * JEuclid 2.9.6 is released
