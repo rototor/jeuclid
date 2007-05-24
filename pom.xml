@@ -349,23 +349,23 @@
           <targetJdk>1.5</targetJdk>
         </configuration>
       </plugin>
-<!--      <plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>dashboard-maven-plugin</artifactId>
         <version>1.0-20070324.094245-8</version>
-      </plugin> -->
+      </plugin>
     </plugins>
   </reporting>
   <distributionManagement>
     <repository>
       <id>sourceforge</id>
       <name>SourceForge Final Repository</name>
-      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2/repo</url>
+      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-release</url>
     </repository>
     <snapshotRepository>
       <id>sourceforge</id>
       <name>SourceForge Snapshot Repository</name>
-      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2/repo</url>
+      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-snap</url>
     </snapshotRepository>
     <site>
       <id>sourceforge</id>
