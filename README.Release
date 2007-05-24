@@ -1,0 +1,79 @@
+
+1. manually edit all pom.xml and remove snapshot dependencies.
+
+Currently in jeuclid:
+        <artifactId>appassembler-maven-plugin</artifactId>
+        <version>1.0-alpha-2</version>
+<!--        <version>1.0-20070124.085332-18</version>-->
+
+also disable the appbundler plugin completely
+
+in jeuclid-minimal:
+        <artifactId>appassembler-maven-plugin</artifactId>
+        <version>1.0-alpha-2</version>
+<!--        <version>1.0-20070124.085332-18</version>-->
+
+
+2. Test with maven:
+
+mvn -DdryRun=true release:prepare
+(check if that works)
+mvn release:clean
+
+3. Actually prepare release:
+
+mvn release:prepare
+
+4. Perform the release
+
+mvn release:perform -DgenerateReleasePoms=true
+(checks out the project into target/checkout)
+
+WILL FAIL, but that's ok!
+
+clean up after release:
+
+mvn release:clean
+
+5. Manually build, install locally
+
+cd target/checkout
+mvn install
+
+6. Deploy installs way to much, so we deploy manually:
+
+[currently no idea how]
+
+7. Re-enable distribution plugins (that where disabled in 1)
+
+edit jeuclid/pom.xml
+edit jeuclid-minimal/pom.xml
+
+build the real release packages:
+
+mvn package
+
+upload to sf:
+
+cd jeuclid/target
+ftp -u ftp://upload.sf.net/incoming/ jeuclid-2.9.7-distribution.zip
+ftp -u ftp://upload.sf.net/incoming/ jeuclid-2.9.7-osx.zip 
+cd ../../jeuclid-minimal/target
+ftp -u ftp://upload.sf.net/incoming/ jeuclid-minimal-2.9.7-distribution.zip 
+cd ../..
+
+Log into SF and use files.
+
+8. Update website
+
+find all references to old version and update them for the current version.
+cd src/site
+grep  -r 2.9.7 * | grep -v .svn
+
+cd ../..
+
+mvn install && mvn site && mvn site-deploy
+
+9. Send email to jeuclid-users and jeuclid-devel
+
+10. update src/changes/changes.xml
