@@ -4,7 +4,7 @@
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-parent</artifactId>
   <name>JEuclid</name>
-  <version>2.9.7-SNAPSHOT</version>
+  <version>2.9.7</version>
   <packaging>pom</packaging>
   <modules>
     <module>jeuclid-core</module>
@@ -190,9 +190,9 @@
     </contributor>
   </contributors>
   <scm>
-    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</connection>
-    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</developerConnection>
-    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</url>
+    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-parent-2.9.7</connection>
+    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-parent-2.9.7</developerConnection>
+    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-parent-2.9.7</url>
   </scm>
   <build>
     <plugins>
@@ -349,11 +349,11 @@
           <targetJdk>1.5</targetJdk>
         </configuration>
       </plugin>
-      <plugin>
+<!--      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>dashboard-maven-plugin</artifactId>
         <version>1.0-20070324.094245-8</version>
-      </plugin>
+      </plugin> -->
     </plugins>
   </reporting>
   <distributionManagement>
