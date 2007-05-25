@@ -40,9 +40,13 @@ mvn release:clean
 cd target/checkout
 mvn install
 
-6. Deploy installs way to much, so we deploy manually:
+6. Deploy to m2-release
 
-[currently no idea how]
+disable all modules except -mathviewer, -core
+
+(edit pom.xml)
+
+mvn deploy
 
 7. Re-enable distribution plugins (that where disabled in 1)
 
