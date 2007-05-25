@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
+<article>
+  <title>FAQ</title>
+
+  <section>
+    <title>Supported MathML versions</title>
+
+    <para>JEuclid has built-in support for:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>MathML 1.0.1</para>
+      </listitem>
+
+      <listitem>
+        <para>MathML 2.0 (second edition)</para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="./openoffice.html">OpenOffice MathML
+        1.0.1</ulink></para>
+      </listitem>
+    </itemizedlist>
+
+    <para>You may load either an XML file (<filename>.xml</filename>,
+    .<filename>mml</filename>) or an OpenDocument Formula file
+    (<filename>.odf</filename>) directly in all JEuclid applications.</para>
+  </section>
+
+  <section>
+    <title>Available image formats</title>
+
+    <section>
+      <title>What output image types are supported?</title>
+
+      <para>This depends on the version of Java you are using. All image types
+      supported by ImageIO are supported in JEuclid by default.</para>
+
+      <para>Additional Image plugins will be picked up from the classpath. The
+      full distribution includes FreeHEP and Batik.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>JPEG (always)</para>
+        </listitem>
+
+        <listitem>
+          <para>PNG (always)</para>
+        </listitem>
+
+        <listitem>
+          <para>BMP (always)</para>
+        </listitem>
+
+        <listitem>
+          <para>WBMP (always)</para>
+        </listitem>
+
+        <listitem>
+          <para>GIF ( &gt; JDK 1.6, or with FreepHEP)</para>
+        </listitem>
+
+        <listitem>
+          <para>SVG (with Batik)</para>
+        </listitem>
+
+        <listitem>
+          <para>EMF (with FreeHep)</para>
+        </listitem>
+
+        <listitem>
+          <para>PDF (with FreeHep)</para>
+        </listitem>
+
+        <listitem>
+          <para>PS (with FreeHep)</para>
+        </listitem>
+
+        <listitem>
+          <para>SWF (with FreeHep)</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>How can I add support for more image types?</title>
+
+      <para>By adding any ImageIO compatible plugin to your classpath. An
+      example is</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><ulink
+          url="https://jai-imageio.dev.java.net/binary-builds.html">Jai-ImageIO</ulink></para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+</article>
