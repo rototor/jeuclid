@@ -69,6 +69,7 @@
             <descriptor>src/assemble/osx.xml</descriptor>
 <!--            <descriptor>src/assemble/source.xml</descriptor> -->
           </descriptors>
+          <attach>false</attach>
         </configuration>
         <executions>
           <execution>
