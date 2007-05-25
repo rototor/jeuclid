@@ -47,6 +47,7 @@
           <descriptors>
             <descriptor>src/assemble/distribution.xml</descriptor>
           </descriptors>
+          <attach>false</attach>
         </configuration>
         <executions>
           <execution>
