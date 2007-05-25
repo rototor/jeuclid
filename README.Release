@@ -62,7 +62,9 @@ cd ../../jeuclid-minimal/target
 ftp -u ftp://upload.sf.net/incoming/ jeuclid-minimal-2.9.7-distribution.zip 
 cd ../..
 
-Log into SF and use files.
+Log into SF and use files. ( e.g. release )
+
+Write News on SF site
 
 8. Update website
 
