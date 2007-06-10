@@ -9,6 +9,8 @@
 	<classpathentry excluding="**" kind="src" output="jeuclid-mathviewer/src/main/resources" path="jeuclid-mathviewer/src/main/resources"/>
 	<classpathentry kind="src" path="jeuclid-fop/src/main/java"/>
 	<classpathentry kind="src" path="jeuclid-fop/src/test/java"/>
+	<classpathentry kind="src" path="jeuclid-foprep/src/main/java"/>
+	<classpathentry kind="src" path="jeuclid-foprep/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="jeuclid-fop/src/main/resources" path="jeuclid-fop/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="jeuclid-fop/src/test/resources" path="jeuclid-fop/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>

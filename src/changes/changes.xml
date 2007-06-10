@@ -7,6 +7,9 @@
 	<body>
 		<release version="2.9.8-SNAPSHOT" date="in SVN"
 			description="none yet">
+		<action dev="maxberger" type="add">
+        	   created fo preprocess application
+		</action>
 		<action dev="maxberger" type="update">
         	   MathMLParserSupport: turned on namespaces, xinclude
 		</action>
