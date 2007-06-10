@@ -8,6 +8,9 @@
 		<release version="2.9.8-SNAPSHOT" date="in SVN"
 			description="none yet">
 		<action dev="maxberger" type="update">
+        	   MathMLParserSupport: turned on namespaces, xinclude
+		</action>
+		<action dev="maxberger" type="update">
         	FontFactory: cosmetic fixes;
 		</action>
 		<action dev="maxberger" type="update">
