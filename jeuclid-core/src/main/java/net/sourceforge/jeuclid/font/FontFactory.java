@@ -25,68 +25,85 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Abstract factory to be used to create instances of java.awt.Font.
- * The rationale behind this approach is that out-of-the box 
- * there is no way in java platform to load and <b>register</b>
- * and internal font. In other words, Font.createFont and Font's constructor
- * are not aware of each other.
- * <p>The abstract FontFactory just provides a centralized access and extention
+ * Abstract factory to be used to create instances of java.awt.Font. The
+ * rationale behind this approach is that out-of-the box there is no way in
+ * java platform to load and <b>register</b> and internal font. In other
+ * words, Font.createFont and Font's constructor are not aware of each other.
+ * <p>
+ * The abstract FontFactory just provides a centralized access and extension
  * point, delegating the actual functionality to subclasses.
- * <p>How a concrete subclass of FontFactory is identified is subject to change
+ * <p>
+ * How a concrete subclass of FontFactory is identified is subject to change
  * in the future versions.
  * 
  * @author Ernest Mishkin
  * @version $Revision$
  */
 public abstract class FontFactory {
-    
+
     private static FontFactory instance = new DefaultFontFactory();
-    
+
     /**
      * Return an instance of the currently configured concrete FontFactory.
-     * @return an instance of FontFactory  
+     * 
+     * @return an instance of FontFactory
      */
     public static FontFactory getInstance() {
         return FontFactory.instance;
     }
 
     /**
-     * Create a font object with specified properties.
-     * Font name may refer to either 'built-in' or loaded externally 
-     * and 'cached' font.
-     * @param name font name or font family name
-     * @param style font style
-     * @param size font size
+     * Create a font object with specified properties. Font name may refer to
+     * either 'built-in' or loaded externally and 'cached' font.
+     * 
+     * @param name
+     *            font name or font family name
+     * @param style
+     *            font style
+     * @param size
+     *            font size
      * @return Font instance
-     * @see java.awt.Font#Font(String, int, int)  
+     * @see java.awt.Font#Font(String, int, int)
      */
     public abstract Font getFont(String name, int style, int size);
-    
-    /**
-     * Load an external font from a file and 'register' (aka 'cache') it
-     * for future use.
-     * @param format font format (TTF or TYPE_1 currently supported by the platform)
-     * @param fontFile file which contains the font
-     * @return The newly created Font instance
-     * @throws FontFormatException if font contained in the file 
-     *         doesn't match the specified format
-     * @throws IOException in case of problem while reading the file
-     * @see java.awt.Font#createFont(int, File)
-     */
-    public abstract Font registerFont(int format, File fontFile) 
-        throws IOException, FontFormatException;
 
     /**
-     * Load an external font from a stream and 'register' (aka 'cache') it
-     * for future use.
-     * @param format font format (TTF or TYPE_1 currently supported by the platform)
-     * @param fontStream file which contains the font
+     * Load an external font from a file and 'register' (aka 'cache') it for
+     * future use.
+     * 
+     * @param format
+     *            font format (TTF or TYPE_1 currently supported by the
+     *            platform)
+     * @param fontFile
+     *            file which contains the font
      * @return The newly created Font instance
-     * @throws FontFormatException if font contained in the stream 
-     *         doesn't match the specified format
-     * @throws IOException in case of problem while reading the stream
+     * @throws FontFormatException
+     *             if font contained in the file doesn't match the specified
+     *             format
+     * @throws IOException
+     *             in case of problem while reading the file
+     * @see java.awt.Font#createFont(int, File)
+     */
+    public abstract Font registerFont(int format, File fontFile)
+            throws IOException, FontFormatException;
+
+    /**
+     * Load an external font from a stream and 'register' (aka 'cache') it for
+     * future use.
+     * 
+     * @param format
+     *            font format (TTF or TYPE_1 currently supported by the
+     *            platform)
+     * @param fontStream
+     *            file which contains the font
+     * @return The newly created Font instance
+     * @throws FontFormatException
+     *             if font contained in the stream doesn't match the specified
+     *             format
+     * @throws IOException
+     *             in case of problem while reading the stream
      * @see java.awt.Font#createFont(int, InputStream)
      */
-    public abstract Font registerFont(int format, InputStream fontStream) 
-        throws IOException, FontFormatException;
+    public abstract Font registerFont(int format, InputStream fontStream)
+            throws IOException, FontFormatException;
 }
