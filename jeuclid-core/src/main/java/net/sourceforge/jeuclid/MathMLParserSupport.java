@@ -124,6 +124,13 @@ public final class MathMLParserSupport {
             throws ParserConfigurationException {
         final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
                 .newInstance();
+        documentBuilderFactory.setNamespaceAware(true);
+        try {
+            documentBuilderFactory.setXIncludeAware(true);
+        } catch (final UnsupportedOperationException uoe) {
+            MathMLParserSupport.LOGGER.debug("Unsupported Operation: "
+                    + uoe.getMessage());
+        }
         final DocumentBuilder parser = documentBuilderFactory
                 .newDocumentBuilder();
         parser.setEntityResolver(new ResourceEntityResolver());
