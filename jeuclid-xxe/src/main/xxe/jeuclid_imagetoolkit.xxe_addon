@@ -12,7 +12,7 @@
 
   <a:author><a href="mailto:max@berger.name">Max Berger</a></a:author>
 
-  <a:date>2007-05-25</a:date>
+  <a:date>2007-06-13</a:date>
 
   <a:abstract>Provides support for MathML formulas and OpenDocument formulas
   through the use of JEuclid.<br /><br />Notes:<br />To be recognized, MathML
