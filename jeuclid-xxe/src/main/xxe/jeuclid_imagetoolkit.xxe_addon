@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<a:addon xmlns:ns="http://www.w3.org/1999/xhtml"
+<a:addon xmlns="http://www.w3.org/1999/xhtml"
+         xmlns:xhtml="http://www.w3.org/1999/xhtml"
          xmlns:a="http://www.xmlmind.com/xmleditor/schema/addon">
   <a:category>
     <a:imageToolkitPlugin />
@@ -7,19 +8,23 @@
 
   <a:name>JEuclid MathML / ODF image plug-in</a:name>
 
-  <a:version>2.9.6</a:version>
+  <a:version>2.9.7</a:version>
 
-  <a:author><ns:a href="mailto:max@berger.name">Max Berger</ns:a></a:author>
+  <a:author><a href="mailto:max@berger.name">Max Berger</a></a:author>
 
-  <a:date>2007-05-24</a:date>
+  <a:date>2007-05-25</a:date>
 
   <a:abstract>Provides support for MathML formulas and OpenDocument formulas
-  through the use of JEuclid.<ns:br /><ns:br />Notes:<ns:br />To be
-  recognized, MathML files must have the extension .mml or .odf. In the
-  current version, only external MathML is
-  recognized.<ns:br /><ns:strong>Requires Java<ns:sup>TM</ns:sup> 1.5 or
-  newer</ns:strong><ns:br /><ns:br />For more information please see <ns:a
-  href="http://jeuclid.sf.net/">http://jeuclid.sf.net</ns:a>.</a:abstract>
+  through the use of JEuclid.<br /><br />Notes:<br />To be recognized, MathML
+  files must have the extension <tt>.mml</tt> or <tt>.odf</tt>. In the current
+  version, only external MathML is recognized.<br /><strong>Requires
+  Java<sup>TM</sup> 1.5 or newer</strong><br /><br />For more information
+  please see <a
+  href="http://jeuclid.sf.net/">http://jeuclid.sf.net</a>.</a:abstract>
+
+  <a:documentation><p>A DocBook sample containing MathML and OpenDocument
+  formulas is found in
+  <tt><i>jeuclid_imagetoolkit_install_dir</i>/sample/MathML_Sample.xml</tt>.</p></a:documentation>
 
   <a:xxeVersion>3.6.0</a:xxeVersion>
 </a:addon>

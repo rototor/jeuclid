@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN" "mathml2.dtd">
+<!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN"
+"http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">
 <math>
   <mrow>
     <mi>E</mi>
