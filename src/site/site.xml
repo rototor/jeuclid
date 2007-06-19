@@ -14,26 +14,22 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-
 <project name="JEuclid">
   <bannerLeft>
     <name>JEuclid</name>
     <src>images/logo.png</src>
     <href>http://jeuclid.sourceforge.net/</href>
   </bannerLeft>
-  
-	<poweredBy>
-		<logo name="Hosted on SourceForge.net" href="http://sourceforge.net" img="http://sflogo.sourceforge.net/sflogo.php?group_id=171425&amp;type=2" />
-		<logo name="Build with Maven 2" href="http://maven.apache.org" img="images/logos/maven-feather.png" />
-	</poweredBy>
-  
-  <publishDate format="dd MMM yyyy" />
-  
+  <poweredBy>
+    <logo name="Hosted on SourceForge.net" href="http://sourceforge.net" img="http://sflogo.sourceforge.net/sflogo.php?group_id=171425&amp;type=2"/>
+    <logo name="Build with Maven 2" href="http://maven.apache.org" img="images/logos/maven-feather.png"/>
+    <logo name="Ohloh Metrics" href="http://www.ohloh.net/projects/5099" img="http://www.ohloh.net/projects/5099/badge.gif"/>
+  </poweredBy>
+  <publishDate format="dd MMM yyyy"/>
   <body>
     <links>
-      <item name="JEuclid" href="http://jeuclid.sourceforge.net/" />
+      <item name="JEuclid" href="http://jeuclid.sourceforge.net/"/>
     </links>
-  
     <menu ref="parent"/>
     <menu name="Overview">
       <item name="Introduction" href="http://jeuclid.sf.net/index.html"/>
@@ -46,7 +42,6 @@
       <item name="OpenOffice support" href="http://jeuclid.sf.net/openoffice.html"/>
       <item name="Roadmap" href="http://jeuclid.sf.net/roadmap.html"/>
     </menu>
-
     <menu name="Samples">
       <item name="Testsuite" href="http://jeuclid.sf.net/testsuite/index.html"/>
       <item name="Example 1" href="http://jeuclid.sf.net/example1.html"/>
@@ -57,9 +52,7 @@
       <item name="Example 6" href="http://jeuclid.sf.net/example6.html"/>
       <item name="Example 7" href="http://jeuclid.sf.net/example7.html"/>
     </menu>
-    
     <menu ref="modules"/>
     <menu ref="reports"/>
-    
   </body>
 </project>
