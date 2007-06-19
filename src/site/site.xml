@@ -32,25 +32,25 @@
     </links>
     <menu ref="parent"/>
     <menu name="Overview">
-      <item name="Introduction" href="http://jeuclid.sf.net/index.html"/>
-      <item name="History" href="http://jeuclid.sf.net/history.html"/>
-      <item name="Usage" href="http://jeuclid.sf.net/usage.html"/>
-      <item name="WebStart" href="http://jeuclid.sf.net/webstart.html"/>
-      <item name="Source" href="http://jeuclid.sf.net/source.html"/>
-      <item name="Logo Contenst" href="http://jeuclid.sf.net/logo.html"/>
-      <item name="FAQ" href="http://jeuclid.sf.net/faq.html"/>
-      <item name="OpenOffice support" href="http://jeuclid.sf.net/openoffice.html"/>
-      <item name="Roadmap" href="http://jeuclid.sf.net/roadmap.html"/>
+      <item name="Introduction" href="index.html"/>
+      <item name="History" href="history.html"/>
+      <item name="Usage" href="usage.html"/>
+      <item name="WebStart" href="webstart.html"/>
+      <item name="Source" href="source.html"/>
+      <item name="Logo Contenst" href="logo.html"/>
+      <item name="FAQ" href="faq.html"/>
+      <item name="OpenOffice support" href="openoffice.html"/>
+      <item name="Roadmap" href="roadmap.html"/>
     </menu>
     <menu name="Samples">
-      <item name="Testsuite" href="http://jeuclid.sf.net/testsuite/index.html"/>
-      <item name="Example 1" href="http://jeuclid.sf.net/example1.html"/>
-      <item name="Example 2" href="http://jeuclid.sf.net/example2.html"/>
-      <item name="Example 3" href="http://jeuclid.sf.net/example3.html"/>
-      <item name="Example 4" href="http://jeuclid.sf.net/example4.html"/>
-      <item name="Example 5" href="http://jeuclid.sf.net/example5.html"/>
-      <item name="Example 6" href="http://jeuclid.sf.net/example6.html"/>
-      <item name="Example 7" href="http://jeuclid.sf.net/example7.html"/>
+      <item name="Testsuite" href="testsuite/index.html"/>
+      <item name="Example 1" href="example1.html"/>
+      <item name="Example 2" href="example2.html"/>
+      <item name="Example 3" href="example3.html"/>
+      <item name="Example 4" href="example4.html"/>
+      <item name="Example 5" href="example5.html"/>
+      <item name="Example 6" href="example6.html"/>
+      <item name="Example 7" href="example7.html"/>
     </menu>
     <menu ref="modules"/>
     <menu ref="reports"/>
