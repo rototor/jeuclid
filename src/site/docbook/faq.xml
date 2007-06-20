@@ -24,9 +24,9 @@
       </listitem>
     </itemizedlist>
 
-    <para>You may load either an XML file (<filename>.xml</filename>,
-    .<filename>mml</filename>) or an OpenDocument Formula file
-    (<filename>.odf</filename>) directly in all JEuclid applications.</para>
+    <para>You may load either an XML file (<literal>.xml</literal>,
+    <literal>.mml</literal>) or an OpenDocument Formula file
+    (<literal>.odf</literal>) directly in all JEuclid applications.</para>
   </section>
 
   <section>
