@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
+<article>
+  <title></title>
+
+  <section>
+    <title>Getting JEuclid</title>
+
+    <para>You may download JEuclid from the <ulink
+    url="http://sourceforge.net/project/showfiles.php?group_id=44862">sourceforge
+    project site for JEuclid</ulink> as a binary package or from <ulink
+    url="http://jeuclid.sf.net/source.html">source</ulink>.</para>
+
+    <para>If you just want the MathViewer you may start it from our <ulink
+    url="http://jeuclid.sf.net/webstart.html">MathViewer WebStart</ulink>
+    page.</para>
+
+    <para>For best results, we recommend either one of the following font
+    sets:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><ulink url="http://dejavu.sourceforge.net/">DejaVu
+        Fonts</ulink></para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Windows: Download the <literal>.zip</literal> distribution
+            from the site mentioned above. Install these fonts into your
+            system (instructions are available at <ulink
+            url="http://www.microsoft.com/typography/AboutFontsOverview.mspx">Microsoft
+            Typography</ulink>)</para>
+          </listitem>
+
+          <listitem>
+            <para>OS X: Download the <literal>.zip</literal> distribution from
+            the site mentioned above. Drag the <literal>.ttf</literal> files
+            into your <literal>/Library/Fonts</literal> (or your personal
+            <literal>Library/Fonts</literal>) directory</para>
+          </listitem>
+
+          <listitem>
+            <para>Debian + Ubuntu Linux: use <literal>apt-get install
+            ttf-dejavu</literal></para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>OpenSymbol</para>
+
+        <para>The DejaVu fonts are not yet complete. Full support for MathML
+        symbols is on the roadmap for the near future (as or mar 07). In the
+        mean time, the OpenSymbol font (from OO &gt;= 2.2) has support for
+        many mathematical symbols</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Windows / OS X: This font is part of OpenOffice</para>
+          </listitem>
+
+          <listitem>
+            <para>Debian + Ubuntu Linux: use <literal>apt-get install
+            ttf-opensymbol</literal></para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Arial Unicode MS </para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Windows: This font is part of MS Office (2000/2003)</para>
+          </listitem>
+
+          <listitem>
+            <para>OS X: This font is part of MS Office (X,2004)</para>
+          </listitem>
+
+          <listitem>
+            <para>Unix / Linux: Please use the DejaVu fonts. Do not copy the
+            Arial Unicode Font from a Windows system, as you may violate the
+            license!</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+
+    <para>I am currently investigating including fonts into the JEuclid
+    distribution.</para>
+
+    <para>Please note: This documentation refers to the 2.9.7 version.</para>
+
+    <para>To run the MathViewer application, you may use the mathviewer or
+    mathviewer.bat script from the bin/ directory of the distribution.</para>
+
+    <para>If you use the OS X package, the MathViewer is included as an
+    application bundle.</para>
+
+    <para>You may use the included mml2xxx (unix) or mml2xx.bat (windows)
+    script from the bin/ directory in the distribution.</para>
+
+    <para>You will need to define the converter task:</para>
+
+    <programlisting>
+&lt;taskdef name="mmlconverter" classname="net.sourceforge.jeuclid.ant.MathMLConverter"&gt; 
+</programlisting>
+
+    <para>with the needed JAR files in the classpath. Please see the API
+    documentation or the sourcecode for usage.</para>
+
+    <para>Please look at the <ulink
+    url="http://jeuclid.sf.net/apidocs/index.html">API Documentation</ulink>.
+    You may be interested in <ulink
+    url="http://jeuclid.sf.net/apidocs/net/sourceforge/jeuclid/awt/MathComponent.html">net.sourceforge.jeuclid.awt.MathComponent</ulink>
+    and <ulink
+    url="http://jeuclid.sf.net/apidocs/net/sourceforge/jeuclid/swing/JMathComponent.html">net.sourceforge.jeuclid.swing.JMathComponent</ulink>.</para>
+
+    <para>Maven based projects</para>
+
+    <para>JEuclid is uploaded to ibiblio, and should therefore be available in
+    your project by adding</para>
+
+    <programlisting>
+&lt;depencency&gt;
+  &lt;groupId&gt;net.sourceforge.jeuclid&lt;/groupId&gt;
+  &lt;artifactId&gt;jeuclid&lt;/artifactId&gt;
+&lt;/depencenty&gt;
+</programlisting>
+
+    <para>to your <emphasis>dependencies</emphasis> section.</para>
+
+    <para>To use the Cocoon component you have to <ulink
+    url="http://sourceforge.net/project/showfiles.php?group_id=44862&amp;package_id=37497&amp;release_id=220741">download
+    JEuclid 2</ulink>. Please see the included INSTALL instructions.</para>
+  </section>
+</article>
