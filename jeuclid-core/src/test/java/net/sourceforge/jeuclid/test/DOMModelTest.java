@@ -79,7 +79,7 @@ public class DOMModelTest {
 
         @Override
         protected String getAttributeNS(String namespace, String attrName) {
-            return getAttribute(attrName);
+            return this.getAttribute(attrName);
         }
 
         public Map<String, String> getAsMap() {
@@ -115,7 +115,7 @@ public class DOMModelTest {
     }
 
     /**
-     * Tests is serialization works.
+     * Tests if serialization works.
      * 
      * @throws Exception
      *             if anything goes wrong.
@@ -128,10 +128,33 @@ public class DOMModelTest {
         final MathMLDocument mathMLDoc = new DOMBuilder(origDoc,
                 new MathBase(MathBase.getDefaultParameters()))
                 .getMathRootElement();
-        String reserialStr = MathMLSerializer.serializeDocument(mathMLDoc,
-                false, false);
+        final String reserialStr = MathMLSerializer.serializeDocument(
+                mathMLDoc, false, false);
 
-        Document reserial = MathMLParserSupport.parseString(reserialStr);
+        final Document reserial = MathMLParserSupport
+                .parseString(reserialStr);
+        Assert.assertTrue(reserial.isEqualNode(origDoc));
+    }
+
+    /**
+     * Tests if serialization with malignmark works.
+     * 
+     * @throws Exception
+     *             if anything goes wrong.
+     */
+    @Test
+    public void testSerialization2() throws Exception {
+        final Document origDoc = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+                        + "<mtext>Alignment<malignmark/>Test</mtext></math>");
+        final MathMLDocument mathMLDoc = new DOMBuilder(origDoc,
+                new MathBase(MathBase.getDefaultParameters()))
+                .getMathRootElement();
+        final String reserialStr = MathMLSerializer.serializeDocument(
+                mathMLDoc, false, false);
+
+        final Document reserial = MathMLParserSupport
+                .parseString(reserialStr);
         Assert.assertTrue(reserial.isEqualNode(origDoc));
     }
 
@@ -186,72 +209,75 @@ public class DOMModelTest {
         // This mapping is taken straight from Table D.2.2, MathML 2.0 spec
         // TODO: Someday none of these should be commented out.
 
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("math", aMap,
-                base) instanceof MathMLMathElement);
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("mi", aMap,
-                base) instanceof MathMLPresentationToken);
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("mn", aMap,
-                base) instanceof MathMLPresentationToken);
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("mo", aMap,
-                base) instanceof MathMLOperatorElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("math",
+                DOMModelTest.aMap, base) instanceof MathMLMathElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mi",
+                DOMModelTest.aMap, base) instanceof MathMLPresentationToken);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mn",
+                DOMModelTest.aMap, base) instanceof MathMLPresentationToken);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mo",
+                DOMModelTest.aMap, base) instanceof MathMLOperatorElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mtext",
-                aMap, base) instanceof MathMLPresentationToken);
+                DOMModelTest.aMap, base) instanceof MathMLPresentationToken);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mspace",
-                aMap, base) instanceof MathMLSpaceElement);
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("ms", aMap,
-                base) instanceof MathMLStringLitElement);
+                DOMModelTest.aMap, base) instanceof MathMLSpaceElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("ms",
+                DOMModelTest.aMap, base) instanceof MathMLStringLitElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mglyph",
-                aMap, base) instanceof MathMLGlyphElement);
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("mrow", aMap,
-                base) instanceof MathMLPresentationContainer);
+                DOMModelTest.aMap, base) instanceof MathMLGlyphElement);
+        Assert
+                .assertTrue(JEuclidElementFactory.elementFromName("mrow",
+                        DOMModelTest.aMap, base) instanceof MathMLPresentationContainer);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mfrac",
-                aMap, base) instanceof MathMLFractionElement);
+                DOMModelTest.aMap, base) instanceof MathMLFractionElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("msqrt",
-                aMap, base) instanceof MathMLRadicalElement);
+                DOMModelTest.aMap, base) instanceof MathMLRadicalElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mroot",
-                aMap, base) instanceof MathMLRadicalElement);
+                DOMModelTest.aMap, base) instanceof MathMLRadicalElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mstyle",
-                aMap, base) instanceof MathMLStyleElement);
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("merror",
-                aMap, base) instanceof MathMLPresentationContainer);
+                DOMModelTest.aMap, base) instanceof MathMLStyleElement);
+        Assert
+                .assertTrue(JEuclidElementFactory.elementFromName("merror",
+                        DOMModelTest.aMap, base) instanceof MathMLPresentationContainer);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mpadded",
-                aMap, base) instanceof MathMLPaddedElement);
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("mphantom",
-                aMap, base) instanceof MathMLPresentationContainer);
+                DOMModelTest.aMap, base) instanceof MathMLPaddedElement);
+        Assert
+                .assertTrue(JEuclidElementFactory.elementFromName("mphantom",
+                        DOMModelTest.aMap, base) instanceof MathMLPresentationContainer);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mfenced",
-                aMap, base) instanceof MathMLFencedElement);
+                DOMModelTest.aMap, base) instanceof MathMLFencedElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("menclose",
-                aMap, base) instanceof MathMLEncloseElement);
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("msub", aMap,
-                base) instanceof MathMLScriptElement);
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("msup", aMap,
-                base) instanceof MathMLScriptElement);
+                DOMModelTest.aMap, base) instanceof MathMLEncloseElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("msub",
+                DOMModelTest.aMap, base) instanceof MathMLScriptElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("msup",
+                DOMModelTest.aMap, base) instanceof MathMLScriptElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("msubsup",
-                aMap, base) instanceof MathMLScriptElement);
+                DOMModelTest.aMap, base) instanceof MathMLScriptElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("munder",
-                aMap, base) instanceof MathMLUnderOverElement);
+                DOMModelTest.aMap, base) instanceof MathMLUnderOverElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mover",
-                aMap, base) instanceof MathMLUnderOverElement);
+                DOMModelTest.aMap, base) instanceof MathMLUnderOverElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("munderover",
-                aMap, base) instanceof MathMLUnderOverElement);
+                DOMModelTest.aMap, base) instanceof MathMLUnderOverElement);
         Assert
                 .assertTrue(JEuclidElementFactory.elementFromName(
-                        "mmultiscripts", aMap, base) instanceof MathMLMultiScriptsElement);
+                        "mmultiscripts", DOMModelTest.aMap, base) instanceof MathMLMultiScriptsElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mtable",
-                aMap, base) instanceof MathMLTableElement);
+                DOMModelTest.aMap, base) instanceof MathMLTableElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mlabeledtr",
-                aMap, base) instanceof MathMLLabeledRowElement);
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("mtr", aMap,
-                base) instanceof MathMLTableRowElement);
-        Assert.assertTrue(JEuclidElementFactory.elementFromName("mtd", aMap,
-                base) instanceof MathMLTableCellElement);
+                DOMModelTest.aMap, base) instanceof MathMLLabeledRowElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mtr",
+                DOMModelTest.aMap, base) instanceof MathMLTableRowElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mtd",
+                DOMModelTest.aMap, base) instanceof MathMLTableCellElement);
         Assert
                 .assertTrue(JEuclidElementFactory.elementFromName(
-                        "maligngroup", aMap, base) instanceof MathMLAlignGroupElement);
+                        "maligngroup", DOMModelTest.aMap, base) instanceof MathMLAlignGroupElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("malignmark",
-                aMap, base) instanceof MathMLAlignMarkElement);
+                DOMModelTest.aMap, base) instanceof MathMLAlignMarkElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("maction",
-                aMap, base) instanceof MathMLActionElement);
+                DOMModelTest.aMap, base) instanceof MathMLActionElement);
         // Assert
         // .assertTrue(MathElementFactory.elementFromName("cn", aMap,
         // base) instanceof MathMLCnElement);
@@ -558,9 +584,9 @@ public class DOMModelTest {
         // Assert.assertTrue(MathElementFactory.elementFromName("outerproduct",
         // aMap, base) instanceof MathMLPredefinedSymbol);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("annotation",
-                aMap, base) instanceof MathMLAnnotationElement);
+                DOMModelTest.aMap, base) instanceof MathMLAnnotationElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("semantics",
-                aMap, base) instanceof MathMLSemanticsElement);
+                DOMModelTest.aMap, base) instanceof MathMLSemanticsElement);
         // Assert
         // .assertTrue(MathElementFactory.elementFromName(
         // "annotation-xml", aMap, base) instanceof
@@ -604,10 +630,10 @@ public class DOMModelTest {
     @Test
     public void testFrac() throws Exception {
         final MathBase base = new MathBase(MathBase.getDefaultParameters());
-        MathMLFractionElement mfrac = new Mfrac(base);
-        Mi mi = new Mi(base);
-        Mrow mrow = new Mrow(base);
-        Mi mi2 = new Mi(base);
+        final MathMLFractionElement mfrac = new Mfrac(base);
+        final Mi mi = new Mi(base);
+        final Mrow mrow = new Mrow(base);
+        final Mi mi2 = new Mi(base);
         mfrac.setDenominator(mi);
         mfrac.setNumerator(mrow);
         Assert.assertEquals(mi, mfrac.getDenominator());
@@ -646,7 +672,7 @@ public class DOMModelTest {
         Assert.assertEquals(multi.getPreSuperScript(1).getTextContent(), "d");
         Assert.assertEquals(multi.getNumprescriptcolumns(), 1);
         Assert.assertEquals(multi.getNumscriptcolumns(), 1);
-        Mi mi = new Mi(base);
+        final Mi mi = new Mi(base);
         multi.insertPreSubScriptBefore(0, mi);
         Assert.assertEquals(multi.getNumprescriptcolumns(), 2);
         Assert.assertEquals(multi.getChildNodes().getLength(), 8);

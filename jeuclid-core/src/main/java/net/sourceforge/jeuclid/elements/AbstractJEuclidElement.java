@@ -32,6 +32,7 @@ import java.util.Set;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
+import net.sourceforge.jeuclid.dom.PartialTextImpl;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
 import net.sourceforge.jeuclid.elements.presentation.table.Mtable;
@@ -46,6 +47,7 @@ import net.sourceforge.jeuclid.elements.support.text.CharConverter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLMathElement;
 import org.w3c.dom.mathml.MathMLNodeList;
@@ -458,7 +460,7 @@ public abstract class AbstractJEuclidElement extends
     /** {@inheritDoc} */
     public JEuclidElement getMathElement(final int index) {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
-        if ((index >= 0) && (index < childList.getLength())) {
+        if (index >= 0 && index < childList.getLength()) {
             return (JEuclidElement) childList.item(index);
         }
         return null;
@@ -501,9 +503,15 @@ public abstract class AbstractJEuclidElement extends
      */
     public void addText(final String text) {
 
+        Node textNode = this.getLastChild();
+        if (!(textNode instanceof Text)) {
+            textNode = new PartialTextImpl("");
+            this.appendChild(textNode);
+        }
+
         final StringBuilder newText = new StringBuilder();
         if (this.getTextContent() != null) {
-            newText.append(this.getTextContent());
+            newText.append(textNode.getTextContent());
         }
 
         // As seen in 2.4.6
@@ -511,9 +519,9 @@ public abstract class AbstractJEuclidElement extends
             newText.append(text.trim());
         }
 
-        for (int i = 0; i < (newText.length() - 1); i++) {
-            if ((newText.charAt(i) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX)
-                    && (newText.charAt(i + 1) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX)) {
+        for (int i = 0; i < newText.length() - 1; i++) {
+            if (newText.charAt(i) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX
+                    && newText.charAt(i + 1) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX) {
                 newText.deleteCharAt(i);
                 // CHECKSTYLE:OFF
                 // This is intentional
@@ -524,7 +532,9 @@ public abstract class AbstractJEuclidElement extends
 
         final String toSet = CharConverter.convert(newText.toString());
         if (toSet.length() > 0) {
-            this.setTextContent(toSet);
+            textNode.setTextContent(toSet);
+        } else {
+            this.removeChild(textNode);
         }
 
     }
@@ -837,9 +847,9 @@ public abstract class AbstractJEuclidElement extends
         }
 
         // if this is a top-element of the row
-        if (this instanceof Mtr
-                || (this instanceof Mrow && this.getParent() instanceof Mtable)
-                || (this.getParent() instanceof MathImpl)) {
+        if (this instanceof Mtr || this instanceof Mrow
+                && this.getParent() instanceof Mtable
+                || this.getParent() instanceof MathImpl) {
             if (this.globalLineCorrecter < corrector) {
                 this.globalLineCorrecter = corrector;
             }
@@ -857,8 +867,8 @@ public abstract class AbstractJEuclidElement extends
 
         // if this is a top-element of the line, it contains the correct
         // number
-        if (this instanceof Mtr
-                || (this instanceof Mrow && this.getParent() instanceof Mtable)
+        if (this instanceof Mtr || this instanceof Mrow
+                && this.getParent() instanceof Mtable
                 || this.getParent() instanceof MathImpl) {
             retVal = this.globalLineCorrecter;
         } else {
@@ -886,9 +896,8 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public float getHeight(final Graphics2D g) {
-        if (this.calculatingSize
-                || ((this.getParent() != null) && (this.getParent()
-                        .isCalculatingSize()))) {
+        if (this.calculatingSize || this.getParent() != null
+                && this.getParent().isCalculatingSize()) {
             if (this.calculatedStretchHeight < 0) {
                 this.calculatedStretchHeight = this.calculateHeight(g);
             }
@@ -914,9 +923,8 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public float getAscentHeight(final Graphics2D g) {
-        if (this.calculatingSize
-                || ((this.getParent() != null) && (this.getParent()
-                        .isCalculatingSize()))) {
+        if (this.calculatingSize || this.getParent() != null
+                && this.getParent().isCalculatingSize()) {
             if (this.calculatedStretchAscentHeight < 0) {
                 this.calculatedStretchAscentHeight = this
                         .calculateAscentHeight(g);
@@ -935,9 +943,8 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public float getDescentHeight(final Graphics2D g) {
-        if (this.calculatingSize
-                || ((this.getParent() != null) && (this.getParent()
-                        .isCalculatingSize()))) {
+        if (this.calculatingSize || this.getParent() != null
+                && this.getParent().isCalculatingSize()) {
             if (this.calculatedStretchDescentHeight < 0) {
                 this.calculatedStretchDescentHeight = this
                         .calculateDescentHeight(g);
@@ -969,7 +976,7 @@ public abstract class AbstractJEuclidElement extends
     /** {@inheritDoc} */
     public void setMathAttributes(final AttributeMap attributes) {
         final Map<String, String> attrsAsMap = attributes.getAsMap();
-        for (Map.Entry<String, String> e : attrsAsMap.entrySet()) {
+        for (final Map.Entry<String, String> e : attrsAsMap.entrySet()) {
             final String attrName = e.getKey();
             if (AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
                     .contains(attrName)) {
