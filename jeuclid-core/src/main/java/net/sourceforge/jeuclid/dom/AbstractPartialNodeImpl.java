@@ -30,12 +30,8 @@ import org.w3c.dom.UserDataHandler;
 /**
  * Partial implementation of org.w3c.dom.Node
  * <p>
- * This implements only the functions necesessay for MathElements. Feel free
- * to implement whatever functions you need.
- * <p>
- * In particular, text node handling differs from standard DOM, and does not
- * support mixed elements / text content. The implementation here is targeted
- * for DOM Models like MathML where nodes have either children, but not both.
+ * This implements only the functions necessary for MathElements. Feel free to
+ * implement whatever functions you need.
  * 
  * @author Max Berger
  * @version $Revision$
@@ -45,8 +41,6 @@ public abstract class AbstractPartialNodeImpl implements Node {
     private static final String COULD_NOT_FIND_NODE = "Could not find node: ";
 
     private final List<Node> children = new Vector<Node>();
-
-    private String textContent = "";
 
     private Node parent;
 
@@ -77,17 +71,6 @@ public abstract class AbstractPartialNodeImpl implements Node {
         }
     }
 
-    private List<Node> childrenWithTextNodeAdded() {
-        final List<Node> retVal;
-        if (this.textContent != null && this.textContent.length() > 0) {
-            retVal = new Vector<Node>(this.children);
-            retVal.add(new PartialTextImpl(this.textContent));
-        } else {
-            retVal = this.children;
-        }
-        return retVal;
-    }
-
     /** {@inheritDoc} */
     public final String lookupNamespaceURI(final String prefix) {
         throw new UnsupportedOperationException("lookupNamespaceURI");
@@ -100,13 +83,13 @@ public abstract class AbstractPartialNodeImpl implements Node {
 
     /** {@inheritDoc} */
     public final org.w3c.dom.NodeList getChildNodes() {
-        return new NodeList(this.childrenWithTextNodeAdded());
+        return new NodeList(this.children);
     }
 
     /** {@inheritDoc} */
     public final Node getFirstChild() {
         try {
-            return this.childrenWithTextNodeAdded().get(0);
+            return this.children.get(0);
         } catch (final IndexOutOfBoundsException e) {
             return null;
         }
@@ -119,26 +102,33 @@ public abstract class AbstractPartialNodeImpl implements Node {
 
     /** {@inheritDoc} */
     public Node appendChild(final Node newChild) {
-        if (newChild instanceof AbstractPartialElementImpl) {
+        if (newChild instanceof AbstractPartialNodeImpl) {
             this.children.add(newChild);
             ((AbstractPartialNodeImpl) newChild).parent = this;
             return newChild;
         } else {
             throw new IllegalArgumentException(
                     "Can only add children of type "
-                            + this.getClass().getName() + " to "
-                            + this.getClass().getName());
+                            + AbstractPartialNodeImpl.class.getName()
+                            + " to " + this.getClass().getName());
         }
     }
 
     /** {@inheritDoc} */
     public String getTextContent() {
-        return this.textContent;
+        final StringBuilder builder = new StringBuilder();
+        for (final Node n : children) {
+            builder.append(n.getTextContent());
+        }
+        return builder.toString();
     }
 
     /** {@inheritDoc} */
     public void setTextContent(final String newTextContent) {
-        this.textContent = newTextContent;
+        this.children.clear();
+        if (newTextContent != null && newTextContent.length() > 0) {
+            this.children.add(new PartialTextImpl(newTextContent));
+        }
     }
 
     /** {@inheritDoc} */
@@ -178,7 +168,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
 
     /** {@inheritDoc} */
     public final boolean hasChildNodes() {
-        return !this.childrenWithTextNodeAdded().isEmpty();
+        return !this.children.isEmpty();
     }
 
     /** {@inheritDoc} */
@@ -215,8 +205,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
     public final Node getNextSibling() {
         Node retval;
         try {
-            final List<Node> parentsChildren = ((AbstractPartialNodeImpl) this.parent)
-                    .childrenWithTextNodeAdded();
+            final List<Node> parentsChildren = ((AbstractPartialNodeImpl) this.parent).children;
             retval = parentsChildren.get(parentsChildren.indexOf(this) + 1);
         } catch (final NullPointerException ne) {
             retval = null;
@@ -257,7 +246,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
 
     /** {@inheritDoc} */
     public final Node getLastChild() {
-        final List<Node> theChildren = this.childrenWithTextNodeAdded();
+        final List<Node> theChildren = this.children;
         final int size = theChildren.size();
         if (size == 0) {
             return null;

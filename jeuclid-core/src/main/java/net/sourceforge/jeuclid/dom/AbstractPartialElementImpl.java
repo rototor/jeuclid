@@ -32,8 +32,8 @@ import org.w3c.dom.TypeInfo;
 /**
  * Partial implementation of org.w3c.dom.Node.
  * <p>
- * This implements only the functions necesessay for MathElements. Feel free
- * to implement whatever functions you need.
+ * This implements only the functions necessary for MathElements. Feel free to
+ * implement whatever functions you need.
  * 
  * @author Max Berger
  * @version $Revision$
