@@ -59,8 +59,8 @@ public class FontFactoryTest {
         Assert.assertEquals(builtInFamily, builtInFont.getFamily());
 
         // get a non-default, not cached font
-        final Font foo = fontFactory.getFont("foo", Font.PLAIN, 14);
-        Assert.assertEquals(foo.getFamily(), "Foo");
+        final Font foo = fontFactory.getFont("foo456789", Font.PLAIN, 14);
+        Assert.assertEquals(foo.getFamily(), defaultFamily);
 
         // register a custom font and then get it
         fontFactory.registerFont(Font.TRUETYPE_FONT, this.getClass()
