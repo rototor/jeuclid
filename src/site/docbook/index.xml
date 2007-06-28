@@ -4,8 +4,8 @@
 <article>
   <title></title>
 
-  <section>
-    <title>News</title>
+  <section id="about">
+    <title>About JEuclid</title>
 
     <para>JEuclid is a complete MathML rendering solution, consisting
     of:</para>
@@ -20,7 +20,7 @@
       </listitem>
 
       <listitem>
-        <para>An ant task for autmated conversion</para>
+        <para>An ant task for automated conversion</para>
       </listitem>
 
       <listitem>
@@ -31,6 +31,10 @@
         <para>A component for Apache Cocoon</para>
       </listitem>
     </itemizedlist>
+  </section>
+
+  <section>
+    <title>News</title>
 
     <itemizedlist>
       <listitem>
