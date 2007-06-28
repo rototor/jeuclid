@@ -158,7 +158,6 @@ Description:
         <module name="DescendantToken"/>
         <module name="ArrayTypeStyle"/>
     </module>
-    <module name="PackageHtml"/>
     <module name="Translation"/>
     <module name="NewlineAtEndOfFile"/>
 </module>
