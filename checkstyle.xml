@@ -50,7 +50,11 @@ Description:
         <module name="TypeName"/>
         <module name="UnusedImports"/>
         <module name="RedundantImport"/>
-        <module name="ImportOrder"/>
+        <module name="ImportOrder">
+            <property name="groups" value="java,javax,net,org,com"/>
+            <property name="ordered" value="true"/>
+            <property name="separated" value="true"/>
+        </module>
         <module name="IllegalImport"/>
         <module name="AvoidStarImport"/>
         <module name="AnonInnerLength"/>

@@ -8,6 +8,9 @@
 		<release version="2.9.8-SNAPSHOT" date="in SVN"
 			description="none yet">
 		<action dev="maxberger" type="update">
+        	   checkstyle ImportOrder now matches Eclipse Organize imports
+		</action>
+		<action dev="maxberger" type="update">
         	   reworked Text handling in DOM model.
 		</action>
 		<action dev="maxberger" type="add">
