@@ -79,9 +79,9 @@ public final class MathBaseFactory {
      *            {@link StreamSource}
      * @return the MathBase object.
      * @throws IOException
-     *             if an I/O error occurrs.
+     *             if an I/O error occurs.
      * @throws IllegalArgumentException
-     *             if the Source is of an unhandled object type.
+     *             if the Source is of an unsupported object type.
      */
     public MathBase createMathBase(final Source source,
             final Map<ParameterKey, String> params) throws IOException {
@@ -93,7 +93,7 @@ public final class MathBaseFactory {
                 sourceToUse = new DOMSource(this.parser
                         .parseStreamSource(streamSource));
             } catch (final SAXException e) {
-                throw new IOException("Parse Error: ", e);
+                throw new IOException("Parse Error: " + e.getMessage());
             }
         } else {
             sourceToUse = source;
