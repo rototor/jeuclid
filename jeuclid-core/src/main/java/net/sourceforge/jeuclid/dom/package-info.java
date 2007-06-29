@@ -17,17 +17,18 @@
 /* $Id$ */
 
 /**
-Contains a subset of the DOM implementation, as needed by JEuclid.
+ Contains a subset of the DOM implementation, as needed by JEuclid.
 
-<p>There where two options for the internal DOM model:</p>
-<ul>
-	<li>Using an exsting implementation, such as Xerces</li>
-	<li>Creating an own DOM implementation</li>
-</ul>
-<p>As most existing implementations add to the complexity and
-increase the size a lot, the second choice was made</p>
-<p>This has the disadvantage that not all standard DOM features are
-implemented. If you find something that you really need, please submit a
-patch for its implementation.</p>
-*/
+ <p>There where two options for the internal DOM model:</p>
+ <ul>
+ <li>Using an exsting implementation, such as Xerces</li>
+ <li>Creating an own DOM implementation</li>
+ </ul>
+ <p>As most existing implementations add to the complexity and
+ increase the size a lot, the second choice was made</p>
+ <p>This has the disadvantage that not all standard DOM features are
+ implemented. If you find something that you really need, please submit a
+ patch for its implementation.</p>
+ */
 package net.sourceforge.jeuclid.dom;
+

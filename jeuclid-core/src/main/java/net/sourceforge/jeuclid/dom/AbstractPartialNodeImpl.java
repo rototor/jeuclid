@@ -117,7 +117,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
     /** {@inheritDoc} */
     public String getTextContent() {
         final StringBuilder builder = new StringBuilder();
-        for (final Node n : children) {
+        for (final Node n : this.children) {
             builder.append(n.getTextContent());
         }
         return builder.toString();
