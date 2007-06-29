@@ -8,11 +8,11 @@
 
   <a:name>JEuclid MathML / ODF image plug-in</a:name>
 
-  <a:version>2.9.7</a:version>
+  <a:version>2.9.7_02</a:version>
 
   <a:author><a href="mailto:max@berger.name">Max Berger</a></a:author>
 
-  <a:date>2007-06-13</a:date>
+  <a:date>2007-06-29</a:date>
 
   <a:abstract>Provides support for MathML formulas and OpenDocument formulas
   through the use of JEuclid.<br /><br />Notes:<br />To be recognized, MathML

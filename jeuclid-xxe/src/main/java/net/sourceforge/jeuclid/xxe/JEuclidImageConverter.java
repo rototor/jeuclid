@@ -40,15 +40,28 @@ public final class JEuclidImageConverter implements ImageConverter {
         // Empty on purpose
     }
 
+    /**
+     * Retrieve the mimetype associated with the extension of the given file
+     * name.
+     * 
+     * @param filename
+     *            the file name
+     * @return its mime-type
+     */
+    public String mimeTypeForFilename(final String filename) {
+        final String extension = filename.substring(
+                filename.lastIndexOf('.') + 1).toLowerCase(Locale.ENGLISH);
+        return Converter.getMimeTypeForSuffix(extension);
+
+    }
+
     /** {@inheritDoc} */
     public void convertImage(final File inFile, final File outFile,
             final String[] parameters, final Console console)
             throws Exception {
 
         final String outFileName = outFile.getName();
-        final String extension = outFileName.substring(
-                outFileName.lastIndexOf('.') + 1).toLowerCase(Locale.ENGLISH);
-        final String outMimeType = Converter.getMimeTypeForSuffix(extension);
+        final String outMimeType = this.mimeTypeForFilename(outFileName);
         Converter.convert(inFile, outFile, outMimeType);
     }
 
@@ -57,7 +70,7 @@ public final class JEuclidImageConverter implements ImageConverter {
      * 
      * @return the ImageConverter.
      */
-    public static ImageConverter getConverter() {
+    public static synchronized JEuclidImageConverter getConverter() {
         if (JEuclidImageConverter.converter == null) {
             JEuclidImageConverter.converter = new JEuclidImageConverter();
         }

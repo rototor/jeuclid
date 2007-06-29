@@ -8,6 +8,10 @@
 		<release version="2.9.8-SNAPSHOT" date="in SVN"
 			description="none yet">
 		<action dev="maxberger" type="update">
+        	   xxe plugin: converter now checks target file type;
+        	   xxe plugin: Implemented Vector scaling;
+		</action>
+		<action dev="maxberger" type="update">
         	   checkstyle ImportOrder now matches Eclipse Organize imports
 		</action>
 		<action dev="maxberger" type="update">
