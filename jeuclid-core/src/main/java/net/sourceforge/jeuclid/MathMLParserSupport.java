@@ -19,6 +19,7 @@
 package net.sourceforge.jeuclid;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -42,7 +43,7 @@ import org.xml.sax.SAXException;
  * Utility class for the support parsing MathML and OpenDocument Formula (ODF)
  * files.
  * <p>
- * This class supports parsing of files that are either MathML or Opendocument
+ * This class supports parsing of files that are either MathML or OpenDocument
  * Formula (ODF) files. It also supports parsing MathML from a given text
  * string.
  * 
@@ -108,7 +109,7 @@ public final class MathMLParserSupport {
             IOException {
         try {
             return MathBaseFactory.getMathBaseFactory().createMathBase(
-                    new StreamSource(inFile), params);
+                    new StreamSource(new FileInputStream(inFile)), params);
         } catch (final ParserConfigurationException e) {
             // Should not happen. But who knows?
             MathMLParserSupport.LOGGER.warn(e);
@@ -195,7 +196,7 @@ public final class MathMLParserSupport {
             IOException {
         try {
             return Parser.getParser().parseStreamSource(
-                    new StreamSource(inFile));
+                    new StreamSource(new FileInputStream(inFile)));
         } catch (final ParserConfigurationException e) {
             // Should not happen. But who knows?
             MathMLParserSupport.LOGGER.warn(e);

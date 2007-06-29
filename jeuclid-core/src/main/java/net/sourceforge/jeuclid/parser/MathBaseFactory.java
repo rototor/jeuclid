@@ -30,6 +30,7 @@ import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.ParameterKey;
 
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -42,8 +43,6 @@ import org.xml.sax.SAXException;
  * @version $Revision: 344 $
  */
 public final class MathBaseFactory {
-
-    private static final String CANNOT_HANDLE_SOURCE = "Cannot handle Source: ";
 
     private static MathBaseFactory mathBaseFactory;
 
@@ -86,27 +85,14 @@ public final class MathBaseFactory {
     public MathBase createMathBase(final Source source,
             final Map<ParameterKey, String> params) throws IOException {
 
-        final Source sourceToUse;
-        if (source instanceof StreamSource) {
-            final StreamSource streamSource = (StreamSource) source;
-            try {
-                sourceToUse = new DOMSource(this.parser
-                        .parseStreamSource(streamSource));
-            } catch (final SAXException e) {
-                throw new IOException("Parse Error: " + e.getMessage());
-            }
-        } else {
-            sourceToUse = source;
-        }
+        try {
+            final Node node = this.parser.parse(source);
 
-        if (sourceToUse instanceof DOMSource) {
-            final DOMSource domSource = (DOMSource) sourceToUse;
             final MathBase base = new MathBase(params);
-            new DOMBuilder(domSource.getNode(), base);
+            new DOMBuilder(node, base);
             return base;
-        } else {
-            throw new IllegalArgumentException(
-                    MathBaseFactory.CANNOT_HANDLE_SOURCE + source);
+        } catch (final SAXException e) {
+            throw new IOException("Parse Error: " + e.getMessage());
         }
 
     }

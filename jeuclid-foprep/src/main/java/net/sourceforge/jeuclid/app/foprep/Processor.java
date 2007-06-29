@@ -19,22 +19,22 @@
 package net.sourceforge.jeuclid.app.foprep;
 
 import java.awt.Dimension;
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
+import net.sourceforge.jeuclid.parser.Parser;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGeneratorContext;
@@ -63,16 +63,22 @@ public final class Processor {
      */
     private static final Log LOGGER = LogFactory.getLog(Processor.class);
 
-    private Processor() {
-        // Empty on purpose;
+    private final Transformer transformer;
+
+    private Processor() throws TransformerException {
+        this.transformer = TransformerFactory.newInstance().newTransformer();
     }
 
     /**
      * Retrieve the processor singleton object.
      * 
      * @return the Processor.
+     * @throws TransformerException
+     *             an error occurred creating the necessary Transformer
+     *             instance.
      */
-    public static synchronized Processor getProcessor() {
+    public static synchronized Processor getProcessor()
+            throws TransformerException {
         if (Processor.processor == null) {
             Processor.processor = new Processor();
         }
@@ -82,25 +88,31 @@ public final class Processor {
     /**
      * Pre-process a .fo file.
      * 
-     * @param inputFile
+     * @param inputSource
      *            Input File
-     * @param outputFile
-     *            Ouptut File
+     * @param result
+     *            Output File
+     * @throws TransformerException
+     *             an error occurred during the processing.
      */
-    public void process(final String inputFile, final String outputFile) {
-        Processor.LOGGER
-                .info("Processing " + inputFile + " to " + outputFile);
+    public void process(final Source inputSource, final Result result)
+            throws TransformerException {
+        Processor.LOGGER.info("Processing " + inputSource + " to " + result);
         try {
-            final Document doc = MathMLParserSupport.parseFile(new File(
-                    inputFile));
+            final Node doc = Parser.getParser().parse(inputSource);
 
             this.processSubtree(doc);
 
-            this.flattenDocument(outputFile, doc);
-        } catch (final IOException ioe) {
-            Processor.LOGGER.warn("IOException: " + ioe.getMessage());
+            final DOMSource source = new DOMSource(doc);
+
+            this.transformer.transform(source, result);
+
+        } catch (final IOException e) {
+            throw new TransformerException("IOException", e);
         } catch (final SAXException e) {
-            Processor.LOGGER.warn("SAXException: " + e.getMessage());
+            throw new TransformerException("SAXException", e);
+        } catch (final ParserConfigurationException e) {
+            throw new TransformerException("ParserConfigurationException", e);
         }
     }
 
@@ -152,12 +164,10 @@ public final class Processor {
     private void safeReplaceChild(final Node parent, final Node oldChild,
             final Node newChild) {
         try {
-            final Transformer transformer = TransformerFactory.newInstance()
-                    .newTransformer();
             final DOMSource source = new DOMSource(newChild);
             final DOMResult result = new DOMResult(parent);
 
-            transformer.transform(source, result);
+            this.transformer.transform(source, result);
         } catch (final TransformerException e) {
             Processor.LOGGER.warn("TranformerException: " + e.getMessage());
         }
@@ -174,23 +184,4 @@ public final class Processor {
         }
     }
 
-    private void flattenDocument(final String outputFile, final Document doc) {
-        final StreamResult result;
-
-        if ("-".equals(outputFile)) {
-            result = new StreamResult(new PrintWriter(System.out));
-        } else {
-            result = new StreamResult(new File(outputFile));
-        }
-
-        try {
-            final Transformer transformer = TransformerFactory.newInstance()
-                    .newTransformer();
-            final DOMSource source = new DOMSource(doc);
-
-            transformer.transform(source, result);
-        } catch (final TransformerException e) {
-            Processor.LOGGER.warn(e);
-        }
-    }
 }
