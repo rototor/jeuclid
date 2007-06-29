@@ -23,22 +23,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamSource;
+
+import net.sourceforge.jeuclid.parser.MathBaseFactory;
+import net.sourceforge.jeuclid.parser.Parser;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 /**
  * Utility class for the support parsing MathML and OpenDocument Formula (ODF)
@@ -52,9 +50,6 @@ import org.xml.sax.SAXParseException;
  * @version $Revision$
  */
 public final class MathMLParserSupport {
-    private static final String COULD_NOT_CREATE_PARSER = "Could not create Parser: ";
-
-    private static final String CONTENT_XML = "content.xml";
 
     /**
      * Logger for this class
@@ -83,12 +78,16 @@ public final class MathMLParserSupport {
     public static MathBase createMathBaseFromDocument(final Node document,
             final Map<ParameterKey, String> params) throws SAXException,
             IOException {
-        final MathBase base = new MathBase(params);
 
-        if (document != null) {
-            new DOMBuilder(document, base);
+        try {
+            return MathBaseFactory.getMathBaseFactory().createMathBase(
+                    new DOMSource(document), params);
+        } catch (final ParserConfigurationException e) {
+            // Should not happen. But who knows?
+            MathMLParserSupport.LOGGER.warn(e);
+            return null;
         }
-        return base;
+
     }
 
     /**
@@ -107,9 +106,14 @@ public final class MathMLParserSupport {
     public static MathBase createMathBaseFromFile(final File inFile,
             final Map<ParameterKey, String> params) throws SAXException,
             IOException {
-        final Document document = MathMLParserSupport.parseFile(inFile);
-        return MathMLParserSupport.createMathBaseFromDocument(document,
-                params);
+        try {
+            return MathBaseFactory.getMathBaseFactory().createMathBase(
+                    new StreamSource(inFile), params);
+        } catch (final ParserConfigurationException e) {
+            // Should not happen. But who knows?
+            MathMLParserSupport.LOGGER.warn(e);
+            return null;
+        }
     }
 
     /**
@@ -122,35 +126,9 @@ public final class MathMLParserSupport {
      */
     public static DocumentBuilder createDocumentBuilder()
             throws ParserConfigurationException {
-        final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-                .newInstance();
-        documentBuilderFactory.setNamespaceAware(true);
-        try {
-            documentBuilderFactory.setXIncludeAware(true);
-        } catch (final UnsupportedOperationException uoe) {
-            MathMLParserSupport.LOGGER.debug("Unsupported Operation: "
-                    + uoe.getMessage());
-        }
-        final DocumentBuilder parser = documentBuilderFactory
-                .newDocumentBuilder();
-        parser.setEntityResolver(new ResourceEntityResolver());
-        parser.setErrorHandler(new ErrorHandler() {
-            public void error(final SAXParseException exception)
-                    throws SAXException {
-                MathMLParserSupport.LOGGER.warn(exception);
-            }
-
-            public void fatalError(final SAXParseException exception)
-                    throws SAXException {
-                throw exception;
-            }
-
-            public void warning(final SAXParseException exception)
-                    throws SAXException {
-                MathMLParserSupport.LOGGER.debug(exception);
-            }
-        });
-        return parser;
+        final DocumentBuilder builder = Parser.getParser()
+                .getDocumentBuilder();
+        return builder;
     }
 
     /**
@@ -166,17 +144,14 @@ public final class MathMLParserSupport {
      */
     public static Document parseInputStreamXML(final InputStream inStream)
             throws SAXException, IOException {
-        Document document = null;
         try {
-            final DocumentBuilder parser = MathMLParserSupport
-                    .createDocumentBuilder();
-            document = parser.parse(inStream);
-        } catch (final ParserConfigurationException pce) {
-            MathMLParserSupport.LOGGER.fatal(
-                    MathMLParserSupport.COULD_NOT_CREATE_PARSER
-                            + pce.getMessage(), pce);
+            return Parser.getParser().parseStreamSourceAsXml(
+                    new StreamSource(inStream));
+        } catch (final ParserConfigurationException e) {
+            // Should not happen. But who knows?
+            MathMLParserSupport.LOGGER.warn(e);
+            return null;
         }
-        return document;
     }
 
     /**
@@ -192,26 +167,14 @@ public final class MathMLParserSupport {
      */
     public static Document parseInputStreamODF(final InputStream inStream)
             throws SAXException, IOException {
-        final ZipInputStream zipStream = new ZipInputStream(inStream);
-        Document document = null;
         try {
-            final DocumentBuilder parser = MathMLParserSupport
-                    .createDocumentBuilder();
-            ZipEntry entry = zipStream.getNextEntry();
-            while (entry != null) {
-                if (MathMLParserSupport.CONTENT_XML.equals(entry.getName())) {
-                    document = parser.parse(zipStream);
-                    entry = null;
-                } else {
-                    entry = zipStream.getNextEntry();
-                }
-            }
-        } catch (final ParserConfigurationException pce) {
-            MathMLParserSupport.LOGGER.fatal(
-                    MathMLParserSupport.COULD_NOT_CREATE_PARSER
-                            + pce.getMessage(), pce);
+            return Parser.getParser().parseStreamSourceAsOdf(
+                    new StreamSource(inStream));
+        } catch (final ParserConfigurationException e) {
+            // Should not happen. But who knows?
+            MathMLParserSupport.LOGGER.warn(e);
+            return null;
         }
-        return document;
     }
 
     /**
@@ -230,33 +193,14 @@ public final class MathMLParserSupport {
      */
     public static Document parseFile(final File inFile) throws SAXException,
             IOException {
-        Document document = null;
         try {
-            final DocumentBuilder parser = MathMLParserSupport
-                    .createDocumentBuilder();
-            try {
-                document = parser.parse(inFile.toURI().toString());
-            } catch (final SAXParseException se) {
-                try {
-                    // Also try as ODF:
-                    final ZipFile zipFile = new ZipFile(inFile);
-                    final ZipEntry contentEntry = zipFile
-                            .getEntry(MathMLParserSupport.CONTENT_XML);
-                    final InputStream contentStream = zipFile
-                            .getInputStream(contentEntry);
-                    document = parser.parse(new InputSource(contentStream));
-                } catch (final SAXParseException e2) {
-                    throw e2;
-                } catch (final IOException io) {
-                    throw se;
-                }
-            }
-        } catch (final ParserConfigurationException pce) {
-            MathMLParserSupport.LOGGER.fatal(
-                    MathMLParserSupport.COULD_NOT_CREATE_PARSER
-                            + pce.getMessage(), pce);
+            return Parser.getParser().parseStreamSource(
+                    new StreamSource(inFile));
+        } catch (final ParserConfigurationException e) {
+            // Should not happen. But who knows?
+            MathMLParserSupport.LOGGER.warn(e);
+            return null;
         }
-        return document;
     }
 
     /**
@@ -275,9 +219,8 @@ public final class MathMLParserSupport {
      */
     public static Document parseString(final String content)
             throws SAXException, ParserConfigurationException, IOException {
-        final DocumentBuilder parser = MathMLParserSupport
-                .createDocumentBuilder();
-        return parser.parse(new InputSource(new StringReader(content)));
+        return Parser.getParser().parseStreamSourceAsXml(
+                new StreamSource(new StringReader(content)));
     }
 
 }

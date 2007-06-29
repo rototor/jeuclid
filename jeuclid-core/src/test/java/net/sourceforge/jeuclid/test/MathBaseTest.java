@@ -22,13 +22,16 @@ import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.stream.StreamSource;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.parser.MathBaseFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -74,6 +77,39 @@ public class MathBaseTest {
                     .getDefaultParameters());
             new DOMBuilder(document, base);
         }
+    }
+
+    /**
+     * Tests ODF Reader
+     * 
+     * @throws Exception
+     *             if an error occurs.
+     */
+    @Test
+    public void testOdf() throws Exception {
+        Assert.assertNotNull(MathMLParserSupport
+                .parseInputStreamODF(MathBaseTest.class
+                        .getResourceAsStream("/" + "example.odf")));
+    }
+
+    /**
+     * Tests the new Parser API
+     * 
+     * @throws Exception
+     *             if an error occurs.
+     */
+    @Test
+    public void testNewParser() throws Exception {
+        Assert.assertNotNull(MathBaseFactory.getMathBaseFactory()
+                .createMathBase(
+                        new StreamSource(MathBaseTest.class
+                                .getResourceAsStream("/" + "example.odf")),
+                        MathBase.getDefaultParameters()));
+        Assert.assertNotNull(MathBaseFactory.getMathBaseFactory()
+                .createMathBase(
+                        new StreamSource(MathBaseTest.class
+                                .getResourceAsStream("/" + "example1.mml")),
+                        MathBase.getDefaultParameters()));
     }
 
 }
