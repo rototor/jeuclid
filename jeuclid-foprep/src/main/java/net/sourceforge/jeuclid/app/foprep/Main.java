@@ -18,6 +18,17 @@
 
 package net.sourceforge.jeuclid.app.foprep;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
@@ -33,6 +44,8 @@ import org.apache.commons.cli.ParseException;
  * @version $Revision$
  */
 public final class Main {
+
+    private static final String STD_INOUT = "-";
 
     private static final String OPTION_OUT = "out";
 
@@ -62,11 +75,31 @@ public final class Main {
             final CommandLine cmd = parser.parse(options, args);
             final String inputFile = cmd.getOptionValue(Main.OPTION_IN);
             final String outputFile = cmd.getOptionValue(Main.OPTION_OUT);
-            Processor.getProcessor().process(inputFile, outputFile);
+            final Result result;
+            if (Main.STD_INOUT.equals(outputFile)) {
+                result = new StreamResult(new PrintWriter(System.out));
+            } else {
+                result = new StreamResult(new File(outputFile));
+            }
+            final Source source;
+            if (Main.STD_INOUT.equals(inputFile)) {
+                source = new StreamSource(System.in);
+            } else {
+                source = new StreamSource(new FileInputStream(inputFile));
+            }
+            Processor.getProcessor().process(source, result);
         } catch (final ParseException e1) {
             System.out.println("Invalid command line:" + e1.getMessage());
             new HelpFormatter().printHelp(
                     "foprep -in input.fo -out output.fo", options);
+        } catch (final TransformerException e) {
+            System.out.println("An error occurred during processing: "
+                    + e.getMessage());
+            e.printStackTrace();
+        } catch (final IOException e) {
+            System.out.println("An I/O error occurred during processing: "
+                    + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

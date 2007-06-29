@@ -29,6 +29,8 @@ import java.util.zip.ZipInputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sourceforge.jeuclid.ResourceEntityResolver;
@@ -36,6 +38,7 @@ import net.sourceforge.jeuclid.ResourceEntityResolver;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -61,6 +64,8 @@ public final class Parser {
     private static final String BAD_STREAM_SOURCE = "Bad StreamSource: ";
 
     private static final String CONTENT_XML = "content.xml";
+
+    private static final String CANNOT_HANDLE_SOURCE = "Cannot handle Source: ";
 
     private static Parser parser;
 
@@ -120,7 +125,7 @@ public final class Parser {
     /**
      * Parse a StreamSource and return its Document.
      * <p>
-     * This method will autodetect ODF or XML format and load an appropriate
+     * This method will auto-detect ODF or XML format and load an appropriate
      * parser.
      * 
      * @param streamSource
@@ -255,6 +260,33 @@ public final class Parser {
      */
     public DocumentBuilder getDocumentBuilder() {
         return this.builder;
+    }
+
+    /**
+     * Extract the top Node from a given Source.
+     * 
+     * @param source
+     *            the Source to use. Currently supported are {@link DOMSource},
+     *            {@link StreamSource}
+     * @return the top NODE.
+     * @throws SAXException
+     *             if a parse error occurred.
+     * @throws IOException
+     *             if an I/O error occurred.
+     */
+    public Node parse(final Source source) throws SAXException, IOException {
+        final Node retVal;
+        if (source instanceof StreamSource) {
+            final StreamSource streamSource = (StreamSource) source;
+            retVal = this.parseStreamSource(streamSource);
+        } else if (source instanceof DOMSource) {
+            final DOMSource domSource = (DOMSource) source;
+            retVal = domSource.getNode();
+        } else {
+            throw new IllegalArgumentException(Parser.CANNOT_HANDLE_SOURCE
+                    + source);
+        }
+        return retVal;
     }
 
 }
