@@ -7,6 +7,9 @@
 	<body>
 		<release version="2.9.8-SNAPSHOT" date="in SVN"
 			description="none yet">
+		<action dev="maxberger" type="add">
+        	   Created new Parser API based on JAXP sources;
+		</action>
 		<action dev="maxberger" type="update">
         	   xxe plugin: converter now checks target file type;
         	   xxe plugin: Implemented Vector scaling;
