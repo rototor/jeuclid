@@ -8,7 +8,7 @@
 
   <a:name>JEuclid MathML / ODF image plug-in</a:name>
 
-  <a:version>2.9.7_02</a:version>
+  <a:version>2.9.7_03</a:version>
 
   <a:author><a href="mailto:max@berger.name">Max Berger</a></a:author>
 
@@ -26,5 +26,5 @@
   formulas is found in
   <tt><i>jeuclid_imagetoolkit_install_dir</i>/sample/MathML_Sample.xml</tt>.</p></a:documentation>
 
-  <a:xxeVersion>3.6.0</a:xxeVersion>
+  <a:xxeVersion>3.6.1</a:xxeVersion>
 </a:addon>
