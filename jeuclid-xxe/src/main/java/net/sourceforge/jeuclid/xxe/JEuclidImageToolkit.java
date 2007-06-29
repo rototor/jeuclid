@@ -22,6 +22,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.Locale;
 
+import net.sourceforge.jeuclid.Converter;
+
 import com.xmlmind.xmledit.doc.Element;
 import com.xmlmind.xmledit.imagetoolkit.ImageConverter;
 import com.xmlmind.xmledit.imagetoolkit.ImageRenderer;
@@ -35,14 +37,14 @@ import com.xmlmind.xmledit.imagetoolkit.ImageToolkit;
  */
 public class JEuclidImageToolkit implements ImageToolkit {
 
-// private static PrintStream DEBUG;
-// static {
-// try {
-// JEuclidImageToolkit.DEBUG = new PrintStream("/tmp/Mylog", "UTF-8");
-// } catch (final FileNotFoundException e) {
-// } catch (final UnsupportedEncodingException e) {
-// }
-// }
+    // private static PrintStream DEBUG;
+    // static {
+    // try {
+    // JEuclidImageToolkit.DEBUG = new PrintStream("/tmp/Mylog", "UTF-8");
+    // } catch (final FileNotFoundException e) {
+    // } catch (final UnsupportedEncodingException e) {
+    // }
+    // }
 
     /**
      * Default constructor.
@@ -68,11 +70,21 @@ public class JEuclidImageToolkit implements ImageToolkit {
     /** {@inheritDoc} */
     public ImageConverter getImageConverter(final File inFile,
             final File outFile) {
+        final ImageConverter result;
         if (this.hasRightExtension(inFile.getName())) {
-            return JEuclidImageConverter.getConverter();
+            final JEuclidImageConverter theConverter = JEuclidImageConverter
+                    .getConverter();
+            final String mimeType = theConverter.mimeTypeForFilename(outFile
+                    .getName());
+            if (Converter.getAvailableOutfileTypes().contains(mimeType)) {
+                result = theConverter;
+            } else {
+                result = null;
+            }
         } else {
-            return null;
+            result = null;
         }
+        return result;
     }
 
     /** {@inheritDoc} */
