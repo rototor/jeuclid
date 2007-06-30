@@ -30,6 +30,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
@@ -283,10 +287,18 @@ public final class Parser {
             final DOMSource domSource = (DOMSource) source;
             retVal = domSource.getNode();
         } else {
-            throw new IllegalArgumentException(Parser.CANNOT_HANDLE_SOURCE
-                    + source);
+            try {
+                final Transformer t = TransformerFactory.newInstance()
+                        .newTransformer();
+                final DOMResult r = new DOMResult();
+                t.transform(source, r);
+                retVal = r.getNode();
+            } catch (final TransformerException e) {
+                Parser.LOGGER.warn(e.getMessage());
+                throw new IllegalArgumentException(
+                        Parser.CANNOT_HANDLE_SOURCE + source);
+            }
         }
         return retVal;
     }
-
 }
