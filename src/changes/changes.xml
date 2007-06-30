@@ -8,6 +8,9 @@
 		<release version="2.9.8-SNAPSHOT" date="in SVN"
 			description="none yet">
 		<action dev="maxberger" type="update">
+        	   Parser: support more Source Types through transformer;
+		</action>
+		<action dev="maxberger" type="update">
         	   foprep now has a Source / Result interface;
         	   rewrote foprep Main to use it;
 		</action>
