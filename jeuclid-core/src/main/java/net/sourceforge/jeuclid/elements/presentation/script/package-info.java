@@ -17,10 +17,11 @@
 /* $Id$ */
 
 /**
-Script and Limit Schemata presentation element support (3.4).
+ Script and Limit Schemata presentation element support (3.4).
 
-<p>This package contains support for script and limit schemata presentation
-elements, as defined in <a
-	href="http://www.w3.org/TR/MathML/chapter3.html#presm.scrlim">http://www.w3.org/TR/MathML/chapter3.html#presm.scrlim</a></p>
-*/
+ <p>This package contains support for script and limit schemata presentation
+ elements, as defined in <a
+ href="http://www.w3.org/TR/MathML/chapter3.html#presm.scrlim">http://www.w3.org/TR/MathML/chapter3.html#presm.scrlim</a></p>
+ */
 package net.sourceforge.jeuclid.elements.presentation.script;
+

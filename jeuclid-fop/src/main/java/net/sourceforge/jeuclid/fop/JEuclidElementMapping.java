@@ -64,12 +64,13 @@ public class JEuclidElementMapping extends ElementMapping {
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     @Override
     protected void initialize() {
-        if (foObjs == null) {
-            foObjs = new HashMap();
-            foObjs.put("math", new ME());
-            foObjs.put(ElementMapping.DEFAULT, new MathMLMaker());
+        if (this.foObjs == null) {
+            this.foObjs = new HashMap();
+            this.foObjs.put("math", new ME());
+            this.foObjs.put(ElementMapping.DEFAULT, new MathMLMaker());
 
             // Additional Initialization
             XMLReader.setConverter(this.namespaceURI, new MathMLConverter());
@@ -106,12 +107,12 @@ public class JEuclidElementMapping extends ElementMapping {
                 info.width = (int) Math.ceil(base.getWidth(tempg));
                 info.height = (int) Math.ceil(base.getHeight(tempg));
 
-// info.mimeType = "application/mathml+xml";
+                // info.mimeType = "application/mathml+xml";
                 info.mimeType = "text/xml";
                 info.str = AbstractJEuclidElement.URI;
 
                 return info;
-            } catch (Throwable t) {
+            } catch (final Throwable t) {
                 /** @todo log that properly */
             }
             return null;

@@ -29,6 +29,7 @@ package net.sourceforge.jeuclid.fop;
 
 // FOP
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
+
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.XMLObj;
 

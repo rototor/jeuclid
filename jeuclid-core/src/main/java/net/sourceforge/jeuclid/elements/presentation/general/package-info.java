@@ -17,10 +17,11 @@
 /* $Id$ */
 
 /**
-General Layout Schemata presentation element support (3.3).
+ General Layout Schemata presentation element support (3.3).
 
-<p>This package contains support for general layout schemata
-presentation elements, as defined in <a
-	href="http://www.w3.org/TR/MathML/chapter3.html#presm.genlayout">http://www.w3.org/TR/MathML/chapter3.html#presm.genlayout</a></p>
-*/
+ <p>This package contains support for general layout schemata
+ presentation elements, as defined in <a
+ href="http://www.w3.org/TR/MathML/chapter3.html#presm.genlayout">http://www.w3.org/TR/MathML/chapter3.html#presm.genlayout</a></p>
+ */
 package net.sourceforge.jeuclid.elements.presentation.general;
+

@@ -17,10 +17,11 @@
 /* $Id$ */
 
 /**
-Enlivening Expressions presentation element support (3.6).
+ Enlivening Expressions presentation element support (3.6).
 
-<p>This package contains support for enlivening expressions
-presentation elements, as defined in <a
-	href="http://www.w3.org/TR/MathML/chapter3.html#presm.enliven">http://www.w3.org/TR/MathML/chapter3.html#presm.enliven</a></p>
-*/
+ <p>This package contains support for enlivening expressions
+ presentation elements, as defined in <a
+ href="http://www.w3.org/TR/MathML/chapter3.html#presm.enliven">http://www.w3.org/TR/MathML/chapter3.html#presm.enliven</a></p>
+ */
 package net.sourceforge.jeuclid.elements.presentation.enlivening;
+
