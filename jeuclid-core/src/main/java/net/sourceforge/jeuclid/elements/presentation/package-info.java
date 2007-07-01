@@ -17,10 +17,11 @@
 /* $Id$ */
 
 /**
-Provides support for presentation markup (3).
+ Provides support for presentation markup (3).
 
-<p>This package contains support for presentation markup elements, as defined 
-in <a
-	href="http://www.w3.org/TR/MathML/chapter3.html">http://www.w3.org/TR/MathML/chapter3.html</a></p>
-*/
+ <p>This package contains support for presentation markup elements, as defined 
+ in <a
+ href="http://www.w3.org/TR/MathML/chapter3.html">http://www.w3.org/TR/MathML/chapter3.html</a></p>
+ */
 package net.sourceforge.jeuclid.elements.presentation;
+

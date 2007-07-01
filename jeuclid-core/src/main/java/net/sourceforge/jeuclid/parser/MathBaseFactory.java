@@ -23,8 +23,6 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
@@ -74,8 +72,9 @@ public final class MathBaseFactory {
      * @param params
      *            set of parameters to use.
      * @param source
-     *            the Source to use. Currently supported are {@link DOMSource},
-     *            {@link StreamSource}
+     *            the Source to use. Currently supported are
+     *            {@link javax.xml.transform.dom.DOMSource},
+     *            {@link javax.xml.transform.stream.StreamSource}
      * @return the MathBase object.
      * @throws IOException
      *             if an I/O error occurs.

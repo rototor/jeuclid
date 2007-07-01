@@ -17,10 +17,11 @@
 /* $Id$ */
 
 /**
-Token Elements presentation element support (3.2).
+ Token Elements presentation element support (3.2).
 
-<p>This package contains support for token elements presentation
-elements, as defined in <a
-	href="http://www.w3.org/TR/MathML/chapter3.html#presm.tokel">http://www.w3.org/TR/MathML/chapter3.html#presm.tokel</a></p>
-*/
+ <p>This package contains support for token elements presentation
+ elements, as defined in <a
+ href="http://www.w3.org/TR/MathML/chapter3.html#presm.tokel">http://www.w3.org/TR/MathML/chapter3.html#presm.tokel</a></p>
+ */
 package net.sourceforge.jeuclid.elements.presentation.token;
+

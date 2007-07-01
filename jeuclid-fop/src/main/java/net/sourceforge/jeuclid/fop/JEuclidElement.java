@@ -74,18 +74,21 @@ public class JEuclidElement extends JEuclidObj {
     /** {@inheritDoc} */
     @Override
     public Point2D getDimension(final Point2D view) {
+        Point2D retVal;
         try {
-            MathBase base = MathMLParserSupport.createMathBaseFromDocument(
-                    doc, MathBase.getDefaultParameters());
+            final MathBase base = MathMLParserSupport
+                    .createMathBaseFromDocument(this.doc, MathBase
+                            .getDefaultParameters());
             final Image tempimage = new BufferedImage(1, 1,
                     BufferedImage.TYPE_INT_ARGB);
             final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-            return new Point2D.Float(base.getWidth(tempg), base
+            retVal = new Point2D.Float(base.getWidth(tempg), base
                     .getHeight(tempg));
-        } catch (SAXException x) {
-            return new Point(1, 1);
-        } catch (IOException x) {
-            return new Point(1, 1);
+        } catch (final SAXException x) {
+            retVal = new Point(1, 1);
+        } catch (final IOException x) {
+            retVal = new Point(1, 1);
         }
+        return retVal;
     }
 }

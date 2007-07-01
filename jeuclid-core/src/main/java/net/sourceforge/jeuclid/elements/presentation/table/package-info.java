@@ -17,10 +17,11 @@
 /* $Id$ */
 
 /**
-Tables and Matrices presentation element support (3.5).
+ Tables and Matrices presentation element support (3.5).
 
-<p>This package contains support for tables and matrices
-presentation elements, as defined in <a
-	href="http://www.w3.org/TR/MathML/chapter3.html#presm.tabmat">http://www.w3.org/TR/MathML/chapter3.html#presm.tabmat</a></p>
-*/
+ <p>This package contains support for tables and matrices
+ presentation elements, as defined in <a
+ href="http://www.w3.org/TR/MathML/chapter3.html#presm.tabmat">http://www.w3.org/TR/MathML/chapter3.html#presm.tabmat</a></p>
+ */
 package net.sourceforge.jeuclid.elements.presentation.table;
+
