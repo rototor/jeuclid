@@ -10,10 +10,10 @@
     <para>You may download JEuclid from the <ulink
     url="http://sourceforge.net/project/showfiles.php?group_id=44862">sourceforge
     project site for JEuclid</ulink> as a binary package or from <ulink
-    url="http://jeuclid.sf.net/source.html">source</ulink>.</para>
+    url="./source.html">source</ulink>.</para>
 
     <para>If you just want the MathViewer you may start it from our <ulink
-    url="http://jeuclid.sf.net/webstart.html">MathViewer WebStart</ulink>
+    url="./webstart.html">MathViewer WebStart</ulink>
     page.</para>
 
     <para>For best results, we recommend either one of the following font
@@ -112,11 +112,11 @@
     documentation or the sourcecode for usage.</para>
 
     <para>Please look at the <ulink
-    url="http://jeuclid.sf.net/apidocs/index.html">API Documentation</ulink>.
+    url="./apidocs/index.html">API Documentation</ulink>.
     You may be interested in <ulink
-    url="http://jeuclid.sf.net/apidocs/net/sourceforge/jeuclid/awt/MathComponent.html">net.sourceforge.jeuclid.awt.MathComponent</ulink>
+    url="./apidocs/net/sourceforge/jeuclid/awt/MathComponent.html">net.sourceforge.jeuclid.awt.MathComponent</ulink>
     and <ulink
-    url="http://jeuclid.sf.net/apidocs/net/sourceforge/jeuclid/swing/JMathComponent.html">net.sourceforge.jeuclid.swing.JMathComponent</ulink>.</para>
+    url="./apidocs/net/sourceforge/jeuclid/swing/JMathComponent.html">net.sourceforge.jeuclid.swing.JMathComponent</ulink>.</para>
 
     <para>Maven based projects</para>
 
