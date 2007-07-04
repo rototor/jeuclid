@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Converter.java 311 2007-05-19 02:08:18Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.parser;
 
@@ -38,7 +38,7 @@ import org.xml.sax.SAXException;
  * EXPERIMENTAL.
  * 
  * @author Max Berger
- * @version $Revision: 344 $
+ * @version $Revision$
  */
 public final class MathBaseFactory {
 
