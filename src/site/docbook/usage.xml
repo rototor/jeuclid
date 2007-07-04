@@ -120,13 +120,13 @@
 
     <para>Maven based projects</para>
 
-    <para>JEuclid is uploaded to ibiblio, and should therefore be available in
+    <para>JEuclid is uploaded to ibiblio, and is therefore available in
     your project by adding</para>
 
     <programlisting>
 &lt;depencency&gt;
   &lt;groupId&gt;net.sourceforge.jeuclid&lt;/groupId&gt;
-  &lt;artifactId&gt;jeuclid&lt;/artifactId&gt;
+  &lt;artifactId&gt;jeuclid-core&lt;/artifactId&gt;
 &lt;/depencenty&gt;
 </programlisting>
 
