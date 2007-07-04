@@ -530,7 +530,7 @@ public abstract class AbstractJEuclidElement extends
             }
         }
 
-        final String toSet = CharConverter.convert(newText.toString());
+        final String toSet = CharConverter.convertEarly(newText.toString());
         if (toSet.length() > 0) {
             textNode.setTextContent(toSet);
         } else {

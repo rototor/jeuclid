@@ -18,16 +18,21 @@
 
 package net.sourceforge.jeuclid.elements.support.text;
 
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
 import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
+import java.text.CharacterIterator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.elements.support.attributes.FontFamily;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 
@@ -88,7 +93,7 @@ public final class StringUtil {
      * Converts a given String to an attributed string with the proper
      * variants set.
      * 
-     * @param plainString
+     * @param inputString
      *            the string to convert.
      * @param baseVariant
      *            variant to base on for regular characters
@@ -100,10 +105,11 @@ public final class StringUtil {
      *         characters.
      */
     public static AttributedString convertStringtoAttributedString(
-            final String plainString, final MathVariant baseVariant,
+            final String inputString, final MathVariant baseVariant,
             final float fontSize, final MathBase base) {
         final StringBuilder builder = new StringBuilder();
         final List<MathVariant> variants = new Vector<MathVariant>();
+        final String plainString = CharConverter.convertLate(inputString);
 
         for (int i = 0; i < plainString.length(); i++) {
             if (!Character.isLowSurrogate(plainString.charAt(i))) {
@@ -134,6 +140,44 @@ public final class StringUtil {
                     fontSize, builder.charAt(i), base), i, i + 1);
         }
         return aString;
+    }
+
+    /**
+     * Safely creates a Text Layout from an attributed string. Unlike the
+     * TextLayout constructor, the String here may actually be empty.
+     * 
+     * @param g
+     *            Graphics context.
+     * @param aString
+     *            an Attributed String
+     * @param mathBase
+     *            MathBase of context.
+     * @return a TextLayout
+     */
+    public static TextLayout createTextLayoutFromAttributedString(
+            final Graphics2D g, final AttributedString aString,
+            final MathBase mathBase) {
+        // This is an evil and totally not-understandable workaround which
+        // is essential to get Anti-aliasing on SUNS JDK 1.5
+        // It is not needed for JDK >= 1.6 or OS X
+        final FontRenderContext suggestedFontRenderContext = g
+                .getFontRenderContext();
+        final boolean antialiasing = Boolean.parseBoolean(mathBase
+                .getParams().get(ParameterKey.AntiAlias));
+        final FontRenderContext realFontRenderContext = new FontRenderContext(
+                suggestedFontRenderContext.getTransform(), antialiasing, true);
+        // TODO: We may want to turn off anti-aliasing below a certain
+        // size threshold (such as 8pt)
+
+        final TextLayout theLayout;
+        if (aString.getIterator().first() != CharacterIterator.DONE) {
+            theLayout = new TextLayout(aString.getIterator(),
+                    realFontRenderContext);
+        } else {
+            theLayout = new TextLayout(" ", new Font("", 0, 0),
+                    realFontRenderContext);
+        }
+        return theLayout;
     }
 
     /**
