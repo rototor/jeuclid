@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.text.AttributedString;
 import java.util.List;
 
 import net.sourceforge.jeuclid.Defense;
@@ -298,11 +299,13 @@ public class Mo extends AbstractJEuclidElement implements
         }
 
         final String theText = this.getText();
-        final TextLayout theLayout = new TextLayout(StringUtil
-                .convertStringtoAttributedString(theText,
-                        this.getMathvariantAsVariant(), fontSizeInPoint,
-                        this.getMathBase()).getIterator(), g
-                .getFontRenderContext());
+        final AttributedString aString = StringUtil
+                .convertStringtoAttributedString(theText, this
+                        .getMathvariantAsVariant(), fontSizeInPoint, this
+                        .getMathBase());
+        final TextLayout theLayout = StringUtil
+                .createTextLayoutFromAttributedString(g, aString, this
+                        .getMathBase());
         return theLayout;
     }
 
@@ -388,7 +391,7 @@ public class Mo extends AbstractJEuclidElement implements
                 this.calculateSpecs(g);
                 scaleFactor = this.calcScaleX;
             }
-            return (float) StringUtil.getWidthForTextLayout(this
+            return StringUtil.getWidthForTextLayout(this
                     .produceUnstrechtedLayout(g))
                     * scaleFactor + space;
         }

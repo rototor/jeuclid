@@ -21,7 +21,7 @@ package net.sourceforge.jeuclid.elements.support.text;
 /**
  * class for char converting.
  * 
- * @author Unkown
+ * @author Unknown
  * @author Max Berger
  * @version $Revision$
  */
@@ -29,13 +29,10 @@ public final class CharConverter {
 
     // CHECKSTYLE:OFF
     /**
-     * Array for char equivalents
+     * Array for char equivalents to be mapped immediately before display.
      */
-    private static final String[][] MAP = {
-            { "\u2061", "" },
-            { "\u200b", "" },
-            { "\u2062", "" },
-            { "\u2148", "i" },
+    private static final String[][] LATE_MAP = { { "\u2061", "" },
+            { "\u200b", "" }, { "\u2062", "" }, { "\u2148", "i" },
             /*
              * This maps UnderBar -> Overbar. The regular mapping of underbars
              * (0332) is a combining character, which produces incorrect text
@@ -44,16 +41,21 @@ public final class CharConverter {
              * Underscore (_) should be used, but then the information about
              * strechting is lost.
              * 
-             * OverBars are higher in the layout. Howver, UnderBars are
+             * OverBars are higher in the layout. However, UnderBars are
              * usually only used in underscripts, where this produces no
              * problem.
              * 
              * TODO: Check if there are other combining characters among the
              * default entities and map them accordingly.
              */
-            { "\u0332", "\u00AF" },
+            { "\u0332", "\u00AF" }, };
+
+    /**
+     * Array for char equivalents to be mapped when parsing.
+     */
+    private static final String[][] EARLY_MAP = {
             /*
-             * These are created by Openoffice formula. See
+             * These are created by OpenOffice formula. See
              * http://www.openoffice.org/servlets/ReadMsg?list=dev&msgNo=543
              * 
              * These are mapping from the private area of the "starSymbol"
@@ -114,15 +116,16 @@ public final class CharConverter {
     // CHECKSTYLE:ON
 
     private CharConverter() {
-        // Empty on puropse.
+        // Empty on purpose.
     }
 
     /**
      * @param string
      *            String for char replacing
-     * @return reuslt string
+     * @return result string
      */
-    public static String convert(final String string) {
+    private static String actualConvert(final String string,
+            final String[][] map) {
         final StringBuffer buffer = new StringBuffer();
 
         int i;
@@ -130,12 +133,11 @@ public final class CharConverter {
         boolean touched;
         for (i = 0; i < string.length(); i++) {
             touched = false;
-            for (j = 0; j < CharConverter.MAP.length; j++) {
-                if (string.regionMatches(i, CharConverter.MAP[j][0], 0,
-                        CharConverter.MAP[j][0].length())) {
-                    buffer.append(CharConverter.MAP[j][1]);
+            for (j = 0; j < map.length; j++) {
+                if (string.regionMatches(i, map[j][0], 0, map[j][0].length())) {
+                    buffer.append(map[j][1]);
                     touched = true;
-                    i += CharConverter.MAP[j][0].length() - 1;
+                    i += map[j][0].length() - 1;
                 }
             }
             if (!touched) {
@@ -145,4 +147,23 @@ public final class CharConverter {
 
         return buffer.toString();
     }
+
+    /**
+     * @param string
+     *            String for char replacing
+     * @return result string
+     */
+    public static String convertEarly(final String string) {
+        return CharConverter.actualConvert(string, CharConverter.EARLY_MAP);
+    }
+
+    /**
+     * @param string
+     *            String for char replacing
+     * @return result string
+     */
+    public static String convertLate(final String string) {
+        return CharConverter.actualConvert(string, CharConverter.LATE_MAP);
+    }
+
 }
