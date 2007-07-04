@@ -9,7 +9,7 @@ install</para><itemizedlist><listitem><para><ulink url="http://subversion.tigris
 (optional)</para></listitem><listitem><para><ulink url="http://maven.apache.org/eclipse-plugin.html">Maven 2.x Plug-in for Eclipse</ulink> (required if you use
 Eclipse)</para></listitem><listitem><para><ulink url="http://maven.apache.org/netbeans-module.html">Maven 2.x Plug-in for NetBeans</ulink> (required if you use
 NetBeans)</para></listitem></itemizedlist><para>If you have commiter access, the following extra plugins for
-eclipse are highly recommended:</para><itemizedlist><listitem><para><ulink url="http://subclipse.tigris.org/">Subclipse</ulink></para></listitem><listitem><para><ulink url="http://eclipse-cs.sourceforge.net/">Eclipse Checkstyle Plugin</ulink></para><para><ulink url="http://testng.org/doc/eclipse.html">Eclipse TestNG Plugin</ulink></para></listitem></itemizedlist><para>Then, access the sourcecode as described on the <ulink url="http://jeuclid.sf.net/source-repository.html">JEuclid
+eclipse are highly recommended:</para><itemizedlist><listitem><para><ulink url="http://subclipse.tigris.org/">Subclipse</ulink></para></listitem><listitem><para><ulink url="http://eclipse-cs.sourceforge.net/">Eclipse Checkstyle Plugin</ulink></para><para><ulink url="http://testng.org/doc/eclipse.html">Eclipse TestNG Plugin</ulink></para></listitem></itemizedlist><para>Then, access the sourcecode as described on the <ulink url="./source-repository.html">JEuclid
 repository site</ulink>.</para><para>Once you have the code available, use Maven to build and package
 the code. Here are the most common commands:</para><itemizedlist><listitem><para><literal>mvn package</literal> will compile, test, and bundle JEuclid.
 Use this command if you are not sure what else to use</para></listitem><listitem><para><literal>mvn scm:update</literal> will retrieve the newest version from
@@ -22,17 +22,17 @@ adjust the memory available to maven. You can do this by setting
 the <literal>MAVEN_OPTS</literal> environment variable to
 <literal>-Xmx512m</literal></para><para>to create a patch, please execute <literal>mvn scm::diff</literal>. The
 resulting patch will be saved as <literal>jeuclid.diff</literal>. Please
-rename your patch before submitting it through <ulink url="http://jeuclid.sf.net/issue-tracking.html">issue
+rename your patch before submitting it through <ulink url="./issue-tracking.html">issue
 tracking</ulink>.</para><para>When you create a patch please:</para><itemizedlist><listitem><para>Add a test if possible (in directory
 <literal>src/test/java/net/sourceforge/jeuclid/</literal> for the
 module)</para></listitem><listitem><para>Provide a short entry for the changelog in
 <literal>src/changes/changes.xml</literal> (main module)</para></listitem><listitem><para>Try to follow the coding style</para></listitem></itemizedlist><para>Please note: By submitting a patch, you agree to publish it
-under the same <ulink url="http://jeuclid.sf.net/license.html">license</ulink> as the rest of JEuclid.</para><para>The coding guidelines are given as a set of <ulink url="http://checkstyle.sourceforge.net/">Checkstyle</ulink>
+under the same <ulink url="./license.html">license</ulink> as the rest of JEuclid.</para><para>The coding guidelines are given as a set of <ulink url="http://checkstyle.sourceforge.net/">Checkstyle</ulink>
 rules. Please run checkstyle with <literal>mvn
 checkstyle:checkstyle</literal> and view the results in
 <literal>target/target/checkstyle-result.xml</literal> or
 <literal>target/site/checkstyle.html</literal>. The ruleset is listed on the
-<ulink url="http://jeuclid.sf.net/jeuclid-core/checkstyle.html">Checkstyle results page</ulink> and explained on the <ulink url="http://checkstyle.sourceforge.net/checks.html">Checkstyle Standard Checks</ulink> page.</para><para>Your should login to SVN with your sourceforge username and
+<ulink url="./jeuclid-core/checkstyle.html">Checkstyle results page</ulink> and explained on the <ulink url="http://checkstyle.sourceforge.net/checks.html">Checkstyle Standard Checks</ulink> page.</para><para>Your should login to SVN with your sourceforge username and
 password. It should ask you for it the first time you try to
 submit</para><para>When you add new Java files, please set the property
 <literal>svn:keywords</literal> to <literal>Revision Date Id</literal></para><para>If you have developer access, please add the following to your
