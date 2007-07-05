@@ -38,6 +38,33 @@
 
     <itemizedlist>
       <listitem>
+        <para>Announcing JEuclid 2.9.8 aka 3.0 RC: We're almost there: The new
+        Release is just around the corner! </para>
+
+        <para>There have been few bugfixes to the core module, but most of the
+        work has been gone into the support:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>FOP support is actively being worked on with patches
+            submitted to FOP to allow for better integration.</para>
+          </listitem>
+
+          <listitem>
+            <para>a <ulink url="http://www.xmlmind.com/xmleditor/">XXE</ulink>
+            plugin adds support for MathML in XXE.</para>
+          </listitem>
+
+          <listitem>
+            <para>a new FOPREP application can now be used to prepare XSL-FO
+            files by replacing all instream MathML with SVG codes and adding
+            the correct baseline-shift, to allow proper rendering of MathML in
+            XSL-FO applications wihout MathML support.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
         <para>JEuclid 2.9.7 (3.0b2) released</para>
 
         <para>In the spirit of getting closer to 3.0, the JEuclid team is
@@ -130,14 +157,13 @@
       </listitem>
 
       <listitem>
-        <para>We now have a <ulink
-        url="./logo.html">Logo</ulink></para>
+        <para>We now have a <ulink url="./logo.html">Logo</ulink></para>
       </listitem>
 
       <listitem>
         <para>The sourcecode repository has moved to subversion, please see
-        <ulink url="./source-repository.html">Source
-        repository</ulink> for updated instructions.</para>
+        <ulink url="./source-repository.html">Source repository</ulink> for
+        updated instructions.</para>
       </listitem>
 
       <listitem>
@@ -146,7 +172,7 @@
       </listitem>
     </itemizedlist>
 
-    <para>Please <ulink url="./issue-tracking.html">report
-    any issues</ulink>.</para>
+    <para>Please <ulink url="./issue-tracking.html">report any
+    issues</ulink>.</para>
   </section>
 </article>

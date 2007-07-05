@@ -91,7 +91,7 @@
     <para>I am currently investigating including fonts into the JEuclid
     distribution.</para>
 
-    <para>Please note: This documentation refers to the 2.9.7 version.</para>
+    <para>Please note: This documentation refers to the 2.9.8 version.</para>
 
     <para>To run the MathViewer application, you may use the mathviewer or
     mathviewer.bat script from the bin/ directory of the distribution.</para>
