@@ -4,7 +4,7 @@
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-parent</artifactId>
   <name>JEuclid</name>
-  <version>2.9.9-SNAPSHOT</version>
+  <version>3.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
     <module>jeuclid-core</module>
@@ -371,7 +371,7 @@
     <site>
       <id>sourceforge</id>
       <name>Website for JEuclid on SourceForge</name>
-      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs</url>
+      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/trunk</url>
     </site>
   </distributionManagement>
   <properties>
