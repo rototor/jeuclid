@@ -50,6 +50,14 @@ import org.xml.sax.SAXException;
 
 /**
  * Contains the actual processing routines.
+ * <p>
+ * To use this class obtain an instance of the Processor singleton instance.
+ * Then use the {@link #process(Source, Result)} function to process your
+ * Document.
+ * <p>
+ * This will replace all occurrences of MathML within fo:instream tags by the
+ * equivalent SVG code. It will also add a baseline-shift attribute so that
+ * the formula is in line with the rest of the text.
  * 
  * @author Max Berger
  * @version $Revision$
