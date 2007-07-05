@@ -5,8 +5,8 @@
 		<author>Max Berger</author>
 	</properties>
 	<body>
-		<release version="2.9.8-SNAPSHOT" date="in SVN"
-			description="none yet">
+		<release version="2.9.8" date="2007-07-05"
+			description="almost there">
 		<action dev="maxberger" type="update">CharConverter: Split into Early (parsing) and late conversion; Used this to keep information on mapped special chars, such as InvisibleTimes Created a safe "createTextLayout" function;</action>
 		<action dev="maxberger" type="update">
         	   Parser: support more Source Types through transformer;
