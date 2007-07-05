@@ -1,3 +1,9 @@
+Before the Release
+
+Send mail to jeuclid-devel, asking for potential release, count votes
+
+
+Release day:
 
 1. manually edit all pom.xml and remove snapshot dependencies.
 
