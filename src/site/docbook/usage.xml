@@ -5,19 +5,56 @@
   <title></title>
 
   <section>
-    <title>Getting JEuclid</title>
+    <title>Obtaining JEuclid</title>
 
     <para>You may download JEuclid from the <ulink
     url="http://sourceforge.net/project/showfiles.php?group_id=44862">sourceforge
     project site for JEuclid</ulink> as a binary package or from <ulink
-    url="./source.html">source</ulink>.</para>
+    url="./source.html">source</ulink>. Please note: There are 3 Binary
+    packages:</para>
 
-    <para>If you just want the MathViewer you may start it from our <ulink
-    url="./webstart.html">MathViewer WebStart</ulink>
-    page.</para>
+    <variablelist>
+      <varlistentry>
+        <term>jeuclid-distribution</term>
 
-    <para>For best results, we recommend either one of the following font
-    sets:</para>
+        <listitem>
+          <para>Contains the full JEuclid distribution with all supported
+          output formats (such as png, svg, pdf). This is what most people
+          need.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>jeuclid-minimal</term>
+
+        <listitem>
+          <para>Contains a minimal JEuclid distribution which supports only
+          the standard Java output formats. Use this if you need only these
+          formats (such as png), if you want to embedd JEuclid into a
+          non-maven2 project, or if you're interested in viewing math
+          only.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>jeuclid-osx</term>
+
+        <listitem>
+          <para>Contains the MathViewer with all support functionality as an
+          application bundle for Mac OS X.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>If you just want the MathViewer you may also start it from our
+    <ulink url="./webstart.html">MathViewer WebStart</ulink> page.</para>
+  </section>
+
+  <section>
+    <title>Additional Installs</title>
+
+    <para>For best results, we recommend installing either one of the
+    following font sets:</para>
 
     <itemizedlist>
       <listitem>
@@ -68,7 +105,7 @@
       </listitem>
 
       <listitem>
-        <para>Arial Unicode MS </para>
+        <para>Arial Unicode MS</para>
 
         <itemizedlist>
           <listitem>
@@ -87,53 +124,79 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
+  </section>
 
-    <para>I am currently investigating including fonts into the JEuclid
-    distribution.</para>
+  <section>
+    <title>MathViewer</title>
 
-    <para>Please note: This documentation refers to the 2.9.8 version.</para>
-
-    <para>To run the MathViewer application, you may use the mathviewer or
-    mathviewer.bat script from the bin/ directory of the distribution.</para>
+    <para>To run the MathViewer application, you may use the
+    <command>mathviewer</command> or <command>mathviewer.bat</command> script
+    from the <command>bin/</command> directory of the distribution.</para>
 
     <para>If you use the OS X package, the MathViewer is included as an
     application bundle.</para>
+  </section>
 
-    <para>You may use the included mml2xxx (unix) or mml2xx.bat (windows)
-    script from the bin/ directory in the distribution.</para>
+  <section>
+    <title>Convert MathML to other Formats</title>
+
+    <para>You may use the included <command>mml2xxx</command> (unix) or
+    <command>mml2xx.bat</command> (windows) script from the
+    <command>bin/</command> directory in the distribution.</para>
+
+    <para>Example: </para>
+
+    <programlisting>mml2xxx a.mml a.png -BackgroundColor white</programlisting>
+
+    <para>To get a list of possible options, just <command>mml2xxx</command>
+    without any parameters. Please see the <ulink url="./faq.html">JEuclid
+    FAQ</ulink> or run <command>mml2xx</command> without parameters for a list
+    of supported output formats.</para>
+  </section>
+
+  <section>
+    <title>Within Ant</title>
 
     <para>You will need to define the converter task:</para>
 
-    <programlisting>
-&lt;taskdef name="mmlconverter" classname="net.sourceforge.jeuclid.ant.MathMLConverter"&gt; 
-</programlisting>
+    <programlisting>&lt;taskdef name="mmlconverter" classname="net.sourceforge.jeuclid.ant.MathMLConverter"&gt;</programlisting>
 
     <para>with the needed JAR files in the classpath. Please see the API
-    documentation or the sourcecode for usage.</para>
+    documentation or the source code for usage.</para>
+  </section>
 
-    <para>Please look at the <ulink
-    url="./apidocs/index.html">API Documentation</ulink>.
-    You may be interested in <ulink
+  <section>
+    <title>In your own App</title>
+
+    <para>Please look at the <ulink url="./apidocs/index.html">API
+    Documentation</ulink>. You may be interested in <ulink
     url="./apidocs/net/sourceforge/jeuclid/awt/MathComponent.html">net.sourceforge.jeuclid.awt.MathComponent</ulink>
     and <ulink
     url="./apidocs/net/sourceforge/jeuclid/swing/JMathComponent.html">net.sourceforge.jeuclid.swing.JMathComponent</ulink>.</para>
 
-    <para>Maven based projects</para>
+    <section>
+      <title>Maven based projects</title>
 
-    <para>JEuclid is uploaded to ibiblio, and is therefore available in
-    your project by adding</para>
+      <para>JEuclid is uploaded to ibiblio, and is therefore available in your
+      project by adding</para>
 
-    <programlisting>
-&lt;depencency&gt;
+      <programlisting>&lt;depencency&gt;
   &lt;groupId&gt;net.sourceforge.jeuclid&lt;/groupId&gt;
   &lt;artifactId&gt;jeuclid-core&lt;/artifactId&gt;
 &lt;/depencenty&gt;
 </programlisting>
 
-    <para>to your <emphasis>dependencies</emphasis> section.</para>
+      <para>to your <emphasis>dependencies</emphasis> section.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>As a cocoon component</title>
 
     <para>To use the Cocoon component you have to <ulink
     url="http://sourceforge.net/project/showfiles.php?group_id=44862&amp;package_id=37497&amp;release_id=220741">download
-    JEuclid 2</ulink>. Please see the included INSTALL instructions.</para>
+    JEuclid 2</ulink>. Please see the included INSTALL instructions. The
+    Cocoon component is currently not under active development. Volunteers are
+    welcome! </para>
   </section>
 </article>
