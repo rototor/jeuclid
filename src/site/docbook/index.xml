@@ -34,12 +34,21 @@
   </section>
 
   <section>
+    <title>Development version</title>
+
+    <para>This page is generated from the stable, 3.0 branch of JEuclid.
+    Please see the <ulink url="./trunk/">JEuclid development (trunk)
+    webpage</ulink> for up-to-date information on the new development
+    branch.</para>
+  </section>
+
+  <section>
     <title>News</title>
 
     <itemizedlist>
       <listitem>
         <para>Announcing JEuclid 2.9.8 aka 3.0 RC: We're almost there: The new
-        Release is just around the corner! </para>
+        Release is just around the corner!</para>
 
         <para>There have been few bugfixes to the core module, but most of the
         work has been gone into the support:</para>
