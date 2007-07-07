@@ -136,8 +136,7 @@ public final class Processor {
                     .createSVGGenerator(mathBase);
             mathBase.paint(svgGenerator);
             final float descender = mathBase.getDescender(svgGenerator);
-            final float height = Math.max(1.0f, mathBase
-                    .getHeight(svgGenerator));
+            final float height = mathBase.getHeight(svgGenerator);
             final float baselinePercent = -(descender / height) * 100f;
 
             final Node parent = node.getParentNode();
