@@ -136,6 +136,9 @@ public final class Processor {
                     .createSVGGenerator(mathBase);
             mathBase.paint(svgGenerator);
             final float descender = mathBase.getDescender(svgGenerator);
+            final float height = Math.max(1.0f, mathBase
+                    .getHeight(svgGenerator));
+            final float baselinePercent = -(descender / height) * 100f;
 
             final Node parent = node.getParentNode();
             if ("http://www.w3.org/1999/XSL/Format".equals(parent
@@ -143,7 +146,8 @@ public final class Processor {
                     && "instream-foreign-object"
                             .equals(parent.getLocalName())) {
                 final Element pElement = (Element) parent;
-                pElement.setAttribute("baseline-shift", -descender + "pt");
+                pElement.setAttribute("alignment-adjust", baselinePercent
+                        + "%");
             }
             this.safeReplaceChild(parent, node, svgGenerator.getRoot());
         } else {
