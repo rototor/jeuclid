@@ -5,6 +5,11 @@
 		<author>Max Berger</author>
 	</properties>
 	<body>
+		<release version="3.1.0" date="in SVN" description="None yet">
+<action dev="maxberger" type="update">
+foprep: No uses percentage alignment-adjust instead of absolute baseline-shift
+</action>
+</release>
 		<release version="2.9.8" date="2007-07-05"
 			description="almost there">
 		<action dev="maxberger" type="update">CharConverter: Split into Early (parsing) and late conversion; Used this to keep information on mapped special chars, such as InvisibleTimes Created a safe "createTextLayout" function;</action>
