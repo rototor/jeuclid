@@ -159,7 +159,7 @@ public final class Processor {
                 .getDOMImplementation();
 
         final Document document = domImpl.createDocument(null,
-                net.sourceforge.jeuclid.Converter.EXTENSION_SVG, null);
+                net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG, null);
         final SVGGeneratorContext svgContext = SVGGeneratorContext
                 .createDefault(document);
         svgContext.setComment("Converted from MathML using JEuclid");

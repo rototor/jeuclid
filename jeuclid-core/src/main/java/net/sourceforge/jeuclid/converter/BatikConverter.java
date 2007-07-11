@@ -52,7 +52,7 @@ public class BatikConverter implements ConverterPlugin {
 
         // Create an instance of org.w3c.dom.Document
         final Document document = domImpl.createDocument(null,
-                net.sourceforge.jeuclid.Converter.EXTENSION_SVG, null);
+                net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG, null);
 
         // Create an instance of the SVG Generator
         final SVGGeneratorContext svgContext = SVGGeneratorContext

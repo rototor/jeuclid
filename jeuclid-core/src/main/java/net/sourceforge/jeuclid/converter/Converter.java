@@ -58,6 +58,16 @@ public final class Converter {
      */
     private static final Log LOGGER = LogFactory.getLog(Converter.class);
 
+    /**
+     * Mime type for SVG.
+     */
+    public static final String TYPE_SVG = "image/svg+xml";
+
+    /**
+     * File extension for SVG.
+     */
+    public static final String EXTENSION_SVG = "svg";
+
     private Converter() {
 
     }
