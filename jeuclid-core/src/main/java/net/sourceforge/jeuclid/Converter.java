@@ -46,21 +46,16 @@ import org.xml.sax.SAXException;
  * class will be deprecated some time after the 3.0 release. However, the new
  * API is not to be considered stable yet, so please use these functions for
  * the time being.
+ * <p>
+ * Replaced by {@link net.sourceforge.jeuclid.converter.Converter} and
+ * {@link net.sourceforge.jeuclid.converter.ConverterRegistry}
  * 
  * @author Max Berger
  * @version $Revision$
+ * @deprecated
  */
+@Deprecated
 public final class Converter {
-
-    /**
-     * Mime type for SVG.
-     */
-    public static final String TYPE_SVG = "image/svg+xml";
-
-    /**
-     * File extension for SVG.
-     */
-    public static final String EXTENSION_SVG = "svg";
 
     /**
      * Logger for this class

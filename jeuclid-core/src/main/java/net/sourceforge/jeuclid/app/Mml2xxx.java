@@ -22,10 +22,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import net.sourceforge.jeuclid.Converter;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.app.support.CommandLineParser;
+import net.sourceforge.jeuclid.converter.Converter;
+import net.sourceforge.jeuclid.converter.ConverterRegistry;
 
 /**
  * Utility class to be used from the command line to call the converters.
@@ -75,18 +76,18 @@ public final class Mml2xxx {
                 final String fileName = target.getName();
                 final String extension = fileName.substring(fileName
                         .lastIndexOf('.') + 1);
-                final String mimetype = Converter
+                final String mimetype = ConverterRegistry.getRegisty()
                         .getMimeTypeForSuffix(extension);
                 params.put(ParameterKey.OutFileType, mimetype);
             }
 
-            Converter.convert(source, target, params);
+            Converter.getConverter().convert(source, target, params);
 
-        } catch (ArrayIndexOutOfBoundsException aiobe) {
+        } catch (final ArrayIndexOutOfBoundsException aiobe) {
             Mml2xxx.showUsage();
             System.out.println(aiobe.getClass().toString() + Mml2xxx.COLON
                     + aiobe.getMessage());
-        } catch (IllegalArgumentException ia) {
+        } catch (final IllegalArgumentException ia) {
             Mml2xxx.showUsage();
             System.out.println(ia.getClass().toString() + Mml2xxx.COLON
                     + ia.getMessage());
@@ -110,8 +111,7 @@ public final class Mml2xxx {
         System.out.println(" target is the path to the target file");
         System.out.println("Possible options (with default value):");
         final ParameterKey[] options = ParameterKey.values();
-        for (int i = 0; i < options.length; i++) {
-            final ParameterKey param = options[i];
+        for (final ParameterKey param : options) {
             final String name = param.name();
             System.out.print(" -" + name);
             System.out.print(Mml2xxx.SPACE);
@@ -119,7 +119,8 @@ public final class Mml2xxx {
         }
         System.out.println("The following output types are supported:");
         System.out.print("   ");
-        for (final String type : Converter.getAvailableOutfileTypes()) {
+        for (final String type : ConverterRegistry.getRegisty()
+                .getAvailableOutfileTypes()) {
             System.out.print(Mml2xxx.SPACE + type);
         }
         System.out.println();

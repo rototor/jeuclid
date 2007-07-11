@@ -6,7 +6,8 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
-<action dev="maxberger" type="update">
+			<action dev="maxberger" type="update">Deprecated old converter API</action>
+			<action dev="maxberger" type="update">
 foprep: No uses percentage alignment-adjust instead of absolute baseline-shift
 </action>
 </release>
