@@ -130,7 +130,7 @@ public final class Processor {
 
             final MathBase mathBase = new MathBase(MathBase
                     .getDefaultParameters());
-            new DOMBuilder(node, mathBase);
+            DOMBuilder.getDOMBuilder().createJeuclidDom(node, mathBase);
 
             final SVGGraphics2D svgGenerator = this
                     .createSVGGenerator(mathBase);
@@ -159,7 +159,8 @@ public final class Processor {
                 .getDOMImplementation();
 
         final Document document = domImpl.createDocument(null,
-                net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG, null);
+                net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG,
+                null);
         final SVGGeneratorContext svgContext = SVGGeneratorContext
                 .createDefault(document);
         svgContext.setComment("Converted from MathML using JEuclid");

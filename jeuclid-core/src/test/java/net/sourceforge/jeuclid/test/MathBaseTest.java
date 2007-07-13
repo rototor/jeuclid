@@ -54,7 +54,7 @@ public class MathBaseTest {
         final DocumentBuilder parser = MathMLParserSupport
                 .createDocumentBuilder();
         Document document = null;
-        LOGGER.info("reading:" + name);
+        MathBaseTest.LOGGER.info("reading:" + name);
         final InputSource source = new InputSource(MathBaseTest.class
                 .getResourceAsStream("/" + name));
         document = parser.parse(source);
@@ -75,7 +75,7 @@ public class MathBaseTest {
             final Document document = MathBaseTest.loadDocument(exName);
             final MathBase base = new MathBase(MathBase
                     .getDefaultParameters());
-            new DOMBuilder(document, base);
+            DOMBuilder.getDOMBuilder().createJeuclidDom(document, base);
         }
     }
 

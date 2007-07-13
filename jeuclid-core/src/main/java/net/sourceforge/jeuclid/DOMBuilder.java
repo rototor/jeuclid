@@ -42,19 +42,28 @@ import org.w3c.dom.NodeList;
  * @author Max Berger
  * @version $Revision$
  */
-public class DOMBuilder {
+public final class DOMBuilder {
     /**
      * Logger for this class
      */
     // unused
     // private static final Log LOGGER =
     // LogFactory.getLog(DOMMathBuilder.class);
-    /**
-     * Reference to the root element of the math elements tree.
-     */
-    private DocumentElement rootElement;
+    private static DOMBuilder domBuilder;
 
-    private MathBase mbase;
+    private DOMBuilder() {
+
+    }
+
+    /**
+     * @return the singleton instance of the DOMBuilder
+     */
+    public static synchronized DOMBuilder getDOMBuilder() {
+        if (DOMBuilder.domBuilder == null) {
+            DOMBuilder.domBuilder = new DOMBuilder();
+        }
+        return DOMBuilder.domBuilder;
+    }
 
     /**
      * Constructs a builder.
@@ -67,9 +76,11 @@ public class DOMBuilder {
      *            or DocumentFragment with Element child
      * @param mathBase
      *            Math base
+     * @return the parsed Document
      * @see MathMLParserSupport
      */
-    public DOMBuilder(final Node node, final MathBase mathBase) {
+    public DocumentElement createJeuclidDom(final Node node,
+            final MathBase mathBase) {
         final Element documentElement;
         if (node instanceof Document) {
             documentElement = ((Document) node).getDocumentElement();
@@ -89,23 +100,13 @@ public class DOMBuilder {
                             + ". Expected either Document, Element or DocumentFragment");
         }
 
-        this.mbase = mathBase;
+        final DocumentElement rootElement = new DocumentElement(mathBase);
+        mathBase.setRootElement(rootElement);
 
-        this.rootElement = new DocumentElement(this.mbase);
-        mathBase.setRootElement(this.rootElement);
-
-        this.traverse(documentElement, this.rootElement, null);
+        this.traverse(documentElement, rootElement, null, mathBase);
         // TODO: When changeTracking is updated to be disabled during initial
         // buildup, this is the place to trigger first changeEvents
-    }
-
-    /**
-     * Returns the root element of a math tree.
-     * 
-     * @return Root element.
-     */
-    public DocumentElement getMathRootElement() {
-        return this.rootElement;
+        return rootElement;
     }
 
     /**
@@ -119,7 +120,7 @@ public class DOMBuilder {
      *            Alignment scope of elements.
      */
     private void traverse(final Node node, final Node parent,
-            Mtd alignmentScope) {
+            Mtd alignmentScope, final MathBase mbase) {
         if (node.getNodeType() != Node.ELEMENT_NODE) {
             return;
         }
@@ -133,7 +134,7 @@ public class DOMBuilder {
                 .getAttributes());
 
         final AbstractJEuclidElement element = (AbstractJEuclidElement) JEuclidElementFactory
-                .elementFromName(tagname, attributes, this.mbase);
+                .elementFromName(tagname, attributes, mbase);
 
         // TODO: All theses should be handled within the appropriate class
         if (tagname.equals(Mtd.ELEMENT)) {
@@ -179,7 +180,7 @@ public class DOMBuilder {
             final Node childNode = childs.item(i);
             final short childNodeType = childNode.getNodeType();
             if (childNodeType == Node.ELEMENT_NODE) {
-                this.traverse(childNode, element, alignmentScope);
+                this.traverse(childNode, element, alignmentScope, mbase);
             } else if (childNodeType == Node.TEXT_NODE) {
                 element.addText(childNode.getNodeValue());
             } else if (childNodeType == Node.ENTITY_REFERENCE_NODE
