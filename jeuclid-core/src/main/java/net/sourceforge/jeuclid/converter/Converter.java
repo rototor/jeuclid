@@ -28,11 +28,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Map;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
-import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -99,8 +99,8 @@ public final class Converter {
      */
     public Dimension convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
-        final Map<ParameterKey, String> params = MathBase
-                .getDefaultParameters();
+        final LayoutContext params = LayoutContextImpl
+                .getDefaultLayoutContext();
         return this.convert(inFile, outFile, outFileType, params);
     }
 
@@ -120,7 +120,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final File inFile, final File outFile,
-            final String outFileType, final Map<ParameterKey, String> params)
+            final String outFileType, final LayoutContext params)
             throws IOException {
         Document doc;
         try {
@@ -150,7 +150,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final Node doc, final File outFile,
-            final String outFileType, final Map<ParameterKey, String> params)
+            final String outFileType, final LayoutContext params)
             throws IOException {
 
         final OutputStream outStream = new BufferedOutputStream(
@@ -188,7 +188,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final Node doc, final OutputStream outStream,
-            final String outFileType, final Map<ParameterKey, String> params)
+            final String outFileType, final LayoutContext params)
             throws IOException {
         final ConverterPlugin plugin = ConverterRegistry.getRegisty()
                 .getConverter(outFileType);

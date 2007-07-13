@@ -20,11 +20,12 @@ package net.sourceforge.jeuclid.elements.support.attributes;
 
 import java.awt.Font;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.font.FontFactory;
 
 /**
@@ -123,7 +124,7 @@ public final class MathVariant {
 
     private static final String AWT_SANSSERIF = "sansserif";
 
-    private static final Map<FontFamily, ParameterKey> PARAMFORFONT = new HashMap<FontFamily, ParameterKey>();
+    private static final Map<FontFamily, Parameter> PARAMFORFONT = new HashMap<FontFamily, Parameter>();
 
     private final int awtStyle;
 
@@ -176,7 +177,7 @@ public final class MathVariant {
             MathVariant.ATTRIBUTEMAP.put("monospace", MathVariant.MONOSPACE);
         }
 
-        return (MathVariant) MathVariant.ATTRIBUTEMAP.get(variant
+        return MathVariant.ATTRIBUTEMAP.get(variant
                 .toLowerCase(Locale.ENGLISH));
     }
 
@@ -191,17 +192,19 @@ public final class MathVariant {
      *            MathBase to use.
      * @return a font object.
      */
+    @SuppressWarnings("unchecked")
     public Font createFont(final float size, final char c, final MathBase base) {
 
-        final ParameterKey theParam = MathVariant.PARAMFORFONT
+        final Parameter theParam = MathVariant.PARAMFORFONT
                 .get(this.fontFamily);
-        final String paramValue = base.getParams().get(theParam);
-        final String[] fontArray = paramValue.split(",");
+        final List<String> fontList = (List<String>) base.getLayoutContext()
+                .getParameter(theParam);
         Font font = null;
         final FontFactory fontFactory = FontFactory.getInstance();
-        for (int i = 0; (i < fontArray.length) && (font == null); i++) {
-            font = fontFactory.getFont(fontArray[i], this.awtStyle, (int) size);
-            if (font.getFamily().equalsIgnoreCase(fontArray[i].trim())) {
+        for (int i = 0; (i < fontList.size()) && (font == null); i++) {
+            font = fontFactory.getFont(fontList.get(i), this.awtStyle,
+                    (int) size);
+            if (font.getFamily().equalsIgnoreCase(fontList.get(i).trim())) {
                 if (!font.canDisplay(c)) {
                     font = null;
                 }
@@ -210,7 +213,7 @@ public final class MathVariant {
             }
         }
         if (font == null) {
-            font = fontFactory.getFont(MathVariant.AWT_SANSSERIF, 
+            font = fontFactory.getFont(MathVariant.AWT_SANSSERIF,
                     this.awtStyle, (int) size);
         }
         return font;
@@ -231,17 +234,16 @@ public final class MathVariant {
     }
 
     static {
-        MathVariant.PARAMFORFONT.put(FontFamily.SERIF,
-                ParameterKey.FontsSerif);
+        MathVariant.PARAMFORFONT.put(FontFamily.SERIF, Parameter.FONTS_SERIF);
         MathVariant.PARAMFORFONT.put(FontFamily.SANSSERIF,
-                ParameterKey.FontsSanserif);
+                Parameter.FONTS_SANSSERIF);
         MathVariant.PARAMFORFONT.put(FontFamily.MONOSPACED,
-                ParameterKey.FontsMonospaced);
+                Parameter.FONTS_MONOSPACED);
         MathVariant.PARAMFORFONT.put(FontFamily.SCRIPT,
-                ParameterKey.FontsScript);
+                Parameter.FONTS_SCRIPT);
         MathVariant.PARAMFORFONT.put(FontFamily.FRAKTUR,
-                ParameterKey.FontsFraktur);
+                Parameter.FONTS_FRAKTUR);
         MathVariant.PARAMFORFONT.put(FontFamily.DOUBLE_STRUCK,
-                ParameterKey.FontsDoublestruck);
+                Parameter.FONTS_DOUBLESTRUCK);
     }
 }

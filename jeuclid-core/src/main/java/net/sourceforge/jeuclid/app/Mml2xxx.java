@@ -20,11 +20,10 @@ package net.sourceforge.jeuclid.app;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
-import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.app.support.CommandLineParser;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
 
@@ -58,10 +57,11 @@ public final class Mml2xxx {
             final File source = parseResults.getSource();
             final File target = parseResults.getTarget();
 
-            final Map<ParameterKey, String> params = MathBase
-                    .getDefaultParameters();
+            final LayoutContext params = LayoutContextImpl
+                    .getDefaultLayoutContext();
             final boolean mimeTypeIsSet = parseResults.getMimetype() != null;
-            params.putAll(parseResults.getParams());
+            // TODO This is BROKEN at the moment!
+            // params.putAll(parseResults.getParams());
 
             if (source == null) {
                 throw new IllegalArgumentException("No source given");
@@ -113,13 +113,14 @@ public final class Mml2xxx {
                 .println(" source is the path to the source file (MathML or ODF format)");
         System.out.println(" target is the path to the target file");
         System.out.println("Possible options (with default value):");
-        final ParameterKey[] options = ParameterKey.values();
-        for (final ParameterKey param : options) {
-            final String name = param.name();
-            System.out.print(" -" + name);
-            System.out.print(Mml2xxx.SPACE);
-            System.out.println(MathBase.getDefaultParameters().get(param));
-        }
+        // TODO: BROKEN!
+        // final ParameterKey[] options = ParameterKey.values();
+        // for (final ParameterKey param : options) {
+        // final String name = param.name();
+        // System.out.print(" -" + name);
+        // System.out.print(Mml2xxx.SPACE);
+        // System.out.println(MathBase.getDefaultParameters().get(param));
+        // }
         System.out.println("The following output types are supported:");
         System.out.print("   ");
         for (final String type : ConverterRegistry.getRegisty()

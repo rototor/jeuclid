@@ -23,7 +23,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
@@ -77,8 +76,7 @@ public final class MathMLParserSupport {
      *             if a read io error occurs.
      */
     public static MathBase createMathBaseFromDocument(final Node document,
-            final Map<ParameterKey, String> params) throws SAXException,
-            IOException {
+            final LayoutContext params) throws SAXException, IOException {
 
         try {
             return MathBaseFactory.getMathBaseFactory().createMathBase(
@@ -105,8 +103,7 @@ public final class MathMLParserSupport {
      *             if a read io error occurs.
      */
     public static MathBase createMathBaseFromFile(final File inFile,
-            final Map<ParameterKey, String> params) throws SAXException,
-            IOException {
+            final LayoutContext params) throws SAXException, IOException {
         try {
             return MathBaseFactory.getMathBaseFactory().createMathBase(
                     new StreamSource(new FileInputStream(inFile)), params);

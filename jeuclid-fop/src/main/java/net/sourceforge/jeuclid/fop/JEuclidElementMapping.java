@@ -34,6 +34,7 @@ import java.util.HashMap;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 import org.apache.fop.fo.ElementMapping;
@@ -97,8 +98,8 @@ public class JEuclidElementMapping extends ElementMapping {
             try {
                 final FopImage.ImageInfo info = new FopImage.ImageInfo();
                 final MathBase base = MathMLParserSupport
-                        .createMathBaseFromDocument(doc, MathBase
-                                .getDefaultParameters());
+                        .createMathBaseFromDocument(doc, LayoutContextImpl
+                                .getDefaultLayoutContext());
                 final Image tempimage = new BufferedImage(1, 1,
                         BufferedImage.TYPE_INT_ARGB);
                 final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();

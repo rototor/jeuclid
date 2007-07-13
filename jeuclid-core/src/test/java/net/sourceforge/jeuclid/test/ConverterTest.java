@@ -1,11 +1,11 @@
 package net.sourceforge.jeuclid.test;
 
 import java.io.File;
-import java.util.Map;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathMLParserSupport;
-import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
 
@@ -27,9 +27,9 @@ public class ConverterTest {
         final Document doc = MathMLParserSupport
                 .parseString(ConverterTest.TEST1);
         final File outFile = new File(this.getOutDir(), "test1.png");
-        final Map<ParameterKey, String> params = MathBase
-                .getDefaultParameters();
-        params.put(ParameterKey.FontSize, "25");
+        final LayoutContext params = LayoutContextImpl
+                .getDefaultLayoutContext();
+        params.setParameter(Parameter.MATHSIZE, 25f);
 
         Converter.getConverter().convert(doc, outFile, "image/png", params);
         Assert.assertTrue(outFile.exists());
@@ -43,9 +43,9 @@ public class ConverterTest {
         final Document doc = MathMLParserSupport
                 .parseString(ConverterTest.TEST1);
         final File outFile = new File(this.getOutDir(), "test1.svg");
-        final Map<ParameterKey, String> params = MathBase
-                .getDefaultParameters();
-        params.put(ParameterKey.FontSize, "25");
+        final LayoutContext params = LayoutContextImpl
+                .getDefaultLayoutContext();
+        params.setParameter(Parameter.MATHSIZE, 25f);
         Converter.getConverter().convert(doc, outFile,
                 net.sourceforge.jeuclid.converter.Converter.TYPE_SVG, params);
         Assert.assertTrue(outFile.exists());
@@ -70,9 +70,9 @@ public class ConverterTest {
      */
     @Test
     public void testConvertEmbeddedExamples() throws Exception {
-        final Map<ParameterKey, String> params = MathBase
-                .getDefaultParameters();
-        params.put(ParameterKey.FontSize, "16");
+        final LayoutContext params = LayoutContextImpl
+                .getDefaultLayoutContext();
+        params.setParameter(Parameter.MATHSIZE, 16f);
 
         for (int example = 1; example <= 8; example++) {
             final String exName = "example" + example + ".mml";

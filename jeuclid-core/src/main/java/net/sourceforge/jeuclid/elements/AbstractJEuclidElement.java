@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
 import net.sourceforge.jeuclid.dom.PartialTextImpl;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
@@ -267,7 +267,8 @@ public abstract class AbstractJEuclidElement extends
 
         // This results in a size 8 for a default size of 12.
         // TODO: This should use scriptminsize (3.3.4.2)
-        final float minSize = this.mbase.getFontSize() * 0.66f;
+        final float minSize = (Float) this.mbase.getLayoutContext()
+                .getParameter(Parameter.MATHSIZE) * 0.66f;
         if (size < minSize) {
             size = minSize;
         }
@@ -784,9 +785,11 @@ public abstract class AbstractJEuclidElement extends
             if (this.getParent() != null) {
                 theColor = this.getParent().getForegroundColor();
             } else {
-                theColor = AttributesHelper.stringToColor(this.mbase
-                        .getParams().get(ParameterKey.ForegroundColor),
-                        Color.BLACK);
+                theColor = (Color) this.mbase.getLayoutContext()
+                        .getParameter(Parameter.MATHCOLOR);
+                // theColor = AttributesHelper.stringToColor(this.mbase
+                // .getParams().get(ParameterKey.ForegroundColor),
+                // Color.BLACK);
             }
         } else {
             theColor = AttributesHelper.stringToColor(colorString,
@@ -805,8 +808,10 @@ public abstract class AbstractJEuclidElement extends
                 // theColor = this.getParent().getBackgroundColor();
                 theColor = null;
             } else {
-                theColor = AttributesHelper.stringToColor(this.mbase
-                        .getParams().get(ParameterKey.BackgroundColor), null);
+                theColor = (Color) this.mbase.getLayoutContext()
+                        .getParameter(Parameter.MATHBACKGROUND);
+                // theColor = AttributesHelper.stringToColor(this.mbase
+                // .getParams().get(ParameterKey.BackgroundColor), null);
             }
         } else {
             theColor = AttributesHelper.stringToColor(colorString, null);
@@ -1094,7 +1099,8 @@ public abstract class AbstractJEuclidElement extends
                             .getHeight(g)));
         }
 
-        if (this.getMathBase().isDebug()) {
+        if ((Boolean) this.getMathBase().getLayoutContext().getParameter(
+                Parameter.DEBUG)) {
             this.debug(g, posX, posY);
         }
         g.setColor(this.getForegroundColor());

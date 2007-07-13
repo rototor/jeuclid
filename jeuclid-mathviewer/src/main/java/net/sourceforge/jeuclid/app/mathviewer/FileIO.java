@@ -23,14 +23,13 @@ import java.awt.Frame;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathMLParserSupport;
-import net.sourceforge.jeuclid.ParameterKey;
 import net.sourceforge.jeuclid.app.MathViewer;
 import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
@@ -173,7 +172,7 @@ public final class FileIO {
      *            rendering parameters.
      */
     public void saveDocument(final Frame parent, final Document document,
-            final Map<ParameterKey, String> params) {
+            final LayoutContext params) {
         final File selectedFile;
 
         if (MathViewer.OSX) {
@@ -223,7 +222,7 @@ public final class FileIO {
     }
 
     private void exportAs(final Frame parent, final File selectedFile,
-            final Document document, final Map<ParameterKey, String> params) {
+            final Document document, final LayoutContext params) {
         final String fileName = selectedFile.getName();
         final String extension = FileIO.getExtension(fileName);
         final String mimetype = ConverterRegistry.getRegisty()

@@ -20,9 +20,8 @@ package net.sourceforge.jeuclid;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.util.HashMap;
-import java.util.Map;
 
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
 /**
@@ -73,7 +72,7 @@ public class MathBase {
      */
     private DocumentElement rootElement;
 
-    private final Map<ParameterKey, String> renderParams;
+    private final LayoutContext layoutContext;
 
     /**
      * Default constructor.
@@ -85,16 +84,13 @@ public class MathBase {
      * The root element will initially be empty. You may use
      * {@link DOMBuilder} or {@link SAXBuilder} to fill it.
      * 
-     * @param params
+     * @param context
      *            Rendering parameters.
-     * @see ParameterKey
+     * @see LayoutContext
      * @see #getDefaultParameters()
      */
-    public MathBase(final Map<ParameterKey, String> params) {
-        this.renderParams = MathBase.getDefaultParameters();
-        if (params != null) {
-            this.renderParams.putAll(params);
-        }
+    public MathBase(final LayoutContext context) {
+        this.layoutContext = context;
         this.rootElement = new DocumentElement(this);
     }
 
@@ -142,27 +138,6 @@ public class MathBase {
     }
 
     /**
-     * Enables, or disables the debug mode.
-     * 
-     * @param debug
-     *            Debug mode flag.
-     */
-    public void setDebug(final boolean debug) {
-        this.renderParams
-                .put(ParameterKey.DebugMode, Boolean.toString(debug));
-    }
-
-    /**
-     * Indicates, weither the debug mode is enabled.
-     * 
-     * @return True, if the debug mode is enabled
-     */
-    public boolean isDebug() {
-        return Boolean.parseBoolean(this.renderParams
-                .get(ParameterKey.DebugMode));
-    }
-
-    /**
      * Paints this component and all of its elements.
      * 
      * @param g
@@ -175,8 +150,8 @@ public class MathBase {
     public void paint(final Graphics2D g, final float x, final float y) {
         if (this.rootElement != null) {
             final RenderingHints hints = g.getRenderingHints();
-            if (Boolean.parseBoolean(this.renderParams
-                    .get(ParameterKey.AntiAlias))) {
+            if ((Boolean) (this.layoutContext
+                    .getParameter(Parameter.ANTIALIAS))) {
                 hints.add(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON));
             }
@@ -191,7 +166,7 @@ public class MathBase {
     }
 
     /**
-     * Paints the componet and all of its elements into the top-right corner.
+     * Paints the component and all of its elements into the top-right corner.
      * 
      * @param g
      *            The graphics context to use for painting.
@@ -237,84 +212,12 @@ public class MathBase {
     }
 
     /**
-     * @return the fontSize
-     */
-    public float getFontSize() {
-        return Float.parseFloat(this.getParams().get(ParameterKey.FontSize));
-    }
-
-    /**
-     * Retrieves the current set of parametes.
-     * <p>
-     * Please note that it is not recommended to change any of these
-     * parameters, but rather to use {@link #setParam(ParameterKey, String)}
-     * instead.
+     * Retrieves the current set of parameters.
      * 
      * @return The current set of rendering parameters.
      */
-    public Map<ParameterKey, String> getParams() {
-        return this.renderParams;
+    public LayoutContext getLayoutContext() {
+        return this.layoutContext;
     }
 
-    /**
-     * Sets a rendering parameter.
-     * 
-     * @param key
-     *            Key of the rendering parameter.
-     * @param value
-     *            new value.
-     */
-    public void setParam(final ParameterKey key, final String value) {
-        this.renderParams.put(key, value);
-        this.rootElement.fireChangeForSubTree();
-    }
-
-    /**
-     * Provides a reasonable set of default parameters.
-     * 
-     * @return a set that can be used in {@link #MathBase(Map)}
-     */
-    public static Map<ParameterKey, String> getDefaultParameters() {
-        final Map<ParameterKey, String> params = new HashMap<ParameterKey, String>();
-        params.put(ParameterKey.FontSize, Float
-                .toString(MathBase.DEFAULT_FONTSIZE));
-        params.put(ParameterKey.DebugMode, MathBase.FALSE);
-        params.put(ParameterKey.AntiAlias, MathBase.TRUE);
-        params.put(ParameterKey.ForegroundColor, "black");
-        params.put(ParameterKey.BackgroundColor, "transparent");
-
-        // CHECKSTYLE:OFF
-        final String symbolCatchFonts = "OpenSymbol," + "Standard Symbols L,"
-                + "Symbol," + "Webdings," + "Wingdings," + "Wingdings 2,"
-                + "Wingdings 3," + "Arial Unicode MS," + "DejaVu Sans";
-        params.put(ParameterKey.FontsSanserif, "Verdana," + "Helvetica,"
-                + "Arial," + "Arial Unicode MS," + "Lucida Sans Unicode,"
-                + "Lucida Sans," + "Lucida Grande," + "DejaVu Sans,"
-                + "Bitstream Vera Sans," + "Luxi Sans," + "FreeSans,"
-                + "sansserif," + symbolCatchFonts);
-        params.put(ParameterKey.FontsSerif, "Constantina," + "Times,"
-                + "Times New Roman," + "Lucida Bright," + "DejaVu Serif,"
-                + "Bitstream Vera Serif," + "Luxi Serif," + "FreeSerif,"
-                + "serif," + symbolCatchFonts);
-        params.put(ParameterKey.FontsMonospaced, "Andale Mono," + "Courier,"
-                + "Courier Mono," + "Courier New,"
-                + "Lucida Sans Typewriter," + "DejaVu Sans Mono,"
-                + "Bitstream Vera Sans Mono," + "Luxi Mono," + "FreeMono,"
-                + "monospaced," + symbolCatchFonts);
-        params.put(ParameterKey.FontsScript, "Savoye LET,"
-                + "Brush Script MT," + "Zapfino," + "Apple Chancery,"
-                + "Edwardian Script ITC," + "Lucida Handwriting,"
-                + "Monotype Corsiva," + "Santa Fe LET," + symbolCatchFonts);
-        params
-                .put(ParameterKey.FontsFraktur, "FetteFraktur,"
-                        + "Fette Fraktur," + "Euclid Fraktur,"
-                        + "Lucida Blackletter," + "Blackmoor LET,"
-                        + symbolCatchFonts);
-        params.put(ParameterKey.FontsDoublestruck, "Caslon Open Face,"
-                + "Caslon Openface," + "Cloister Open Face,"
-                + "Academy Engraved LET," + "Colonna MT,"
-                + "Imprint MT Shadow," + symbolCatchFonts);
-        // CHECKSTYLE:ON
-        return params;
-    }
 }

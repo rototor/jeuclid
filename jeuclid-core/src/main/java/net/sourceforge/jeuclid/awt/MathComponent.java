@@ -22,11 +22,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.Map;
 
 import net.sourceforge.jeuclid.DOMBuilder;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 
 import org.w3c.dom.Document;
 
@@ -59,8 +60,8 @@ public class MathComponent extends Component {
 
     private Document document;
 
-    private Map<ParameterKey, String> parameters = MathBase
-            .getDefaultParameters();
+    private LayoutContext parameters = LayoutContextImpl
+            .getDefaultLayoutContext();
 
     /**
      * Default constructor.
@@ -75,8 +76,7 @@ public class MathComponent extends Component {
      * @param newParameters
      *            the set of parameters.
      */
-    public final void setParameters(
-            final Map<ParameterKey, String> newParameters) {
+    public final void setParameters(final LayoutContext newParameters) {
         this.parameters = newParameters;
     }
 
@@ -129,10 +129,10 @@ public class MathComponent extends Component {
 
     private void redo() {
         if (this.document != null) {
+            this.parameters.setParameter(Parameter.DEBUG, this.debug);
             this.base = new MathBase(this.parameters);
             DOMBuilder.getDOMBuilder().createJeuclidDom(this.document,
                     this.base);
-            this.base.setDebug(this.debug);
         } else {
             this.base = null;
         }

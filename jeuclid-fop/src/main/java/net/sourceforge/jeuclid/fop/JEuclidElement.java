@@ -36,6 +36,7 @@ import java.io.IOException;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.fo.FONode;
@@ -77,8 +78,8 @@ public class JEuclidElement extends JEuclidObj {
         Point2D retVal;
         try {
             final MathBase base = MathMLParserSupport
-                    .createMathBaseFromDocument(this.doc, MathBase
-                            .getDefaultParameters());
+                    .createMathBaseFromDocument(this.doc, LayoutContextImpl
+                            .getDefaultLayoutContext());
             final Image tempimage = new BufferedImage(1, 1,
                     BufferedImage.TYPE_INT_ARGB);
             final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();

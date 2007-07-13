@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.DisplayableNode;
@@ -120,12 +121,14 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
 
     /** {@inheritDoc} */
     public float getMathsizeInPoint() {
-        return this.mathbase.getFontSize();
+        return (Float) this.mathbase.getLayoutContext().getParameter(
+                Parameter.MATHSIZE);
     }
 
     /** {@inheritDoc} */
     public float getFontsizeInPoint() {
-        return this.mathbase.getFontSize();
+        return (Float) this.mathbase.getLayoutContext().getParameter(
+                Parameter.MATHSIZE);
     }
 
     /** {@inheritDoc} */

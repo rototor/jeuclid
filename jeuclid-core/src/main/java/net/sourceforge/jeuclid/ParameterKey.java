@@ -45,6 +45,7 @@ package net.sourceforge.jeuclid;
  * 
  * @author Erik Putrycz, Max Berger
  * @version $Revision$
+ * @deprecated
  */
 public enum ParameterKey {
     /**

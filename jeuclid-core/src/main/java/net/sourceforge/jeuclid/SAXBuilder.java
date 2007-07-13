@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid;
 
 import java.util.Stack;
 
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
@@ -56,7 +57,7 @@ public class SAXBuilder implements ContentHandler {
      * default constructor.
      */
     public SAXBuilder() {
-        this.mbase = new MathBase(MathBase.getDefaultParameters());
+        this.mbase = new MathBase(LayoutContextImpl.getDefaultLayoutContext());
     }
 
     /**
