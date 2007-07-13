@@ -27,7 +27,6 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.LookAndFeel;
@@ -37,8 +36,9 @@ import javax.swing.plaf.ComponentUI;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.Defense;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -189,16 +189,16 @@ public class MathComponentUI extends ComponentUI implements
             // jc.repaint();
         } else {
             try {
-                final ParameterKey key = ParameterKey.valueOf(name);
-                this.base.setParam(key, evt.getNewValue().toString());
+                final Parameter key = Parameter.valueOf(name);
+                this.base.getLayoutContext().setParameter(key,
+                        evt.getNewValue());
             } catch (final IllegalArgumentException ia) {
                 MathComponentUI.LOGGER.debug(ia);
             }
         }
     }
 
-    private void redo(final Document doc,
-            final Map<ParameterKey, String> parameters) {
+    private void redo(final Document doc, final LayoutContext parameters) {
         if (doc != null) {
             this.base = new MathBase(parameters);
             DOMBuilder.getDOMBuilder().createJeuclidDom(doc, this.base);

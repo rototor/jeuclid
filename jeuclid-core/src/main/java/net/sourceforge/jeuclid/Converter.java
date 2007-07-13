@@ -22,7 +22,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
@@ -99,8 +98,7 @@ public final class Converter {
      *             if an I/O error occurred.
      */
     public static BufferedImage render(final Document doc,
-            final Map<ParameterKey, String> params) throws SAXException,
-            IOException {
+            final LayoutContext params) throws SAXException, IOException {
         return net.sourceforge.jeuclid.converter.Converter.getConverter()
                 .render(
                         MathMLParserSupport.createMathBaseFromDocument(doc,
@@ -123,7 +121,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public static boolean convert(final File inFile, final File outFile,
-            final String outFileType, final Map<ParameterKey, String> params)
+            final String outFileType, final LayoutContext params)
             throws IOException {
         return net.sourceforge.jeuclid.converter.Converter.getConverter()
                 .convert(inFile, outFile, outFileType, params) != null;
@@ -145,7 +143,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public static boolean convert(final Document doc, final File outFile,
-            final String outFileType, final Map<ParameterKey, String> params)
+            final String outFileType, final LayoutContext params)
             throws IOException {
         return net.sourceforge.jeuclid.converter.Converter.getConverter()
                 .convert(doc, outFile, outFileType, params) != null;

@@ -36,9 +36,9 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
-import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.app.MathViewer;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 
 import org.w3c.dom.Document;
@@ -428,19 +428,18 @@ public class MainFrame extends JFrame {
             this.aliasMenuItem = new JCheckBoxMenuItem();
             this.aliasMenuItem
                     .setText(Messages.getString("MathViewer.alias")); //$NON-NLS-1$
-            this.aliasMenuItem.setSelected(Boolean.parseBoolean(MathBase
-                    .getDefaultParameters().get(ParameterKey.AntiAlias)));
+            this.aliasMenuItem.setSelected((Boolean) LayoutContextImpl
+                    .getDefaultLayoutContext().getParameter(
+                            Parameter.ANTIALIAS));
             this.aliasMenuItem
                     .addItemListener(new java.awt.event.ItemListener() {
                         public void itemStateChanged(
                                 final java.awt.event.ItemEvent e) {
-                            MainFrame.this
-                                    .getMathComponent()
+                            MainFrame.this.getMathComponent()
                                     .setParameter(
-                                            ParameterKey.AntiAlias,
-                                            Boolean
-                                                    .toString(MainFrame.this.aliasMenuItem
-                                                            .isSelected()));
+                                            Parameter.ANTIALIAS,
+                                            MainFrame.this.aliasMenuItem
+                                                    .isSelected());
                         }
                     });
         }
@@ -457,19 +456,17 @@ public class MainFrame extends JFrame {
             this.debugMenuItem = new JCheckBoxMenuItem();
             this.debugMenuItem
                     .setText(Messages.getString("MathViewer.debug")); //$NON-NLS-1$
-            this.debugMenuItem.setSelected(Boolean.parseBoolean(MathBase
-                    .getDefaultParameters().get(ParameterKey.DebugMode)));
+            this.debugMenuItem.setSelected((Boolean) LayoutContextImpl
+                    .getDefaultLayoutContext().getParameter(Parameter.DEBUG));
             this.debugMenuItem
                     .addItemListener(new java.awt.event.ItemListener() {
                         public void itemStateChanged(
                                 final java.awt.event.ItemEvent e) {
-                            MainFrame.this
-                                    .getMathComponent()
+                            MainFrame.this.getMathComponent()
                                     .setParameter(
-                                            ParameterKey.DebugMode,
-                                            Boolean
-                                                    .toString(MainFrame.this.debugMenuItem
-                                                            .isSelected()));
+                                            Parameter.DEBUG,
+                                            MainFrame.this.debugMenuItem
+                                                    .isSelected());
                         }
                     });
         }

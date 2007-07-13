@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.ParameterKey;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.elements.support.attributes.FontFamily;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 
@@ -162,8 +162,8 @@ public final class StringUtil {
         // It is not needed for JDK >= 1.6 or OS X
         final FontRenderContext suggestedFontRenderContext = g
                 .getFontRenderContext();
-        final boolean antialiasing = Boolean.parseBoolean(mathBase
-                .getParams().get(ParameterKey.AntiAlias));
+        final boolean antialiasing = (Boolean) mathBase.getLayoutContext()
+                .getParameter(Parameter.ANTIALIAS);
         final FontRenderContext realFontRenderContext = new FontRenderContext(
                 suggestedFontRenderContext.getTransform(), antialiasing, true);
         // TODO: We may want to turn off anti-aliasing below a certain

@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -33,23 +34,26 @@ public class DOMBuilderTest {
     public void testConstructor() throws Exception {
         final Document doc = this.parse("<math><mn>1</mn></math>");
         Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(doc,
-                new MathBase(MathBase.getDefaultParameters()))
+                new MathBase(LayoutContextImpl.getDefaultLayoutContext()))
                 .getFirstChild().getNodeName(), "math");
         Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(
                 doc.getDocumentElement().getFirstChild(),
-                new MathBase(MathBase.getDefaultParameters()))
+                new MathBase(LayoutContextImpl.getDefaultLayoutContext()))
                 .getFirstChild().getNodeName(), "mn");
         final DocumentFragment documentFragment = doc
                 .createDocumentFragment();
         documentFragment.appendChild(doc.createElement("mspace"));
         Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(
                 documentFragment,
-                new MathBase(MathBase.getDefaultParameters()))
+                new MathBase(LayoutContextImpl.getDefaultLayoutContext()))
                 .getFirstChild().getNodeName(), "mspace");
         try {
-            DOMBuilder.getDOMBuilder().createJeuclidDom(
-                    doc.getDocumentElement().getFirstChild().getFirstChild(),
-                    new MathBase(MathBase.getDefaultParameters()));
+            DOMBuilder.getDOMBuilder()
+                    .createJeuclidDom(
+                            doc.getDocumentElement().getFirstChild()
+                                    .getFirstChild(),
+                            new MathBase(LayoutContextImpl
+                                    .getDefaultLayoutContext()));
             Assert.fail("Expected IllegalArgumentException");
         } catch (final IllegalArgumentException e) {
         }

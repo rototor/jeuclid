@@ -30,6 +30,7 @@ import java.awt.image.BufferedImage;
 
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 import org.apache.fop.render.Graphics2DAdapter;
@@ -58,8 +59,8 @@ public class JEuclidXMLHandler implements XMLHandler {
                 .getGraphics2DAdapter();
         if (g2dAdapter != null) {
             final MathBase base = MathMLParserSupport
-                    .createMathBaseFromDocument(document, MathBase
-                            .getDefaultParameters());
+                    .createMathBaseFromDocument(document, LayoutContextImpl
+                            .getDefaultLayoutContext());
             final Image tempimage = new BufferedImage(1, 1,
                     BufferedImage.TYPE_INT_ARGB);
             final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();

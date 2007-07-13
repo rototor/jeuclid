@@ -27,6 +27,7 @@ import javax.xml.transform.stream.StreamSource;
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.parser.MathBaseFactory;
 
 import org.apache.commons.logging.Log;
@@ -73,8 +74,8 @@ public class MathBaseTest {
         for (int example = 1; example <= 7; example++) {
             final String exName = "example" + example + ".mml";
             final Document document = MathBaseTest.loadDocument(exName);
-            final MathBase base = new MathBase(MathBase
-                    .getDefaultParameters());
+            final MathBase base = new MathBase(LayoutContextImpl
+                    .getDefaultLayoutContext());
             DOMBuilder.getDOMBuilder().createJeuclidDom(document, base);
         }
     }
@@ -104,12 +105,12 @@ public class MathBaseTest {
                 .createMathBase(
                         new StreamSource(MathBaseTest.class
                                 .getResourceAsStream("/" + "example.odf")),
-                        MathBase.getDefaultParameters()));
+                        LayoutContextImpl.getDefaultLayoutContext()));
         Assert.assertNotNull(MathBaseFactory.getMathBaseFactory()
                 .createMathBase(
                         new StreamSource(MathBaseTest.class
                                 .getResourceAsStream("/" + "example1.mml")),
-                        MathBase.getDefaultParameters()));
+                        LayoutContextImpl.getDefaultLayoutContext()));
     }
 
 }

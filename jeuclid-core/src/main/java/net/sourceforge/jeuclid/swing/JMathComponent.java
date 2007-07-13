@@ -22,18 +22,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.io.IOException;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
-import net.sourceforge.jeuclid.ParameterKey;
-import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -48,7 +49,7 @@ import org.xml.sax.SAXException;
  * <p>
  * This class exposes most of the rendering parameters as standard bean
  * attributes. If you need to set additional attributes, you may use the
- * {@link #setParameter(ParameterKey, String)} function.
+ * {@link #setParameter(Parameter, String)} function.
  * <p>
  * Please use only the attributes exposed through the attached
  * {@link JMathComponentBeanInfo} class. Additional attributes, such as
@@ -93,8 +94,8 @@ public class JMathComponent extends JComponent implements SwingConstants {
 
     private int horizontalAlignment = SwingConstants.CENTER;
 
-    private final Map<ParameterKey, String> parameters = MathBase
-            .getDefaultParameters();
+    private final LayoutContext parameters = LayoutContextImpl
+            .getDefaultLayoutContext();
 
     private int verticalAlignment = SwingConstants.CENTER;
 
@@ -138,86 +139,105 @@ public class JMathComponent extends JComponent implements SwingConstants {
         return this.document;
     }
 
-    /**
-     * Font list for Doublestruck. Please see
-     * {@link ParameterKey#FontsDoublestruck} for an explanation of this
-     * parameter.
-     * 
-     * @return The list for Doublestruck.
-     * @see ParameterKey#FontsDoublestruck
-     */
-    public String getFontsDoublestruck() {
-        return this.parameters.get(ParameterKey.FontsDoublestruck);
+    private static String join(final List<String> list) {
+        boolean first = true;
+        final StringBuilder b = new StringBuilder();
+        for (final String s : list) {
+            b.append(s);
+            if (!first) {
+                b.append(",");
+            } else {
+                first = false;
+            }
+        }
+        return b.toString();
     }
 
     /**
-     * Font list for Fraktur. Please see {@link ParameterKey#FontsFraktur} for
-     * an explanation of this parameter.
+     * Font list for Doublestruck. Please see
+     * {@link Parameter#FontsDoublestruck} for an explanation of this
+     * parameter.
+     * 
+     * @return The list for Doublestruck.
+     * @see Parameter#FontsDoublestruck
+     */
+    @SuppressWarnings("unchecked")
+    public String getFontsDoublestruck() {
+        return JMathComponent.join((List<String>) this.parameters
+                .getParameter(Parameter.FONTS_DOUBLESTRUCK));
+    }
+
+    /**
+     * Font list for Fraktur. Please see {@link Parameter#FontsFraktur} for an
+     * explanation of this parameter.
      * 
      * @return The list for Fraktur.
-     * @see ParameterKey#FontsFraktur
+     * @see Parameter#FontsFraktur
      */
     public String getFontsFraktur() {
-        return this.parameters.get(ParameterKey.FontsFraktur);
+        return JMathComponent.join((List<String>) this.parameters
+                .getParameter(Parameter.FONTS_FRAKTUR));
     }
 
     /**
      * @return the fontSize
      */
     public float getFontSize() {
-        return Float.parseFloat(this.parameters.get(ParameterKey.FontSize));
+        return (Float) this.parameters.getParameter(Parameter.MATHSIZE);
     }
 
     /**
-     * Font list for Monospaced. Please see
-     * {@link ParameterKey#FontsMonospaced} for an explanation of this
-     * parameter.
+     * Font list for Monospaced. Please see {@link Parameter#FontsMonospaced}
+     * for an explanation of this parameter.
      * 
      * @return The list for monospaced.
-     * @see ParameterKey#FontsMonospaced
+     * @see Parameter#FontsMonospaced
      */
     public String getFontsMonospaced() {
-        return this.parameters.get(ParameterKey.FontsMonospaced);
+        return JMathComponent.join((List<String>) this.parameters
+                .getParameter(Parameter.FONTS_MONOSPACED));
     }
 
     /**
-     * Font list for Sans-Serif. Please see {@link ParameterKey#FontsSanserif}
+     * Font list for Sans-Serif. Please see {@link Parameter#FontsSanserif}
      * for an explanation of this parameter.
      * 
      * @return The list for sansserif.
-     * @see ParameterKey#FontsSanserif
+     * @see Parameter#FontsSanserif
      */
     public String getFontsSanserif() {
-        return this.parameters.get(ParameterKey.FontsSanserif);
+        return JMathComponent.join((List<String>) this.parameters
+                .getParameter(Parameter.FONTS_SANSSERIF));
     }
 
     /**
-     * Font list for Script. Please see {@link ParameterKey#FontsScript} for
-     * an explanation of this parameter.
+     * Font list for Script. Please see {@link Parameter#FontsScript} for an
+     * explanation of this parameter.
      * 
      * @return The list for Script.
-     * @see ParameterKey#FontsScript
+     * @see Parameter#FontsScript
      */
     public String getFontsScript() {
-        return this.parameters.get(ParameterKey.FontsScript);
+        return JMathComponent.join((List<String>) this.parameters
+                .getParameter(Parameter.FONTS_SCRIPT));
     }
 
     /**
      * Font list for Serif (the default MathML font). Please see
-     * {@link ParameterKey#FontsSerif} for an explanation of this parameter.
+     * {@link Parameter#FontsSerif} for an explanation of this parameter.
      * 
      * @return The list for serif.
-     * @see ParameterKey#FontsSerif
+     * @see Parameter#FontsSerif
      */
     public String getFontsSerif() {
-        return this.parameters.get(ParameterKey.FontsSerif);
+        return JMathComponent.join((List<String>) this.parameters
+                .getParameter(Parameter.FONTS_SERIF));
     }
 
     /** {@inheritDoc} */
     @Override
     public Color getForeground() {
-        return AttributesHelper.stringToColor(this.parameters
-                .get(ParameterKey.ForegroundColor), Color.BLACK);
+        return (Color) this.parameters.getParameter(Parameter.MATHCOLOR);
     }
 
     /**
@@ -311,7 +331,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      *            Debug mode.
      */
     public void setDebug(final boolean dbg) {
-        this.parameterChange(ParameterKey.DebugMode, Boolean.toString(dbg));
+        this.setParameter(Parameter.DEBUG, dbg);
     }
 
     /**
@@ -351,36 +371,49 @@ public class JMathComponent extends JComponent implements SwingConstants {
                 + this.getFontsSerif());
     }
 
+    private List<String> splitFonts(final String list) {
+        return Arrays.asList(list.split(","));
+    }
+
     /**
      * Font list for Doublestruck. Please see
-     * {@link ParameterKey#FontsDoublestruck} for an explanation of this
+     * {@link Parameter#FONTS_DOUBLESTRUCK} for an explanation of this
      * parameter.
      * 
      * @param newFonts
      *            new list for Doublestruck (comma seraparated).
-     * @see ParameterKey#FontsDoublestruck
+     * @see Parameter#FONTS_DOUBLESTRUCK
      */
     public void setFontsDoublestruck(final String newFonts) {
-        this.parameterChange(ParameterKey.FontsDoublestruck, newFonts);
+        this.setParameter(Parameter.FONTS_DOUBLESTRUCK, this
+                .splitFonts(newFonts));
     }
 
     /**
-     * Font list for Fraktur. Please see {@link ParameterKey#FontsFraktur} for
+     * Font list for Fraktur. Please see {@link Parameter#FONTS_FRAKTUR} for
      * an explanation of this parameter.
      * 
      * @param newFonts
      *            new list for Fraktur (comma seraparated).
-     * @see ParameterKey#FontsFraktur
+     * @see Parameter#FONTS_FRAKTUR
      */
     public void setFontsFraktur(final String newFonts) {
-        this.parameterChange(ParameterKey.FontsFraktur, newFonts);
+        this.setParameter(Parameter.FONTS_FRAKTUR, this.splitFonts(newFonts));
     }
 
-    private void parameterChange(final ParameterKey key, final String newValue) {
-        final String oldValue = this.parameters.get(key);
-        this.parameters.put(key, newValue);
+    /**
+     * Sets a generic rendering parameter.
+     * 
+     * @param key
+     *            Key for the parameter
+     * @param newValue
+     *            newValue
+     */
+    public void setParameter(final Parameter key, final Object newValue) {
+        final Object oldValue = this.parameters.getParameter(key);
+        this.parameters.setParameter(key, newValue);
         this.firePropertyChange(key.name(), oldValue, this.parameters
-                .get(key));
+                .getParameter(key));
         this.revalidate();
         this.repaint();
     }
@@ -392,56 +425,57 @@ public class JMathComponent extends JComponent implements SwingConstants {
      *            the font size.
      */
     public void setFontSize(final float fontSize) {
-        this.parameterChange(ParameterKey.FontSize, Float.toString(fontSize));
+        this.setParameter(Parameter.MATHSIZE, fontSize);
     }
 
     /**
-     * Font list for Monospaced. Please see
-     * {@link ParameterKey#FontsMonospaced} for an explanation of this
-     * parameter.
+     * Font list for Monospaced. Please see {@link Parameter#FONTS_MONOSPACED}
+     * for an explanation of this parameter.
      * 
      * @param newFonts
      *            new list for Monospaced (comma seraparated).
-     * @see ParameterKey#FontsMonospaced
+     * @see Parameter#FONTS_MONOSPACED
      */
     public void setFontsMonospaced(final String newFonts) {
-        this.parameterChange(ParameterKey.FontsMonospaced, newFonts);
+        this.setParameter(Parameter.FONTS_MONOSPACED, this
+                .splitFonts(newFonts));
     }
 
     /**
-     * Font list for Sans-Serif. Please see {@link ParameterKey#FontsSanserif}
+     * Font list for Sans-Serif. Please see {@link Parameter#FONTS_SANSSERIF}
      * for an explanation of this parameter.
      * 
      * @param newFonts
      *            new list for sansserif (comma seraparated).
-     * @see ParameterKey#FontsSanserif
+     * @see Parameter#FONTS_SANSSERIF
      */
     public void setFontsSanserif(final String newFonts) {
-        this.parameterChange(ParameterKey.FontsSanserif, newFonts);
+        this.setParameter(Parameter.FONTS_SANSSERIF, this
+                .splitFonts(newFonts));
     }
 
     /**
-     * Font list for Script. Please see {@link ParameterKey#FontsScript} for
-     * an explanation of this parameter.
+     * Font list for Script. Please see {@link Parameter#FONTS_SCRIPT} for an
+     * explanation of this parameter.
      * 
      * @param newFonts
      *            new list for Script (comma seraparated).
-     * @see ParameterKey#FontsScript
+     * @see Parameter#FONTS_SCRIPT
      */
     public void setFontsScript(final String newFonts) {
-        this.parameterChange(ParameterKey.FontsScript, newFonts);
+        this.setParameter(Parameter.FONTS_SCRIPT, this.splitFonts(newFonts));
     }
 
     /**
      * Font list for Serif (the default MathML font). Please see
-     * {@link ParameterKey#FontsSerif} for an explanation of this parameter.
+     * {@link Parameter#FONTS_SERIF} for an explanation of this parameter.
      * 
      * @param newFonts
      *            new list for serif (comma seraparated).
-     * @see ParameterKey#FontsSerif
+     * @see Parameter#FONTS_SERIF
      */
     public void setFontsSerif(final String newFonts) {
-        this.parameterChange(ParameterKey.FontsSerif, newFonts);
+        this.setParameter(Parameter.FONTS_SERIF, this.splitFonts(newFonts));
         this.fontCompat();
     }
 
@@ -449,7 +483,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
     @Override
     public void setForeground(final Color fg) {
         super.setForeground(fg);
-        this.parameterChange(ParameterKey.ForegroundColor, "" + fg.getRGB());
+        this.setParameter(Parameter.MATHCOLOR, fg);
     }
 
     /**
@@ -473,19 +507,6 @@ public class JMathComponent extends JComponent implements SwingConstants {
     public void setOpaque(final boolean opaque) {
         super.setOpaque(opaque);
         this.reval();
-    }
-
-    /**
-     * Sets a generic JEuclid rendering parameter. Please see
-     * {@link ParameterKey} for a list of possible values.
-     * 
-     * @param key
-     *            the parameter to set.
-     * @param value
-     *            the value to set it to.
-     */
-    public final void setParameter(final ParameterKey key, final String value) {
-        this.parameterChange(key, value);
     }
 
     /**
@@ -516,7 +537,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
     /**
      * @return the parameters
      */
-    public Map<ParameterKey, String> getParameters() {
+    public LayoutContext getParameters() {
         return this.parameters;
     }
 

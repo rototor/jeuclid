@@ -25,6 +25,7 @@ import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.presentation.general.Mfrac;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
@@ -100,8 +101,10 @@ public class DOMModelTest {
                         + "<mrow id='abc'><mn>1</mn></mrow></math>");
 
         final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
-                .createJeuclidDom(docWithID,
-                        new MathBase(MathBase.getDefaultParameters()));
+                .createJeuclidDom(
+                        docWithID,
+                        new MathBase(LayoutContextImpl
+                                .getDefaultLayoutContext()));
 
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();
@@ -126,8 +129,10 @@ public class DOMModelTest {
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mrow id='abc'><mn>1</mn></mrow></math>");
         final MathMLDocument mathMLDoc = DOMBuilder.getDOMBuilder()
-                .createJeuclidDom(origDoc,
-                        new MathBase(MathBase.getDefaultParameters()));
+                .createJeuclidDom(
+                        origDoc,
+                        new MathBase(LayoutContextImpl
+                                .getDefaultLayoutContext()));
         final String reserialStr = MathMLSerializer.serializeDocument(
                 mathMLDoc, false, false);
 
@@ -148,8 +153,10 @@ public class DOMModelTest {
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mtext>Alignment<malignmark/>Test</mtext></math>");
         final MathMLDocument mathMLDoc = DOMBuilder.getDOMBuilder()
-                .createJeuclidDom(origDoc,
-                        new MathBase(MathBase.getDefaultParameters()));
+                .createJeuclidDom(
+                        origDoc,
+                        new MathBase(LayoutContextImpl
+                                .getDefaultLayoutContext()));
         final String reserialStr = MathMLSerializer.serializeDocument(
                 mathMLDoc, false, false);
 
@@ -174,8 +181,10 @@ public class DOMModelTest {
                         + "<mo>&#x02254;</mo>"
                         + "<mo>&#x0201d;</mo>" + "</math>");
         final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
-                .createJeuclidDom(doc,
-                        new MathBase(MathBase.getDefaultParameters()));
+                .createJeuclidDom(
+                        doc,
+                        new MathBase(LayoutContextImpl
+                                .getDefaultLayoutContext()));
 
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();
@@ -205,7 +214,8 @@ public class DOMModelTest {
      */
     @Test
     public void testInterfaces() throws Exception {
-        final MathBase base = new MathBase(MathBase.getDefaultParameters());
+        final MathBase base = new MathBase(LayoutContextImpl
+                .getDefaultLayoutContext());
 
         // This mapping is taken straight from Table D.2.2, MathML 2.0 spec
         // TODO: Someday none of these should be commented out.
@@ -630,7 +640,8 @@ public class DOMModelTest {
 
     @Test
     public void testFrac() throws Exception {
-        final MathBase base = new MathBase(MathBase.getDefaultParameters());
+        final MathBase base = new MathBase(LayoutContextImpl
+                .getDefaultLayoutContext());
         final MathMLFractionElement mfrac = new Mfrac(base);
         final Mi mi = new Mi(base);
         final Mrow mrow = new Mrow(base);
@@ -657,7 +668,8 @@ public class DOMModelTest {
                         + "<mprescripts/>"
                         + "<mi>c</mi>"
                         + "<mi>d</mi>" + "</mmultiscripts>" + "</math>");
-        final MathBase base = new MathBase(MathBase.getDefaultParameters());
+        final MathBase base = new MathBase(LayoutContextImpl
+                .getDefaultLayoutContext());
         final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
                 .createJeuclidDom(doc, base);
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
@@ -684,7 +696,8 @@ public class DOMModelTest {
         final Document doc = MathMLParserSupport
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mmultiscripts>" + "</mmultiscripts>" + "</math>");
-        final MathBase base = new MathBase(MathBase.getDefaultParameters());
+        final MathBase base = new MathBase(LayoutContextImpl
+                .getDefaultLayoutContext());
         final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
                 .createJeuclidDom(doc, base);
         final MathMLMathElement mathElement = (MathMLMathElement) docElement

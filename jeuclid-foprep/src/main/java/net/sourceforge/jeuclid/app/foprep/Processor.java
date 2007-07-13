@@ -32,6 +32,7 @@ import javax.xml.transform.dom.DOMSource;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
 import net.sourceforge.jeuclid.parser.Parser;
@@ -128,8 +129,8 @@ public final class Processor {
         if (AbstractJEuclidElement.URI.equals(node.getNamespaceURI())
                 && MathImpl.ELEMENT.equals(node.getLocalName())) {
 
-            final MathBase mathBase = new MathBase(MathBase
-                    .getDefaultParameters());
+            final MathBase mathBase = new MathBase(LayoutContextImpl
+                    .getDefaultLayoutContext());
             DOMBuilder.getDOMBuilder().createJeuclidDom(node, mathBase);
 
             final SVGGraphics2D svgGenerator = this
