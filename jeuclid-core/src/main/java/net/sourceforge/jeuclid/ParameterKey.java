@@ -48,11 +48,6 @@ package net.sourceforge.jeuclid;
  */
 public enum ParameterKey {
     /**
-     * File type (String) for the output used by converter functions. Must be
-     * a valid mime-type.
-     */
-    OutFileType,
-    /**
      * Font size (float) used for the output. Defaults to 12.0pt.
      */
     FontSize,

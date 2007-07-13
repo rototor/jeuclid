@@ -279,7 +279,6 @@ public class MathBase {
         params.put(ParameterKey.FontSize, Float
                 .toString(MathBase.DEFAULT_FONTSIZE));
         params.put(ParameterKey.DebugMode, MathBase.FALSE);
-        params.put(ParameterKey.OutFileType, "image/png");
         params.put(ParameterKey.AntiAlias, MathBase.TRUE);
         params.put(ParameterKey.ForegroundColor, "black");
         params.put(ParameterKey.BackgroundColor, "transparent");

@@ -44,6 +44,8 @@ public final class CommandLineParser {
 
         private final File target;
 
+        private final String mimetype;
+
         private final Map<ParameterKey, String> params;
 
         /**
@@ -55,12 +57,15 @@ public final class CommandLineParser {
          *            target file
          * @param p
          *            rendering parameters
+         * @param type
+         *            mime type
          */
-        public ParseResults(final File s, final File t,
+        public ParseResults(final File s, final File t, final String type,
                 final Map<ParameterKey, String> p) {
             this.source = s;
             this.target = t;
             this.params = p;
+            this.mimetype = type;
         }
 
         /**
@@ -84,6 +89,15 @@ public final class CommandLineParser {
             return this.target;
         }
 
+        /**
+         * Getter method for mimetype.
+         * 
+         * @return the mimetype
+         */
+        public String getMimetype() {
+            return this.mimetype;
+        }
+
     }
 
     /**
@@ -96,18 +110,19 @@ public final class CommandLineParser {
     public static ParseResults parseCommandLine(final String[] args) {
         File source = null;
         File target = null;
+        String mimetype = null;
         int count = 0;
         final Map<ParameterKey, String> params = new HashMap<ParameterKey, String>();
         String option = null;
-        for (int i = 0; i < args.length; i++) {
-            final String curArg = args[i];
+        for (final String curArg : args) {
             if (curArg.startsWith("-")) {
                 option = curArg.substring(1);
             } else {
-                if (option != null) {
-                    final String value = args[i];
+                if ("OutFileType".equalsIgnoreCase(option)) {
+                    mimetype = curArg;
+                } else if (option != null) {
                     final ParameterKey key = ParameterKey.valueOf(option);
-                    params.put(key, value);
+                    params.put(key, curArg);
                     option = null;
                 } else if (count == 0) {
                     source = new File(curArg);
@@ -122,6 +137,6 @@ public final class CommandLineParser {
         if (option != null) {
             throw new IllegalArgumentException("No value given for " + option);
         }
-        return new ParseResults(source, target, params);
+        return new ParseResults(source, target, mimetype, params);
     }
 }
