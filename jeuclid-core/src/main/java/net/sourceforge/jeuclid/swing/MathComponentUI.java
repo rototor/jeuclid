@@ -191,7 +191,7 @@ public class MathComponentUI extends ComponentUI implements
             try {
                 final ParameterKey key = ParameterKey.valueOf(name);
                 this.base.setParam(key, evt.getNewValue().toString());
-            } catch (IllegalArgumentException ia) {
+            } catch (final IllegalArgumentException ia) {
                 MathComponentUI.LOGGER.debug(ia);
             }
         }
@@ -201,7 +201,7 @@ public class MathComponentUI extends ComponentUI implements
             final Map<ParameterKey, String> parameters) {
         if (doc != null) {
             this.base = new MathBase(parameters);
-            new DOMBuilder(doc, this.base);
+            DOMBuilder.getDOMBuilder().createJeuclidDom(doc, this.base);
         } else {
             this.base = null;
         }

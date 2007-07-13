@@ -99,9 +99,9 @@ public class DOMModelTest {
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mrow id='abc'><mn>1</mn></mrow></math>");
 
-        final MathMLDocument docElement = new DOMBuilder(docWithID,
-                new MathBase(MathBase.getDefaultParameters()))
-                .getMathRootElement();
+        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(docWithID,
+                        new MathBase(MathBase.getDefaultParameters()));
 
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();
@@ -125,9 +125,9 @@ public class DOMModelTest {
         final Document origDoc = MathMLParserSupport
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mrow id='abc'><mn>1</mn></mrow></math>");
-        final MathMLDocument mathMLDoc = new DOMBuilder(origDoc,
-                new MathBase(MathBase.getDefaultParameters()))
-                .getMathRootElement();
+        final MathMLDocument mathMLDoc = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(origDoc,
+                        new MathBase(MathBase.getDefaultParameters()));
         final String reserialStr = MathMLSerializer.serializeDocument(
                 mathMLDoc, false, false);
 
@@ -147,9 +147,9 @@ public class DOMModelTest {
         final Document origDoc = MathMLParserSupport
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mtext>Alignment<malignmark/>Test</mtext></math>");
-        final MathMLDocument mathMLDoc = new DOMBuilder(origDoc,
-                new MathBase(MathBase.getDefaultParameters()))
-                .getMathRootElement();
+        final MathMLDocument mathMLDoc = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(origDoc,
+                        new MathBase(MathBase.getDefaultParameters()));
         final String reserialStr = MathMLSerializer.serializeDocument(
                 mathMLDoc, false, false);
 
@@ -173,8 +173,9 @@ public class DOMModelTest {
                         + "<mo>&#x0007d;</mo>"
                         + "<mo>&#x02254;</mo>"
                         + "<mo>&#x0201d;</mo>" + "</math>");
-        final MathMLDocument docElement = new DOMBuilder(doc, new MathBase(
-                MathBase.getDefaultParameters())).getMathRootElement();
+        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(doc,
+                        new MathBase(MathBase.getDefaultParameters()));
 
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();
@@ -657,8 +658,8 @@ public class DOMModelTest {
                         + "<mi>c</mi>"
                         + "<mi>d</mi>" + "</mmultiscripts>" + "</math>");
         final MathBase base = new MathBase(MathBase.getDefaultParameters());
-        final MathMLDocument docElement = new DOMBuilder(doc, base)
-                .getMathRootElement();
+        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(doc, base);
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();
 
@@ -684,8 +685,8 @@ public class DOMModelTest {
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mmultiscripts>" + "</mmultiscripts>" + "</math>");
         final MathBase base = new MathBase(MathBase.getDefaultParameters());
-        final MathMLDocument docElement = new DOMBuilder(doc, base)
-                .getMathRootElement();
+        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(doc, base);
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();
         final MathMLMultiScriptsElement multi = (MathMLMultiScriptsElement) mathElement

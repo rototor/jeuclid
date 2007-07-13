@@ -21,40 +21,42 @@ import org.xml.sax.InputSource;
  */
 public class DOMBuilderTest {
 
-    private DocumentBuilderFactory documentBuilderFactory;
+    private final DocumentBuilderFactory documentBuilderFactory;
 
     public DOMBuilderTest() {
-        documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        documentBuilderFactory.setNamespaceAware(true);
-        documentBuilderFactory.setValidating(false);
+        this.documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        this.documentBuilderFactory.setNamespaceAware(true);
+        this.documentBuilderFactory.setValidating(false);
     }
 
     @Test
     public void testConstructor() throws Exception {
-        Document doc = parse("<math><mn>1</mn></math>");
-        Assert.assertEquals(new DOMBuilder(doc, new MathBase(MathBase
-                .getDefaultParameters())).getMathRootElement()
+        final Document doc = this.parse("<math><mn>1</mn></math>");
+        Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(doc,
+                new MathBase(MathBase.getDefaultParameters()))
                 .getFirstChild().getNodeName(), "math");
-        Assert.assertEquals(new DOMBuilder(doc.getDocumentElement()
-                .getFirstChild(), new MathBase(MathBase
-                .getDefaultParameters())).getMathRootElement()
+        Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(
+                doc.getDocumentElement().getFirstChild(),
+                new MathBase(MathBase.getDefaultParameters()))
                 .getFirstChild().getNodeName(), "mn");
-        DocumentFragment documentFragment = doc.createDocumentFragment();
+        final DocumentFragment documentFragment = doc
+                .createDocumentFragment();
         documentFragment.appendChild(doc.createElement("mspace"));
-        Assert.assertEquals(new DOMBuilder(documentFragment, new MathBase(
-                MathBase.getDefaultParameters())).getMathRootElement()
+        Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(
+                documentFragment,
+                new MathBase(MathBase.getDefaultParameters()))
                 .getFirstChild().getNodeName(), "mspace");
         try {
-            new DOMBuilder(doc.getDocumentElement().getFirstChild()
-                    .getFirstChild(), new MathBase(MathBase
-                    .getDefaultParameters()));
+            DOMBuilder.getDOMBuilder().createJeuclidDom(
+                    doc.getDocumentElement().getFirstChild().getFirstChild(),
+                    new MathBase(MathBase.getDefaultParameters()));
             Assert.fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
         }
     }
 
-    private Document parse(String text) throws Exception {
-        return documentBuilderFactory.newDocumentBuilder().parse(
+    private Document parse(final String text) throws Exception {
+        return this.documentBuilderFactory.newDocumentBuilder().parse(
                 new InputSource(new StringReader(text)));
     }
 

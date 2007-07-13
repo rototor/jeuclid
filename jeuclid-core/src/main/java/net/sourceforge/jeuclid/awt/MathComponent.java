@@ -130,7 +130,8 @@ public class MathComponent extends Component {
     private void redo() {
         if (this.document != null) {
             this.base = new MathBase(this.parameters);
-            new DOMBuilder(this.document, this.base);
+            DOMBuilder.getDOMBuilder().createJeuclidDom(this.document,
+                    this.base);
             this.base.setDebug(this.debug);
         } else {
             this.base = null;
