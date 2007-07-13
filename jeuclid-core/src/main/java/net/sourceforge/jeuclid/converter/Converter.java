@@ -101,8 +101,7 @@ public final class Converter {
             final String outFileType) throws IOException {
         final Map<ParameterKey, String> params = MathBase
                 .getDefaultParameters();
-        params.put(ParameterKey.OutFileType, outFileType);
-        return this.convert(inFile, outFile, params);
+        return this.convert(inFile, outFile, outFileType, params);
     }
 
     /**
@@ -112,6 +111,8 @@ public final class Converter {
      *            input file.
      * @param outFile
      *            output file.
+     * @param outFileType
+     *            mimetype for the output file.
      * @param params
      *            rendering parameters.
      * @return Dimension of converted image upon success, null otherwise
@@ -119,11 +120,12 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final File inFile, final File outFile,
-            final Map<ParameterKey, String> params) throws IOException {
+            final String outFileType, final Map<ParameterKey, String> params)
+            throws IOException {
         Document doc;
         try {
             doc = MathMLParserSupport.parseFile(inFile);
-            return this.convert(doc, outFile, params);
+            return this.convert(doc, outFile, outFileType, params);
         } catch (final SAXException e) {
             Converter.LOGGER.error("Failed to parse file:" + inFile, e);
             return null;
@@ -139,6 +141,8 @@ public final class Converter {
      *            for the list of valid node types.
      * @param outFile
      *            output file.
+     * @param outFileType
+     *            mimetype for the output file.
      * @param params
      *            parameter set to use for conversion.
      * @return Dimension of converted image upon success, null otherwise
@@ -146,16 +150,18 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final Node doc, final File outFile,
-            final Map<ParameterKey, String> params) throws IOException {
+            final String outFileType, final Map<ParameterKey, String> params)
+            throws IOException {
 
         final OutputStream outStream = new BufferedOutputStream(
                 new FileOutputStream(outFile));
-        final Dimension result = this.convert(doc, outStream, params);
+        final Dimension result = this.convert(doc, outStream, outFileType,
+                params);
         if (result != null) {
             // should be closed by wrapper image streams, but just in case...
             try {
                 outStream.close();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 Converter.LOGGER.debug(e);
             }
         } else {
@@ -173,6 +179,8 @@ public final class Converter {
      *            for the list of valid node types.
      * @param outStream
      *            output stream.
+     * @param outFileType
+     *            mimetype for the output file.
      * @param params
      *            parameter set to use for conversion.
      * @return Dimension of converted image upon success, null otherwise
@@ -180,9 +188,10 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final Node doc, final OutputStream outStream,
-            final Map<ParameterKey, String> params) throws IOException {
+            final String outFileType, final Map<ParameterKey, String> params)
+            throws IOException {
         final ConverterPlugin plugin = ConverterRegistry.getRegisty()
-                .getConverter(params.get(ParameterKey.OutFileType));
+                .getConverter(outFileType);
         Dimension result = null;
         if (plugin != null) {
             try {
@@ -193,8 +202,7 @@ public final class Converter {
                         + ex.getMessage(), ex);
             }
         } else {
-            Converter.LOGGER.fatal("Unsupported output type: "
-                    + params.get(ParameterKey.OutFileType));
+            Converter.LOGGER.fatal("Unsupported output type: " + outFileType);
         }
         return result;
     }

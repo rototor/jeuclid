@@ -230,9 +230,8 @@ public final class FileIO {
                 .getMimeTypeForSuffix(extension);
         if (mimetype != null) {
             try {
-                params.put(ParameterKey.OutFileType, mimetype);
                 if (Converter.getConverter().convert(document, selectedFile,
-                        params) == null) {
+                        mimetype, params) == null) {
                     JOptionPane.showMessageDialog(parent,
                             "Failed to write to " + fileName, Messages
                                     .getString(FileIO.EXPORT_ERROR),

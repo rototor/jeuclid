@@ -114,6 +114,8 @@ public final class Converter {
      *            input file.
      * @param outFile
      *            output file.
+     * @param outFileType
+     *            mimetype for the output file.
      * @param params
      *            rendering parameters.
      * @return true if the conversion was successful.
@@ -121,9 +123,10 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public static boolean convert(final File inFile, final File outFile,
-            final Map<ParameterKey, String> params) throws IOException {
+            final String outFileType, final Map<ParameterKey, String> params)
+            throws IOException {
         return net.sourceforge.jeuclid.converter.Converter.getConverter()
-                .convert(inFile, outFile, params) != null;
+                .convert(inFile, outFile, outFileType, params) != null;
     }
 
     /**
@@ -133,6 +136,8 @@ public final class Converter {
      *            input document.
      * @param outFile
      *            output file.
+     * @param outFileType
+     *            mimetype for the output file.
      * @param params
      *            parameter set to use for conversion.
      * @return true if the conversion was successful.
@@ -140,9 +145,10 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public static boolean convert(final Document doc, final File outFile,
-            final Map<ParameterKey, String> params) throws IOException {
+            final String outFileType, final Map<ParameterKey, String> params)
+            throws IOException {
         return net.sourceforge.jeuclid.converter.Converter.getConverter()
-                .convert(doc, outFile, params) != null;
+                .convert(doc, outFile, outFileType, params) != null;
     }
 
     /**

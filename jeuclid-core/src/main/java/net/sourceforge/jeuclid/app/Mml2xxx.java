@@ -60,8 +60,7 @@ public final class Mml2xxx {
 
             final Map<ParameterKey, String> params = MathBase
                     .getDefaultParameters();
-            final boolean mimeTypeIsSet = parseResults.getParams()
-                    .containsKey(ParameterKey.OutFileType);
+            final boolean mimeTypeIsSet = parseResults.getMimetype() != null;
             params.putAll(parseResults.getParams());
 
             if (source == null) {
@@ -72,16 +71,20 @@ public final class Mml2xxx {
                 throw new IllegalArgumentException("Source is not a file");
             }
 
+            final String outFileType;
             if (!mimeTypeIsSet) {
                 final String fileName = target.getName();
                 final String extension = fileName.substring(fileName
                         .lastIndexOf('.') + 1);
                 final String mimetype = ConverterRegistry.getRegisty()
                         .getMimeTypeForSuffix(extension);
-                params.put(ParameterKey.OutFileType, mimetype);
+                outFileType = mimetype;
+            } else {
+                outFileType = parseResults.getMimetype();
             }
 
-            Converter.getConverter().convert(source, target, params);
+            Converter.getConverter().convert(source, target, outFileType,
+                    params);
 
         } catch (final ArrayIndexOutOfBoundsException aiobe) {
             Mml2xxx.showUsage();

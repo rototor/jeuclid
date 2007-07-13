@@ -30,9 +30,8 @@ public class ConverterTest {
         final Map<ParameterKey, String> params = MathBase
                 .getDefaultParameters();
         params.put(ParameterKey.FontSize, "25");
-        params.put(ParameterKey.OutFileType, "image/png");
 
-        Converter.getConverter().convert(doc, outFile, params);
+        Converter.getConverter().convert(doc, outFile, "image/png", params);
         Assert.assertTrue(outFile.exists());
         Assert.assertTrue(outFile.length() > 0);
 
@@ -47,9 +46,8 @@ public class ConverterTest {
         final Map<ParameterKey, String> params = MathBase
                 .getDefaultParameters();
         params.put(ParameterKey.FontSize, "25");
-        params.put(ParameterKey.OutFileType,
-                net.sourceforge.jeuclid.converter.Converter.TYPE_SVG);
-        Converter.getConverter().convert(doc, outFile, params);
+        Converter.getConverter().convert(doc, outFile,
+                net.sourceforge.jeuclid.converter.Converter.TYPE_SVG, params);
         Assert.assertTrue(outFile.exists());
         Assert.assertTrue(outFile.length() > 0);
 
@@ -75,14 +73,14 @@ public class ConverterTest {
         final Map<ParameterKey, String> params = MathBase
                 .getDefaultParameters();
         params.put(ParameterKey.FontSize, "16");
-        params.put(ParameterKey.OutFileType, "image/png");
 
         for (int example = 1; example <= 8; example++) {
             final String exName = "example" + example + ".mml";
             final File outFile = new File(this.getOutDir(), "example"
                     + example + ".png");
             final Document document = MathBaseTest.loadDocument(exName);
-            Converter.getConverter().convert(document, outFile, params);
+            Converter.getConverter().convert(document, outFile, "image/png",
+                    params);
             Assert.assertTrue(outFile.exists());
             Assert.assertTrue(outFile.length() > 0);
         }
