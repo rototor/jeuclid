@@ -86,8 +86,9 @@ public final class MathBaseFactory {
         try {
             final Node node = this.parser.parse(source);
 
-            final MathBase base = new MathBase(params);
+            final MathBase base = new MathBase();
             DOMBuilder.getDOMBuilder().createJeuclidDom(node, base);
+            base.getRootElement().setLayoutContext(params);
             return base;
         } catch (final SAXException e) {
             throw new IOException("Parse Error: " + e.getMessage());

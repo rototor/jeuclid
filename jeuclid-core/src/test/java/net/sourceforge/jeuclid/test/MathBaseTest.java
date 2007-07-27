@@ -74,8 +74,7 @@ public class MathBaseTest {
         for (int example = 1; example <= 7; example++) {
             final String exName = "example" + example + ".mml";
             final Document document = MathBaseTest.loadDocument(exName);
-            final MathBase base = new MathBase(LayoutContextImpl
-                    .getDefaultLayoutContext());
+            final MathBase base = new MathBase();
             DOMBuilder.getDOMBuilder().createJeuclidDom(document, base);
         }
     }

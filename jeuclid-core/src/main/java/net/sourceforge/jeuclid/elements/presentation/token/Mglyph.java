@@ -67,8 +67,8 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
     protected AttributedString textContentAsAttributedString() {
         final AttributedString retVal;
         final String fontFamily = this.getFontfamily().trim();
-        final Font font = FontFactory.getInstance().getFont(
-                fontFamily, Font.PLAIN, (int) this.getFontsizeInPoint());
+        final Font font = FontFactory.getInstance().getFont(fontFamily,
+                Font.PLAIN, (int) this.getFontsizeInPoint());
         final int codePoint = this.getIndex();
         if ((font.getFamily().equalsIgnoreCase(fontFamily))
                 && (font.canDisplay(codePoint))) {
@@ -78,7 +78,8 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
         } else {
             retVal = StringUtil.convertStringtoAttributedString(
                     this.getAlt(), this.getMathvariantAsVariant(), this
-                            .getFontsizeInPoint(), this.getMathBase());
+                            .getFontsizeInPoint(), this
+                            .getCurrentLayoutContext());
         }
         return retVal;
     }

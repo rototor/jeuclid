@@ -22,8 +22,10 @@ import java.awt.Graphics2D;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.DisplayableNode;
@@ -41,22 +43,22 @@ import org.w3c.dom.mathml.MathMLDocument;
 public class DocumentElement extends AbstractPartialDocumentImpl implements
         MathMLDocument, JEuclidNode, ChangeTrackingInterface, DisplayableNode {
 
-    private MathBase mathbase;
-
     private final Set<ChangeTrackingInterface> listeners = new HashSet<ChangeTrackingInterface>();
 
     private float lastX;
 
     private float lastY;
 
+    private MutableLayoutContext layoutContext;
+
     /**
      * Creates a math element.
      * 
-     * @param base
-     *            The base for the math element tree.
+     * @param rootLayoutContext
+     *            The layoutContext for this rendering.
      */
-    public DocumentElement(final MathBase base) {
-        this.mathbase = base;
+    public DocumentElement(final LayoutContextImpl rootLayoutContext) {
+        this.layoutContext = new LayoutContextImpl(rootLayoutContext);
     }
 
     /** {@inheritDoc} */
@@ -109,26 +111,14 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
                 .createListOfChildren(this));
     }
 
-    /**
-     * Set the MathBase to use within this document tree.
-     * 
-     * @param base
-     *            the MathBase object to use.
-     */
-    public void setMathBase(final MathBase base) {
-        this.mathbase = base;
-    }
-
     /** {@inheritDoc} */
     public float getMathsizeInPoint() {
-        return (Float) this.mathbase.getLayoutContext().getParameter(
-                Parameter.MATHSIZE);
+        return (Float) this.layoutContext.getParameter(Parameter.MATHSIZE);
     }
 
     /** {@inheritDoc} */
     public float getFontsizeInPoint() {
-        return (Float) this.mathbase.getLayoutContext().getParameter(
-                Parameter.MATHSIZE);
+        return (Float) this.layoutContext.getParameter(Parameter.MATHSIZE);
     }
 
     /** {@inheritDoc} */
@@ -169,6 +159,33 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
     /** {@inheritDoc} */
     public float getXCenter(final Graphics2D g) {
         return this.getWidth(g) / 2;
+    }
+
+    /**
+     * Sets a LayoutContext for this rendering tree.
+     * 
+     * @param context
+     *            the new layout context.
+     */
+    public void setLayoutContext(final MutableLayoutContext context) {
+        this.layoutContext = context;
+    }
+
+    /** {@inheritDoc} */
+    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
+        return this.layoutContext;
+    }
+
+    /**
+     * Retrieve the current layout context.
+     * <p>
+     * This instance is mutable. Please be sure to call
+     * {@link #fireChangeForSubTree()} after any modification!
+     * 
+     * @return the layout context.
+     */
+    public MutableLayoutContext getCurrentLayoutContext() {
+        return this.layoutContext;
     }
 
 }

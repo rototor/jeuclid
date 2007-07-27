@@ -302,10 +302,10 @@ public class Mo extends AbstractJEuclidElement implements
         final AttributedString aString = StringUtil
                 .convertStringtoAttributedString(theText, this
                         .getMathvariantAsVariant(), fontSizeInPoint, this
-                        .getMathBase());
+                        .getCurrentLayoutContext());
         final TextLayout theLayout = StringUtil
                 .createTextLayoutFromAttributedString(g, aString, this
-                        .getMathBase());
+                        .getCurrentLayoutContext());
         return theLayout;
     }
 

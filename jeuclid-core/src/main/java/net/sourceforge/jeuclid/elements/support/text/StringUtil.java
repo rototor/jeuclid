@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.elements.support.attributes.FontFamily;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
@@ -99,14 +99,14 @@ public final class StringUtil {
      *            variant to base on for regular characters
      * @param fontSize
      *            size of Font to use.
-     * @param base
-     *            MathBase to use.
+     * @param context
+     *            Layotu Context to use.
      * @return an attributed string that has Textattribute.FONT set for all
      *         characters.
      */
     public static AttributedString convertStringtoAttributedString(
             final String inputString, final MathVariant baseVariant,
-            final float fontSize, final MathBase base) {
+            final float fontSize, final LayoutContext context) {
         final StringBuilder builder = new StringBuilder();
         final List<MathVariant> variants = new Vector<MathVariant>();
         final String plainString = CharConverter.convertLate(inputString);
@@ -137,7 +137,7 @@ public final class StringUtil {
         for (int i = 0; i < builder.length(); i++) {
             final MathVariant variant = variants.get(i);
             aString.addAttribute(TextAttribute.FONT, variant.createFont(
-                    fontSize, builder.charAt(i), base), i, i + 1);
+                    fontSize, builder.charAt(i), context), i, i + 1);
         }
         return aString;
     }
@@ -150,19 +150,19 @@ public final class StringUtil {
      *            Graphics context.
      * @param aString
      *            an Attributed String
-     * @param mathBase
-     *            MathBase of context.
+     * @param context
+     *            Layout Context to use.
      * @return a TextLayout
      */
     public static TextLayout createTextLayoutFromAttributedString(
             final Graphics2D g, final AttributedString aString,
-            final MathBase mathBase) {
+            final LayoutContext context) {
         // This is an evil and totally not-understandable workaround which
         // is essential to get Anti-aliasing on SUNS JDK 1.5
         // It is not needed for JDK >= 1.6 or OS X
         final FontRenderContext suggestedFontRenderContext = g
                 .getFontRenderContext();
-        final boolean antialiasing = (Boolean) mathBase.getLayoutContext()
+        final boolean antialiasing = (Boolean) context
                 .getParameter(Parameter.ANTIALIAS);
         final FontRenderContext realFontRenderContext = new FontRenderContext(
                 suggestedFontRenderContext.getTransform(), antialiasing, true);

@@ -29,8 +29,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
 import net.sourceforge.jeuclid.dom.PartialTextImpl;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
@@ -267,7 +269,7 @@ public abstract class AbstractJEuclidElement extends
 
         // This results in a size 8 for a default size of 12.
         // TODO: This should use scriptminsize (3.3.4.2)
-        final float minSize = (Float) this.mbase.getLayoutContext()
+        final float minSize = (Float) this.getCurrentLayoutContext()
                 .getParameter(Parameter.MATHSIZE) * 0.66f;
         if (size < minSize) {
             size = minSize;
@@ -290,7 +292,8 @@ public abstract class AbstractJEuclidElement extends
             aChar = 'A';
         }
         return this.getMathvariantAsVariant().createFont(
-                this.getFontsizeInPoint(), aChar, this.mbase);
+                this.getFontsizeInPoint(), aChar,
+                this.getCurrentLayoutContext());
 
     }
 
@@ -785,7 +788,7 @@ public abstract class AbstractJEuclidElement extends
             if (this.getParent() != null) {
                 theColor = this.getParent().getForegroundColor();
             } else {
-                theColor = (Color) this.mbase.getLayoutContext()
+                theColor = (Color) this.getCurrentLayoutContext()
                         .getParameter(Parameter.MATHCOLOR);
                 // theColor = AttributesHelper.stringToColor(this.mbase
                 // .getParams().get(ParameterKey.ForegroundColor),
@@ -808,7 +811,7 @@ public abstract class AbstractJEuclidElement extends
                 // theColor = this.getParent().getBackgroundColor();
                 theColor = null;
             } else {
-                theColor = (Color) this.mbase.getLayoutContext()
+                theColor = (Color) this.getCurrentLayoutContext()
                         .getParameter(Parameter.MATHBACKGROUND);
                 // theColor = AttributesHelper.stringToColor(this.mbase
                 // .getParams().get(ParameterKey.BackgroundColor), null);
@@ -1099,7 +1102,7 @@ public abstract class AbstractJEuclidElement extends
                             .getHeight(g)));
         }
 
-        if ((Boolean) this.getMathBase().getLayoutContext().getParameter(
+        if ((Boolean) this.getCurrentLayoutContext().getParameter(
                 Parameter.DEBUG)) {
             this.debug(g, posX, posY);
         }
@@ -1130,6 +1133,33 @@ public abstract class AbstractJEuclidElement extends
     /** {@inheritDoc} */
     public float getXCenter(final Graphics2D g) {
         return this.getWidth(g) / 2.0f;
+    }
+
+    /** {@inheritDoc} */
+    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
+        return this.getCurrentLayoutContext();
+    }
+
+    /**
+     * Retrieve the LayoutContext valid for the current node.
+     * 
+     * @return the current layout context.
+     */
+    protected LayoutContext getCurrentLayoutContext() {
+        final JEuclidElement parent = this.getParent();
+        final LayoutContext retVal;
+        if (parent != null) {
+            retVal = parent.getChildLayoutContext(this);
+        } else {
+            final Node node = this.getParentNode();
+            if (node instanceof JEuclidNode) {
+                final JEuclidNode parentNode = (JEuclidNode) node;
+                retVal = parentNode.getChildLayoutContext(this);
+            } else {
+                retVal = LayoutContextImpl.getDefaultLayoutContext();
+            }
+        }
+        return retVal;
     }
 
     {

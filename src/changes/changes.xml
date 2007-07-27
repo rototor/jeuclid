@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="update">LayoutContext is now in RootElement</action>
 			<action dev="maxberger" type="update">Split LayoutContext into LayoutContext and MutableLayoutContext</action>
 			<action dev="maxberger" type="update">Replaced ParameterKey by LayoutContext</action>
 			<action dev="maxberger" type="update">Removed OutFileType from RenderingKey</action>

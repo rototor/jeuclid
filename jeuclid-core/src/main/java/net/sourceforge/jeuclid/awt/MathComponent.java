@@ -130,9 +130,9 @@ public class MathComponent extends Component {
     private void redo() {
         if (this.document != null) {
             this.parameters.setParameter(Parameter.DEBUG, this.debug);
-            this.base = new MathBase(this.parameters);
             DOMBuilder.getDOMBuilder().createJeuclidDom(this.document,
                     this.base);
+            this.base.getRootElement().setLayoutContext(this.parameters);
         } else {
             this.base = null;
         }

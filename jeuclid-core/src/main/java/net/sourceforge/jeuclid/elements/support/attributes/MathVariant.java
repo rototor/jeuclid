@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.font.FontFactory;
 
@@ -188,16 +188,17 @@ public final class MathVariant {
      *            size of the font to create
      * @param c
      *            a character that must exist in this font
-     * @param base
-     *            MathBase to use.
+     * @param context
+     *            LayoutContext to use.
      * @return a font object.
      */
     @SuppressWarnings("unchecked")
-    public Font createFont(final float size, final char c, final MathBase base) {
+    public Font createFont(final float size, final char c,
+            final LayoutContext context) {
 
         final Parameter theParam = MathVariant.PARAMFORFONT
                 .get(this.fontFamily);
-        final List<String> fontList = (List<String>) base.getLayoutContext()
+        final List<String> fontList = (List<String>) context
                 .getParameter(theParam);
         Font font = null;
         final FontFactory fontFactory = FontFactory.getInstance();
