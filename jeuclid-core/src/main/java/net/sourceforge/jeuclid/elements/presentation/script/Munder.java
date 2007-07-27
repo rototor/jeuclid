@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.DOMException;
@@ -40,12 +39,9 @@ public class Munder extends AbstractUnderOver {
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Munder(final MathBase base) {
-        super(base);
+    public Munder() {
+        super();
     }
 
     /** {@inheritDoc} */
@@ -54,11 +50,13 @@ public class Munder extends AbstractUnderOver {
     }
 
     /** {@inheritDoc} */
+    @Override
     public JEuclidElement getOverscript() {
         return null;
     }
 
     /** {@inheritDoc} */
+    @Override
     public JEuclidElement getUnderscript() {
         return this.getMathElement(1);
     }

@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.generic;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
 
@@ -46,12 +45,9 @@ public class MathImpl extends AbstractRowLike implements MathMLMathElement {
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public MathImpl(final MathBase base) {
-        super(base);
+    public MathImpl() {
+        super();
     }
 
     /**

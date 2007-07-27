@@ -18,7 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 /**
  * This class presents a mathematical idenifier, like "x".
@@ -35,12 +35,9 @@ public class Mi extends AbstractTokenWithStandardLayout {
 
     /**
      * Default constructor.
-     * 
-     * @param base
-     *            The base for math element
      */
-    public Mi(final MathBase base) {
-        super(base);
+    public Mi() {
+        super();
     }
 
     /** {@inheritDoc} */
@@ -48,9 +45,11 @@ public class Mi extends AbstractTokenWithStandardLayout {
     protected void changeHook() {
         super.changeHook();
         if (this.getText().length() == 1) {
-            this.setDefaultMathAttribute(ATTR_MATHVARIANT, "italic");
+            this.setDefaultMathAttribute(
+                    AbstractJEuclidElement.ATTR_MATHVARIANT, "italic");
         } else {
-            this.setDefaultMathAttribute(ATTR_MATHVARIANT, "normal");
+            this.setDefaultMathAttribute(
+                    AbstractJEuclidElement.ATTR_MATHVARIANT, "normal");
         }
     }
 

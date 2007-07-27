@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 
 import java.text.AttributedString;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
 /**
@@ -36,11 +35,9 @@ public abstract class AbstractTokenWithStandardLayout extends
     /**
      * Default constructor.
      * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public AbstractTokenWithStandardLayout(final MathBase base) {
-        super(base);
+    public AbstractTokenWithStandardLayout() {
+        super();
     }
 
     /** {@inheritDoc} */

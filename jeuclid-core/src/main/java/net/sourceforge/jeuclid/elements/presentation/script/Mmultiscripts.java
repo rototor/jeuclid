@@ -22,7 +22,6 @@ import java.awt.Graphics2D;
 import java.util.List;
 import java.util.Vector;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.MathMLNodeListImpl;
 
@@ -84,12 +83,9 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     /**
      * Default constructor.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mmultiscripts(final MathBase base) {
-        super(base);
+    public Mmultiscripts() {
+        super();
         this.inRewriteChildren = false;
         this.lastCalculatedFor = null;
     }
@@ -134,10 +130,10 @@ public class Mmultiscripts extends AbstractScriptElement implements
             }
         }
         if (this.postsuperscripts.size() < this.postsubscripts.size()) {
-            this.postsuperscripts.add(new None(this.getMathBase()));
+            this.postsuperscripts.add(new None());
         }
         if (this.presuperscripts.size() < this.presubscripts.size()) {
-            this.presuperscripts.add(new None(this.getMathBase()));
+            this.presuperscripts.add(new None());
         }
     }
 
@@ -284,7 +280,7 @@ public class Mmultiscripts extends AbstractScriptElement implements
     public JEuclidElement getBase() {
         final JEuclidElement base = this.getMathElement(0);
         if (base == null) {
-            return new None(this.getMathBase());
+            return new None();
         } else {
             return base;
         }
@@ -355,7 +351,7 @@ public class Mmultiscripts extends AbstractScriptElement implements
             this.removeChild(childList.item(1));
         }
         if (len == 0) {
-            this.addMathElement(new None(this.getMathBase()));
+            this.addMathElement(new None());
         }
         for (int i = 0; i < this.postsubscripts.size(); i++) {
             this.addMathElement(this.postsubscripts.get(i));
@@ -363,7 +359,7 @@ public class Mmultiscripts extends AbstractScriptElement implements
         }
         final int numprescripts = this.presubscripts.size();
         if (numprescripts > 0) {
-            this.addMathElement(new Mprescripts(this.getMathBase()));
+            this.addMathElement(new Mprescripts());
             for (int i = 0; i < numprescripts; i++) {
                 this.addMathElement(this.presubscripts.get(i));
                 this.addMathElement(this.presuperscripts.get(i));
@@ -382,7 +378,7 @@ public class Mmultiscripts extends AbstractScriptElement implements
             targetIndex = colIndex - 1;
         }
         this.presubscripts.add(targetIndex, (JEuclidElement) newScript);
-        this.presuperscripts.add(targetIndex, new None(this.getMathBase()));
+        this.presuperscripts.add(targetIndex, new None());
         this.rewriteChildren();
         return newScript;
     }
@@ -396,7 +392,7 @@ public class Mmultiscripts extends AbstractScriptElement implements
         } else {
             targetIndex = colIndex - 1;
         }
-        this.presubscripts.add(targetIndex, new None(this.getMathBase()));
+        this.presubscripts.add(targetIndex, new None());
         this.presuperscripts.add(targetIndex, (JEuclidElement) newScript);
         this.rewriteChildren();
         return newScript;
@@ -412,7 +408,7 @@ public class Mmultiscripts extends AbstractScriptElement implements
             targetIndex = colIndex - 1;
         }
         this.postsubscripts.add(targetIndex, (JEuclidElement) newScript);
-        this.postsuperscripts.add(targetIndex, new None(this.getMathBase()));
+        this.postsuperscripts.add(targetIndex, new None());
         this.rewriteChildren();
         return newScript;
     }
@@ -426,7 +422,7 @@ public class Mmultiscripts extends AbstractScriptElement implements
         } else {
             targetIndex = colIndex - 1;
         }
-        this.postsubscripts.add(targetIndex, new None(this.getMathBase()));
+        this.postsubscripts.add(targetIndex, new None());
         this.postsuperscripts.add(targetIndex, (JEuclidElement) newScript);
         this.rewriteChildren();
         return newScript;

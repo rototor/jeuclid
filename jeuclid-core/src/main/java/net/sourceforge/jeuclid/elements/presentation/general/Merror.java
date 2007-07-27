@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
-import net.sourceforge.jeuclid.MathBase;
 
 /**
  * Represents an merror element.
@@ -36,11 +35,9 @@ public class Merror extends AbstractRowLike {
     /**
      * Creates a math element.
      * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Merror(final MathBase base) {
-        super(base);
+    public Merror() {
+        super();
     }
 
     /** {@inheritDoc} */

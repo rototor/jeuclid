@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: MutableLayoutContext.java $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid;
 
 
 /**
  * @author mage
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public interface MutableLayoutContext extends LayoutContext {
 

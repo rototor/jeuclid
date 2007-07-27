@@ -22,7 +22,6 @@ import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.text.AttributedString;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 import net.sourceforge.jeuclid.font.FontFactory;
 
@@ -54,12 +53,9 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
 
     /**
      * Default constructor.
-     * 
-     * @param base
-     *            Mathbase to use.
      */
-    public Mglyph(final MathBase base) {
-        super(base);
+    public Mglyph() {
+        super();
     }
 
     /** {@inheritDoc} */

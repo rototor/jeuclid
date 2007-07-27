@@ -20,8 +20,6 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 
 import java.awt.Graphics2D;
 
-import net.sourceforge.jeuclid.MathBase;
-
 /**
  * Common base class for all elements that present themself as a row of
  * children, like the mrow element.
@@ -33,12 +31,9 @@ public abstract class AbstractRowLike extends AbstractMathElementWithChildren {
 
     /**
      * Default constructor.
-     * 
-     * @param base
-     *            MathBase to use.
      */
-    public AbstractRowLike(final MathBase base) {
-        super(base);
+    public AbstractRowLike() {
+        super();
     }
 
     /** {@inheritDoc} */

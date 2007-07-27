@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.elements.presentation.table;
 
 import java.awt.Graphics2D;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 import org.w3c.dom.mathml.MathMLNodeList;
@@ -44,12 +43,9 @@ public class Mtr extends AbstractJEuclidElement implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mtr(final MathBase base) {
-        super(base);
+    public Mtr() {
+        super();
         this.setDefaultMathAttribute(Mtable.ATTR_GROUPALIGN, "");
     }
 

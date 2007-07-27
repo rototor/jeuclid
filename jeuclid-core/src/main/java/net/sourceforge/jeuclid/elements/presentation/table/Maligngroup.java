@@ -22,7 +22,6 @@ import java.awt.Graphics2D;
 import java.util.List;
 import java.util.Vector;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
@@ -56,12 +55,9 @@ public class Maligngroup extends AbstractInvisibleJEuclidElement implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Maligngroup(final MathBase base) {
-        super(base);
+    public Maligngroup() {
+        super();
     }
 
     /**

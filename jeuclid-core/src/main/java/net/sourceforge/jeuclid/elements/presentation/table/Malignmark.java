@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.elements.presentation.table;
 
 import java.awt.Graphics2D;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
 import org.w3c.dom.mathml.MathMLAlignMarkElement;
@@ -47,12 +46,9 @@ public class Malignmark extends AbstractInvisibleJEuclidElement implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Malignmark(final MathBase base) {
-        super(base);
+    public Malignmark() {
+        super();
     }
 
     /** {@inheritDoc} */

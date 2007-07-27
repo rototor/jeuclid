@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.content.semantic;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
 import org.w3c.dom.mathml.MathMLAnnotationElement;
@@ -45,12 +44,9 @@ public class Annotation extends AbstractInvisibleJEuclidElement implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Annotation(final MathBase base) {
-        super(base);
+    public Annotation() {
+        super();
     }
 
     /** {@inheritDoc} */

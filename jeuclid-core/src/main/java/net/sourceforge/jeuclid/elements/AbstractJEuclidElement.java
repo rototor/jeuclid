@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
@@ -157,12 +156,6 @@ public abstract class AbstractJEuclidElement extends
     private static final Set<String> DEPRECATED_ATTRIBUTES = new HashSet<String>();
 
     /**
-     * Reference to the MathBase object, which controls all font and metrics
-     * computing.
-     */
-    private MathBase mbase;
-
-    /**
      * flag - true when runing calculationg of the element.
      */
     private boolean calculatingSize;
@@ -229,12 +222,9 @@ public abstract class AbstractJEuclidElement extends
     /**
      * Creates a math element.
      * 
-     * @param base
-     *            The base for the math element tree.
      */
 
-    public AbstractJEuclidElement(final MathBase base) {
-        this.setMathBase(base);
+    public AbstractJEuclidElement() {
     }
 
     /**
@@ -454,10 +444,6 @@ public abstract class AbstractJEuclidElement extends
     public final void addMathElement(final MathMLElement child) {
         if (child != null) {
             this.appendChild(child);
-            if (child instanceof AbstractJEuclidElement) {
-                ((AbstractJEuclidElement) child).setMathBase(this
-                        .getMathBase());
-            }
         }
     }
 
@@ -474,7 +460,7 @@ public abstract class AbstractJEuclidElement extends
     public void setMathElement(final int index, final MathMLElement newElement) {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         while (childList.getLength() < index) {
-            this.addMathElement(new Mtext(this.mbase));
+            this.addMathElement(new Mtext());
         }
         if (childList.getLength() == index) {
             this.addMathElement(newElement);
@@ -557,45 +543,32 @@ public abstract class AbstractJEuclidElement extends
         }
     }
 
-    /**
-     * Sets the base for this element.
-     * 
-     * @param base
-     *            Math base object.
-     */
-
-    public void setMathBase(final MathBase base) {
-        this.mbase = base;
-        final org.w3c.dom.NodeList childList = this.getChildNodes();
-        for (int i = 0; i < childList.getLength(); i++) {
-            final Node node = childList.item(i);
-            if (node instanceof AbstractJEuclidElement) {
-                ((AbstractJEuclidElement) node).setMathBase(base);
-            }
-        }
-    }
-
-    /** {@inheritDoc} */
-    public MathBase getMathBase() {
-        return this.mbase;
-    }
-
     /** {@inheritDoc} */
     public void setFakeParent(final JEuclidElement parent) {
         this.fakeParent = parent;
     }
 
-    /** {@inheritDoc} */
-    public JEuclidElement getParent() {
+    private JEuclidNode getParentAsJEuclidNode() {
         final Node parentNode = this.getParentNode();
-        JEuclidElement theParent = null;
-        if (parentNode instanceof JEuclidElement) {
-            theParent = (JEuclidElement) this.getParentNode();
+        JEuclidNode theParent = null;
+        if (parentNode instanceof JEuclidNode) {
+            theParent = (JEuclidNode) parentNode;
         }
         if (theParent == null) {
             return this.fakeParent;
         } else {
             return theParent;
+        }
+
+    }
+
+    /** {@inheritDoc} */
+    public JEuclidElement getParent() {
+        final JEuclidNode parentNode = this.getParentAsJEuclidNode();
+        if (parentNode instanceof JEuclidElement) {
+            return (JEuclidElement) parentNode;
+        } else {
+            return null;
         }
     }
 
@@ -706,12 +679,7 @@ public abstract class AbstractJEuclidElement extends
 
         final String msize = this.getMathsize();
 
-        JEuclidNode relativeToElement = null;
-        if (this.getParent() != null) {
-            relativeToElement = this.getParent();
-        } else {
-            relativeToElement = this.mbase.getRootElement();
-        }
+        final JEuclidNode relativeToElement = this.getParentAsJEuclidNode();
         if (msize == null) {
             return relativeToElement.getMathsizeInPoint();
         }
@@ -1146,19 +1114,14 @@ public abstract class AbstractJEuclidElement extends
      * @return the current layout context.
      */
     protected LayoutContext getCurrentLayoutContext() {
-        final JEuclidElement parent = this.getParent();
         final LayoutContext retVal;
-        if (parent != null) {
-            retVal = parent.getChildLayoutContext(this);
+        final JEuclidNode parentNode = this.getParentAsJEuclidNode();
+        if (parentNode != null) {
+            retVal = parentNode.getChildLayoutContext(this);
         } else {
-            final Node node = this.getParentNode();
-            if (node instanceof JEuclidNode) {
-                final JEuclidNode parentNode = (JEuclidNode) node;
-                retVal = parentNode.getChildLayoutContext(this);
-            } else {
-                retVal = LayoutContextImpl.getDefaultLayoutContext();
-            }
+            retVal = LayoutContextImpl.getDefaultLayoutContext();
         }
+
         return retVal;
     }
 

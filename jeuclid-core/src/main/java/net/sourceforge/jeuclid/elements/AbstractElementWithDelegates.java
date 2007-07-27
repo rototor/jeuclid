@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.elements;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 
@@ -42,12 +41,9 @@ public abstract class AbstractElementWithDelegates extends AbstractContainer {
 
     /**
      * default constructor.
-     * 
-     * @param base
-     *            the MathBase to use.
      */
-    public AbstractElementWithDelegates(final MathBase base) {
-        super(base);
+    public AbstractElementWithDelegates() {
+        super();
     }
 
     /**

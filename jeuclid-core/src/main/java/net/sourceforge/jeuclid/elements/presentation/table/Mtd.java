@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.elements.presentation.table;
 import java.util.List;
 import java.util.Vector;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
 
 import org.w3c.dom.mathml.MathMLTableCellElement;
@@ -52,12 +51,9 @@ public class Mtd extends AbstractRowLike implements MathMLTableCellElement {
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mtd(final MathBase base) {
-        super(base);
+    public Mtd() {
+        super();
         this.setDefaultMathAttribute(Mtd.ATTR_ROWSPAN, Mtd.VALUE_ONE);
         this.setDefaultMathAttribute(Mtd.ATTR_COLUMNSPAN, Mtd.VALUE_ONE);
     }

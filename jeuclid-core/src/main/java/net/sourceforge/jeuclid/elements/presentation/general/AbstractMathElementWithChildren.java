@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
@@ -38,12 +37,9 @@ public abstract class AbstractMathElementWithChildren extends
         AbstractContainer implements MathMLPresentationContainer {
     /**
      * Default constructor.
-     * 
-     * @param base
-     *            MathBase to use.
      */
-    public AbstractMathElementWithChildren(final MathBase base) {
-        super(base);
+    public AbstractMathElementWithChildren() {
+        super();
     }
 
     private List<JEuclidElement> getChildrenAsList() {

@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 
 import java.text.AttributedString;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
 import org.w3c.dom.mathml.MathMLStringLitElement;
@@ -50,12 +49,9 @@ public class Ms extends AbstractTokenWithTextLayout implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Ms(final MathBase base) {
-        super(base);
+    public Ms() {
+        super();
         this.setDefaultMathAttribute(Ms.ATTR_LQUOTE, Ms.VALUE_DOUBLEQUOTE);
         this.setDefaultMathAttribute(Ms.ATTR_RQUOTE, Ms.VALUE_DOUBLEQUOTE);
     }

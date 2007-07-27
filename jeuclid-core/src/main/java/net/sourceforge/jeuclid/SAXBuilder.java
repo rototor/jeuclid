@@ -154,7 +154,7 @@ public class SAXBuilder implements ContentHandler {
 
         final AttributeMap aMap = new SAXAttributeMap(attributes);
         final MathMLElement element = JEuclidElementFactory.elementFromName(
-                localName, aMap, this.mbase);
+                localName, aMap);
 
         if (!this.stack.empty()) {
             this.stack.peek().appendChild(element);

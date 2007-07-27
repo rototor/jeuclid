@@ -21,8 +21,6 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 
-import net.sourceforge.jeuclid.MathBase;
-
 /**
  * This class presents numbers in a equation.
  * 
@@ -41,12 +39,9 @@ public class Mn extends AbstractTokenWithStandardLayout {
 
     /**
      * Default constructor.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mn(final MathBase base) {
-        super(base);
+    public Mn() {
+        super();
     }
 
     /**

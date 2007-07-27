@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 
 import java.awt.Graphics2D;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
@@ -56,12 +55,9 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
 
     /**
      * default constructor.
-     * 
-     * @param base
-     *            Mathbase to use.
      */
-    public AbstractUnderOver(final MathBase base) {
-        super(base);
+    public AbstractUnderOver() {
+        super();
     }
 
     /** {@inheritDoc} */

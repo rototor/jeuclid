@@ -56,12 +56,9 @@ public class Mspace extends AbstractJEuclidElement implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mspace(final MathBase base) {
-        super(base);
+    public Mspace() {
+        super();
         this.setDefaultMathAttribute(Mspace.ATTR_DEPTH, MathBase.VALUE_ZERO);
         this.setDefaultMathAttribute(Mspace.ATTR_HEIGHT, MathBase.VALUE_ZERO);
         this.setDefaultMathAttribute(Mspace.ATTR_WIDTH, MathBase.VALUE_ZERO);
