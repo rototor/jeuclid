@@ -29,7 +29,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
@@ -57,13 +56,11 @@ public abstract class AbstractRoot extends AbstractJEuclidElement {
     /**
      * Default constructor.
      * 
-     * @param base
-     *            MathBase to use.
      * @param root
      *            Character to use for the root symbol.
      */
-    public AbstractRoot(final MathBase base, final char root) {
-        super(base);
+    public AbstractRoot(final char root) {
+        super();
         this.rootChar = root;
     }
 

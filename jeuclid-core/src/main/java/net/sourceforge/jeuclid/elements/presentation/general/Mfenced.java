@@ -59,13 +59,10 @@ public class Mfenced extends AbstractElementWithDelegates implements
 
     /**
      * Creates a new MathFenced object.
-     * 
-     * @param base
-     *            The base for the math element tree
      */
 
-    public Mfenced(final MathBase base) {
-        super(base);
+    public Mfenced() {
+        super();
         this.setDefaultMathAttribute(Mfenced.ATTR_OPEN, "(");
         this.setDefaultMathAttribute(Mfenced.ATTR_CLOSE, ")");
         this.setDefaultMathAttribute(Mfenced.ATTR_SEPARATORS, ",");
@@ -141,7 +138,7 @@ public class Mfenced extends AbstractElementWithDelegates implements
 
         final List<JEuclidElement> retVal = new Vector<JEuclidElement>();
 
-        final Mo opOpen = new Mo(this.getMathBase());
+        final Mo opOpen = new Mo();
         opOpen.setFence(MathBase.TRUE);
         opOpen.setStretchy(MathBase.TRUE);
         opOpen.setRspace(Mfenced.FENCE_SPACE);
@@ -157,7 +154,7 @@ public class Mfenced extends AbstractElementWithDelegates implements
             retVal.add(this.getMathElement(i));
 
             if (i < (this.getMathElementCount() - 1)) {
-                final Mo opSep = new Mo(this.getMathBase());
+                final Mo opSep = new Mo();
                 opSep.setSeparator(MathBase.TRUE);
                 if (i < sep.length()) {
                     opSep.addText(String.valueOf(sep.charAt(i)));
@@ -169,7 +166,7 @@ public class Mfenced extends AbstractElementWithDelegates implements
             }
 
         }
-        final Mo opClose = new Mo(this.getMathBase());
+        final Mo opClose = new Mo();
         opClose.setFence(MathBase.TRUE);
         opClose.setRspace(Mfenced.FENCE_SPACE);
         opClose.setLspace(Mfenced.FENCE_SPACE);

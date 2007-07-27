@@ -18,8 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
-import net.sourceforge.jeuclid.MathBase;
-
 import org.w3c.dom.mathml.MathMLPresentationToken;
 
 /**
@@ -39,11 +37,9 @@ public class Mtext extends AbstractTokenWithStandardLayout implements
     /**
      * Creates a math element.
      * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mtext(final MathBase base) {
-        super(base);
+    public Mtext() {
+        super();
     }
 
     /** {@inheritDoc} */

@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.apache.commons.logging.Log;
@@ -58,12 +57,9 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mstyle(final MathBase base) {
-        super(base);
+    public Mstyle() {
+        super();
         this.setDefaultMathAttribute(Mstyle.ATTR_DISPLAYSTYLE, "");
     }
 

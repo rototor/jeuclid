@@ -273,12 +273,9 @@ public class Mtable extends AbstractJEuclidElement implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mtable(final MathBase base) {
-        super(base);
+    public Mtable() {
+        super();
         this.setDefaultMathAttribute(Mtable.ATTR_ALIGN, "axis");
         this.setDefaultMathAttribute(Mtable.ATTR_ROWALIGN, "baseline");
         this.setDefaultMathAttribute(Mtable.ATTR_COLUMNALIGN, "center");
@@ -1427,47 +1424,48 @@ public class Mtable extends AbstractJEuclidElement implements
     }
 
     /** {@inheritDoc} */
-    public void deleteRow(long index) throws DOMException {
+    public void deleteRow(final long index) throws DOMException {
         // TODO Auto-generated method stub
 
     }
 
     /** {@inheritDoc} */
-    public MathMLTableRowElement getRow(long index) {
+    public MathMLTableRowElement getRow(final long index) {
         // TODO Auto-generated method stub
         return null;
     }
 
     /** {@inheritDoc} */
-    public MathMLLabeledRowElement insertEmptyLabeledRow(long index)
+    public MathMLLabeledRowElement insertEmptyLabeledRow(final long index)
             throws DOMException {
         // TODO Auto-generated method stub
         return null;
     }
 
     /** {@inheritDoc} */
-    public MathMLTableRowElement insertEmptyRow(long index)
+    public MathMLTableRowElement insertEmptyRow(final long index)
             throws DOMException {
         // TODO Auto-generated method stub
         return null;
     }
 
     /** {@inheritDoc} */
-    public MathMLTableRowElement insertRow(long index,
-            MathMLTableRowElement newRow) throws DOMException {
+    public MathMLTableRowElement insertRow(final long index,
+            final MathMLTableRowElement newRow) throws DOMException {
         // TODO Auto-generated method stub
         return null;
     }
 
     /** {@inheritDoc} */
-    public MathMLTableRowElement removeRow(long index) throws DOMException {
+    public MathMLTableRowElement removeRow(final long index)
+            throws DOMException {
         // TODO Auto-generated method stub
         return null;
     }
 
     /** {@inheritDoc} */
-    public MathMLTableRowElement setRow(long index,
-            MathMLTableRowElement newRow) throws DOMException {
+    public MathMLTableRowElement setRow(final long index,
+            final MathMLTableRowElement newRow) throws DOMException {
         // TODO Auto-generated method stub
         return null;
     }

@@ -20,8 +20,6 @@ package net.sourceforge.jeuclid.elements;
 
 import java.awt.Graphics2D;
 
-import net.sourceforge.jeuclid.MathBase;
-
 /**
  * Represents a MathElement with no content.
  * 
@@ -33,11 +31,9 @@ public abstract class AbstractInvisibleJEuclidElement extends
     /**
      * Default Constructor.
      * 
-     * @param base
-     *            MathBase to use.
      */
-    public AbstractInvisibleJEuclidElement(final MathBase base) {
-        super(base);
+    public AbstractInvisibleJEuclidElement() {
+        super();
     }
 
     /** {@inheritDoc} */

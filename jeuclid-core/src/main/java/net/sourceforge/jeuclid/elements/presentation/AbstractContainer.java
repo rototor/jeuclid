@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 import org.w3c.dom.mathml.MathMLContainer;
@@ -38,12 +37,9 @@ public abstract class AbstractContainer extends AbstractJEuclidElement
 
     /**
      * Default constructor.
-     * 
-     * @param base
-     *            MathBase to use.
      */
-    public AbstractContainer(final MathBase base) {
-        super(base);
+    public AbstractContainer() {
+        super();
     }
 
     /** {@inheritDoc} */

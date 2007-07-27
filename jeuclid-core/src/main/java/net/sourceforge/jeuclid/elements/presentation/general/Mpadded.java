@@ -18,8 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
-import net.sourceforge.jeuclid.MathBase;
-
 import org.w3c.dom.mathml.MathMLPaddedElement;
 
 /**
@@ -50,12 +48,9 @@ public class Mpadded extends AbstractRowLike implements MathMLPaddedElement {
 
     /**
      * Default constructor.
-     * 
-     * @param base
-     *            Mathbase to use.
      */
-    public Mpadded(final MathBase base) {
-        super(base);
+    public Mpadded() {
+        super();
     }
 
     /** {@inheritDoc} */

@@ -145,12 +145,9 @@ public class Mo extends AbstractJEuclidElement implements
 
     /**
      * Creates a mathoperator element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mo(final MathBase base) {
-        super(base);
+    public Mo() {
+        super();
         this.setDefaultMathAttribute(Mo.ATTR_FORM,
                 OperatorDictionary.FORM_INFIX);
         this.setDefaultMathAttribute(Mo.ATTR_FENCE, MathBase.FALSE);

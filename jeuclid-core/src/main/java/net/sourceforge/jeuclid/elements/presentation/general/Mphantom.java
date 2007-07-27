@@ -20,8 +20,6 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 
 import java.awt.Graphics2D;
 
-import net.sourceforge.jeuclid.MathBase;
-
 /**
  * This class represents a phantom of a math element. This is used as spacer.
  * 
@@ -38,12 +36,9 @@ public class Mphantom extends AbstractMathElementWithChildren {
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mphantom(final MathBase base) {
-        super(base);
+    public Mphantom() {
+        super();
     }
 
     /** {@inheritDoc} */

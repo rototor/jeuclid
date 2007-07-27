@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
 /**
@@ -38,11 +37,9 @@ public class None extends AbstractInvisibleJEuclidElement {
     /**
      * Creates a math element.
      * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public None(final MathBase base) {
-        super(base);
+    public None() {
+        super();
     }
 
     /** {@inheritDoc} */

@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.mathml.MathMLElement;
@@ -43,12 +42,9 @@ public class Mroot extends AbstractRoot implements MathMLRadicalElement {
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mroot(final MathBase base) {
-        super(base, AbstractRoot.STANDARD_ROOT_CHAR);
+    public Mroot() {
+        super(AbstractRoot.STANDARD_ROOT_CHAR);
     }
 
     /** {@inheritDoc} */

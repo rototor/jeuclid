@@ -18,8 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
-import net.sourceforge.jeuclid.MathBase;
-
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLLabeledRowElement;
 
@@ -45,12 +43,9 @@ public class Mlabeledtr extends Mtr implements MathMLLabeledRowElement {
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mlabeledtr(final MathBase base) {
-        super(base);
+    public Mlabeledtr() {
+        super();
     }
 
     /** {@inheritDoc} */

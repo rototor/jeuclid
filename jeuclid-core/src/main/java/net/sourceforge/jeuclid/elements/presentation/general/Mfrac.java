@@ -70,12 +70,9 @@ public class Mfrac extends AbstractJEuclidElement implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mfrac(final MathBase base) {
-        super(base);
+    public Mfrac() {
+        super();
         this.setDefaultMathAttribute(Mfrac.ATTR_LINETHICKNESS, "1");
         this.setDefaultMathAttribute(Mfrac.ATTR_BEVELLED, MathBase.FALSE);
         this.setDefaultMathAttribute(Mfrac.ATTR_NUMALIGN,

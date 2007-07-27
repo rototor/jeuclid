@@ -18,8 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
-import net.sourceforge.jeuclid.MathBase;
-
 import org.w3c.dom.mathml.MathMLPresentationContainer;
 
 /**
@@ -39,12 +37,9 @@ public class Mrow extends AbstractRowLike implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mrow(final MathBase base) {
-        super(base);
+    public Mrow() {
+        super();
     }
 
     /** {@inheritDoc} */

@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.DOMException;
@@ -40,12 +39,9 @@ public class Mover extends AbstractUnderOver {
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Mover(final MathBase base) {
-        super(base);
+    public Mover() {
+        super();
     }
 
     /** {@inheritDoc} */
@@ -54,11 +50,13 @@ public class Mover extends AbstractUnderOver {
     }
 
     /** {@inheritDoc} */
+    @Override
     public JEuclidElement getOverscript() {
         return this.getMathElement(1);
     }
 
     /** {@inheritDoc} */
+    @Override
     public JEuclidElement getUnderscript() {
         return null;
     }

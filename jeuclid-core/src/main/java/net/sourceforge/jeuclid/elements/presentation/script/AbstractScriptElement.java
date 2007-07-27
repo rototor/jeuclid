@@ -37,12 +37,9 @@ public abstract class AbstractScriptElement extends AbstractJEuclidElement {
 
     /**
      * Default constructor.
-     * 
-     * @param base
-     *            MathBase to link to.
      */
-    public AbstractScriptElement(final MathBase base) {
-        super(base);
+    public AbstractScriptElement() {
+        super();
         this.setDefaultMathAttribute(
                 AbstractScriptElement.ATTR_SUBSCRIPTSHIFT,
                 MathBase.VALUE_ZERO);

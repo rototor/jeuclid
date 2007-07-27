@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.Vector;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
@@ -65,18 +64,15 @@ public class Menclose extends AbstractElementWithDelegates implements
     public static class Longdiv extends AbstractRoot {
         /**
          * Default constructor.
-         * 
-         * @param base
-         *            MathBase to use.
          */
-        public Longdiv(final MathBase base) {
-            super(base, Menclose.LONGDIV_CHAR);
+        public Longdiv() {
+            super(Menclose.LONGDIV_CHAR);
         }
 
         /** {@inheritDoc} */
         @Override
         protected JEuclidElement getActualIndex() {
-            return new Mspace(this.getMathBase());
+            return new Mspace();
         }
 
         /** {@inheritDoc} */
@@ -102,12 +98,9 @@ public class Menclose extends AbstractElementWithDelegates implements
 
         /**
          * Default constructor.
-         * 
-         * @param base
-         *            MathBase to use.
          */
-        public AbstractRowLikeNotation(final MathBase base) {
-            super(base);
+        public AbstractRowLikeNotation() {
+            super();
         }
 
         /** {@inheritDoc} */
@@ -126,12 +119,9 @@ public class Menclose extends AbstractElementWithDelegates implements
 
         /**
          * Default constructor.
-         * 
-         * @param base
-         *            MathBase to use.
          */
-        public Updiagonalstrike(final MathBase base) {
-            super(base);
+        public Updiagonalstrike() {
+            super();
         }
 
         /** {@inheritDoc} */
@@ -157,12 +147,9 @@ public class Menclose extends AbstractElementWithDelegates implements
 
         /**
          * Default constructor.
-         * 
-         * @param base
-         *            MathBase to use.
          */
-        public Downdiagonalstrike(final MathBase base) {
-            super(base);
+        public Downdiagonalstrike() {
+            super();
         }
 
         /** {@inheritDoc} */
@@ -195,12 +182,9 @@ public class Menclose extends AbstractElementWithDelegates implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Menclose(final MathBase base) {
-        super(base);
+    public Menclose() {
+        super();
         this.setDefaultMathAttribute(Menclose.ATTR_NOTATION, "");
     }
 
@@ -245,7 +229,7 @@ public class Menclose extends AbstractElementWithDelegates implements
         // that each of the standard delegates has exactly one child.
         JEuclidElement lastChild;
         if (this.getMathElementCount() != 1) {
-            lastChild = new Mrow(this.getMathBase());
+            lastChild = new Mrow();
             for (final JEuclidElement child : ElementListSupport
                     .createListOfChildren(this)) {
                 lastChild.appendChild(child);
@@ -257,7 +241,7 @@ public class Menclose extends AbstractElementWithDelegates implements
             final Constructor<?> con = notationImpls.pop();
             try {
                 final JEuclidElement element = (JEuclidElement) con
-                        .newInstance(this.getMathBase());
+                        .newInstance();
                 element.appendChild(lastChild);
                 lastChild = element;
             } catch (final InstantiationException e) {
@@ -275,17 +259,15 @@ public class Menclose extends AbstractElementWithDelegates implements
 
     static {
         try {
-            Menclose.IMPL_CLASSES.put("radical", Msqrt.class
-                    .getConstructor(MathBase.class));
+            Menclose.IMPL_CLASSES
+                    .put("radical", Msqrt.class.getConstructor());
             Menclose.IMPL_CLASSES.put("longdiv", Menclose.Longdiv.class
-                    .getConstructor(MathBase.class));
+                    .getConstructor());
             Menclose.IMPL_CLASSES.put("updiagonalstrike",
-                    Menclose.Updiagonalstrike.class
-                            .getConstructor(MathBase.class));
+                    Menclose.Updiagonalstrike.class.getConstructor());
             Menclose.IMPL_CLASSES.put("downdiagonalstrike",
-                    Menclose.Downdiagonalstrike.class
-                            .getConstructor(MathBase.class));
-        } catch (NoSuchMethodException e) {
+                    Menclose.Downdiagonalstrike.class.getConstructor());
+        } catch (final NoSuchMethodException e) {
             Menclose.LOGGER.fatal(e);
         }
     }

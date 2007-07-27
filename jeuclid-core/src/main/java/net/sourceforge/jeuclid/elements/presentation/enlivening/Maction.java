@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.elements.presentation.enlivening;
 import java.util.List;
 import java.util.Vector;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
@@ -48,12 +47,9 @@ public class Maction extends AbstractElementWithDelegates implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Maction(final MathBase base) {
-        super(base);
+    public Maction() {
+        super();
         this.setDefaultMathAttribute(Maction.ATTR_SELECTION, "1");
     }
 
@@ -89,7 +85,7 @@ public class Maction extends AbstractElementWithDelegates implements
         try {
             final int selected = Integer.parseInt(this.getSelection());
             selectedElement = this.getMathElement(selected - 1);
-        } catch (NumberFormatException nfe) {
+        } catch (final NumberFormatException nfe) {
             selectedElement = null;
         }
         final List<JEuclidElement> list = new Vector<JEuclidElement>(1);

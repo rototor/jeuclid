@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.content.semantic;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
 
 import org.w3c.dom.mathml.MathMLElement;
@@ -40,12 +39,9 @@ public class Semantics extends AbstractRowLike implements
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Semantics(final MathBase base) {
-        super(base);
+    public Semantics() {
+        super();
     }
 
     /** {@inheritDoc} */

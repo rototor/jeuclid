@@ -20,14 +20,13 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 
 import java.awt.Graphics2D;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLScriptElement;
 
 /**
- * This class arange a element lower, and a other elements upper to an
+ * This class arranges a element lower, and a other elements upper to an
  * element.
  * 
  * @author Unknown
@@ -43,12 +42,9 @@ public class Msubsup extends AbstractSubSuper implements MathMLScriptElement {
 
     /**
      * Creates a math element.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public Msubsup(final MathBase base) {
-        super(base);
+    public Msubsup() {
+        super();
     }
 
     /**
@@ -122,16 +118,19 @@ public class Msubsup extends AbstractSubSuper implements MathMLScriptElement {
     }
 
     /** {@inheritDoc} */
+    @Override
     public JEuclidElement getBase() {
         return this.getMathElement(0);
     }
 
     /** {@inheritDoc} */
+    @Override
     public JEuclidElement getSubscript() {
         return this.getMathElement(1);
     }
 
     /** {@inheritDoc} */
+    @Override
     public JEuclidElement getSuperscript() {
         return this.getMathElement(2);
     }

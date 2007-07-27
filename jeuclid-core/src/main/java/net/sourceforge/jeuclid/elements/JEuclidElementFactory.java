@@ -24,7 +24,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.content.semantic.Annotation;
 import net.sourceforge.jeuclid.content.semantic.Semantics;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
@@ -94,12 +93,10 @@ public final class JEuclidElementFactory {
      *            name of the element without namespaces.
      * @param aMap
      *            Attributes for this element.
-     * @param base
-     *            mathbase to attach element to.
      * @return A new MathElement for this tag name.
      */
     public static MathMLElement elementFromName(final String localName,
-            final AttributeMap aMap, final MathBase base) {
+            final AttributeMap aMap) {
 
         final Constructor<?> con = JEuclidElementFactory.IMPL_CLASSES
                 .get(localName);
@@ -107,19 +104,19 @@ public final class JEuclidElementFactory {
         JEuclidElement element = null;
         if (con != null) {
             try {
-                element = (JEuclidElement) con.newInstance(base);
-            } catch (InstantiationException e) {
+                element = (JEuclidElement) con.newInstance();
+            } catch (final InstantiationException e) {
                 element = null;
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                 element = null;
-            } catch (InvocationTargetException e) {
+            } catch (final InvocationTargetException e) {
                 element = null;
             }
         }
         if (element == null) {
             JEuclidElementFactory.LOGGER.info("Unsupported element: "
                     + localName);
-            element = new Mrow(base);
+            element = new Mrow();
         }
 
         element.setMathAttributes(aMap);
@@ -130,13 +127,12 @@ public final class JEuclidElementFactory {
         try {
             final Field f = c.getField("ELEMENT");
             final String tag = (String) f.get(null);
-            JEuclidElementFactory.IMPL_CLASSES.put(tag, c
-                    .getConstructor(MathBase.class));
-        } catch (NoSuchFieldException e) {
+            JEuclidElementFactory.IMPL_CLASSES.put(tag, c.getConstructor());
+        } catch (final NoSuchFieldException e) {
             JEuclidElementFactory.LOGGER.warn(c.toString(), e);
-        } catch (NoSuchMethodException e) {
+        } catch (final NoSuchMethodException e) {
             JEuclidElementFactory.LOGGER.warn(c.toString(), e);
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             JEuclidElementFactory.LOGGER.warn(c.toString(), e);
         }
 

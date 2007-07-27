@@ -105,7 +105,7 @@ public final class DOMBuilder {
                 LayoutContextImpl.getDefaultLayoutContext());
         mathBase.setRootElement(rootElement);
 
-        this.traverse(documentElement, rootElement, null, mathBase);
+        this.traverse(documentElement, rootElement, null);
         // TODO: When changeTracking is updated to be disabled during initial
         // buildup, this is the place to trigger first changeEvents
         return rootElement;
@@ -122,7 +122,7 @@ public final class DOMBuilder {
      *            Alignment scope of elements.
      */
     private void traverse(final Node node, final Node parent,
-            Mtd alignmentScope, final MathBase mbase) {
+            Mtd alignmentScope) {
         if (node.getNodeType() != Node.ELEMENT_NODE) {
             return;
         }
@@ -136,7 +136,7 @@ public final class DOMBuilder {
                 .getAttributes());
 
         final AbstractJEuclidElement element = (AbstractJEuclidElement) JEuclidElementFactory
-                .elementFromName(tagname, attributes, mbase);
+                .elementFromName(tagname, attributes);
 
         // TODO: All theses should be handled within the appropriate class
         if (tagname.equals(Mtd.ELEMENT)) {
@@ -182,7 +182,7 @@ public final class DOMBuilder {
             final Node childNode = childs.item(i);
             final short childNodeType = childNode.getNodeType();
             if (childNodeType == Node.ELEMENT_NODE) {
-                this.traverse(childNode, element, alignmentScope, mbase);
+                this.traverse(childNode, element, alignmentScope);
             } else if (childNodeType == Node.TEXT_NODE) {
                 element.addText(childNode.getNodeValue());
             } else if (childNodeType == Node.ENTITY_REFERENCE_NODE

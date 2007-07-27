@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 
 import java.awt.Graphics2D;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
@@ -40,12 +39,9 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
 
     /**
      * Default constructor.
-     * 
-     * @param base
-     *            MathBase to link to.
      */
-    public AbstractSubSuper(final MathBase base) {
-        super(base);
+    public AbstractSubSuper() {
+        super();
     }
 
     /** {@inheritDoc} */

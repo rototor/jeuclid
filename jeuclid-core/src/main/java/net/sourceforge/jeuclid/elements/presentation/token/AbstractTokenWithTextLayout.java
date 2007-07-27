@@ -23,7 +23,6 @@ import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
@@ -46,12 +45,9 @@ public abstract class AbstractTokenWithTextLayout extends
 
     /**
      * Default constructor.
-     * 
-     * @param base
-     *            The base for the math element tree.
      */
-    public AbstractTokenWithTextLayout(final MathBase base) {
-        super(base);
+    public AbstractTokenWithTextLayout() {
+        super();
     }
 
     /**
