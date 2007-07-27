@@ -24,8 +24,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.DOMBuilder;
-import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 
@@ -60,7 +60,7 @@ public class MathComponent extends Component {
 
     private Document document;
 
-    private LayoutContext parameters = LayoutContextImpl
+    private MutableLayoutContext parameters = LayoutContextImpl
             .getDefaultLayoutContext();
 
     /**
@@ -76,7 +76,7 @@ public class MathComponent extends Component {
      * @param newParameters
      *            the set of parameters.
      */
-    public final void setParameters(final LayoutContext newParameters) {
+    public final void setParameters(final MutableLayoutContext newParameters) {
         this.parameters = newParameters;
     }
 

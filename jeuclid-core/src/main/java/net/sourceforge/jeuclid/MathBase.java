@@ -72,7 +72,7 @@ public class MathBase {
      */
     private DocumentElement rootElement;
 
-    private final LayoutContext layoutContext;
+    private final MutableLayoutContext layoutContext;
 
     /**
      * Default constructor.
@@ -89,7 +89,7 @@ public class MathBase {
      * @see LayoutContext
      * @see #getDefaultParameters()
      */
-    public MathBase(final LayoutContext context) {
+    public MathBase(final MutableLayoutContext context) {
         this.layoutContext = context;
         this.rootElement = new DocumentElement(this);
     }
@@ -216,7 +216,7 @@ public class MathBase {
      * 
      * @return The current set of rendering parameters.
      */
-    public LayoutContext getLayoutContext() {
+    public MutableLayoutContext getLayoutContext() {
         return this.layoutContext;
     }
 

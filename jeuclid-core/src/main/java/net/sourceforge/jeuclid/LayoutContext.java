@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid;
 
 import java.awt.Color;
 import java.util.List;
-import java.util.Map;
 
 import net.sourceforge.jeuclid.context.Display;
 
@@ -137,17 +136,6 @@ public interface LayoutContext {
     }
 
     /**
-     * Set a layout Parameter.
-     * 
-     * @param which
-     *            the parameter to set
-     * @param newValue
-     *            the new Value for this parameter.
-     * @return itself for convenience.
-     */
-    LayoutContext setParameter(Parameter which, Object newValue);
-
-    /**
      * Retrieve a layout parameter.
      * 
      * @param which
@@ -157,11 +145,4 @@ public interface LayoutContext {
      */
     Object getParameter(LayoutContext.Parameter which);
 
-    /**
-     * Retrieve all parameters set for this LayoutContext. Please note: The
-     * returned map should be treated as read-only.
-     * 
-     * @return all Parameters in this context.
-     */
-    Map<LayoutContext.Parameter, Object> getParameters();
 }

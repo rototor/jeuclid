@@ -21,7 +21,7 @@ package net.sourceforge.jeuclid.app;
 import java.io.File;
 import java.io.IOException;
 
-import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.app.support.CommandLineParser;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.converter.Converter;
@@ -57,7 +57,7 @@ public final class Mml2xxx {
             final File source = parseResults.getSource();
             final File target = parseResults.getTarget();
 
-            final LayoutContext params = LayoutContextImpl
+            final MutableLayoutContext params = LayoutContextImpl
                     .getDefaultLayoutContext();
             final boolean mimeTypeIsSet = parseResults.getMimetype() != null;
             // TODO This is BROKEN at the moment!
