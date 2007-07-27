@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 
 /**
@@ -42,5 +43,14 @@ public interface JEuclidNode extends ChangeTrackingInterface {
      * @return mathsize in points.
      */
     float getMathsizeInPoint();
+
+    /**
+     * get the layout context for the given child.
+     * 
+     * @param child
+     *            the child to check.
+     * @return layout context to use.
+     */
+    LayoutContext getChildLayoutContext(JEuclidNode child);
 
 }

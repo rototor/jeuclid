@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
 /**
@@ -72,26 +73,18 @@ public class MathBase {
      */
     private DocumentElement rootElement;
 
-    private final MutableLayoutContext layoutContext;
-
     /**
      * Default constructor.
      * <p>
-     * Allocates a new MathBase with the given rendering parameters. You may
-     * use {@link #getDefaultParameters()} to obtain a default set of
-     * rendering parameters.
+     * Allocates a new MathBase.
      * <p>
      * The root element will initially be empty. You may use
-     * {@link DOMBuilder} or {@link SAXBuilder} to fill it.
+     * {@link DOMBuilder}to fill it.
      * 
-     * @param context
-     *            Rendering parameters.
-     * @see LayoutContext
-     * @see #getDefaultParameters()
      */
-    public MathBase(final MutableLayoutContext context) {
-        this.layoutContext = context;
-        this.rootElement = new DocumentElement(this);
+    public MathBase() {
+        this.rootElement = new DocumentElement(LayoutContextImpl
+                .getDefaultLayoutContext());
     }
 
     /**
@@ -127,7 +120,6 @@ public class MathBase {
             return;
         }
         this.rootElement = element;
-        this.rootElement.setMathBase(this);
     }
 
     /**
@@ -150,7 +142,7 @@ public class MathBase {
     public void paint(final Graphics2D g, final float x, final float y) {
         if (this.rootElement != null) {
             final RenderingHints hints = g.getRenderingHints();
-            if ((Boolean) (this.layoutContext
+            if ((Boolean) (this.rootElement.getCurrentLayoutContext()
                     .getParameter(Parameter.ANTIALIAS))) {
                 hints.add(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON));
@@ -210,14 +202,4 @@ public class MathBase {
         }
         return Math.max(1.0f, realHeight);
     }
-
-    /**
-     * Retrieves the current set of parameters.
-     * 
-     * @return The current set of rendering parameters.
-     */
-    public MutableLayoutContext getLayoutContext() {
-        return this.layoutContext;
-    }
-
 }

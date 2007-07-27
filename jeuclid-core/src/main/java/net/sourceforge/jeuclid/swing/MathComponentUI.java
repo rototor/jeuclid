@@ -190,8 +190,9 @@ public class MathComponentUI extends ComponentUI implements
         } else {
             try {
                 final Parameter key = Parameter.valueOf(name);
-                this.base.getLayoutContext().setParameter(key,
-                        evt.getNewValue());
+                this.base.getRootElement().getCurrentLayoutContext()
+                        .setParameter(key, evt.getNewValue());
+                this.base.getRootElement().fireChangeForSubTree();
             } catch (final IllegalArgumentException ia) {
                 MathComponentUI.LOGGER.debug(ia);
             }
@@ -201,8 +202,9 @@ public class MathComponentUI extends ComponentUI implements
     private void redo(final Document doc,
             final MutableLayoutContext parameters) {
         if (doc != null) {
-            this.base = new MathBase(parameters);
+            this.base = new MathBase();
             DOMBuilder.getDOMBuilder().createJeuclidDom(doc, this.base);
+            this.base.getRootElement().setLayoutContext(parameters);
         } else {
             this.base = null;
         }

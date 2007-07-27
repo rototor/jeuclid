@@ -94,7 +94,7 @@ public abstract class AbstractTokenWithTextLayout extends
 
             this.layout = StringUtil.createTextLayoutFromAttributedString(
                     g2d, this.textContentAsAttributedString(), this
-                            .getMathBase());
+                            .getCurrentLayoutContext());
             final Rectangle2D r2d = this.layout.getBounds();
             final float xo = (float) r2d.getX();
             if (xo < 0) {

@@ -57,7 +57,7 @@ public class SAXBuilder implements ContentHandler {
      * default constructor.
      */
     public SAXBuilder() {
-        this.mbase = new MathBase(LayoutContextImpl.getDefaultLayoutContext());
+        this.mbase = new MathBase();
     }
 
     /**
@@ -122,7 +122,8 @@ public class SAXBuilder implements ContentHandler {
     public void startDocument() {
         this.rootElement = null;
         this.stack.clear();
-        this.rootElement = new DocumentElement(this.mbase);
+        this.rootElement = new DocumentElement(LayoutContextImpl
+                .getDefaultLayoutContext());
         this.mbase.setRootElement(this.rootElement);
         this.stack.push(this.rootElement);
     }

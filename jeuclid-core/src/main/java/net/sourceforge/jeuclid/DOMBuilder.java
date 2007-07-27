@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid;
 
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
@@ -100,7 +101,8 @@ public final class DOMBuilder {
                             + ". Expected either Document, Element or DocumentFragment");
         }
 
-        final DocumentElement rootElement = new DocumentElement(mathBase);
+        final DocumentElement rootElement = new DocumentElement(
+                LayoutContextImpl.getDefaultLayoutContext());
         mathBase.setRootElement(rootElement);
 
         this.traverse(documentElement, rootElement, null, mathBase);
