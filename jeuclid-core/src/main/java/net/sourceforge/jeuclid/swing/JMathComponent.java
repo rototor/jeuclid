@@ -30,9 +30,9 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 
@@ -94,7 +94,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
 
     private int horizontalAlignment = SwingConstants.CENTER;
 
-    private final LayoutContext parameters = LayoutContextImpl
+    private final MutableLayoutContext parameters = LayoutContextImpl
             .getDefaultLayoutContext();
 
     private int verticalAlignment = SwingConstants.CENTER;
@@ -537,7 +537,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
     /**
      * @return the parameters
      */
-    public LayoutContext getParameters() {
+    public MutableLayoutContext getParameters() {
         return this.parameters;
     }
 

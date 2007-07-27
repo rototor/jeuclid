@@ -2,8 +2,8 @@ package net.sourceforge.jeuclid.test;
 
 import java.io.File;
 
-import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.converter.Converter;
@@ -27,7 +27,7 @@ public class ConverterTest {
         final Document doc = MathMLParserSupport
                 .parseString(ConverterTest.TEST1);
         final File outFile = new File(this.getOutDir(), "test1.png");
-        final LayoutContext params = LayoutContextImpl
+        final MutableLayoutContext params = LayoutContextImpl
                 .getDefaultLayoutContext();
         params.setParameter(Parameter.MATHSIZE, 25f);
 
@@ -43,7 +43,7 @@ public class ConverterTest {
         final Document doc = MathMLParserSupport
                 .parseString(ConverterTest.TEST1);
         final File outFile = new File(this.getOutDir(), "test1.svg");
-        final LayoutContext params = LayoutContextImpl
+        final MutableLayoutContext params = LayoutContextImpl
                 .getDefaultLayoutContext();
         params.setParameter(Parameter.MATHSIZE, 25f);
         Converter.getConverter().convert(doc, outFile,
@@ -70,7 +70,7 @@ public class ConverterTest {
      */
     @Test
     public void testConvertEmbeddedExamples() throws Exception {
-        final LayoutContext params = LayoutContextImpl
+        final MutableLayoutContext params = LayoutContextImpl
                 .getDefaultLayoutContext();
         params.setParameter(Parameter.MATHSIZE, 16f);
 

@@ -36,8 +36,8 @@ import javax.swing.plaf.ComponentUI;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.Defense;
-import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 
 import org.apache.commons.logging.Log;
@@ -198,7 +198,8 @@ public class MathComponentUI extends ComponentUI implements
         }
     }
 
-    private void redo(final Document doc, final LayoutContext parameters) {
+    private void redo(final Document doc,
+            final MutableLayoutContext parameters) {
         if (doc != null) {
             this.base = new MathBase(parameters);
             DOMBuilder.getDOMBuilder().createJeuclidDom(doc, this.base);

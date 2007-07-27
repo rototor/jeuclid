@@ -29,9 +29,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 
 import org.apache.commons.logging.Log;
@@ -99,7 +99,7 @@ public final class Converter {
      */
     public Dimension convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
-        final LayoutContext params = LayoutContextImpl
+        final MutableLayoutContext params = LayoutContextImpl
                 .getDefaultLayoutContext();
         return this.convert(inFile, outFile, outFileType, params);
     }
@@ -120,7 +120,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final File inFile, final File outFile,
-            final String outFileType, final LayoutContext params)
+            final String outFileType, final MutableLayoutContext params)
             throws IOException {
         Document doc;
         try {
@@ -150,7 +150,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final Node doc, final File outFile,
-            final String outFileType, final LayoutContext params)
+            final String outFileType, final MutableLayoutContext params)
             throws IOException {
 
         final OutputStream outStream = new BufferedOutputStream(
@@ -188,7 +188,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final Node doc, final OutputStream outStream,
-            final String outFileType, final LayoutContext params)
+            final String outFileType, final MutableLayoutContext params)
             throws IOException {
         final ConverterPlugin plugin = ConverterRegistry.getRegisty()
                 .getConverter(outFileType);

@@ -98,7 +98,8 @@ public final class Converter {
      *             if an I/O error occurred.
      */
     public static BufferedImage render(final Document doc,
-            final LayoutContext params) throws SAXException, IOException {
+            final MutableLayoutContext params) throws SAXException,
+            IOException {
         return net.sourceforge.jeuclid.converter.Converter.getConverter()
                 .render(
                         MathMLParserSupport.createMathBaseFromDocument(doc,
@@ -121,7 +122,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public static boolean convert(final File inFile, final File outFile,
-            final String outFileType, final LayoutContext params)
+            final String outFileType, final MutableLayoutContext params)
             throws IOException {
         return net.sourceforge.jeuclid.converter.Converter.getConverter()
                 .convert(inFile, outFile, outFileType, params) != null;
@@ -143,7 +144,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public static boolean convert(final Document doc, final File outFile,
-            final String outFileType, final LayoutContext params)
+            final String outFileType, final MutableLayoutContext params)
             throws IOException {
         return net.sourceforge.jeuclid.converter.Converter.getConverter()
                 .convert(doc, outFile, outFileType, params) != null;

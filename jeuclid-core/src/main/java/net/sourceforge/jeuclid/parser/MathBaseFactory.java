@@ -24,8 +24,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 
 import net.sourceforge.jeuclid.DOMBuilder;
-import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -81,7 +81,7 @@ public final class MathBaseFactory {
      *             if the Source is of an unsupported object type.
      */
     public MathBase createMathBase(final Source source,
-            final LayoutContext params) throws IOException {
+            final MutableLayoutContext params) throws IOException {
 
         try {
             final Node node = this.parser.parse(source);

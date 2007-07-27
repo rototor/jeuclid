@@ -76,7 +76,8 @@ public final class MathMLParserSupport {
      *             if a read io error occurs.
      */
     public static MathBase createMathBaseFromDocument(final Node document,
-            final LayoutContext params) throws SAXException, IOException {
+            final MutableLayoutContext params) throws SAXException,
+            IOException {
 
         try {
             return MathBaseFactory.getMathBaseFactory().createMathBase(
@@ -103,7 +104,8 @@ public final class MathMLParserSupport {
      *             if a read io error occurs.
      */
     public static MathBase createMathBaseFromFile(final File inFile,
-            final LayoutContext params) throws SAXException, IOException {
+            final MutableLayoutContext params) throws SAXException,
+            IOException {
         try {
             return MathBaseFactory.getMathBaseFactory().createMathBase(
                     new StreamSource(new FileInputStream(inFile)), params);

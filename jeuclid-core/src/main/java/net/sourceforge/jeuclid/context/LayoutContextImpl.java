@@ -25,13 +25,14 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 
 /**
  * @author Max Berger
  * @version $Revision$
  */
-public class LayoutContextImpl implements LayoutContext {
-    private static LayoutContext defaultContext;
+public class LayoutContextImpl implements MutableLayoutContext {
+    private static LayoutContextImpl defaultContext;
 
     private final Map<Parameter, Object> context;
 
@@ -139,7 +140,7 @@ public class LayoutContextImpl implements LayoutContext {
      * @param copyFromContext
      *            LayoutContext to use for initialization of values
      */
-    public LayoutContextImpl(final LayoutContext copyFromContext) {
+    public LayoutContextImpl(final LayoutContextImpl copyFromContext) {
         this.context = new TreeMap<Parameter, Object>(copyFromContext
                 .getParameters());
     }
@@ -149,7 +150,7 @@ public class LayoutContextImpl implements LayoutContext {
      * 
      * @return the default layout context.
      */
-    public static synchronized LayoutContext getDefaultLayoutContext() {
+    public static synchronized LayoutContextImpl getDefaultLayoutContext() {
         if (LayoutContextImpl.defaultContext == null) {
             LayoutContextImpl.defaultContext = new LayoutContextImpl();
         }
@@ -172,8 +173,13 @@ public class LayoutContextImpl implements LayoutContext {
         return this.context.get(which);
     }
 
-    /** {@inheritDoc} */
-    public Map<LayoutContext.Parameter, Object> getParameters() {
+    /**
+     * Retrieve all parameters set for this LayoutContext. Please note: The
+     * returned map should be treated as read-only.
+     * 
+     * @return all Parameters in this context.
+     */
+    private Map<LayoutContext.Parameter, Object> getParameters() {
         return this.context;
     }
 }
