@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="update">Replaced isChildBlock with LayoutContext</action>
 			<action dev="maxberger" type="update">Removed MathBase from all Elements</action>
 			<action dev="maxberger" type="update">LayoutContext is now in RootElement</action>
 			<action dev="maxberger" type="update">Split LayoutContext into LayoutContext and MutableLayoutContext</action>

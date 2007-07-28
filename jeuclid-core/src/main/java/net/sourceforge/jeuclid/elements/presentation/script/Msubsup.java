@@ -103,16 +103,6 @@ public class Msubsup extends AbstractSubSuper implements MathMLScriptElement {
     }
 
     /** {@inheritDoc} */
-    @Override
-    public boolean isChildBlock(final JEuclidElement child) {
-        if (child.isSameNode(this.getFirstChild())) {
-            return super.isChildBlock(child);
-        } else {
-            return false;
-        }
-    }
-
-    /** {@inheritDoc} */
     public String getTagName() {
         return Msubsup.ELEMENT;
     }

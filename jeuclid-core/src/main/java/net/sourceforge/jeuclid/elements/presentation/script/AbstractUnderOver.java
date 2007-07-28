@@ -20,8 +20,12 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 
 import java.awt.Graphics2D;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.InlineLayoutContext;
+import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
@@ -83,7 +87,8 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
                 && (this.getBase() instanceof Mo)
                 && Boolean.parseBoolean(((Mo) this.getBase())
                         .getMovablelimits())
-                && !(this.getParent().isChildBlock(this));
+                && (Display.INLINE.equals(this.getCurrentLayoutContext()
+                        .getParameter(LayoutContext.Parameter.DISPLAY)));
     }
 
     /**
@@ -339,11 +344,11 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
 
     /** {@inheritDoc} */
     @Override
-    public boolean isChildBlock(final JEuclidElement child) {
-        if (child.isSameNode(this.getBase())) {
-            return super.isChildBlock(child);
+    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
+        if (child.equals(this.getBase())) {
+            return this.getCurrentLayoutContext();
         } else {
-            return false;
+            return new InlineLayoutContext(this.getCurrentLayoutContext());
         }
     }
 

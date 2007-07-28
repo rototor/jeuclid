@@ -179,16 +179,6 @@ public interface JEuclidElement extends MathMLElement, DisplayableNode,
     JEuclidElement getParent();
 
     /**
-     * Returns true if the child should be displayed as a block (not inline).
-     * Roughly corresponds to the "displaystyle" property (3.2.5.9)
-     * 
-     * @param child
-     *            child to test
-     * @return true if child is block.
-     */
-    boolean isChildBlock(final JEuclidElement child);
-
-    /**
      * returns true is the child has prescripts attached to it. In this case,
      * there should be no extra space on the left.
      * 

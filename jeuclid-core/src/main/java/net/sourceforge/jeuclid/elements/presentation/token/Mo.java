@@ -27,6 +27,8 @@ import java.util.List;
 
 import net.sourceforge.jeuclid.Defense;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
@@ -186,7 +188,8 @@ public class Mo extends AbstractJEuclidElement implements
      *         true
      */
     public float getLargeOpCorrector() {
-        if (this.isChildBlock(null)) {
+        if (Display.BLOCK.equals(this.getCurrentLayoutContext().getParameter(
+                Parameter.DISPLAY))) {
             return Mo.LARGEOP_CORRECTOR_BLOCK;
         } else {
             return Mo.LARGEOP_CORRECTOR_INLINE;

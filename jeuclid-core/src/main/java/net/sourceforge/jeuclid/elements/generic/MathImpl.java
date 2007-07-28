@@ -18,7 +18,9 @@
 
 package net.sourceforge.jeuclid.elements.generic;
 
-import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.Display;
+import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
 
 import org.w3c.dom.mathml.MathMLMathElement;
@@ -71,8 +73,24 @@ public class MathImpl extends AbstractRowLike implements MathMLMathElement {
 
     /** {@inheritDoc} */
     @Override
-    public boolean isChildBlock(final JEuclidElement child) {
-        return "block".equalsIgnoreCase(this.getDisplay());
+    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
+        return new LayoutContext() {
+
+            public Object getParameter(final Parameter which) {
+                final Object retVal;
+                if (Parameter.DISPLAY.equals(which)) {
+                    if ("block".equalsIgnoreCase(MathImpl.this.getDisplay())) {
+                        retVal = Display.BLOCK;
+                    } else {
+                        retVal = Display.INLINE;
+                    }
+                } else {
+                    retVal = MathImpl.this.getCurrentLayoutContext()
+                            .getParameter(which);
+                }
+                return retVal;
+            }
+        };
     }
 
     /** {@inheritDoc} */
