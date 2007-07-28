@@ -1040,16 +1040,6 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /** {@inheritDoc} */
-    public boolean isChildBlock(final JEuclidElement child) {
-        final JEuclidElement parent = this.getParent();
-        if (parent != null) {
-            return parent.isChildBlock(this);
-        } else {
-            return true;
-        }
-    }
-
-    /** {@inheritDoc} */
     public boolean hasChildPrescripts(final JEuclidElement child) {
         return false;
     }

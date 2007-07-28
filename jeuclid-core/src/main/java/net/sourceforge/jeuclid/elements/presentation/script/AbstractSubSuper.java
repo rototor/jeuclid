@@ -20,7 +20,10 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 
 import java.awt.Graphics2D;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
 import org.w3c.dom.mathml.MathMLScriptElement;
@@ -120,6 +123,16 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
     @Override
     public boolean hasChildPostscripts(final JEuclidElement child) {
         return child.isSameNode(this.getBase());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
+        if (child.equals(this.getFirstChild())) {
+            return this.getCurrentLayoutContext();
+        } else {
+            return new InlineLayoutContext(this.getCurrentLayoutContext());
+        }
     }
 
 }

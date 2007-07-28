@@ -23,9 +23,12 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
@@ -83,8 +86,8 @@ public class Mfrac extends AbstractJEuclidElement implements
 
     /** {@inheritDoc} */
     @Override
-    public boolean isChildBlock(final JEuclidElement child) {
-        return false;
+    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
+        return new InlineLayoutContext(this.getCurrentLayoutContext());
     }
 
     /**

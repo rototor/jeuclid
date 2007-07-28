@@ -18,7 +18,9 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
-import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.Display;
+import net.sourceforge.jeuclid.elements.JEuclidNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -132,15 +134,24 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
 
     /** {@inheritDoc} */
     @Override
-    public boolean isChildBlock(final JEuclidElement child) {
-        final String displayStyle = this.getDisplaystyle();
-        if (displayStyle.length() > 0) {
-            final boolean dValue = Boolean.parseBoolean(displayStyle);
-            return dValue;
-        } else {
-            return super.isChildBlock(child);
-        }
+    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
+        return new LayoutContext() {
 
+            public Object getParameter(final Parameter which) {
+                Object retVal = Mstyle.this.getCurrentLayoutContext()
+                        .getParameter(which);
+                if (Parameter.DISPLAY.equals(which)) {
+                    final String displayStyle = Mstyle.this.getDisplaystyle();
+                    if ("true".equalsIgnoreCase(displayStyle)) {
+                        retVal = Display.BLOCK;
+                    }
+                    if ("false".equalsIgnoreCase(displayStyle)) {
+                        retVal = Display.INLINE;
+                    }
+                }
+                return retVal;
+            }
+        };
     }
 
     /** {@inheritDoc} */
