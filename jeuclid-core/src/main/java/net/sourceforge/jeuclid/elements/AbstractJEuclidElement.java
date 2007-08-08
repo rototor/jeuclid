@@ -24,8 +24,10 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -449,9 +451,17 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public JEuclidElement getMathElement(final int index) {
-        final org.w3c.dom.NodeList childList = this.getChildNodes();
-        if (index >= 0 && index < childList.getLength()) {
-            return (JEuclidElement) childList.item(index);
+        if (index >= 0 && index < getMathElementCount()) {
+            final org.w3c.dom.NodeList childList = this.getChildNodes();
+            for (int i=0,elementIndex=0; i < childList.getLength(); i++) {
+                Node child = childList.item(i);
+                if (child instanceof JEuclidElement) {
+                    if (elementIndex == index) {
+                        return (JEuclidElement) child;
+                    }
+                    elementIndex++;
+                }
+            }
         }
         return null;
     }
@@ -482,7 +492,15 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public int getMathElementCount() {
-        return this.getChildNodes().getLength();
+        final org.w3c.dom.NodeList childList = this.getChildNodes();
+        int elementIndex = 0;
+        for (int i=0; i<childList.getLength(); i++) {
+            Node child = childList.item(i);
+            if (child instanceof JEuclidElement) {
+                elementIndex++;
+            }
+        }        
+        return elementIndex;
     }
 
     /**
@@ -492,7 +510,6 @@ public abstract class AbstractJEuclidElement extends
      *            String with text of this object.
      */
     public void addText(final String text) {
-
         Node textNode = this.getLastChild();
         if (!(textNode instanceof Text)) {
             textNode = new PartialTextImpl("");
