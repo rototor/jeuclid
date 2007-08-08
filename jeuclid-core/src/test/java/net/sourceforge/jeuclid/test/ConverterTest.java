@@ -74,7 +74,7 @@ public class ConverterTest {
                 .getDefaultLayoutContext();
         params.setParameter(Parameter.MATHSIZE, 16f);
 
-        for (int example = 1; example <= 8; example++) {
+        for (int example = 1; example <= 9; example++) {
             final String exName = "example" + example + ".mml";
             final File outFile = new File(this.getOutDir(), "example"
                     + example + ".png");
