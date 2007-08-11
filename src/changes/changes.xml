@@ -8,6 +8,9 @@
 		<release version="3.0.0" date="in SVN"
 			description="stable release">
 		<action dev="maxberger" type="update">
+			merged 408:409 (ClassCastException fix)
+		</action>
+		<action dev="maxberger" type="update">
 			updated for 3.0 branch
 		</action>
 		</release>
