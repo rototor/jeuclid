@@ -69,7 +69,7 @@ public class ConverterTest {
         params.put(ParameterKey.FontSize, "16");
         params.put(ParameterKey.OutFileType, "image/png");
 
-        for (int example = 1; example <= 8; example++) {
+        for (int example = 1; example <= 9; example++) {
             String exName = "example" + example + ".mml";
             File outFile = new File(getOutDir(), "example" + example + ".png");
             Document document = MathBaseTest.loadDocument(exName);
