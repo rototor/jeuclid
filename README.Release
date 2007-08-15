@@ -22,6 +22,10 @@ in jeuclid-minimal:
 in the root directory:
   disable dashboard plugin completely
 
+You may have to commit these changes
+
+mvn -Dmessage="Disabled snapshots in preparation for release" scm:checkin
+
 2. Test with maven:
 
 mvn -DdryRun=true release:prepare
@@ -52,12 +56,12 @@ mvn install
 
 disable all modules except -mathviewer, -core, -foprep (use only comments, do not delete lines!)
 
-(edit pom.xml)
+(edit pom.xml in target / checkout)
 
 mvn deploy
 
-7. Re-enable distribution plugins (that where disabled in 1)
-Also, re-enable all modules
+7. Re-enable distribution plugins (that where disabled in 1, appbundler, appassembler)
+Also, re-enable all modules ( still in target / checkout )
 
 edit jeuclid/pom.xml
 edit jeuclid-minimal/pom.xml
@@ -68,14 +72,15 @@ build the real release packages:
 
 mvn package
 
-upload to sf:
+upload to sf: 
 
-VERSION=2.9.8
+VERSION=2.9.8  #replace with version
+PUT="ftp -u" # alternative: PUT="wput"
 cd jeuclid/target
-ftp -u ftp://upload.sf.net/incoming/ jeuclid-$VERSION-distribution.zip
-ftp -u ftp://upload.sf.net/incoming/ jeuclid-$VERSION-osx.zip 
+$PUT ftp://upload.sf.net/incoming/ jeuclid-$VERSION-distribution.zip
+$PUT ftp://upload.sf.net/incoming/ jeuclid-$VERSION-osx.zip 
 cd ../../jeuclid-minimal/target
-ftp -u ftp://upload.sf.net/incoming/ jeuclid-minimal-$VERSION-distribution.zip 
+$PUT ftp://upload.sf.net/incoming/ jeuclid-minimal-$VERSION-distribution.zip 
 cd ../..
 
 Log into SF website and use files. ( e.g. release )
@@ -95,13 +100,13 @@ cd ../..
 9. update src/changes/changes.xml
 10. Undo changed in pom.xmls (re-enable plugins from step 1)
 
-11. Deploy websiye
+11. Deploy website
 mvn install && mvn site && mvn site-deploy
 
 12. commit changes
 svn commit -m "Updated file after release"
 
-12. Send email to jeuclid-users and jeuclid-devel
+13. Send email to jeuclid-users and jeuclid-devel, and optionally to www-math@w3.org
 
 
 
