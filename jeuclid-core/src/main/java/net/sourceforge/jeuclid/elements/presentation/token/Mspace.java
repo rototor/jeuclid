@@ -128,22 +128,22 @@ public class Mspace extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     @Override
     public float calculateWidth(final Graphics2D g) {
-        return AttributesHelper.convertSizeToPt(this.getWidth(), this,
-                AttributesHelper.PT);
+        return AttributesHelper.convertSizeToPt(this.getWidth(), this
+                .getCurrentLayoutContext(), AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */
     @Override
     public float calculateAscentHeight(final Graphics2D g) {
-        return AttributesHelper.convertSizeToPt(this.getHeight(), this,
-                AttributesHelper.PT);
+        return AttributesHelper.convertSizeToPt(this.getHeight(), this
+                .getCurrentLayoutContext(), AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */
     @Override
     public float calculateDescentHeight(final Graphics2D g) {
-        return AttributesHelper.convertSizeToPt(this.getDepth(), this,
-                AttributesHelper.PT);
+        return AttributesHelper.convertSizeToPt(this.getDepth(), this
+                .getCurrentLayoutContext(), AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */

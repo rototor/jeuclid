@@ -176,8 +176,8 @@ public class Mo extends AbstractJEuclidElement implements
     private float getLspaceAsFloat() {
         // TODO: decide if this is necessary
         // if (this.getParent().isChildBlock(this)) {
-        return AttributesHelper.convertSizeToPt(this.getLspace(), this,
-                AttributesHelper.PT);
+        return AttributesHelper.convertSizeToPt(this.getLspace(), this
+                .getCurrentLayoutContext(), AttributesHelper.PT);
         // } else {
         // return 0.0f;
         // }
@@ -204,8 +204,8 @@ public class Mo extends AbstractJEuclidElement implements
     private float getRspaceAsFloat() {
         // TODO: Decide if this is necessary
         // if (this.getParent().isChildBlock(this)) {
-        return AttributesHelper.convertSizeToPt(this.getRspace(), this,
-                AttributesHelper.PT);
+        return AttributesHelper.convertSizeToPt(this.getRspace(), this
+                .getCurrentLayoutContext(), AttributesHelper.PT);
         // } else {
         // return 0.0f;
         // }

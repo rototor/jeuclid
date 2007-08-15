@@ -24,9 +24,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
-import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
 
 import org.apache.commons.logging.Log;
@@ -176,16 +177,16 @@ public final class AttributesHelper {
      * 
      * @param sizeString
      *            string to convert
-     * @param contextElement
-     *            Element this size is relative to. This is usually the parent
-     *            or the element itself.
+     * @param context
+     *            LayoutContext this size is relative to. This is usually the
+     *            context of the parent or the element itself.
      * @param defaultUnit
      *            default Unit to use in this context. May be px, pt, em, etc.
      * @return Translated value of the size attribute into Point (=Java
      *         Pixels).
      */
     public static float convertSizeToPt(final String sizeString,
-            final JEuclidNode contextElement, final String defaultUnit) {
+            final LayoutContext context, final String defaultUnit) {
         if (sizeString == null) {
             return 0;
         }
@@ -217,13 +218,14 @@ public final class AttributesHelper {
             if (value == 0) {
                 retVal = 0.0;
             } else if (AttributesHelper.RELATIVE_UNITS.containsKey(unit)) {
-                retVal = value * contextElement.getFontsizeInPoint()
+                retVal = value
+                        * (Float) context.getParameter(Parameter.MATHSIZE)
                         * AttributesHelper.RELATIVE_UNITS.get(unit);
             } else if (AttributesHelper.ABSOLUTE_UNITS.containsKey(unit)) {
                 retVal = value * AttributesHelper.ABSOLUTE_UNITS.get(unit);
             } else if (defaultUnit.length() > 0) {
                 retVal = AttributesHelper.convertSizeToPt(sizeString
-                        + defaultUnit, contextElement, "");
+                        + defaultUnit, context, "");
             } else {
                 retVal = Double.parseDouble(tSize);
                 AttributesHelper.LOGGER.warn("Error Parsing attribute: "
