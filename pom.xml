@@ -4,7 +4,7 @@
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-parent</artifactId>
   <name>JEuclid</name>
-  <version>3.0.0-SNAPSHOT</version>
+  <version>3.0.0</version>
   <packaging>pom</packaging>
   <modules>
     <module>jeuclid-core</module>
@@ -191,9 +191,9 @@
     </contributor>
   </contributors>
   <scm>
-    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/branches/3.0</connection>
-    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/branches/3.0</developerConnection>
-    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/branches/3.0</url>
+    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-parent-3.0.0</connection>
+    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-parent-3.0.0</developerConnection>
+    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/tags/jeuclid-parent-3.0.0</url>
   </scm>
   <build>
     <plugins>
