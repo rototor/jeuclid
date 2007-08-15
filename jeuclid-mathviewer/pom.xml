@@ -7,7 +7,7 @@
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1-SNAPSHOT</version>
   </parent>
   <description>This module contains a swing MathViewer application.</description>
   <build>
@@ -51,7 +51,7 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core</artifactId>
-      <version>3.0.0</version>
+      <version>3.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <profiles>
