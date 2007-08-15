@@ -47,6 +47,61 @@
 
     <itemizedlist>
       <listitem>
+        <para>JEuclid 3.0.0 Released!</para>
+
+        <para>JEuclid is a complete MathML rendering solution. After being
+        dormant for a while, the project has picked up development again and
+        we are now able to provide a new major release.</para>
+
+        <para>JEuclid 3.0 consists of: </para>
+
+        <itemizedlist>
+          <listitem>
+            <para>A MathML viewer application</para>
+          </listitem>
+
+          <listitem>
+            <para>Command line converters from MathML to other image formats,
+            including JPEG, BMP, WBMP, GIF, SVG, EMF, PDF, PS, SWF</para>
+          </listitem>
+
+          <listitem>
+            <para>An ant task for automated conversion</para>
+          </listitem>
+
+          <listitem>
+            <para>Java display components for AWT and Swing</para>
+          </listitem>
+
+          <listitem>
+            <para>A FO preprocessor application to support MathML in xsl-fo
+            renderers</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Two plugins are part of JEuclid: </para>
+
+        <itemizedlist>
+          <listitem>
+            <para>A XXE Plugin provides MathML support for <ulink
+            url="http://www.xmlmind.com/">XMLMind XML-Editor</ulink> and is
+            available through the XXE update site</para>
+          </listitem>
+        </itemizedlist>
+
+        <itemizedlist>
+          <listitem>
+            <para>A FOP plugin provides MathML support in <ulink
+            url="http://xmlgraphics.apache.org/fop/">FOP</ulink>. It will be
+            released shortly after the fop 0.94 release.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>For more information, please see ask at
+        jeuclid-users@liss.sourceforge.net . </para>
+      </listitem>
+
+      <listitem>
         <para>Announcing JEuclid 2.9.8 aka 3.0 RC: We're almost there: The new
         Release is just around the corner!</para>
 

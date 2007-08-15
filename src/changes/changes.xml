@@ -5,8 +5,9 @@
 		<author>Max Berger</author>
 	</properties>
 	<body>
-		<release version="3.0.0" date="in SVN"
+		<release version="3.0.0" date="2007-08-15"
 			description="stable release">
+		<action dev="maxberger" type="update">JEuclid 3.0 Released!</action>
 		<action dev="maxberger" type="update">
 			merged 408:409 (ClassCastException fix)
 		</action>
