@@ -29,6 +29,7 @@ import java.util.Properties;
 import net.sourceforge.jeuclid.MathBase;
 
 import org.freehep.graphics2d.VectorGraphics;
+import org.w3c.dom.Document;
 
 /**
  * Converter for output formats supported by FreeHEP.
@@ -68,12 +69,18 @@ public class FreeHepConverter implements ConverterPlugin {
             g.endExport();
 
             return size;
-        } catch (InstantiationException e) {
+        } catch (final InstantiationException e) {
             throw new IOException();
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             throw new IOException();
-        } catch (InvocationTargetException e) {
+        } catch (final InvocationTargetException e) {
             throw new IOException();
         }
     }
+
+    /** {@inheritDoc} */
+    public Document convert(final MathBase mathBase) {
+        return null;
+    }
+
 }

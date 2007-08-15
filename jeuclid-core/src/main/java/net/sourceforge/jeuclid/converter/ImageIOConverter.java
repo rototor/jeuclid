@@ -28,6 +28,8 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 
+import org.w3c.dom.Document;
+
 import net.sourceforge.jeuclid.MathBase;
 
 /**
@@ -53,15 +55,20 @@ public class ImageIOConverter implements ConverterPlugin {
     /** {@inheritDoc} */
     public Dimension convert(final MathBase base, final OutputStream outStream)
             throws IOException {
-        final ImageOutputStream ios = new MemoryCacheImageOutputStream(outStream);
+        final ImageOutputStream ios = new MemoryCacheImageOutputStream(
+                outStream);
         this.writer.setOutput(ios);
         final BufferedImage image = Converter.getConverter().render(base);
         this.writer.write(image);
         ios.close();
         final Graphics2D temp = (Graphics2D) image.getGraphics();
-        return new Dimension(
-                (int) Math.ceil(base.getWidth(temp)), 
-                (int) Math.ceil(base.getWidth(temp)));
+        return new Dimension((int) Math.ceil(base.getWidth(temp)), (int) Math
+                .ceil(base.getWidth(temp)));
+    }
+
+    /** {@inheritDoc} */
+    public Document convert(final MathBase mathBase) {
+        return null;
     }
 
 }

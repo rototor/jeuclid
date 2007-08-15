@@ -12,6 +12,7 @@ import net.sourceforge.jeuclid.converter.ConverterRegistry;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
+import org.w3c.dom.svg.SVGDocument;
 
 public class ConverterTest {
 
@@ -50,6 +51,21 @@ public class ConverterTest {
                 net.sourceforge.jeuclid.converter.Converter.TYPE_SVG, params);
         Assert.assertTrue(outFile.exists());
         Assert.assertTrue(outFile.length() > 0);
+
+        // displayDocument(doc);
+    }
+
+    @Test
+    public void testConverterSVGtoDOM() throws Exception {
+        final Document doc = MathMLParserSupport
+                .parseString(ConverterTest.TEST1);
+        final MutableLayoutContext params = LayoutContextImpl
+                .getDefaultLayoutContext();
+        params.setParameter(Parameter.MATHSIZE, 25f);
+        final Document svgdoc = Converter.getConverter().convert(doc,
+                net.sourceforge.jeuclid.converter.Converter.TYPE_SVG, params);
+        Assert.assertNotNull(svgdoc);
+        Assert.assertTrue(svgdoc instanceof SVGDocument);
 
         // displayDocument(doc);
     }
