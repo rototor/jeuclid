@@ -24,6 +24,8 @@ import java.io.OutputStream;
 
 import net.sourceforge.jeuclid.MathBase;
 
+import org.w3c.dom.Document;
+
 /**
  * Describes an Image converter.
  * <p>
@@ -43,11 +45,24 @@ public interface ConverterPlugin {
      *            parameters.
      * @param outStream
      *            Target output stream.
-     * @return Rendering's dimension based on the spefic plugin's 
-     *         Graphics2D implementation.
+     * @return Rendering's dimension based on the spefic plugin's Graphics2D
+     *         implementation.
      * @throws IOException
      *             if an I/O error occurred during write.
      */
-    Dimension convert(MathBase base, OutputStream outStream) throws IOException;
+    Dimension convert(MathBase base, OutputStream outStream)
+            throws IOException;
+
+    /**
+     * Convert from the given Math Object to an XML DOM Document.
+     * 
+     * @param mathBase
+     *            MathBase containing the MathML tree and the rendering
+     *            parameters.
+     * @return an instance of Document, or the appropriate subtype for this
+     *         format (e.g. SVGDocument). If conversion is not supported by
+     *         this plugin, it may return null.
+     */
+    Document convert(final MathBase mathBase);
 
 }

@@ -133,7 +133,8 @@ public final class Converter {
     }
 
     /**
-     * Converts an existing file from MathML or ODF to the given type.
+     * Converts an existing document from MathML to the given type and store
+     * it in a file.
      * 
      * @param doc
      *            input document. See
@@ -166,6 +167,46 @@ public final class Converter {
             }
         } else {
             outFile.delete();
+        }
+        return result;
+    }
+
+    /**
+     * Converts an existing document from MathML to the given XML based type
+     * and store it in a DOM document.
+     * 
+     * @param doc
+     *            input document. See
+     *            {@link net.sourceforge.jeuclid.DOMBuilder#DOMBuilder(Node, MathBase)}
+     *            for the list of valid node types.
+     * @param outFileType
+     *            mimetype for the output file.
+     * @param params
+     *            parameter set to use for conversion.
+     * @return an instance of Document, or the appropriate subtype for this
+     *         format (e.g. SVGDocument). If conversion is not supported to
+     *         this type, it may return null.
+     * @todo This code contains duplications. Clean up!
+     */
+    public Document convert(final Node doc, final String outFileType,
+            final MutableLayoutContext params) {
+        final ConverterPlugin plugin = ConverterRegistry.getRegisty()
+                .getConverter(outFileType);
+        Document result = null;
+        if (plugin != null) {
+            try {
+                result = plugin.convert(MathMLParserSupport
+                        .createMathBaseFromDocument(doc, params));
+            } catch (final SAXException ex) {
+                Converter.LOGGER.fatal("Failed to process: "
+                        + ex.getMessage(), ex);
+            } catch (final IOException ex) {
+                Converter.LOGGER.fatal("Failed to process: "
+                        + ex.getMessage(), ex);
+            }
+        }
+        if (result == null) {
+            Converter.LOGGER.fatal("Unsupported output type: " + outFileType);
         }
         return result;
     }
