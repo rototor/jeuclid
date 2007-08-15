@@ -324,8 +324,8 @@ public class Mtable extends AbstractJEuclidElement implements
         }
         final String spacing = this.getSpaceArrayEntry(
                 this.getFramespacing(), 0);
-        return AttributesHelper.convertSizeToPt(spacing, this,
-                AttributesHelper.PT);
+        return AttributesHelper.convertSizeToPt(spacing, this
+                .getCurrentLayoutContext(), AttributesHelper.PT);
     }
 
     /**
@@ -338,8 +338,8 @@ public class Mtable extends AbstractJEuclidElement implements
         }
         final String spacing = this.getSpaceArrayEntry(
                 this.getFramespacing(), 1);
-        return AttributesHelper.convertSizeToPt(spacing, this,
-                AttributesHelper.PT);
+        return AttributesHelper.convertSizeToPt(spacing, this
+                .getCurrentLayoutContext(), AttributesHelper.PT);
     }
 
     /**
@@ -1284,7 +1284,8 @@ public class Mtable extends AbstractJEuclidElement implements
 
     private float getRowspacing(final int row) {
         return AttributesHelper.convertSizeToPt(this.getSpaceArrayEntry(this
-                .getRowspacing(), row), this, AttributesHelper.PT);
+                .getRowspacing(), row), this.getCurrentLayoutContext(),
+                AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */
@@ -1299,7 +1300,8 @@ public class Mtable extends AbstractJEuclidElement implements
 
     private float getColumnspacing(final int column) {
         return AttributesHelper.convertSizeToPt(this.getSpaceArrayEntry(this
-                .getColumnspacing(), column), this, AttributesHelper.PT);
+                .getColumnspacing(), column), this.getCurrentLayoutContext(),
+                AttributesHelper.PT);
     }
 
     /** {@inheritDoc} */

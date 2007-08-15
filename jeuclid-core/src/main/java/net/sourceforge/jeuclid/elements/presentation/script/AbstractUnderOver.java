@@ -107,8 +107,8 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
                     this.getOverscript());
         } else {
             float extraShift = AttributesHelper.convertSizeToPt(
-                    AbstractUnderOver.UNDER_OVER_SPACE, this,
-                    AttributesHelper.PT);
+                    AbstractUnderOver.UNDER_OVER_SPACE, this
+                            .getCurrentLayoutContext(), AttributesHelper.PT);
             if (!this.getAccentunderAsBoolean()) {
                 extraShift *= AbstractUnderOver.NON_ACCENT_MULTIPLIER;
             }
@@ -133,8 +133,8 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
                     .getUnderscript(), overScript);
         } else {
             float extraShift = AttributesHelper.convertSizeToPt(
-                    AbstractUnderOver.UNDER_OVER_SPACE, this,
-                    AttributesHelper.PT);
+                    AbstractUnderOver.UNDER_OVER_SPACE, this
+                            .getCurrentLayoutContext(), AttributesHelper.PT);
             if (!this.getAccentAsBoolean()) {
                 extraShift *= AbstractUnderOver.NON_ACCENT_MULTIPLIER;
             }

@@ -112,8 +112,8 @@ public class Mfrac extends AbstractJEuclidElement implements
             thickness = Float.parseFloat(sThickness);
             thickness *= GraphicsSupport.lineWidth(this);
         } catch (final NumberFormatException nfe) {
-            thickness = AttributesHelper.convertSizeToPt(sThickness, this,
-                    AttributesHelper.PT);
+            thickness = AttributesHelper.convertSizeToPt(sThickness, this
+                    .getCurrentLayoutContext(), AttributesHelper.PT);
         }
         return thickness;
     }
@@ -153,7 +153,7 @@ public class Mfrac extends AbstractJEuclidElement implements
 
         final float middle = posY - this.getMiddleShift(g);
         final float dist = AttributesHelper.convertSizeToPt(
-                Mfrac.EXTRA_SPACE_AROUND, this, "");
+                Mfrac.EXTRA_SPACE_AROUND, this.getCurrentLayoutContext(), "");
 
         if (Boolean.parseBoolean(this.getBevelled())) {
             final float w1 = Math.max(
@@ -200,7 +200,7 @@ public class Mfrac extends AbstractJEuclidElement implements
         final JEuclidElement e1 = this.getMathElement(0);
         final JEuclidElement e2 = this.getMathElement(1);
         final float dist = AttributesHelper.convertSizeToPt(
-                Mfrac.EXTRA_SPACE_AROUND, this, "");
+                Mfrac.EXTRA_SPACE_AROUND, this.getCurrentLayoutContext(), "");
         if (Boolean.parseBoolean(this.getBevelled())) {
             final float w1 = Math.max(
                     e2.getHeight(g) * Mfrac.FRAC_TILT_ANGLE, e1.getWidth(g)

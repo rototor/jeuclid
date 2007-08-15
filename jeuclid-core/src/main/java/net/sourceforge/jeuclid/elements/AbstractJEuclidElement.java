@@ -24,16 +24,15 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.context.MathSizeLayoutContext;
 import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
 import net.sourceforge.jeuclid.dom.PartialTextImpl;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
@@ -255,9 +254,11 @@ public abstract class AbstractJEuclidElement extends
      * @return size of the current font.
      */
     public float getFontsizeInPoint() {
+        final LayoutContext context = this.getCurrentLayoutContext();
         final float scriptMultiplier = (float) Math.pow(this
                 .getScriptSizeMultiplier(), this.getAbsoluteScriptLevel());
-        float size = this.getMathsizeInPoint() * scriptMultiplier;
+        float size = (Float) context.getParameter(Parameter.MATHSIZE)
+                * scriptMultiplier;
 
         // This results in a size 8 for a default size of 12.
         // TODO: This should use scriptminsize (3.3.4.2)
@@ -451,10 +452,10 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public JEuclidElement getMathElement(final int index) {
-        if (index >= 0 && index < getMathElementCount()) {
+        if (index >= 0 && index < this.getMathElementCount()) {
             final org.w3c.dom.NodeList childList = this.getChildNodes();
-            for (int i=0,elementIndex=0; i < childList.getLength(); i++) {
-                Node child = childList.item(i);
+            for (int i = 0, elementIndex = 0; i < childList.getLength(); i++) {
+                final Node child = childList.item(i);
                 if (child instanceof JEuclidElement) {
                     if (elementIndex == index) {
                         return (JEuclidElement) child;
@@ -494,12 +495,12 @@ public abstract class AbstractJEuclidElement extends
     public int getMathElementCount() {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         int elementIndex = 0;
-        for (int i=0; i<childList.getLength(); i++) {
-            Node child = childList.item(i);
+        for (int i = 0; i < childList.getLength(); i++) {
+            final Node child = childList.item(i);
             if (child instanceof JEuclidElement) {
                 elementIndex++;
             }
-        }        
+        }
         return elementIndex;
     }
 
@@ -689,19 +690,6 @@ public abstract class AbstractJEuclidElement extends
      */
     public void setMathsize(final String mathsize) {
         this.setAttribute(AbstractJEuclidElement.ATTR_MATHSIZE, mathsize);
-    }
-
-    /** {@inheritDoc} */
-    public float getMathsizeInPoint() {
-
-        final String msize = this.getMathsize();
-
-        final JEuclidNode relativeToElement = this.getParentAsJEuclidNode();
-        if (msize == null) {
-            return relativeToElement.getMathsizeInPoint();
-        }
-        return AttributesHelper.convertSizeToPt(msize, relativeToElement,
-                AttributesHelper.PT);
     }
 
     /**
@@ -1128,6 +1116,21 @@ public abstract class AbstractJEuclidElement extends
         } else {
             retVal = LayoutContextImpl.getDefaultLayoutContext();
         }
+        // TODO: Theoretically this only applies all to presentation token
+        // elements except mspace and mglyph, and on no other elements except
+        // mstyle 3.2.2
+        return this.applyStyleAttributes(retVal);
+    }
+
+    private LayoutContext applyStyleAttributes(final LayoutContext applyTo) {
+        LayoutContext retVal = applyTo;
+
+        final String msize = this.getMathsize();
+        if (msize != null) {
+            retVal = new MathSizeLayoutContext(applyTo, msize);
+        }
+
+        // TODO: variant, color, background
 
         return retVal;
     }

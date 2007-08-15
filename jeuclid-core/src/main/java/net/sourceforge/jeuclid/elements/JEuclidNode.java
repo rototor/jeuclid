@@ -37,14 +37,6 @@ public interface JEuclidNode extends ChangeTrackingInterface {
     float getFontsizeInPoint();
 
     /**
-     * Get the actual mathsize in points. This does not include
-     * scriptsizemultiplier.
-     * 
-     * @return mathsize in points.
-     */
-    float getMathsizeInPoint();
-
-    /**
      * get the layout context for the given child.
      * 
      * @param child
