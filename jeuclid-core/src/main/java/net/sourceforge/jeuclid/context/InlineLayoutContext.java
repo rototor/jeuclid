@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: BlockLayoutContext.java $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.context;
 
@@ -22,7 +22,7 @@ import net.sourceforge.jeuclid.LayoutContext;
 
 /**
  * @author Max Berger
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public class InlineLayoutContext implements LayoutContext {
 
