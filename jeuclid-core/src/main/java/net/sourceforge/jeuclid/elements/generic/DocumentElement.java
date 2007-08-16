@@ -112,11 +112,6 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
     }
 
     /** {@inheritDoc} */
-    public float getMathsizeInPoint() {
-        return (Float) this.layoutContext.getParameter(Parameter.MATHSIZE);
-    }
-
-    /** {@inheritDoc} */
     public float getFontsizeInPoint() {
         return (Float) this.layoutContext.getParameter(Parameter.MATHSIZE);
     }
