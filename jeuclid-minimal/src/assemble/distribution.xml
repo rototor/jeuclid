@@ -11,6 +11,7 @@
       <includes>
         <include>bin/mathviewer</include>
         <include>bin/mml2xxx</include>
+        <include>bin/foprep</include>
       </includes>
       <fileMode>0755</fileMode>
     </fileSet>
@@ -20,6 +21,7 @@
       <excludes>
         <exclude>bin/mathviewer</exclude>
         <exclude>bin/mml2xxx</exclude>
+        <exclude>bin/foprep</exclude>
       </excludes>
       <fileMode>0644</fileMode>
     </fileSet>
