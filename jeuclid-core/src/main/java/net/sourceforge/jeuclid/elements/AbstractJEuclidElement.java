@@ -32,7 +32,7 @@ import java.util.Set;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
-import net.sourceforge.jeuclid.context.MathSizeLayoutContext;
+import net.sourceforge.jeuclid.context.StyleAttributeLayoutContext;
 import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
 import net.sourceforge.jeuclid.dom.PartialTextImpl;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
@@ -753,48 +753,6 @@ public abstract class AbstractJEuclidElement extends
                 mathbackground);
     }
 
-    /** {@inheritDoc} */
-    public Color getForegroundColor() {
-        final String colorString = this.getMathcolor();
-        Color theColor;
-        if (colorString == null) {
-            if (this.getParent() != null) {
-                theColor = this.getParent().getForegroundColor();
-            } else {
-                theColor = (Color) this.getCurrentLayoutContext()
-                        .getParameter(Parameter.MATHCOLOR);
-                // theColor = AttributesHelper.stringToColor(this.mbase
-                // .getParams().get(ParameterKey.ForegroundColor),
-                // Color.BLACK);
-            }
-        } else {
-            theColor = AttributesHelper.stringToColor(colorString,
-                    Color.BLACK);
-        }
-        return theColor;
-    }
-
-    /** {@inheritDoc} */
-    public Color getBackgroundColor() {
-        final String colorString = this.getMathbackground();
-        final Color theColor;
-        if (colorString == null) {
-            if (this.getParent() != null) {
-                // For height debugging purposes, this is left here.
-                // theColor = this.getParent().getBackgroundColor();
-                theColor = null;
-            } else {
-                theColor = (Color) this.getCurrentLayoutContext()
-                        .getParameter(Parameter.MATHBACKGROUND);
-                // theColor = AttributesHelper.stringToColor(this.mbase
-                // .getParams().get(ParameterKey.BackgroundColor), null);
-            }
-        } else {
-            theColor = AttributesHelper.stringToColor(colorString, null);
-        }
-        return theColor;
-    }
-
     /**
      * Paints a border around this element as debug information.
      * 
@@ -806,7 +764,7 @@ public abstract class AbstractJEuclidElement extends
      *            The position of the baseline
      */
     public void debug(final Graphics2D g, final float posX, final float posY) {
-        g.setColor(Color.blue);
+        g.setColor(Color.BLUE);
         g.draw(new Line2D.Float(posX, posY - this.getAscentHeight(g), posX
                 + this.getWidth(g), posY - this.getAscentHeight(g)));
         g.draw(new Line2D.Float(posX + this.getWidth(g), posY
@@ -816,9 +774,8 @@ public abstract class AbstractJEuclidElement extends
                 + this.getWidth(g), posY + this.getDescentHeight(g)));
         g.draw(new Line2D.Float(posX, posY - this.getAscentHeight(g), posX,
                 posY + this.getDescentHeight(g)));
-        g.setColor(Color.red);
+        g.setColor(Color.RED);
         g.draw(new Line2D.Float(posX, posY, posX + this.getWidth(g), posY));
-        g.setColor(Color.black);
     }
 
     /** {@inheritDoc} */
@@ -1058,18 +1015,21 @@ public abstract class AbstractJEuclidElement extends
     public void paint(final Graphics2D g, final float posX, final float posY) {
         this.lastPaintedX = posX;
         this.lastPaintedY = posY;
-        if (this.getBackgroundColor() != null) {
-            g.setColor(this.getBackgroundColor());
+        final LayoutContext context = this.getCurrentLayoutContext();
+        final Color backcolor = (Color) context
+                .getParameter(Parameter.MATHBACKGROUND);
+        if (backcolor != null) {
+            g.setColor(backcolor);
             g.fill(new Rectangle2D.Float(posX,
                     posY - this.getAscentHeight(g), this.getWidth(g), this
                             .getHeight(g)));
         }
-
-        if ((Boolean) this.getCurrentLayoutContext().getParameter(
-                Parameter.DEBUG)) {
+        if ((Boolean) context.getParameter(Parameter.DEBUG)) {
             this.debug(g, posX, posY);
         }
-        g.setColor(this.getForegroundColor());
+        final Color foreground = (Color) context
+                .getParameter(Parameter.MATHCOLOR);
+        g.setColor(foreground);
         g.setFont(this.getFont());
 
     }
@@ -1122,15 +1082,39 @@ public abstract class AbstractJEuclidElement extends
         return this.applyStyleAttributes(retVal);
     }
 
+    /**
+     * Apply Style attributed specified in 3.2.2 to a layout context.
+     * 
+     * @param applyTo
+     *            the context to apply to
+     * @return a context which has the style attributes changed accordingly.
+     *         May be the original context if nothing has changed.
+     */
     private LayoutContext applyStyleAttributes(final LayoutContext applyTo) {
         LayoutContext retVal = applyTo;
 
+        // Variant is not inherited and therefore not part of the context.
+
         final String msize = this.getMathsize();
-        if (msize != null) {
-            retVal = new MathSizeLayoutContext(applyTo, msize);
+
+        Color foreground = null;
+        final String colorString = this.getMathcolor();
+        if (colorString != null) {
+            foreground = AttributesHelper.stringToColor(colorString,
+                    Color.BLACK);
         }
 
-        // TODO: variant, color, background
+        final String backcolorString = this.getMathbackground();
+        Color background = null;
+        if (backcolorString != null) {
+            background = AttributesHelper
+                    .stringToColor(backcolorString, null);
+        }
+
+        if ((msize != null) || (foreground != null) || (background != null)) {
+            retVal = new StyleAttributeLayoutContext(applyTo, msize,
+                    foreground, background);
+        }
 
         return retVal;
     }

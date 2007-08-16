@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
@@ -81,21 +80,6 @@ public interface JEuclidElement extends MathMLElement, DisplayableNode,
      *            the calculatingSize to set
      */
     void setCalculatingSize(final boolean calculatingSize);
-
-    /**
-     * Returns background color of the element.
-     * 
-     * @return Color object.
-     */
-    Color getBackgroundColor();
-
-    /**
-     * Gets the color that this element is supposed to use for rendering its
-     * foreground elements.
-     * 
-     * @return a color.
-     */
-    Color getForegroundColor();
 
     /**
      * Returns value of the vertical shift for the specific elements in the
