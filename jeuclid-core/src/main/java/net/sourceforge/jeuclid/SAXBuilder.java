@@ -34,12 +34,14 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 
 /**
- * Generator for creating a MathElement tree from SAX events.
+ * Use SAXSource instead.
  * 
  * @author <a href="mailto:stephan@vern.chem.tu-berlin.de">Stephan Michels</a>
  * @author Max Berger
  * @version $Revision$
+ * @deprecated
  */
+@Deprecated
 public class SAXBuilder implements ContentHandler {
     private DocumentElement rootElement;
 

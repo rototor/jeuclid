@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="update">MathColor is now handled through context; 
+			fixed bug in event handling;
+			SAXBuilder Deprecated</action>
 			<action dev="maxberger" type="update">MathSize is now handled through context</action>
 			<action dev="maxberger" type="update">Added conversion do DOM as suggested by Victor Mote</action>
 			<action dev="maxberger" type="update">Replaced isChildBlock with LayoutContext</action>
