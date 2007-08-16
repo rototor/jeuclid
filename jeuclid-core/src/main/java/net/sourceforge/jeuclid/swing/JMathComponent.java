@@ -449,7 +449,8 @@ public class JMathComponent extends JComponent implements SwingConstants {
     @Override
     public void setForeground(final Color fg) {
         super.setForeground(fg);
-        this.parameterChange(ParameterKey.ForegroundColor, "" + fg.getRGB());
+        final String colorAsHex = AttributesHelper.colorTOsRGBString(fg);
+        this.parameterChange(ParameterKey.ForegroundColor, colorAsHex);
     }
 
     /**
