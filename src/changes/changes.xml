@@ -5,6 +5,10 @@
 		<author>Max Berger</author>
 	</properties>
 	<body>
+		<release version="3.0.1" date="in SVN"
+			description="bugfix release">
+		<action dev="maxberger" type="update">Made sure changeHook is called after element construction</action>
+                </release>
 		<release version="3.0.0" date="2007-08-15"
 			description="stable release">
 		<action dev="maxberger" type="update">JEuclid 3.0 Released!</action>

@@ -89,8 +89,7 @@ public class SAXBuilder implements ContentHandler {
      * Receive notification of the end of a document.
      */
     public void endDocument() {
-        // TODO: When changeTracking is updated to be disabled during initial
-        // buildup, this is the place to trigger first changeEvents
+        this.rootElement.fireChangeForSubTree();
     }
 
     /**
