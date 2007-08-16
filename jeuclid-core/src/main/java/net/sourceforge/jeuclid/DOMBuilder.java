@@ -95,8 +95,7 @@ public class DOMBuilder {
         mathBase.setRootElement(this.rootElement);
 
         this.traverse(documentElement, this.rootElement, null);
-        // TODO: When changeTracking is updated to be disabled during initial
-        // buildup, this is the place to trigger first changeEvents
+        this.rootElement.fireChangeForSubTree();
     }
 
     /**
