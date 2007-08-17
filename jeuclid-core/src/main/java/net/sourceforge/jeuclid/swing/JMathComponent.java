@@ -63,7 +63,6 @@ import org.xml.sax.SAXException;
 public class JMathComponent extends JComponent implements SwingConstants {
 
     private static final String DEFAULT_DOCUMENT = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
-            + "<!DOCTYPE math PUBLIC \"-//W3C//DTD MathML 2.0//EN\" \"http://www.w3.org/TR/MathML2/dtd/mathml2.dtd\">\n"
             + "<math mode=\"display\">\n"
             + "    <mrow>\n"
             + "        <munderover>\n"
