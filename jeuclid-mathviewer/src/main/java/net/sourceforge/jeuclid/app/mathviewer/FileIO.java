@@ -37,6 +37,7 @@ import net.sourceforge.jeuclid.converter.ConverterRegistry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -171,7 +172,7 @@ public final class FileIO {
      * @param params
      *            rendering parameters.
      */
-    public void saveDocument(final Frame parent, final Document document,
+    public void saveDocument(final Frame parent, final Node document,
             final MutableLayoutContext params) {
         final File selectedFile;
 
@@ -222,7 +223,7 @@ public final class FileIO {
     }
 
     private void exportAs(final Frame parent, final File selectedFile,
-            final Document document, final MutableLayoutContext params) {
+            final Node document, final MutableLayoutContext params) {
         final String fileName = selectedFile.getName();
         final String extension = FileIO.getExtension(fileName);
         final String mimetype = ConverterRegistry.getRegisty()

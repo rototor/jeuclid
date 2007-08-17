@@ -29,7 +29,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * Utility class to serialize DOM documents back into Strings.
@@ -61,7 +61,7 @@ public final class MathMLSerializer {
      *            if true, result will be nicely formatted.
      * @return the document serialized as a string
      */
-    public static String serializeDocument(final Document doc,
+    public static String serializeDocument(final Node doc,
             final boolean addDoctype, final boolean format) {
         final StringWriter writer = new StringWriter();
         try {

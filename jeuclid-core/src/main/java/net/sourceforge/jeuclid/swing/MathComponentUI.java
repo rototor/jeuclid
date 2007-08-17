@@ -42,7 +42,7 @@ import net.sourceforge.jeuclid.LayoutContext.Parameter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * See
@@ -185,7 +185,7 @@ public class MathComponentUI extends ComponentUI implements
         final String name = evt.getPropertyName();
         if (name.equals("document") || name.equals("property")) {
             final JMathComponent jc = (JMathComponent) evt.getSource();
-            this.redo((Document) evt.getNewValue(), jc.getParameters());
+            this.redo((Node) evt.getNewValue(), jc.getParameters());
             // jc.repaint();
         } else {
             try {
@@ -199,8 +199,7 @@ public class MathComponentUI extends ComponentUI implements
         }
     }
 
-    private void redo(final Document doc,
-            final MutableLayoutContext parameters) {
+    private void redo(final Node doc, final MutableLayoutContext parameters) {
         if (doc != null) {
             this.base = new MathBase();
             DOMBuilder.getDOMBuilder().createJeuclidDom(doc, this.base);
@@ -226,8 +225,8 @@ public class MathComponentUI extends ComponentUI implements
         if (border != null) {
             final Insets insets = border.getBorderInsets(c);
             if (insets != null) {
-                dim.width += insets.left + insets.right; // here +
-                dim.height += insets.top + insets.bottom; // here +
+                dim.width += insets.left + insets.right;
+                dim.height += insets.top + insets.bottom;
             }
         }
         return dim;
