@@ -35,8 +35,10 @@ import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -90,7 +92,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
 
     private static final String UI_CLASS_ID = "MathComponentUI";
 
-    private Document document;
+    private Node document;
 
     private int horizontalAlignment = SwingConstants.CENTER;
 
@@ -105,7 +107,8 @@ public class JMathComponent extends JComponent implements SwingConstants {
     public JMathComponent() {
         this.updateUI();
         this.fontCompat();
-        this.setContent(JMathComponent.DEFAULT_DOCUMENT);
+        this.setDocument(new Mrow());
+        // this.setContent(JMathComponent.DEFAULT_DOCUMENT);
     }
 
     /**
@@ -135,7 +138,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
     /**
      * @return the document
      */
-    public Document getDocument() {
+    public Node getDocument() {
         return this.document;
     }
 
@@ -338,8 +341,8 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @param doc
      *            the document to set
      */
-    public void setDocument(final Document doc) {
-        final Document oldValue = this.document;
+    public void setDocument(final Node doc) {
+        final Node oldValue = this.document;
         this.firePropertyChange("document", oldValue, doc);
         this.document = doc;
         if (doc != oldValue) {
