@@ -22,9 +22,12 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.DisplayableNode;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.JEuclidNode;
+import net.sourceforge.jeuclid.layout.LayoutNode;
 
 import org.w3c.dom.Node;
 
@@ -168,6 +171,62 @@ public final class ElementListSupport {
             element.fireChangeForSubTree();
         }
 
+    }
+
+    /**
+     * Layout a list of children.
+     * 
+     * @param g
+     *            Graphics context.
+     * @param listOfDataChildren
+     *            List of data children.
+     * @param listOfLayoutChildren
+     *            List of layout children children. It is not cleared
+     *            automatically.
+     * @param context
+     *            layout context
+     */
+    public static void layoutPhase1(final Graphics2D g,
+            final List<JEuclidElement> listOfDataChildren,
+            final List<LayoutNode> listOfLayoutChildren,
+            final LayoutContext context) {
+        for (final JEuclidNode element : listOfDataChildren) {
+            listOfLayoutChildren.add(element.layout(g));
+        }
+    }
+
+    /**
+     * Layout a list of children.
+     * 
+     * @param g
+     *            Graphics context.
+     * @param children
+     *            List of children.
+     * @param context
+     *            layout context
+     */
+    public static void layoutPhase2(final Graphics2D g,
+            final List<LayoutNode> children, final LayoutContext context) {
+        // TODO: Phase 2 Layout
+    }
+
+    /**
+     * Layout a list of children.
+     * 
+     * @param g
+     *            Graphics context.
+     * @param children
+     *            List of children.
+     * @param context
+     *            layout context
+     */
+    public static void positionChildrenSequentially(final Graphics2D g,
+            final List<LayoutNode> children, final LayoutContext context) {
+        float posX = 0.0f;
+        for (final LayoutNode node : children) {
+            node.moveTo(posX, 0);
+            posX += node.getWidth();
+        }
     }
 
 }

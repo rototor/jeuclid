@@ -25,6 +25,7 @@ import java.text.AttributedString;
 
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
+import net.sourceforge.jeuclid.layout.LayoutNode;
 
 import org.w3c.dom.mathml.MathMLPresentationToken;
 
@@ -69,6 +70,14 @@ public abstract class AbstractTokenWithTextLayout extends
             // g.draw(this.produceTextLayout(g).getOutline(
             // AffineTransform.getTranslateInstance(posX, posY)));
         }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public LayoutNode layout(final Graphics2D g) {
+        return new net.sourceforge.jeuclid.layout.TextLayout(this
+                .textContentAsAttributedString(), this
+                .getCurrentLayoutContext(), g);
     }
 
     /**

@@ -26,6 +26,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,10 +42,13 @@ import net.sourceforge.jeuclid.elements.presentation.table.Mtable;
 import net.sourceforge.jeuclid.elements.presentation.table.Mtr;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 import net.sourceforge.jeuclid.elements.support.text.CharConverter;
+import net.sourceforge.jeuclid.layout.CompoundLayout;
+import net.sourceforge.jeuclid.layout.LayoutNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -1117,6 +1121,71 @@ public abstract class AbstractJEuclidElement extends
         }
 
         return retVal;
+    }
+
+    /** {@inheritDoc} */
+    public LayoutNode layout(final Graphics2D g) {
+
+        final LayoutContext context = this.getCurrentLayoutContext();
+        final CompoundLayout compoundNode = new CompoundLayout(context);
+        final List<LayoutNode> layoutList = compoundNode.getListOfChildren();
+        this.checkAssertions();
+        ElementListSupport.layoutPhase1(g, ElementListSupport
+                .createListOfChildren(this), layoutList, context);
+        ElementListSupport.layoutPhase2(g, layoutList, context);
+        this.layoutCalculations(g, layoutList);
+        this.positionChildrenAndAddExtraGraphics(g, layoutList);
+        this.calculateBorder(g, compoundNode);
+        return compoundNode;
+    }
+
+    /**
+     * Check that the element contains valid MathML, e.g. the number of
+     * children is correct, etc.
+     */
+    protected void checkAssertions() {
+        // Hook for children.
+    }
+
+    /**
+     * Perform extra layout calculations. This is run after after phase 2
+     * 
+     * @param g
+     *            Graphics context.
+     * @param children
+     *            children to position.
+     */
+    protected void layoutCalculations(final Graphics2D g,
+            final List<LayoutNode> children) {
+        // Hook for children.
+    }
+
+    /**
+     * Position children relative to this element.
+     * 
+     * @todo should be abstract.
+     * @param g
+     *            Graphics context.
+     * @param children
+     *            children to position.
+     */
+    protected void positionChildrenAndAddExtraGraphics(final Graphics2D g,
+            final List<LayoutNode> children) {
+        ElementListSupport.positionChildrenSequentially(g, children, this
+                .getCurrentLayoutContext());
+    }
+
+    /**
+     * Calculate the border for this type of element.
+     * 
+     * @param g
+     *            Graphics context
+     * @param layout
+     *            current layout.
+     */
+    protected void calculateBorder(final Graphics2D g,
+            final CompoundLayout layout) {
+        // Hook for children.
     }
 
     {

@@ -22,6 +22,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
+import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
@@ -31,6 +32,9 @@ import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+import net.sourceforge.jeuclid.layout.CompoundLayout;
+import net.sourceforge.jeuclid.layout.LayoutNode;
+import net.sourceforge.jeuclid.layout.LineNode;
 
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLFractionElement;
@@ -71,6 +75,14 @@ public class Mfrac extends AbstractJEuclidElement implements
 
     private static final String EXTRA_SPACE_AROUND = "0.1em";
 
+    private transient float middleShift;
+
+    private transient boolean beveled;
+
+    private transient float linethickness;
+
+    private transient float extraSpace;
+
     /**
      * Creates a math element.
      */
@@ -93,11 +105,11 @@ public class Mfrac extends AbstractJEuclidElement implements
     /**
      * Sets the thickness of the fraction line.
      * 
-     * @param linethickness
+     * @param newLinethickness
      *            Thickness
      */
-    public void setLinethickness(final String linethickness) {
-        this.setAttribute(Mfrac.ATTR_LINETHICKNESS, linethickness);
+    public void setLinethickness(final String newLinethickness) {
+        this.setAttribute(Mfrac.ATTR_LINETHICKNESS, newLinethickness);
     }
 
     /**
@@ -286,6 +298,94 @@ public class Mfrac extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     public void setNumalign(final String numalign) {
         this.setAttribute(Mfrac.ATTR_NUMALIGN, numalign);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void checkAssertions() {
+        // TODO: Has exactly 2 children.
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void layoutCalculations(final Graphics2D g,
+            final List<LayoutNode> children) {
+        this.middleShift = this.getMiddleShift(g);
+        this.beveled = Boolean.parseBoolean(this.getBevelled());
+        this.linethickness = this.getLinethickness(g);
+        this.extraSpace = AttributesHelper.convertSizeToPt(
+                Mfrac.EXTRA_SPACE_AROUND, this.getCurrentLayoutContext(), "");
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void positionChildrenAndAddExtraGraphics(final Graphics2D g,
+            final List<LayoutNode> children) {
+        // TODO: This is BS.
+        final LayoutNode numerator = children.get(0);
+        final LayoutNode denominator = children.get(1);
+
+        if (this.beveled) {
+
+            final float numPosY = -this.middleShift / 2.0f
+                    + numerator.getDescentHeight();
+            final float denPosY = this.middleShift / 2.0f
+                    + denominator.getDescentHeight();
+
+            final float totalAscent = Math.max(-numPosY
+                    + numerator.getAscentHeight(), -denPosY
+                    + denominator.getAscentHeight());
+            final float totalDescent = Math.max(numPosY
+                    + numerator.getDescentHeight(), denPosY
+                    + denominator.getDescentHeight());
+
+            final float totalHeight = totalAscent + totalDescent;
+            final float lineWidth = totalHeight * Mfrac.FRAC_TILT_ANGLE;
+
+            numerator.moveTo(0, numPosY);
+            float posX = numerator.getWidth();
+            final LineNode line = new LineNode(lineWidth, -totalHeight,
+                    this.linethickness, this.getCurrentLayoutContext());
+            line.moveTo(posX, totalDescent);
+            children.add(line);
+            posX += lineWidth;
+            denominator.moveTo(posX, denPosY);
+        } else {
+            final float numWidth = numerator.getWidth();
+            final float denumWidth = denominator.getWidth();
+            final float width = Math.max(denumWidth, numWidth);
+
+            final float numOffset;
+            // TODO: Check Numalign
+            numOffset = width / 2.0f - numerator.getHorizontalCenterOffset();
+
+            final float denumOffset;
+            // TODO: Check Denomalign
+            denumOffset = width / 2.0f
+                    - denominator.getHorizontalCenterOffset();
+
+            numerator.moveTo(numOffset, -(this.middleShift
+                    + this.linethickness / 2.0f + this.extraSpace + numerator
+                    .getDescentHeight()));
+
+            denominator.moveTo(denumOffset, -this.middleShift
+                    + this.linethickness / 2.0f + this.extraSpace
+                    + denominator.getAscentHeight());
+
+            final LineNode line = new LineNode(width, 0, this.linethickness,
+                    this.getCurrentLayoutContext());
+            line.moveTo(0, -this.middleShift);
+            children.add(line);
+        }
+
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void calculateBorder(final Graphics2D g,
+            final CompoundLayout layout) {
+        layout.setBorderLeft(this.extraSpace);
+        layout.setBorderRight(this.extraSpace);
     }
 
 }
