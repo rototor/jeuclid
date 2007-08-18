@@ -18,8 +18,11 @@
 
 package net.sourceforge.jeuclid.elements;
 
+import java.awt.Graphics2D;
+
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
+import net.sourceforge.jeuclid.layout.LayoutNode;
 
 /**
  * Generic interface for all MathNodes, including document Element.
@@ -45,4 +48,12 @@ public interface JEuclidNode extends ChangeTrackingInterface {
      */
     LayoutContext getChildLayoutContext(JEuclidNode child);
 
+    /**
+     * Create a LayoutTree for this node.
+     * 
+     * @param g2d
+     *            graphics context used for layouting.
+     * @return A LayoutNode for the root of the layoutTree.
+     */
+    LayoutNode layout(Graphics2D g2d);
 }

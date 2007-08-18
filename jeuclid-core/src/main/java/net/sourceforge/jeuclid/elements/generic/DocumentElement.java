@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.generic;
 
 import java.awt.Graphics2D;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.jeuclid.LayoutContext;
@@ -31,8 +32,13 @@ import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.DisplayableNode;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.layout.LayoutNode;
+import net.sourceforge.jeuclid.layout.RootLayoutNode;
+import net.sourceforge.jeuclid.layout.RootLayoutNodeImpl;
 
 import org.w3c.dom.mathml.MathMLDocument;
+import org.w3c.dom.views.AbstractView;
+import org.w3c.dom.views.DocumentView;
 
 /**
  * Class for MathML Document Nodes.
@@ -41,7 +47,8 @@ import org.w3c.dom.mathml.MathMLDocument;
  * @version $Revision$
  */
 public class DocumentElement extends AbstractPartialDocumentImpl implements
-        MathMLDocument, JEuclidNode, ChangeTrackingInterface, DisplayableNode {
+        MathMLDocument, JEuclidNode, ChangeTrackingInterface,
+        DisplayableNode, DocumentView {
 
     private final Set<ChangeTrackingInterface> listeners = new HashSet<ChangeTrackingInterface>();
 
@@ -91,6 +98,20 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
                 .createListOfChildren(this));
         this.lastX = posX;
         this.lastY = posY;
+    }
+
+    /** {@inheritDoc} */
+    public RootLayoutNode layout(final Graphics2D g) {
+        final LayoutContext context = this.getCurrentLayoutContext();
+        final RootLayoutNodeImpl compoundNode = new RootLayoutNodeImpl(
+                context, this);
+        final List<LayoutNode> layoutList = compoundNode.getListOfChildren();
+        ElementListSupport.layoutPhase1(g, ElementListSupport
+                .createListOfChildren(this), layoutList, context);
+        ElementListSupport.layoutPhase2(g, layoutList, context);
+        ElementListSupport.positionChildrenSequentially(g, layoutList,
+                context);
+        return compoundNode;
     }
 
     /** {@inheritDoc} */
@@ -181,6 +202,14 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
      */
     public MutableLayoutContext getCurrentLayoutContext() {
         return this.layoutContext;
+    }
+
+    /** {@inheritDoc} */
+    // CHECKSTYLE:OFF
+    public AbstractView getDefaultView() {
+        // CHECKSTYLE:ON
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
