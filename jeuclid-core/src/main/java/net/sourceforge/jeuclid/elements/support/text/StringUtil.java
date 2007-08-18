@@ -134,7 +134,9 @@ public final class StringUtil {
         final AttributedString aString = new AttributedString(builder
                 .toString());
 
-        for (int i = 0; i < builder.length(); i++) {
+        final int len = builder.length();
+
+        for (int i = 0; i < len; i++) {
             final MathVariant variant = variants.get(i);
             aString.addAttribute(TextAttribute.FONT, variant.createFont(
                     fontSize, builder.charAt(i), context), i, i + 1);
@@ -258,7 +260,7 @@ public final class StringUtil {
         if (xo > 0) {
             realWidth += xo;
         }
-        // Unfotunately this is necessesary, although it does not look like it
+        // Unfortunately this is necessary, although it does not look like it
         // makes a lot of sense.
         final float invisibleAdvance = layout.getAdvance()
                 - layout.getVisibleAdvance();
