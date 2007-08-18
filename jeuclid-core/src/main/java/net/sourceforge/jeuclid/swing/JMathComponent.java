@@ -65,20 +65,6 @@ import org.xml.sax.SAXException;
  */
 public class JMathComponent extends JComponent implements SwingConstants {
 
-    private static final String DEFAULT_DOCUMENT = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
-            + "<!DOCTYPE math PUBLIC \"-//W3C//DTD MathML 2.0//EN\" \"http://www.w3.org/TR/MathML2/dtd/mathml2.dtd\">\n"
-            + "<math mode=\"display\">\n"
-            + "    <mrow>\n"
-            + "        <munderover>\n"
-            + "            <mo>&#x0222B;</mo>\n"
-            + "            <mn>1</mn>\n"
-            + "            <mi>x</mi>\n"
-            + "        </munderover>\n"
-            + "        <mfrac>\n"
-            + "            <mi>dt</mi>\n"
-            + "            <mi>t</mi>\n"
-            + "        </mfrac>\n" + "    </mrow>\n" + "</math>";
-
     private static final String FONT_SEPARATOR = ",";
 
     /**
@@ -112,7 +98,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
     }
 
     /**
-     * Provide compatiblity for standard get/setFont() operations.
+     * Provide compatibility for standard get/setFont() operations.
      */
     private void fontCompat() {
         final String fontName = this.getFontsSerif().split(
@@ -148,7 +134,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
         for (final String s : list) {
             b.append(s);
             if (!first) {
-                b.append(",");
+                b.append(JMathComponent.FONT_SEPARATOR);
             } else {
                 first = false;
             }
@@ -177,6 +163,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @return The list for Fraktur.
      * @see Parameter#FontsFraktur
      */
+    @SuppressWarnings("unchecked")
     public String getFontsFraktur() {
         return JMathComponent.join((List<String>) this.parameters
                 .getParameter(Parameter.FONTS_FRAKTUR));
@@ -196,6 +183,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @return The list for monospaced.
      * @see Parameter#FontsMonospaced
      */
+    @SuppressWarnings("unchecked")
     public String getFontsMonospaced() {
         return JMathComponent.join((List<String>) this.parameters
                 .getParameter(Parameter.FONTS_MONOSPACED));
@@ -208,6 +196,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @return The list for sansserif.
      * @see Parameter#FontsSanserif
      */
+    @SuppressWarnings("unchecked")
     public String getFontsSanserif() {
         return JMathComponent.join((List<String>) this.parameters
                 .getParameter(Parameter.FONTS_SANSSERIF));
@@ -220,6 +209,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @return The list for Script.
      * @see Parameter#FontsScript
      */
+    @SuppressWarnings("unchecked")
     public String getFontsScript() {
         return JMathComponent.join((List<String>) this.parameters
                 .getParameter(Parameter.FONTS_SCRIPT));
@@ -232,6 +222,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      * @return The list for serif.
      * @see Parameter#FontsSerif
      */
+    @SuppressWarnings("unchecked")
     public String getFontsSerif() {
         return JMathComponent.join((List<String>) this.parameters
                 .getParameter(Parameter.FONTS_SERIF));
@@ -375,7 +366,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
     }
 
     private List<String> splitFonts(final String list) {
-        return Arrays.asList(list.split(","));
+        return Arrays.asList(list.split(JMathComponent.FONT_SEPARATOR));
     }
 
     /**
