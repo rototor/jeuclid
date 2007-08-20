@@ -50,9 +50,6 @@ import org.xml.sax.SAXParseException;
 
 /**
  * A JAXP compatible approach to MathML Parsing.
- * <p>
- * Please note: THIS API IS NOT TO BE CONSIDERED STABLE! IT IS STILL
- * EXPERIMENTAL.
  * 
  * @author Max Berger
  * @version $Revision$

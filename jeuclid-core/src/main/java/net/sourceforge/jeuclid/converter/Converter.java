@@ -42,9 +42,6 @@ import org.xml.sax.SAXException;
 
 /**
  * Generic converter which uses the registry to do its conversions.
- * <p>
- * Please note: THIS API IS NOT TO BE CONSIDERED STABLE! IT IS STILL
- * EXPERIMENTAL.
  * 
  * @author Max Berger
  * @version $Revision$
