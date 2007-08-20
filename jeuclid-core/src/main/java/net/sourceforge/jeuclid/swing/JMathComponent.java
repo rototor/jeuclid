@@ -107,7 +107,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
     }
 
     /**
-     * Provide compatiblity for standard get/setFont() operations.
+     * Provide compatibility for standard get/setFont() operations.
      */
     private void fontCompat() {
         final String fontName = this.getFontsSerif().split(
