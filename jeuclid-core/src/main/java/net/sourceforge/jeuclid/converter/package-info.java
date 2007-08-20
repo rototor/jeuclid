@@ -17,8 +17,8 @@
 /* $Id$ */
 
 /**
-An API for conversion from MathML to different output formats.
+ An API for conversion from MathML to different output formats.
 
-Please note: THIS API IS NOT TO BE CONSIDERED STABLE! IT IS STILL EXPERIMENTAL.
-*/
+ */
 package net.sourceforge.jeuclid.converter;
+

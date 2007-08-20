@@ -42,9 +42,6 @@ import org.xml.sax.SAXException;
 
 /**
  * Generic converter which uses the registry to do its conversions.
- * <p>
- * Please note: THIS API IS NOT TO BE CONSIDERED STABLE! IT IS STILL
- * EXPERIMENTAL.
  * 
  * @author Max Berger
  * @version $Revision$
@@ -145,7 +142,7 @@ public final class Converter {
             // should be closed by wrapper image streams, but just in case...
             try {
                 outStream.close();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 Converter.LOGGER.debug(e);
             }
         } else {

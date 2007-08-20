@@ -7,6 +7,7 @@
 	<body>
 		<release version="3.0.1" date="in SVN"
 			description="bugfix release">
+		<action dev="maxberger" type="update">removed EXPERIMENTAL from all docs</action>
 		<action dev="maxberger" type="update">removed doctype in default document for JMathcomponent for performance reasons</action>
 		<action dev="maxberger" type="update">fixed setForegroundColor in JMathComponent</action>
 		<action dev="maxberger" type="update">Made sure changeHook is called after element construction</action>
