@@ -26,9 +26,6 @@ import java.util.Set;
 
 /**
  * A registry for image converters.
- * <p>
- * Please note: THIS API IS NOT TO BE CONSIDERED STABLE! IT IS STILL
- * EXPERIMENTAL.
  * 
  * @author Max Berger
  * @version $Revision$
@@ -80,7 +77,8 @@ public final class ConverterRegistry {
      */
     public Set<String> getAvailableExtensions() {
         final Set<String> extensions = new HashSet<String>();
-        for (Map.Entry<String, String> e : this.suffix2mimetype.entrySet()) {
+        for (final Map.Entry<String, String> e : this.suffix2mimetype
+                .entrySet()) {
             if (this.mimetype2converter.containsKey(e.getValue())) {
                 extensions.add(e.getKey());
             }

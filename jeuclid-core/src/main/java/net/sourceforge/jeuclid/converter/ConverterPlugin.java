@@ -28,9 +28,6 @@ import org.w3c.dom.Document;
 
 /**
  * Describes an Image converter.
- * <p>
- * Please note: THIS API IS NOT TO BE CONSIDERED STABLE! IT IS STILL
- * EXPERIMENTAL.
  * 
  * @author Max Berger
  * @version $Revision$

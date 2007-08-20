@@ -32,9 +32,6 @@ import org.xml.sax.SAXException;
 
 /**
  * Factory class to create MathBase from JAXP Sources.
- * <p>
- * Please note: THIS API IS NOT TO BE CONSIDERED STABLE! IT IS STILL
- * EXPERIMENTAL.
  * 
  * @author Max Berger
  * @version $Revision$
