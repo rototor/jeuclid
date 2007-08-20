@@ -26,9 +26,6 @@ import net.sourceforge.jeuclid.MathBase;
 
 /**
  * Describes an Image converter.
- * <p>
- * Please note: THIS API IS NOT TO BE CONSIDERED STABLE! IT IS STILL
- * EXPERIMENTAL.
  * 
  * @author Max Berger
  * @version $Revision$
@@ -43,11 +40,12 @@ public interface ConverterPlugin {
      *            parameters.
      * @param outStream
      *            Target output stream.
-     * @return Rendering's dimension based on the spefic plugin's 
-     *         Graphics2D implementation.
+     * @return Rendering's dimension based on the spefic plugin's Graphics2D
+     *         implementation.
      * @throws IOException
      *             if an I/O error occurred during write.
      */
-    Dimension convert(MathBase base, OutputStream outStream) throws IOException;
+    Dimension convert(MathBase base, OutputStream outStream)
+            throws IOException;
 
 }
