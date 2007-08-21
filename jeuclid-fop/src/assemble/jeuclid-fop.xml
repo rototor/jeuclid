@@ -6,26 +6,20 @@
   </formats>
   <fileSets>
     <fileSet>
-      <directory>target/appassembler</directory>
+      <directory>target</directory>
       <outputDirectory/>
       <includes>
-        <include>bin/mathviewer</include>
-        <include>bin/mml2xxx</include>
-        <include>bin/foprep</include>
+        <include>*.jar</include>
       </includes>
-      <fileMode>0755</fileMode>
-    </fileSet>
-    <fileSet>
-      <directory>target/appassembler</directory>
-      <outputDirectory/>
-      <excludes>
-        <exclude>bin/mathviewer</exclude>
-        <exclude>bin/mml2xxx</exclude>
-        <exclude>bin/foprep</exclude>
-      </excludes>
-      <fileMode>0644</fileMode>
     </fileSet>
   </fileSets>
+  <dependencySets>
+    <dependencySet>
+      <includes>
+        <include>net.sourceforge.jeuclid:jeuclid-core</include>
+      </includes>
+    </dependencySet>
+  </dependencySets>
   <files>
     <file>
       <source>../LICENSE.txt</source>
@@ -38,13 +32,18 @@
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>../LICENSE.FreeHEP</source>
+      <source>../README.fop</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>../README.fop</source>
-      <outputDirectory/>
+      <source>src/test/resources/mathml.fo</source>
+      <outputDirectory>example</outputDirectory>
+      <fileMode>0644</fileMode>
+    </file>
+    <file>
+      <source>src/test/resources/example.mml</source>
+      <outputDirectory>example</outputDirectory>
       <fileMode>0644</fileMode>
     </file>
   </files>
