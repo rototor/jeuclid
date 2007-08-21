@@ -177,6 +177,7 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     @Override
     public void uninstallUI(final JComponent c) {
+        c.removePropertyChangeListener(this);
         this.mathComponent = null;
     }
 
