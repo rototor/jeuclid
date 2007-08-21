@@ -39,6 +39,7 @@ import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 import org.apache.fop.fo.ElementMapping;
 import org.apache.fop.fo.FONode;
+import org.apache.fop.fo.properties.FixedLength;
 import org.apache.fop.image.FopImage;
 import org.apache.fop.image.analyser.ImageReaderFactory;
 import org.apache.fop.image.analyser.XMLReader;
@@ -107,6 +108,8 @@ public class JEuclidElementMapping extends ElementMapping {
 
                 info.width = (int) Math.ceil(base.getWidth(tempg));
                 info.height = (int) Math.ceil(base.getHeight(tempg));
+                info.alignmentAdjust = new FixedLength((int) (-base
+                        .getDescender(tempg) * 1000));
 
                 // info.mimeType = "application/mathml+xml";
                 info.mimeType = "text/xml";

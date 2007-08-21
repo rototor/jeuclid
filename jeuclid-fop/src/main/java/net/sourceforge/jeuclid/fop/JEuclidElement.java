@@ -39,8 +39,10 @@ import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 
 import org.apache.fop.apps.FOPException;
+import org.apache.fop.datatypes.Length;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.PropertyList;
+import org.apache.fop.fo.properties.FixedLength;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -52,6 +54,10 @@ import org.xml.sax.SAXException;
  * @version $Revision$
  */
 public class JEuclidElement extends JEuclidObj {
+
+    private Point2D size;
+
+    private Length baseline;
 
     /**
      * Default constructor.
@@ -72,10 +78,7 @@ public class JEuclidElement extends JEuclidObj {
         this.createBasicDocument();
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public Point2D getDimension(final Point2D view) {
-        Point2D retVal;
+    private void calculate() {
         try {
             final MathBase base = MathMLParserSupport
                     .createMathBaseFromDocument(this.doc, LayoutContextImpl
@@ -83,13 +86,35 @@ public class JEuclidElement extends JEuclidObj {
             final Image tempimage = new BufferedImage(1, 1,
                     BufferedImage.TYPE_INT_ARGB);
             final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-            retVal = new Point2D.Float(base.getWidth(tempg), base
+            this.size = new Point2D.Float(base.getWidth(tempg), base
                     .getHeight(tempg));
+            this.baseline = new FixedLength(
+                    (int) (-base.getDescender(tempg) * 1000));
         } catch (final SAXException x) {
-            retVal = new Point(1, 1);
+            this.size = new Point(1, 1);
+            this.baseline = new FixedLength(0);
         } catch (final IOException x) {
-            retVal = new Point(1, 1);
+            this.size = new Point(1, 1);
+            this.baseline = new FixedLength(0);
         }
-        return retVal;
+
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Point2D getDimension(final Point2D view) {
+        if (this.size == null) {
+            this.calculate();
+        }
+        return this.size;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Length getIntrinsicAlignmentAdjust() {
+        if (this.baseline == null) {
+            this.calculate();
+        }
+        return this.baseline;
     }
 }
