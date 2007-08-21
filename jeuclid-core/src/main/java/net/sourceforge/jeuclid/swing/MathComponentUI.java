@@ -177,6 +177,7 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     @Override
     public void uninstallUI(final JComponent c) {
+        c.removePropertyChangeListener(this);
         this.mathComponent = null;
     }
 
@@ -191,7 +192,7 @@ public class MathComponentUI extends ComponentUI implements
             try {
                 final ParameterKey key = ParameterKey.valueOf(name);
                 this.base.setParam(key, evt.getNewValue().toString());
-            } catch (IllegalArgumentException ia) {
+            } catch (final IllegalArgumentException ia) {
                 MathComponentUI.LOGGER.debug(ia);
             }
         }
