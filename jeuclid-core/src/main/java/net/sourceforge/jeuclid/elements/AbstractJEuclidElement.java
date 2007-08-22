@@ -261,17 +261,14 @@ public abstract class AbstractJEuclidElement extends
         final LayoutContext context = this.getCurrentLayoutContext();
         final float scriptMultiplier = (float) Math.pow(this
                 .getScriptSizeMultiplier(), this.getAbsoluteScriptLevel());
-        float size = (Float) context.getParameter(Parameter.MATHSIZE)
-                * scriptMultiplier;
+        final float mathsize = (Float) context
+                .getParameter(Parameter.MATHSIZE);
+        final float scriptminsize = (Float) context
+                .getParameter(Parameter.SCRIPTMINSIZE);
 
-        // This results in a size 8 for a default size of 12.
-        // TODO: This should use scriptminsize (3.3.4.2)
-        final float minSize = (Float) this.getCurrentLayoutContext()
-                .getParameter(Parameter.MATHSIZE) * 0.66f;
-        if (size < minSize) {
-            size = minSize;
-        }
-        return size;
+        final float scriptsize = mathsize * scriptMultiplier;
+
+        return Math.max(Math.min(scriptminsize, mathsize), scriptsize);
     }
 
     /**

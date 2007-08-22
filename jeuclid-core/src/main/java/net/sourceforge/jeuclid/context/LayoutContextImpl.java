@@ -40,6 +40,8 @@ public class LayoutContextImpl implements MutableLayoutContext {
     private LayoutContextImpl() {
         this.context = new TreeMap<Parameter, Object>();
         this.context.put(Parameter.MATHSIZE, 12f);
+        this.context.put(Parameter.SCRIPTMINSIZE, 8f);
+        this.context.put(Parameter.ANTIALIAS_MINSIZE, 10f);
         this.context.put(Parameter.DISPLAY, Display.BLOCK);
         this.context.put(Parameter.DEBUG, false);
         this.context.put(Parameter.ANTIALIAS, true);

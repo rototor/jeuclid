@@ -37,9 +37,19 @@ public interface LayoutContext {
          */
         DISPLAY,
         /**
-         * Font size (Float) used for the output. Defaults to 12.0pt.
+         * Font size (Float) used for the output. Defaults to 12.0pt. Please
+         * Note: You may also want to set SCRIPTMINZISE.
          */
         MATHSIZE,
+        /**
+         * Font size (Float) for smallest script used. Defaults to 8.0pt.
+         */
+        SCRIPTMINSIZE,
+        /**
+         * Minimum font size for which anti-alias is turned on. Defaults to
+         * 10.0pt
+         */
+        ANTIALIAS_MINSIZE,
         /**
          * Debug mode (Boolean). If true, elements will have borders drawn
          * around them.
@@ -108,6 +118,8 @@ public interface LayoutContext {
                 retVal = o instanceof Display;
                 break;
             case MATHSIZE:
+            case SCRIPTMINSIZE:
+            case ANTIALIAS_MINSIZE:
                 retVal = o instanceof Float;
                 break;
             case DEBUG:
