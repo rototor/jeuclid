@@ -7,7 +7,7 @@
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
   </parent>
 <description>This module contains the XXE plugin to support MathML in XXE through JEuclid.</description>
   <build>
@@ -39,7 +39,7 @@
               <source>
   def ant = new AntBuilder()
   def target= "${project.basedir}/target"
-  def dir = "${project.basedir}/target/jeuclid_imagetoolkit-3_0_0"
+  def dir = "${project.basedir}/target/jeuclid_imagetoolkit-3_0_1"
   ant.mkdir(dir: dir)
   ant.copy(todir: dir) {
     fileset(dir: "${project.basedir}/target") {
@@ -49,13 +49,13 @@
       include(name: "commons-logging-1.1.jar")
     }
     fileset(dir: "${project.basedir}/../jeuclid-core/target/") {
-      include(name: "jeuclid-core-3.0.0-SNAPSHOT.jar")
+      include(name: "jeuclid-core-3.0.2-SNAPSHOT.jar")
     }
     fileset(dir: "${project.basedir}/src/main/xxe/") {
       include(name: "**/*")
     }
   }
-  ant.zip(destfile: "$target/jeuclid_imagetoolkit.zip", basedir: "$target", includes: "jeuclid_imagetoolkit-3_0_0/**" )
+  ant.zip(destfile: "$target/jeuclid_imagetoolkit.zip", basedir: "$target", includes: "jeuclid_imagetoolkit-3_0_1/**" )
               </source>
             </configuration>
           </execution>
@@ -67,7 +67,7 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
+      <version>3.0.1</version>
     </dependency>
     <dependency>
       <groupId>com.xmlmind</groupId>

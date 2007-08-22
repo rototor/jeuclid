@@ -47,13 +47,24 @@
 
     <itemizedlist>
       <listitem>
+        <para>JEuclid 3.0.1 Released.</para>
+
+        <para>With the bug reports flowing in after the stable release, a
+        maintenance release was in order.</para>
+
+        <para>This release also contains the MathML plugin for the upcoming
+        fop 0.94 version. Please note that JEuclid requires JDK 1.5 or
+        higher.</para>
+      </listitem>
+
+      <listitem>
         <para>JEuclid 3.0.0 Released!</para>
 
         <para>JEuclid is a complete MathML rendering solution. After being
         dormant for a while, the project has picked up development again and
         we are now able to provide a new major release.</para>
 
-        <para>JEuclid 3.0 consists of: </para>
+        <para>JEuclid 3.0 consists of:</para>
 
         <itemizedlist>
           <listitem>
@@ -79,7 +90,7 @@
           </listitem>
         </itemizedlist>
 
-        <para>Two plugins are part of JEuclid: </para>
+        <para>Two plugins are part of JEuclid:</para>
 
         <itemizedlist>
           <listitem>
@@ -98,7 +109,7 @@
         </itemizedlist>
 
         <para>For more information, please see ask at
-        jeuclid-users@liss.sourceforge.net . </para>
+        jeuclid-users@liss.sourceforge.net .</para>
       </listitem>
 
       <listitem>
