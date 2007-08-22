@@ -24,6 +24,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
+import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.text.CharacterIterator;
 import java.util.HashMap;
@@ -157,20 +158,26 @@ public final class StringUtil {
     public static TextLayout createTextLayoutFromAttributedString(
             final Graphics2D g, final AttributedString aString,
             final MathBase mathBase) {
-        // This is an evil and totally not-understandable workaround which
-        // is essential to get Anti-aliasing on SUNS JDK 1.5
-        // It is not needed for JDK >= 1.6 or OS X
+        final AttributedCharacterIterator charIter = aString.getIterator();
+        final boolean empty = charIter.first() == CharacterIterator.DONE;
         final FontRenderContext suggestedFontRenderContext = g
                 .getFontRenderContext();
-        final boolean antialiasing = Boolean.parseBoolean(mathBase
-                .getParams().get(ParameterKey.AntiAlias));
+        boolean antialiasing = Boolean.parseBoolean(mathBase.getParams().get(
+                ParameterKey.AntiAlias));
+        if (!empty) {
+            final Font font = (Font) aString.getIterator().getAttribute(
+                    TextAttribute.FONT);
+            if (font != null) {
+                final float fontsize = font.getSize2D();
+                antialiasing &= fontsize >= 10.0f;
+            }
+        }
         final FontRenderContext realFontRenderContext = new FontRenderContext(
-                suggestedFontRenderContext.getTransform(), antialiasing, true);
-        // TODO: We may want to turn off anti-aliasing below a certain
-        // size threshold (such as 8pt)
+                suggestedFontRenderContext.getTransform(), antialiasing,
+                false);
 
         final TextLayout theLayout;
-        if (aString.getIterator().first() != CharacterIterator.DONE) {
+        if (!empty) {
             theLayout = new TextLayout(aString.getIterator(),
                     realFontRenderContext);
         } else {

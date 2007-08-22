@@ -106,7 +106,7 @@ public class MathBase {
      *            Graphics2D context to use.
      */
     public float getAscender(final Graphics2D g) {
-        return this.rootElement.getAscentHeight(g);
+        return (float) Math.ceil(this.rootElement.getAscentHeight(g));
     }
 
     /**
@@ -117,7 +117,7 @@ public class MathBase {
      *            Graphics2D context to use.
      */
     public float getDescender(final Graphics2D g) {
-        return this.rootElement.getDescentHeight(g);
+        return (float) Math.ceil(this.rootElement.getDescentHeight(g));
     }
 
     /**
@@ -186,7 +186,7 @@ public class MathBase {
                     RenderingHints.VALUE_RENDER_QUALITY));
             g.setRenderingHints(hints);
             this.rootElement.paint(g, x, y
-                    + this.rootElement.getAscentHeight(g));
+                    + (float) Math.ceil(this.rootElement.getAscentHeight(g)));
         }
     }
 
@@ -228,8 +228,9 @@ public class MathBase {
     public float getHeight(final Graphics2D g) {
         final float realHeight;
         if (this.rootElement != null) {
-            realHeight = this.rootElement.getAscentHeight(g)
-                    + this.rootElement.getDescentHeight(g);
+            realHeight = (float) (Math.ceil(this.rootElement
+                    .getAscentHeight(g)) + Math.ceil(this.rootElement
+                    .getDescentHeight(g)));
         } else {
             realHeight = 0f;
         }
