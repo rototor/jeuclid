@@ -24,10 +24,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -461,10 +459,10 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public JEuclidElement getMathElement(final int index) {
-        if (index >= 0 && index < getMathElementCount()) {
+        if (index >= 0 && index < this.getMathElementCount()) {
             final org.w3c.dom.NodeList childList = this.getChildNodes();
-            for (int i=0,elementIndex=0; i < childList.getLength(); i++) {
-                Node child = childList.item(i);
+            for (int i = 0, elementIndex = 0; i < childList.getLength(); i++) {
+                final Node child = childList.item(i);
                 if (child instanceof JEuclidElement) {
                     if (elementIndex == index) {
                         return (JEuclidElement) child;
@@ -504,12 +502,12 @@ public abstract class AbstractJEuclidElement extends
     public int getMathElementCount() {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         int elementIndex = 0;
-        for (int i=0; i<childList.getLength(); i++) {
-            Node child = childList.item(i);
+        for (int i = 0; i < childList.getLength(); i++) {
+            final Node child = childList.item(i);
             if (child instanceof JEuclidElement) {
                 elementIndex++;
             }
-        }        
+        }
         return elementIndex;
     }
 
@@ -1106,9 +1104,10 @@ public abstract class AbstractJEuclidElement extends
         this.lastPaintedY = posY;
         if (this.getBackgroundColor() != null) {
             g.setColor(this.getBackgroundColor());
-            g.fill(new Rectangle2D.Float(posX,
-                    posY - this.getAscentHeight(g), this.getWidth(g), this
-                            .getHeight(g)));
+            final float ascent = (float) Math.ceil(this.getAscentHeight(g));
+            final float descent = (float) Math.ceil(this.getDescentHeight(g));
+            g.fill(new Rectangle2D.Float(posX, posY - ascent, (float) Math
+                    .ceil(this.getWidth(g)), ascent + descent));
         }
 
         if (this.getMathBase().isDebug()) {
