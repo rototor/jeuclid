@@ -26,7 +26,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -1021,9 +1020,10 @@ public abstract class AbstractJEuclidElement extends
                 .getParameter(Parameter.MATHBACKGROUND);
         if (backcolor != null) {
             g.setColor(backcolor);
-            g.fill(new Rectangle2D.Float(posX,
-                    posY - this.getAscentHeight(g), this.getWidth(g), this
-                            .getHeight(g)));
+            final float ascent = (float) Math.ceil(this.getAscentHeight(g));
+            final float descent = (float) Math.ceil(this.getDescentHeight(g));
+            g.fill(new Rectangle2D.Float(posX, posY - ascent, (float) Math
+                    .ceil(this.getWidth(g)), ascent + descent));
         }
         if ((Boolean) context.getParameter(Parameter.DEBUG)) {
             this.debug(g, posX, posY);
