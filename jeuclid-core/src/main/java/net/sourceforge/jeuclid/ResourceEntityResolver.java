@@ -41,9 +41,15 @@ import org.xml.sax.InputSource;
  */
 public class ResourceEntityResolver implements EntityResolver {
 
-    static final String MML2_SYSTEMID = "http://www.w3.org/TR/MathML2/dtd/mathml2.dtd";
+    /**
+     * The system ID for mathML.
+     */
+    public static final String MML2_SYSTEMID = "http://www.w3.org/TR/MathML2/dtd/mathml2.dtd";
 
-    static final String MML2_PUBLICID = "-//W3C//DTD MathML 2.0//EN";
+    /**
+     * The public ID for mathML.
+     */
+    public static final String MML2_PUBLICID = "-//W3C//DTD MathML 2.0//EN";
 
     private static final String MML1_SYSTEMID_PATH = "http://www.w3.org/Math/DTD/mathml1";
 
