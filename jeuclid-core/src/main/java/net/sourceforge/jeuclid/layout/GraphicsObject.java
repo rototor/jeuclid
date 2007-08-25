@@ -1,6 +1,6 @@
 /*
  * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,32 +16,26 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.elements;
+package net.sourceforge.jeuclid.layout;
 
-import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
+import java.awt.Graphics2D;
 
 /**
- * Generic interface for all MathNodes, including document Element.
- * 
  * @author Max Berger
  * @version $Revision$
  */
-public interface JEuclidNode extends ChangeTrackingInterface {
+public interface GraphicsObject {
 
     /**
-     * Gets the size of the actual font used (including scriptsizemultiplier).
+     * Actually draw the object.
      * 
-     * @return size of the current font.
+     * @param x
+     *            X-offset of surrounding element.
+     * @param y
+     *            Y-Offset of baseline of surrounding element.
+     * @param g
+     *            Graphics Context.
      */
-    float getFontsizeInPoint();
+    void paint(float x, float y, Graphics2D g);
 
-    /**
-     * get the layout context for the given child.
-     * 
-     * @param child
-     *            the child to check.
-     * @return layout context to use.
-     */
-    LayoutContext getChildLayoutContext(JEuclidNode child);
 }

@@ -18,12 +18,15 @@
 
 package net.sourceforge.jeuclid.layout;
 
-import org.w3c.dom.views.AbstractView;
-
 /**
  * @author Max Berger
  * @version $Revision$
  */
-public interface RootLayoutNode extends LayoutNode, AbstractView {
-
+public enum LayoutStage {
+    /** No layout done yet. */
+    NONE,
+    /** Context-Insensitive Layout. */
+    STAGE1,
+    /** Full layout. */
+    STAGE2,
 }

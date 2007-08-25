@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.mathml.MathMLElement;
 
@@ -32,7 +33,7 @@ import org.w3c.dom.mathml.MathMLElement;
  * @version $Revision$
  */
 public interface JEuclidElement extends MathMLElement, DisplayableNode,
-        JEuclidNode {
+        JEuclidNode, LayoutableNode {
 
     /**
      * Sets the parent of this element.

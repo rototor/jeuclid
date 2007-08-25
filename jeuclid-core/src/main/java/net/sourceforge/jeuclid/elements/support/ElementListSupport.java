@@ -19,15 +19,17 @@
 package net.sourceforge.jeuclid.elements.support;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.DisplayableNode;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
-import net.sourceforge.jeuclid.elements.JEuclidNode;
-import net.sourceforge.jeuclid.layout.LayoutNode;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.Node;
 
@@ -174,59 +176,79 @@ public final class ElementListSupport {
     }
 
     /**
-     * Layout a list of children.
-     * 
-     * @param g
-     *            Graphics context.
-     * @param listOfDataChildren
-     *            List of data children.
-     * @param listOfLayoutChildren
-     *            List of layout children children. It is not cleared
-     *            automatically.
-     * @param context
-     *            layout context
+     * @param view
+     *            View Object
+     * @param info
+     *            Info to fill
+     * @param parent
+     *            Current Node
+     * @param stage
+     *            Stage to load Info From
+     * @param borderLeftTop
+     *            border around element.
+     * @param borderRightBottom
+     *            border around element.
+     * @param newStage
+     *            new stage for this element.
      */
-    public static void layoutPhase1(final Graphics2D g,
-            final List<JEuclidElement> listOfDataChildren,
-            final List<LayoutNode> listOfLayoutChildren,
-            final LayoutContext context) {
-        for (final JEuclidNode element : listOfDataChildren) {
-            listOfLayoutChildren.add(element.layout(g));
+    public static void fillInfoFromChildren(final LayoutView view,
+            final LayoutInfo info, final Node parent,
+            final LayoutStage stage, final Dimension2D borderLeftTop,
+            final Dimension2D borderRightBottom, final LayoutStage newStage) {
+        float ascentHeight = (float) borderLeftTop.getHeight();
+        float descentHeight = (float) borderRightBottom.getHeight();
+        final float startX = (float) borderLeftTop.getWidth();
+        float width = startX;
+        for (final LayoutableNode child : ElementListSupport
+                .createListOfChildren(parent)) {
+            final LayoutInfo childInfo = view.getInfo(child);
+            ascentHeight = Math.max(ascentHeight, -childInfo.getPosY(stage)
+                    + childInfo.getAscentHeight(stage));
+            descentHeight = Math.max(descentHeight, childInfo.getPosY(stage)
+                    + childInfo.getDescentHeight(stage));
+            width = Math.max(width, childInfo.getPosX(stage)
+                    + childInfo.getWidth(stage));
         }
+        info.setAscentHeight(ascentHeight, stage);
+        info.setDescentHeight(descentHeight, stage);
+        info.setHorizontalCenterOffset((width + startX) / 2.0f, stage);
+        info.setWidth(width + (float) borderRightBottom.getWidth(), stage);
+        info.setLayoutStage(newStage);
     }
 
     /**
-     * Layout a list of children.
-     * 
-     * @param g
-     *            Graphics context.
-     * @param children
-     *            List of children.
-     * @param context
-     *            layout context
+     * @param view
+     *            View Object
+     * @param info
+     *            Info to fill
+     * @param parent
+     *            Current Node
+     * @param stage
+     *            Stage to load Info From
+     * @param newStage
+     *            new stage for this element.
      */
-    public static void layoutPhase2(final Graphics2D g,
-            final List<LayoutNode> children, final LayoutContext context) {
-        // TODO: Phase 2 Layout
-    }
-
-    /**
-     * Layout a list of children.
-     * 
-     * @param g
-     *            Graphics context.
-     * @param children
-     *            List of children.
-     * @param context
-     *            layout context
-     */
-    public static void positionChildrenSequentially(final Graphics2D g,
-            final List<LayoutNode> children, final LayoutContext context) {
+    public static void layoutSequential(final LayoutView view,
+            final LayoutInfo info, final Node parent,
+            final LayoutStage stage, final LayoutStage newStage) {
+        float ascentHeight = 0.0f;
+        float descentHeight = 0.0f;
         float posX = 0.0f;
-        for (final LayoutNode node : children) {
-            node.moveTo(posX, 0);
-            posX += node.getWidth();
+
+        for (final LayoutableNode child : ElementListSupport
+                .createListOfChildren(parent)) {
+            final LayoutInfo childInfo = view.getInfo(child);
+            ascentHeight = Math.max(ascentHeight, childInfo
+                    .getAscentHeight(stage));
+            descentHeight = Math.max(descentHeight, childInfo
+                    .getDescentHeight(stage));
+            childInfo.moveTo(posX, 0.0f, stage);
+            posX += childInfo.getWidth(stage);
         }
+        info.setAscentHeight(ascentHeight, stage);
+        info.setDescentHeight(descentHeight, stage);
+        info.setHorizontalCenterOffset(posX / 2.0f, stage);
+        info.setWidth(posX, stage);
     }
 
 }
