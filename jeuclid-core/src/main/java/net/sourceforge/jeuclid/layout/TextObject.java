@@ -1,6 +1,6 @@
 /*
  * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,32 +16,39 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.elements;
+package net.sourceforge.jeuclid.layout;
 
-import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.font.TextLayout;
 
 /**
- * Generic interface for all MathNodes, including document Element.
- * 
  * @author Max Berger
  * @version $Revision$
  */
-public interface JEuclidNode extends ChangeTrackingInterface {
+public class TextObject implements GraphicsObject {
+
+    private final TextLayout layout;
+
+    private final Color color;
 
     /**
-     * Gets the size of the actual font used (including scriptsizemultiplier).
+     * Default Constructor.
      * 
-     * @return size of the current font.
+     * @param textLayout
+     *            Text Layout.
+     * @param textColor
+     *            text color;
      */
-    float getFontsizeInPoint();
+    public TextObject(final TextLayout textLayout, final Color textColor) {
+        this.layout = textLayout;
+        this.color = textColor;
+    }
 
-    /**
-     * get the layout context for the given child.
-     * 
-     * @param child
-     *            the child to check.
-     * @return layout context to use.
-     */
-    LayoutContext getChildLayoutContext(JEuclidNode child);
+    /** {@inheritDoc} */
+    public void paint(final float x, final float y, final Graphics2D g) {
+        g.setColor(this.color);
+        this.layout.draw(g, x, y);
+    }
+
 }

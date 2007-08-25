@@ -302,4 +302,13 @@ public abstract class AbstractPartialNodeImpl implements Node {
         throw new UnsupportedOperationException("setUserData");
     }
 
+    /**
+     * Convenience method for accessing children. The result should be treated
+     * as read-only!
+     * 
+     * @return a List&lt;Node&gt;
+     */
+    protected List<Node> getChildren() {
+        return this.children;
+    }
 }

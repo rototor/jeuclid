@@ -32,9 +32,11 @@ import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.DisplayableNode;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
-import net.sourceforge.jeuclid.layout.LayoutNode;
-import net.sourceforge.jeuclid.layout.RootLayoutNode;
-import net.sourceforge.jeuclid.layout.RootLayoutNodeImpl;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
+import net.sourceforge.jeuclid.layout.LayoutableDocument;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.mathml.MathMLDocument;
 import org.w3c.dom.views.AbstractView;
@@ -48,7 +50,7 @@ import org.w3c.dom.views.DocumentView;
  */
 public class DocumentElement extends AbstractPartialDocumentImpl implements
         MathMLDocument, JEuclidNode, ChangeTrackingInterface,
-        DisplayableNode, DocumentView {
+        DisplayableNode, DocumentView, LayoutableDocument {
 
     private final Set<ChangeTrackingInterface> listeners = new HashSet<ChangeTrackingInterface>();
 
@@ -98,20 +100,6 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
                 .createListOfChildren(this));
         this.lastX = posX;
         this.lastY = posY;
-    }
-
-    /** {@inheritDoc} */
-    public RootLayoutNode layout(final Graphics2D g) {
-        final LayoutContext context = this.getCurrentLayoutContext();
-        final RootLayoutNodeImpl compoundNode = new RootLayoutNodeImpl(
-                context, this);
-        final List<LayoutNode> layoutList = compoundNode.getListOfChildren();
-        ElementListSupport.layoutPhase1(g, ElementListSupport
-                .createListOfChildren(this), layoutList, context);
-        ElementListSupport.layoutPhase2(g, layoutList, context);
-        ElementListSupport.positionChildrenSequentially(g, layoutList,
-                context);
-        return compoundNode;
     }
 
     /** {@inheritDoc} */
@@ -210,6 +198,26 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
         // CHECKSTYLE:ON
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    public List<LayoutableNode> getLayoutableNodeChildren() {
+        final List l = super.getChildren();
+        return l;
+    }
+
+    /** {@inheritDoc} */
+    public void layoutStage1(final LayoutView view, final LayoutInfo info,
+            final LayoutStage childMinStage) {
+        ElementListSupport.layoutSequential(view, info, this,
+                LayoutStage.STAGE1, childMinStage);
+    }
+
+    /** {@inheritDoc} */
+    public void layoutStage2(final LayoutView view, final LayoutInfo info) {
+        ElementListSupport.layoutSequential(view, info, this,
+                LayoutStage.STAGE2, LayoutStage.STAGE2);
     }
 
 }

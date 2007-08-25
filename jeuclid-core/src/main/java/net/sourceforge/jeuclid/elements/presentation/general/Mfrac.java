@@ -19,22 +19,29 @@
 package net.sourceforge.jeuclid.elements.presentation.general;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
-import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
+import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
-import net.sourceforge.jeuclid.layout.CompoundLayout;
-import net.sourceforge.jeuclid.layout.LayoutNode;
-import net.sourceforge.jeuclid.layout.LineNode;
+import net.sourceforge.jeuclid.layout.GraphicsObject;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
+import net.sourceforge.jeuclid.layout.LineObject;
 
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLFractionElement;
@@ -74,14 +81,6 @@ public class Mfrac extends AbstractJEuclidElement implements
     public static final String ATTR_DENOMALIGN = "denomalign";
 
     private static final String EXTRA_SPACE_AROUND = "0.1em";
-
-    private transient float middleShift;
-
-    private transient boolean beveled;
-
-    private transient float linethickness;
-
-    private transient float extraSpace;
 
     /**
      * Creates a math element.
@@ -302,90 +301,83 @@ public class Mfrac extends AbstractJEuclidElement implements
 
     /** {@inheritDoc} */
     @Override
-    protected void checkAssertions() {
-        // TODO: Has exactly 2 children.
-    }
+    protected void layoutStageInvariant(final LayoutView view,
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutStage newStage) {
+        final Graphics2D g = view.getGraphics();
 
-    /** {@inheritDoc} */
-    @Override
-    protected void layoutCalculations(final Graphics2D g,
-            final List<LayoutNode> children) {
-        this.middleShift = this.getMiddleShift(g);
-        this.beveled = Boolean.parseBoolean(this.getBevelled());
-        this.linethickness = this.getLinethickness(g);
-        this.extraSpace = AttributesHelper.convertSizeToPt(
+        final float middleShift = this.getMiddleShift(g);
+        final boolean beveled = Boolean.parseBoolean(this.getBevelled());
+        final float linethickness = this.getLinethickness(g);
+        final float extraSpace = AttributesHelper.convertSizeToPt(
                 Mfrac.EXTRA_SPACE_AROUND, this.getCurrentLayoutContext(), "");
-    }
 
-    /** {@inheritDoc} */
-    @Override
-    protected void positionChildrenAndAddExtraGraphics(final Graphics2D g,
-            final List<LayoutNode> children) {
-        // TODO: This is BS.
-        final LayoutNode numerator = children.get(0);
-        final LayoutNode denominator = children.get(1);
+        final LayoutInfo numerator = view.getInfo((LayoutableNode) this
+                .getNumerator());
+        final LayoutInfo denominator = view.getInfo((LayoutableNode) this
+                .getDenominator());
 
-        if (this.beveled) {
+        if (beveled) {
 
-            final float numPosY = -this.middleShift / 2.0f
-                    + numerator.getDescentHeight();
-            final float denPosY = this.middleShift / 2.0f
-                    + denominator.getDescentHeight();
+            final float numPosY = -middleShift / 2.0f
+                    + numerator.getDescentHeight(stage);
+            final float denPosY = middleShift / 2.0f
+                    + denominator.getDescentHeight(stage);
 
             final float totalAscent = Math.max(-numPosY
-                    + numerator.getAscentHeight(), -denPosY
-                    + denominator.getAscentHeight());
+                    + numerator.getAscentHeight(stage), -denPosY
+                    + denominator.getAscentHeight(stage));
             final float totalDescent = Math.max(numPosY
-                    + numerator.getDescentHeight(), denPosY
-                    + denominator.getDescentHeight());
+                    + numerator.getDescentHeight(stage), denPosY
+                    + denominator.getDescentHeight(stage));
 
             final float totalHeight = totalAscent + totalDescent;
             final float lineWidth = totalHeight * Mfrac.FRAC_TILT_ANGLE;
 
-            numerator.moveTo(0, numPosY);
-            float posX = numerator.getWidth();
-            final LineNode line = new LineNode(lineWidth, -totalHeight,
-                    this.linethickness, this.getCurrentLayoutContext());
-            line.moveTo(posX, totalDescent);
-            children.add(line);
+            numerator.moveTo(extraSpace, numPosY, stage);
+            float posX = numerator.getWidth(stage) + extraSpace;
+            final GraphicsObject line = new LineObject(posX, totalDescent,
+                    lineWidth + posX, totalDescent - totalHeight,
+                    linethickness, (Color) this.getCurrentLayoutContext()
+                            .getParameter(Parameter.MATHCOLOR));
+            info.setGraphicsObject(line);
             posX += lineWidth;
-            denominator.moveTo(posX, denPosY);
+            denominator.moveTo(posX, denPosY, stage);
         } else {
-            final float numWidth = numerator.getWidth();
-            final float denumWidth = denominator.getWidth();
+            final float numWidth = numerator.getWidth(stage);
+            final float denumWidth = denominator.getWidth(stage);
             final float width = Math.max(denumWidth, numWidth);
 
             final float numOffset;
             // TODO: Check Numalign
-            numOffset = width / 2.0f - numerator.getHorizontalCenterOffset();
+            numOffset = width / 2.0f
+                    - numerator.getHorizontalCenterOffset(stage) + extraSpace;
 
             final float denumOffset;
             // TODO: Check Denomalign
             denumOffset = width / 2.0f
-                    - denominator.getHorizontalCenterOffset();
+                    - denominator.getHorizontalCenterOffset(stage)
+                    + extraSpace;
 
-            numerator.moveTo(numOffset, -(this.middleShift
-                    + this.linethickness / 2.0f + this.extraSpace + numerator
-                    .getDescentHeight()));
+            numerator.moveTo(numOffset, -(middleShift + linethickness / 2.0f
+                    + extraSpace + numerator.getDescentHeight(stage)), stage);
 
-            denominator.moveTo(denumOffset, -this.middleShift
-                    + this.linethickness / 2.0f + this.extraSpace
-                    + denominator.getAscentHeight());
+            denominator.moveTo(denumOffset, -middleShift + linethickness
+                    / 2.0f + extraSpace + denominator.getAscentHeight(stage),
+                    stage);
 
-            final LineNode line = new LineNode(width, 0, this.linethickness,
-                    this.getCurrentLayoutContext());
-            line.moveTo(0, -this.middleShift);
-            children.add(line);
+            final GraphicsObject line = new LineObject(extraSpace,
+                    -middleShift, extraSpace + width, -middleShift,
+                    linethickness, (Color) this.getCurrentLayoutContext()
+                            .getParameter(Parameter.MATHCOLOR));
+            info.setGraphicsObject(line);
         }
 
+        final Dimension2D borderLeftTop = new Dimension2DImpl(extraSpace,
+                0.0f);
+        final Dimension2D borderRightBottom = new Dimension2DImpl(extraSpace,
+                0.0f);
+        ElementListSupport.fillInfoFromChildren(view, info, this, stage,
+                borderLeftTop, borderRightBottom, newStage);
     }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void calculateBorder(final Graphics2D g,
-            final CompoundLayout layout) {
-        layout.setBorderLeft(this.extraSpace);
-        layout.setBorderRight(this.extraSpace);
-    }
-
 }

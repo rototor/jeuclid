@@ -18,14 +18,19 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
-import net.sourceforge.jeuclid.layout.LayoutNode;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
+import net.sourceforge.jeuclid.layout.TextObject;
 
 import org.w3c.dom.mathml.MathMLPresentationToken;
 
@@ -74,10 +79,27 @@ public abstract class AbstractTokenWithTextLayout extends
 
     /** {@inheritDoc} */
     @Override
-    public LayoutNode layout(final Graphics2D g) {
-        return new net.sourceforge.jeuclid.layout.TextLayout(this
-                .textContentAsAttributedString(), this
-                .getCurrentLayoutContext(), g);
+    public void layoutStage1(final LayoutView view, final LayoutInfo info,
+            final LayoutStage childMinStage) {
+        this.layoutStage2(view, info);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void layoutStage2(final LayoutView view, final LayoutInfo info) {
+        final Graphics2D g = view.getGraphics();
+        info.setAscentHeight(this.calculateAscentHeight(g),
+                LayoutStage.STAGE1);
+        info.setDescentHeight(this.calculateDescentHeight(g),
+                LayoutStage.STAGE1);
+        final float width = this.calculateWidth(g);
+        info.setHorizontalCenterOffset(width / 2.0f, LayoutStage.STAGE1);
+        info.setWidth(width, LayoutStage.STAGE1);
+        info.setLayoutStage(LayoutStage.STAGE2);
+        info
+                .setGraphicsObject(new TextObject(this.getLayout(),
+                        (Color) this.getCurrentLayoutContext().getParameter(
+                                Parameter.MATHCOLOR)));
     }
 
     /**

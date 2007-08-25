@@ -47,8 +47,10 @@ import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 import net.sourceforge.jeuclid.elements.support.text.CharConverter;
-import net.sourceforge.jeuclid.layout.CompoundLayout;
-import net.sourceforge.jeuclid.layout.LayoutNode;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -1122,68 +1124,40 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /** {@inheritDoc} */
-    public LayoutNode layout(final Graphics2D g) {
-
-        final LayoutContext context = this.getCurrentLayoutContext();
-        final CompoundLayout compoundNode = new CompoundLayout(context);
-        final List<LayoutNode> layoutList = compoundNode.getListOfChildren();
-        this.checkAssertions();
-        ElementListSupport.layoutPhase1(g, ElementListSupport
-                .createListOfChildren(this), layoutList, context);
-        ElementListSupport.layoutPhase2(g, layoutList, context);
-        this.layoutCalculations(g, layoutList);
-        this.positionChildrenAndAddExtraGraphics(g, layoutList);
-        this.calculateBorder(g, compoundNode);
-        return compoundNode;
+    @SuppressWarnings("unchecked")
+    public List<LayoutableNode> getLayoutableNodeChildren() {
+        final List l = ElementListSupport.createListOfChildren(this);
+        return l;
     }
 
     /**
-     * Check that the element contains valid MathML, e.g. the number of
-     * children is correct, etc.
+     * @param view
+     *            View Object
+     * @param info
+     *            Info to fill
+     * @param stage
+     *            Stage to load Info From
+     * @param newStage
+     *            new stage for this element.
      */
-    protected void checkAssertions() {
-        // Hook for children.
+    protected void layoutStageInvariant(final LayoutView view,
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutStage newStage) {
+        ElementListSupport
+                .layoutSequential(view, info, this, stage, newStage);
     }
 
-    /**
-     * Perform extra layout calculations. This is run after after phase 2
-     * 
-     * @param g
-     *            Graphics context.
-     * @param children
-     *            children to position.
-     */
-    protected void layoutCalculations(final Graphics2D g,
-            final List<LayoutNode> children) {
-        // Hook for children.
+    /** {@inheritDoc} */
+    public void layoutStage1(final LayoutView view, final LayoutInfo info,
+            final LayoutStage childMinStage) {
+        this.layoutStageInvariant(view, info, LayoutStage.STAGE1,
+                childMinStage);
     }
 
-    /**
-     * Position children relative to this element.
-     * 
-     * @todo should be abstract.
-     * @param g
-     *            Graphics context.
-     * @param children
-     *            children to position.
-     */
-    protected void positionChildrenAndAddExtraGraphics(final Graphics2D g,
-            final List<LayoutNode> children) {
-        ElementListSupport.positionChildrenSequentially(g, children, this
-                .getCurrentLayoutContext());
-    }
-
-    /**
-     * Calculate the border for this type of element.
-     * 
-     * @param g
-     *            Graphics context
-     * @param layout
-     *            current layout.
-     */
-    protected void calculateBorder(final Graphics2D g,
-            final CompoundLayout layout) {
-        // Hook for children.
+    /** {@inheritDoc} */
+    public void layoutStage2(final LayoutView view, final LayoutInfo info) {
+        this.layoutStageInvariant(view, info, LayoutStage.STAGE2,
+                LayoutStage.STAGE2);
     }
 
     {

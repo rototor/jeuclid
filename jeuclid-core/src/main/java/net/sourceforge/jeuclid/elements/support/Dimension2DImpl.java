@@ -16,28 +16,49 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.layout;
+package net.sourceforge.jeuclid.elements.support;
 
-import net.sourceforge.jeuclid.LayoutContext;
+import java.awt.geom.Dimension2D;
 
 /**
  * @author Max Berger
  * @version $Revision$
  */
-public abstract class AbstractBorderlessNode extends AbstractLayoutNode {
+public class Dimension2DImpl extends Dimension2D {
+    private float width;
+
+    private float height;
+
     /**
      * Default Constructor.
      * 
-     * @param context
-     *            LayoutContext for this node
+     * @param w
+     *            new width.
+     * @param h
+     *            new height.
      */
-    public AbstractBorderlessNode(final LayoutContext context) {
-        super(context);
+    public Dimension2DImpl(final float w, final float h) {
+        this.width = w;
+        this.height = h;
     }
 
     /** {@inheritDoc} */
-    public float getHorizontalCenterOffset() {
-        return this.getWidth() / 2.0f;
+    @Override
+    public double getHeight() {
+        return this.height;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public double getWidth() {
+        return this.width;
+
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSize(final double w, final double h) {
+        this.width = (float) w;
+        this.height = (float) h;
+    }
 }
