@@ -10,9 +10,6 @@ Description:
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 <module name="Checker">
     <property name="severity" value="warning"/>
-    <module name="SuppressionFilter">
-        <property name="file" value="${config_loc}/checkstyle_filter.xml"/>
-    </module>
     <module name="SuppressionCommentFilter"/>
     <module name="TreeWalker">
         <module name="FileContentsHolder"/>
