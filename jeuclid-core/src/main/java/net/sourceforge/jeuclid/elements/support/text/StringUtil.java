@@ -164,15 +164,7 @@ public final class StringUtil {
                 .getFontRenderContext();
         boolean antialiasing = Boolean.parseBoolean(mathBase.getParams().get(
                 ParameterKey.AntiAlias));
-        if (!empty) {
-            final Font font = (Font) aString.getIterator().getAttribute(
-                    TextAttribute.FONT);
-            if (font != null) {
-                final float fontsize = font.getSize2D();
-                antialiasing &= fontsize >= 10.0f;
-            }
-        }
-        final FontRenderContext realFontRenderContext = new FontRenderContext(
+       final FontRenderContext realFontRenderContext = new FontRenderContext(
                 suggestedFontRenderContext.getTransform(), antialiasing,
                 false);
 
