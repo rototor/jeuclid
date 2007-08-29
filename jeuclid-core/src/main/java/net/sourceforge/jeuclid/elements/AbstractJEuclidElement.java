@@ -1131,33 +1131,36 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /**
+     * Layout for elements which are stage independent.
+     * <p>
+     * This functio will layout an element which is layed out the same no
+     * matter what stage it is in. This is the case for most elements.
+     * <p>
+     * Notable exceptions are mo and tables.
+     * 
      * @param view
-     *            View Object
+     *            View Object for this layout.
      * @param info
-     *            Info to fill
+     *            An info object which will be filled during layout.
      * @param stage
-     *            Stage to load Info From
-     * @param newStage
-     *            new stage for this element.
+     *            current layout stage.
      */
     protected void layoutStageInvariant(final LayoutView view,
-            final LayoutInfo info, final LayoutStage stage,
-            final LayoutStage newStage) {
-        ElementListSupport
-                .layoutSequential(view, info, this, stage, newStage);
+            final LayoutInfo info, final LayoutStage stage) {
+        ElementListSupport.layoutSequential(view, info, this, stage);
     }
 
     /** {@inheritDoc} */
     public void layoutStage1(final LayoutView view, final LayoutInfo info,
             final LayoutStage childMinStage) {
-        this.layoutStageInvariant(view, info, LayoutStage.STAGE1,
-                childMinStage);
+        this.layoutStageInvariant(view, info, LayoutStage.STAGE1);
+        info.setLayoutStage(childMinStage);
     }
 
     /** {@inheritDoc} */
     public void layoutStage2(final LayoutView view, final LayoutInfo info) {
-        this.layoutStageInvariant(view, info, LayoutStage.STAGE2,
-                LayoutStage.STAGE2);
+        this.layoutStageInvariant(view, info, LayoutStage.STAGE2);
+        info.setLayoutStage(LayoutStage.STAGE2);
     }
 
     {

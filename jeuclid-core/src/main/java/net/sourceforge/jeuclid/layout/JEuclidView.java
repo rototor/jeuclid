@@ -66,7 +66,7 @@ public class JEuclidView implements AbstractView, LayoutView {
     }
 
     /**
-     * Paint this view.
+     * Draw this view onto a Graphics context.
      * 
      * @param x
      *            x-offset for left edge
@@ -77,16 +77,16 @@ public class JEuclidView implements AbstractView, LayoutView {
      *            context used during construction, but does not have to be
      *            the same.
      */
-    public void paint(final float x, final float y, final Graphics2D g) {
+    public void draw(final Graphics2D g, final float x, final float y) {
         this.layout(this.document, LayoutStage.STAGE2);
         final boolean debug = (Boolean) ((DocumentElement) this.document)
                 .getCurrentLayoutContext().getParameter(Parameter.DEBUG);
-        this.paint(this.document, x, y, g, debug);
+        this.drawNode(this.document, g, x, y, debug);
 
     }
 
-    private void paint(final LayoutableNode node, final float x,
-            final float y, final Graphics2D g, final boolean debug) {
+    private void drawNode(final LayoutableNode node, final Graphics2D g,
+            final float x, final float y, final boolean debug) {
 
         final LayoutInfo myInfo = this.getInfo(node);
         if (debug) {
@@ -108,8 +108,9 @@ public class JEuclidView implements AbstractView, LayoutView {
 
         for (final LayoutableNode child : node.getLayoutableNodeChildren()) {
             final LayoutInfo childInfo = this.getInfo(child);
-            this.paint(child, x + childInfo.getPosX(LayoutStage.STAGE2), y
-                    + childInfo.getPosY(LayoutStage.STAGE2), g, debug);
+            this.drawNode(child, g,
+                    x + childInfo.getPosX(LayoutStage.STAGE2), y
+                            + childInfo.getPosY(LayoutStage.STAGE2), debug);
         }
     }
 

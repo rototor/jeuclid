@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.layout;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
 
 /**
  * @author Max Berger
@@ -32,23 +33,61 @@ public class TextObject implements GraphicsObject {
 
     private final Color color;
 
+    private final float xoffset;
+
+    private final float yoffset;
+
+    private final AffineTransform trans;
+
     /**
      * Default Constructor.
      * 
      * @param textLayout
      *            Text Layout.
      * @param textColor
-     *            text color;
+     *            text color.
      */
     public TextObject(final TextLayout textLayout, final Color textColor) {
         this.layout = textLayout;
         this.color = textColor;
+        this.xoffset = 0.0f;
+        this.yoffset = 0.0f;
+        this.trans = null;
+    }
+
+    /**
+     * Constructor for more complex texts (operators).
+     * 
+     * @param textLayout
+     *            Text Layout.
+     * @param textColor
+     *            text color.
+     * @param xo
+     *            X-Offset for drawing.
+     * @param yo
+     *            Y-Offset for drawing.
+     * @param transform
+     *            Transformation to apply before drawing.
+     */
+    public TextObject(final TextLayout textLayout, final float xo,
+            final float yo, final AffineTransform transform,
+            final Color textColor) {
+        this.layout = textLayout;
+        this.color = textColor;
+        this.xoffset = xo;
+        this.yoffset = yo;
+        this.trans = transform;
     }
 
     /** {@inheritDoc} */
     public void paint(final float x, final float y, final Graphics2D g) {
         g.setColor(this.color);
-        this.layout.draw(g, x, y);
+        final AffineTransform oldTrans = g.getTransform();
+        g.translate(x + this.xoffset, y + this.yoffset);
+        if (this.trans != null) {
+            g.transform(this.trans);
+        }
+        this.layout.draw(g, 0, 0);
+        g.setTransform(oldTrans);
     }
-
 }

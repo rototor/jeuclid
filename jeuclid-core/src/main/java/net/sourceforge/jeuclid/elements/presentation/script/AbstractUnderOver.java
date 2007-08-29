@@ -19,15 +19,21 @@
 package net.sourceforge.jeuclid.elements.presentation.script;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.context.Display;
+import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
+import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
 
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLUnderOverElement;
@@ -35,8 +41,8 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
 /**
  * Implementation and helper methods for munder, mover, and munderover.
  * 
- * @todo some operators should "default" to being an accent, but currently
- *       they don't
+ * @todo some operators should "default" to being an accent, but currently they
+ *       don't
  * @author Max Berger
  * @version $Revision$
  */
@@ -120,8 +126,8 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
     /**
      * @param g
      *            Graphics Context.
-     * @return the amount the overbaseline is shifted. Must only be called if
-     *         an over element exists!
+     * @return the amount the overbaseline is shifted. Must only be called if an
+     *         over element exists!
      */
     protected float getOverBaselineShift(final Graphics2D g) {
         final JEuclidElement base = this.getBase();
@@ -150,8 +156,7 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         final float baseAscent = this.getBase().getAscentHeight(g);
         final float overAscent;
         if (over != null) {
-            overAscent = this.getOverBaselineShift(g)
-                    + over.getAscentHeight(g);
+            overAscent = this.getOverBaselineShift(g) + over.getAscentHeight(g);
         } else {
             overAscent = 0;
         }
@@ -393,4 +398,56 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         return this.limitsAreMoved() && child.isSameNode(this.getBase());
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected void layoutStageInvariant(final LayoutView view,
+            final LayoutInfo info, final LayoutStage stage) {
+        // TODO: This is incomplete.
+
+        final JEuclidElement base = this.getBase();
+        final JEuclidElement under = this.getUnderscript();
+        final JEuclidElement over = this.getOverscript();
+
+        final LayoutInfo baseInfo = view.getInfo(base);
+        final LayoutInfo underInfo;
+        final LayoutInfo overInfo;
+
+        float width = baseInfo.getWidth(stage);
+
+        if (under != null) {
+            underInfo = view.getInfo(under);
+            width = Math.max(width, underInfo.getWidth(stage));
+        } else {
+            underInfo = null;
+        }
+        if (over != null) {
+            overInfo = view.getInfo(over);
+            width = Math.max(width, overInfo.getWidth(stage));
+        } else {
+            overInfo = null;
+        }
+        final float middle = width / 2.0f;
+
+        baseInfo.moveTo(middle - baseInfo.getHorizontalCenterOffset(stage), 0,
+                stage);
+
+        if (under != null) {
+            final float y = baseInfo.getDescentHeight(stage)
+                    + underInfo.getAscentHeight(stage);
+            underInfo.moveTo(middle
+                    - underInfo.getHorizontalCenterOffset(stage), y, stage);
+        }
+        if (over != null) {
+            final float y = baseInfo.getAscentHeight(stage)
+                    + overInfo.getDescentHeight(stage);
+            overInfo.moveTo(middle - overInfo.getHorizontalCenterOffset(stage),
+                    -y, stage);
+        }
+
+        final Dimension2D borderLeftTop = new Dimension2DImpl(0.0f, 0.0f);
+        final Dimension2D borderRightBottom = new Dimension2DImpl(0.0f, 0.0f);
+        ElementListSupport.fillInfoFromChildren(view, info, this, stage,
+                borderLeftTop, borderRightBottom);
+        info.setStretchWidth(width);
+    }
 }

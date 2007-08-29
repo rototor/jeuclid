@@ -72,10 +72,10 @@ public interface LayoutInfo {
     float getWidth(LayoutStage stage);
 
     /**
-     * Retrieve the X-position of the horizontal center of the content. In
-     * most cases, this will be width / 2. This does not, however, take extra
-     * borders into account. An element may have different border width on
-     * left and right, in which case the center will be moved.
+     * Retrieve the X-position of the horizontal center of the content. In most
+     * cases, this will be width / 2. This does not, however, take extra borders
+     * into account. An element may have different border width on left and
+     * right, in which case the center will be moved.
      * 
      * @return X-position of the center of the content
      * @param stage
@@ -152,6 +152,52 @@ public interface LayoutInfo {
      *            STAGE2)
      */
     void setWidth(float width, LayoutStage stage);
+
+    /**
+     * Set the stretch width for children, or < 0 if children should be
+     * horizontally unstretched.
+     * 
+     * @param stretchWidth
+     *            new stretch width
+     */
+    void setStretchWidth(float stretchWidth);
+
+    /**
+     * Retrieve the stretch width if set, or STAGE1.width if unset.
+     * 
+     * @return stretch width.
+     */
+    float getStretchWidth();
+
+    /**
+     * Set the stretch descent for children. Defaults to STAGE1.descent
+     * 
+     * @param stretchDescent
+     *            new stretch descent
+     */
+    void setStretchDescent(float stretchDescent);
+
+    /**
+     * Retrieve the stretch descent if set, or STAGE1.descent if unset.
+     * 
+     * @return stretch descent.
+     */
+    float getStretchDescent();
+
+    /**
+     * Set the stretch ascent for children. Defaults to STAGE1.ascent
+     * 
+     * @param stretchAscent
+     *            new stretch ascent
+     */
+    void setStretchAscent(float stretchAscent);
+
+    /**
+     * Retrieve the stretch ascent if set, or STAGE1.ascent if unset.
+     * 
+     * @return stretch ascent.
+     */
+    float getStretchAscent();
 
     /**
      * @param graphicsObject

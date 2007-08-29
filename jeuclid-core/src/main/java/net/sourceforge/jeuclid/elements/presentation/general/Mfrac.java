@@ -302,8 +302,7 @@ public class Mfrac extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     @Override
     protected void layoutStageInvariant(final LayoutView view,
-            final LayoutInfo info, final LayoutStage stage,
-            final LayoutStage newStage) {
+            final LayoutInfo info, final LayoutStage stage) {
         final Graphics2D g = view.getGraphics();
 
         final float middleShift = this.getMiddleShift(g);
@@ -318,59 +317,11 @@ public class Mfrac extends AbstractJEuclidElement implements
                 .getDenominator());
 
         if (beveled) {
-
-            final float numPosY = -middleShift / 2.0f
-                    + numerator.getDescentHeight(stage);
-            final float denPosY = middleShift / 2.0f
-                    + denominator.getDescentHeight(stage);
-
-            final float totalAscent = Math.max(-numPosY
-                    + numerator.getAscentHeight(stage), -denPosY
-                    + denominator.getAscentHeight(stage));
-            final float totalDescent = Math.max(numPosY
-                    + numerator.getDescentHeight(stage), denPosY
-                    + denominator.getDescentHeight(stage));
-
-            final float totalHeight = totalAscent + totalDescent;
-            final float lineWidth = totalHeight * Mfrac.FRAC_TILT_ANGLE;
-
-            numerator.moveTo(extraSpace, numPosY, stage);
-            float posX = numerator.getWidth(stage) + extraSpace;
-            final GraphicsObject line = new LineObject(posX, totalDescent,
-                    lineWidth + posX, totalDescent - totalHeight,
-                    linethickness, (Color) this.getCurrentLayoutContext()
-                            .getParameter(Parameter.MATHCOLOR));
-            info.setGraphicsObject(line);
-            posX += lineWidth;
-            denominator.moveTo(posX, denPosY, stage);
+            this.layoutBeveled(info, stage, middleShift, linethickness,
+                    extraSpace, numerator, denominator);
         } else {
-            final float numWidth = numerator.getWidth(stage);
-            final float denumWidth = denominator.getWidth(stage);
-            final float width = Math.max(denumWidth, numWidth);
-
-            final float numOffset;
-            // TODO: Check Numalign
-            numOffset = width / 2.0f
-                    - numerator.getHorizontalCenterOffset(stage) + extraSpace;
-
-            final float denumOffset;
-            // TODO: Check Denomalign
-            denumOffset = width / 2.0f
-                    - denominator.getHorizontalCenterOffset(stage)
-                    + extraSpace;
-
-            numerator.moveTo(numOffset, -(middleShift + linethickness / 2.0f
-                    + extraSpace + numerator.getDescentHeight(stage)), stage);
-
-            denominator.moveTo(denumOffset, -middleShift + linethickness
-                    / 2.0f + extraSpace + denominator.getAscentHeight(stage),
-                    stage);
-
-            final GraphicsObject line = new LineObject(extraSpace,
-                    -middleShift, extraSpace + width, -middleShift,
-                    linethickness, (Color) this.getCurrentLayoutContext()
-                            .getParameter(Parameter.MATHCOLOR));
-            info.setGraphicsObject(line);
+            this.layoutStacked(info, stage, middleShift, linethickness,
+                    extraSpace, numerator, denominator);
         }
 
         final Dimension2D borderLeftTop = new Dimension2DImpl(extraSpace,
@@ -378,6 +329,67 @@ public class Mfrac extends AbstractJEuclidElement implements
         final Dimension2D borderRightBottom = new Dimension2DImpl(extraSpace,
                 0.0f);
         ElementListSupport.fillInfoFromChildren(view, info, this, stage,
-                borderLeftTop, borderRightBottom, newStage);
+                borderLeftTop, borderRightBottom);
+    }
+
+    private void layoutStacked(final LayoutInfo info,
+            final LayoutStage stage, final float middleShift,
+            final float linethickness, final float extraSpace,
+            final LayoutInfo numerator, final LayoutInfo denominator) {
+        final float numWidth = numerator.getWidth(stage);
+        final float denumWidth = denominator.getWidth(stage);
+        final float width = Math.max(denumWidth, numWidth);
+
+        final float numOffset;
+        // TODO: Check Numalign
+        numOffset = width / 2.0f - numerator.getHorizontalCenterOffset(stage)
+                + extraSpace;
+
+        final float denumOffset;
+        // TODO: Check Denomalign
+        denumOffset = width / 2.0f
+                - denominator.getHorizontalCenterOffset(stage) + extraSpace;
+
+        numerator.moveTo(numOffset, -(middleShift + linethickness / 2.0f
+                + extraSpace + numerator.getDescentHeight(stage)), stage);
+
+        denominator.moveTo(denumOffset, -middleShift + linethickness / 2.0f
+                + extraSpace + denominator.getAscentHeight(stage), stage);
+
+        final GraphicsObject line = new LineObject(extraSpace, -middleShift,
+                extraSpace + width, -middleShift, linethickness, (Color) this
+                        .getCurrentLayoutContext().getParameter(
+                                Parameter.MATHCOLOR));
+        info.setGraphicsObject(line);
+    }
+
+    private void layoutBeveled(final LayoutInfo info,
+            final LayoutStage stage, final float middleShift,
+            final float linethickness, final float extraSpace,
+            final LayoutInfo numerator, final LayoutInfo denominator) {
+        final float numPosY = -middleShift / 2.0f
+                + numerator.getDescentHeight(stage);
+        final float denPosY = middleShift / 2.0f
+                + denominator.getDescentHeight(stage);
+
+        final float totalAscent = Math.max(-numPosY
+                + numerator.getAscentHeight(stage), -denPosY
+                + denominator.getAscentHeight(stage));
+        final float totalDescent = Math.max(numPosY
+                + numerator.getDescentHeight(stage), denPosY
+                + denominator.getDescentHeight(stage));
+
+        final float totalHeight = totalAscent + totalDescent;
+        final float lineWidth = totalHeight * Mfrac.FRAC_TILT_ANGLE;
+
+        numerator.moveTo(extraSpace, numPosY, stage);
+        float posX = numerator.getWidth(stage) + extraSpace;
+        final GraphicsObject line = new LineObject(posX, totalDescent,
+                lineWidth + posX, totalDescent - totalHeight, linethickness,
+                (Color) this.getCurrentLayoutContext().getParameter(
+                        Parameter.MATHCOLOR));
+        info.setGraphicsObject(line);
+        posX += lineWidth;
+        denominator.moveTo(posX, denPosY, stage);
     }
 }
