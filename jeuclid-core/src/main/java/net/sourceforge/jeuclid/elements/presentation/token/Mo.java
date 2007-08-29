@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
@@ -38,6 +39,10 @@ import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
 import net.sourceforge.jeuclid.elements.support.operatordict.UnknownAttributeException;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
+import net.sourceforge.jeuclid.layout.TextObject;
 
 import org.w3c.dom.mathml.MathMLOperatorElement;
 import org.w3c.dom.mathml.MathMLUnderOverElement;
@@ -49,8 +54,7 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
  * @author Max Berger
  * @version $Revision$
  */
-public class Mo extends AbstractJEuclidElement implements
-        MathMLOperatorElement {
+public class Mo extends AbstractJEuclidElement implements MathMLOperatorElement {
 
     /** Attribute for form. */
     public static final String ATTR_FORM = "form";
@@ -123,9 +127,8 @@ public class Mo extends AbstractJEuclidElement implements
             + /* OverBar */"\u00AF" + /* UnderBar */"\u0332" + "\u0333"
             + "\u033F" + "\u2190" + "\u2192" + "\u2194"
             + /* OverBracket */"\u23B4" + /* UnderBracket */"\u23B5"
-            + /* OverParenthesis */"\uFE35"
-            + /* UnderParenthesis */"\uFE36" + /* OverBrace */"\uFE37"
-            + /* UnderBrace */"\uFE38";
+            + /* OverParenthesis */"\uFE35" + /* UnderParenthesis */"\uFE36"
+            + /* OverBrace */"\uFE37" + /* UnderBrace */"\uFE38";
 
     /**
      * Vertical delimiters.
@@ -160,8 +163,9 @@ public class Mo extends AbstractJEuclidElement implements
                 AttributesHelper.THICKMATHSPACE);
         this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, MathBase.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_SYMMETRIC, MathBase.TRUE);
-        this.setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
-                AttributesHelper.INFINITY);
+        this
+                .setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
+                        AttributesHelper.INFINITY);
         this.setDefaultMathAttribute(Mo.ATTR_MINSIZE, "1");
         this.setDefaultMathAttribute(Mo.ATTR_LARGEOP, MathBase.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, MathBase.FALSE);
@@ -470,8 +474,7 @@ public class Mo extends AbstractJEuclidElement implements
                 AttributesHelper.THICKMATHSPACE);
         this.loadAttributeFromDictionary(Mo.ATTR_RSPACE,
                 AttributesHelper.THICKMATHSPACE);
-        this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS,
-                MathBase.FALSE);
+        this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS, MathBase.FALSE);
 
         // TODO: Load all.
         final JEuclidElement parent = this.getParent();
@@ -499,8 +502,8 @@ public class Mo extends AbstractJEuclidElement implements
             final String defvalue) {
         String attr;
         try {
-            attr = OperatorDictionary.getDefaultAttributeValue(
-                    this.getText(), this.getForm(), attrname);
+            attr = OperatorDictionary.getDefaultAttributeValue(this.getText(),
+                    this.getForm(), attrname);
         } catch (final UnknownAttributeException e) {
             attr = defvalue;
         }
@@ -643,4 +646,107 @@ public class Mo extends AbstractJEuclidElement implements
         return this.getMathAttribute(Mo.ATTR_SYMMETRIC);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public void layoutStage1(final LayoutView view, final LayoutInfo info,
+            final LayoutStage childMinStage) {
+        // TODO: This is far incomplete
+        final Graphics2D g = view.getGraphics();
+        final TextLayout t = this.produceUnstrechtedLayout(g);
+
+        // TODO: This is duplicated from AbstractTokenWithTextLayout
+        final Rectangle2D textBounds = t.getBounds();
+        final float ascent = (float) (-textBounds.getY());
+        final float descent = (float) (textBounds.getY() + textBounds
+                .getHeight());
+        final float xo = (float) textBounds.getX();
+        final float xOffset;
+        if (xo < 0) {
+            xOffset = -xo;
+        } else {
+            xOffset = 0.0f;
+        }
+        final float contentWidth = StringUtil.getWidthForTextLayout(t)
+                + xOffset;
+        final float lspace = this.getLspaceAsFloat();
+        final float rspace = this.getRspaceAsFloat();
+
+        info.setAscentHeight(ascent, LayoutStage.STAGE1);
+        info.setDescentHeight(descent, LayoutStage.STAGE1);
+        info.setHorizontalCenterOffset(lspace + contentWidth / 2.0f,
+                LayoutStage.STAGE1);
+        info.setWidth(lspace + contentWidth + rspace, LayoutStage.STAGE1);
+        if (Boolean.parseBoolean(this.getStretchy())) {
+            info.setLayoutStage(LayoutStage.STAGE1);
+        } else {
+            info.setGraphicsObject(new TextObject(t, lspace, 0, null,
+                    (Color) this.getCurrentLayoutContext().getParameter(
+                            Parameter.MATHCOLOR)));
+            info.setLayoutStage(LayoutStage.STAGE2);
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void layoutStage2(final LayoutView view, final LayoutInfo info) {
+        // TODO: This is far incomplete
+
+        final Graphics2D g = view.getGraphics();
+        final TextLayout t = this.produceUnstrechtedLayout(g);
+
+        final float calcScaleY;
+        final float calcScaleX;
+        final float calcBaselineShift;
+        final JEuclidElement parent = this.getParent();
+        final LayoutInfo parentInfo = view.getInfo(parent);
+        final Rectangle2D textBounds = t.getBounds();
+        if (this.isVerticalDelimeter()) {
+
+            final float targetAscent = parentInfo.getStretchAscent();
+            final float targetDescent = parentInfo.getStretchDescent();
+
+            final float targetHeight = targetAscent + targetDescent;
+
+            final float realHeight = (float) textBounds.getHeight();
+
+            // TODO: use minsize / maxsize
+            if (realHeight > 0.0f) {
+                calcScaleY = targetHeight / realHeight;
+            } else {
+                calcScaleY = 1.0f;
+            }
+            final float realDescent = (float) ((textBounds.getY() + textBounds
+                    .getHeight()) * calcScaleY);
+            calcBaselineShift = targetDescent - realDescent;
+
+            info.setDescentHeight(targetDescent, LayoutStage.STAGE2);
+            info.setAscentHeight(targetHeight - targetDescent,
+                    LayoutStage.STAGE2);
+        } else {
+            calcScaleY = 1.0f;
+            calcBaselineShift = 0.0f;
+        }
+
+        final float stretchWidth = parentInfo.getStretchWidth();
+        if ((this.isHorizontalDelimeter()) && (stretchWidth > 0.0f)) {
+            final float realwidth = (float) (textBounds.getWidth() + textBounds
+                    .getX());
+            if (realwidth > 0) {
+                calcScaleX = stretchWidth / realwidth;
+                info.setWidth(stretchWidth, LayoutStage.STAGE2);
+                info.setHorizontalCenterOffset(stretchWidth / 2.0f,
+                        LayoutStage.STAGE2);
+            } else {
+                calcScaleX = 1.0f;
+            }
+        } else {
+            calcScaleX = 1.0f;
+        }
+
+        info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(),
+                calcBaselineShift, AffineTransform.getScaleInstance(calcScaleX,
+                        calcScaleY), (Color) this.getCurrentLayoutContext()
+                        .getParameter(Parameter.MATHCOLOR)));
+        info.setLayoutStage(LayoutStage.STAGE2);
+    }
 }

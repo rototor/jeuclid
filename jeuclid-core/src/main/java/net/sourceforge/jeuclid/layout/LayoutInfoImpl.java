@@ -53,6 +53,12 @@ public class LayoutInfoImpl implements LayoutInfo {
 
     private float posYS2;
 
+    private float stretchAscent = -1.0f;
+
+    private float stretchDescent = -1.0f;
+
+    private float stretchWidth = -1.0f;
+
     private final List<GraphicsObject> graphicObjects;
 
     /**
@@ -182,5 +188,44 @@ public class LayoutInfoImpl implements LayoutInfo {
     /** {@inheritDoc} */
     public List<GraphicsObject> getGraphicObjects() {
         return this.graphicObjects;
+    }
+
+    /** {@inheritDoc} */
+    public float getStretchWidth() {
+        return this.stretchWidth;
+    }
+
+    /** {@inheritDoc} */
+    public void setStretchWidth(final float newStretchWidth) {
+        this.stretchWidth = newStretchWidth;
+    }
+
+    /** {@inheritDoc} */
+    public float getStretchAscent() {
+        if (this.stretchAscent < 0.0f) {
+            return this.ascentHeightS1;
+        } else {
+            return this.stretchAscent;
+        }
+    }
+
+    /** {@inheritDoc} */
+    public float getStretchDescent() {
+        if (this.stretchDescent < 0.0f) {
+            return this.descentHeightS1;
+        } else {
+            return this.stretchDescent;
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void setStretchAscent(final float newStretchAscent) {
+        this.stretchAscent = newStretchAscent;
+
+    }
+
+    /** {@inheritDoc} */
+    public void setStretchDescent(final float newStretchDescent) {
+        this.stretchDescent = newStretchDescent;
     }
 }

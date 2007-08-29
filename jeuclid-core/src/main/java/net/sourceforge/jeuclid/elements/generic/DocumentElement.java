@@ -211,13 +211,15 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
     public void layoutStage1(final LayoutView view, final LayoutInfo info,
             final LayoutStage childMinStage) {
         ElementListSupport.layoutSequential(view, info, this,
-                LayoutStage.STAGE1, childMinStage);
+                LayoutStage.STAGE1);
+        info.setLayoutStage(childMinStage);
     }
 
     /** {@inheritDoc} */
     public void layoutStage2(final LayoutView view, final LayoutInfo info) {
         ElementListSupport.layoutSequential(view, info, this,
-                LayoutStage.STAGE2, LayoutStage.STAGE2);
+                LayoutStage.STAGE2);
+        info.setLayoutStage(LayoutStage.STAGE2);
     }
 
 }

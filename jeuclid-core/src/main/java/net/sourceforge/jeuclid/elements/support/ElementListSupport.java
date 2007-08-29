@@ -58,8 +58,7 @@ public final class ElementListSupport {
     public static List<JEuclidElement> createListOfChildren(final Node parent) {
         final org.w3c.dom.NodeList childList = parent.getChildNodes();
         final int len = childList.getLength();
-        final List<JEuclidElement> children = new ArrayList<JEuclidElement>(
-                len);
+        final List<JEuclidElement> children = new ArrayList<JEuclidElement>(len);
         for (int i = 0; i < len; i++) {
             final Node child = childList.item(i);
             if (child instanceof JEuclidElement) {
@@ -167,8 +166,7 @@ public final class ElementListSupport {
      * @param elements
      *            a list of elements to fire the change on.
      */
-    public static void fireChangeForSubTree(
-            final List<JEuclidElement> elements) {
+    public static void fireChangeForSubTree(final List<JEuclidElement> elements) {
         for (final ChangeTrackingInterface element : elements) {
             element.fireChangeForSubTree();
         }
@@ -188,13 +186,10 @@ public final class ElementListSupport {
      *            border around element.
      * @param borderRightBottom
      *            border around element.
-     * @param newStage
-     *            new stage for this element.
      */
     public static void fillInfoFromChildren(final LayoutView view,
-            final LayoutInfo info, final Node parent,
-            final LayoutStage stage, final Dimension2D borderLeftTop,
-            final Dimension2D borderRightBottom, final LayoutStage newStage) {
+            final LayoutInfo info, final Node parent, final LayoutStage stage,
+            final Dimension2D borderLeftTop, final Dimension2D borderRightBottom) {
         float ascentHeight = (float) borderLeftTop.getHeight();
         float descentHeight = (float) borderRightBottom.getHeight();
         final float startX = (float) borderLeftTop.getWidth();
@@ -213,7 +208,6 @@ public final class ElementListSupport {
         info.setDescentHeight(descentHeight, stage);
         info.setHorizontalCenterOffset((width + startX) / 2.0f, stage);
         info.setWidth(width + (float) borderRightBottom.getWidth(), stage);
-        info.setLayoutStage(newStage);
     }
 
     /**
@@ -225,12 +219,9 @@ public final class ElementListSupport {
      *            Current Node
      * @param stage
      *            Stage to load Info From
-     * @param newStage
-     *            new stage for this element.
      */
     public static void layoutSequential(final LayoutView view,
-            final LayoutInfo info, final Node parent,
-            final LayoutStage stage, final LayoutStage newStage) {
+            final LayoutInfo info, final Node parent, final LayoutStage stage) {
         float ascentHeight = 0.0f;
         float descentHeight = 0.0f;
         float posX = 0.0f;

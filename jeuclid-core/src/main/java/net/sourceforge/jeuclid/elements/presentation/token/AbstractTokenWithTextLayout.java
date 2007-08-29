@@ -79,23 +79,14 @@ public abstract class AbstractTokenWithTextLayout extends
 
     /** {@inheritDoc} */
     @Override
-    public void layoutStage1(final LayoutView view, final LayoutInfo info,
-            final LayoutStage childMinStage) {
-        this.layoutStage2(view, info);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void layoutStage2(final LayoutView view, final LayoutInfo info) {
+    public void layoutStageInvariant(final LayoutView view,
+            final LayoutInfo info, final LayoutStage stage) {
         final Graphics2D g = view.getGraphics();
-        info.setAscentHeight(this.calculateAscentHeight(g),
-                LayoutStage.STAGE1);
-        info.setDescentHeight(this.calculateDescentHeight(g),
-                LayoutStage.STAGE1);
+        info.setAscentHeight(this.calculateAscentHeight(g), stage);
+        info.setDescentHeight(this.calculateDescentHeight(g), stage);
         final float width = this.calculateWidth(g);
-        info.setHorizontalCenterOffset(width / 2.0f, LayoutStage.STAGE1);
-        info.setWidth(width, LayoutStage.STAGE1);
-        info.setLayoutStage(LayoutStage.STAGE2);
+        info.setHorizontalCenterOffset(width / 2.0f, stage);
+        info.setWidth(width, stage);
         info
                 .setGraphicsObject(new TextObject(this.getLayout(),
                         (Color) this.getCurrentLayoutContext().getParameter(
