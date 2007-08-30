@@ -48,6 +48,7 @@ public class TextObject implements GraphicsObject {
      *            text color.
      */
     public TextObject(final TextLayout textLayout, final Color textColor) {
+        assert textLayout != null;
         this.layout = textLayout;
         this.color = textColor;
         this.xoffset = 0.0f;
@@ -72,6 +73,7 @@ public class TextObject implements GraphicsObject {
     public TextObject(final TextLayout textLayout, final float xo,
             final float yo, final AffineTransform transform,
             final Color textColor) {
+        assert textLayout != null;
         this.layout = textLayout;
         this.color = textColor;
         this.xoffset = xo;
