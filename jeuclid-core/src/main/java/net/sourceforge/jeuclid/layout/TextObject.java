@@ -44,14 +44,17 @@ public class TextObject implements GraphicsObject {
      * 
      * @param textLayout
      *            Text Layout.
+     * @param xo
+     *            X-Offset
      * @param textColor
      *            text color.
      */
-    public TextObject(final TextLayout textLayout, final Color textColor) {
+    public TextObject(final TextLayout textLayout, final float xo,
+            final Color textColor) {
         assert textLayout != null;
         this.layout = textLayout;
         this.color = textColor;
-        this.xoffset = 0.0f;
+        this.xoffset = xo;
         this.yoffset = 0.0f;
         this.trans = null;
     }
