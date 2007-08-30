@@ -54,7 +54,8 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
  * @author Max Berger
  * @version $Revision$
  */
-public class Mo extends AbstractJEuclidElement implements MathMLOperatorElement {
+public class Mo extends AbstractJEuclidElement implements
+        MathMLOperatorElement {
 
     /** Attribute for form. */
     public static final String ATTR_FORM = "form";
@@ -127,8 +128,9 @@ public class Mo extends AbstractJEuclidElement implements MathMLOperatorElement 
             + /* OverBar */"\u00AF" + /* UnderBar */"\u0332" + "\u0333"
             + "\u033F" + "\u2190" + "\u2192" + "\u2194"
             + /* OverBracket */"\u23B4" + /* UnderBracket */"\u23B5"
-            + /* OverParenthesis */"\uFE35" + /* UnderParenthesis */"\uFE36"
-            + /* OverBrace */"\uFE37" + /* UnderBrace */"\uFE38";
+            + /* OverParenthesis */"\uFE35"
+            + /* UnderParenthesis */"\uFE36" + /* OverBrace */"\uFE37"
+            + /* UnderBrace */"\uFE38";
 
     /**
      * Vertical delimiters.
@@ -163,9 +165,8 @@ public class Mo extends AbstractJEuclidElement implements MathMLOperatorElement 
                 AttributesHelper.THICKMATHSPACE);
         this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, MathBase.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_SYMMETRIC, MathBase.TRUE);
-        this
-                .setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
-                        AttributesHelper.INFINITY);
+        this.setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
+                AttributesHelper.INFINITY);
         this.setDefaultMathAttribute(Mo.ATTR_MINSIZE, "1");
         this.setDefaultMathAttribute(Mo.ATTR_LARGEOP, MathBase.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, MathBase.FALSE);
@@ -474,7 +475,8 @@ public class Mo extends AbstractJEuclidElement implements MathMLOperatorElement 
                 AttributesHelper.THICKMATHSPACE);
         this.loadAttributeFromDictionary(Mo.ATTR_RSPACE,
                 AttributesHelper.THICKMATHSPACE);
-        this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS, MathBase.FALSE);
+        this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS,
+                MathBase.FALSE);
 
         // TODO: Load all.
         final JEuclidElement parent = this.getParent();
@@ -502,8 +504,8 @@ public class Mo extends AbstractJEuclidElement implements MathMLOperatorElement 
             final String defvalue) {
         String attr;
         try {
-            attr = OperatorDictionary.getDefaultAttributeValue(this.getText(),
-                    this.getForm(), attrname);
+            attr = OperatorDictionary.getDefaultAttributeValue(
+                    this.getText(), this.getForm(), attrname);
         } catch (final UnknownAttributeException e) {
             attr = defvalue;
         }
@@ -654,20 +656,11 @@ public class Mo extends AbstractJEuclidElement implements MathMLOperatorElement 
         final Graphics2D g = view.getGraphics();
         final TextLayout t = this.produceUnstrechtedLayout(g);
 
-        // TODO: This is duplicated from AbstractTokenWithTextLayout
-        final Rectangle2D textBounds = t.getBounds();
-        final float ascent = (float) (-textBounds.getY());
-        final float descent = (float) (textBounds.getY() + textBounds
-                .getHeight());
-        final float xo = (float) textBounds.getX();
-        final float xOffset;
-        if (xo < 0) {
-            xOffset = -xo;
-        } else {
-            xOffset = 0.0f;
-        }
-        final float contentWidth = StringUtil.getWidthForTextLayout(t)
-                + xOffset;
+        final StringUtil.TextLayoutInfo tli = StringUtil.getTextLayoutInfo(t);
+        final float ascent = tli.getAscent();
+        final float descent = tli.getDescent();
+        final float xOffset = tli.getOffset();
+        final float contentWidth = tli.getWidth() + xOffset;
         final float lspace = this.getLspaceAsFloat();
         final float rspace = this.getRspaceAsFloat();
 
@@ -744,9 +737,10 @@ public class Mo extends AbstractJEuclidElement implements MathMLOperatorElement 
         }
 
         info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(),
-                calcBaselineShift, AffineTransform.getScaleInstance(calcScaleX,
-                        calcScaleY), (Color) this.getCurrentLayoutContext()
-                        .getParameter(Parameter.MATHCOLOR)));
+                calcBaselineShift, AffineTransform.getScaleInstance(
+                        calcScaleX, calcScaleY), (Color) this
+                        .getCurrentLayoutContext().getParameter(
+                                Parameter.MATHCOLOR)));
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 }

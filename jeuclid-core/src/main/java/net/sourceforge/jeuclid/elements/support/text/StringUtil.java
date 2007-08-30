@@ -277,6 +277,101 @@ public final class StringUtil {
         return realWidth + invisibleAdvance;
     }
 
+    /**
+     * Contains layout information retrieved from a TextLayout.
+     */
+    public static class TextLayoutInfo {
+        private final float ascent;
+
+        private final float descent;
+
+        private final float offset;
+
+        private final float width;
+
+        /**
+         * Default Constructor.
+         * 
+         * @param newAscent
+         *            text ascent.
+         * @param newDescent
+         *            text descent.
+         * @param newOffset
+         *            text start offset.
+         * @param newWidth
+         *            text width.
+         */
+        protected TextLayoutInfo(final float newAscent,
+                final float newDescent, final float newOffset,
+                final float newWidth) {
+            this.ascent = newAscent;
+            this.descent = newDescent;
+            this.offset = newOffset;
+            this.width = newWidth;
+        }
+
+        /**
+         * Getter method for ascent.
+         * 
+         * @return the ascent
+         */
+        public float getAscent() {
+            return this.ascent;
+        }
+
+        /**
+         * Getter method for descent.
+         * 
+         * @return the descent
+         */
+        public float getDescent() {
+            return this.descent;
+        }
+
+        /**
+         * Getter method for offset.
+         * 
+         * @return the offset
+         */
+        public float getOffset() {
+            return this.offset;
+        }
+
+        /**
+         * Getter method for width.
+         * 
+         * @return the width
+         */
+        public float getWidth() {
+            return this.width;
+        }
+
+    };
+
+    /**
+     * Retrieve the actual layout information from a textLayout. This is
+     * different than the values given when calling the functions directly.
+     * 
+     * @param textLayout
+     *            TextLayout to look at.
+     * @return a TextLayoutInfo.
+     */
+    public static TextLayoutInfo getTextLayoutInfo(final TextLayout textLayout) {
+        final Rectangle2D textBounds = textLayout.getBounds();
+        final float ascent = (float) (-textBounds.getY());
+        final float descent = (float) (textBounds.getY() + textBounds
+                .getHeight());
+        final float xo = (float) textBounds.getX();
+        final float xOffset;
+        if (xo < 0) {
+            xOffset = -xo;
+        } else {
+            xOffset = 0.0f;
+        }
+        final float width = StringUtil.getWidthForTextLayout(textLayout);
+        return new TextLayoutInfo(ascent, descent, xOffset, width);
+    }
+
     private static void addHighMapping(final int codePointStart,
             final MathVariant mapToVariant) {
 

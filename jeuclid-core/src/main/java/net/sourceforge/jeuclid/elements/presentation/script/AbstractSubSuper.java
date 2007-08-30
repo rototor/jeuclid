@@ -19,12 +19,18 @@
 package net.sourceforge.jeuclid.elements.presentation.script;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
+import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
 
 import org.w3c.dom.mathml.MathMLScriptElement;
 
@@ -135,4 +141,63 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
         }
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected void layoutStageInvariant(final LayoutView view,
+            final LayoutInfo info, final LayoutStage stage) {
+        // TODO Incomplete
+        // TODO Move to ScriptSupport
+        final JEuclidElement base = this.getBase();
+        final JEuclidElement sub = this.getSubscript();
+        final JEuclidElement sup = this.getSuperscript();
+
+        final LayoutInfo baseInfo = view.getInfo(base);
+        final LayoutInfo subInfo;
+        final LayoutInfo superInfo;
+        final float width = baseInfo.getWidth(stage);
+
+        float subShift = 0.0f;
+        float superShift = 0.0f;
+
+        if (sub != null) {
+            subInfo = view.getInfo(sub);
+            subShift = baseInfo.getDescentHeight(stage)
+                    + (subInfo.getAscentHeight(stage) - subInfo
+                            .getDescentHeight(stage)) / 2.0f;
+        } else {
+            subInfo = null;
+        }
+        if (sup != null) {
+            superInfo = view.getInfo(sup);
+            superShift = baseInfo.getAscentHeight(stage)
+                    - (superInfo.getAscentHeight(stage) - superInfo
+                            .getDescentHeight(stage)) / 2.0f;
+        } else {
+            superInfo = null;
+        }
+
+        if ((subInfo != null) && (superInfo != null)) {
+            final float topSub = -subShift + subInfo.getAscentHeight(stage)
+                    + 1.0f;
+            final float bottomSuper = superShift
+                    - superInfo.getDescentHeight(stage) - 1.0f;
+
+            final float overlap = Math.max(0.0f, topSub - bottomSuper);
+            final float overlapShift = overlap / 2.0f;
+
+            superShift += overlapShift;
+            subShift += overlapShift;
+        }
+
+        if (subInfo != null) {
+            subInfo.moveTo(width, subShift, stage);
+        }
+        if (superInfo != null) {
+            superInfo.moveTo(width, -superShift, stage);
+        }
+        final Dimension2D borderLeftTop = new Dimension2DImpl(0.0f, 0.0f);
+        final Dimension2D borderRightBottom = new Dimension2DImpl(0.0f, 0.0f);
+        ElementListSupport.fillInfoFromChildren(view, info, this, stage,
+                borderLeftTop, borderRightBottom);
+    }
 }

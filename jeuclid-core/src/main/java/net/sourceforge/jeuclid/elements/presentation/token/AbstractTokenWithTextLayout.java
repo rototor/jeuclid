@@ -81,14 +81,17 @@ public abstract class AbstractTokenWithTextLayout extends
     @Override
     public void layoutStageInvariant(final LayoutView view,
             final LayoutInfo info, final LayoutStage stage) {
-        final Graphics2D g = view.getGraphics();
-        info.setAscentHeight(this.calculateAscentHeight(g), stage);
-        info.setDescentHeight(this.calculateDescentHeight(g), stage);
-        final float width = this.calculateWidth(g);
-        info.setHorizontalCenterOffset(width / 2.0f, stage);
-        info.setWidth(width, stage);
         if (!this.isEmpty()) {
-            info.setGraphicsObject(new TextObject(this.getLayout(),
+            final Graphics2D g = view.getGraphics();
+            final TextLayout t = this.produceTextLayout(g);
+            final StringUtil.TextLayoutInfo tli = StringUtil
+                    .getTextLayoutInfo(t);
+            info.setAscentHeight(tli.getAscent(), stage);
+            info.setDescentHeight(tli.getDescent(), stage);
+            final float width = tli.getWidth();
+            info.setHorizontalCenterOffset(width / 2.0f, stage);
+            info.setWidth(width, stage);
+            info.setGraphicsObject(new TextObject(t, tli.getOffset(),
                     (Color) this.getCurrentLayoutContext().getParameter(
                             Parameter.MATHCOLOR)));
         }
