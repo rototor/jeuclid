@@ -87,10 +87,11 @@ public abstract class AbstractTokenWithTextLayout extends
         final float width = this.calculateWidth(g);
         info.setHorizontalCenterOffset(width / 2.0f, stage);
         info.setWidth(width, stage);
-        info
-                .setGraphicsObject(new TextObject(this.getLayout(),
-                        (Color) this.getCurrentLayoutContext().getParameter(
-                                Parameter.MATHCOLOR)));
+        if (!this.isEmpty()) {
+            info.setGraphicsObject(new TextObject(this.getLayout(),
+                    (Color) this.getCurrentLayoutContext().getParameter(
+                            Parameter.MATHCOLOR)));
+        }
     }
 
     /**
@@ -107,7 +108,7 @@ public abstract class AbstractTokenWithTextLayout extends
      */
     protected abstract boolean isEmpty();
 
-    private void produceTextLayout(final Graphics2D g2d) {
+    private TextLayout produceTextLayout(final Graphics2D g2d) {
         if (this.layout == null) {
 
             this.layout = StringUtil.createTextLayoutFromAttributedString(
@@ -121,6 +122,7 @@ public abstract class AbstractTokenWithTextLayout extends
                 this.xOffset = 0.0f;
             }
         }
+        return this.layout;
     }
 
     /**
