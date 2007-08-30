@@ -156,18 +156,19 @@ public class Mfenced extends AbstractElementWithDelegates implements
         for (int i = 0; i < this.getMathElementCount(); i++) {
             retVal.add(this.getMathElement(i));
 
-            if (i < (this.getMathElementCount() - 1)) {
-                final Mo opSep = new Mo(this.getMathBase());
-                opSep.setSeparator(MathBase.TRUE);
-                if (i < sep.length()) {
-                    opSep.addText(String.valueOf(sep.charAt(i)));
-                } else {
-                    opSep.addText(String
-                            .valueOf(sep.charAt(sep.length() - 1)));
+            if (sep.length() > 0) {
+                if (i < (this.getMathElementCount() - 1)) {
+                    final Mo opSep = new Mo(this.getMathBase());
+                    opSep.setSeparator(MathBase.TRUE);
+                    if (i < sep.length()) {
+                        opSep.addText(String.valueOf(sep.charAt(i)));
+                    } else {
+                        opSep.addText(String.valueOf(sep
+                                .charAt(sep.length() - 1)));
+                    }
+                    retVal.add(opSep);
                 }
-                retVal.add(opSep);
             }
-
         }
         final Mo opClose = new Mo(this.getMathBase());
         opClose.setFence(MathBase.TRUE);

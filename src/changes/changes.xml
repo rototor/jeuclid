@@ -7,7 +7,8 @@
 	<body>
 		<release version="3.0.2" date="in SVN"
 			description="NONE yet">
-		<action dev="maxberger" type="update">Udid De-Anti-alias below 10pt</action>
+		<action dev="maxberger" type="update">fix for mfence with no separators</action>
+		<action dev="maxberger" type="update">Undid De-Anti-alias below 10pt</action>
 		<action dev="maxberger" type="update">Update after release</action>
  		</release>
 	<body>
