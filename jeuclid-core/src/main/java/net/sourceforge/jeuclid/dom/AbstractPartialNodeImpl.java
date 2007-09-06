@@ -308,7 +308,7 @@ public abstract class AbstractPartialNodeImpl implements Node {
      * 
      * @return a List&lt;Node&gt;
      */
-    protected List<Node> getChildren() {
+    public List<Node> getChildren() {
         return this.children;
     }
 }
