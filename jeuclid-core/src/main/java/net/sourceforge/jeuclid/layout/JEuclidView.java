@@ -24,6 +24,7 @@ import java.awt.geom.Line2D;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
@@ -41,6 +42,8 @@ public class JEuclidView implements AbstractView, LayoutView {
 
     private final Map<Node, LayoutInfo> layoutMap;
 
+    private final LayoutContext context;
+
     private final Graphics2D graphics;
 
     /**
@@ -52,11 +55,14 @@ public class JEuclidView implements AbstractView, LayoutView {
      *            Graphics context to use for layout calculations. This should
      *            be compatible to the context used for painting, but does not
      *            have to be the same.
+     * @param layoutContext
+     *            layoutContext to use.
      */
     public JEuclidView(final LayoutableDocument doc,
-            final Graphics2D layoutGraphics) {
+            final LayoutContext layoutContext, final Graphics2D layoutGraphics) {
         this.document = doc;
         this.graphics = layoutGraphics;
+        this.context = layoutContext;
         this.layoutMap = new HashMap<Node, LayoutInfo>();
     }
 
