@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.elements.presentation.table;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.util.Iterator;
 import java.util.List;
@@ -33,10 +34,15 @@ import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.presentation.token.Mn;
+import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
 
-import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLLabeledRowElement;
 import org.w3c.dom.mathml.MathMLNodeList;
 import org.w3c.dom.mathml.MathMLTableElement;
@@ -267,8 +273,10 @@ public class Mtable extends AbstractJEuclidElement implements
                 retVal = Mtable.AlignmentType.RIGHT;
             } else if ("decimalpoint".equalsIgnoreCase(s)) {
                 retVal = Mtable.AlignmentType.DECIMALPOINT;
-            } else {
+            } else if ("center".equalsIgnoreCase(s)) {
                 retVal = Mtable.AlignmentType.CENTER;
+            } else {
+                retVal = null;
             }
             return retVal;
         }
@@ -1429,7 +1437,7 @@ public class Mtable extends AbstractJEuclidElement implements
     }
 
     /** {@inheritDoc} */
-    public void deleteRow(final long index) throws DOMException {
+    public void deleteRow(final long index) {
         // TODO Auto-generated method stub
 
     }
@@ -1441,37 +1449,112 @@ public class Mtable extends AbstractJEuclidElement implements
     }
 
     /** {@inheritDoc} */
-    public MathMLLabeledRowElement insertEmptyLabeledRow(final long index)
-            throws DOMException {
+    public MathMLLabeledRowElement insertEmptyLabeledRow(final long index) {
         // TODO Auto-generated method stub
         return null;
     }
 
     /** {@inheritDoc} */
-    public MathMLTableRowElement insertEmptyRow(final long index)
-            throws DOMException {
+    public MathMLTableRowElement insertEmptyRow(final long index) {
         // TODO Auto-generated method stub
         return null;
     }
 
     /** {@inheritDoc} */
     public MathMLTableRowElement insertRow(final long index,
-            final MathMLTableRowElement newRow) throws DOMException {
+            final MathMLTableRowElement newRow) {
         // TODO Auto-generated method stub
         return null;
     }
 
     /** {@inheritDoc} */
-    public MathMLTableRowElement removeRow(final long index)
-            throws DOMException {
+    public MathMLTableRowElement removeRow(final long index) {
         // TODO Auto-generated method stub
         return null;
     }
 
     /** {@inheritDoc} */
     public MathMLTableRowElement setRow(final long index,
-            final MathMLTableRowElement newRow) throws DOMException {
+            final MathMLTableRowElement newRow) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void layoutStageInvariant(final LayoutView view,
+            final LayoutInfo info, final LayoutStage stage) {
+        final Graphics2D g = view.getGraphics();
+        final List<Node> children = this.getChildren();
+        final LayoutInfo[] rowInfos = new LayoutInfo[children.size()];
+        final Mtr[] rowChild = new Mtr[children.size()];
+        float y = 0;
+        int rows = 0;
+        for (final Node child : children) {
+            final Mtr mtr = (Mtr) child;
+            rowChild[rows] = mtr;
+            final LayoutInfo mtrInfo = view.getInfo(mtr);
+            y += mtrInfo.getAscentHeight(stage);
+            rowInfos[rows] = mtrInfo;
+            rows++;
+            mtrInfo.moveTo(0, y, stage);
+            y += mtrInfo.getDescentHeight(stage);
+        }
+        final float height = y;
+        // final String alignStr = this.getAlign();
+        // AlignmentType align =
+        // Mtable.AlignmentType.parseAlignmentType(alignStr);
+        final float verticalShift = -this.getMiddleShift(g) - height / 2.0f;
+        for (int i = 0; i < rows; i++) {
+            rowInfos[i].moveTo(0, rowInfos[i].getPosY(stage) + verticalShift,
+                    stage);
+        }
+        // TODO: Proper vertical alignment;
+
+        final List<Float> columnwidth = new Vector<Float>();
+        for (int i = 0; i < rows; i++) {
+            int col = 0;
+            final List<Node> mtdChildren = rowChild[i].getChildren();
+            int missing = mtdChildren.size() - columnwidth.size();
+            while (missing > 0) {
+                columnwidth.add(0.0f);
+                missing--;
+            }
+            for (final Node n : mtdChildren) {
+                final Mtd mtd = (Mtd) n;
+                final float width = Math.max(columnwidth.get(col), view
+                        .getInfo(mtd).getWidth(stage));
+                columnwidth.set(col, width);
+                col++;
+            }
+        }
+
+        for (int i = 0; i < rows; i++) {
+            final List<Node> mtdChildren = rowChild[i].getChildren();
+            float x = 0.0f;
+            int col = 0;
+            for (final Node n : mtdChildren) {
+                final Mtd mtd = (Mtd) n;
+                final LayoutInfo mtdInfo = view.getInfo(mtd);
+                mtdInfo.moveTo(x, 0.0f, stage);
+                x += columnwidth.get(col);
+                col++;
+            }
+        }
+
+        float totalWidth = 0.0f;
+        for (final Float f : columnwidth) {
+            totalWidth += f;
+        }
+        for (int i = 0; i < rows; i++) {
+            rowInfos[i].setWidth(totalWidth, stage);
+            // TODO: Proper horizontal alignment;
+        }
+
+        // TODO: Make more sophisticated.
+        final Dimension2D borderLeftTop = new Dimension2DImpl(0.0f, 0.0f);
+        final Dimension2D borderRightBottom = new Dimension2DImpl(0.0f, 0.0f);
+        ElementListSupport.fillInfoFromChildren(view, info, this, stage,
+                borderLeftTop, borderRightBottom);
     }
 }
