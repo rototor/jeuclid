@@ -1,0 +1,1114 @@
+<?xml version="1.0"?>
+<document>
+	<properties>
+		<title>Changes JEuclid Project</title>
+		<author>Max Berger</author>
+	</properties>
+	<body>
+		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="add">Yet another Layout Redesign</action>
+                <action dev="maxberger" type="update" due-to="Jean Roland">Removed potential memory leak from MathComponentUI</action>
+                        <action dev="maxberger" type="update">updated fop-plugin for 0.94</action>
+                        <action dev="maxberger" type="update">removed EXPERIMENTAL from all docs</action>
+			<action dev="maxberger" type="add">Added support for scriptminsize to layoutcontext;
+			added support for disabling anti-alias below threshold;
+			set default fonts to non-fractional metrics
+			</action>
+			<action dev="maxberger" type="add">Started to work on LayoutTree</action>
+			<action dev="maxberger" type="update">JMathComponent supports Node instead of Document;
+			default document set to simple node for performance reasons.</action>
+			<action dev="maxberger" type="update">MathColor is now handled through context; 
+			fixed bug in event handling;
+			SAXBuilder Deprecated</action>
+			<action dev="maxberger" type="update">MathSize is now handled through context</action>
+			<action dev="maxberger" type="update">Added conversion do DOM as suggested by Victor Mote</action>
+			<action dev="maxberger" type="update">Replaced isChildBlock with LayoutContext</action>
+			<action dev="maxberger" type="update">Removed MathBase from all Elements</action>
+			<action dev="maxberger" type="update">LayoutContext is now in RootElement</action>
+			<action dev="maxberger" type="update">Split LayoutContext into LayoutContext and MutableLayoutContext</action>
+			<action dev="maxberger" type="update">Replaced ParameterKey by LayoutContext</action>
+			<action dev="maxberger" type="update">Removed OutFileType from RenderingKey</action>
+			<action dev="maxberger" type="update">Made DOM Builder a singleton</action>
+			<action dev="maxberger" type="update">Deprecated old converter API</action>
+			<action dev="maxberger" type="update">
+foprep: No uses percentage alignment-adjust instead of absolute baseline-shift
+</action>
+</release>
+		<release version="2.9.8" date="2007-07-05"
+			description="almost there">
+		<action dev="maxberger" type="update">CharConverter: Split into Early (parsing) and late conversion; Used this to keep information on mapped special chars, such as InvisibleTimes Created a safe "createTextLayout" function;</action>
+		<action dev="maxberger" type="update">
+        	   Parser: support more Source Types through transformer;
+		</action>
+		<action dev="maxberger" type="update">
+        	   foprep now has a Source / Result interface;
+        	   rewrote foprep Main to use it;
+		</action>
+		<action dev="maxberger" type="add">
+        	   Created new Parser API based on JAXP sources;
+		</action>
+		<action dev="maxberger" type="update">
+        	   xxe plugin: converter now checks target file type;
+        	   xxe plugin: Implemented Vector scaling;
+		</action>
+		<action dev="maxberger" type="update">
+        	   checkstyle ImportOrder now matches Eclipse Organize imports
+		</action>
+		<action dev="maxberger" type="update">
+        	   reworked Text handling in DOM model.
+		</action>
+		<action dev="maxberger" type="add">
+        	   created fo preprocess application
+		</action>
+		<action dev="maxberger" type="update">
+        	   MathMLParserSupport: turned on namespaces, xinclude
+		</action>
+		<action dev="maxberger" type="update">
+        	FontFactory: cosmetic fixes;
+		</action>
+		<action dev="maxberger" type="update">
+                  Released 2.9.7;
+		</action>
+		</release>
+		<release version="2.9.7" date="2007-05-24"
+			description="split and joined">
+			<action dev="maxberger" type="add">
+                           added new module: plugin for XXE
+			</action>
+			<action dev="maxberger" type="add">
+			  createad our own m2 repository;
+                          enabled fop-plugin to build by default
+			</action>
+			<action dev="maxberger" type="update">
+			  added ODF Reader to fop-plugin (requires fix of bug in fop)
+			</action>
+			<action dev="maxberger" type="update">
+			  fixed a scaling bug in Mo
+			</action>
+			<action dev="maxberger" type="update">
+			  Anti-Alias fix for sun jdk 1.5
+			</action>
+			<action dev="maxberger" type="add">
+			  MathMLParserSupport: Added functionality to parse InputStreams.
+			</action>
+			<action dev="maxberger" type="update">
+			   Rewrote xml-fop to draw directly onto G2D adapter.
+			</action>
+			<action dev="maxberger" type="add">
+			   SwingComponent: support Border property.
+			</action>
+			<action dev="maxberger" type="add">
+			   implemented all of FreeHEP supported filetypes
+			</action>
+			<action dev="eric239" type="update">
+					refactored convert methods to return rendering's dimensions;
+					original Converter still returns boolean.
+			</action>
+			<action dev="eric239" type="update">
+					Modified Converter (the new one) and MathMLParserSupport
+					to take Node instead of Document consistent with 
+					DOMBuilder's capabilities.
+			</action>
+			<action dev="eric239" type="update">
+					refactored new Converter, ConverterPlugin and 
+					its concrete implementations to accept OutputStream
+					instead of File
+			</action>
+			<action dev="maxberger" type="update">
+			   finished rework of mmultiscripts
+			</action>
+			<action dev="maxberger" type="update">
+			   minor refactoring in MathViewer
+			</action>
+			<action dev="maxberger" type="update">
+			   more cleanups on jeuclid-fop
+			</action>
+			<action dev="maxberger" type="update">
+			  several minor changes to fix compliance with spec in Mi,
+			  Mfenced, space handling, AbstractSubSuper.
+			</action>
+			<action dev="eric239" type="update">
+				minor refactoring of FontFactory
+			</action>
+			<action dev="maxberger" type="update">
+			  better implementation for width of text elements.
+			</action>
+			<action dev="maxberger" type="update">
+			  implemented non-overlap for sub/super elements.
+			</action>
+			<action dev="eric239" type="add">
+				introduced FontFactory and changed MathVariant &amp; Mglyph to use it
+			</action>
+			<action dev="maxberger" type="update">
+			  repaired property setting in swing component.
+			</action>
+			<action dev="maxberger" type="update">
+			  fixed maction to only display selected content, as per spec.
+			</action>
+			<action dev="maxberger" type="update">
+			  re-merged most modules, added "minimal" module
+			</action>
+			<action dev="maxberger" type="add">
+			  added first draft of SWF output through FreeHEP
+			</action>
+			<action dev="maxberger" type="update">
+			  Re-wrote converter API again, inspired by Eric's changes.
+			</action>
+			<action dev="maxberger" type="add">
+			  Added method to re-serialize the MathML DOM tree to a String
+			</action>
+			<action dev="maxberger" type="update">
+			  Generated W3C DOM model from Spec; This added documentation and exposed a few
+			  inconsistencies in the DOM model as available from the webpage.
+			</action>
+			<action dev="maxberger" type="update">
+			  DocumentElement not implements DisplayableNode
+			</action>
+			<action dev="maxberger" type="update">
+			  complete rewrite of menclose;
+			  update of root to scale bar;
+			</action>
+			<action dev="maxberger" type="update">
+			  StringUtil: cleaned up; better mapping for high plane chars; 
+			  added mapping for most high-plane chars;
+			</action>
+			<action dev="maxberger" type="update">
+			  JEuclidElementFactory: is now Map-based;
+			</action>
+			<action dev="maxberger" type="add">
+			  added an implementation for MathMLNodeList;
+			  more cleanups for mmultiscripts;
+			</action>
+			<action dev="maxberger" type="add">
+			  refactored Script element support; added new class AbstractScriptElement;
+			  started cleanup of Mmultiscripts
+			</action>
+			<action dev="maxberger" type="add">
+			  Added support for the "none" element
+			</action>
+			<action dev="maxberger" type="add">
+			  created class ScriptSupport; Moved Sub/Super baselineshift calculation there,
+			  reworked calucation to center sub/supers.
+			</action>
+			<action dev="maxberger" type="update">
+			   Defense: Checkstyle fixes;
+			   added package.html for AWT, Swing Component;
+			</action>
+			<action dev="maxberger" type="update">
+			  FindBug fixes in MathBase, SaxBuilder, AbstractPartialElementIml,
+			  AbstractPartialNodeImpl, AbstractUnderOver, Mn, AttributesHelper,
+			  MathVariant;
+			</action>
+			<action dev="maxberger" type="update">
+ 				renamed modules for compatiblity with
+				continuum
+			</action>
+			<action dev="maxberger" type="add">
+			   imported fop classes from fop, modified to compile with current jeuclid;
+			</action>
+			<action dev="maxberger" type="add">
+			   started work on fop-module
+			</action>
+			<action dev="maxberger" type="update">
+			   PartialTextImpl: JavaDoc fixes
+			</action>
+			<action dev="maxberger" type="update">
+				converter: checkstyle and documentation fixes.
+			</action>
+			<action dev="eputrycz" type="add">
+				refactored converter, static calls should use
+				net.sourceforge.jeuclid.ConverterTool instead of
+				net.sourceforge.jeuclid.Converter. The converter detects
+				if batik is in the classpath, if yes then it
+				instantiates the SVG able converter otherwise fails back
+				to the default one.
+			</action>
+			<action dev="maxberger" type="add">
+				implemented CommandLineParser (moved out of mml2xxx)
+				MathViewer now accepts command line arguments
+			</action>
+			<action dev="maxberger" type="update">
+				AWT componet test is now a proper test;
+			</action>
+			<action dev="maxberger" type="update">
+				added dashboard report
+			</action>
+			<action dev="maxberger" type="update">
+				repaired website; contains ugly hack in menus;
+			</action>
+			<action dev="maxberger" type="update">
+				repeared checkstyle; added proguard configuration
+				(disabled because it saves only approx. 0.5%)
+			</action>
+			<action dev="maxberger" type="update" issue="1710627">
+				Split up the main JEuclid into many smaller components,
+				this is work in progress;
+			</action>
+			<action dev="maxberger" type="update" issue="1710738">
+				Proper support for serialization of DOM Tree (needed for
+				swing component's content property);
+			</action>
+			<action dev="maxberger" type="update">
+				Improved documentation on source webpage
+			</action>
+			<action dev="maxberger" type="update"
+				due-to="Ernest Mishkin">
+				DOMBuilder now supports building from Document,
+				DocumentFragment, Element
+			</action>
+			<action dev="maxberger" type="update">
+				Improved get/setFont compatiblity in Swing Component
+			</action>
+			<action dev="maxberger" type="add" issue="1706016">
+				added readme for build.xml
+			</action>
+			<action dev="maxberger" type="update" issue="1707586">
+				Added mapping UnderBar to OverBar;
+			</action>
+			<action dev="maxberger" type="update">
+				pom: updated dependency for appassembler, updated
+				assemble descriptors;
+			</action>
+			<action dev="maxberger" type="update" issue="1710738">
+				MathBase now returns a size >= 1x1
+			</action>
+			<action dev="maxberger" type="update" issue="1707586">
+				Mo: Changed list of horizontal delimiters; added fix for
+				potential division by zero;
+			</action>
+			<action dev="maxberger" type="update">
+				removed extra spacing around operators with pre /
+				postscripts; created constant for "0";
+			</action>
+			<action dev="maxberger" type="update">
+				created constants for "true" and "false"
+			</action>
+			<action dev="maxberger" type="add">
+				Added support function for default line thickness, to
+				support scaling lines along with the font size; used it
+				in mtable and mfrac;
+			</action>
+			<action dev="maxberger" type="add" issue="1706016">
+				started to work on desriptor for source distribution,
+				which also supplies ant build.xml file
+			</action>
+			<action dev="maxberger" type="update">
+				Changed default rendering params;
+			</action>
+			<action dev="maxberger" type="update">
+				Updated webstart config settings;
+			</action>
+			<action dev="maxberger" type="update">
+				Mml2xxx now prints more information in case of failure;
+			</action>
+			<action dev="maxberger" type="add">
+				Released 2.9.6; updated website; re-rendered testsuite
+			</action>
+		</release>
+		<release version="2.9.6" date="2007-04-22"
+			description="Beta-1 for 3.0">
+			<action dev="maxberger" type="update">
+				DOMAttributeMap, Mtable, Mstyle, SAXAttributeMap,
+				AbstractJEuclidElement: checkstyle fixes;
+			</action>
+			<action dev="maxberger" type="add">
+				refactored mtext into abstract classes; implemented
+				mglyph element; All MathML 2.0 presentation tokens are
+				now supported!
+			</action>
+			<action dev="maxberger" type="add">
+				implemented merror; implemented (empty) support for
+				maction;
+			</action>
+			<action dev="maxberger" type="update">
+				version tag is now forced for classes; Major
+				refactoring; almost everything has moved and been
+				renamed; THIS BREAKS the API!
+			</action>
+			<action dev="maxberger" type="update">
+				reduced value for non-accent under/over elements;
+				MathRoot: Reduced size for index; MathOperator: fixed
+				logic for movable limits; MathStyle: implemented
+				displaystyle property; Added logic to properly center
+				munver/mover elements; Added support for misspelled
+				"movablelimits"
+			</action>
+			<action dev="maxberger" type="update">
+				MathText: better support for text containing spaces at
+				the end; MathText: better support for characters which
+				extend to the left; MathOperator: now uses the same
+				width-calculation as MathText;
+			</action>
+			<action dev="maxberger" type="add">
+				Mathviewer: added toggle for debug; JMathComponent: fix
+				handling of debug flag;
+			</action>
+			<action dev="maxberger" type="update">
+				Internal coordinates are now all float. THIS BREAKS THE
+				API!
+			</action>
+			<action dev="maxberger" type="update">
+				DOMMathBuilder: Checkstyle fixes;
+			</action>
+			<action dev="maxberger" type="update">
+				AbstractMathElement: changed whitespace handling, now
+				only trivial spaces are collapsed
+			</action>
+			<action dev="maxberger" type="update">
+				DOMMathBuilder: small performance tuning;
+			</action>
+			<action dev="maxberger" type="update">
+				MathUnder/Over: Common functionality merged; cleaned up;
+			</action>
+			<action dev="maxberger" type="update">
+				MathUnder/Over: started to merge some common
+				functionality;
+			</action>
+			<action dev="maxberger" type="update">
+				AttributesHelper: checkstyle fixes;
+			</action>
+			<action dev="maxberger" type="update">
+				MathOperator: restored proper support for horizontal
+				stretching; AttributesHelper: Checkstyle fixes;
+			</action>
+			<action dev="maxberger" type="update">
+				added DejaVu Sans to list of symbolcatchfonts. (needed
+				for char 20D7); changed mapping for old openoffice
+				vector char; added notes for OpenOffice; updated FAQ
+			</action>
+			<action dev="maxberger" type="update">
+				pom.xml: removed dependency on particular surefire
+				version; enabled DOM test for mpadded;
+			</action>
+			<action dev="maxberger" type="add">
+				Basic implementation of mpadded;
+			</action>
+			<action dev="maxberger" type="update">
+				MathMultiScripts: Checkstyle fixes; modified checkstyle
+				configuration (disabled todo items);
+			</action>
+			<action dev="maxberger" type="update">
+				updated roadmap
+			</action>
+			<action dev="maxberger" type="add">
+				Released 2.9.5; updated website;
+			</action>
+		</release>
+		<release version="2.9.5" date="2007-03-29"
+			description="The big bugfix release">
+			<action dev="maxberger" type="add" issue="1532309">
+				mtable: now supports w3c dom model; this was the last
+				one!
+			</action>
+			<action dev="maxberger" type="add">
+				munderover, munder, mover: moved to DOM interface,
+				prepared for cleanup; enabled all DOM test cases;
+			</action>
+			<action dev="maxberger" type="update">
+				MathTable: preparations for move to w3c dom;
+			</action>
+			<action dev="maxberger" type="remove">
+				removed eventElementComplete (obsolete through
+				changeHook());
+			</action>
+			<action dev="maxberger" type="fix">
+				removed several PMD errors
+			</action>
+			<action dev="maxberger" type="add">
+				Added ChangeTrackingInterface; moperator now properly
+				registeres with parent; removed eventAllElementsComplete
+				(obsolete through changeHook());
+			</action>
+			<action dev="maxberger" type="add" issue="1686545">
+				mtable: implemented rowlines and columnlines attributes
+			</action>
+			<action dev="maxberger" type="update">
+				Rewrote change management (still needs more work); added
+				pmd plugin to report
+			</action>
+			<action dev="maxberger" type="update">
+				Completely rewrote MathOperator; WARNING: Some things
+				may now behave differently;
+			</action>
+			<action dev="maxberger" type="fix">
+				Converter: fixed convert(File,File,String)
+			</action>
+			<action dev="maxberger" type="update">
+				yet another font-list change;
+			</action>
+			<action dev="maxberger" type="update">
+				added more symbol catch fonts;
+			</action>
+			<action dev="maxberger" type="fix">
+				sub/super: shift values modified again (still not happy
+				with it, but it looks better now;
+			</action>
+			<action dev="maxberger" type="fix">
+				MathText: Better verson of getAscent / getDescent;
+			</action>
+			<action dev="maxberger" type="fix">
+				AttributesHelper: Removed unnecessary dependency on java
+				1.6
+			</action>
+			<action dev="maxberger" type="update">
+				various random checkstyle fixes;
+			</action>
+			<action dev="maxberger" type="fix" due-to="Martin Holz">
+				SAXMathBuilder: DocumentElement was not not set to
+				MathBase.
+			</action>
+			<action dev="maxberger" type="update">
+				pom.xml: updated to newer version of assembly-plugin
+				(proper file permissions)
+			</action>
+			<action dev="maxberger" type="fix">
+				Fixed height calculation and submiddleshift in msub and
+				msubsup
+			</action>
+			<action dev="maxberger" type="update">
+				usage.apt: added description for OpenSymbol
+			</action>
+			<action dev="maxberger" type="update">
+				Better default list of "symbol catch fonts"
+			</action>
+			<action dev="maxberger" type="update">
+				JMathComponent: better documentation; ParameterKey:
+				better documentation
+			</action>
+			<action dev="maxberger" type="update">
+				minor JavaDoc updates; added Lucida Grande to list of
+				sans fonts; Website Font install updates;
+			</action>
+			<action dev="maxberger" type="add">
+				StringUtil: Proper mappings for script and
+				double-struck;
+			</action>
+			<action dev="maxberger" type="udpate">
+				re-arranged default font lists again;
+			</action>
+			<action dev="maxberger" type="add">
+				JMathComponent: added setFont() for compatibility;
+				JMathComponent: added get/set horizontal/vertical
+				Alignment;
+			</action>
+			<action dev="maxberger" type="fix">
+				JMathComponent: default font is serif, documentation
+				updated;
+			</action>
+			<action dev="maxberger" type="update">
+				Yet another bug in text width. I hope it's fixed now.
+			</action>
+			<action dev="maxberger" type="update">
+				Textbased layouts (mi, mtext) now use width instead of
+				advance for width, to better support italic fonts
+			</action>
+			<action dev="maxberger" type="update">
+				JMathComponent: Background is now for the whole
+				component, not just for the formula; BeanDescriptor:
+				Updated Background, added Opaque;
+			</action>
+			<action dev="maxberger" type="update">
+				rewrote color parsing in AttributesHelper (mostly copied
+				from fop, but I was the one who submitted the patch
+				there in the first place :) ); made sure JMathComponent
+				properly handles null color and colors with alpha value.
+			</action>
+			<action dev="maxberger" type="update">
+				JMathComponentBeanInfo: Short description for fonts;
+			</action>
+			<action dev="maxberger" type="update">
+				even more fonts into default lists
+			</action>
+			<action dev="maxberger" type="update">
+				more fonts into default lists
+			</action>
+			<action dev="maxberger" type="add">
+				JMathComponent: Bean access to font list parameters
+			</action>
+			<action dev="maxberger" type="add">
+				Paramters: Extra parameters for font lists.
+			</action>
+			<action dev="maxberger" type="update">
+				mml2xxx: output default values for parameters
+			</action>
+			<action dev="maxberger" type="fix">
+				MathOperator, MathElement: Now uses first char instead
+				of 'A' for font-test;
+			</action>
+			<action dev="maxberger" type="update">
+				Converter: changed convert funtion to take File,File,Map
+				Mml2xxx: made more generic: Autodetect of target
+				mimeType; support for all renderingparams; Re-rendered
+				testsuite on white background, disabled all-names
+			</action>
+			<action dev="maxberger" type="fix">
+				MathTable: fixed height calculation due to rounding
+				errors
+			</action>
+			<action dev="maxberger" type="update">
+				usage.apt: instructions how to use in mvn-based projects
+			</action>
+			<action dev="maxberger" type="fix">
+				Background color is only painted when actually set or on
+				root element
+			</action>
+			<action dev="maxberger" type="fix">
+				pom.xml: set explizit versions of appbundler and
+				appassembler to make use of current bugfixes, such as
+				directory bug in mml2xxx
+			</action>
+			<action dev="maxberger" type="update">
+				StringUtil: Better support for other fonts.
+			</action>
+			<action dev="maxberger" type="add">
+				JMathComponent: Override get/setForeground,
+				get/setBackground to properly set rendering params.
+				JMathComponentBeanInfo: Added properties background,
+				foreground
+			</action>
+			<action dev="maxberger" type="add">
+				added rendering params for foreground, background color
+			</action>
+			<action dev="maxberger" type="update">
+				ColorParsing is moved to AttributesHelper, rewritten
+				using hashmap, added addtl colors "transparent", ""
+			</action>
+			<action dev="maxberger" type="add" due-to="Tomas Studva">
+				added getLayout function to MathText
+			</action>
+			<action dev="maxberger" type="update">
+				added some more default fonts for monospaces, serif, and
+				sans-serif, particularly support for DejaVu, Lucida,
+				Bitstream Vera, Arial Unicode MS; DejaVu fonts are now
+				the default (if available)
+			</action>
+			<action dev="maxberger" type="update">
+				Slightly changed behaviour of renderingParams
+			</action>
+			<action dev="maxberger" type="add">
+				MathMultiScripts: Started to implement
+				MathMLMultiScriptsElement
+			</action>
+			<action dev="maxberger" type="fix">
+				MathSup: Fix in position of super
+			</action>
+			<action dev="maxberger" type="fix">
+				MathSup, MathSubSup: Now has better handling for size /
+				position of super element.
+			</action>
+			<action dev="maxberger" type="update">
+				Completely rewritten AttributesHelper for
+				unitconversion.
+			</action>
+			<action dev="maxberger" type="update">
+				updated FAQ for supported imageformats.
+			</action>
+			<action dev="maxberger" type="fix">
+				added file mode for executable files for osx and
+				distribution
+			</action>
+			<action dev="maxberger" type="fix">
+				FileModes in packages where wrong due to
+				http://jira.codehaus.org/browse/MASSEMBLY-173
+			</action>
+			<action dev="maxberger" type="add">
+				MathVariant: checkstyle fixes, added FontFamily enum
+			</action>
+			<action dev="maxberger" type="update">
+				MathDocumentElement: removed createListOfChildren,
+				merged into ElementListSupport
+			</action>
+			<action dev="maxberger" type="fix">
+				AbstractRootElement: getAscentHeight now delivers a more
+				realistic height;
+			</action>
+			<action dev="maxberger" type="remove">
+				w3ctestsuite removed, as it is extracted onto the site
+			</action>
+			<action dev="maxberger" type="add">
+				Rewrote / Externalized AboutDialog in MathViewer
+			</action>
+			<action dev="maxberger" type="update">
+				MathText: replaced round(+0.5) with ceil; Checkstyle:
+				removed indentation check (done by eclipse)
+				AbtractMathElement: Checkstyle fixes; MathOperator:
+				Checkstyle fixes
+			</action>
+			<action dev="maxberger" type="fix" issue="1669974">
+				MathOperator/getWidth behaved differently in different
+				situations
+			</action>
+			<action dev="maxberger" type="add" issue="1669767">
+				link to webstart app from website; added warning to
+				webstart page
+			</action>
+			<action dev="maxberger" type="add" issue="1669767">
+				Configuration and template for maven-webstart-plugin;
+				Please note: requires a current SVN checkout of this
+				plugin, but fortunately only if actually used; Deployed
+				MathViewer as JNLP
+			</action>
+			<action dev="maxberger" type="update">
+				LICENSE renamed to LICENSE.txt for repository bundle
+				compatibility
+			</action>
+			<action dev="maxberger" type="update">
+				renamed OS X app to "JEuclid MathViewer"; website /
+				documentation updates
+			</action>
+			<action dev="maxberger" type="add">
+				added assemble descriptor for OSX package, created new
+				OSX package (ending in -osx)
+			</action>
+			<action dev="maxberger" type="add">Released 2.9.4</action>
+		</release>
+		<release version="2.9.4" date="2007-02-26"
+			description="Alpha for 3.0">
+			<action dev="maxberger" type="add">
+				MathViewer now has Anti-Alias menu entry
+			</action>
+			<action dev="maxberger" type="update">
+				MathViewer now uses current rendering attributes for
+				export
+			</action>
+			<action dev="maxberger" type="add">
+				MathRoot, MathSqrt now implement MathMLRadicand;
+				MathSub, MathSubSup, MathSup now implement
+				MathMLScriptElement
+			</action>
+			<action dev="maxberger" type="update">
+				Better description for source on website; pom.xml
+				updated for proper sf servers
+			</action>
+			<action dev="maxberger" type="add">
+				MathSpace now implementes MathMLSpaceElement; MathString
+				now implemente MathMLStringLitElement; Added
+				AbstractRootElement; rewrote MathRoot and MathSqrt to
+				implement AbstractRootElement;
+			</action>
+			<action dev="maxberger" type="add">
+				AbstractMathElementWithSubSuper added; MathMultiScript:
+				extends AbstractMathElementWithSubSuper; MathSub:
+				extends AbstractMathElementWithSubSuper; MathSubSup:
+				extends AbstractMathElementWithSubSuper; MathSup:
+				extends AbstractMathElementWithSubSuper; Moved DY to
+				AbstractMathElementWithSubSuper, renamed to
+				DEFAULT_SCRIPTSHIFT; MathSub, MathSup, MathSubSup:
+				Modified to use generic getMiddleShift functions;
+				MathStyle: now implements MathMLStyleElement;
+			</action>
+			<action dev="maxberger" type="add">
+				MathTableData implements MathMLTableCellElement;
+				MathTableRow implement MathMLTableRowElement;
+				MathLabeledTableRow implements MathMLLabeledRowElement;
+				MathMathElement: removed debug; checkstyle fixes;
+				MathMultiScripts: checkstyle fixes; AttributesHelper:
+				default unit is now pixels;
+			</action>
+			<action dev="maxberger" type="add">
+				PartialTextImpl to DOM model
+			</action>
+			<action dev="maxberger" type="add">
+				JMathComponent: added getContent(); WARNING: Does not
+				work completely yet!
+			</action>
+			<action dev="maxberger" type="add">
+				website updated: added logo, source page, fixed typos
+			</action>
+			<action dev="maxberger" type="update">
+				MathViewer: error message if convert failed
+			</action>
+			<action dev="maxberger" type="add">
+				MathViewer: export menu item; export code
+			</action>
+			<action dev="maxberger" type="add">
+				Converter: rewrote getSuffixForMimeType; Converter:
+				added getMimeTypeForSuffix; ConverterTest: added test
+				for suffix/mimeType handling
+			</action>
+			<action dev="maxberger" type="add">
+				MathViewer split up into MathViewer and MainFrame
+			</action>
+			<action dev="maxberger" type="update">
+				JEuclid OS X logo updated.
+			</action>
+			<action dev="maxberger" type="add"
+				due-to="Lars-Peter Fritzsche">
+				Added new icons for JEuclid, activated the icons for
+				BeanInfo;
+			</action>
+			<action dev="maxberger" type="update">
+				OperatorDictionary: checkstyle fixes
+			</action>
+			<action dev="maxberger" type="remove">
+				jeuclid.mf is no longer needed
+			</action>
+			<action dev="maxberger" type="add">
+				added testcase for svg conversion; pom.xml: added some
+				provided dependencies, such as XML apis; pom.xml:
+				dependency to commons-logging-api instead of
+				commons-logging
+			</action>
+			<action dev="maxberger" type="fix">
+				maven checkstyle is too old, temporaily disabled
+				trailing comment check
+			</action>
+			<action dev="maxberger" type="add">
+				proper translation to MathViewer, support for $$
+				comments, added german translation to MathViewer
+			</action>
+			<action dev="maxberger" type="update">
+				pom.xml: groupId set to net.sf.jeuclid
+			</action>
+			<action dev="maxberger" type="update">
+				pom.xml: Use maven-changes-plugin instead of mojo
+				changes plugin because its newer
+			</action>
+			<action dev="maxberger" type="add">
+				MathViewer: Prepared for localization
+			</action>
+			<action dev="maxberger" type="add">
+				MathTableData: refactored for move to
+				MathMLTableCellElement (still incomplete)
+			</action>
+			<action dev="maxberger" type="add">
+				MathTableRow: moved ATTR_ constants to MathTable
+			</action>
+			<action dev="maxberger" type="add">
+				MathTableRow: started to refactor to support
+				MathMLTableRowElement, not complete yet
+			</action>
+			<action dev="maxberger" type="add">
+				AbstractMathElement: Alignment constants; MathFrac: use
+				those
+			</action>
+			<action dev="maxberger" type="update">
+				MathPhantom, MathPreScripts, MathRow, MathSpace,
+				MathString: Checkstyle fixes.
+			</action>
+			<action dev="maxberger" type="add">
+				AbstractMathElement: support for default attributes;
+				modified MathFenced, MathIdentifier, MathFrac,
+				MathOperator to use those.
+			</action>
+			<action dev="maxberger" type="update">
+				AbstractMathElement: CheckStyle fixes, attrs made into
+				constants
+			</action>
+			<action dev="maxberger" type="add">
+				AbstractDOMImpl: implemented getAttributes,
+				getLocalName, getNamespaceURI, getNodeValue,
+				getNextSibling, getNodeType, getXmlVersion,
+				getXmlStandalone, getXmlEncoding; XML Transformer can
+				now produce output, however, text nodes are still
+				missing
+			</action>
+			<action dev="maxberger" type="update">
+				MathViewer: About window changed, disabled on OS X
+			</action>
+			<action dev="maxberger" type="update">
+				distribution.xml: added LICENSE, NOTICE
+			</action>
+			<action dev="maxberger" type="fix">
+				pom.xml: Ensure appbundler can be found
+			</action>
+			<action dev="maxberger" type="add">
+				MathSemantics implements MathMLSemantics; MathNumber
+				checkstyle cleanups; MathTableRow: checkstyle cleanups;
+				AbstractPartialNodeImpl: implemented hasChildNodes;
+			</action>
+			<action dev="maxberger" type="add">
+				added setMathElement function, rewrote Frac to use it;
+				added testCase; implemented replaceChild;
+			</action>
+			<action dev="maxberger" type="add">
+				pom.xml: configuration to create proper manifest in jar
+				file
+			</action>
+			<action dev="maxberger" type="remove">
+				removed obsolete build.xml file
+			</action>
+			<action dev="maxberger" type="update">
+				developers in pom.xml; jvmVersion for OS X bundle
+			</action>
+			<action dev="maxberger" type="fix">
+				StringUtil: Checkstyle Fixes; AttributesHelper: few
+				Checkstyle fixes; ResourceEntityResolver: Checkstyle
+				fixes;
+			</action>
+			<action dev="maxberger" type="add">
+				AbstractMathElementWithChildren now implements
+				MathMLPresentationContainer
+			</action>
+			<action dev="maxberger" type="update">
+				MathViewer: cleanups.
+			</action>
+			<action dev="maxberger" type="add">
+				MathFrac now implements MathMLFractionElement;
+				MathIdentifier, MathText now implement
+				MathMLPresentationToken
+			</action>
+			<action dev="maxberger" type="add">
+				DOMModelTest: Created tests for all interfaces.
+			</action>
+			<action dev="maxberger" type="update">
+				MathComponentTest: formatting changes
+			</action>
+			<action dev="maxberger" type="add">
+				MathAlignGroup implements MathMLAlignGroupElement;
+				MathAlignMark implements MathMLAlignMarkElement;
+				MathAnnotation implements MathMLAnnotationElement;
+				MathEnclose implements MathMLEncloseElement; MathFenced:
+				Checkstyle cleanups;
+			</action>
+			<action dev="maxberger" type="fix">
+				JMathComponentBeanInfo: jeulid.png is in /
+			</action>
+			<action dev="maxberger" type="fix">
+				Checkstyle Config now works properly in Eclipse and
+				Maven
+			</action>
+			<action dev="maxberger" type="add">
+				support for assembly plugin, added to package phase
+			</action>
+			<action dev="maxberger" type="update">
+				pom.xml: now calls appassembler, appbundler for package
+			</action>
+			<action dev="maxberger" type="add">
+				Configuration, icon, and JavaApplicationStub for OS X
+				build
+			</action>
+			<action dev="maxberger" type="update">
+				refactored all externally used methods from
+				AbstractMathElement into new Interface MathElement
+			</action>
+			<action dev="maxberger" type="fix">
+				JMathComponentBeanInfo, MathMLParserSupport, Checkstyle
+				fixes; Exlpicitly disabled checkstyle for tests; moved
+				all tests into test package; enabled checkstyle for
+				eclipse (requires eclipse to be started from project
+				dir, bugreport in progress)
+			</action>
+			<action dev="maxberger" type="add"
+				due-to="Matthias Hanisch">
+				JMathComponentBeanInfo
+			</action>
+			<action dev="maxberger" type="add">
+				JMathComponent can now set content from given MathML
+				String.
+			</action>
+			<action dev="maxberger" type="update">
+				ODFSupport renamed to MathMLParserSupport; Moved methods
+				for parsing from String there; refactored Tests to use
+				that method
+			</action>
+			<action dev="maxberger" type="fix">
+				MathDocumentElement: checkstyle fixes; IllegalToken
+				removed from Checkstyle errors
+			</action>
+			<action dev="maxberger" type="update">
+				Moved project to Subversion
+			</action>
+			<action dev="maxberger" type="add">
+				jeuclid-users mailing list
+			</action>
+			<action dev="maxberger" type="add">
+				W3C Testsuite to site, snapshot of generated elements.
+			</action>
+			<action dev="maxberger" type="update">
+				AbstractMathElement: eventInitSpecificAttributes renamed
+				to setMathAttributes()
+			</action>
+			<action dev="maxberger" type="update">
+				MatOperator: moved parameter calculation into
+				eventElementComplete
+			</action>
+			<action dev="maxberger" type="update">
+				AbstactMathElementWithDelegate: now overrides
+				eventElementComplete instead of
+				eventInitSpecificAttributes
+			</action>
+			<action dev="maxberger" type="update">
+				DOMMathBuilder now uses MathElementFactory;
+				MathElementFactory updated to support all elements;
+				SAXMathBuilder attribute handling improved;
+				SAXMathBuilder: properly send eventElementComplete
+			</action>
+			<action dev="maxberger" type="fix">
+				ODFSupport does not throw ZIP errors anymore; Parser
+				logs warning and errors instead of terminating
+			</action>
+			<action dev="maxberger" type="add">
+				DOMModelTest: moved to test package; implemented tests
+				for mathOperator
+			</action>
+			<action dev="maxberger" type="add">
+				AbstractPartialNodeImpl: getLastChild implemented.
+			</action>
+			<action dev="maxberger" type="add">
+				Larger and smaller font to MathViewer.
+			</action>
+			<action dev="maxberger" type="update">
+				Anti-Alias moved to MathBase, made into parameter
+			</action>
+			<action dev="maxberger" type="update">
+				Replaced all occurrences of Graphics with Graphics2D:
+				This is what is actually used/needed anyways.
+			</action>
+			<action dev="maxberger" type="update">
+				MathBase: removed deprecated constructor; made Debug a
+				Parameter
+			</action>
+			<action dev="maxberger" type="add">
+				refactored element creation from SAXMathBuilder into
+				MathElementFactory.
+			</action>
+			<action dev="maxberger" type="fix">
+				More CheckStyle fixes: MathOperator, MathTable,
+				MathViewer; MathViewer: Added accellerator for quit.
+			</action>
+			<action dev="maxberger" type="fix">
+				Checkstyle fixes: Converter, ODFSupport, StringUtil,
+				DictionaryException, ElementListSupport,
+				AbstractRowLikeElement, AbstractMathElementWithChildren,
+				AbstractMathContainer, MathAlignGroup,
+				MathDocumentElement, DOMBuilder, MathBase, Mml2xxx,
+				MathComponent, MathMLConverter, MathSubSup, MathSup,
+				MathLabeledTableRow
+			</action>
+			<action dev="maxberger" type="add">
+				configured log4j for tests properly.
+			</action>
+			<action dev="maxberger" type="update">
+				checkstyle settings to better match priorities (javadoc
+				and license is now error)
+			</action>
+			<action dev="maxberger" type="fix">
+				developers on website
+			</action>
+			<action dev="maxberger" type="add">
+				roadmap to website
+			</action>
+			<action dev="maxberger" type="fix">
+				pom.xml was missing a release information; usage.apt now
+				has proper links to sf releases; index.apt updated
+			</action>
+		</release>
+		<release version="2.9.3" date="2007-02-06"
+			description="First Maven-Based Release">
+			<action dev="maxberger" type="fix" issue="1649912">
+				DOM Tree now contains a DocumentNode AND a Math node.
+				MathRow is now an MathMLPresentationContainer.
+			</action>
+			<action dev="maxberger" type="update">
+				AbstractMathElementWithChildren now uses
+				ElementListSupport
+			</action>
+			<action dev="maxberger" type="add">
+				Introduced ElementListSupport and moved functions from
+				AbstractElementWithDelegates there
+			</action>
+			<action dev="maxberger" type="add">
+				refactored AbstractMathElementWithChildren into
+				AbstractRowLikeElement
+			</action>
+			<action dev="maxberger" type="udpdate">
+				batik dependency to 1.6-1
+			</action>
+			<action dev="maxberger" type="udpdate">
+				MathMLConverter ANT task to use Util.Converter
+			</action>
+			<action dev="maxberger" type="remove">
+				removed ant tasks dependent on old fop
+			</action>
+			<action dev="maxberger" type="add">
+				Announced Logo Contest on webpage
+			</action>
+			<action dev="maxberger" type="fix">
+				Replaced images on website with ones generated on Mac
+				(look better)
+			</action>
+			<action dev="maxberger" type="update">
+				Split webpage into several pages
+			</action>
+			<action dev="maxberger" type="fix">
+				pom.xml: jeuclid mailing list is jeuclid-devel; added
+				taglist plugin
+			</action>
+			<action dev="maxberger" type="fix">
+				refactored AbstractMathElementWithDelegate to
+				AbstractMathElementWithDelegates, changed internal
+				workings. MathFenced: reworked to work with new
+				AbstractMathElementWithDelegates
+			</action>
+			<action dev="maxberger" type="fix">
+				MathBase: removed obsolete debug output
+			</action>
+			<action dev="maxberger" type="fix">
+				pom.xml: removed depencies on SNAPSHOT versions
+			</action>
+			<action dev="maxberger" type="fix">
+				version to 2.9.3-SNAPSHOT in pom.xml and changes.xml
+			</action>
+			<action dev="maxberger" type="add">
+				MathMLDocumentElement
+			</action>
+			<action dev="maxberger" type="add">
+				refactored PartialNodeImpl into
+				AbstractPartialDocumentImpl, AbstractPartialElementImpl,
+				AbstractPartialNodeImpl and ChangeTrackingElement to
+				AbstractChangeTrackingElement
+			</action>
+			<action dev="maxberger" type="fix">
+				fixed link to issue management in pom.xml
+			</action>
+			<action dev="maxberger" type="add">
+				refactored util.Converter class into util.Converter and
+				app.Mml2xxx
+			</action>
+			<action dev="maxberger" type="fix">
+				fixed appassembler target in pom.xml
+			</action>
+			<action dev="maxberger" type="remove">
+				removed docs, libs, build.xml
+			</action>
+			<action dev="maxberger" type="remove">
+				removed unnecessary checkstyle tests: empty lines,
+				org/*, StrictDuplicate
+			</action>
+			<action dev="maxberger" type="add">
+				creating app-scripts in pom.xml
+			</action>
+			<action dev="maxberger" type="add">
+				Developers in pom.xml
+			</action>
+			<action dev="maxberger" type="add">
+				JEuclid menu to website
+			</action>
+			<action dev="maxberger" type="fix">
+				Screenshots on website are now ok.
+			</action>
+			<action dev="maxberger" type="add">
+				added checkstyle to pom.xml
+			</action>
+			<action dev="maxberger" type="add">
+				created changelog.xml
+			</action>
+			<action dev="maxberger" type="update">
+				older changes can be found in the CHANGELOG file.
+			</action>
+			<!--<action dev="maxberger" type="fix" issue="">
+				<action dev="jruiz" type="remove" due-to="Allan Ramirez" due-to-email="aramirez@exist.com">
+				The element type " link " must be terminated by the matching end-tag.
+				Deleted the erroneous code.
+				</action> -->
+		</release>
+		<!--
+			<release version="1.0" date="2005-01-01" description="First release">
+			<action dev="jruiz" type="update">
+			Uploaded documentation on how to use the plugin.
+			</action>
+			</release>
+		-->
+	</body>
+</document>
