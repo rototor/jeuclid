@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.StyleAttributeLayoutContext;
 import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
@@ -41,6 +40,7 @@ import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 import net.sourceforge.jeuclid.elements.support.text.CharConverter;
+import net.sourceforge.jeuclid.layout.FillRectObject;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -139,11 +139,6 @@ public abstract class AbstractJEuclidElement extends
     private JEuclidElement fakeParent;
 
     private final Map<String, String> defaultMathAttributes = new HashMap<String, String>();
-
-    /**
-     * Variable of "scriptsize" attribute, default value is 0.71.
-     */
-    private final float mscriptsizemultiplier = Constants.DEFAULT_SCIPTSIZEMULTIPLIER;
 
     /**
      * Creates a math element.
@@ -755,16 +750,12 @@ public abstract class AbstractJEuclidElement extends
                     Color.BLACK);
         }
 
-        final String backcolorString = this.getMathbackground();
-        Color background = null;
-        if (backcolorString != null) {
-            background = AttributesHelper
-                    .stringToColor(backcolorString, null);
-        }
+        // Background is handled differently and does not need to go into
+        // context.
 
-        if ((msize != null) || (foreground != null) || (background != null)) {
+        if ((msize != null) || (foreground != null)) {
             retVal = new StyleAttributeLayoutContext(applyTo, msize,
-                    foreground, background);
+                    foreground);
         }
 
         return retVal;
@@ -812,13 +803,33 @@ public abstract class AbstractJEuclidElement extends
     public void layoutStage1(final LayoutView view, final LayoutInfo info,
             final LayoutStage childMinStage, final LayoutContext context) {
         this.layoutStageInvariant(view, info, LayoutStage.STAGE1, context);
-        info.setLayoutStage(childMinStage);
+
+        // TODO: This should be done in a better way.
+        if (this.getMathbackground() == null) {
+            info.setLayoutStage(childMinStage);
+        } else {
+            info.setLayoutStage(LayoutStage.STAGE1);
+        }
     }
 
     /** {@inheritDoc} */
     public void layoutStage2(final LayoutView view, final LayoutInfo info,
             final LayoutContext context) {
         this.layoutStageInvariant(view, info, LayoutStage.STAGE2, context);
+
+        // TODO: put in own function, ensure this is also called from
+        // subclasses.
+        final String background = this.getMathbackground();
+        if (background != null) {
+            final Color backgroundColor = AttributesHelper.stringToColor(
+                    background, null);
+            info.getGraphicObjects().add(
+                    0,
+                    new FillRectObject(backgroundColor, info
+                            .getAscentHeight(LayoutStage.STAGE2), info
+                            .getDescentHeight(LayoutStage.STAGE2), info
+                            .getWidth(LayoutStage.STAGE2)));
+        }
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 
