@@ -31,6 +31,7 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 
 import net.sourceforge.jeuclid.DOMBuilder;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
@@ -102,16 +103,18 @@ public final class Processor {
      *            Input File
      * @param result
      *            Output File
+     * @param context
+     *            LayoutContext.
      * @throws TransformerException
      *             an error occurred during the processing.
      */
-    public void process(final Source inputSource, final Result result)
-            throws TransformerException {
+    public void process(final Source inputSource, final Result result,
+            final LayoutContext context) throws TransformerException {
         Processor.LOGGER.info("Processing " + inputSource + " to " + result);
         try {
             final Node doc = Parser.getParser().parse(inputSource);
 
-            this.processSubtree(doc);
+            this.processSubtree(doc, context);
 
             final DOMSource source = new DOMSource(doc);
 
@@ -126,7 +129,23 @@ public final class Processor {
         }
     }
 
-    private void processSubtree(final Node node) {
+    /**
+     * Pre-process a .fo file.
+     * 
+     * @param inputSource
+     *            Input File
+     * @param result
+     *            Output File
+     * @throws TransformerException
+     *             an error occurred during the processing.
+     */
+    public void process(final Source inputSource, final Result result)
+            throws TransformerException {
+        this.process(inputSource, result, LayoutContextImpl
+                .getDefaultLayoutContext());
+    }
+
+    private void processSubtree(final Node node, final LayoutContext context) {
         if (AbstractJEuclidElement.URI.equals(node.getNamespaceURI())
                 && MathImpl.ELEMENT.equals(node.getLocalName())) {
 
@@ -134,8 +153,8 @@ public final class Processor {
                     .createJeuclidDom(node);
 
             final SVGGraphics2D svgGenerator = this.createSVGGenerator();
-            final JEuclidView view = new JEuclidView(doc, LayoutContextImpl
-                    .getDefaultLayoutContext(), svgGenerator);
+            final JEuclidView view = new JEuclidView(doc, context,
+                    svgGenerator);
             final int ascent = (int) Math.ceil(view.getAscentHeight());
             final int descent = (int) Math.ceil(view.getDescentHeight());
             final int height = ascent + descent;
@@ -156,7 +175,7 @@ public final class Processor {
             }
             this.safeReplaceChild(parent, node, svgGenerator.getRoot());
         } else {
-            this.processChildren(node);
+            this.processChildren(node, context);
         }
     }
 
@@ -188,12 +207,12 @@ public final class Processor {
         parent.removeChild(oldChild);
     }
 
-    private void processChildren(final Node node) {
+    private void processChildren(final Node node, final LayoutContext context) {
         final NodeList childList = node.getChildNodes();
         if (childList != null) {
             for (int i = 0; i < childList.getLength(); i++) {
                 final Node child = childList.item(i);
-                this.processSubtree(child);
+                this.processSubtree(child, context);
             }
         }
     }
