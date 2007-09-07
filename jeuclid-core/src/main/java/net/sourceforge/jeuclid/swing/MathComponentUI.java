@@ -36,8 +36,8 @@ import javax.swing.plaf.ComponentUI;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.Defense;
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MutableLayoutContext;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.apache.commons.logging.Log;
@@ -205,10 +205,9 @@ public class MathComponentUI extends ComponentUI implements
     private void redo(final MutableLayoutContext parameters,
             final Graphics2D g2d) {
         if ((this.document != null) && (g2d != null)) {
-            final MathBase base = new MathBase();
-            DOMBuilder.getDOMBuilder().createJeuclidDom(this.document, base);
-            this.jEuclidView = new JEuclidView(base.getRootElement(),
-                    parameters, g2d);
+            final DocumentElement doc = DOMBuilder.getDOMBuilder()
+                    .createJeuclidDom(this.document);
+            this.jEuclidView = new JEuclidView(doc, parameters, g2d);
         } else {
             this.jEuclidView = null;
         }

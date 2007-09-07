@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 
@@ -39,7 +40,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
     // CHECKSTYLE:OFF
     private LayoutContextImpl() {
         this.context = new TreeMap<Parameter, Object>();
-        this.context.put(Parameter.MATHSIZE, 12f);
+        this.context.put(Parameter.MATHSIZE, Constants.DEFAULT_FONTSIZE);
         this.context.put(Parameter.SCRIPTMINSIZE, 8f);
         this.context.put(Parameter.ANTIALIAS_MINSIZE, 10f);
         this.context.put(Parameter.DISPLAY, Display.BLOCK);

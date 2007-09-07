@@ -21,7 +21,7 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 import java.util.List;
 import java.util.Vector;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
@@ -139,11 +139,11 @@ public class Mfenced extends AbstractElementWithDelegates implements
         final List<JEuclidElement> retVal = new Vector<JEuclidElement>();
 
         final Mo opOpen = new Mo();
-        opOpen.setFence(MathBase.TRUE);
-        opOpen.setStretchy(MathBase.TRUE);
+        opOpen.setFence(Constants.TRUE);
+        opOpen.setStretchy(Constants.TRUE);
         opOpen.setRspace(Mfenced.FENCE_SPACE);
         opOpen.setLspace(Mfenced.FENCE_SPACE);
-        opOpen.setSymmetric(MathBase.FALSE);
+        opOpen.setSymmetric(Constants.FALSE.toString());
         opOpen.setForm(OperatorDictionary.FORM_PREFIX);
         opOpen.addText(this.getOpen());
 
@@ -155,7 +155,7 @@ public class Mfenced extends AbstractElementWithDelegates implements
 
             if (i < (this.getMathElementCount() - 1)) {
                 final Mo opSep = new Mo();
-                opSep.setSeparator(MathBase.TRUE);
+                opSep.setSeparator(Constants.TRUE);
                 if (i < sep.length()) {
                     opSep.addText(String.valueOf(sep.charAt(i)));
                 } else {
@@ -167,11 +167,11 @@ public class Mfenced extends AbstractElementWithDelegates implements
 
         }
         final Mo opClose = new Mo();
-        opClose.setFence(MathBase.TRUE);
+        opClose.setFence(Constants.TRUE);
         opClose.setRspace(Mfenced.FENCE_SPACE);
         opClose.setLspace(Mfenced.FENCE_SPACE);
-        opClose.setStretchy(MathBase.TRUE);
-        opClose.setSymmetric(MathBase.FALSE);
+        opClose.setStretchy(Constants.TRUE);
+        opClose.setSymmetric(Constants.FALSE);
         opClose.setForm(OperatorDictionary.FORM_POSTFIX);
         opClose.addText(this.getClose());
         retVal.add(opClose);

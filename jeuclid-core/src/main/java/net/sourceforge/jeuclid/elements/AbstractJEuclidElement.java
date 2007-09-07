@@ -22,8 +22,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,10 +34,6 @@ import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.StyleAttributeLayoutContext;
 import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
 import net.sourceforge.jeuclid.dom.PartialTextImpl;
-import net.sourceforge.jeuclid.elements.generic.MathImpl;
-import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
-import net.sourceforge.jeuclid.elements.presentation.table.Mtable;
-import net.sourceforge.jeuclid.elements.presentation.table.Mtr;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
@@ -118,27 +112,6 @@ public abstract class AbstractJEuclidElement extends
     /** The mathbackground attribute. */
     public static final String ATTR_MATHBACKGROUND = "mathbackground";
 
-    /** value for top alignment. */
-    public static final String ALIGN_TOP = "top";
-
-    /** value for bottom alignment. */
-    public static final String ALIGN_BOTTOM = "bottom";
-
-    /** value for center alignment. */
-    public static final String ALIGN_CENTER = "center";
-
-    /** value for baseline alignment. */
-    public static final String ALIGN_BASELINE = "baseline";
-
-    /** value for axis alignment. */
-    public static final String ALIGN_AXIS = "axis";
-
-    /** value for left alignment. */
-    public static final String ALIGN_LEFT = "left";
-
-    /** value for right alignment. */
-    public static final String ALIGN_RIGHT = "right";
-
     /**
      * largest value for all trivial spaces (= spaces that can be ignored /
      * shortened).
@@ -161,50 +134,6 @@ public abstract class AbstractJEuclidElement extends
             .getLog(AbstractJEuclidElement.class);
 
     private static final Set<String> DEPRECATED_ATTRIBUTES = new HashSet<String>();
-
-    /**
-     * flag - true when runing calculationg of the element.
-     */
-    private boolean calculatingSize;
-
-    /**
-     * Value of calculated height of the element .
-     */
-    private float calculatedHeight = -1;
-
-    /**
-     * Value of calculated width of the element .
-     */
-    private float calculatedWidth = -1;
-
-    /**
-     * Value of calculated ascent height of the element
-     */
-    private float calculatedAscentHeight = -1;
-
-    /**
-     * Value of calculated descent height of the element
-     */
-    private float calculatedDescentHeight = -1;
-
-    /**
-     * Value of calculated height of the element
-     */
-    private float calculatedStretchHeight = -1;
-
-    /**
-     * Value of calculated ascent height of the element
-     */
-    private float calculatedStretchAscentHeight = -1;
-
-    /**
-     * Value of calculated descent height of the element .
-     */
-    private float calculatedStretchDescentHeight = -1;
-
-    private float lastPaintedX = -1;
-
-    private float lastPaintedY = -1;
 
     /**
      * Reference to the element acting as parent if there is no parent.
@@ -234,24 +163,10 @@ public abstract class AbstractJEuclidElement extends
     public AbstractJEuclidElement() {
     }
 
-    /**
-     * Reset element sizes.
-     */
-    protected void recalculateSize() {
-        this.calculatedHeight = -1;
-        this.calculatedAscentHeight = -1;
-        this.calculatedDescentHeight = -1;
-        this.calculatedStretchHeight = -1;
-        this.calculatedStretchAscentHeight = -1;
-        this.calculatedStretchDescentHeight = -1;
-        this.calculatedWidth = -1;
-    }
-
     /** {@inheritDoc} */
     @Override
     protected void changeHook() {
         super.changeHook();
-        this.recalculateSize();
     }
 
     /**
@@ -757,152 +672,6 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /**
-     * Paints a border around this element as debug information.
-     * 
-     * @param g
-     *            The graphics context to use for painting
-     * @param posX
-     *            The first left position for painting
-     * @param posY
-     *            The position of the baseline
-     */
-    public void debug(final Graphics2D g, final float posX, final float posY) {
-        g.setColor(Color.BLUE);
-        g.draw(new Line2D.Float(posX, posY - this.getAscentHeight(g), posX
-                + this.getWidth(g), posY - this.getAscentHeight(g)));
-        g.draw(new Line2D.Float(posX + this.getWidth(g), posY
-                - this.getAscentHeight(g), posX + this.getWidth(g), posY
-                + this.getDescentHeight(g)));
-        g.draw(new Line2D.Float(posX, posY + this.getDescentHeight(g), posX
-                + this.getWidth(g), posY + this.getDescentHeight(g)));
-        g.draw(new Line2D.Float(posX, posY - this.getAscentHeight(g), posX,
-                posY + this.getDescentHeight(g)));
-        g.setColor(Color.RED);
-        g.draw(new Line2D.Float(posX, posY, posX + this.getWidth(g), posY));
-    }
-
-    /** {@inheritDoc} */
-    public void setGlobalLineCorrector(final float corrector) {
-        if (this.getParent() == null) {
-            return;
-        }
-
-        // if this is a top-element of the row
-        if (this instanceof Mtr || this instanceof Mrow
-                && this.getParent() instanceof Mtable
-                || this.getParent() instanceof MathImpl) {
-            if (this.globalLineCorrecter < corrector) {
-                this.globalLineCorrecter = corrector;
-            }
-        } else {
-            this.getParent().setGlobalLineCorrector(corrector);
-        }
-    }
-
-    /** {@inheritDoc} */
-    public float getGlobalLineCorrector() {
-        final float retVal;
-        if (this.getParent() == null) {
-            retVal = 0;
-        } else
-
-        // if this is a top-element of the line, it contains the correct
-        // number
-        if (this instanceof Mtr || this instanceof Mrow
-                && this.getParent() instanceof Mtable
-                || this.getParent() instanceof MathImpl) {
-            retVal = this.globalLineCorrecter;
-        } else {
-            retVal = this.getParent().getGlobalLineCorrector();
-        }
-        return retVal;
-    }
-
-    /** {@inheritDoc} */
-    public float getWidth(final Graphics2D g) {
-        if (this.calculatedWidth < 0) {
-            this.calculatedWidth = this.calculateWidth(g);
-        }
-        return this.calculatedWidth;
-    }
-
-    /**
-     * Caculates width of the element.
-     * 
-     * @return Width of the element.
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public abstract float calculateWidth(Graphics2D g);
-
-    /** {@inheritDoc} */
-    public float getHeight(final Graphics2D g) {
-        if (this.calculatingSize || this.getParent() != null
-                && this.getParent().isCalculatingSize()) {
-            if (this.calculatedStretchHeight < 0) {
-                this.calculatedStretchHeight = this.calculateHeight(g);
-            }
-            return this.calculatedStretchHeight;
-        } else {
-            if (this.calculatedHeight < 0) {
-                this.calculatedHeight = this.calculateHeight(g);
-            }
-            return this.calculatedHeight;
-        }
-    }
-
-    /**
-     * Calculates the current height of the element.
-     * 
-     * @return Height of the element.
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public float calculateHeight(final Graphics2D g) {
-        return this.getAscentHeight(g) + this.getDescentHeight(g);
-    }
-
-    /** {@inheritDoc} */
-    public float getAscentHeight(final Graphics2D g) {
-        if (this.calculatingSize || this.getParent() != null
-                && this.getParent().isCalculatingSize()) {
-            if (this.calculatedStretchAscentHeight < 0) {
-                this.calculatedStretchAscentHeight = this
-                        .calculateAscentHeight(g);
-            }
-            return this.calculatedStretchAscentHeight;
-        } else {
-            if (this.calculatedAscentHeight < 0) {
-                this.calculatedAscentHeight = this.calculateAscentHeight(g);
-            }
-            return this.calculatedAscentHeight;
-        }
-    }
-
-    /** {@inheritDoc} */
-    public abstract float calculateAscentHeight(Graphics2D g);
-
-    /** {@inheritDoc} */
-    public float getDescentHeight(final Graphics2D g) {
-        if (this.calculatingSize || this.getParent() != null
-                && this.getParent().isCalculatingSize()) {
-            if (this.calculatedStretchDescentHeight < 0) {
-                this.calculatedStretchDescentHeight = this
-                        .calculateDescentHeight(g);
-            }
-            return this.calculatedStretchDescentHeight;
-        } else {
-            if (this.calculatedDescentHeight < 0) {
-                this.calculatedDescentHeight = this.calculateDescentHeight(g);
-            }
-            return this.calculatedDescentHeight;
-        }
-    }
-
-    /** {@inheritDoc} */
-    public abstract float calculateDescentHeight(Graphics2D g);
-
-    /**
      * Returns the distance of the baseline and the middleline.
      * 
      * @return Distance baseline - middleline.
@@ -927,17 +696,7 @@ public abstract class AbstractJEuclidElement extends
             }
             this.setAttribute(attrName, e.getValue());
         }
-        this.recalculateSize();
-    }
-
-    /** {@inheritDoc} */
-    public boolean isCalculatingSize() {
-        return this.calculatingSize;
-    }
-
-    /** {@inheritDoc} */
-    public void setCalculatingSize(final boolean ncalculatingSize) {
-        this.calculatingSize = ncalculatingSize;
+        // TODO: Make sure changehook is called
     }
 
     /** {@inheritDoc} */
@@ -1014,40 +773,6 @@ public abstract class AbstractJEuclidElement extends
         return false;
     }
 
-    /** {@inheritDoc} */
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        this.lastPaintedX = posX;
-        this.lastPaintedY = posY;
-        final LayoutContext context = this.getCurrentLayoutContext();
-        final Color backcolor = (Color) context
-                .getParameter(Parameter.MATHBACKGROUND);
-        if (backcolor != null) {
-            g.setColor(backcolor);
-            final float ascent = (float) Math.ceil(this.getAscentHeight(g));
-            final float descent = (float) Math.ceil(this.getDescentHeight(g));
-            g.fill(new Rectangle2D.Float(posX, posY - ascent, (float) Math
-                    .ceil(this.getWidth(g)), ascent + descent));
-        }
-        if ((Boolean) context.getParameter(Parameter.DEBUG)) {
-            this.debug(g, posX, posY);
-        }
-        final Color foreground = (Color) context
-                .getParameter(Parameter.MATHCOLOR);
-        g.setColor(foreground);
-        g.setFont(this.getFont());
-
-    }
-
-    /** {@inheritDoc} */
-    public float getPaintedPosX() {
-        return this.lastPaintedX;
-    }
-
-    /** {@inheritDoc} */
-    public float getPaintedPosY() {
-        return this.lastPaintedY;
-    }
-
     /**
      * Returns the children as a MathML NodeList.
      * 
@@ -1055,11 +780,6 @@ public abstract class AbstractJEuclidElement extends
      */
     public MathMLNodeList getContents() {
         return (MathMLNodeList) this.getChildNodes();
-    }
-
-    /** {@inheritDoc} */
-    public float getXCenter(final Graphics2D g) {
-        return this.getWidth(g) / 2.0f;
     }
 
     /** {@inheritDoc} */
@@ -1133,7 +853,7 @@ public abstract class AbstractJEuclidElement extends
     /**
      * Layout for elements which are stage independent.
      * <p>
-     * This functio will layout an element which is layed out the same no
+     * This function will layout an element which is layed out the same no
      * matter what stage it is in. This is the case for most elements.
      * <p>
      * Notable exceptions are mo and tables.

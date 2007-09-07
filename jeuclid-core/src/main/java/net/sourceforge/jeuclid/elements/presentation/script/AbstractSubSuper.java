@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 
 import net.sourceforge.jeuclid.LayoutContext;
@@ -27,7 +26,6 @@ import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
-import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -62,68 +60,69 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
     /** {@inheritDoc} */
     public abstract JEuclidElement getSubscript();
 
-    /**
-     * Retrieve the amount of pts by which the baseline of the super element
-     * is shifted.
-     * 
-     * @param g
-     *            Graphics context to use
-     * @return baseline shift for super elements
-     */
-    protected float getSuperBaseLineShift(final Graphics2D g) {
+    // /**
+    // * Retrieve the amount of pts by which the baseline of the super element
+    // * is shifted.
+    // *
+    // * @param g
+    // * Graphics context to use
+    // * @return baseline shift for super elements
+    // */
+    // protected float getSuperBaseLineShift(final Graphics2D g) {
+    //
+    // return Math.max(ScriptSupport.getSuperBaselineShift(g,
+    // this.getBase(), this.getSubscript(), this.getSuperscript()),
+    // AttributesHelper.convertSizeToPt(this.getSuperscriptshift(),
+    // this.getCurrentLayoutContext(), AttributesHelper.PT));
+    // }
 
-        return Math.max(ScriptSupport.getSuperBaselineShift(g,
-                this.getBase(), this.getSubscript(), this.getSuperscript()),
-                AttributesHelper.convertSizeToPt(this.getSuperscriptshift(),
-                        this.getCurrentLayoutContext(), AttributesHelper.PT));
-    }
+    // /**
+    // * Retrieve the amount of pts by which the baseline of the sub element
+    // is
+    // * shifted.
+    // *
+    // * @param g
+    // * Graphics context to use
+    // * @return baseline shift for super elements
+    // */
+    // protected float getSubBaseLineShift(final Graphics2D g) {
+    // return Math.max(ScriptSupport.getSubBaselineShift(g, this.getBase(),
+    // this.getSubscript(), this.getSuperscript()), AttributesHelper
+    // .convertSizeToPt(this.getSubscriptshift(), this
+    // .getCurrentLayoutContext(), AttributesHelper.PT));
+    // }
 
-    /**
-     * Retrieve the amount of pts by which the baseline of the sub element is
-     * shifted.
-     * 
-     * @param g
-     *            Graphics context to use
-     * @return baseline shift for super elements
-     */
-    protected float getSubBaseLineShift(final Graphics2D g) {
-        return Math.max(ScriptSupport.getSubBaselineShift(g, this.getBase(),
-                this.getSubscript(), this.getSuperscript()), AttributesHelper
-                .convertSizeToPt(this.getSubscriptshift(), this
-                        .getCurrentLayoutContext(), AttributesHelper.PT));
-    }
+    // /**
+    // * Calculate the ascent height, taking a super element into account.
+    // *
+    // * @param g
+    // * Graphics context to use
+    // * @return ascent height
+    // */
+    // protected float caclulateAscentHeightWithSuper(final Graphics2D g) {
+    // final JEuclidElement supElement = this.getSuperscript();
+    // final JEuclidElement baseElement = this.getBase();
+    // return Math.max(baseElement.getAscentHeight(g), this
+    // .getSuperBaseLineShift(g)
+    // + supElement.getAscentHeight(g));
+    //
+    // }
 
-    /**
-     * Calculate the ascent height, taking a super element into account.
-     * 
-     * @param g
-     *            Graphics context to use
-     * @return ascent height
-     */
-    protected float caclulateAscentHeightWithSuper(final Graphics2D g) {
-        final JEuclidElement supElement = this.getSuperscript();
-        final JEuclidElement baseElement = this.getBase();
-        return Math.max(baseElement.getAscentHeight(g), this
-                .getSuperBaseLineShift(g)
-                + supElement.getAscentHeight(g));
-
-    }
-
-    /**
-     * Calculate the descent height, taking a sub element into account.
-     * 
-     * @param g
-     *            Graphics context to use
-     * @return descent height
-     */
-    protected float caclulateDescentHeightWithSub(final Graphics2D g) {
-        final JEuclidElement subElement = this.getSubscript();
-        final JEuclidElement baseElement = this.getBase();
-        return Math.max(baseElement.getDescentHeight(g), this
-                .getSubBaseLineShift(g)
-                + subElement.getDescentHeight(g));
-
-    }
+    // /**
+    // * Calculate the descent height, taking a sub element into account.
+    // *
+    // * @param g
+    // * Graphics context to use
+    // * @return descent height
+    // */
+    // protected float caclulateDescentHeightWithSub(final Graphics2D g) {
+    // final JEuclidElement subElement = this.getSubscript();
+    // final JEuclidElement baseElement = this.getBase();
+    // return Math.max(baseElement.getDescentHeight(g), this
+    // .getSubBaseLineShift(g)
+    // + subElement.getDescentHeight(g));
+    //
+    // }
 
     /** {@inheritDoc} */
     @Override

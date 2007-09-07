@@ -1,6 +1,6 @@
 /*
  * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,23 +16,30 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.elements.presentation.general;
-
+package net.sourceforge.jeuclid;
 
 /**
- * Common base class for all elements that present themself as a row of
- * children, like the mrow element.
- * 
  * @author Max Berger
  * @version $Revision$
  */
-public abstract class AbstractRowLike extends AbstractMathElementWithChildren {
+public final class Constants {
+    /** String for numeric zero. */
+    public static final String ZERO = "0";
+
+    /** String constant for true. */
+    public static final String TRUE = "true";
+
+    /** String constant for false. */
+    public static final String FALSE = "false";
+
+    /** Default fontsize (no scaling). */
+    public static final float DEFAULT_FONTSIZE = 12.0f;
 
     /**
-     * Default constructor.
+     * Default Constructor.
      */
-    public AbstractRowLike() {
-        super();
+    private Constants() {
+        // Empty on purpose
     }
 
 }

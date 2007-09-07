@@ -18,11 +18,9 @@
 
 package net.sourceforge.jeuclid.elements;
 
-import java.awt.Graphics2D;
 import java.util.List;
 
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
-import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 
 /**
  * Generic class for all mathobjects that can be represented using other Math
@@ -60,30 +58,32 @@ public abstract class AbstractElementWithDelegates extends AbstractContainer {
         }
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public float calculateAscentHeight(final Graphics2D g) {
-        return ElementListSupport.getAscentHeight(g, this.delegates);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-        return ElementListSupport.getDescentHeight(g, this.delegates);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        return ElementListSupport.getWidth(g, this.delegates);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        super.paint(g, posX, posY);
-        ElementListSupport.paint(g, posX, posY, this.delegates);
-    }
+    // TODO
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateAscentHeight(final Graphics2D g) {
+    // return ElementListSupport.getAscentHeight(g, this.delegates);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateDescentHeight(final Graphics2D g) {
+    // return ElementListSupport.getDescentHeight(g, this.delegates);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateWidth(final Graphics2D g) {
+    // return ElementListSupport.getWidth(g, this.delegates);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public void paint(final Graphics2D g, final float posX, final float
+    // posY) {
+    // super.paint(g, posX, posY);
+    // ElementListSupport.paint(g, posX, posY, this.delegates);
+    // }
 
     /** {@inheritDoc} */
     @Override

@@ -18,8 +18,6 @@
 
 package net.sourceforge.jeuclid.elements;
 
-import java.awt.Graphics2D;
-
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
@@ -32,8 +30,8 @@ import org.w3c.dom.mathml.MathMLElement;
  * @author Max Berger
  * @version $Revision$
  */
-public interface JEuclidElement extends MathMLElement, DisplayableNode,
-        JEuclidNode, LayoutableNode {
+public interface JEuclidElement extends MathMLElement, JEuclidNode,
+        LayoutableNode {
 
     /**
      * Sets the parent of this element.
@@ -52,49 +50,6 @@ public interface JEuclidElement extends MathMLElement, DisplayableNode,
     void setMathAttributes(final AttributeMap attributes);
 
     /**
-     * returns true if the parent is currently calculating its size.
-     * 
-     * @return true if parent is calculating size.
-     */
-    boolean isCalculatingSize();
-
-    /**
-     * Returns the current height of the upper part (over the base line).
-     * 
-     * @return Height of the upper part.
-     * @param g
-     *            Graphics2D context to use.
-     */
-    float calculateAscentHeight(Graphics2D g);
-
-    /**
-     * Calculates descent height (under the base line) of the element.
-     * 
-     * @return Descent height value.
-     * @param g
-     *            Graphics2D context to use.
-     */
-    float calculateDescentHeight(Graphics2D g);
-
-    /**
-     * @param calculatingSize
-     *            the calculatingSize to set
-     */
-    void setCalculatingSize(final boolean calculatingSize);
-
-    /**
-     * Returns value of the vertical shift for the specific elements in the
-     * line. This applies to "munderover", "msubsup", "mover", etc.. In case
-     * such elements contains enlarged operator, other elements on the right
-     * should be positioned in the center of the line. Value of the shift is
-     * stored in the top-level element of the line.
-     * 
-     * @return Value of the corrector of the line.
-     * @see #setGlobalLineCorrector(float)
-     */
-    float getGlobalLineCorrector();
-
-    /**
      * Gets index of child element.
      * 
      * @param element
@@ -109,19 +64,6 @@ public interface JEuclidElement extends MathMLElement, DisplayableNode,
      * @return the current MathVariant
      */
     MathVariant getMathvariantAsVariant();
-
-    /**
-     * Sets value of the vertical shift for the specific elements in the line.
-     * This applies to "munderover", "msubsup", "mover", etc.. In case such
-     * elements containes enlarged operator, other elements on the right
-     * should be positioned in the center of the line regarding such elements.
-     * Value of the shift is stored in the top-level element of the line.
-     * 
-     * @param corrector
-     *            Value of corrector.
-     * @see #getGlobalLineCorrector()
-     */
-    void setGlobalLineCorrector(final float corrector);
 
     /**
      * Gets a child from this element.

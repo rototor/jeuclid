@@ -18,7 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 /**
@@ -41,11 +41,9 @@ public abstract class AbstractScriptElement extends AbstractJEuclidElement {
     public AbstractScriptElement() {
         super();
         this.setDefaultMathAttribute(
-                AbstractScriptElement.ATTR_SUBSCRIPTSHIFT,
-                MathBase.VALUE_ZERO);
+                AbstractScriptElement.ATTR_SUBSCRIPTSHIFT, Constants.ZERO);
         this.setDefaultMathAttribute(
-                AbstractScriptElement.ATTR_SUPERSCRIPTSHIFT,
-                MathBase.VALUE_ZERO);
+                AbstractScriptElement.ATTR_SUPERSCRIPTSHIFT, Constants.ZERO);
     }
 
     /**

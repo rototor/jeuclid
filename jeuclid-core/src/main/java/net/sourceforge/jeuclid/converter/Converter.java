@@ -29,10 +29,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.DOMBuilder;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
+import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -191,16 +194,9 @@ public final class Converter {
                 .getConverter(outFileType);
         Document result = null;
         if (plugin != null) {
-            try {
-                result = plugin.convert(MathMLParserSupport
-                        .createMathBaseFromDocument(doc, params));
-            } catch (final SAXException ex) {
-                Converter.LOGGER.fatal("Failed to process: "
-                        + ex.getMessage(), ex);
-            } catch (final IOException ex) {
-                Converter.LOGGER.fatal("Failed to process: "
-                        + ex.getMessage(), ex);
-            }
+            final DocumentElement jDoc = DOMBuilder.getDOMBuilder()
+                    .createJeuclidDom(doc);
+            result = plugin.convert(jDoc, params);
         }
         if (result == null) {
             Converter.LOGGER.fatal("Unsupported output type: " + outFileType);
@@ -233,9 +229,10 @@ public final class Converter {
         Dimension result = null;
         if (plugin != null) {
             try {
-                result = plugin.convert(MathMLParserSupport
-                        .createMathBaseFromDocument(doc, params), outStream);
-            } catch (final SAXException ex) {
+                final DocumentElement jDoc = DOMBuilder.getDOMBuilder()
+                        .createJeuclidDom(doc);
+                result = plugin.convert(jDoc, params, outStream);
+            } catch (final IOException ex) {
                 Converter.LOGGER.fatal("Failed to process: "
                         + ex.getMessage(), ex);
             }
@@ -248,20 +245,27 @@ public final class Converter {
     /**
      * Renders a document into an image.
      * 
-     * @param base
-     *            MathBase containing the MathML document and its rendering
-     *            parameters.
+     * @param node
+     *            Document / Node to render
+     * @param context
+     *            LayoutContext to use.
      * @return the rendered image
      * @throws IOException
      *             if an I/O error occurred.
      */
-    public BufferedImage render(final MathBase base) throws IOException {
-
+    public BufferedImage render(final Node node, final LayoutContext context)
+            throws IOException {
         final Image tempimage = new BufferedImage(1, 1,
                 BufferedImage.TYPE_INT_ARGB);
         final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-        final int width = (int) Math.ceil(base.getWidth(tempg));
-        final int height = (int) Math.ceil(base.getHeight(tempg));
+
+        final DocumentElement jDoc = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(node);
+        final JEuclidView view = new JEuclidView(jDoc, context, tempg);
+
+        final int width = (int) Math.ceil(view.getWidth());
+        final int ascent = (int) Math.ceil(view.getAscentHeight());
+        final int height = (int) Math.ceil(view.getDescentHeight()) + ascent;
 
         final BufferedImage image = new BufferedImage(width, height,
                 BufferedImage.TYPE_INT_ARGB);
@@ -273,7 +277,7 @@ public final class Converter {
         g.fillRect(0, 0, width, height);
         g.setColor(Color.black);
 
-        base.paint(g);
+        view.draw(g, 0, ascent);
         return image;
     }
 }

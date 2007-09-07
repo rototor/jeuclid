@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements;
 
-import java.awt.Graphics2D;
 
 /**
  * Represents a MathElement with no content.
@@ -36,28 +35,30 @@ public abstract class AbstractInvisibleJEuclidElement extends
         super();
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        super.paint(g, posX, posY);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateAscentHeight(final Graphics2D g) {
-        return 0;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-        return 0;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        return 0;
-    }
+    // TODO
+    // /** {@inheritDoc} */
+    // @Override
+    // public void paint(final Graphics2D g, final float posX, final float
+    // posY) {
+    // super.paint(g, posX, posY);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateAscentHeight(final Graphics2D g) {
+    // return 0;
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateDescentHeight(final Graphics2D g) {
+    // return 0;
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateWidth(final Graphics2D g) {
+    // return 0;
+    // }
 
 }

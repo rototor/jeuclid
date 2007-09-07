@@ -137,115 +137,115 @@ public class Mmultiscripts extends AbstractScriptElement implements
         }
     }
 
-    private void calculateSpecs(final Graphics2D g) {
-        if (g == this.lastCalculatedFor) {
-            return;
-        }
-        this.lastCalculatedFor = g;
-        final JEuclidElement base = this.getBase();
-
-        this.subBaselineShift = 0.0f;
-        this.superBaselineShift = 0.0f;
-
-        float maxSupAscent = 0.0f;
-        float maxSubDescent = 0.0f;
-
-        this.width = base.getWidth(g);
-
-        for (int i = 0; i < this.postsubscripts.size(); i++) {
-            final JEuclidElement sub = this.postsubscripts.get(i);
-            final JEuclidElement sup = this.postsuperscripts.get(i);
-            final float esubbaselineshift = ScriptSupport
-                    .getSubBaselineShift(g, base, sub, sup);
-            final float esupbaselineshift = ScriptSupport
-                    .getSuperBaselineShift(g, base, sub, sup);
-            this.subBaselineShift = Math.max(this.subBaselineShift,
-                    esubbaselineshift);
-            this.superBaselineShift = Math.max(this.superBaselineShift,
-                    esupbaselineshift);
-            maxSupAscent = Math.max(maxSupAscent, sup.getAscentHeight(g));
-            maxSubDescent = Math.max(maxSubDescent, sub.getDescentHeight(g));
-            this.width += Math.max(sub.getWidth(g), sup.getWidth(g));
-        }
-        for (int i = 0; i < this.presubscripts.size(); i++) {
-            final JEuclidElement sub = this.presubscripts.get(i);
-            final JEuclidElement sup = this.presuperscripts.get(i);
-            final float esubbaselineshift = ScriptSupport
-                    .getSubBaselineShift(g, base, sub, sup);
-            final float esupbaselineshift = ScriptSupport
-                    .getSuperBaselineShift(g, base, sub, sup);
-            this.subBaselineShift = Math.max(this.subBaselineShift,
-                    esubbaselineshift);
-            this.superBaselineShift = Math.max(this.superBaselineShift,
-                    esupbaselineshift);
-            maxSupAscent = Math.max(maxSupAscent, sup.getAscentHeight(g));
-            maxSubDescent = Math.max(maxSubDescent, sub.getDescentHeight(g));
-            this.width += Math.max(sub.getWidth(g), sup.getWidth(g));
-        }
-
-        this.ascentHeight = Math.max(base.getAscentHeight(g),
-                this.superBaselineShift + maxSupAscent);
-        this.descentHeight = Math.max(base.getDescentHeight(g),
-                this.subBaselineShift + maxSubDescent);
-    }
-
-    /**
-     * Paints this element.
-     * 
-     * @param g
-     *            The graphics context to use for painting
-     * @param posX
-     *            The first left position for painting
-     * @param posY
-     *            The position of the baseline
-     */
-    @Override
-    public final void paint(final Graphics2D g, final float posX,
-            final float posY) {
-        super.paint(g, posX, posY);
-        this.calculateSpecs(g);
-        final JEuclidElement base = this.getBase();
-
-        float pos = posX;
-        for (int i = 0; i < this.presubscripts.size(); i++) {
-            final JEuclidElement sub = this.presubscripts.get(i);
-            final JEuclidElement sup = this.presuperscripts.get(i);
-            sub.paint(g, pos, posY + this.subBaselineShift);
-            sup.paint(g, pos, posY - this.superBaselineShift);
-            pos += Math.max(sub.getWidth(g), sup.getWidth(g));
-        }
-        base.paint(g, pos, posY);
-        pos += base.getWidth(g);
-        for (int i = 0; i < this.postsubscripts.size(); i++) {
-            final JEuclidElement sub = this.postsubscripts.get(i);
-            final JEuclidElement sup = this.postsuperscripts.get(i);
-            sub.paint(g, pos, posY + this.subBaselineShift);
-            sup.paint(g, pos, posY - this.superBaselineShift);
-            pos += Math.max(sub.getWidth(g), sup.getWidth(g));
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final float calculateWidth(final Graphics2D g) {
-        this.calculateSpecs(g);
-        return this.width;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final float calculateAscentHeight(final Graphics2D g) {
-        this.calculateSpecs(g);
-        return this.ascentHeight;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final float calculateDescentHeight(final Graphics2D g) {
-        this.calculateSpecs(g);
-        return this.descentHeight;
-
-    }
+    // private void calculateSpecs(final Graphics2D g) {
+    // if (g == this.lastCalculatedFor) {
+    // return;
+    // }
+    // this.lastCalculatedFor = g;
+    // final JEuclidElement base = this.getBase();
+    //
+    // this.subBaselineShift = 0.0f;
+    // this.superBaselineShift = 0.0f;
+    //
+    // float maxSupAscent = 0.0f;
+    // float maxSubDescent = 0.0f;
+    //
+    // this.width = base.getWidth(g);
+    //
+    // for (int i = 0; i < this.postsubscripts.size(); i++) {
+    // final JEuclidElement sub = this.postsubscripts.get(i);
+    // final JEuclidElement sup = this.postsuperscripts.get(i);
+    // final float esubbaselineshift = ScriptSupport
+    // .getSubBaselineShift(g, base, sub, sup);
+    // final float esupbaselineshift = ScriptSupport
+    // .getSuperBaselineShift(g, base, sub, sup);
+    // this.subBaselineShift = Math.max(this.subBaselineShift,
+    // esubbaselineshift);
+    // this.superBaselineShift = Math.max(this.superBaselineShift,
+    // esupbaselineshift);
+    // maxSupAscent = Math.max(maxSupAscent, sup.getAscentHeight(g));
+    // maxSubDescent = Math.max(maxSubDescent, sub.getDescentHeight(g));
+    // this.width += Math.max(sub.getWidth(g), sup.getWidth(g));
+    // }
+    // for (int i = 0; i < this.presubscripts.size(); i++) {
+    // final JEuclidElement sub = this.presubscripts.get(i);
+    // final JEuclidElement sup = this.presuperscripts.get(i);
+    // final float esubbaselineshift = ScriptSupport
+    // .getSubBaselineShift(g, base, sub, sup);
+    // final float esupbaselineshift = ScriptSupport
+    // .getSuperBaselineShift(g, base, sub, sup);
+    // this.subBaselineShift = Math.max(this.subBaselineShift,
+    // esubbaselineshift);
+    // this.superBaselineShift = Math.max(this.superBaselineShift,
+    // esupbaselineshift);
+    // maxSupAscent = Math.max(maxSupAscent, sup.getAscentHeight(g));
+    // maxSubDescent = Math.max(maxSubDescent, sub.getDescentHeight(g));
+    // this.width += Math.max(sub.getWidth(g), sup.getWidth(g));
+    // }
+    //
+    // this.ascentHeight = Math.max(base.getAscentHeight(g),
+    // this.superBaselineShift + maxSupAscent);
+    // this.descentHeight = Math.max(base.getDescentHeight(g),
+    // this.subBaselineShift + maxSubDescent);
+    // }
+    //
+    // /**
+    // * Paints this element.
+    // *
+    // * @param g
+    // * The graphics context to use for painting
+    // * @param posX
+    // * The first left position for painting
+    // * @param posY
+    // * The position of the baseline
+    // */
+    // @Override
+    // public final void paint(final Graphics2D g, final float posX,
+    // final float posY) {
+    // super.paint(g, posX, posY);
+    // this.calculateSpecs(g);
+    // final JEuclidElement base = this.getBase();
+    //
+    // float pos = posX;
+    // for (int i = 0; i < this.presubscripts.size(); i++) {
+    // final JEuclidElement sub = this.presubscripts.get(i);
+    // final JEuclidElement sup = this.presuperscripts.get(i);
+    // sub.paint(g, pos, posY + this.subBaselineShift);
+    // sup.paint(g, pos, posY - this.superBaselineShift);
+    // pos += Math.max(sub.getWidth(g), sup.getWidth(g));
+    // }
+    // base.paint(g, pos, posY);
+    // pos += base.getWidth(g);
+    // for (int i = 0; i < this.postsubscripts.size(); i++) {
+    // final JEuclidElement sub = this.postsubscripts.get(i);
+    // final JEuclidElement sup = this.postsuperscripts.get(i);
+    // sub.paint(g, pos, posY + this.subBaselineShift);
+    // sup.paint(g, pos, posY - this.superBaselineShift);
+    // pos += Math.max(sub.getWidth(g), sup.getWidth(g));
+    // }
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public final float calculateWidth(final Graphics2D g) {
+    // this.calculateSpecs(g);
+    // return this.width;
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public final float calculateAscentHeight(final Graphics2D g) {
+    // this.calculateSpecs(g);
+    // return this.ascentHeight;
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public final float calculateDescentHeight(final Graphics2D g) {
+    // this.calculateSpecs(g);
+    // return this.descentHeight;
+    //
+    // }
 
     /** {@inheritDoc} */
     @Override

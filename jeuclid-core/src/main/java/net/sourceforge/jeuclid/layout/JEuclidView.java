@@ -49,7 +49,7 @@ public class JEuclidView implements AbstractView, LayoutView {
     /**
      * Default Constructor.
      * 
-     * @param doc
+     * @param node
      *            document to layout.
      * @param layoutGraphics
      *            Graphics context to use for layout calculations. This should
@@ -58,9 +58,14 @@ public class JEuclidView implements AbstractView, LayoutView {
      * @param layoutContext
      *            layoutContext to use.
      */
-    public JEuclidView(final LayoutableDocument doc,
-            final LayoutContext layoutContext, final Graphics2D layoutGraphics) {
-        this.document = doc;
+    public JEuclidView(final Node node, final LayoutContext layoutContext,
+            final Graphics2D layoutGraphics) {
+        if (node instanceof LayoutableDocument) {
+            this.document = (LayoutableDocument) node;
+        } else {
+            // TODO
+            this.document = null;
+        }
         this.graphics = layoutGraphics;
         this.context = layoutContext;
         this.layoutMap = new HashMap<Node, LayoutInfo>();
@@ -85,6 +90,19 @@ public class JEuclidView implements AbstractView, LayoutView {
      */
     public void draw(final Graphics2D g, final float x, final float y) {
         this.layout(this.document, LayoutStage.STAGE2);
+
+        // final RenderingHints hints = g.getRenderingHints();
+        // if ((Boolean) (this.rootElement.getCurrentLayoutContext()
+        // .getParameter(Parameter.ANTIALIAS))) {
+        // hints.add(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+        // RenderingHints.VALUE_ANTIALIAS_ON));
+        // }
+        // hints.add(new RenderingHints(RenderingHints.KEY_STROKE_CONTROL,
+        // RenderingHints.VALUE_STROKE_NORMALIZE));
+        // hints.add(new RenderingHints(RenderingHints.KEY_RENDERING,
+        // RenderingHints.VALUE_RENDER_QUALITY));
+        // g.setRenderingHints(hints);
+
         final boolean debug = (Boolean) ((DocumentElement) this.document)
                 .getCurrentLayoutContext().getParameter(Parameter.DEBUG);
         this.drawNode(this.document, g, x, y, debug);

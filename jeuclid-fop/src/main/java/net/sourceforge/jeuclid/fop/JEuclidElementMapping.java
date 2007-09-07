@@ -32,10 +32,9 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
+import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.apache.fop.fo.ElementMapping;
 import org.apache.fop.fo.FONode;
@@ -98,18 +97,19 @@ public class JEuclidElementMapping extends ElementMapping {
         public FopImage.ImageInfo convert(final Document doc) {
             try {
                 final FopImage.ImageInfo info = new FopImage.ImageInfo();
-                final MathBase base = MathMLParserSupport
-                        .createMathBaseFromDocument(doc, LayoutContextImpl
-                                .getDefaultLayoutContext());
                 final Image tempimage = new BufferedImage(1, 1,
                         BufferedImage.TYPE_INT_ARGB);
                 final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
+                final JEuclidView view = new JEuclidView(doc,
+                        LayoutContextImpl.getDefaultLayoutContext(), tempg);
                 info.data = doc;
 
-                info.width = (int) Math.ceil(base.getWidth(tempg));
-                info.height = (int) Math.ceil(base.getHeight(tempg));
-                info.alignmentAdjust = new FixedLength((int) (-base
-                        .getDescender(tempg) * 1000));
+                info.width = (int) Math.ceil(view.getWidth());
+                final float descent = view.getDescentHeight();
+                info.height = (int) Math.ceil(view.getAscentHeight()
+                        + descent);
+                info.alignmentAdjust = new FixedLength(
+                        (int) (-descent * 1000));
 
                 // info.mimeType = "application/mathml+xml";
                 info.mimeType = "text/xml";

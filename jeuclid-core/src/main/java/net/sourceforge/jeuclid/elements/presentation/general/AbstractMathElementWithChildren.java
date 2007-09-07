@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
-import java.awt.Graphics2D;
 import java.util.List;
 
 import net.sourceforge.jeuclid.elements.JEuclidElement;
@@ -46,55 +45,39 @@ public abstract class AbstractMathElementWithChildren extends
         return ElementListSupport.createListOfChildren(this);
     }
 
-    /**
-     * Paint all children. To be called from within a paint() method.
-     * 
-     * @param g
-     *            Graphics2D context
-     * @param posX
-     *            x-offset to start painting
-     * @param posY
-     *            y-offset to start painting
-     */
-    protected void paintChildren(final Graphics2D g, final float posX,
-            final float posY) {
-        super.paint(g, posX, posY);
-        ElementListSupport.paint(g, posX, posY, this.getChildrenAsList());
-    }
+    // /**
+    // * Calculates the width of all contained children.
+    // *
+    // * @param g
+    // * Graphics context to use.
+    // * @return the width.
+    // */
+    // public float calculateChildrenWidth(final Graphics2D g) {
+    // return ElementListSupport.getWidth(g, this.getChildrenAsList());
+    // }
 
-    /**
-     * Calculates the width of all contained children.
-     * 
-     * @param g
-     *            Graphics context to use.
-     * @return the width.
-     */
-    public float calculateChildrenWidth(final Graphics2D g) {
-        return ElementListSupport.getWidth(g, this.getChildrenAsList());
-    }
+    // /**
+    // * Calculates the ascent height of all contained children children.
+    // *
+    // * @param g
+    // * Graphics context to use.
+    // * @return the ascent height.
+    // */
+    // public float calculateChildrenAscentHeight(final Graphics2D g) {
+    // return ElementListSupport
+    // .getAscentHeight(g, this.getChildrenAsList());
+    // }
 
-    /**
-     * Calculates the ascent height of all contained children children.
-     * 
-     * @param g
-     *            Graphics context to use.
-     * @return the ascent height.
-     */
-    public float calculateChildrenAscentHeight(final Graphics2D g) {
-        return ElementListSupport
-                .getAscentHeight(g, this.getChildrenAsList());
-    }
-
-    /**
-     * Calculates the descent height of all contained children children.
-     * 
-     * @param g
-     *            Graphics context to use.
-     * @return the ascent height.
-     */
-    public float calculateChildrenDescentHeight(final Graphics2D g) {
-        return ElementListSupport.getDescentHeight(g, this
-                .getChildrenAsList());
-    }
+    // /**
+    // * Calculates the descent height of all contained children children.
+    // *
+    // * @param g
+    // * Graphics context to use.
+    // * @return the ascent height.
+    // */
+    // public float calculateChildrenDescentHeight(final Graphics2D g) {
+    // return ElementListSupport.getDescentHeight(g, this
+    // .getChildrenAsList());
+    // }
 
 }

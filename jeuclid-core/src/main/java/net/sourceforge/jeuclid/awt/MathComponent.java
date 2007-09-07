@@ -24,10 +24,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.DOMBuilder;
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
+import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.w3c.dom.Document;
 
@@ -54,7 +55,7 @@ public class MathComponent extends Component {
     /**
      * Reference to the MathBase class.
      */
-    private MathBase base;
+    private JEuclidView view;
 
     private boolean debug;
 
@@ -88,18 +89,18 @@ public class MathComponent extends Component {
     }
 
     /**
-     * Gets the mininimum size of this component.
+     * Gets the minimum size of this component.
      * 
      * @return A dimension object indicating this component's minimum size.
      */
     @Override
     public Dimension getMinimumSize() {
-        if (this.base == null) {
+        if (this.view == null) {
             return new Dimension(1, 1);
         } else {
-            final Graphics2D g2d = (Graphics2D) this.getGraphics();
-            return new Dimension((int) Math.ceil(this.base.getWidth(g2d)),
-                    (int) Math.ceil(this.base.getHeight(g2d)));
+            return new Dimension((int) Math.ceil(this.view.getWidth()),
+                    (int) Math.ceil(this.view.getAscentHeight()
+                            + (int) Math.ceil(this.view.getDescentHeight())));
         }
     }
 
@@ -122,20 +123,21 @@ public class MathComponent extends Component {
     @Override
     public void paint(final Graphics g) {
         super.paint(g);
-        if (this.base != null) {
-            this.base.paint((Graphics2D) g);
+        if (this.view != null) {
+            this.view.draw((Graphics2D) g, 0, (int) Math.ceil(this.view
+                    .getAscentHeight()));
         }
     }
 
     private void redo() {
-        if (this.document != null) {
-            this.base = new MathBase();
+        final Graphics2D g2d = (Graphics2D) this.getGraphics();
+        if ((this.document != null) && (g2d != null)) {
+            final DocumentElement doc = DOMBuilder.getDOMBuilder()
+                    .createJeuclidDom(this.document);
             this.parameters.setParameter(Parameter.DEBUG, this.debug);
-            DOMBuilder.getDOMBuilder().createJeuclidDom(this.document,
-                    this.base);
-            this.base.getRootElement().setLayoutContext(this.parameters);
+            this.view = new JEuclidView(doc, this.parameters, g2d);
         } else {
-            this.base = null;
+            this.view = null;
         }
         this.repaint();
     }

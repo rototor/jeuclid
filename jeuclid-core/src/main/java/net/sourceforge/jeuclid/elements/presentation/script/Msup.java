@@ -18,8 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import java.awt.Graphics2D;
-
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.DOMException;
@@ -47,46 +45,47 @@ public class Msup extends AbstractSubSuper implements MathMLScriptElement {
         super();
     }
 
-    /**
-     * Paints this element.
-     * 
-     * @param g
-     *            The graphics context to use for painting.
-     * @param posX
-     *            The first left position for painting.
-     * @param posY
-     *            The position of the baseline.
-     */
-    @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        super.paint(g, posX, posY);
-        final JEuclidElement e1 = this.getMathElement(0);
-        final JEuclidElement e2 = this.getMathElement(1);
-
-        final float posY2 = posY - this.getSuperBaseLineShift(g);
-
-        e1.paint(g, posX, posY);
-        e2.paint(g, posX + e1.getWidth(g), posY2);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        return this.getMathElement(0).getWidth(g)
-                + this.getMathElement(1).getWidth(g);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateAscentHeight(final Graphics2D g) {
-        return this.caclulateAscentHeightWithSuper(g);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-        return this.getMathElement(0).getDescentHeight(g);
-    }
+    // /**
+    // * Paints this element.
+    // *
+    // * @param g
+    // * The graphics context to use for painting.
+    // * @param posX
+    // * The first left position for painting.
+    // * @param posY
+    // * The position of the baseline.
+    // */
+    // @Override
+    // public void paint(final Graphics2D g, final float posX, final float
+    // posY) {
+    // super.paint(g, posX, posY);
+    // final JEuclidElement e1 = this.getMathElement(0);
+    // final JEuclidElement e2 = this.getMathElement(1);
+    //
+    // final float posY2 = posY - this.getSuperBaseLineShift(g);
+    //
+    // e1.paint(g, posX, posY);
+    // e2.paint(g, posX + e1.getWidth(g), posY2);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateWidth(final Graphics2D g) {
+    // return this.getMathElement(0).getWidth(g)
+    // + this.getMathElement(1).getWidth(g);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateAscentHeight(final Graphics2D g) {
+    // return this.caclulateAscentHeightWithSuper(g);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateDescentHeight(final Graphics2D g) {
+    // return this.getMathElement(0).getDescentHeight(g);
+    // }
 
     /** {@inheritDoc} */
     @Override
