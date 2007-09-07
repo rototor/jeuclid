@@ -31,6 +31,7 @@ import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -209,7 +210,7 @@ public class Menclose extends AbstractElementWithDelegates implements
 
     /** {@inheritDoc} */
     @Override
-    protected List<JEuclidElement> createDelegates() {
+    protected List<LayoutableNode> createDelegates() {
         final String[] notations = this.getNotation().split(" ");
         final Stack<Constructor<?>> notationImpls = new Stack<Constructor<?>>();
         for (final String curNotation : notations) {
@@ -249,7 +250,7 @@ public class Menclose extends AbstractElementWithDelegates implements
                 Menclose.LOGGER.warn(e);
             }
         }
-        final List<JEuclidElement> delegates = new Vector<JEuclidElement>(1);
+        final List<LayoutableNode> delegates = new Vector<LayoutableNode>(1);
         delegates.add(lastChild);
         return delegates;
     }

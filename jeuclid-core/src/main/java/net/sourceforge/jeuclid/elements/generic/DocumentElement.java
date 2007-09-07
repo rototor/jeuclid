@@ -107,7 +107,14 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public List<LayoutableNode> getLayoutableNodeChildren() {
+    public List<LayoutableNode> getChildrenToLayout() {
+        final List l = super.getChildren();
+        return l;
+    }
+
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    public List<LayoutableNode> getChildrenToDraw() {
         final List l = super.getChildren();
         return l;
     }
@@ -115,16 +122,16 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
     /** {@inheritDoc} */
     public void layoutStage1(final LayoutView view, final LayoutInfo info,
             final LayoutStage childMinStage, final LayoutContext context) {
-        ElementListSupport.layoutSequential(view, info, this,
-                LayoutStage.STAGE1);
+        ElementListSupport.layoutSequential(view, info, this
+                .getChildrenToLayout(), LayoutStage.STAGE1);
         info.setLayoutStage(childMinStage);
     }
 
     /** {@inheritDoc} */
     public void layoutStage2(final LayoutView view, final LayoutInfo info,
             final LayoutContext context) {
-        ElementListSupport.layoutSequential(view, info, this,
-                LayoutStage.STAGE2);
+        ElementListSupport.layoutSequential(view, info, this
+                .getChildrenToLayout(), LayoutStage.STAGE2);
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 

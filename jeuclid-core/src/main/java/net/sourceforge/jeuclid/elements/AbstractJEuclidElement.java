@@ -772,7 +772,14 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public List<LayoutableNode> getLayoutableNodeChildren() {
+    public List<LayoutableNode> getChildrenToLayout() {
+        final List l = ElementListSupport.createListOfChildren(this);
+        return l;
+    }
+
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    public List<LayoutableNode> getChildrenToDraw() {
         final List l = ElementListSupport.createListOfChildren(this);
         return l;
     }
@@ -797,7 +804,8 @@ public abstract class AbstractJEuclidElement extends
     protected void layoutStageInvariant(final LayoutView view,
             final LayoutInfo info, final LayoutStage stage,
             final LayoutContext context) {
-        ElementListSupport.layoutSequential(view, info, this, stage);
+        ElementListSupport.layoutSequential(view, info, this
+                .getChildrenToLayout(), stage);
     }
 
     /** {@inheritDoc} */

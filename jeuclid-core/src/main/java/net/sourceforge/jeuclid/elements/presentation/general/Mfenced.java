@@ -24,9 +24,9 @@ import java.util.Vector;
 import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.mathml.MathMLFencedElement;
 
@@ -134,9 +134,9 @@ public class Mfenced extends AbstractElementWithDelegates implements
 
     /** {@inheritDoc} */
     @Override
-    protected List<JEuclidElement> createDelegates() {
+    protected List<LayoutableNode> createDelegates() {
 
-        final List<JEuclidElement> retVal = new Vector<JEuclidElement>();
+        final List<LayoutableNode> retVal = new Vector<LayoutableNode>();
 
         final Mo opOpen = new Mo();
         opOpen.setFence(Constants.TRUE);
@@ -153,16 +153,18 @@ public class Mfenced extends AbstractElementWithDelegates implements
         for (int i = 0; i < this.getMathElementCount(); i++) {
             retVal.add(this.getMathElement(i));
 
-            if (i < (this.getMathElementCount() - 1)) {
-                final Mo opSep = new Mo();
-                opSep.setSeparator(Constants.TRUE);
-                if (i < sep.length()) {
-                    opSep.addText(String.valueOf(sep.charAt(i)));
-                } else {
-                    opSep.addText(String
-                            .valueOf(sep.charAt(sep.length() - 1)));
+            if (sep.length() > 0) {
+                if (i < (this.getMathElementCount() - 1)) {
+                    final Mo opSep = new Mo();
+                    opSep.setSeparator(Constants.TRUE);
+                    if (i < sep.length()) {
+                        opSep.addText(String.valueOf(sep.charAt(i)));
+                    } else {
+                        opSep.addText(String.valueOf(sep
+                                .charAt(sep.length() - 1)));
+                    }
+                    retVal.add(opSep);
                 }
-                retVal.add(opSep);
             }
 
         }

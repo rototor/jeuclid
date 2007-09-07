@@ -32,9 +32,14 @@ import org.w3c.dom.Node;
 public interface LayoutableNode extends Node, JEuclidNode {
 
     /**
-     * @return List of children.
+     * @return List of children to Layout. Normally, all children.
      */
-    List<LayoutableNode> getLayoutableNodeChildren();
+    List<LayoutableNode> getChildrenToLayout();
+
+    /**
+     * @return List of children to Draw. Normally, all children.
+     */
+    List<LayoutableNode> getChildrenToDraw();
 
     /**
      * context insensitive layout.

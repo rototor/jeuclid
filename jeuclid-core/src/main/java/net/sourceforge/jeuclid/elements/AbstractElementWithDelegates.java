@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.elements;
 import java.util.List;
 
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 /**
  * Generic class for all mathobjects that can be represented using other Math
@@ -35,7 +36,8 @@ import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
  */
 public abstract class AbstractElementWithDelegates extends AbstractContainer {
 
-    private List<JEuclidElement> delegates;
+    // TODO: Re-Enable resetting delegates on changeHook!
+    private List<LayoutableNode> delegates;
 
     /**
      * default constructor.
@@ -49,46 +51,29 @@ public abstract class AbstractElementWithDelegates extends AbstractContainer {
      * 
      * @return a MathObject representing the real contents.
      */
-    protected abstract List<JEuclidElement> createDelegates();
+    protected abstract List<LayoutableNode> createDelegates();
 
     private void prepareDelegates() {
-        this.delegates = this.createDelegates();
-        for (final JEuclidElement element : this.delegates) {
-            element.setFakeParent(this);
+        if (this.delegates == null) {
+            this.delegates = this.createDelegates();
+            for (final LayoutableNode element : this.delegates) {
+                ((JEuclidElement) element).setFakeParent(this);
+            }
         }
     }
 
-    // TODO
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateAscentHeight(final Graphics2D g) {
-    // return ElementListSupport.getAscentHeight(g, this.delegates);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateDescentHeight(final Graphics2D g) {
-    // return ElementListSupport.getDescentHeight(g, this.delegates);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateWidth(final Graphics2D g) {
-    // return ElementListSupport.getWidth(g, this.delegates);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public void paint(final Graphics2D g, final float posX, final float
-    // posY) {
-    // super.paint(g, posX, posY);
-    // ElementListSupport.paint(g, posX, posY, this.delegates);
-    // }
+    /** {@inheritDoc} */
+    @Override
+    public List<LayoutableNode> getChildrenToLayout() {
+        this.prepareDelegates();
+        return this.delegates;
+    }
 
     /** {@inheritDoc} */
     @Override
-    protected void changeHook() {
-        super.changeHook();
+    public List<LayoutableNode> getChildrenToDraw() {
         this.prepareDelegates();
+        return this.delegates;
     }
+
 }
