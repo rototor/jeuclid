@@ -24,6 +24,7 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -58,70 +59,6 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
     /** {@inheritDoc} */
     public abstract JEuclidElement getSubscript();
 
-    // /**
-    // * Retrieve the amount of pts by which the baseline of the super element
-    // * is shifted.
-    // *
-    // * @param g
-    // * Graphics context to use
-    // * @return baseline shift for super elements
-    // */
-    // protected float getSuperBaseLineShift(final Graphics2D g) {
-    //
-    // return Math.max(ScriptSupport.getSuperBaselineShift(g,
-    // this.getBase(), this.getSubscript(), this.getSuperscript()),
-    // AttributesHelper.convertSizeToPt(this.getSuperscriptshift(),
-    // this.getCurrentLayoutContext(), AttributesHelper.PT));
-    // }
-
-    // /**
-    // * Retrieve the amount of pts by which the baseline of the sub element
-    // is
-    // * shifted.
-    // *
-    // * @param g
-    // * Graphics context to use
-    // * @return baseline shift for super elements
-    // */
-    // protected float getSubBaseLineShift(final Graphics2D g) {
-    // return Math.max(ScriptSupport.getSubBaselineShift(g, this.getBase(),
-    // this.getSubscript(), this.getSuperscript()), AttributesHelper
-    // .convertSizeToPt(this.getSubscriptshift(), this
-    // .getCurrentLayoutContext(), AttributesHelper.PT));
-    // }
-
-    // /**
-    // * Calculate the ascent height, taking a super element into account.
-    // *
-    // * @param g
-    // * Graphics context to use
-    // * @return ascent height
-    // */
-    // protected float caclulateAscentHeightWithSuper(final Graphics2D g) {
-    // final JEuclidElement supElement = this.getSuperscript();
-    // final JEuclidElement baseElement = this.getBase();
-    // return Math.max(baseElement.getAscentHeight(g), this
-    // .getSuperBaseLineShift(g)
-    // + supElement.getAscentHeight(g));
-    //
-    // }
-
-    // /**
-    // * Calculate the descent height, taking a sub element into account.
-    // *
-    // * @param g
-    // * Graphics context to use
-    // * @return descent height
-    // */
-    // protected float caclulateDescentHeightWithSub(final Graphics2D g) {
-    // final JEuclidElement subElement = this.getSubscript();
-    // final JEuclidElement baseElement = this.getBase();
-    // return Math.max(baseElement.getDescentHeight(g), this
-    // .getSubBaseLineShift(g)
-    // + subElement.getDescentHeight(g));
-    //
-    // }
-
     /** {@inheritDoc} */
     @Override
     public boolean hasChildPostscripts(final JEuclidElement child) {
@@ -133,7 +70,6 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
     protected void layoutStageInvariant(final LayoutView view,
             final LayoutInfo info, final LayoutStage stage,
             final LayoutContext context) {
-        // TODO Incomplete
         // TODO Move to ScriptSupport
         final JEuclidElement base = this.getBase();
         final JEuclidElement sub = this.getSubscript();
@@ -149,17 +85,24 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
 
         if (sub != null) {
             subInfo = view.getInfo(sub);
-            subShift = baseInfo.getDescentHeight(stage)
+            subShift = Math.max(baseInfo.getDescentHeight(stage)
                     + (subInfo.getAscentHeight(stage) - subInfo
-                            .getDescentHeight(stage)) / 2.0f;
+                            .getDescentHeight(stage)) / 2.0f,
+                    AttributesHelper.convertSizeToPt(
+                            this.getSubscriptshift(), context,
+                            AttributesHelper.PT));
+
         } else {
             subInfo = null;
         }
         if (sup != null) {
             superInfo = view.getInfo(sup);
-            superShift = baseInfo.getAscentHeight(stage)
+            superShift = Math.max(baseInfo.getAscentHeight(stage)
                     - (superInfo.getAscentHeight(stage) - superInfo
-                            .getDescentHeight(stage)) / 2.0f;
+                            .getDescentHeight(stage)) / 2.0f,
+                    AttributesHelper.convertSizeToPt(this
+                            .getSuperscriptshift(), context,
+                            AttributesHelper.PT));
         } else {
             superInfo = null;
         }

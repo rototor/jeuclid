@@ -45,48 +45,6 @@ public class Msub extends AbstractSubSuper implements MathMLScriptElement {
         super();
     }
 
-    // /**
-    // * Paints this element.
-    // *
-    // * @param g
-    // * The graphics context to use for painting.
-    // * @param posX
-    // * The first left position for painting.
-    // * @param posY
-    // * The position of the baseline.
-    // */
-    // @Override
-    // public void paint(final Graphics2D g, final float posX, final float
-    // posY) {
-    // super.paint(g, posX, posY);
-    // final JEuclidElement e1 = this.getMathElement(0);
-    // final JEuclidElement e2 = this.getMathElement(1);
-    //
-    // e1.paint(g, posX, posY);
-    // e2
-    // .paint(g, posX + e1.getWidth(g), posY
-    // + this.getSubBaseLineShift(g));
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateWidth(final Graphics2D g) {
-    // return this.getMathElement(0).getWidth(g)
-    // + this.getMathElement(1).getWidth(g);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateAscentHeight(final Graphics2D g) {
-    // return this.getMathElement(0).getAscentHeight(g);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateDescentHeight(final Graphics2D g) {
-    // return this.caclulateDescentHeightWithSub(g);
-    // }
-
     /** {@inheritDoc} */
     public String getTagName() {
         return Msub.ELEMENT;
