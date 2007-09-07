@@ -47,8 +47,8 @@ public interface LayoutContext {
         SCRIPTMINSIZE,
         /** Script size multiplier (Float), defaults to 0.71. */
         SCRIPTSIZEMULTIPLIER,
-        /** Script size (Integer), defaults to 0. */
-        SCRIPTSIZE,
+        /** Script level (Integer), defaults to 0. */
+        SCRIPTLEVEL,
         /**
          * Minimum font size for which anti-alias is turned on. Defaults to
          * 10.0pt
@@ -127,7 +127,7 @@ public interface LayoutContext {
             case SCRIPTSIZEMULTIPLIER:
                 retVal = o instanceof Float;
                 break;
-            case SCRIPTSIZE:
+            case SCRIPTLEVEL:
                 retVal = o instanceof Integer;
                 break;
             case DEBUG:

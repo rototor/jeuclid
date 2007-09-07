@@ -171,11 +171,11 @@ public class Mo extends AbstractJEuclidElement implements
      * @return Flag of lspace property.
      */
     private float getLspaceAsFloat(final LayoutContext now) {
-        if (Display.BLOCK.equals(now.getParameter(Parameter.DISPLAY))) {
+        if (((Integer) now.getParameter(Parameter.SCRIPTLEVEL)) > 0) {
+            return 0.0f;
+        } else {
             return AttributesHelper.convertSizeToPt(this.getLspace(), now,
                     AttributesHelper.PT);
-        } else {
-            return 0.0f;
         }
     }
 
@@ -199,11 +199,11 @@ public class Mo extends AbstractJEuclidElement implements
      * @return Flag of rspace property.
      */
     private float getRspaceAsFloat(final LayoutContext now) {
-        if (Display.BLOCK.equals(now.getParameter(Parameter.DISPLAY))) {
+        if (((Integer) now.getParameter(Parameter.SCRIPTLEVEL)) > 0) {
+            return 0.0f;
+        } else {
             return AttributesHelper.convertSizeToPt(this.getRspace(), now,
                     AttributesHelper.PT);
-        } else {
-            return 0.0f;
         }
     }
 

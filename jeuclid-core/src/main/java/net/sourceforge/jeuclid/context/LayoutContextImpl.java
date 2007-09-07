@@ -45,7 +45,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
         this.context.put(Parameter.ANTIALIAS_MINSIZE, 10f);
         this.context.put(Parameter.SCRIPTSIZEMULTIPLIER,
                 Constants.DEFAULT_SCIPTSIZEMULTIPLIER);
-        this.context.put(Parameter.SCRIPTSIZE, 0);
+        this.context.put(Parameter.SCRIPTLEVEL, 0);
         this.context.put(Parameter.DISPLAY, Display.BLOCK);
         this.context.put(Parameter.DEBUG, false);
         this.context.put(Parameter.ANTIALIAS, true);
