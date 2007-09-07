@@ -34,6 +34,7 @@ import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLLabeledRowElement;
@@ -1545,7 +1546,7 @@ public class Mtable extends AbstractJEuclidElement implements
                 missing--;
             }
             for (final Node n : mtdChildren) {
-                final Mtd mtd = (Mtd) n;
+                final LayoutableNode mtd = (LayoutableNode) n;
                 final float width = Math.max(columnwidth.get(col), view
                         .getInfo(mtd).getWidth(stage));
                 columnwidth.set(col, width);
@@ -1558,7 +1559,7 @@ public class Mtable extends AbstractJEuclidElement implements
             float x = 0.0f;
             int col = 0;
             for (final Node n : mtdChildren) {
-                final Mtd mtd = (Mtd) n;
+                final LayoutableNode mtd = (LayoutableNode) n;
                 final LayoutInfo mtdInfo = view.getInfo(mtd);
                 mtdInfo.moveTo(x, 0.0f, stage);
                 x += columnwidth.get(col);
