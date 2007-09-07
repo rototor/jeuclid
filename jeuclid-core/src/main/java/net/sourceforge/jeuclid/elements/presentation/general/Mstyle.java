@@ -94,11 +94,6 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
         this.setAttribute(Mstyle.ATTR_SCRIPTMINSIZE, scriptminsize);
     }
 
-    // /** {@inheritDoc} */
-    // @Override
-    // protected int getAbsoluteScriptLevel() {
-    // int theLevel;
-    // try {
     // String attr = this.getScriptlevel();
     // if (attr == null) {
     // attr = "";
@@ -147,6 +142,29 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
                     }
                     if ("false".equalsIgnoreCase(displayStyle)) {
                         retVal = Display.INLINE;
+                    }
+                }
+                if (Parameter.SCRIPTSIZE.equals(which)) {
+                    String attr = Mstyle.this.getScriptlevel();
+                    if (attr == null) {
+                        attr = "";
+                    }
+                    attr = attr.trim();
+                    if (attr.length() > 0) {
+                        final char firstchar = attr.charAt(0);
+                        boolean relative = false;
+                        if (firstchar == '+') {
+                            relative = true;
+                            attr = attr.substring(1);
+                        } else if (firstchar == '-') {
+                            relative = true;
+                        }
+                        final int iValue = Integer.parseInt(attr);
+                        if (relative) {
+                            retVal = (Integer) retVal + iValue;
+                        } else {
+                            retVal = iValue;
+                        }
                     }
                 }
                 return retVal;
