@@ -19,6 +19,9 @@
 package net.sourceforge.jeuclid.elements.presentation.script;
 
 import net.sourceforge.jeuclid.Constants;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.InlineLayoutContext;
+import net.sourceforge.jeuclid.context.RelativeScriptsizeLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 /**
@@ -78,6 +81,19 @@ public abstract class AbstractScriptElement extends AbstractJEuclidElement {
     public void setSuperscriptshift(final String superscriptshift) {
         this.setAttribute(AbstractScriptElement.ATTR_SUPERSCRIPTSHIFT,
                 superscriptshift);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
+        if (childNum == 0) {
+            return now;
+        } else {
+            return new RelativeScriptsizeLayoutContext(
+                    new InlineLayoutContext(now), 1);
+        }
     }
 
 }

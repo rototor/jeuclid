@@ -45,6 +45,10 @@ public interface LayoutContext {
          * Font size (Float) for smallest script used. Defaults to 8.0pt.
          */
         SCRIPTMINSIZE,
+        /** Script size multiplier (Float), defaults to 0.71. */
+        SCRIPTSIZEMULTIPLIER,
+        /** Script size (Integer), defaults to 0. */
+        SCRIPTSIZE,
         /**
          * Minimum font size for which anti-alias is turned on. Defaults to
          * 10.0pt
@@ -120,7 +124,11 @@ public interface LayoutContext {
             case MATHSIZE:
             case SCRIPTMINSIZE:
             case ANTIALIAS_MINSIZE:
+            case SCRIPTSIZEMULTIPLIER:
                 retVal = o instanceof Float;
+                break;
+            case SCRIPTSIZE:
+                retVal = o instanceof Integer;
                 break;
             case DEBUG:
             case ANTIALIAS:
@@ -141,6 +149,7 @@ public interface LayoutContext {
                 retVal = o instanceof List;
                 break;
             default:
+                assert false;
                 retVal = false;
             }
             return retVal;

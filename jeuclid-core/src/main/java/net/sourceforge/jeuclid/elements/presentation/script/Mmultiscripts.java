@@ -249,16 +249,6 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     /** {@inheritDoc} */
     @Override
-    public int getScriptlevelForChild(final JEuclidElement child) {
-        if (child.isSameNode(this.getFirstChild())) {
-            return this.getAbsoluteScriptLevel();
-        } else {
-            return this.getAbsoluteScriptLevel() + 1;
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public boolean hasChildPrescripts(final JEuclidElement child) {
         return child.isSameNode(this.getBase())
                 && this.getNumprescriptcolumns() > 0;

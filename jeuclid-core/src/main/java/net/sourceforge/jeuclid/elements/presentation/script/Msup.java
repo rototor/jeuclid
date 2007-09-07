@@ -88,16 +88,6 @@ public class Msup extends AbstractSubSuper implements MathMLScriptElement {
     // }
 
     /** {@inheritDoc} */
-    @Override
-    public int getScriptlevelForChild(final JEuclidElement child) {
-        if (child.isSameNode(this.getFirstChild())) {
-            return this.getAbsoluteScriptLevel();
-        } else {
-            return this.getAbsoluteScriptLevel() + 1;
-        }
-    }
-
-    /** {@inheritDoc} */
     public String getTagName() {
         return Msup.ELEMENT;
     }

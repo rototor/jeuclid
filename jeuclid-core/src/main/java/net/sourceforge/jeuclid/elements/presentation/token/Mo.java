@@ -27,12 +27,14 @@ import java.text.AttributedString;
 
 import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.Defense;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
 import net.sourceforge.jeuclid.elements.support.operatordict.UnknownAttributeException;
@@ -175,23 +177,24 @@ public class Mo extends AbstractJEuclidElement implements
      * 
      * @return Flag of lspace property.
      */
-    private float getLspaceAsFloat() {
+    private float getLspaceAsFloat(final LayoutContext now) {
         // TODO: decide if this is necessary
         // if (this.getParent().isChildBlock(this)) {
-        return AttributesHelper.convertSizeToPt(this.getLspace(), this
-                .getCurrentLayoutContext(), AttributesHelper.PT);
+        return AttributesHelper.convertSizeToPt(this.getLspace(), now,
+                AttributesHelper.PT);
         // } else {
         // return 0.0f;
         // }
     }
 
     /**
+     * @param now
+     *            applied layout context.
      * @return Multiplier for increasing size of mo whith attribute largop =
      *         true
      */
-    public float getLargeOpCorrector() {
-        if (Display.BLOCK.equals(this.getCurrentLayoutContext().getParameter(
-                Parameter.DISPLAY))) {
+    public float getLargeOpCorrector(final LayoutContext now) {
+        if (Display.BLOCK.equals(now.getParameter(Parameter.DISPLAY))) {
             return Mo.LARGEOP_CORRECTOR_BLOCK;
         } else {
             return Mo.LARGEOP_CORRECTOR_INLINE;
@@ -203,11 +206,11 @@ public class Mo extends AbstractJEuclidElement implements
      * 
      * @return Flag of rspace property.
      */
-    private float getRspaceAsFloat() {
+    private float getRspaceAsFloat(final LayoutContext now) {
         // TODO: Decide if this is necessary
         // if (this.getParent().isChildBlock(this)) {
-        return AttributesHelper.convertSizeToPt(this.getRspace(), this
-                .getCurrentLayoutContext(), AttributesHelper.PT);
+        return AttributesHelper.convertSizeToPt(this.getRspace(), now,
+                AttributesHelper.PT);
         // } else {
         // return 0.0f;
         // }
@@ -294,21 +297,20 @@ public class Mo extends AbstractJEuclidElement implements
     // }
     // }
 
-    private TextLayout produceUnstrechtedLayout(final Graphics2D g) {
+    private TextLayout produceUnstrechtedLayout(final Graphics2D g,
+            final LayoutContext now) {
         Defense.notNull(g, "g");
-        float fontSizeInPoint = this.getFontsizeInPoint();
+        float fontSizeInPoint = GraphicsSupport.getFontsizeInPoint(now);
         if (Boolean.parseBoolean(this.getLargeop())) {
-            fontSizeInPoint *= this.getLargeOpCorrector();
+            fontSizeInPoint *= this.getLargeOpCorrector(now);
         }
 
         final String theText = this.getText();
         final AttributedString aString = StringUtil
                 .convertStringtoAttributedString(theText, this
-                        .getMathvariantAsVariant(), fontSizeInPoint, this
-                        .getCurrentLayoutContext());
+                        .getMathvariantAsVariant(), fontSizeInPoint, now);
         final TextLayout theLayout = StringUtil
-                .createTextLayoutFromAttributedString(g, aString, this
-                        .getCurrentLayoutContext());
+                .createTextLayoutFromAttributedString(g, aString, now);
         return theLayout;
     }
 
@@ -648,18 +650,19 @@ public class Mo extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     @Override
     public void layoutStage1(final LayoutView view, final LayoutInfo info,
-            final LayoutStage childMinStage) {
+            final LayoutStage childMinStage, final LayoutContext context) {
         // TODO: This is far incomplete
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
         final Graphics2D g = view.getGraphics();
-        final TextLayout t = this.produceUnstrechtedLayout(g);
+        final TextLayout t = this.produceUnstrechtedLayout(g, now);
 
         final StringUtil.TextLayoutInfo tli = StringUtil.getTextLayoutInfo(t);
         final float ascent = tli.getAscent();
         final float descent = tli.getDescent();
         final float xOffset = tli.getOffset();
         final float contentWidth = tli.getWidth() + xOffset;
-        final float lspace = this.getLspaceAsFloat();
-        final float rspace = this.getRspaceAsFloat();
+        final float lspace = this.getLspaceAsFloat(now);
+        final float rspace = this.getRspaceAsFloat(now);
 
         info.setAscentHeight(ascent, LayoutStage.STAGE1);
         info.setDescentHeight(descent, LayoutStage.STAGE1);
@@ -670,19 +673,20 @@ public class Mo extends AbstractJEuclidElement implements
             info.setLayoutStage(LayoutStage.STAGE1);
         } else {
             info.setGraphicsObject(new TextObject(t, lspace, 0, null,
-                    (Color) this.getCurrentLayoutContext().getParameter(
-                            Parameter.MATHCOLOR)));
+                    (Color) now.getParameter(Parameter.MATHCOLOR)));
             info.setLayoutStage(LayoutStage.STAGE2);
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public void layoutStage2(final LayoutView view, final LayoutInfo info) {
+    public void layoutStage2(final LayoutView view, final LayoutInfo info,
+            final LayoutContext context) {
         // TODO: This is far incomplete
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
 
         final Graphics2D g = view.getGraphics();
-        final TextLayout t = this.produceUnstrechtedLayout(g);
+        final TextLayout t = this.produceUnstrechtedLayout(g, now);
 
         final float calcScaleY;
         final float calcScaleX;
@@ -733,11 +737,10 @@ public class Mo extends AbstractJEuclidElement implements
             calcScaleX = 1.0f;
         }
 
-        info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(),
+        info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(now),
                 calcBaselineShift, AffineTransform.getScaleInstance(
-                        calcScaleX, calcScaleY), (Color) this
-                        .getCurrentLayoutContext().getParameter(
-                                Parameter.MATHCOLOR)));
+                        calcScaleX, calcScaleY), (Color) now
+                        .getParameter(Parameter.MATHCOLOR)));
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 }

@@ -18,15 +18,9 @@
 
 package net.sourceforge.jeuclid;
 
-import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
-import net.sourceforge.jeuclid.elements.presentation.general.Mstyle;
-import net.sourceforge.jeuclid.elements.presentation.table.Maligngroup;
-import net.sourceforge.jeuclid.elements.presentation.table.Malignmark;
-import net.sourceforge.jeuclid.elements.presentation.table.Mlabeledtr;
-import net.sourceforge.jeuclid.elements.presentation.table.Mtd;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.DOMAttributeMap;
 
@@ -98,10 +92,9 @@ public final class DOMBuilder {
                             + ". Expected either Document, Element or DocumentFragment");
         }
 
-        final DocumentElement rootElement = new DocumentElement(
-                LayoutContextImpl.getDefaultLayoutContext());
+        final DocumentElement rootElement = new DocumentElement();
 
-        this.traverse(documentElement, rootElement, null);
+        this.traverse(documentElement, rootElement);
         rootElement.fireChangeForSubTree();
         return rootElement;
     }
@@ -116,8 +109,7 @@ public final class DOMBuilder {
      * @param alignmentScope
      *            Alignment scope of elements.
      */
-    private void traverse(final Node node, final Node parent,
-            Mtd alignmentScope) {
+    private void traverse(final Node node, final Node parent) {
         if (node.getNodeType() != Node.ELEMENT_NODE) {
             return;
         }
@@ -132,52 +124,15 @@ public final class DOMBuilder {
 
         final AbstractJEuclidElement element = (AbstractJEuclidElement) JEuclidElementFactory
                 .elementFromName(tagname, attributes);
-
-        // TODO: All theses should be handled within the appropriate class
-        if (tagname.equals(Mtd.ELEMENT)) {
-            alignmentScope = (Mtd) element;
-        } else if (tagname.equals(Mstyle.ELEMENT)) {
-            if (attributes.hasAttribute("scriptsizemultiplier")) {
-                final float scrm = Float.valueOf(
-                        attributes.getString("scriptsizemultiplier", String
-                                .valueOf(element.getScriptSizeMultiplier())))
-                        .floatValue();
-                element.setScriptSizeMultiplier(scrm);
-            }
-        } else if (tagname.equals(Maligngroup.ELEMENT)) {
-            if (alignmentScope != null) {
-                alignmentScope.addAlignGroupElement((Maligngroup) element);
-            }
-        } else if (tagname.equals(Malignmark.ELEMENT)) {
-            if (alignmentScope != null) {
-                alignmentScope.addAlignMarkElement((Malignmark) element);
-            }
-        }
-        // end of TODO
-
-        if (parent instanceof Mlabeledtr) {
-            if (((Mlabeledtr) parent).labelIgnored) {
-                parent.appendChild(element);
-            } else {
-                ((Mlabeledtr) parent).labelIgnored = true;
-            }
-        } else {
-            parent.appendChild(element);
-        }
+        parent.appendChild(element);
 
         final NodeList childs = node.getChildNodes();
-        Mtd prevScope = null;
-
-        if (tagname.equals(Mtd.ELEMENT)) {
-            prevScope = alignmentScope;
-            alignmentScope = (Mtd) element;
-        }
 
         for (int i = 0; i < childs.getLength(); i++) {
             final Node childNode = childs.item(i);
             final short childNodeType = childNode.getNodeType();
             if (childNodeType == Node.ELEMENT_NODE) {
-                this.traverse(childNode, element, alignmentScope);
+                this.traverse(childNode, element);
             } else if (childNodeType == Node.TEXT_NODE) {
                 element.addText(childNode.getNodeValue());
             } else if (childNodeType == Node.ENTITY_REFERENCE_NODE
@@ -188,10 +143,6 @@ public final class DOMBuilder {
                     element.addText(entityValue);
                 }
             }
-        }
-
-        if (prevScope != null) {
-            alignmentScope = prevScope;
         }
 
     }

@@ -18,8 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
 
 /**
  * This class presents numbers in a equation.
@@ -44,40 +42,40 @@ public class Mn extends AbstractTokenWithStandardLayout {
         super();
     }
 
-    /**
-     * @return Width of till point
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public int getWidthTillPoint(final Graphics2D g) {
-        int result = 0;
+    // /**
+    // * @return Width of till point
+    // * @param g
+    // * Graphics2D context to use.
+    // */
+    // public int getWidthTillPoint(final Graphics2D g) {
+    // int result = 0;
+    //
+    // if (this.getText() == null && this.getText().length() == 0) {
+    // return result;
+    // }
+    // final FontMetrics metrics = this.getFontMetrics(g);
+    // String integer = this.getText();
+    // final int dotIndex = integer.indexOf(Mn.DOT);
+    // if (dotIndex >= 0) {
+    // integer = integer.substring(0, dotIndex);
+    // }
+    // result = metrics.stringWidth(integer);
+    // return result;
+    // }
 
-        if (this.getText() == null && this.getText().length() == 0) {
-            return result;
-        }
-        final FontMetrics metrics = this.getFontMetrics(g);
-        String integer = this.getText();
-        final int dotIndex = integer.indexOf(Mn.DOT);
-        if (dotIndex >= 0) {
-            integer = integer.substring(0, dotIndex);
-        }
-        result = metrics.stringWidth(integer);
-        return result;
-    }
-
-    /**
-     * @return width of point
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public float getPointWidth(final Graphics2D g) {
-        float result = 0;
-
-        final FontMetrics metrics = this.getFontMetrics(g);
-        result = metrics.stringWidth(Mn.DOT);
-
-        return result;
-    }
+    // /**
+    // * @return width of point
+    // * @param g
+    // * Graphics2D context to use.
+    // */
+    // public float getPointWidth(final Graphics2D g) {
+    // float result = 0;
+    //
+    // final FontMetrics metrics = this.getFontMetrics(g);
+    // result = metrics.stringWidth(Mn.DOT);
+    //
+    // return result;
+    // }
 
     /** {@inheritDoc} */
     public String getTagName() {

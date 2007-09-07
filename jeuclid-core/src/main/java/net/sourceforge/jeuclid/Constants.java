@@ -35,6 +35,9 @@ public final class Constants {
     /** Default fontsize (no scaling). */
     public static final float DEFAULT_FONTSIZE = 12.0f;
 
+    /** Default ScriptSize multiplier. */
+    public static final float DEFAULT_SCIPTSIZEMULTIPLIER = 0.71f;
+
     /**
      * Default Constructor.
      */

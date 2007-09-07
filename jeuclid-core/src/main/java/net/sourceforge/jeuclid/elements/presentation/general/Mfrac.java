@@ -26,7 +26,6 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
-import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
@@ -95,8 +94,10 @@ public class Mfrac extends AbstractJEuclidElement implements
 
     /** {@inheritDoc} */
     @Override
-    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
-        return new InlineLayoutContext(this.getCurrentLayoutContext());
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
+        return new InlineLayoutContext(this
+                .applyLocalAttributesToContext(context));
     }
 
     /**
@@ -111,18 +112,22 @@ public class Mfrac extends AbstractJEuclidElement implements
 
     /**
      * @return thickness of the fraction line
+     * @param context
+     *            LayoutContext to use
      * @param g
      *            Graphics2D context to use.
      */
-    public float getLinethickness(final Graphics2D g) {
+    public float getLinethickness(final Graphics2D g,
+            final LayoutContext context) {
         final String sThickness = this.getLinethickness();
         float thickness;
         try {
             thickness = Float.parseFloat(sThickness);
-            thickness *= GraphicsSupport.lineWidth(this);
+            thickness *= GraphicsSupport.lineWidth(context);
         } catch (final NumberFormatException nfe) {
             thickness = AttributesHelper.convertSizeToPt(sThickness, this
-                    .getCurrentLayoutContext(), AttributesHelper.PT);
+                    .applyLocalAttributesToContext(context),
+                    AttributesHelper.PT);
         }
         return thickness;
     }
@@ -301,14 +306,16 @@ public class Mfrac extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     @Override
     protected void layoutStageInvariant(final LayoutView view,
-            final LayoutInfo info, final LayoutStage stage) {
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutContext context) {
         final Graphics2D g = view.getGraphics();
 
-        final float middleShift = this.getMiddleShift(g);
+        final float middleShift = this.getMiddleShift(g, context);
         final boolean beveled = Boolean.parseBoolean(this.getBevelled());
-        final float linethickness = this.getLinethickness(g);
+        final float linethickness = this.getLinethickness(g, context);
         final float extraSpace = AttributesHelper.convertSizeToPt(
-                Mfrac.EXTRA_SPACE_AROUND, this.getCurrentLayoutContext(), "");
+                Mfrac.EXTRA_SPACE_AROUND, this
+                        .applyLocalAttributesToContext(context), "");
 
         final LayoutInfo numerator = view.getInfo((LayoutableNode) this
                 .getNumerator());
@@ -317,10 +324,10 @@ public class Mfrac extends AbstractJEuclidElement implements
 
         if (beveled) {
             this.layoutBeveled(info, stage, middleShift, linethickness,
-                    extraSpace, numerator, denominator);
+                    extraSpace, numerator, denominator, context);
         } else {
             this.layoutStacked(info, stage, middleShift, linethickness,
-                    extraSpace, numerator, denominator);
+                    extraSpace, numerator, denominator, context);
         }
 
         final Dimension2D borderLeftTop = new Dimension2DImpl(extraSpace,
@@ -334,7 +341,8 @@ public class Mfrac extends AbstractJEuclidElement implements
     private void layoutStacked(final LayoutInfo info,
             final LayoutStage stage, final float middleShift,
             final float linethickness, final float extraSpace,
-            final LayoutInfo numerator, final LayoutInfo denominator) {
+            final LayoutInfo numerator, final LayoutInfo denominator,
+            final LayoutContext context) {
         final float numWidth = numerator.getWidth(stage);
         final float denumWidth = denominator.getWidth(stage);
         final float width = Math.max(denumWidth, numWidth);
@@ -357,7 +365,7 @@ public class Mfrac extends AbstractJEuclidElement implements
 
         final GraphicsObject line = new LineObject(extraSpace, -middleShift,
                 extraSpace + width, -middleShift, linethickness, (Color) this
-                        .getCurrentLayoutContext().getParameter(
+                        .applyLocalAttributesToContext(context).getParameter(
                                 Parameter.MATHCOLOR));
         info.setGraphicsObject(line);
     }
@@ -365,7 +373,8 @@ public class Mfrac extends AbstractJEuclidElement implements
     private void layoutBeveled(final LayoutInfo info,
             final LayoutStage stage, final float middleShift,
             final float linethickness, final float extraSpace,
-            final LayoutInfo numerator, final LayoutInfo denominator) {
+            final LayoutInfo numerator, final LayoutInfo denominator,
+            final LayoutContext context) {
         final float numPosY = -middleShift / 2.0f
                 + numerator.getDescentHeight(stage);
         final float denPosY = middleShift / 2.0f
@@ -385,8 +394,8 @@ public class Mfrac extends AbstractJEuclidElement implements
         float posX = numerator.getWidth(stage) + extraSpace;
         final GraphicsObject line = new LineObject(posX, totalDescent,
                 lineWidth + posX, totalDescent - totalHeight, linethickness,
-                (Color) this.getCurrentLayoutContext().getParameter(
-                        Parameter.MATHCOLOR));
+                (Color) this.applyLocalAttributesToContext(context)
+                        .getParameter(Parameter.MATHCOLOR));
         info.setGraphicsObject(line);
         posX += lineWidth;
         denominator.moveTo(posX, denPosY, stage);

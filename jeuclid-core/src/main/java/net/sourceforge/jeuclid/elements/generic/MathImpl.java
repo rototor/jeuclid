@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.elements.generic;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
-import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
 
 import org.w3c.dom.mathml.MathMLMathElement;
@@ -73,7 +72,8 @@ public class MathImpl extends AbstractRowLike implements MathMLMathElement {
 
     /** {@inheritDoc} */
     @Override
-    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
         return new LayoutContext() {
 
             public Object getParameter(final Parameter which) {
@@ -85,8 +85,8 @@ public class MathImpl extends AbstractRowLike implements MathMLMathElement {
                         retVal = Display.INLINE;
                     }
                 } else {
-                    retVal = MathImpl.this.getCurrentLayoutContext()
-                            .getParameter(which);
+                    retVal = MathImpl.this.applyLocalAttributesToContext(
+                            context).getParameter(which);
                 }
                 return retVal;
             }

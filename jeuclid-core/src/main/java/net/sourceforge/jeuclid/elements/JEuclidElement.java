@@ -89,16 +89,6 @@ public interface JEuclidElement extends MathMLElement, JEuclidNode,
     void setMathElement(final int index, final MathMLElement newElement);
 
     /**
-     * Retrieves the scriptlevel for a certain child. Some attributes increase
-     * the scriptlevel for some of their children.
-     * 
-     * @param child
-     *            element node of the child.
-     * @return the scriptlevel for this particular child.
-     */
-    int getScriptlevelForChild(final JEuclidElement child);
-
-    /**
      * Returns parent of this element.
      * 
      * @return Parent element.

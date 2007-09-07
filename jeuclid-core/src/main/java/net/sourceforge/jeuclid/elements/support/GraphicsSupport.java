@@ -19,7 +19,8 @@
 package net.sourceforge.jeuclid.elements.support;
 
 import net.sourceforge.jeuclid.Constants;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 
 /**
  * This class contains helper functions for graphical calculations.
@@ -34,14 +35,35 @@ public final class GraphicsSupport {
     }
 
     /**
+     * Gets the size of the actual font used (including scriptsizemultiplier).
+     * 
+     * @param context
+     *            Layout context to use.
+     * @return size of the current font.
+     */
+    public static float getFontsizeInPoint(final LayoutContext context) {
+        final float scriptMultiplier = (float) Math.pow((Float) context
+                .getParameter(Parameter.SCRIPTSIZEMULTIPLIER),
+                (Integer) context.getParameter(Parameter.SCRIPTSIZE));
+        final float mathsize = (Float) context
+                .getParameter(Parameter.MATHSIZE);
+        final float scriptminsize = (Float) context
+                .getParameter(Parameter.SCRIPTMINSIZE);
+
+        final float scriptsize = mathsize * scriptMultiplier;
+
+        return Math.max(Math.min(scriptminsize, mathsize), scriptsize);
+    }
+
+    /**
      * Retrieve the width of a line that would be 1pt if unscaled.
      * 
      * @param context
-     *            the context element
+     *            Layout context to use.
      * @return linewidth as float
      */
-    public static float lineWidth(final JEuclidElement context) {
-        final float lineSize = context.getFontsizeInPoint()
+    public static float lineWidth(final LayoutContext context) {
+        final float lineSize = GraphicsSupport.getFontsizeInPoint(context)
                 / Constants.DEFAULT_FONTSIZE;
         // Maybe enable this... probably not.
         // if (lineSize < 1.0f) {

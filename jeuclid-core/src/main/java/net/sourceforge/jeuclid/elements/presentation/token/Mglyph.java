@@ -22,6 +22,8 @@ import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.text.AttributedString;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 import net.sourceforge.jeuclid.font.FontFactory;
 
@@ -60,11 +62,12 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
 
     /** {@inheritDoc} */
     @Override
-    protected AttributedString textContentAsAttributedString() {
+    protected AttributedString textContentAsAttributedString(
+            final LayoutContext now) {
         final AttributedString retVal;
         final String fontFamily = this.getFontfamily().trim();
         final Font font = FontFactory.getInstance().getFont(fontFamily,
-                Font.PLAIN, (int) this.getFontsizeInPoint());
+                Font.PLAIN, (int) GraphicsSupport.getFontsizeInPoint(now));
         final int codePoint = this.getIndex();
         if ((font.getFamily().equalsIgnoreCase(fontFamily))
                 && (font.canDisplay(codePoint))) {
@@ -73,9 +76,8 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
             retVal.addAttribute(TextAttribute.FONT, font);
         } else {
             retVal = StringUtil.convertStringtoAttributedString(
-                    this.getAlt(), this.getMathvariantAsVariant(), this
-                            .getFontsizeInPoint(), this
-                            .getCurrentLayoutContext());
+                    this.getAlt(), this.getMathvariantAsVariant(),
+                    GraphicsSupport.getFontsizeInPoint(now), now);
         }
         return retVal;
     }

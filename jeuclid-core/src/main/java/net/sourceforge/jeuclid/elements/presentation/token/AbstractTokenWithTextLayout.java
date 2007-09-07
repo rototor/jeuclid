@@ -21,9 +21,9 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
@@ -42,12 +42,10 @@ import org.w3c.dom.mathml.MathMLPresentationToken;
  */
 public abstract class AbstractTokenWithTextLayout extends
         AbstractJEuclidElement implements MathMLPresentationToken {
-    /**
-     * Last used layout instance.
-     */
-    private TextLayout layout;
-
-    private float xOffset;
+    // /**
+    // * Last used layout instance.
+    // */
+    // private TextLayout layout;
 
     /**
      * Default constructor.
@@ -81,10 +79,11 @@ public abstract class AbstractTokenWithTextLayout extends
     /** {@inheritDoc} */
     @Override
     public void layoutStageInvariant(final LayoutView view,
-            final LayoutInfo info, final LayoutStage stage) {
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutContext context) {
         if (!this.isEmpty()) {
             final Graphics2D g = view.getGraphics();
-            final TextLayout t = this.produceTextLayout(g);
+            final TextLayout t = this.produceTextLayout(g, context);
             final StringUtil.TextLayoutInfo tli = StringUtil
                     .getTextLayoutInfo(t);
             info.setAscentHeight(tli.getAscent(), stage);
@@ -93,17 +92,20 @@ public abstract class AbstractTokenWithTextLayout extends
             info.setHorizontalCenterOffset(width / 2.0f, stage);
             info.setWidth(width, stage);
             info.setGraphicsObject(new TextObject(t, tli.getOffset(),
-                    (Color) this.getCurrentLayoutContext().getParameter(
-                            Parameter.MATHCOLOR)));
+                    (Color) this.applyLocalAttributesToContext(context)
+                            .getParameter(Parameter.MATHCOLOR)));
         }
     }
 
     /**
      * Retrieve the text content as attributed string. Should be overridden
      * 
+     * @param context
+     *            Current Layout Context
      * @return an AttributedString
      */
-    protected abstract AttributedString textContentAsAttributedString();
+    protected abstract AttributedString textContentAsAttributedString(
+            LayoutContext context);
 
     /**
      * Checks if this element is empty.
@@ -112,31 +114,31 @@ public abstract class AbstractTokenWithTextLayout extends
      */
     protected abstract boolean isEmpty();
 
-    private TextLayout produceTextLayout(final Graphics2D g2d) {
-        if (this.layout == null) {
+    private TextLayout produceTextLayout(final Graphics2D g2d,
+            final LayoutContext context) {
+        TextLayout layout;
 
-            this.layout = StringUtil.createTextLayoutFromAttributedString(
-                    g2d, this.textContentAsAttributedString(), this
-                            .getCurrentLayoutContext());
-            final Rectangle2D r2d = this.layout.getBounds();
-            final float xo = (float) r2d.getX();
-            if (xo < 0) {
-                this.xOffset = -xo;
-            } else {
-                this.xOffset = 0.0f;
-            }
-        }
-        return this.layout;
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
+        layout = StringUtil.createTextLayoutFromAttributedString(g2d, this
+                .textContentAsAttributedString(now), now);
+        // final Rectangle2D r2d = this.layout.getBounds();
+        // final float xo = (float) r2d.getX();
+        // if (xo < 0) {
+        // this.xOffset = -xo;
+        // } else {
+        // this.xOffset = 0.0f;
+        // }
+        return layout;
     }
 
-    /**
-     * Returns TextLayout used to paint text of this element.
-     * 
-     * @return TextLayout instance or null, if layout was not computed yet
-     */
-    public TextLayout getLayout() {
-        return this.layout;
-    }
+    // /**
+    // * Returns TextLayout used to paint text of this element.
+    // *
+    // * @return TextLayout instance or null, if layout was not computed yet
+    // */
+    // public TextLayout getLayout() {
+    // return this.layout;
+    // }
 
     // /** {@inheritDoc} */
     // @Override
@@ -182,7 +184,7 @@ public abstract class AbstractTokenWithTextLayout extends
     @Override
     protected void changeHook() {
         super.changeHook();
-        this.layout = null;
+        // this.layout = null;
     }
 
 }
