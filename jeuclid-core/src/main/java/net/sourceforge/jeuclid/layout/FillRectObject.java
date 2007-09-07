@@ -58,7 +58,6 @@ public class FillRectObject implements GraphicsObject {
 
     /** {@inheritDoc} */
     public void paint(final float x, final float y, final Graphics2D g) {
-        System.out.println("Hello!");
         g.setColor(this.c);
         g.fill(new Rectangle2D.Float(x, y - this.a, this.w, this.a + this.d));
     }
