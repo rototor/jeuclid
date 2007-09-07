@@ -20,13 +20,16 @@ package net.sourceforge.jeuclid.layout;
 
 import java.util.List;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.elements.JEuclidNode;
+
 import org.w3c.dom.Node;
 
 /**
  * @author Max Berger
  * @version $Revision$
  */
-public interface LayoutableNode extends Node {
+public interface LayoutableNode extends Node, JEuclidNode {
 
     /**
      * @return List of children.
@@ -42,9 +45,11 @@ public interface LayoutableNode extends Node {
      *            LayoutInfo to manipulate.
      * @param childMinStage
      *            minimum stage of children. Either STAGE1 or STAGE2.
+     * @param context
+     *            LayoutContext for this element.
      */
     void layoutStage1(LayoutView view, LayoutInfo info,
-            LayoutStage childMinStage);
+            LayoutStage childMinStage, LayoutContext context);
 
     /**
      * context sensitive layout.
@@ -53,7 +58,9 @@ public interface LayoutableNode extends Node {
      *            LayoutView to use.
      * @param info
      *            LayoutInfo to manipulate.
+     * @param context
+     *            LayoutContext for this element.
      */
-    void layoutStage2(LayoutView view, LayoutInfo info);
+    void layoutStage2(LayoutView view, LayoutInfo info, LayoutContext context);
 
 }

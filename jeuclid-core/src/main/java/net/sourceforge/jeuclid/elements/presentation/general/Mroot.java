@@ -21,6 +21,8 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.RelativeScriptsizeLayoutContext;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.mathml.MathMLElement;
@@ -88,11 +90,12 @@ public class Mroot extends AbstractRoot implements MathMLRadicalElement {
 
     /** {@inheritDoc} */
     @Override
-    public int getScriptlevelForChild(final JEuclidElement child) {
-        if (child.isSameNode(this.getIndex())) {
-            return this.getAbsoluteScriptLevel() + 2;
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
+        if (childNum == 0) {
+            return new RelativeScriptsizeLayoutContext(context, 2);
         } else {
-            return this.getAbsoluteScriptLevel();
+            return context;
         }
     }
 

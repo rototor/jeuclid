@@ -23,9 +23,9 @@ import java.awt.geom.Dimension2D;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.context.InlineLayoutContext;
+import net.sourceforge.jeuclid.context.RelativeScriptsizeLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
-import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
@@ -84,14 +84,17 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
     }
 
     /**
+     * @param context
+     *            LayoutContext
      * @return true if limits are moved (behave like under/over).
      */
-    protected boolean limitsAreMoved() {
+    protected boolean limitsAreMoved(final LayoutContext context) {
         return (!this.getAccentAsBoolean())
                 && (this.getBase() instanceof Mo)
                 && Boolean.parseBoolean(((Mo) this.getBase())
                         .getMovablelimits())
-                && (Display.INLINE.equals(this.getCurrentLayoutContext()
+                && (Display.INLINE.equals(this.applyLocalAttributesToContext(
+                        context)
                         .getParameter(LayoutContext.Parameter.DISPLAY)));
     }
 
@@ -338,22 +341,15 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
 
     /** {@inheritDoc} */
     @Override
-    public int getScriptlevelForChild(final JEuclidElement child) {
-        if (child.isSameNode(this.getBase())) {
-            return this.getAbsoluteScriptLevel();
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
+        if (childNum == 0) {
+            return now;
         } else {
             // TODO: Should depend on type and accent
-            return this.getAbsoluteScriptLevel() + 1;
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
-        if (child.equals(this.getBase())) {
-            return this.getCurrentLayoutContext();
-        } else {
-            return new InlineLayoutContext(this.getCurrentLayoutContext());
+            return new RelativeScriptsizeLayoutContext(
+                    new InlineLayoutContext(now), 1);
         }
     }
 
@@ -395,13 +391,16 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
     /** {@inheritDoc} */
     @Override
     public boolean hasChildPostscripts(final JEuclidElement child) {
-        return this.limitsAreMoved() && child.isSameNode(this.getBase());
+        // TODO
+        return true;
+        // return this.limitsAreMoved() && child.isSameNode(this.getBase());
     }
 
     /** {@inheritDoc} */
     @Override
     protected void layoutStageInvariant(final LayoutView view,
-            final LayoutInfo info, final LayoutStage stage) {
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutContext context) {
         // TODO: This is incomplete.
 
         final JEuclidElement base = this.getBase();

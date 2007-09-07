@@ -20,6 +20,8 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 
 import java.text.AttributedString;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
 /**
@@ -42,10 +44,11 @@ public abstract class AbstractTokenWithStandardLayout extends
 
     /** {@inheritDoc} */
     @Override
-    protected AttributedString textContentAsAttributedString() {
+    protected AttributedString textContentAsAttributedString(
+            final LayoutContext now) {
         return StringUtil.convertStringtoAttributedString(this.getText(),
-                this.getMathvariantAsVariant(), this.getFontsizeInPoint(),
-                this.getCurrentLayoutContext());
+                this.getMathvariantAsVariant(), GraphicsSupport
+                        .getFontsizeInPoint(now), now);
     }
 
     /** {@inheritDoc} */

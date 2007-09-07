@@ -28,15 +28,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
-import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.StyleAttributeLayoutContext;
 import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
 import net.sourceforge.jeuclid.dom.PartialTextImpl;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
@@ -125,8 +125,6 @@ public abstract class AbstractJEuclidElement extends
 
     private static final float MIDDLE_SHIFT = 0.38f;
 
-    private static final float DEFAULT_SCIPTSIZEMULTIPLIER = 0.71f;
-
     /**
      * Logger for this class
      */
@@ -145,15 +143,7 @@ public abstract class AbstractJEuclidElement extends
     /**
      * Variable of "scriptsize" attribute, default value is 0.71.
      */
-    private float mscriptsizemultiplier = AbstractJEuclidElement.DEFAULT_SCIPTSIZEMULTIPLIER;
-
-    /**
-     * This variable is intended to keep the value of vertical shift of the
-     * line. Actually this value is stored in the top-level element of the
-     * line. This value affects only elements with enlarged parts (such as
-     * "msubsup", "munderover", etc.)
-     */
-    private float globalLineCorrecter;
+    private final float mscriptsizemultiplier = Constants.DEFAULT_SCIPTSIZEMULTIPLIER;
 
     /**
      * Creates a math element.
@@ -170,31 +160,14 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /**
-     * Gets the size of the actual font used (including scriptsizemultiplier).
-     * 
-     * @return size of the current font.
-     */
-    public float getFontsizeInPoint() {
-        final LayoutContext context = this.getCurrentLayoutContext();
-        final float scriptMultiplier = (float) Math.pow(this
-                .getScriptSizeMultiplier(), this.getAbsoluteScriptLevel());
-        final float mathsize = (Float) context
-                .getParameter(Parameter.MATHSIZE);
-        final float scriptminsize = (Float) context
-                .getParameter(Parameter.SCRIPTMINSIZE);
-
-        final float scriptsize = mathsize * scriptMultiplier;
-
-        return Math.max(Math.min(scriptminsize, mathsize), scriptsize);
-    }
-
-    /**
      * Gets the used font. Everything regardes font, processed by MathBase
      * object.
      * 
+     * @param context
+     *            LayoutContext to use.
      * @return Font Font object.
      */
-    public Font getFont() {
+    public Font getFont(final LayoutContext context) {
         final String content = this.getText();
         final char aChar;
         if (content.length() > 0) {
@@ -203,8 +176,8 @@ public abstract class AbstractJEuclidElement extends
             aChar = 'A';
         }
         return this.getMathvariantAsVariant().createFont(
-                this.getFontsizeInPoint(), aChar,
-                this.getCurrentLayoutContext());
+                GraphicsSupport.getFontsizeInPoint(context), aChar,
+                this.applyLocalAttributesToContext(context));
 
     }
 
@@ -226,36 +199,6 @@ public abstract class AbstractJEuclidElement extends
             }
         }
         return variant;
-    }
-
-    /**
-     * Retrieve the absolute script level. For most items this will ask the
-     * parent item.
-     * 
-     * @return the absolute script level.
-     * @see #getInheritedScriptlevel()
-     */
-    protected int getAbsoluteScriptLevel() {
-        return this.getInheritedScriptlevel();
-    }
-
-    /**
-     * Retrieves the scriptlevel from the parent node.
-     * 
-     * @return the scriptlevel of the parent node
-     */
-    protected int getInheritedScriptlevel() {
-        final JEuclidElement parent = this.getParent();
-        if (parent == null) {
-            return 0;
-        } else {
-            return parent.getScriptlevelForChild(this);
-        }
-    }
-
-    /** {@inheritDoc} */
-    public int getScriptlevelForChild(final JEuclidElement child) {
-        return this.getAbsoluteScriptLevel();
     }
 
     // /**
@@ -530,33 +473,17 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /**
-     * Gets value of scriptsize attribute.
-     * 
-     * @return Value of scriptsize attribute.
-     */
-    public float getScriptSizeMultiplier() {
-        return this.mscriptsizemultiplier;
-    }
-
-    /**
-     * Sets value of scriptsize attribute.
-     * 
-     * @param scriptsizemultiplier
-     *            Value of scriptsize attribute.
-     */
-    public void setScriptSizeMultiplier(final float scriptsizemultiplier) {
-        this.mscriptsizemultiplier = scriptsizemultiplier;
-    }
-
-    /**
      * Gets the font metrics of the used font.
      * 
      * @return Font metrics.
+     * @param context
+     *            LayoutContext to use.
      * @param g
      *            Graphics2D context to use.
      */
-    public FontMetrics getFontMetrics(final Graphics2D g) {
-        return g.getFontMetrics(this.getFont());
+    public FontMetrics getFontMetrics(final Graphics2D g,
+            final LayoutContext context) {
+        return g.getFontMetrics(this.getFont(context));
     }
 
     /**
@@ -630,7 +557,7 @@ public abstract class AbstractJEuclidElement extends
      * 
      * @param attrName
      *            the name of the attribute
-     * @return attribtue value
+     * @return attribute value
      */
     protected String getMathAttribute(final String attrName) {
         String attrValue;
@@ -675,11 +602,14 @@ public abstract class AbstractJEuclidElement extends
      * Returns the distance of the baseline and the middleline.
      * 
      * @return Distance baseline - middleline.
+     * @param context
+     *            Layout Context to use
      * @param g
      *            Graphics2D context to use.
      */
-    public float getMiddleShift(final Graphics2D g) {
-        return this.getFontMetrics(g).getAscent()
+    public float getMiddleShift(final Graphics2D g,
+            final LayoutContext context) {
+        return this.getFontMetrics(g, context).getAscent()
                 * AbstractJEuclidElement.MIDDLE_SHIFT;
     }
 
@@ -783,27 +713,24 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /** {@inheritDoc} */
-    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
-        return this.getCurrentLayoutContext();
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
+        return this.applyLocalAttributesToContext(context);
     }
 
     /**
      * Retrieve the LayoutContext valid for the current node.
      * 
+     * @param context
+     *            external context.
      * @return the current layout context.
      */
-    protected LayoutContext getCurrentLayoutContext() {
-        final LayoutContext retVal;
-        final JEuclidNode parentNode = this.getParentAsJEuclidNode();
-        if (parentNode != null) {
-            retVal = parentNode.getChildLayoutContext(this);
-        } else {
-            retVal = LayoutContextImpl.getDefaultLayoutContext();
-        }
+    protected LayoutContext applyLocalAttributesToContext(
+            final LayoutContext context) {
         // TODO: Theoretically this only applies all to presentation token
         // elements except mspace and mglyph, and on no other elements except
         // mstyle 3.2.2
-        return this.applyStyleAttributes(retVal);
+        return this.applyStyleAttributes(context);
     }
 
     /**
@@ -864,22 +791,26 @@ public abstract class AbstractJEuclidElement extends
      *            An info object which will be filled during layout.
      * @param stage
      *            current layout stage.
+     * @param context
+     *            current LayoutContext.
      */
     protected void layoutStageInvariant(final LayoutView view,
-            final LayoutInfo info, final LayoutStage stage) {
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutContext context) {
         ElementListSupport.layoutSequential(view, info, this, stage);
     }
 
     /** {@inheritDoc} */
     public void layoutStage1(final LayoutView view, final LayoutInfo info,
-            final LayoutStage childMinStage) {
-        this.layoutStageInvariant(view, info, LayoutStage.STAGE1);
+            final LayoutStage childMinStage, final LayoutContext context) {
+        this.layoutStageInvariant(view, info, LayoutStage.STAGE1, context);
         info.setLayoutStage(childMinStage);
     }
 
     /** {@inheritDoc} */
-    public void layoutStage2(final LayoutView view, final LayoutInfo info) {
-        this.layoutStageInvariant(view, info, LayoutStage.STAGE2);
+    public void layoutStage2(final LayoutView view, final LayoutInfo info,
+            final LayoutContext context) {
+        this.layoutStageInvariant(view, info, LayoutStage.STAGE2, context);
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 

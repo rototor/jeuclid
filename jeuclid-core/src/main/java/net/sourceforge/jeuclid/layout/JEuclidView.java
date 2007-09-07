@@ -26,7 +26,6 @@ import java.util.Map;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
-import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.views.AbstractView;
@@ -89,7 +88,7 @@ public class JEuclidView implements AbstractView, LayoutView {
      *            the same.
      */
     public void draw(final Graphics2D g, final float x, final float y) {
-        this.layout(this.document, LayoutStage.STAGE2);
+        this.layout(this.document, LayoutStage.STAGE2, this.context);
 
         // final RenderingHints hints = g.getRenderingHints();
         // if ((Boolean) (this.rootElement.getCurrentLayoutContext()
@@ -103,8 +102,8 @@ public class JEuclidView implements AbstractView, LayoutView {
         // RenderingHints.VALUE_RENDER_QUALITY));
         // g.setRenderingHints(hints);
 
-        final boolean debug = (Boolean) ((DocumentElement) this.document)
-                .getCurrentLayoutContext().getParameter(Parameter.DEBUG);
+        final boolean debug = (Boolean) (this.context
+                .getParameter(Parameter.DEBUG));
         this.drawNode(this.document, g, x, y, debug);
 
     }
@@ -139,24 +138,30 @@ public class JEuclidView implements AbstractView, LayoutView {
     }
 
     private LayoutInfo layout(final LayoutableNode node,
-            final LayoutStage toStage) {
+            final LayoutStage toStage, final LayoutContext parentContext) {
         final LayoutInfo info = this.getInfo(node);
         if (LayoutStage.NONE.equals(info.getLayoutStage())) {
             LayoutStage childMinStage = LayoutStage.STAGE2;
+            int count = 0;
             for (final LayoutableNode l : node.getLayoutableNodeChildren()) {
-                final LayoutInfo in = this.layout(l, LayoutStage.STAGE1);
+                final LayoutInfo in = this.layout(l, LayoutStage.STAGE1, node
+                        .getChildLayoutContext(count, parentContext));
+                count++;
                 if (LayoutStage.STAGE1.equals(in.getLayoutStage())) {
                     childMinStage = LayoutStage.STAGE1;
                 }
             }
-            node.layoutStage1(this, info, childMinStage);
+            node.layoutStage1(this, info, childMinStage, parentContext);
         }
         if (LayoutStage.STAGE1.equals(info.getLayoutStage())
                 && LayoutStage.STAGE2.equals(toStage)) {
+            int count = 0;
             for (final LayoutableNode l : node.getLayoutableNodeChildren()) {
-                this.layout(l, LayoutStage.STAGE2);
+                count++;
+                this.layout(l, LayoutStage.STAGE2, node
+                        .getChildLayoutContext(count, parentContext));
             }
-            node.layoutStage2(this, info);
+            node.layoutStage2(this, info, parentContext);
         }
         return info;
     }
@@ -175,8 +180,8 @@ public class JEuclidView implements AbstractView, LayoutView {
      * @return width of this view.
      */
     public float getWidth() {
-        final LayoutInfo info = this
-                .layout(this.document, LayoutStage.STAGE2);
+        final LayoutInfo info = this.layout(this.document,
+                LayoutStage.STAGE2, this.context);
         return info.getWidth(LayoutStage.STAGE2);
     }
 
@@ -184,8 +189,8 @@ public class JEuclidView implements AbstractView, LayoutView {
      * @return ascent height.
      */
     public float getAscentHeight() {
-        final LayoutInfo info = this
-                .layout(this.document, LayoutStage.STAGE2);
+        final LayoutInfo info = this.layout(this.document,
+                LayoutStage.STAGE2, this.context);
         return info.getAscentHeight(LayoutStage.STAGE2);
     }
 
@@ -193,8 +198,8 @@ public class JEuclidView implements AbstractView, LayoutView {
      * @return descent height.
      */
     public float getDescentHeight() {
-        final LayoutInfo info = this
-                .layout(this.document, LayoutStage.STAGE2);
+        final LayoutInfo info = this.layout(this.document,
+                LayoutStage.STAGE2, this.context);
         return info.getDescentHeight(LayoutStage.STAGE2);
     }
 

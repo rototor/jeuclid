@@ -21,9 +21,7 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 import java.awt.geom.Dimension2D;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
-import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
@@ -132,18 +130,9 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
 
     /** {@inheritDoc} */
     @Override
-    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
-        if (child.equals(this.getFirstChild())) {
-            return this.getCurrentLayoutContext();
-        } else {
-            return new InlineLayoutContext(this.getCurrentLayoutContext());
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
     protected void layoutStageInvariant(final LayoutView view,
-            final LayoutInfo info, final LayoutStage stage) {
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutContext context) {
         // TODO Incomplete
         // TODO Move to ScriptSupport
         final JEuclidElement base = this.getBase();
