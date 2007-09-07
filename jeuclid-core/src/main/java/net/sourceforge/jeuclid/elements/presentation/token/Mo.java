@@ -142,13 +142,6 @@ public class Mo extends AbstractJEuclidElement implements
     // unused
     // private static final Log LOGGER =
     // LogFactory.getLog(MathOperator.class);
-    /** horizontal scale factor. */
-    private final float calcScaleX = 1.0f;
-
-    private final float calcScaleY = 1.0f;
-
-    private float calcBaselineShift;
-
     /**
      * Creates a mathoperator element.
      */
@@ -178,13 +171,12 @@ public class Mo extends AbstractJEuclidElement implements
      * @return Flag of lspace property.
      */
     private float getLspaceAsFloat(final LayoutContext now) {
-        // TODO: decide if this is necessary
-        // if (this.getParent().isChildBlock(this)) {
-        return AttributesHelper.convertSizeToPt(this.getLspace(), now,
-                AttributesHelper.PT);
-        // } else {
-        // return 0.0f;
-        // }
+        if (Display.BLOCK.equals(now.getParameter(Parameter.DISPLAY))) {
+            return AttributesHelper.convertSizeToPt(this.getLspace(), now,
+                    AttributesHelper.PT);
+        } else {
+            return 0.0f;
+        }
     }
 
     /**
@@ -207,13 +199,12 @@ public class Mo extends AbstractJEuclidElement implements
      * @return Flag of rspace property.
      */
     private float getRspaceAsFloat(final LayoutContext now) {
-        // TODO: Decide if this is necessary
-        // if (this.getParent().isChildBlock(this)) {
-        return AttributesHelper.convertSizeToPt(this.getRspace(), now,
-                AttributesHelper.PT);
-        // } else {
-        // return 0.0f;
-        // }
+        if (Display.BLOCK.equals(now.getParameter(Parameter.DISPLAY))) {
+            return AttributesHelper.convertSizeToPt(this.getRspace(), now,
+                    AttributesHelper.PT);
+        } else {
+            return 0.0f;
+        }
     }
 
     private boolean isFence() {
@@ -268,34 +259,6 @@ public class Mo extends AbstractJEuclidElement implements
         return this.getText().length() == 1
                 && (Mo.HOR_DELIMITERS.indexOf(this.getText().charAt(0)) >= 0);
     }
-
-    // /**
-    // * Paints this element.
-    // *
-    // * @param g
-    // * The graphics context to use for painting
-    // * @param posX
-    // * The first left position for painting
-    // * @param posY
-    // * The position of the baseline
-    // */
-    // @Override
-    // public void paint(final Graphics2D g, final float posX, final float
-    // posY) {
-    // super.paint(g, posX, posY);
-    // this.calculateSpecs(g);
-    //
-    // if (this.getText().length() > 0) {
-    // final TextLayout theLayout = this.produceUnstrechtedLayout(g);
-    // final AffineTransform saveAt = g.getTransform();
-    // g.translate(this.getLspaceAsFloat() + posX, posY
-    // + this.calcBaselineShift);
-    // g.transform(AffineTransform.getScaleInstance(this.calcScaleX,
-    // this.calcScaleY));
-    // theLayout.draw(g, 0, 0);
-    // g.setTransform(saveAt);
-    // }
-    // }
 
     private TextLayout produceUnstrechtedLayout(final Graphics2D g,
             final LayoutContext now) {
