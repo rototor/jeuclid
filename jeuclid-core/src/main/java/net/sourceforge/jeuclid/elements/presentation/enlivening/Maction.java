@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Vector;
 
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.mathml.MathMLActionElement;
 
@@ -80,15 +80,15 @@ public class Maction extends AbstractElementWithDelegates implements
 
     /** {@inheritDoc} */
     @Override
-    protected List<JEuclidElement> createDelegates() {
-        JEuclidElement selectedElement;
+    protected List<LayoutableNode> createDelegates() {
+        LayoutableNode selectedElement;
         try {
             final int selected = Integer.parseInt(this.getSelection());
             selectedElement = this.getMathElement(selected - 1);
         } catch (final NumberFormatException nfe) {
             selectedElement = null;
         }
-        final List<JEuclidElement> list = new Vector<JEuclidElement>(1);
+        final List<LayoutableNode> list = new Vector<LayoutableNode>(1);
         if (selectedElement != null) {
             list.add(selectedElement);
         }

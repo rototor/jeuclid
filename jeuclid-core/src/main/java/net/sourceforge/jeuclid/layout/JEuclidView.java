@@ -129,7 +129,7 @@ public class JEuclidView implements AbstractView, LayoutView {
             go.paint(x, y, g);
         }
 
-        for (final LayoutableNode child : node.getLayoutableNodeChildren()) {
+        for (final LayoutableNode child : node.getChildrenToDraw()) {
             final LayoutInfo childInfo = this.getInfo(child);
             this.drawNode(child, g,
                     x + childInfo.getPosX(LayoutStage.STAGE2), y
@@ -143,7 +143,7 @@ public class JEuclidView implements AbstractView, LayoutView {
         if (LayoutStage.NONE.equals(info.getLayoutStage())) {
             LayoutStage childMinStage = LayoutStage.STAGE2;
             int count = 0;
-            for (final LayoutableNode l : node.getLayoutableNodeChildren()) {
+            for (final LayoutableNode l : node.getChildrenToLayout()) {
                 final LayoutInfo in = this.layout(l, LayoutStage.STAGE1, node
                         .getChildLayoutContext(count, parentContext));
                 count++;
@@ -156,7 +156,7 @@ public class JEuclidView implements AbstractView, LayoutView {
         if (LayoutStage.STAGE1.equals(info.getLayoutStage())
                 && LayoutStage.STAGE2.equals(toStage)) {
             int count = 0;
-            for (final LayoutableNode l : node.getLayoutableNodeChildren()) {
+            for (final LayoutableNode l : node.getChildrenToLayout()) {
                 count++;
                 this.layout(l, LayoutStage.STAGE2, node
                         .getChildLayoutContext(count, parentContext));

@@ -216,19 +216,19 @@ public final class ElementListSupport {
      *            View Object
      * @param info
      *            Info to fill
-     * @param parent
-     *            Current Node
+     * @param children
+     *            Children to layout
      * @param stage
      *            Stage to load Info From
      */
     public static void layoutSequential(final LayoutView view,
-            final LayoutInfo info, final Node parent, final LayoutStage stage) {
+            final LayoutInfo info, final List<LayoutableNode> children,
+            final LayoutStage stage) {
         float ascentHeight = 0.0f;
         float descentHeight = 0.0f;
         float posX = 0.0f;
 
-        for (final LayoutableNode child : ElementListSupport
-                .createListOfChildren(parent)) {
+        for (final LayoutableNode child : children) {
             final LayoutInfo childInfo = view.getInfo(child);
             ascentHeight = Math.max(ascentHeight, childInfo
                     .getAscentHeight(stage));
