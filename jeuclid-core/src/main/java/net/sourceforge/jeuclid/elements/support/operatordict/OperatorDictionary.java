@@ -26,7 +26,7 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 
 import org.apache.commons.logging.Log;
@@ -153,14 +153,14 @@ public class OperatorDictionary {
      */
     private static final String[][] ATTRIBUTE_DEFAULT_VALUES = {
             { Mo.ATTR_FORM, OperatorDictionary.FORM_INFIX },
-            { "fence", MathBase.FALSE }, { "separator", MathBase.FALSE },
+            { "fence", Constants.FALSE }, { "separator", Constants.FALSE },
             { "lspace", OperatorDictionary.NAME_THICKMATHSPACE },
             { "rspace", OperatorDictionary.NAME_THICKMATHSPACE },
-            { "stretchy", MathBase.FALSE }, { "symmetric", MathBase.TRUE },
+            { "stretchy", Constants.FALSE }, { "symmetric", Constants.TRUE },
             { "maxsize", OperatorDictionary.NAME_INFINITY },
-            { "minsize", "1" }, { "largeop", MathBase.FALSE },
-            { "movablelimits", MathBase.FALSE },
-            { "accent", MathBase.FALSE }, };
+            { "minsize", "1" }, { "largeop", Constants.FALSE },
+            { "movablelimits", Constants.FALSE },
+            { "accent", Constants.FALSE }, };
 
     OperatorDictionary() throws DictionaryException {
         this.initialize();

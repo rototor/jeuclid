@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
-import java.awt.Graphics2D;
 import java.util.List;
 import java.util.Vector;
 
@@ -71,11 +70,11 @@ public class Maligngroup extends AbstractInvisibleJEuclidElement implements
         return this.width;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        return this.width;
-    }
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateWidth(final Graphics2D g) {
+    // return this.width;
+    // }
 
     /**
      * @param mark
@@ -94,29 +93,29 @@ public class Maligngroup extends AbstractInvisibleJEuclidElement implements
         return this.mathAlignMark;
     }
 
-    /**
-     * @param elements
-     *            Listof elements
-     * @return width of all elements
-     * @param g
-     *            Graphics2D context to use.
-     */
-    protected static float getElementsWholeWidth(final Graphics2D g,
-            final List<JEuclidElement> elements) {
-        float result = 0;
-
-        if (elements == null || elements.size() == 0) {
-            return result;
-        }
-
-        for (int i = 0; i < elements.size(); i++) {
-            if (elements.get(i) != null) {
-                result += (elements.get(i)).getWidth(g);
-            }
-        }
-
-        return result;
-    }
+    // /**
+    // * @param elements
+    // * Listof elements
+    // * @return width of all elements
+    // * @param g
+    // * Graphics2D context to use.
+    // */
+    // protected static float getElementsWholeWidth(final Graphics2D g,
+    // final List<JEuclidElement> elements) {
+    // float result = 0;
+    //
+    // if (elements == null || elements.size() == 0) {
+    // return result;
+    // }
+    //
+    // for (int i = 0; i < elements.size(); i++) {
+    // if (elements.get(i) != null) {
+    // result += (elements.get(i)).getWidth(g);
+    // }
+    // }
+    //
+    // return result;
+    // }
 
     /**
      * @param alignGroupElement

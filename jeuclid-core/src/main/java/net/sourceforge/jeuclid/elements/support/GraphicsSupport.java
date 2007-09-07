@@ -18,7 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.support;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 /**
@@ -42,7 +42,7 @@ public final class GraphicsSupport {
      */
     public static float lineWidth(final JEuclidElement context) {
         final float lineSize = context.getFontsizeInPoint()
-                / MathBase.DEFAULT_FONTSIZE;
+                / Constants.DEFAULT_FONTSIZE;
         // Maybe enable this... probably not.
         // if (lineSize < 1.0f) {
         // lineSize = 1.0f;

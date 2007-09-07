@@ -1,6 +1,6 @@
 /*
  * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,23 +16,19 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.elements.presentation.general;
-
+package net.sourceforge.jeuclid.elements.support.attributes;
 
 /**
- * Common base class for all elements that present themself as a row of
- * children, like the mrow element.
- * 
  * @author Max Berger
  * @version $Revision$
  */
-public abstract class AbstractRowLike extends AbstractMathElementWithChildren {
-
-    /**
-     * Default constructor.
-     */
-    public AbstractRowLike() {
-        super();
-    }
-
+public enum HAlign {
+    /** Left align. */
+    LEFT,
+    /** Center align. */
+    CENTER,
+    /** Right align. */
+    RIGHT;
+    /** constant for center align. */
+    public static final String ALIGN_CENTER = "center";
 }

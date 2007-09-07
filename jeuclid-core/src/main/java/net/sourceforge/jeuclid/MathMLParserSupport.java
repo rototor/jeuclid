@@ -26,16 +26,13 @@ import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sourceforge.jeuclid.parser.MathBaseFactory;
 import net.sourceforge.jeuclid.parser.Parser;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -60,61 +57,61 @@ public final class MathMLParserSupport {
     private MathMLParserSupport() {
     }
 
-    /**
-     * Parse an input file and return the MathBase object.
-     * 
-     * @param params
-     *            set of parameters to use.
-     * @param document
-     *            the document to parse. See
-     *            {@link DOMBuilder#DOMBuilder(Node, MathBase)} for the list
-     *            of valid node types.
-     * @return the MathBase object.
-     * @throws SAXException
-     *             if a parse error occurs.
-     * @throws IOException
-     *             if a read io error occurs.
-     */
-    public static MathBase createMathBaseFromDocument(final Node document,
-            final MutableLayoutContext params) throws SAXException,
-            IOException {
-
-        try {
-            return MathBaseFactory.getMathBaseFactory().createMathBase(
-                    new DOMSource(document), params);
-        } catch (final ParserConfigurationException e) {
-            // Should not happen. But who knows?
-            MathMLParserSupport.LOGGER.warn(e);
-            return null;
-        }
-
-    }
-
-    /**
-     * Parse an input file and return the MathBase object.
-     * 
-     * @param params
-     *            Conversion parameters to use.
-     * @param inFile
-     *            the file to parse.
-     * @return the MathBase object.
-     * @throws SAXException
-     *             if a parse error occurs.
-     * @throws IOException
-     *             if a read io error occurs.
-     */
-    public static MathBase createMathBaseFromFile(final File inFile,
-            final MutableLayoutContext params) throws SAXException,
-            IOException {
-        try {
-            return MathBaseFactory.getMathBaseFactory().createMathBase(
-                    new StreamSource(new FileInputStream(inFile)), params);
-        } catch (final ParserConfigurationException e) {
-            // Should not happen. But who knows?
-            MathMLParserSupport.LOGGER.warn(e);
-            return null;
-        }
-    }
+    // /**
+    // * Parse an input file and return the MathBase object.
+    // *
+    // * @param params
+    // * set of parameters to use.
+    // * @param document
+    // * the document to parse. See
+    // * {@link DOMBuilder#DOMBuilder(Node, MathBase)} for the list
+    // * of valid node types.
+    // * @return the MathBase object.
+    // * @throws SAXException
+    // * if a parse error occurs.
+    // * @throws IOException
+    // * if a read io error occurs.
+    // */
+    // public static MathBase createMathBaseFromDocument(final Node document,
+    // final MutableLayoutContext params) throws SAXException,
+    // IOException {
+    //
+    // try {
+    // return MathBaseFactory.getMathBaseFactory().createMathBase(
+    // new DOMSource(document), params);
+    // } catch (final ParserConfigurationException e) {
+    // // Should not happen. But who knows?
+    // MathMLParserSupport.LOGGER.warn(e);
+    // return null;
+    // }
+    //
+    // }
+    //
+    // /**
+    // * Parse an input file and return the MathBase object.
+    // *
+    // * @param params
+    // * Conversion parameters to use.
+    // * @param inFile
+    // * the file to parse.
+    // * @return the MathBase object.
+    // * @throws SAXException
+    // * if a parse error occurs.
+    // * @throws IOException
+    // * if a read io error occurs.
+    // */
+    // public static MathBase createMathBaseFromFile(final File inFile,
+    // final MutableLayoutContext params) throws SAXException,
+    // IOException {
+    // try {
+    // return MathBaseFactory.getMathBaseFactory().createMathBase(
+    // new StreamSource(new FileInputStream(inFile)), params);
+    // } catch (final ParserConfigurationException e) {
+    // // Should not happen. But who knows?
+    // MathMLParserSupport.LOGGER.warn(e);
+    // return null;
+    // }
+    // }
 
     /**
      * Creates a DocumentBuilder that can be used to parse MathML documents

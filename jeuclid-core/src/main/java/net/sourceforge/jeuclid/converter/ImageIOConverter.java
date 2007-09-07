@@ -19,7 +19,6 @@
 package net.sourceforge.jeuclid.converter;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,9 +27,10 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 
-import org.w3c.dom.Document;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
-import net.sourceforge.jeuclid.MathBase;
+import org.w3c.dom.Document;
 
 /**
  * supports conversion to standard Raster formats through ImageIO.
@@ -53,21 +53,22 @@ public class ImageIOConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public Dimension convert(final MathBase base, final OutputStream outStream)
+    public Dimension convert(final DocumentElement doc,
+            final LayoutContext context, final OutputStream outStream)
             throws IOException {
         final ImageOutputStream ios = new MemoryCacheImageOutputStream(
                 outStream);
         this.writer.setOutput(ios);
-        final BufferedImage image = Converter.getConverter().render(base);
+        final BufferedImage image = Converter.getConverter().render(doc,
+                context);
         this.writer.write(image);
         ios.close();
-        final Graphics2D temp = (Graphics2D) image.getGraphics();
-        return new Dimension((int) Math.ceil(base.getWidth(temp)), (int) Math
-                .ceil(base.getWidth(temp)));
+        return new Dimension(image.getWidth(), image.getHeight());
     }
 
     /** {@inheritDoc} */
-    public Document convert(final MathBase mathBase) {
+    public Document convert(final DocumentElement doc,
+            final LayoutContext context) {
         return null;
     }
 

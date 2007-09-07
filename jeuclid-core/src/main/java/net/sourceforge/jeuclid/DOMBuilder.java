@@ -75,13 +75,10 @@ public final class DOMBuilder {
      * @param node
      *            The MathML document. Can be an instance of Document, Element
      *            or DocumentFragment with Element child
-     * @param mathBase
-     *            Math base
      * @return the parsed Document
      * @see MathMLParserSupport
      */
-    public DocumentElement createJeuclidDom(final Node node,
-            final MathBase mathBase) {
+    public DocumentElement createJeuclidDom(final Node node) {
         final Element documentElement;
         if (node instanceof Document) {
             documentElement = ((Document) node).getDocumentElement();
@@ -103,7 +100,6 @@ public final class DOMBuilder {
 
         final DocumentElement rootElement = new DocumentElement(
                 LayoutContextImpl.getDefaultLayoutContext());
-        mathBase.setRootElement(rootElement);
 
         this.traverse(documentElement, rootElement, null);
         rootElement.fireChangeForSubTree();

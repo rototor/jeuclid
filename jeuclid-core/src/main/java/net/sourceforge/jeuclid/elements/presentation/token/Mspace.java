@@ -18,11 +18,8 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
-import java.awt.Graphics2D;
-
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
-import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
 import org.w3c.dom.mathml.MathMLSpaceElement;
 
@@ -59,9 +56,9 @@ public class Mspace extends AbstractJEuclidElement implements
      */
     public Mspace() {
         super();
-        this.setDefaultMathAttribute(Mspace.ATTR_DEPTH, MathBase.VALUE_ZERO);
-        this.setDefaultMathAttribute(Mspace.ATTR_HEIGHT, MathBase.VALUE_ZERO);
-        this.setDefaultMathAttribute(Mspace.ATTR_WIDTH, MathBase.VALUE_ZERO);
+        this.setDefaultMathAttribute(Mspace.ATTR_DEPTH, Constants.ZERO);
+        this.setDefaultMathAttribute(Mspace.ATTR_HEIGHT, Constants.ZERO);
+        this.setDefaultMathAttribute(Mspace.ATTR_WIDTH, Constants.ZERO);
         this.setDefaultMathAttribute(Mspace.ATTR_LINEBREAK, "auto");
     }
 
@@ -110,41 +107,42 @@ public class Mspace extends AbstractJEuclidElement implements
         this.setAttribute(Mspace.ATTR_DEPTH, depth);
     }
 
-    /**
-     * Paints this element.
-     * 
-     * @param g
-     *            The graphics context to use for painting
-     * @param posX
-     *            The first left position for painting
-     * @param posY
-     *            The position of the baseline
-     */
-    @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        super.paint(g, posX, posY);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        return AttributesHelper.convertSizeToPt(this.getWidth(), this
-                .getCurrentLayoutContext(), AttributesHelper.PT);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateAscentHeight(final Graphics2D g) {
-        return AttributesHelper.convertSizeToPt(this.getHeight(), this
-                .getCurrentLayoutContext(), AttributesHelper.PT);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-        return AttributesHelper.convertSizeToPt(this.getDepth(), this
-                .getCurrentLayoutContext(), AttributesHelper.PT);
-    }
+    // /**
+    // * Paints this element.
+    // *
+    // * @param g
+    // * The graphics context to use for painting
+    // * @param posX
+    // * The first left position for painting
+    // * @param posY
+    // * The position of the baseline
+    // */
+    // @Override
+    // public void paint(final Graphics2D g, final float posX, final float
+    // posY) {
+    // super.paint(g, posX, posY);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateWidth(final Graphics2D g) {
+    // return AttributesHelper.convertSizeToPt(this.getWidth(), this
+    // .getCurrentLayoutContext(), AttributesHelper.PT);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateAscentHeight(final Graphics2D g) {
+    // return AttributesHelper.convertSizeToPt(this.getHeight(), this
+    // .getCurrentLayoutContext(), AttributesHelper.PT);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateDescentHeight(final Graphics2D g) {
+    // return AttributesHelper.convertSizeToPt(this.getDepth(), this
+    // .getCurrentLayoutContext(), AttributesHelper.PT);
+    // }
 
     /** {@inheritDoc} */
     public String getTagName() {

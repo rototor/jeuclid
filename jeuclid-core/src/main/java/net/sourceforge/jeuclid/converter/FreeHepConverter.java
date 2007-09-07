@@ -19,16 +19,13 @@
 package net.sourceforge.jeuclid.converter;
 
 import java.awt.Dimension;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Properties;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
-import org.freehep.graphics2d.VectorGraphics;
 import org.w3c.dom.Document;
 
 /**
@@ -49,37 +46,40 @@ public class FreeHepConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public Dimension convert(final MathBase base, final OutputStream outStream)
+    public Dimension convert(final DocumentElement doc,
+            final LayoutContext context, final OutputStream outStream)
             throws IOException {
-        final Properties p = new Properties();
-        // p.setProperty("PageSize","A5");
-        VectorGraphics temp;
-        try {
-            temp = (VectorGraphics) this.streamConst.newInstance(
-                    new ByteArrayOutputStream(), new Dimension(1, 1));
-
-            final Dimension size = new Dimension((int) Math.ceil(base
-                    .getWidth(temp)), (int) Math.ceil(base.getHeight(temp)));
-
-            final VectorGraphics g = (VectorGraphics) this.streamConst
-                    .newInstance(outStream, size);
-            g.setProperties(p);
-            g.startExport();
-            base.paint(g);
-            g.endExport();
-
-            return size;
-        } catch (final InstantiationException e) {
-            throw new IOException();
-        } catch (final IllegalAccessException e) {
-            throw new IOException();
-        } catch (final InvocationTargetException e) {
-            throw new IOException();
-        }
+        // final Properties p = new Properties();
+        // // p.setProperty("PageSize","A5");
+        // VectorGraphics temp;
+        // try {
+        // temp = (VectorGraphics) this.streamConst.newInstance(
+        // new ByteArrayOutputStream(), new Dimension(1, 1));
+        //
+        // final Dimension size = new Dimension((int) Math.ceil(base
+        // .getWidth(temp)), (int) Math.ceil(base.getHeight(temp)));
+        //
+        // final VectorGraphics g = (VectorGraphics) this.streamConst
+        // .newInstance(outStream, size);
+        // g.setProperties(p);
+        // g.startExport();
+        // base.paint(g);
+        // g.endExport();
+        //
+        // return size;
+        // } catch (final InstantiationException e) {
+        // throw new IOException();
+        // } catch (final IllegalAccessException e) {
+        // throw new IOException();
+        // } catch (final InvocationTargetException e) {
+        // throw new IOException();
+        // }
+        return null;
     }
 
     /** {@inheritDoc} */
-    public Document convert(final MathBase mathBase) {
+    public Document convert(final DocumentElement doc,
+            final LayoutContext context) {
         return null;
     }
 

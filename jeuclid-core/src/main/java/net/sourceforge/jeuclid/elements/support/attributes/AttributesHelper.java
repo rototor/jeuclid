@@ -24,8 +24,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
@@ -518,7 +518,7 @@ public final class AttributesHelper {
         AttributesHelper.SIZETRANSLATIONS.put("medium", "1");
         AttributesHelper.SIZETRANSLATIONS.put("thick", "2");
 
-        AttributesHelper.SIZETRANSLATIONS.put("null", MathBase.VALUE_ZERO);
+        AttributesHelper.SIZETRANSLATIONS.put("null", Constants.ZERO);
 
         AttributesHelper.RELATIVE_UNITS.put("em", AttributesHelper.EM);
         AttributesHelper.RELATIVE_UNITS.put("ex", AttributesHelper.EX);

@@ -18,8 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
-import java.awt.Graphics2D;
-
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
 import org.w3c.dom.mathml.MathMLAlignMarkElement;
@@ -51,11 +49,11 @@ public class Malignmark extends AbstractInvisibleJEuclidElement implements
         super();
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        return this.width;
-    }
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateWidth(final Graphics2D g) {
+    // return this.width;
+    // }
 
     /** {@inheritDoc} */
     public String getTagName() {

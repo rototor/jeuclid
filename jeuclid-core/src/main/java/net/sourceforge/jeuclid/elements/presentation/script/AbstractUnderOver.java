@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 
 import net.sourceforge.jeuclid.LayoutContext;
@@ -30,7 +29,6 @@ import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
-import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -41,8 +39,8 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
 /**
  * Implementation and helper methods for munder, mover, and munderover.
  * 
- * @todo some operators should "default" to being an accent, but currently they
- *       don't
+ * @todo some operators should "default" to being an accent, but currently
+ *       they don't
  * @author Max Berger
  * @version $Revision$
  */
@@ -97,138 +95,140 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
                         .getParameter(LayoutContext.Parameter.DISPLAY)));
     }
 
-    /**
-     * @param g
-     *            Graphics Context.
-     * @return the amount the underbaseline is shifted. Must only be called if
-     *         an under element exists!
-     */
-    protected float getUnderBaselineShift(final Graphics2D g) {
-        final JEuclidElement base = this.getBase();
-        final JEuclidElement underScript = this.getUnderscript();
-        final float baseshift = base.getDescentHeight(g);
-        final float shift;
-        if (this.limitsAreMoved()) {
-            shift = ScriptSupport.getSubBaselineShift(g, base, underScript,
-                    this.getOverscript());
-        } else {
-            float extraShift = AttributesHelper.convertSizeToPt(
-                    AbstractUnderOver.UNDER_OVER_SPACE, this
-                            .getCurrentLayoutContext(), AttributesHelper.PT);
-            if (!this.getAccentunderAsBoolean()) {
-                extraShift *= AbstractUnderOver.NON_ACCENT_MULTIPLIER;
-            }
-            shift = baseshift + extraShift + underScript.getAscentHeight(g);
-        }
-        return shift;
-    }
+    // /**
+    // * @param g
+    // * Graphics Context.
+    // * @return the amount the underbaseline is shifted. Must only be called
+    // if
+    // * an under element exists!
+    // */
+    // protected float getUnderBaselineShift(final Graphics2D g) {
+    // final JEuclidElement base = this.getBase();
+    // final JEuclidElement underScript = this.getUnderscript();
+    // final float baseshift = base.getDescentHeight(g);
+    // final float shift;
+    // if (this.limitsAreMoved()) {
+    // shift = ScriptSupport.getSubBaselineShift(g, base, underScript,
+    // this.getOverscript());
+    // } else {
+    // float extraShift = AttributesHelper.convertSizeToPt(
+    // AbstractUnderOver.UNDER_OVER_SPACE, this
+    // .getCurrentLayoutContext(), AttributesHelper.PT);
+    // if (!this.getAccentunderAsBoolean()) {
+    // extraShift *= AbstractUnderOver.NON_ACCENT_MULTIPLIER;
+    // }
+    // shift = baseshift + extraShift + underScript.getAscentHeight(g);
+    // }
+    // return shift;
+    // }
 
-    /**
-     * @param g
-     *            Graphics Context.
-     * @return the amount the overbaseline is shifted. Must only be called if an
-     *         over element exists!
-     */
-    protected float getOverBaselineShift(final Graphics2D g) {
-        final JEuclidElement base = this.getBase();
-        final JEuclidElement overScript = this.getOverscript();
-        final float baseAHeight = base.getAscentHeight(g);
-        final float shift;
-        if (this.limitsAreMoved()) {
-            shift = ScriptSupport.getSuperBaselineShift(g, base, this
-                    .getUnderscript(), overScript);
-        } else {
-            float extraShift = AttributesHelper.convertSizeToPt(
-                    AbstractUnderOver.UNDER_OVER_SPACE, this
-                            .getCurrentLayoutContext(), AttributesHelper.PT);
-            if (!this.getAccentAsBoolean()) {
-                extraShift *= AbstractUnderOver.NON_ACCENT_MULTIPLIER;
-            }
-            shift = baseAHeight + overScript.getDescentHeight(g) + extraShift;
-        }
-        return shift;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final float calculateAscentHeight(final Graphics2D g) {
-        final JEuclidElement over = this.getOverscript();
-        final float baseAscent = this.getBase().getAscentHeight(g);
-        final float overAscent;
-        if (over != null) {
-            overAscent = this.getOverBaselineShift(g) + over.getAscentHeight(g);
-        } else {
-            overAscent = 0;
-        }
-        return Math.max(baseAscent, overAscent);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final float calculateDescentHeight(final Graphics2D g) {
-        final JEuclidElement under = this.getUnderscript();
-        final float baseDescent = this.getBase().getDescentHeight(g);
-        final float underDescent;
-        if (under != null) {
-            underDescent = this.getUnderBaselineShift(g)
-                    + under.getDescentHeight(g);
-        } else {
-            underDescent = 0;
-        }
-        return Math.max(baseDescent, underDescent);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float getXCenter(final Graphics2D g) {
-
-        final float baseCenter = this.getBase().getXCenter(g);
-
-        if (this.limitsAreMoved()) {
-            return baseCenter;
-        } else {
-            final JEuclidElement underElement = this.getUnderscript();
-            final float underCenter;
-            if (underElement != null) {
-                underCenter = underElement.getXCenter(g);
-            } else {
-                underCenter = 0;
-            }
-            final JEuclidElement overElement = this.getOverscript();
-            final float overCenter;
-            if (overElement != null) {
-                overCenter = overElement.getXCenter(g);
-            } else {
-                overCenter = 0;
-            }
-            return Math.max(baseCenter, Math.max(overCenter, underCenter));
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-
-        final float baseWidth = this.getBase().getWidth(g);
-        final JEuclidElement underElement = this.getUnderscript();
-        final float underWidth;
-        if (underElement != null) {
-            underWidth = underElement.getWidth(g);
-        } else {
-            underWidth = 0;
-        }
-        final JEuclidElement overElement = this.getOverscript();
-        final float overWidth;
-        if (overElement != null) {
-            overWidth = overElement.getWidth(g);
-        } else {
-            overWidth = 0;
-        }
-
-        final Offsets o = this.calculateOffsets(g);
-        return Math.max(baseWidth + o.getBase(), Math.max(overWidth
-                + o.getOver(), underWidth + o.getUnder()));
-    }
+    // /**
+    // * @param g
+    // * Graphics Context.
+    // * @return the amount the overbaseline is shifted. Must only be called
+    // if an
+    // * over element exists!
+    // */
+    // protected float getOverBaselineShift(final Graphics2D g) {
+    // final JEuclidElement base = this.getBase();
+    // final JEuclidElement overScript = this.getOverscript();
+    // final float baseAHeight = base.getAscentHeight(g);
+    // final float shift;
+    // if (this.limitsAreMoved()) {
+    // shift = ScriptSupport.getSuperBaselineShift(g, base, this
+    // .getUnderscript(), overScript);
+    // } else {
+    // float extraShift = AttributesHelper.convertSizeToPt(
+    // AbstractUnderOver.UNDER_OVER_SPACE, this
+    // .getCurrentLayoutContext(), AttributesHelper.PT);
+    // if (!this.getAccentAsBoolean()) {
+    // extraShift *= AbstractUnderOver.NON_ACCENT_MULTIPLIER;
+    // }
+    // shift = baseAHeight + overScript.getDescentHeight(g) + extraShift;
+    // }
+    // return shift;
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public final float calculateAscentHeight(final Graphics2D g) {
+    // final JEuclidElement over = this.getOverscript();
+    // final float baseAscent = this.getBase().getAscentHeight(g);
+    // final float overAscent;
+    // if (over != null) {
+    // overAscent = this.getOverBaselineShift(g) + over.getAscentHeight(g);
+    // } else {
+    // overAscent = 0;
+    // }
+    // return Math.max(baseAscent, overAscent);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public final float calculateDescentHeight(final Graphics2D g) {
+    // final JEuclidElement under = this.getUnderscript();
+    // final float baseDescent = this.getBase().getDescentHeight(g);
+    // final float underDescent;
+    // if (under != null) {
+    // underDescent = this.getUnderBaselineShift(g)
+    // + under.getDescentHeight(g);
+    // } else {
+    // underDescent = 0;
+    // }
+    // return Math.max(baseDescent, underDescent);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float getXCenter(final Graphics2D g) {
+    //
+    // final float baseCenter = this.getBase().getXCenter(g);
+    //
+    // if (this.limitsAreMoved()) {
+    // return baseCenter;
+    // } else {
+    // final JEuclidElement underElement = this.getUnderscript();
+    // final float underCenter;
+    // if (underElement != null) {
+    // underCenter = underElement.getXCenter(g);
+    // } else {
+    // underCenter = 0;
+    // }
+    // final JEuclidElement overElement = this.getOverscript();
+    // final float overCenter;
+    // if (overElement != null) {
+    // overCenter = overElement.getXCenter(g);
+    // } else {
+    // overCenter = 0;
+    // }
+    // return Math.max(baseCenter, Math.max(overCenter, underCenter));
+    // }
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateWidth(final Graphics2D g) {
+    //
+    // final float baseWidth = this.getBase().getWidth(g);
+    // final JEuclidElement underElement = this.getUnderscript();
+    // final float underWidth;
+    // if (underElement != null) {
+    // underWidth = underElement.getWidth(g);
+    // } else {
+    // underWidth = 0;
+    // }
+    // final JEuclidElement overElement = this.getOverscript();
+    // final float overWidth;
+    // if (overElement != null) {
+    // overWidth = overElement.getWidth(g);
+    // } else {
+    // overWidth = 0;
+    // }
+    //
+    // final Offsets o = this.calculateOffsets(g);
+    // return Math.max(baseWidth + o.getBase(), Math.max(overWidth
+    // + o.getOver(), underWidth + o.getUnder()));
+    // }
 
     private static class Offsets {
         private final float base;
@@ -256,79 +256,79 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         }
     }
 
-    private Offsets calculateOffsets(final Graphics2D g) {
-        final float baseOffsetX;
-        final float underOffsetX;
-        final float overOffsetX;
-
-        final JEuclidElement base = this.getBase();
-        final JEuclidElement under = this.getUnderscript();
-        final JEuclidElement over = this.getOverscript();
-
-        if (this.limitsAreMoved()) {
-            baseOffsetX = 0;
-            final float baseWidth = base.getWidth(g);
-            underOffsetX = baseWidth;
-            overOffsetX = baseWidth;
-        } else {
-            final float baseCenter = base.getXCenter(g);
-            final float underCenter;
-            final float overCenter;
-            if (under != null) {
-                underCenter = under.getXCenter(g);
-            } else {
-                underCenter = 0;
-            }
-            if (over != null) {
-                overCenter = over.getXCenter(g);
-            } else {
-                overCenter = 0;
-            }
-
-            final float totalXCenter = Math.max(baseCenter, Math.max(
-                    underCenter, overCenter));
-
-            underOffsetX = totalXCenter - underCenter;
-            overOffsetX = totalXCenter - overCenter;
-            baseOffsetX = totalXCenter - baseCenter;
-        }
-        return new Offsets(baseOffsetX, underOffsetX, overOffsetX);
-    }
-
-    /**
-     * Paints this element.
-     * 
-     * @param g
-     *            The graphics context to use for painting.
-     * @param posX
-     *            The first left position for painting.
-     * @param posY
-     *            The position of the baseline.
-     */
-    @Override
-    public final void paint(final Graphics2D g, final float posX,
-            final float posY) {
-        super.paint(g, posX, posY);
-
-        final Offsets o = this.calculateOffsets(g);
-        final float baseOffsetX = o.getBase();
-        final float underOffsetX = o.getUnder();
-        final float overOffsetX = o.getOver();
-
-        final JEuclidElement base = this.getBase();
-        final JEuclidElement under = this.getUnderscript();
-        final JEuclidElement over = this.getOverscript();
-
-        base.paint(g, posX + baseOffsetX, posY);
-        if (under != null) {
-            under.paint(g, posX + underOffsetX, posY
-                    + this.getUnderBaselineShift(g));
-        }
-        if (over != null) {
-            over.paint(g, posX + overOffsetX, posY
-                    - this.getOverBaselineShift(g));
-        }
-    }
+    // private Offsets calculateOffsets(final Graphics2D g) {
+    // final float baseOffsetX;
+    // final float underOffsetX;
+    // final float overOffsetX;
+    //
+    // final JEuclidElement base = this.getBase();
+    // final JEuclidElement under = this.getUnderscript();
+    // final JEuclidElement over = this.getOverscript();
+    //
+    // if (this.limitsAreMoved()) {
+    // baseOffsetX = 0;
+    // final float baseWidth = base.getWidth(g);
+    // underOffsetX = baseWidth;
+    // overOffsetX = baseWidth;
+    // } else {
+    // final float baseCenter = base.getXCenter(g);
+    // final float underCenter;
+    // final float overCenter;
+    // if (under != null) {
+    // underCenter = under.getXCenter(g);
+    // } else {
+    // underCenter = 0;
+    // }
+    // if (over != null) {
+    // overCenter = over.getXCenter(g);
+    // } else {
+    // overCenter = 0;
+    // }
+    //
+    // final float totalXCenter = Math.max(baseCenter, Math.max(
+    // underCenter, overCenter));
+    //
+    // underOffsetX = totalXCenter - underCenter;
+    // overOffsetX = totalXCenter - overCenter;
+    // baseOffsetX = totalXCenter - baseCenter;
+    // }
+    // return new Offsets(baseOffsetX, underOffsetX, overOffsetX);
+    // }
+    //
+    // /**
+    // * Paints this element.
+    // *
+    // * @param g
+    // * The graphics context to use for painting.
+    // * @param posX
+    // * The first left position for painting.
+    // * @param posY
+    // * The position of the baseline.
+    // */
+    // @Override
+    // public final void paint(final Graphics2D g, final float posX,
+    // final float posY) {
+    // super.paint(g, posX, posY);
+    //
+    // final Offsets o = this.calculateOffsets(g);
+    // final float baseOffsetX = o.getBase();
+    // final float underOffsetX = o.getUnder();
+    // final float overOffsetX = o.getOver();
+    //
+    // final JEuclidElement base = this.getBase();
+    // final JEuclidElement under = this.getUnderscript();
+    // final JEuclidElement over = this.getOverscript();
+    //
+    // base.paint(g, posX + baseOffsetX, posY);
+    // if (under != null) {
+    // under.paint(g, posX + underOffsetX, posY
+    // + this.getUnderBaselineShift(g));
+    // }
+    // if (over != null) {
+    // over.paint(g, posX + overOffsetX, posY
+    // - this.getOverBaselineShift(g));
+    // }
+    // }
 
     /** {@inheritDoc} */
     public String getAccentunder() {
@@ -428,8 +428,8 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         }
         final float middle = width / 2.0f;
 
-        baseInfo.moveTo(middle - baseInfo.getHorizontalCenterOffset(stage), 0,
-                stage);
+        baseInfo.moveTo(middle - baseInfo.getHorizontalCenterOffset(stage),
+                0, stage);
 
         if (under != null) {
             final float y = baseInfo.getDescentHeight(stage)
@@ -440,8 +440,8 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         if (over != null) {
             final float y = baseInfo.getAscentHeight(stage)
                     + overInfo.getDescentHeight(stage);
-            overInfo.moveTo(middle - overInfo.getHorizontalCenterOffset(stage),
-                    -y, stage);
+            overInfo.moveTo(middle
+                    - overInfo.getHorizontalCenterOffset(stage), -y, stage);
         }
 
         final Dimension2D borderLeftTop = new Dimension2DImpl(0.0f, 0.0f);

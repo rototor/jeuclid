@@ -18,10 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
-import java.awt.BasicStroke;
-import java.awt.Graphics2D;
-import java.awt.Stroke;
-import java.awt.geom.Line2D;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -35,7 +31,6 @@ import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
-import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -124,17 +119,18 @@ public class Menclose extends AbstractElementWithDelegates implements
             super();
         }
 
-        /** {@inheritDoc} */
-        @Override
-        public void paint(final Graphics2D g, final float posX,
-                final float posY) {
-            super.paint(g, posX, posY);
-            final Stroke oldStroke = g.getStroke();
-            g.setStroke(new BasicStroke(GraphicsSupport.lineWidth(this)));
-            g.draw(new Line2D.Float(posX, posY, posX + this.getWidth(g), posY
-                    - this.getHeight(g)));
-            g.setStroke(oldStroke);
-        }
+        // TODO
+        // /** {@inheritDoc} */
+        // @Override
+        // public void paint(final Graphics2D g, final float posX,
+        // final float posY) {
+        // super.paint(g, posX, posY);
+        // final Stroke oldStroke = g.getStroke();
+        // g.setStroke(new BasicStroke(GraphicsSupport.lineWidth(this)));
+        // g.draw(new Line2D.Float(posX, posY, posX + this.getWidth(g), posY
+        // - this.getHeight(g)));
+        // g.setStroke(oldStroke);
+        // }
     }
 
     /**
@@ -152,17 +148,18 @@ public class Menclose extends AbstractElementWithDelegates implements
             super();
         }
 
-        /** {@inheritDoc} */
-        @Override
-        public void paint(final Graphics2D g, final float posX,
-                final float posY) {
-            super.paint(g, posX, posY);
-            final Stroke oldStroke = g.getStroke();
-            g.setStroke(new BasicStroke(GraphicsSupport.lineWidth(this)));
-            g.draw(new Line2D.Float(posX, posY - this.getHeight(g), posX
-                    + this.getWidth(g), posY));
-            g.setStroke(oldStroke);
-        }
+        // TODO
+        // /** {@inheritDoc} */
+        // @Override
+        // public void paint(final Graphics2D g, final float posX,
+        // final float posY) {
+        // super.paint(g, posX, posY);
+        // final Stroke oldStroke = g.getStroke();
+        // g.setStroke(new BasicStroke(GraphicsSupport.lineWidth(this)));
+        // g.draw(new Line2D.Float(posX, posY - this.getHeight(g), posX
+        // + this.getWidth(g), posY));
+        // g.setStroke(oldStroke);
+        // }
     }
 
     /**

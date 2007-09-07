@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
-import java.awt.Graphics2D;
 
 /**
  * This class represents a phantom of a math element. This is used as spacer.
@@ -41,33 +40,34 @@ public class Mphantom extends AbstractMathElementWithChildren {
         super();
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        super.paint(g, posX, posY);
-    }
+    // /** {@inheritDoc} */
+    // @Override
+    // public void paint(final Graphics2D g, final float posX, final float
+    // posY) {
+    // super.paint(g, posX, posY);
+    // }
 
     /** {@inheritDoc} */
     public String getTagName() {
         return Mphantom.ELEMENT;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public float calculateAscentHeight(final Graphics2D g) {
-        return super.calculateChildrenAscentHeight(g);
-    }
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateAscentHeight(final Graphics2D g) {
+    // return super.calculateChildrenAscentHeight(g);
+    // }
 
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-        return super.calculateChildrenDescentHeight(g);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        return super.calculateChildrenWidth(g);
-    }
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateDescentHeight(final Graphics2D g) {
+    // return super.calculateChildrenDescentHeight(g);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateWidth(final Graphics2D g) {
+    // return super.calculateChildrenWidth(g);
+    // }
 
 }

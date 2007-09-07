@@ -22,7 +22,8 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
 import org.w3c.dom.Document;
 
@@ -37,29 +38,31 @@ public interface ConverterPlugin {
      * Write the given MathBase object with its rendering parameters into the
      * given output stream.
      * 
-     * @param base
-     *            MathBase containing the MathML tree and the rendering
-     *            parameters.
+     * @param doc
+     *            A JEuclid DocumentElement
      * @param outStream
      *            Target output stream.
+     * @param context
+     *            LayoutContext to use.
      * @return Rendering's dimension based on the spefic plugin's Graphics2D
      *         implementation.
      * @throws IOException
      *             if an I/O error occurred during write.
      */
-    Dimension convert(MathBase base, OutputStream outStream)
-            throws IOException;
+    Dimension convert(DocumentElement doc, LayoutContext context,
+            OutputStream outStream) throws IOException;
 
     /**
      * Convert from the given Math Object to an XML DOM Document.
      * 
-     * @param mathBase
-     *            MathBase containing the MathML tree and the rendering
-     *            parameters.
+     * @param doc
+     *            A JEuclid DocumentElement
+     * @param context
+     *            LayoutContext to use.
      * @return an instance of Document, or the appropriate subtype for this
      *         format (e.g. SVGDocument). If conversion is not supported by
      *         this plugin, it may return null.
      */
-    Document convert(final MathBase mathBase);
+    Document convert(final DocumentElement doc, final LayoutContext context);
 
 }

@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.generic;
 
-import java.awt.Graphics2D;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +28,6 @@ import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
-import net.sourceforge.jeuclid.elements.DisplayableNode;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
@@ -49,8 +47,8 @@ import org.w3c.dom.views.DocumentView;
  * @version $Revision$
  */
 public class DocumentElement extends AbstractPartialDocumentImpl implements
-        MathMLDocument, JEuclidNode, ChangeTrackingInterface,
-        DisplayableNode, DocumentView, LayoutableDocument {
+        MathMLDocument, JEuclidNode, ChangeTrackingInterface, DocumentView,
+        LayoutableDocument {
 
     private final Set<ChangeTrackingInterface> listeners = new HashSet<ChangeTrackingInterface>();
 
@@ -85,40 +83,41 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * Paints the whole MathML document.
-     * 
-     * @param g
-     *            Graphics2D context.
-     * @param posX
-     *            x-offset to start from.
-     * @param posY
-     *            y-offset to start from.
-     */
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        ElementListSupport.paint(g, posX, posY, ElementListSupport
-                .createListOfChildren(this));
-        this.lastX = posX;
-        this.lastY = posY;
-    }
+    // /**
+    // * Paints the whole MathML document.
+    // *
+    // * @param g
+    // * Graphics2D context.
+    // * @param posX
+    // * x-offset to start from.
+    // * @param posY
+    // * y-offset to start from.
+    // */
+    // public void paint(final Graphics2D g, final float posX, final float
+    // posY) {
+    // ElementListSupport.paint(g, posX, posY, ElementListSupport
+    // .createListOfChildren(this));
+    // this.lastX = posX;
+    // this.lastY = posY;
+    // }
 
-    /** {@inheritDoc} */
-    public float getWidth(final Graphics2D g) {
-        return ElementListSupport.getWidth(g, ElementListSupport
-                .createListOfChildren(this));
-    }
-
-    /** {@inheritDoc} */
-    public float getAscentHeight(final Graphics2D g) {
-        return ElementListSupport.getAscentHeight(g, ElementListSupport
-                .createListOfChildren(this));
-    }
-
-    /** {@inheritDoc} */
-    public float getDescentHeight(final Graphics2D g) {
-        return ElementListSupport.getDescentHeight(g, ElementListSupport
-                .createListOfChildren(this));
-    }
+    // /** {@inheritDoc} */
+    // public float getWidth(final Graphics2D g) {
+    // return ElementListSupport.getWidth(g, ElementListSupport
+    // .createListOfChildren(this));
+    // }
+    //
+    // /** {@inheritDoc} */
+    // public float getAscentHeight(final Graphics2D g) {
+    // return ElementListSupport.getAscentHeight(g, ElementListSupport
+    // .createListOfChildren(this));
+    // }
+    //
+    // /** {@inheritDoc} */
+    // public float getDescentHeight(final Graphics2D g) {
+    // return ElementListSupport.getDescentHeight(g, ElementListSupport
+    // .createListOfChildren(this));
+    // }
 
     /** {@inheritDoc} */
     public float getFontsizeInPoint() {
@@ -145,25 +144,25 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
                 .createListOfChildren(this));
     }
 
-    /** {@inheritDoc} */
-    public float getHeight(final Graphics2D g) {
-        return this.getAscentHeight(g) + this.getDescentHeight(g);
-    }
-
-    /** {@inheritDoc} */
-    public float getPaintedPosX() {
-        return this.lastX;
-    }
-
-    /** {@inheritDoc} */
-    public float getPaintedPosY() {
-        return this.lastY;
-    }
-
-    /** {@inheritDoc} */
-    public float getXCenter(final Graphics2D g) {
-        return this.getWidth(g) / 2;
-    }
+    // /** {@inheritDoc} */
+    // public float getHeight(final Graphics2D g) {
+    // return this.getAscentHeight(g) + this.getDescentHeight(g);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // public float getPaintedPosX() {
+    // return this.lastX;
+    // }
+    //
+    // /** {@inheritDoc} */
+    // public float getPaintedPosY() {
+    // return this.lastY;
+    // }
+    //
+    // /** {@inheritDoc} */
+    // public float getXCenter(final Graphics2D g) {
+    // return this.getWidth(g) / 2;
+    // }
 
     /**
      * Sets a LayoutContext for this rendering tree.

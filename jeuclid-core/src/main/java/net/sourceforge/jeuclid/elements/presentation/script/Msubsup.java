@@ -18,8 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import java.awt.Graphics2D;
-
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.mathml.MathMLElement;
@@ -47,50 +45,51 @@ public class Msubsup extends AbstractSubSuper implements MathMLScriptElement {
         super();
     }
 
-    /**
-     * Paints this element.
-     * 
-     * @param g
-     *            The graphics context to use for painting.
-     * @param posX
-     *            The first left position for painting.
-     * @param posY
-     *            The position of the baseline.
-     */
-    @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        super.paint(g, posX, posY);
-        final JEuclidElement e1 = this.getMathElement(0);
-        final JEuclidElement e2 = this.getMathElement(1);
-        final JEuclidElement e3 = this.getMathElement(2);
-
-        e1.paint(g, posX, posY);
-        e2
-                .paint(g, posX + e1.getWidth(g), posY
-                        + this.getSubBaseLineShift(g));
-        e3.paint(g, posX + e1.getWidth(g), posY
-                - this.getSuperBaseLineShift(g));
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        return this.getMathElement(0).getWidth(g)
-                + Math.max(this.getMathElement(1).getWidth(g), this
-                        .getMathElement(2).getWidth(g)) + 1;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateAscentHeight(final Graphics2D g) {
-        return this.caclulateAscentHeightWithSuper(g);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-        return this.caclulateDescentHeightWithSub(g);
-    }
+    // /**
+    // * Paints this element.
+    // *
+    // * @param g
+    // * The graphics context to use for painting.
+    // * @param posX
+    // * The first left position for painting.
+    // * @param posY
+    // * The position of the baseline.
+    // */
+    // @Override
+    // public void paint(final Graphics2D g, final float posX, final float
+    // posY) {
+    // super.paint(g, posX, posY);
+    // final JEuclidElement e1 = this.getMathElement(0);
+    // final JEuclidElement e2 = this.getMathElement(1);
+    // final JEuclidElement e3 = this.getMathElement(2);
+    //
+    // e1.paint(g, posX, posY);
+    // e2
+    // .paint(g, posX + e1.getWidth(g), posY
+    // + this.getSubBaseLineShift(g));
+    // e3.paint(g, posX + e1.getWidth(g), posY
+    // - this.getSuperBaseLineShift(g));
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateWidth(final Graphics2D g) {
+    // return this.getMathElement(0).getWidth(g)
+    // + Math.max(this.getMathElement(1).getWidth(g), this
+    // .getMathElement(2).getWidth(g)) + 1;
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateAscentHeight(final Graphics2D g) {
+    // return this.caclulateAscentHeightWithSuper(g);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // public float calculateDescentHeight(final Graphics2D g) {
+    // return this.caclulateDescentHeightWithSub(g);
+    // }
 
     /** {@inheritDoc} */
     @Override

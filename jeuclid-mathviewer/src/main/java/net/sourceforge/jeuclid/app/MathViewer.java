@@ -25,7 +25,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.app.mathviewer.FileIO;
 import net.sourceforge.jeuclid.app.mathviewer.MainFrame;
 import net.sourceforge.jeuclid.app.support.CommandLineParser;
@@ -69,7 +69,7 @@ public final class MathViewer {
                 .parseCommandLine(args);
         MathViewer.source = parseResults.getSource();
         if (MathViewer.OSX) {
-            System.setProperty("apple.laf.useScreenMenuBar", MathBase.TRUE); //$NON-NLS-1$ //$NON-NLS-2$
+            System.setProperty("apple.laf.useScreenMenuBar", Constants.TRUE); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         try {

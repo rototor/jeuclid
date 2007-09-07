@@ -31,9 +31,11 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 
 import net.sourceforge.jeuclid.DOMBuilder;
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
+import net.sourceforge.jeuclid.layout.JEuclidView;
 import net.sourceforge.jeuclid.parser.Parser;
 
 import org.apache.batik.dom.GenericDOMImplementation;
@@ -128,15 +130,20 @@ public final class Processor {
         if (AbstractJEuclidElement.URI.equals(node.getNamespaceURI())
                 && MathImpl.ELEMENT.equals(node.getLocalName())) {
 
-            final MathBase mathBase = new MathBase();
-            DOMBuilder.getDOMBuilder().createJeuclidDom(node, mathBase);
+            final DocumentElement doc = DOMBuilder.getDOMBuilder()
+                    .createJeuclidDom(node);
 
-            final SVGGraphics2D svgGenerator = this
-                    .createSVGGenerator(mathBase);
-            mathBase.paint(svgGenerator);
-            final float descender = mathBase.getDescender(svgGenerator);
-            final float height = mathBase.getHeight(svgGenerator);
-            final float baselinePercent = -(descender / height) * 100f;
+            final SVGGraphics2D svgGenerator = this.createSVGGenerator();
+            final JEuclidView view = new JEuclidView(doc, LayoutContextImpl
+                    .getDefaultLayoutContext(), svgGenerator);
+            final int ascent = (int) Math.ceil(view.getAscentHeight());
+            final int descent = (int) Math.ceil(view.getDescentHeight());
+            final int height = ascent + descent;
+            final Dimension size = new Dimension((int) Math.ceil(view
+                    .getWidth()), height);
+            svgGenerator.setSVGCanvasSize(size);
+            view.draw(svgGenerator, 0, ascent);
+            final float baselinePercent = -((float) descent / (float) height) * 100f;
 
             final Node parent = node.getParentNode();
             if ("http://www.w3.org/1999/XSL/Format".equals(parent
@@ -153,7 +160,7 @@ public final class Processor {
         }
     }
 
-    private SVGGraphics2D createSVGGenerator(final MathBase mathBase) {
+    private SVGGraphics2D createSVGGenerator() {
         final DOMImplementation domImpl = GenericDOMImplementation
                 .getDOMImplementation();
 
@@ -165,10 +172,6 @@ public final class Processor {
         svgContext.setComment("Converted from MathML using JEuclid");
         final SVGGraphics2D svgGenerator = new SVGGraphics2D(svgContext, true);
 
-        final Dimension size = new Dimension((int) Math.ceil(mathBase
-                .getWidth(svgGenerator)), (int) Math.ceil(mathBase
-                .getHeight(svgGenerator)));
-        svgGenerator.setSVGCanvasSize(size);
         return svgGenerator;
     }
 
