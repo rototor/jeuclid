@@ -28,9 +28,9 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * supports conversion to standard Raster formats through ImageIO.
@@ -53,9 +53,8 @@ public class ImageIOConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public Dimension convert(final DocumentElement doc,
-            final LayoutContext context, final OutputStream outStream)
-            throws IOException {
+    public Dimension convert(final Node doc, final LayoutContext context,
+            final OutputStream outStream) throws IOException {
         final ImageOutputStream ios = new MemoryCacheImageOutputStream(
                 outStream);
         this.writer.setOutput(ios);
@@ -67,8 +66,7 @@ public class ImageIOConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public Document convert(final DocumentElement doc,
-            final LayoutContext context) {
+    public Document convert(final Node doc, final LayoutContext context) {
         return null;
     }
 

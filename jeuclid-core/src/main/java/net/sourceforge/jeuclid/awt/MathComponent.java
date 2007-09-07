@@ -23,11 +23,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
-import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.w3c.dom.Document;
@@ -132,10 +130,8 @@ public class MathComponent extends Component {
     private void redo() {
         final Graphics2D g2d = (Graphics2D) this.getGraphics();
         if ((this.document != null) && (g2d != null)) {
-            final DocumentElement doc = DOMBuilder.getDOMBuilder()
-                    .createJeuclidDom(this.document);
             this.parameters.setParameter(Parameter.DEBUG, this.debug);
-            this.view = new JEuclidView(doc, this.parameters, g2d);
+            this.view = new JEuclidView(this.document, this.parameters, g2d);
         } else {
             this.view = null;
         }

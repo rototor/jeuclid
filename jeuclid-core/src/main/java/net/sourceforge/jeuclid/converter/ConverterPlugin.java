@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * Describes an Image converter.
@@ -49,8 +49,8 @@ public interface ConverterPlugin {
      * @throws IOException
      *             if an I/O error occurred during write.
      */
-    Dimension convert(DocumentElement doc, LayoutContext context,
-            OutputStream outStream) throws IOException;
+    Dimension convert(Node doc, LayoutContext context, OutputStream outStream)
+            throws IOException;
 
     /**
      * Convert from the given Math Object to an XML DOM Document.
@@ -63,6 +63,6 @@ public interface ConverterPlugin {
      *         format (e.g. SVGDocument). If conversion is not supported by
      *         this plugin, it may return null.
      */
-    Document convert(final DocumentElement doc, final LayoutContext context);
+    Document convert(final Node doc, final LayoutContext context);
 
 }

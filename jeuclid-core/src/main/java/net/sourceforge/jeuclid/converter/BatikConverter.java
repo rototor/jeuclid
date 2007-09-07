@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * supports conversion to SVG output through Batik.
@@ -41,9 +41,8 @@ public class BatikConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public Dimension convert(final DocumentElement doc,
-            final LayoutContext context, final OutputStream outStream)
-            throws IOException {
+    public Dimension convert(final Node doc, final LayoutContext context,
+            final OutputStream outStream) throws IOException {
         // // Get a DOMImplementation
         // final DOMImplementation domImpl = GenericDOMImplementation
         // .getDOMImplementation();
@@ -75,8 +74,7 @@ public class BatikConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public Document convert(final DocumentElement doc,
-            final LayoutContext context) {
+    public Document convert(final Node doc, final LayoutContext context) {
 
         // final SVGGraphics2D svgGenerator =
         // this.createSVGGenerator(mathBase);

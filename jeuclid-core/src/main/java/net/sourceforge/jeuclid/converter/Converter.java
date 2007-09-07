@@ -29,12 +29,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
-import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.apache.commons.logging.Log;
@@ -194,9 +192,7 @@ public final class Converter {
                 .getConverter(outFileType);
         Document result = null;
         if (plugin != null) {
-            final DocumentElement jDoc = DOMBuilder.getDOMBuilder()
-                    .createJeuclidDom(doc);
-            result = plugin.convert(jDoc, params);
+            result = plugin.convert(doc, params);
         }
         if (result == null) {
             Converter.LOGGER.fatal("Unsupported output type: " + outFileType);
@@ -229,9 +225,7 @@ public final class Converter {
         Dimension result = null;
         if (plugin != null) {
             try {
-                final DocumentElement jDoc = DOMBuilder.getDOMBuilder()
-                        .createJeuclidDom(doc);
-                result = plugin.convert(jDoc, params, outStream);
+                result = plugin.convert(doc, params, outStream);
             } catch (final IOException ex) {
                 Converter.LOGGER.fatal("Failed to process: "
                         + ex.getMessage(), ex);
@@ -259,9 +253,7 @@ public final class Converter {
                 BufferedImage.TYPE_INT_ARGB);
         final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
 
-        final DocumentElement jDoc = DOMBuilder.getDOMBuilder()
-                .createJeuclidDom(node);
-        final JEuclidView view = new JEuclidView(jDoc, context, tempg);
+        final JEuclidView view = new JEuclidView(node, context, tempg);
 
         final int width = (int) Math.ceil(view.getWidth());
         final int ascent = (int) Math.ceil(view.getAscentHeight());

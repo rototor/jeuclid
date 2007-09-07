@@ -2,10 +2,16 @@ package net.sourceforge.jeuclid.test;
 
 import java.io.File;
 
+import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.MutableLayoutContext;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.w3c.dom.Document;
 
 public class ConverterTest {
 
@@ -18,19 +24,18 @@ public class ConverterTest {
 
     @Test
     public void testConverterPNG() throws Exception {
-        // final Document doc = MathMLParserSupport
-        // .parseString(ConverterTest.TEST1);
-        // final File outFile = new File(this.getOutDir(), "test1.png");
-        // final MutableLayoutContext params = LayoutContextImpl
-        // .getDefaultLayoutContext();
-        // params.setParameter(Parameter.MATHSIZE, 25f);
-        //
-        // Converter.getConverter().convert(doc, outFile, "image/png",
-        // params);
-        // Assert.assertTrue(outFile.exists());
-        // Assert.assertTrue(outFile.length() > 0);
-        //
-        // // displayDocument(doc);
+        final Document doc = MathMLParserSupport
+                .parseString(ConverterTest.TEST1);
+        final File outFile = new File(this.getOutDir(), "test1.png");
+        final MutableLayoutContext params = LayoutContextImpl
+                .getDefaultLayoutContext();
+        params.setParameter(Parameter.MATHSIZE, 25f);
+
+        Converter.getConverter().convert(doc, outFile, "image/png", params);
+        Assert.assertTrue(outFile.exists());
+        Assert.assertTrue(outFile.length() > 0);
+
+        // displayDocument(doc);
     }
 
     @Test
@@ -80,20 +85,20 @@ public class ConverterTest {
      */
     @Test
     public void testConvertEmbeddedExamples() throws Exception {
-        // final MutableLayoutContext params = LayoutContextImpl
-        // .getDefaultLayoutContext();
-        // params.setParameter(Parameter.MATHSIZE, 16f);
-        //
-        // for (int example = 1; example <= 9; example++) {
-        // final String exName = "example" + example + ".mml";
-        // final File outFile = new File(this.getOutDir(), "example"
-        // + example + ".png");
-        // final Document document = MathBaseTest.loadDocument(exName);
-        // Converter.getConverter().convert(document, outFile, "image/png",
-        // params);
-        // Assert.assertTrue(outFile.exists());
-        // Assert.assertTrue(outFile.length() > 0);
-        // }
+        final MutableLayoutContext params = LayoutContextImpl
+                .getDefaultLayoutContext();
+        params.setParameter(Parameter.MATHSIZE, 16f);
+
+        for (int example = 1; example <= 9; example++) {
+            final String exName = "example" + example + ".mml";
+            final File outFile = new File(this.getOutDir(), "example"
+                    + example + ".png");
+            final Document document = MathBaseTest.loadDocument(exName);
+            Converter.getConverter().convert(document, outFile, "image/png",
+                    params);
+            Assert.assertTrue(outFile.exists());
+            Assert.assertTrue(outFile.length() > 0);
+        }
     }
 
     @Test

@@ -4,8 +4,12 @@ import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import net.sourceforge.jeuclid.DOMBuilder;
+
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentFragment;
 import org.xml.sax.InputSource;
 
 /**
@@ -26,25 +30,23 @@ public class DOMBuilderTest {
 
     @Test
     public void testConstructor() throws Exception {
-        // final Document doc = this.parse("<math><mn>1</mn></math>");
-        // Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(doc,
-        // new MathBase()).getFirstChild().getNodeName(), "math");
-        // Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(
-        // doc.getDocumentElement().getFirstChild(), new MathBase())
-        // .getFirstChild().getNodeName(), "mn");
-        // final DocumentFragment documentFragment = doc
-        // .createDocumentFragment();
-        // documentFragment.appendChild(doc.createElement("mspace"));
-        // Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(
-        // documentFragment, new MathBase()).getFirstChild()
-        // .getNodeName(), "mspace");
-        // try {
-        // DOMBuilder.getDOMBuilder().createJeuclidDom(
-        // doc.getDocumentElement().getFirstChild().getFirstChild(),
-        // new MathBase());
-        // Assert.fail("Expected IllegalArgumentException");
-        // } catch (final IllegalArgumentException e) {
-        // }
+        final Document doc = this.parse("<math><mn>1</mn></math>");
+        Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(doc)
+                .getFirstChild().getNodeName(), "math");
+        Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(
+                doc.getDocumentElement().getFirstChild()).getFirstChild()
+                .getNodeName(), "mn");
+        final DocumentFragment documentFragment = doc
+                .createDocumentFragment();
+        documentFragment.appendChild(doc.createElement("mspace"));
+        Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(
+                documentFragment).getFirstChild().getNodeName(), "mspace");
+        try {
+            DOMBuilder.getDOMBuilder().createJeuclidDom(
+                    doc.getDocumentElement().getFirstChild().getFirstChild());
+            Assert.fail("Expected IllegalArgumentException");
+        } catch (final IllegalArgumentException e) {
+        }
     }
 
     private Document parse(final String text) throws Exception {
