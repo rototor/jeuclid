@@ -23,7 +23,7 @@ import java.awt.geom.Dimension2D;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.context.InlineLayoutContext;
-import net.sourceforge.jeuclid.context.RelativeScriptsizeLayoutContext;
+import net.sourceforge.jeuclid.context.RelativeScriptlevelLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
@@ -348,7 +348,7 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
             return now;
         } else {
             // TODO: Should depend on type and accent
-            return new RelativeScriptsizeLayoutContext(
+            return new RelativeScriptlevelLayoutContext(
                     new InlineLayoutContext(now), 1);
         }
     }

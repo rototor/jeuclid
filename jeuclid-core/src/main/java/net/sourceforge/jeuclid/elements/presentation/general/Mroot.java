@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.context.RelativeScriptsizeLayoutContext;
+import net.sourceforge.jeuclid.context.RelativeScriptlevelLayoutContext;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.mathml.MathMLElement;
@@ -93,7 +93,7 @@ public class Mroot extends AbstractRoot implements MathMLRadicalElement {
     public LayoutContext getChildLayoutContext(final int childNum,
             final LayoutContext context) {
         if (childNum == 0) {
-            return new RelativeScriptsizeLayoutContext(context, 2);
+            return new RelativeScriptlevelLayoutContext(context, 2);
         } else {
             return context;
         }

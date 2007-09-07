@@ -21,10 +21,10 @@ package net.sourceforge.jeuclid.context;
 import net.sourceforge.jeuclid.LayoutContext;
 
 /**
- * @author berger
+ * @author Max Berger
  * @version $Revision$
  */
-public class RelativeScriptsizeLayoutContext implements LayoutContext {
+public class RelativeScriptlevelLayoutContext implements LayoutContext {
 
     private final LayoutContext parentLayoutContext;
 
@@ -39,7 +39,7 @@ public class RelativeScriptsizeLayoutContext implements LayoutContext {
      *            offset to parent. In most cases this will be 1.
      * 
      */
-    public RelativeScriptsizeLayoutContext(final LayoutContext parent,
+    public RelativeScriptlevelLayoutContext(final LayoutContext parent,
             final int offset) {
         this.parentLayoutContext = parent;
         this.sizeOffset = offset;
@@ -47,9 +47,9 @@ public class RelativeScriptsizeLayoutContext implements LayoutContext {
 
     /** {@inheritDoc} */
     public Object getParameter(final Parameter which) {
-        if (Parameter.SCRIPTSIZE.equals(which)) {
+        if (Parameter.SCRIPTLEVEL.equals(which)) {
             return ((Integer) this.parentLayoutContext
-                    .getParameter(Parameter.SCRIPTSIZE))
+                    .getParameter(Parameter.SCRIPTLEVEL))
                     + this.sizeOffset;
         }
         return this.parentLayoutContext.getParameter(which);

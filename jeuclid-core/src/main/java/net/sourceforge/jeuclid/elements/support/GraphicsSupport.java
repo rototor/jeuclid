@@ -44,7 +44,7 @@ public final class GraphicsSupport {
     public static float getFontsizeInPoint(final LayoutContext context) {
         final float scriptMultiplier = (float) Math.pow((Float) context
                 .getParameter(Parameter.SCRIPTSIZEMULTIPLIER),
-                (Integer) context.getParameter(Parameter.SCRIPTSIZE));
+                (Integer) context.getParameter(Parameter.SCRIPTLEVEL));
         final float mathsize = (Float) context
                 .getParameter(Parameter.MATHSIZE);
         final float scriptminsize = (Float) context

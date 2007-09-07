@@ -144,7 +144,7 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
                         retVal = Display.INLINE;
                     }
                 }
-                if (Parameter.SCRIPTSIZE.equals(which)) {
+                if (Parameter.SCRIPTLEVEL.equals(which)) {
                     String attr = Mstyle.this.getScriptlevel();
                     if (attr == null) {
                         attr = "";
