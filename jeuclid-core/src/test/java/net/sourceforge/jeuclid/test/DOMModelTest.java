@@ -21,19 +21,25 @@ package net.sourceforge.jeuclid.test;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.jeuclid.DOMBuilder;
+import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.presentation.general.Mfrac;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
 import net.sourceforge.jeuclid.elements.presentation.token.Mi;
+import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.support.attributes.AbstractAttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.w3c.dom.Document;
 import org.w3c.dom.mathml.MathMLActionElement;
 import org.w3c.dom.mathml.MathMLAlignGroupElement;
 import org.w3c.dom.mathml.MathMLAlignMarkElement;
 import org.w3c.dom.mathml.MathMLAnnotationElement;
+import org.w3c.dom.mathml.MathMLDocument;
 import org.w3c.dom.mathml.MathMLEncloseElement;
 import org.w3c.dom.mathml.MathMLFencedElement;
 import org.w3c.dom.mathml.MathMLFractionElement;
@@ -88,25 +94,22 @@ public class DOMModelTest {
      */
     @Test
     public void testID() throws Exception {
-        // final Document docWithID = MathMLParserSupport
-        // .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math
-        // mode=\"display\">"
-        // + "<mrow id='abc'><mn>1</mn></mrow></math>");
-        //
-        // final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
-        // .createJeuclidDom(docWithID, new MathBase());
-        //
-        // final MathMLMathElement mathElement = (MathMLMathElement)
-        // docElement
-        // .getFirstChild();
-        //
+        final Document docWithID = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+                        + "<mrow id='abc'><mn>1</mn></mrow></math>");
+
+        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(docWithID);
+
+        final MathMLMathElement mathElement = (MathMLMathElement) docElement
+                .getFirstChild();
+
         // // TODO: enable this test
-        // // assertEquals(mathElement.getDisplay(), "block");
-        // final MathMLPresentationContainer row =
-        // (MathMLPresentationContainer) mathElement
-        // .getFirstChild();
-        // Assert.assertNotNull(row);
-        // Assert.assertEquals(row.getId(), "abc");
+        // Assert.assertEquals(mathElement.getDisplay(), "block");
+        final MathMLPresentationContainer row = (MathMLPresentationContainer) mathElement
+                .getFirstChild();
+        Assert.assertNotNull(row);
+        Assert.assertEquals(row.getId(), "abc");
     }
 
     /**
@@ -117,18 +120,17 @@ public class DOMModelTest {
      */
     @Test
     public void testSerialization() throws Exception {
-        // final Document origDoc = MathMLParserSupport
-        // .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math
-        // mode=\"display\">"
-        // + "<mrow id='abc'><mn>1</mn></mrow></math>");
-        // final MathMLDocument mathMLDoc = DOMBuilder.getDOMBuilder()
-        // .createJeuclidDom(origDoc, new MathBase());
-        // final String reserialStr = MathMLSerializer.serializeDocument(
-        // mathMLDoc, false, false);
-        //
-        // final Document reserial = MathMLParserSupport
-        // .parseString(reserialStr);
-        // Assert.assertTrue(reserial.isEqualNode(origDoc));
+        final Document origDoc = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+                        + "<mrow id='abc'><mn>1</mn></mrow></math>");
+        final MathMLDocument mathMLDoc = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(origDoc);
+        final String reserialStr = MathMLSerializer.serializeDocument(
+                mathMLDoc, false, false);
+
+        final Document reserial = MathMLParserSupport
+                .parseString(reserialStr);
+        Assert.assertTrue(reserial.isEqualNode(origDoc));
     }
 
     /**
@@ -139,18 +141,17 @@ public class DOMModelTest {
      */
     @Test
     public void testSerialization2() throws Exception {
-        // final Document origDoc = MathMLParserSupport
-        // .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math
-        // mode=\"display\">"
-        // + "<mtext>Alignment<malignmark/>Test</mtext></math>");
-        // final MathMLDocument mathMLDoc = DOMBuilder.getDOMBuilder()
-        // .createJeuclidDom(origDoc, new MathBase());
-        // final String reserialStr = MathMLSerializer.serializeDocument(
-        // mathMLDoc, false, false);
-        //
-        // final Document reserial = MathMLParserSupport
-        // .parseString(reserialStr);
-        // Assert.assertTrue(reserial.isEqualNode(origDoc));
+        final Document origDoc = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+                        + "<mtext>Alignment<malignmark/>Test</mtext></math>");
+        final MathMLDocument mathMLDoc = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(origDoc);
+        final String reserialStr = MathMLSerializer.serializeDocument(
+                mathMLDoc, false, false);
+
+        final Document reserial = MathMLParserSupport
+                .parseString(reserialStr);
+        Assert.assertTrue(reserial.isEqualNode(origDoc));
     }
 
     /**
@@ -161,36 +162,33 @@ public class DOMModelTest {
      */
     @Test
     public void testMOAttrs() throws Exception {
-        // final Document doc = MathMLParserSupport
-        // .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math
-        // mode=\"display\">"
-        // + "<mo stretchy='true'>X</mo>"
-        // + "<mo stretchy='false'>Y</mo>"
-        // + "<mo>&#x0007d;</mo>"
-        // + "<mo>&#x02254;</mo>"
-        // + "<mo>&#x0201d;</mo>" + "</math>");
-        // final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
-        // .createJeuclidDom(doc, new MathBase());
-        //
-        // final MathMLMathElement mathElement = (MathMLMathElement)
-        // docElement
-        // .getFirstChild();
-        //
-        // final MathMLOperatorElement mo = (MathMLOperatorElement)
-        // mathElement
-        // .getChildNodes().item(0);
-        // Assert.assertNotNull(mo);
-        // Assert.assertTrue(Boolean.parseBoolean(mo.getStretchy()));
-        // final Mo mo2 = (Mo) mathElement.getChildNodes().item(1);
-        // Assert.assertNotNull(mo2);
-        // Assert.assertFalse(Boolean.parseBoolean(mo2.getStretchy()));
-        // final Mo mo3 = (Mo) mathElement.getChildNodes().item(2);
-        // // Should be strechty, since it is fence
-        // Assert.assertTrue(Boolean.parseBoolean(mo3.getStretchy()));
-        // final Mo mo4 = (Mo) mathElement.getChildNodes().item(3);
-        // Assert.assertFalse(Boolean.parseBoolean(mo4.getStretchy()));
-        // final Mo mo5 = (Mo) mathElement.getChildNodes().item(2);
-        // Assert.assertTrue(Boolean.parseBoolean(mo5.getStretchy()));
+        final Document doc = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+                        + "<mo stretchy='true'>X</mo>"
+                        + "<mo stretchy='false'>Y</mo>"
+                        + "<mo>&#x0007d;</mo>"
+                        + "<mo>&#x02254;</mo>"
+                        + "<mo>&#x0201d;</mo>" + "</math>");
+        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(doc);
+
+        final MathMLMathElement mathElement = (MathMLMathElement) docElement
+                .getFirstChild();
+
+        final MathMLOperatorElement mo = (MathMLOperatorElement) mathElement
+                .getChildNodes().item(0);
+        Assert.assertNotNull(mo);
+        Assert.assertTrue(Boolean.parseBoolean(mo.getStretchy()));
+        final Mo mo2 = (Mo) mathElement.getChildNodes().item(1);
+        Assert.assertNotNull(mo2);
+        Assert.assertFalse(Boolean.parseBoolean(mo2.getStretchy()));
+        final Mo mo3 = (Mo) mathElement.getChildNodes().item(2);
+        // Should be strechty, since it is fence
+        Assert.assertTrue(Boolean.parseBoolean(mo3.getStretchy()));
+        final Mo mo4 = (Mo) mathElement.getChildNodes().item(3);
+        Assert.assertFalse(Boolean.parseBoolean(mo4.getStretchy()));
+        final Mo mo5 = (Mo) mathElement.getChildNodes().item(2);
+        Assert.assertTrue(Boolean.parseBoolean(mo5.getStretchy()));
     }
 
     /**
@@ -640,65 +638,55 @@ public class DOMModelTest {
 
     @Test
     public void testMMultiScripts() throws Exception {
-        // final Document doc = MathMLParserSupport
-        // .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math
-        // mode=\"display\">"
-        // + "<mmultiscripts>"
-        // + "<mo>x</mo>"
-        // + "<mi>a</mi>"
-        // + "<mi>b</mi>"
-        // + "<mprescripts/>"
-        // + "<mi>c</mi>"
-        // + "<mi>d</mi>" + "</mmultiscripts>" + "</math>");
-        // final MathBase base = new MathBase();
-        // final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
-        // .createJeuclidDom(doc, base);
-        // final MathMLMathElement mathElement = (MathMLMathElement)
-        // docElement
-        // .getFirstChild();
-        //
-        // final MathMLMultiScriptsElement multi = (MathMLMultiScriptsElement)
-        // mathElement
-        // .getChildNodes().item(0);
-        //
-        // Assert.assertEquals(multi.getBase().getTextContent(), "x");
-        // Assert.assertEquals(multi.getSubScript(1).getTextContent(), "a");
-        // Assert.assertEquals(multi.getSuperScript(1).getTextContent(), "b");
-        // Assert.assertEquals(multi.getPreSubScript(1).getTextContent(),
-        // "c");
-        // Assert.assertEquals(multi.getPreSuperScript(1).getTextContent(),
-        // "d");
-        // Assert.assertEquals(multi.getNumprescriptcolumns(), 1);
-        // Assert.assertEquals(multi.getNumscriptcolumns(), 1);
-        // final Mi mi = new Mi();
-        // multi.insertPreSubScriptBefore(0, mi);
-        // Assert.assertEquals(multi.getNumprescriptcolumns(), 2);
-        // Assert.assertEquals(multi.getChildNodes().getLength(), 8);
+        final Document doc = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+                        + "<mmultiscripts>"
+                        + "<mo>x</mo>"
+                        + "<mi>a</mi>"
+                        + "<mi>b</mi>"
+                        + "<mprescripts/>"
+                        + "<mi>c</mi>"
+                        + "<mi>d</mi>" + "</mmultiscripts>" + "</math>");
+        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(doc);
+        final MathMLMathElement mathElement = (MathMLMathElement) docElement
+                .getFirstChild();
+
+        final MathMLMultiScriptsElement multi = (MathMLMultiScriptsElement) mathElement
+                .getChildNodes().item(0);
+
+        Assert.assertEquals(multi.getBase().getTextContent(), "x");
+        Assert.assertEquals(multi.getSubScript(1).getTextContent(), "a");
+        Assert.assertEquals(multi.getSuperScript(1).getTextContent(), "b");
+        Assert.assertEquals(multi.getPreSubScript(1).getTextContent(), "c");
+        Assert.assertEquals(multi.getPreSuperScript(1).getTextContent(), "d");
+        Assert.assertEquals(multi.getNumprescriptcolumns(), 1);
+        Assert.assertEquals(multi.getNumscriptcolumns(), 1);
+        final Mi mi = new Mi();
+        multi.insertPreSubScriptBefore(0, mi);
+        Assert.assertEquals(multi.getNumprescriptcolumns(), 2);
+        Assert.assertEquals(multi.getChildNodes().getLength(), 8);
     }
 
     @Test
     public void testMMultiScripts2() throws Exception {
-        // final Document doc = MathMLParserSupport
-        // .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math
-        // mode=\"display\">"
-        // + "<mmultiscripts>" + "</mmultiscripts>" + "</math>");
-        // final MathBase base = new MathBase();
-        // final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
-        // .createJeuclidDom(doc, base);
-        // final MathMLMathElement mathElement = (MathMLMathElement)
-        // docElement
-        // .getFirstChild();
-        // final MathMLMultiScriptsElement multi = (MathMLMultiScriptsElement)
-        // mathElement
-        // .getChildNodes().item(0);
-        // multi.setSubScriptAt(1, new Mi());
-        // Assert.assertEquals(multi.getChildNodes().getLength(), 3);
-        // multi.setSuperScriptAt(1, new Mi());
-        // Assert.assertEquals(multi.getChildNodes().getLength(), 3);
-        // multi.insertPreSuperScriptBefore(0, new Mi());
-        // Assert.assertEquals(multi.getChildNodes().getLength(), 6);
-        // multi.insertPreSubScriptBefore(0, new Mi());
-        // Assert.assertEquals(multi.getChildNodes().getLength(), 8);
+        final Document doc = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+                        + "<mmultiscripts>" + "</mmultiscripts>" + "</math>");
+        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(doc);
+        final MathMLMathElement mathElement = (MathMLMathElement) docElement
+                .getFirstChild();
+        final MathMLMultiScriptsElement multi = (MathMLMultiScriptsElement) mathElement
+                .getChildNodes().item(0);
+        multi.setSubScriptAt(1, new Mi());
+        Assert.assertEquals(multi.getChildNodes().getLength(), 3);
+        multi.setSuperScriptAt(1, new Mi());
+        Assert.assertEquals(multi.getChildNodes().getLength(), 3);
+        multi.insertPreSuperScriptBefore(0, new Mi());
+        Assert.assertEquals(multi.getChildNodes().getLength(), 6);
+        multi.insertPreSubScriptBefore(0, new Mi());
+        Assert.assertEquals(multi.getChildNodes().getLength(), 8);
     }
 
 }

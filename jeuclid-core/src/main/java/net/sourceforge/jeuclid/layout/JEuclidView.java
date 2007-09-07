@@ -24,6 +24,7 @@ import java.awt.geom.Line2D;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 
@@ -62,8 +63,7 @@ public class JEuclidView implements AbstractView, LayoutView {
         if (node instanceof LayoutableDocument) {
             this.document = (LayoutableDocument) node;
         } else {
-            // TODO
-            this.document = null;
+            this.document = DOMBuilder.getDOMBuilder().createJeuclidDom(node);
         }
         this.graphics = layoutGraphics;
         this.context = layoutContext;
