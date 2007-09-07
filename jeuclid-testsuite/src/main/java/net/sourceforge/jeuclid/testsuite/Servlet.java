@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Servlet.java $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.testsuite;
 
@@ -39,7 +39,7 @@ import net.sourceforge.jeuclid.LayoutContext.Parameter;
 
 /**
  * @author Max Berger
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public class Servlet extends HttpServlet {
     /**
