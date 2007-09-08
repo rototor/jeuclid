@@ -45,6 +45,7 @@ import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.TextObject;
 
 import org.w3c.dom.mathml.MathMLOperatorElement;
+import org.w3c.dom.mathml.MathMLUnderOverElement;
 
 /**
  * This class presents a math operator, like "(" or "*".
@@ -654,10 +655,15 @@ public class Mo extends AbstractJEuclidElement implements
         final float calcScaleY;
         final float calcScaleX;
         final float calcBaselineShift;
-        final JEuclidElement parent = this.getParent();
+        final boolean stretchVertically = this.isVerticalDelimeter();
+        JEuclidElement parent = this.getParent();
+        while (((parent instanceof MathMLUnderOverElement) && stretchVertically)
+                || ((parent instanceof Mrow) && (parent.getMathElementCount() == 1))) {
+            parent = parent.getParent();
+        }
         final LayoutInfo parentInfo = view.getInfo(parent);
         final Rectangle2D textBounds = t.getBounds();
-        if (this.isVerticalDelimeter()) {
+        if (stretchVertically) {
 
             final float targetAscent = parentInfo.getStretchAscent();
             final float targetDescent = parentInfo.getStretchDescent();

@@ -1561,7 +1561,10 @@ public class Mtable extends AbstractJEuclidElement implements
             for (final LayoutableNode n : mtdChildren[i]) {
                 final LayoutInfo mtdInfo = view.getInfo(n);
                 mtdInfo.moveTo(x, mtdInfo.getPosY(stage), stage);
-                x += columnwidth.get(col);
+                final float colwi = columnwidth.get(col);
+                // mtdInfo.setWidth(colwi, stage);
+                mtdInfo.setStretchWidth(colwi);
+                x += colwi;
                 totalWidth = Math.max(totalWidth, x);
                 x += AttributesHelper.convertSizeToPt(this
                         .getSpaceArrayEntry(this.getColumnspacing(), col),
