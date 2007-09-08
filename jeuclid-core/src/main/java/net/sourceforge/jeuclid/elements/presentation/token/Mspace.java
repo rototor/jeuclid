@@ -19,7 +19,12 @@
 package net.sourceforge.jeuclid.elements.presentation.token;
 
 import net.sourceforge.jeuclid.Constants;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
+import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
 
 import org.w3c.dom.mathml.MathMLSpaceElement;
 
@@ -107,42 +112,19 @@ public class Mspace extends AbstractJEuclidElement implements
         this.setAttribute(Mspace.ATTR_DEPTH, depth);
     }
 
-    // /**
-    // * Paints this element.
-    // *
-    // * @param g
-    // * The graphics context to use for painting
-    // * @param posX
-    // * The first left position for painting
-    // * @param posY
-    // * The position of the baseline
-    // */
-    // @Override
-    // public void paint(final Graphics2D g, final float posX, final float
-    // posY) {
-    // super.paint(g, posX, posY);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateWidth(final Graphics2D g) {
-    // return AttributesHelper.convertSizeToPt(this.getWidth(), this
-    // .getCurrentLayoutContext(), AttributesHelper.PT);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateAscentHeight(final Graphics2D g) {
-    // return AttributesHelper.convertSizeToPt(this.getHeight(), this
-    // .getCurrentLayoutContext(), AttributesHelper.PT);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateDescentHeight(final Graphics2D g) {
-    // return AttributesHelper.convertSizeToPt(this.getDepth(), this
-    // .getCurrentLayoutContext(), AttributesHelper.PT);
-    // }
+    /** {@inheritDoc} */
+    @Override
+    protected void layoutStageInvariant(final LayoutView view,
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutContext context) {
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
+        info.setAscentHeight(AttributesHelper.convertSizeToPt(this
+                .getHeight(), now, AttributesHelper.PT), stage);
+        info.setDescentHeight(AttributesHelper.convertSizeToPt(this
+                .getDepth(), now, AttributesHelper.PT), stage);
+        info.setWidth(AttributesHelper.convertSizeToPt(this.getWidth(), now,
+                AttributesHelper.PT), stage);
+    }
 
     /** {@inheritDoc} */
     public String getTagName() {
