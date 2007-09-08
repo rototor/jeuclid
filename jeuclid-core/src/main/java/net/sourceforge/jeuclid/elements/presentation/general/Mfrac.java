@@ -330,19 +330,22 @@ public class Mfrac extends AbstractJEuclidElement implements
                     extraSpace, numerator, denominator, context);
         }
 
-        final Dimension2D borderLeftTop = new Dimension2DImpl(extraSpace,
-                0.0f);
-        final Dimension2D borderRightBottom = new Dimension2DImpl(extraSpace,
-                0.0f);
+        final Dimension2D borderLeftTop = new Dimension2DImpl(extraSpace
+                + linethickness, 0.0f);
+        final Dimension2D borderRightBottom = new Dimension2DImpl(extraSpace
+                + linethickness, 0.0f);
         ElementListSupport.fillInfoFromChildren(view, info, this, stage,
                 borderLeftTop, borderRightBottom);
     }
 
+    // CHECKSTYLE:OFF
+    // More than 7 parameters - but only used here, so this is ok.
     private void layoutStacked(final LayoutInfo info,
             final LayoutStage stage, final float middleShift,
             final float linethickness, final float extraSpace,
             final LayoutInfo numerator, final LayoutInfo denominator,
             final LayoutContext context) {
+        // CHECKSTLYE:ON
         final float numWidth = numerator.getWidth(stage);
         final float denumWidth = denominator.getWidth(stage);
         final float width = Math.max(denumWidth, numWidth);
@@ -370,11 +373,14 @@ public class Mfrac extends AbstractJEuclidElement implements
         info.setGraphicsObject(line);
     }
 
+    // CHECKSTYLE:OFF
+    // More than 7 parameters - but only used here, so this is ok.
     private void layoutBeveled(final LayoutInfo info,
             final LayoutStage stage, final float middleShift,
             final float linethickness, final float extraSpace,
             final LayoutInfo numerator, final LayoutInfo denominator,
             final LayoutContext context) {
+        // CHECKSTYLE:ON
         final float numPosY = -middleShift / 2.0f
                 + numerator.getDescentHeight(stage);
         final float denPosY = middleShift / 2.0f

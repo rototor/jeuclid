@@ -22,8 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.context.RelativeScriptlevelLayoutContext;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLRadicalElement;
@@ -46,7 +47,7 @@ public class Mroot extends AbstractRoot implements MathMLRadicalElement {
      * Creates a math element.
      */
     public Mroot() {
-        super(AbstractRoot.STANDARD_ROOT_CHAR);
+        super();
     }
 
     /** {@inheritDoc} */
@@ -56,16 +57,10 @@ public class Mroot extends AbstractRoot implements MathMLRadicalElement {
 
     /** {@inheritDoc} */
     @Override
-    protected List<JEuclidElement> getContent() {
-        final List<JEuclidElement> mList = new ArrayList<JEuclidElement>(1);
+    protected List<LayoutableNode> getContent() {
+        final List<LayoutableNode> mList = new ArrayList<LayoutableNode>(1);
         mList.add(this.getMathElement(0));
         return mList;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected JEuclidElement getActualIndex() {
-        return this.getMathElement(1);
     }
 
     /** {@inheritDoc} */
@@ -92,10 +87,12 @@ public class Mroot extends AbstractRoot implements MathMLRadicalElement {
     @Override
     public LayoutContext getChildLayoutContext(final int childNum,
             final LayoutContext context) {
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
         if (childNum == 0) {
-            return new RelativeScriptlevelLayoutContext(context, 2);
+            return now;
         } else {
-            return context;
+            return new RelativeScriptlevelLayoutContext(
+                    new InlineLayoutContext(now), 1);
         }
     }
 

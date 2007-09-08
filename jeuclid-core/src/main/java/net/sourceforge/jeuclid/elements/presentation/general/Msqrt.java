@@ -21,8 +21,7 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 import java.util.List;
 
 import net.sourceforge.jeuclid.elements.JEuclidElement;
-import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
-import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLRadicalElement;
@@ -45,7 +44,7 @@ public class Msqrt extends AbstractRoot implements MathMLRadicalElement {
      * Creates a math element.
      */
     public Msqrt() {
-        super(AbstractRoot.STANDARD_ROOT_CHAR);
+        super();
     }
 
     /** {@inheritDoc} */
@@ -55,14 +54,8 @@ public class Msqrt extends AbstractRoot implements MathMLRadicalElement {
 
     /** {@inheritDoc} */
     @Override
-    protected List<JEuclidElement> getContent() {
-        return ElementListSupport.createListOfChildren(this);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected JEuclidElement getActualIndex() {
-        return new Mspace();
+    protected List<LayoutableNode> getContent() {
+        return this.getChildrenToLayout();
     }
 
     /** {@inheritDoc} */
