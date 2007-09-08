@@ -30,11 +30,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 
-import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
-import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 import net.sourceforge.jeuclid.parser.Parser;
@@ -149,11 +147,8 @@ public final class Processor {
         if (AbstractJEuclidElement.URI.equals(node.getNamespaceURI())
                 && MathImpl.ELEMENT.equals(node.getLocalName())) {
 
-            final DocumentElement doc = DOMBuilder.getDOMBuilder()
-                    .createJeuclidDom(node);
-
             final SVGGraphics2D svgGenerator = this.createSVGGenerator();
-            final JEuclidView view = new JEuclidView(doc, context,
+            final JEuclidView view = new JEuclidView(node, context,
                     svgGenerator);
             final int ascent = (int) Math.ceil(view.getAscentHeight());
             final int descent = (int) Math.ceil(view.getDescentHeight());
