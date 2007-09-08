@@ -26,8 +26,8 @@ import java.util.StringTokenizer;
 
 import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
 
 import org.apache.commons.logging.Log;
@@ -218,8 +218,7 @@ public final class AttributesHelper {
             if (value == 0) {
                 retVal = 0.0;
             } else if (AttributesHelper.RELATIVE_UNITS.containsKey(unit)) {
-                retVal = value
-                        * (Float) context.getParameter(Parameter.MATHSIZE)
+                retVal = value * GraphicsSupport.getFontsizeInPoint(context)
                         * AttributesHelper.RELATIVE_UNITS.get(unit);
             } else if (AttributesHelper.ABSOLUTE_UNITS.containsKey(unit)) {
                 retVal = value * AttributesHelper.ABSOLUTE_UNITS.get(unit);

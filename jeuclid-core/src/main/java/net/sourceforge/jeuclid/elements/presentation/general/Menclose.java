@@ -29,7 +29,6 @@ import java.util.Vector;
 
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
-import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
@@ -51,38 +50,38 @@ public class Menclose extends AbstractElementWithDelegates implements
      */
     public static final char LONGDIV_CHAR = ')';
 
-    /**
-     * Represents the US long-division notation, to support the notation
-     * "longdiv".
-     * 
-     * @author Max Berger
-     */
-    public static class Longdiv extends AbstractRoot {
-        /**
-         * Default constructor.
-         */
-        public Longdiv() {
-            super(Menclose.LONGDIV_CHAR);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        protected JEuclidElement getActualIndex() {
-            return new Mspace();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        protected List<JEuclidElement> getContent() {
-            return ElementListSupport.createListOfChildren(this);
-        }
-
-        /** {@inheritDoc} */
-        public String getTagName() {
-            return "";
-        }
-
-    }
+    // /**
+    // * Represents the US long-division notation, to support the notation
+    // * "longdiv".
+    // *
+    // * @author Max Berger
+    // */
+    // public static class Longdiv extends AbstractRoot {
+    // /**
+    // * Default constructor.
+    // */
+    // public Longdiv() {
+    // super(Menclose.LONGDIV_CHAR);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // protected JEuclidElement getActualIndex() {
+    // return new Mspace();
+    // }
+    //
+    // /** {@inheritDoc} */
+    // @Override
+    // protected List<JEuclidElement> getContent() {
+    // return ElementListSupport.createListOfChildren(this);
+    // }
+    //
+    // /** {@inheritDoc} */
+    // public String getTagName() {
+    // return "";
+    // }
+    //
+    // }
 
     /**
      * base class for all row-like notations.
@@ -259,8 +258,8 @@ public class Menclose extends AbstractElementWithDelegates implements
         try {
             Menclose.IMPL_CLASSES
                     .put("radical", Msqrt.class.getConstructor());
-            Menclose.IMPL_CLASSES.put("longdiv", Menclose.Longdiv.class
-                    .getConstructor());
+            // Menclose.IMPL_CLASSES.put("longdiv", Menclose.Longdiv.class
+            // .getConstructor());
             Menclose.IMPL_CLASSES.put("updiagonalstrike",
                     Menclose.Updiagonalstrike.class.getConstructor());
             Menclose.IMPL_CLASSES.put("downdiagonalstrike",
