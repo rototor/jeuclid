@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.presentation.table;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -31,12 +32,12 @@ import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
-import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLLabeledRowElement;
 import org.w3c.dom.mathml.MathMLNodeList;
 import org.w3c.dom.mathml.MathMLTableElement;
@@ -1313,12 +1314,6 @@ public class Mtable extends AbstractJEuclidElement implements
         return this.getMathAttribute(Mtable.ATTR_ROWSPACING);
     }
 
-    // private float getRowspacing(final int row) {
-    // return AttributesHelper.convertSizeToPt(this.getSpaceArrayEntry(this
-    // .getRowspacing(), row), this.getCurrentLayoutContext(),
-    // AttributesHelper.PT);
-    // }
-
     /** {@inheritDoc} */
     public void setRowspacing(final String rowspacing) {
         this.setAttribute(Mtable.ATTR_ROWSPACING, rowspacing);
@@ -1328,12 +1323,6 @@ public class Mtable extends AbstractJEuclidElement implements
     public String getColumnspacing() {
         return this.getMathAttribute(Mtable.ATTR_COLUMNSPACING);
     }
-
-    // private float getColumnspacing(final int column) {
-    // return AttributesHelper.convertSizeToPt(this.getSpaceArrayEntry(this
-    // .getColumnspacing(), column), this.getCurrentLayoutContext(),
-    // AttributesHelper.PT);
-    // }
 
     /** {@inheritDoc} */
     public void setColumnspacing(final String columnspacing) {
@@ -1504,27 +1493,32 @@ public class Mtable extends AbstractJEuclidElement implements
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     @Override
     public void layoutStageInvariant(final LayoutView view,
             final LayoutInfo info, final LayoutStage stage,
             final LayoutContext context) {
         final Graphics2D g = view.getGraphics();
-        final List<Node> children = this.getChildren();
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
+        final List<LayoutableNode> children = this.getChildrenToLayout();
         final LayoutInfo[] rowInfos = new LayoutInfo[children.size()];
-        final Mtr[] rowChild = new Mtr[children.size()];
+        final LayoutableNode[] rowChild = new LayoutableNode[children.size()];
         float y = 0;
         int rows = 0;
-        for (final Node child : children) {
-            final Mtr mtr = (Mtr) child;
-            rowChild[rows] = mtr;
-            final LayoutInfo mtrInfo = view.getInfo(mtr);
+        float height = 0.0f;
+        for (final LayoutableNode child : children) {
+            rowChild[rows] = child;
+            final LayoutInfo mtrInfo = view.getInfo(child);
             y += mtrInfo.getAscentHeight(stage);
             rowInfos[rows] = mtrInfo;
             rows++;
             mtrInfo.moveTo(0, y, stage);
             y += mtrInfo.getDescentHeight(stage);
+            height = y;
+            y += AttributesHelper.convertSizeToPt(this.getSpaceArrayEntry(
+                    this.getRowspacing(), rows), now, AttributesHelper.PT);
+
         }
-        final float height = y;
         // final String alignStr = this.getAlign();
         // AlignmentType align =
         // Mtable.AlignmentType.parseAlignmentType(alignStr);
@@ -1536,41 +1530,46 @@ public class Mtable extends AbstractJEuclidElement implements
         }
         // TODO: Proper vertical alignment;
 
+        final List<LayoutableNode>[] mtdChildren = new List[rows];
+
         final List<Float> columnwidth = new Vector<Float>();
         for (int i = 0; i < rows; i++) {
             int col = 0;
-            final List<Node> mtdChildren = rowChild[i].getChildren();
-            int missing = mtdChildren.size() - columnwidth.size();
+            if (rowChild[i] instanceof MathMLTableRowElement) {
+                mtdChildren[i] = rowChild[i].getChildrenToLayout();
+            } else {
+                mtdChildren[i] = new ArrayList<LayoutableNode>(1);
+                mtdChildren[i].add(rowChild[i]);
+            }
+            int missing = mtdChildren[i].size() - columnwidth.size();
             while (missing > 0) {
                 columnwidth.add(0.0f);
                 missing--;
             }
-            for (final Node n : mtdChildren) {
-                final LayoutableNode mtd = (LayoutableNode) n;
+            for (final LayoutableNode n : mtdChildren[i]) {
                 final float width = Math.max(columnwidth.get(col), view
-                        .getInfo(mtd).getWidth(stage));
+                        .getInfo(n).getWidth(stage));
                 columnwidth.set(col, width);
                 col++;
             }
         }
 
+        float totalWidth = 0.0f;
         for (int i = 0; i < rows; i++) {
-            final List<Node> mtdChildren = rowChild[i].getChildren();
             float x = 0.0f;
             int col = 0;
-            for (final Node n : mtdChildren) {
-                final LayoutableNode mtd = (LayoutableNode) n;
-                final LayoutInfo mtdInfo = view.getInfo(mtd);
-                mtdInfo.moveTo(x, 0.0f, stage);
+            for (final LayoutableNode n : mtdChildren[i]) {
+                final LayoutInfo mtdInfo = view.getInfo(n);
+                mtdInfo.moveTo(x, mtdInfo.getPosY(stage), stage);
                 x += columnwidth.get(col);
+                totalWidth = Math.max(totalWidth, x);
+                x += AttributesHelper.convertSizeToPt(this
+                        .getSpaceArrayEntry(this.getColumnspacing(), col),
+                        now, AttributesHelper.PT);
                 col++;
             }
         }
 
-        float totalWidth = 0.0f;
-        for (final Float f : columnwidth) {
-            totalWidth += f;
-        }
         for (int i = 0; i < rows; i++) {
             rowInfos[i].setWidth(totalWidth, stage);
             // TODO: Proper horizontal alignment;
