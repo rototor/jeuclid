@@ -157,9 +157,9 @@ public class JEuclidView implements AbstractView, LayoutView {
                 && LayoutStage.STAGE2.equals(toStage)) {
             int count = 0;
             for (final LayoutableNode l : node.getChildrenToLayout()) {
-                count++;
                 this.layout(l, LayoutStage.STAGE2, node
                         .getChildLayoutContext(count, parentContext));
+                count++;
             }
             node.layoutStage2(this, info, parentContext);
         }
