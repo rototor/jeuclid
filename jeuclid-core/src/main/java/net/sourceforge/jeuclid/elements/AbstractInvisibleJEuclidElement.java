@@ -18,6 +18,10 @@
 
 package net.sourceforge.jeuclid.elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 /**
  * Represents a MathElement with no content.
@@ -35,30 +39,16 @@ public abstract class AbstractInvisibleJEuclidElement extends
         super();
     }
 
-    // TODO
-    // /** {@inheritDoc} */
-    // @Override
-    // public void paint(final Graphics2D g, final float posX, final float
-    // posY) {
-    // super.paint(g, posX, posY);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateAscentHeight(final Graphics2D g) {
-    // return 0;
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateDescentHeight(final Graphics2D g) {
-    // return 0;
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateWidth(final Graphics2D g) {
-    // return 0;
-    // }
+    /** {@inheritDoc} */
+    @Override
+    public List<LayoutableNode> getChildrenToLayout() {
+        return new ArrayList<LayoutableNode>(0);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public List<LayoutableNode> getChildrenToDraw() {
+        return new ArrayList<LayoutableNode>(0);
+    }
 
 }
