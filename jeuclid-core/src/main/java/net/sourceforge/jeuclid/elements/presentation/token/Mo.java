@@ -637,8 +637,9 @@ public class Mo extends AbstractJEuclidElement implements
         if (Boolean.parseBoolean(this.getStretchy())) {
             info.setLayoutStage(LayoutStage.STAGE1);
         } else {
-            info.setGraphicsObject(new TextObject(t, lspace, 0, null,
-                    (Color) now.getParameter(Parameter.MATHCOLOR)));
+            info.setGraphicsObject(new TextObject(t,
+                    lspace + tli.getOffset(), 0, null, (Color) now
+                            .getParameter(Parameter.MATHCOLOR)));
             info.setLayoutStage(LayoutStage.STAGE2);
         }
     }
