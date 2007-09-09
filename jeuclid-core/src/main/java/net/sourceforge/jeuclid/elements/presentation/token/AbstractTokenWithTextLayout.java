@@ -85,7 +85,7 @@ public abstract class AbstractTokenWithTextLayout extends
             final Graphics2D g = view.getGraphics();
             final TextLayout t = this.produceTextLayout(g, context);
             final StringUtil.TextLayoutInfo tli = StringUtil
-                    .getTextLayoutInfo(t);
+                    .getTextLayoutInfo(t, false);
             info.setAscentHeight(tli.getAscent(), stage);
             info.setDescentHeight(tli.getDescent(), stage);
             final float width = tli.getWidth();
