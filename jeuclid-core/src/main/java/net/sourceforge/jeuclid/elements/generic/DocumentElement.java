@@ -18,15 +18,20 @@
 
 package net.sourceforge.jeuclid.elements.generic;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.layout.JEuclidView;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -34,7 +39,6 @@ import net.sourceforge.jeuclid.layout.LayoutableDocument;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.mathml.MathMLDocument;
-import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 
 /**
@@ -99,10 +103,13 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
 
     /** {@inheritDoc} */
     // CHECKSTYLE:OFF
-    public AbstractView getDefaultView() {
+    public JEuclidView getDefaultView() {
         // CHECKSTYLE:ON
-        // TODO Auto-generated method stub
-        return null;
+        final Image tempimage = new BufferedImage(1, 1,
+                BufferedImage.TYPE_INT_ARGB);
+        final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
+        return new JEuclidView(this, LayoutContextImpl
+                .getDefaultLayoutContext(), tempg);
     }
 
     /** {@inheritDoc} */
