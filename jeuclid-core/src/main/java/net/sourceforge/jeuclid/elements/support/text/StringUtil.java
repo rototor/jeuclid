@@ -354,9 +354,12 @@ public final class StringUtil {
      * 
      * @param textLayout
      *            TextLayout to look at.
+     * @param trim
+     *            Trim to actual content
      * @return a TextLayoutInfo.
      */
-    public static TextLayoutInfo getTextLayoutInfo(final TextLayout textLayout) {
+    public static TextLayoutInfo getTextLayoutInfo(
+            final TextLayout textLayout, final boolean trim) {
         final Rectangle2D textBounds = textLayout.getBounds();
         final float ascent = (float) (-textBounds.getY());
         final float descent = (float) (textBounds.getY() + textBounds
@@ -366,7 +369,11 @@ public final class StringUtil {
         if (xo < 0) {
             xOffset = -xo;
         } else {
-            xOffset = 0.0f;
+            if (trim) {
+                xOffset = -xo;
+            } else {
+                xOffset = 0.0f;
+            }
         }
         final float width = StringUtil.getWidthForTextLayout(textLayout);
         return new TextLayoutInfo(ascent, descent, xOffset, width);

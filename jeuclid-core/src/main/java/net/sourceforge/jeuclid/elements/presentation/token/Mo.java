@@ -22,7 +22,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
 import net.sourceforge.jeuclid.Constants;
@@ -39,6 +38,7 @@ import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
 import net.sourceforge.jeuclid.elements.support.operatordict.UnknownAttributeException;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
+import net.sourceforge.jeuclid.elements.support.text.StringUtil.TextLayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -620,7 +620,8 @@ public class Mo extends AbstractJEuclidElement implements
         final Graphics2D g = view.getGraphics();
         final TextLayout t = this.produceUnstrechtedLayout(g, now);
 
-        final StringUtil.TextLayoutInfo tli = StringUtil.getTextLayoutInfo(t);
+        final StringUtil.TextLayoutInfo tli = StringUtil.getTextLayoutInfo(t,
+                true);
         final float ascent = tli.getAscent();
         final float descent = tli.getDescent();
         final float xOffset = tli.getOffset();
@@ -662,7 +663,8 @@ public class Mo extends AbstractJEuclidElement implements
             parent = parent.getParent();
         }
         final LayoutInfo parentInfo = view.getInfo(parent);
-        final Rectangle2D textBounds = t.getBounds();
+        final TextLayoutInfo textLayoutInfo = StringUtil.getTextLayoutInfo(t,
+                true);
         if (stretchVertically) {
 
             final float targetAscent = parentInfo.getStretchAscent();
@@ -670,17 +672,16 @@ public class Mo extends AbstractJEuclidElement implements
 
             final float targetHeight = targetAscent + targetDescent;
 
-            final float realHeight = (float) textBounds.getHeight();
-
+            final float realDescent = textLayoutInfo.getDescent();
+            final float realHeight = textLayoutInfo.getAscent() + realDescent;
             // TODO: use minsize / maxsize
             if (realHeight > 0.0f) {
                 calcScaleY = targetHeight / realHeight;
             } else {
                 calcScaleY = 1.0f;
             }
-            final float realDescent = (float) ((textBounds.getY() + textBounds
-                    .getHeight()) * calcScaleY);
-            calcBaselineShift = targetDescent - realDescent;
+            final float realDescentScaled = realDescent * calcScaleY;
+            calcBaselineShift = targetDescent - realDescentScaled;
 
             info.setDescentHeight(targetDescent, LayoutStage.STAGE2);
             info.setAscentHeight(targetHeight - targetDescent,
@@ -692,8 +693,7 @@ public class Mo extends AbstractJEuclidElement implements
 
         final float stretchWidth = parentInfo.getStretchWidth();
         if ((this.isHorizontalDelimeter()) && (stretchWidth > 0.0f)) {
-            final float realwidth = (float) (textBounds.getWidth() + textBounds
-                    .getX());
+            final float realwidth = textLayoutInfo.getWidth();
             if (realwidth > 0) {
                 calcScaleX = stretchWidth / realwidth;
                 info.setWidth(stretchWidth, LayoutStage.STAGE2);
@@ -706,10 +706,10 @@ public class Mo extends AbstractJEuclidElement implements
             calcScaleX = 1.0f;
         }
 
-        info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(now),
-                calcBaselineShift, AffineTransform.getScaleInstance(
-                        calcScaleX, calcScaleY), (Color) now
-                        .getParameter(Parameter.MATHCOLOR)));
+        info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(now)
+                + textLayoutInfo.getOffset() * calcScaleX, calcBaselineShift,
+                AffineTransform.getScaleInstance(calcScaleX, calcScaleY),
+                (Color) now.getParameter(Parameter.MATHCOLOR)));
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 }
