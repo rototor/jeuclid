@@ -168,6 +168,9 @@ public class JEuclidView implements AbstractView, LayoutView {
 
     /** {@inheritDoc} */
     public LayoutInfo getInfo(final LayoutableNode node) {
+        if (node == null) {
+            return null;
+        }
         LayoutInfo info = this.layoutMap.get(node);
         if (info == null) {
             info = new LayoutInfoImpl();
