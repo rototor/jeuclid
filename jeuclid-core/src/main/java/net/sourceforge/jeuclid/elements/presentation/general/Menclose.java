@@ -18,6 +18,8 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import java.awt.Color;
+import java.awt.geom.Dimension2D;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -27,10 +29,20 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.Vector;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
+import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+import net.sourceforge.jeuclid.layout.GraphicsObject;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
+import net.sourceforge.jeuclid.layout.LineObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,49 +58,11 @@ public class Menclose extends AbstractElementWithDelegates implements
         MathMLEncloseElement {
 
     /**
-     * Char for rendering left part of the long division.
-     */
-    public static final char LONGDIV_CHAR = ')';
-
-    // /**
-    // * Represents the US long-division notation, to support the notation
-    // * "longdiv".
-    // *
-    // * @author Max Berger
-    // */
-    // public static class Longdiv extends AbstractRoot {
-    // /**
-    // * Default constructor.
-    // */
-    // public Longdiv() {
-    // super(Menclose.LONGDIV_CHAR);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // protected JEuclidElement getActualIndex() {
-    // return new Mspace();
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // protected List<JEuclidElement> getContent() {
-    // return ElementListSupport.createListOfChildren(this);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // public String getTagName() {
-    // return "";
-    // }
-    //
-    // }
-
-    /**
      * base class for all row-like notations.
      * 
      * @author Max Berger
      */
-    public abstract static class AbstractRowLikeNotation extends
+    private abstract static class AbstractRowLikeNotation extends
             AbstractRowLike {
 
         /**
@@ -102,14 +76,109 @@ public class Menclose extends AbstractElementWithDelegates implements
         public String getTagName() {
             return "";
         }
+
+        /** {@inheritDoc} */
+        @Override
+        protected void layoutStageInvariant(final LayoutView view,
+                final LayoutInfo info, final LayoutStage stage,
+                final LayoutContext context) {
+            final LayoutContext now = this
+                    .applyLocalAttributesToContext(context);
+            final Dimension2D borderLeftTop = this.getBorderLeftTop(now);
+            final float borderLeft = (float) borderLeftTop.getWidth();
+            if (borderLeft > 0.0f) {
+                view.getInfo((LayoutableNode) this.getFirstChild()).moveTo(
+                        borderLeft, 0, stage);
+            }
+            ElementListSupport.fillInfoFromChildren(view, info, this, stage,
+                    borderLeftTop, this.getBorderRightBottom(now));
+            this.enclHook(info, stage, this
+                    .applyLocalAttributesToContext(now));
+        }
+
+        /**
+         * Add left / top border to enclosed object.
+         * 
+         * @param now
+         *            current Layout Context
+         * @return Left and Top border
+         */
+        protected Dimension2D getBorderLeftTop(final LayoutContext now) {
+            return new Dimension2DImpl(0.0f, 0.0f);
+        }
+
+        /**
+         * Add right / bottom border to enclosed object.
+         * 
+         * @param now
+         *            current Layout Context
+         * @return Right and Bottom border
+         */
+        protected Dimension2D getBorderRightBottom(final LayoutContext now) {
+            return new Dimension2DImpl(0.0f, 0.0f);
+        }
+
+        /**
+         * Add Graphic objects to enclosed object.
+         * 
+         * @param info
+         *            Layout Info
+         * @param stage
+         *            current Layout Stage
+         * @param now
+         *            current Layout Context
+         */
+        protected void enclHook(final LayoutInfo info,
+                final LayoutStage stage, final LayoutContext now) {
+        }
     }
 
     /**
-     * base class for all row-like notations.
+     * Represents the US long-division notation, to support the notation
+     * "longdiv".
      * 
      * @author Max Berger
      */
-    public static class Updiagonalstrike extends
+    private static class Longdiv extends Menclose.AbstractRowLikeNotation {
+        /**
+         * Default constructor.
+         */
+        public Longdiv() {
+            super();
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected Dimension2D getBorderLeftTop(final LayoutContext now) {
+            final float lineSpace = GraphicsSupport.lineWidth(now) * 2;
+            return new Dimension2DImpl(AttributesHelper.convertSizeToPt(
+                    "0.25em", now, null)
+                    + lineSpace, lineSpace);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected void enclHook(final LayoutInfo info,
+                final LayoutStage stage, final LayoutContext now) {
+            final List<GraphicsObject> graphicObjects = info
+                    .getGraphicObjects();
+            graphicObjects.clear();
+            final float lineWidth = GraphicsSupport.lineWidth(now);
+            final float top = info.getAscentHeight(stage) + lineWidth;
+            final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
+            graphicObjects.add(new LineObject(lineWidth, -top, lineWidth,
+                    info.getDescentHeight(stage), lineWidth, color));
+            graphicObjects.add(new LineObject(lineWidth, -top, info
+                    .getWidth(stage), -top, lineWidth, color));
+        }
+    }
+
+    /**
+     * Up-Diagonal Strike.
+     * 
+     * @author Max Berger
+     */
+    private static class Updiagonalstrike extends
             Menclose.AbstractRowLikeNotation {
 
         /**
@@ -119,26 +188,26 @@ public class Menclose extends AbstractElementWithDelegates implements
             super();
         }
 
-        // TODO
-        // /** {@inheritDoc} */
-        // @Override
-        // public void paint(final Graphics2D g, final float posX,
-        // final float posY) {
-        // super.paint(g, posX, posY);
-        // final Stroke oldStroke = g.getStroke();
-        // g.setStroke(new BasicStroke(GraphicsSupport.lineWidth(this)));
-        // g.draw(new Line2D.Float(posX, posY, posX + this.getWidth(g), posY
-        // - this.getHeight(g)));
-        // g.setStroke(oldStroke);
-        // }
+        /** {@inheritDoc} */
+        @Override
+        protected void enclHook(final LayoutInfo info,
+                final LayoutStage stage, final LayoutContext now) {
+
+            final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
+            final float lineWidth = GraphicsSupport.lineWidth(now);
+            info.setGraphicsObject(new LineObject(0, info
+                    .getDescentHeight(stage), info.getWidth(stage), -info
+                    .getAscentHeight(stage), lineWidth, color));
+        }
+
     }
 
     /**
-     * base class for all row-like notations.
+     * Down-Diagonal Strike.
      * 
      * @author Max Berger
      */
-    public static class Downdiagonalstrike extends
+    private static class Downdiagonalstrike extends
             Menclose.AbstractRowLikeNotation {
 
         /**
@@ -148,18 +217,55 @@ public class Menclose extends AbstractElementWithDelegates implements
             super();
         }
 
-        // TODO
-        // /** {@inheritDoc} */
-        // @Override
-        // public void paint(final Graphics2D g, final float posX,
-        // final float posY) {
-        // super.paint(g, posX, posY);
-        // final Stroke oldStroke = g.getStroke();
-        // g.setStroke(new BasicStroke(GraphicsSupport.lineWidth(this)));
-        // g.draw(new Line2D.Float(posX, posY - this.getHeight(g), posX
-        // + this.getWidth(g), posY));
-        // g.setStroke(oldStroke);
-        // }
+        /** {@inheritDoc} */
+        @Override
+        protected void enclHook(final LayoutInfo info,
+                final LayoutStage stage, final LayoutContext now) {
+
+            final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
+            final float lineWidth = GraphicsSupport.lineWidth(now);
+            info.setGraphicsObject(new LineObject(0, -info
+                    .getAscentHeight(stage), info.getWidth(stage), info
+                    .getDescentHeight(stage), lineWidth, color));
+        }
+    }
+
+    private static class Actuarial extends Menclose.AbstractRowLikeNotation {
+        public Actuarial() {
+            super();
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected Dimension2D getBorderLeftTop(final LayoutContext now) {
+            final float lineSpace = GraphicsSupport.lineWidth(now) * 2;
+            return new Dimension2DImpl(0.0f, lineSpace);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected Dimension2D getBorderRightBottom(final LayoutContext now) {
+            final float lineSpace = GraphicsSupport.lineWidth(now) * 2;
+            return new Dimension2DImpl(lineSpace, 0.0f);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected void enclHook(final LayoutInfo info,
+                final LayoutStage stage, final LayoutContext now) {
+            final List<GraphicsObject> graphicObjects = info
+                    .getGraphicObjects();
+            graphicObjects.clear();
+            final float lineWidth = GraphicsSupport.lineWidth(now);
+            final float top = info.getAscentHeight(stage) + lineWidth;
+            final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
+            graphicObjects.add(new LineObject(0, -top, info.getWidth(stage)
+                    - lineWidth, -top, lineWidth, color));
+            graphicObjects.add(new LineObject(info.getWidth(stage)
+                    - lineWidth, -top, info.getWidth(stage) - lineWidth, info
+                    .getDescentHeight(stage), lineWidth, color));
+        }
+
     }
 
     /**
@@ -258,12 +364,14 @@ public class Menclose extends AbstractElementWithDelegates implements
         try {
             Menclose.IMPL_CLASSES
                     .put("radical", Msqrt.class.getConstructor());
-            // Menclose.IMPL_CLASSES.put("longdiv", Menclose.Longdiv.class
-            // .getConstructor());
+            Menclose.IMPL_CLASSES.put("longdiv", Menclose.Longdiv.class
+                    .getConstructor());
             Menclose.IMPL_CLASSES.put("updiagonalstrike",
                     Menclose.Updiagonalstrike.class.getConstructor());
             Menclose.IMPL_CLASSES.put("downdiagonalstrike",
                     Menclose.Downdiagonalstrike.class.getConstructor());
+            Menclose.IMPL_CLASSES.put("actuarial", Menclose.Actuarial.class
+                    .getConstructor());
         } catch (final NoSuchMethodException e) {
             Menclose.LOGGER.fatal(e);
         }
