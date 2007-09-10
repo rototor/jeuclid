@@ -306,25 +306,46 @@ public abstract class AbstractJEuclidElement extends
         }
     }
 
-    /** {@inheritDoc} */
-    public JEuclidElement getMathElement(final int index) {
-        if (index >= 0 && index < this.getMathElementCount()) {
-            final org.w3c.dom.NodeList childList = this.getChildNodes();
-            for (int i = 0, elementIndex = 0; i < childList.getLength(); i++) {
-                final Node child = childList.item(i);
-                if (child instanceof JEuclidElement) {
-                    if (elementIndex == index) {
-                        return (JEuclidElement) child;
-                    }
-                    elementIndex++;
+    /**
+     * Gets a child from this element.
+     * <p>
+     * Please note, that unlike the MathML DOM model functions this function
+     * uses a 0-based index.
+     * 
+     * @param index
+     *            Index of the child (0-based).
+     * @return The child MathElement object.
+     */
+    protected JEuclidElement getMathElement(final int index) {
+        final List<Node> childList = this.getChildren();
+        int count = 0;
+        for (final Node n : childList) {
+            if (n instanceof JEuclidElement) {
+                if (count == index) {
+                    return (JEuclidElement) n;
                 }
+                count++;
             }
         }
-        return null;
+        for (; count < index; count++) {
+            this.appendChild(new Mtext());
+        }
+        final JEuclidElement last = new Mtext();
+        this.appendChild(last);
+        return last;
     }
 
-    /** {@inheritDoc} */
-    public void setMathElement(final int index, final MathMLElement newElement) {
+    /**
+     * Sets a specific child to the newElement, creating other subelements as
+     * necessary.
+     * 
+     * @param index
+     *            the index to set (0=the first child)
+     * @param newElement
+     *            new element to be set as child.
+     */
+    protected void setMathElement(final int index,
+            final MathMLElement newElement) {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         while (childList.getLength() < index) {
             this.addMathElement(new Mtext());
@@ -349,15 +370,14 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public int getMathElementCount() {
-        final org.w3c.dom.NodeList childList = this.getChildNodes();
-        int elementIndex = 0;
-        for (int i = 0; i < childList.getLength(); i++) {
-            final Node child = childList.item(i);
-            if (child instanceof JEuclidElement) {
-                elementIndex++;
+        final List<Node> childList = this.getChildren();
+        int count = 0;
+        for (final Node n : childList) {
+            if (n instanceof JEuclidElement) {
+                count++;
             }
         }
-        return elementIndex;
+        return count;
     }
 
     /**

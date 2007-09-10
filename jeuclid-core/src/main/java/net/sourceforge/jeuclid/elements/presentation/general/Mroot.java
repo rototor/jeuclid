@@ -59,7 +59,7 @@ public class Mroot extends AbstractRoot implements MathMLRadicalElement {
     @Override
     protected List<LayoutableNode> getContent() {
         final List<LayoutableNode> mList = new ArrayList<LayoutableNode>(1);
-        mList.add(this.getMathElement(0));
+        mList.add((LayoutableNode) this.getRadicand());
         return mList;
     }
 
