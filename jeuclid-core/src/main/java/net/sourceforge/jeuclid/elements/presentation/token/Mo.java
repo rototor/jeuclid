@@ -134,8 +134,15 @@ public class Mo extends AbstractJEuclidElement implements
 
     /**
      * Vertical delimiters.
+     * 
+     * @todo Add others (?)
      */
-    public static final String VER_DELIMITERS = "[{()}]|\u2223\u2225\u2329\u232A";
+    public static final String VER_DELIMITERS = "[{()}]|"
+            + /* Up Arrow */"\u2191" + /* Down Arrow */"\u2193"
+            + /* Up Arrow Down Arrow */"\u21C5"
+            + /* Up Arrow Up Arrow */"\u21C8"
+            + /* Down Down Arrows */"\u21CA"
+            + /* Down Arrow Up Arrow */"\u21F5" + "\u2223\u2225\u2329\u232A";
 
     /**
      * Logger for this class
