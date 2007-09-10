@@ -18,6 +18,10 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import java.awt.Color;
+
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.StyleAttributeLayoutContext;
 
 /**
  * Represents an merror element.
@@ -45,4 +49,12 @@ public class Merror extends AbstractRowLike {
         return Merror.ELEMENT;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public LayoutContext applyLocalAttributesToContext(
+            final LayoutContext context) {
+        return super
+                .applyLocalAttributesToContext(new StyleAttributeLayoutContext(
+                        context, null, Color.RED));
+    }
 }
