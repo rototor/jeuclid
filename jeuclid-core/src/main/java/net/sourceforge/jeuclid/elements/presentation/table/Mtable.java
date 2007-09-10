@@ -29,7 +29,6 @@ import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
@@ -1134,41 +1133,42 @@ public class Mtable extends AbstractJEuclidElement implements
     // return result;
     // }
 
-    /**
-     * Method checks, whether provided element contains malignmark element.
-     * 
-     * @param element
-     *            Container object.
-     * @return True, if element contains any malignmark object.
-     */
-    private boolean containsMark(final JEuclidElement element) {
-        return this.containsElement(element, Malignmark.ELEMENT);
-    }
+    // /**
+    // * Method checks, whether provided element contains malignmark element.
+    // *
+    // * @param element
+    // * Container object.
+    // * @return True, if element contains any malignmark object.
+    // */
+    // private boolean containsMark(final JEuclidElement element) {
+    // return this.containsElement(element, Malignmark.ELEMENT);
+    // }
 
-    /**
-     * Method checks, whether provided container contains element of type, as
-     * searchName.
-     * 
-     * @param container
-     *            Container object.
-     * @param searchName
-     *            Type of element to look for.
-     * @return True, if container contains such type of element.
-     */
-    private boolean containsElement(final JEuclidElement container,
-            final String searchName) {
-        if (container.getTagName().equals(searchName)) {
-            return true;
-        }
-
-        for (int i = 0; i < container.getMathElementCount(); i++) {
-            if (this.containsElement(container.getMathElement(i), searchName)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    // /**
+    // * Method checks, whether provided container contains element of type,
+    // as
+    // * searchName.
+    // *
+    // * @param container
+    // * Container object.
+    // * @param searchName
+    // * Type of element to look for.
+    // * @return True, if container contains such type of element.
+    // */
+    // private boolean containsElement(final JEuclidElement container,
+    // final String searchName) {
+    // if (container.getTagName().equals(searchName)) {
+    // return true;
+    // }
+    //
+    // for (int i = 0; i < container.getMathElementCount(); i++) {
+    // if (this.containsElement(container.getMathElement(i), searchName)) {
+    // return true;
+    // }
+    // }
+    //
+    // return false;
+    // }
 
     /** {@inheritDoc} */
     public String getTagName() {

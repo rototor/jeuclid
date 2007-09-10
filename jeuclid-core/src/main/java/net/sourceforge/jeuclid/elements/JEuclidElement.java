@@ -66,29 +66,6 @@ public interface JEuclidElement extends MathMLElement, JEuclidNode,
     MathVariant getMathvariantAsVariant();
 
     /**
-     * Gets a child from this element.
-     * <p>
-     * Please note, that unlike the MathML DOM model functions this function
-     * uses a 0-based index.
-     * 
-     * @param index
-     *            Index of the child (0-based).
-     * @return The child MathElement object.
-     */
-    JEuclidElement getMathElement(final int index);
-
-    /**
-     * Sets a specific child to the newElement, creating other subelements as
-     * necessary.
-     * 
-     * @param index
-     *            the index to set (0=the firt child)
-     * @param newElement
-     *            new element to be set as child.
-     */
-    void setMathElement(final int index, final MathMLElement newElement);
-
-    /**
      * Returns parent of this element.
      * 
      * @return Parent element.
@@ -116,9 +93,9 @@ public interface JEuclidElement extends MathMLElement, JEuclidNode,
     boolean hasChildPostscripts(final JEuclidElement child);
 
     /**
-     * Returns the count of childs from this element.
+     * Returns the count of children for this element.
      * 
-     * @return Count of childs.
+     * @return number of children.
      */
     int getMathElementCount();
 

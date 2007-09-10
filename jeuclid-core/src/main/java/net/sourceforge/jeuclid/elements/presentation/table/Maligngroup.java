@@ -18,13 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
-import java.util.List;
-import java.util.Vector;
-
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
-import net.sourceforge.jeuclid.elements.generic.MathImpl;
-import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
 
 import org.w3c.dom.mathml.MathMLAlignGroupElement;
 
@@ -117,57 +111,57 @@ public class Maligngroup extends AbstractInvisibleJEuclidElement implements
     // return result;
     // }
 
-    /**
-     * @param alignGroupElement
-     *            maligngroup element
-     * @return list of elements of the maligngroup
-     */
-    protected static List<JEuclidElement> getElementsOfAlignGroup(
-            final JEuclidElement alignGroupElement) {
-        final List<JEuclidElement> result = new Vector<JEuclidElement>();
-
-        JEuclidElement parent = alignGroupElement.getParent();
-        int index = parent.getIndexOfMathElement(alignGroupElement) + 1;
-        JEuclidElement current = parent.getMathElement(index);
-        final boolean searching = true;
-
-        while (searching) {
-            if (parent.getMathElementCount() == index) {
-                // end of parent
-                if (parent instanceof Mtr || parent instanceof MathImpl) {
-                    // parent is tablerow or root, exit
-                    break;
-                }
-                index = parent.getParent().getIndexOfMathElement(parent) + 1;
-                parent = parent.getParent();
-                current = parent.getMathElement(index);
-                // going out from mrow or something...
-                continue;
-            } else {
-                // parent elements didn't over
-                if (current instanceof Mrow) {
-                    // go inside mrow
-                    parent = current;
-                    current = parent.getMathElement(0);
-                    index = 0;
-                    continue;
-                } else {
-                    if (current instanceof Maligngroup) {
-                        // we've found next aligngroup element, stop search
-                        break;
-                    } else {
-                        // adding element, continue loop
-                        result.add(current);
-                    }
-                    // next element
-                    current = parent.getMathElement(index + 1);
-                    index++;
-                }
-            }
-        }
-
-        return result;
-    }
+    // /**
+    // * @param alignGroupElement
+    // * maligngroup element
+    // * @return list of elements of the maligngroup
+    // */
+    // protected static List<JEuclidElement> getElementsOfAlignGroup(
+    // final JEuclidElement alignGroupElement) {
+    // final List<JEuclidElement> result = new Vector<JEuclidElement>();
+    //
+    // JEuclidElement parent = alignGroupElement.getParent();
+    // int index = parent.getIndexOfMathElement(alignGroupElement) + 1;
+    // JEuclidElement current = parent.getMathElement(index);
+    // final boolean searching = true;
+    //
+    // while (searching) {
+    // if (parent.getMathElementCount() == index) {
+    // // end of parent
+    // if (parent instanceof Mtr || parent instanceof MathImpl) {
+    // // parent is tablerow or root, exit
+    // break;
+    // }
+    // index = parent.getParent().getIndexOfMathElement(parent) + 1;
+    // parent = parent.getParent();
+    // current = parent.getMathElement(index);
+    // // going out from mrow or something...
+    // continue;
+    // } else {
+    // // parent elements didn't over
+    // if (current instanceof Mrow) {
+    // // go inside mrow
+    // parent = current;
+    // current = parent.getMathElement(0);
+    // index = 0;
+    // continue;
+    // } else {
+    // if (current instanceof Maligngroup) {
+    // // we've found next aligngroup element, stop search
+    // break;
+    // } else {
+    // // adding element, continue loop
+    // result.add(current);
+    // }
+    // // next element
+    // current = parent.getMathElement(index + 1);
+    // index++;
+    // }
+    // }
+    // }
+    //
+    // return result;
+    // }
 
     /** {@inheritDoc} */
     public String getTagName() {
