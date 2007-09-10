@@ -94,82 +94,78 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
         this.setAttribute(Mstyle.ATTR_SCRIPTMINSIZE, scriptminsize);
     }
 
-    // String attr = this.getScriptlevel();
-    // if (attr == null) {
-    // attr = "";
-    // }
-    // attr = attr.trim();
-    // if (attr.length() == 0) {
-    // theLevel = this.getInheritedScriptlevel();
-    // } else {
-    // final char firstchar = attr.charAt(0);
-    // boolean relative = false;
-    // if (firstchar == '+') {
-    // relative = true;
-    // attr = attr.substring(1);
-    // } else if (firstchar == '-') {
-    // relative = true;
-    // }
-    // final int iValue = Integer.parseInt(attr);
-    // if (relative) {
-    // theLevel = this.getInheritedScriptlevel() + iValue;
-    // } else {
-    // theLevel = iValue;
-    //
-    // }
-    // }
-    // } catch (final NumberFormatException e) {
-    // Mstyle.LOGGER.warn("Error in scriptlevel attribute for mstyle: "
-    // + this.getScriptlevel());
-    // theLevel = this.getInheritedScriptlevel();
-    // }
-    // return theLevel;
-    // }
+    private class StyleLayoutContext implements LayoutContext {
+
+        private final LayoutContext context;
+
+        protected StyleLayoutContext(final LayoutContext parentContext) {
+            this.context = parentContext;
+        }
+
+        public Object getParameter(final Parameter which) {
+
+            Object retVal = Mstyle.this.applyLocalAttributesToContext(
+                    this.context).getParameter(which);
+            if (Parameter.DISPLAY.equals(which)) {
+                retVal = this.applyDisplay(retVal);
+            }
+            if (Parameter.SCRIPTLEVEL.equals(which)) {
+                retVal = this.applyScriptlevel(retVal);
+            }
+            return retVal;
+        }
+
+        private Object applyScriptlevel(final Object parentLevel) {
+            Object retVal = parentLevel;
+            String attr = Mstyle.this.getScriptlevel();
+            if (attr == null) {
+                attr = "";
+            }
+            attr = attr.trim();
+            if (attr.length() > 0) {
+                final char firstchar = attr.charAt(0);
+                boolean relative = false;
+                if (firstchar == '+') {
+                    relative = true;
+                    attr = attr.substring(1);
+                } else if (firstchar == '-') {
+                    relative = true;
+                }
+                try {
+                    final int iValue = Integer.parseInt(attr);
+                    if (relative) {
+                        retVal = (Integer) retVal + iValue;
+                    } else {
+                        retVal = iValue;
+                    }
+                } catch (final NumberFormatException e) {
+                    Mstyle.LOGGER
+                            .warn("Error in scriptlevel attribute for mstyle: "
+                                    + attr);
+                }
+
+            }
+            return retVal;
+        }
+
+        private Object applyDisplay(final Object parentDisplay) {
+            Object retVal = parentDisplay;
+            final String displayStyle = Mstyle.this.getDisplaystyle();
+            if ("true".equalsIgnoreCase(displayStyle)) {
+                retVal = Display.BLOCK;
+            }
+            if ("false".equalsIgnoreCase(displayStyle)) {
+                retVal = Display.INLINE;
+            }
+            return retVal;
+        }
+    }
 
     /** {@inheritDoc} */
     @Override
     public LayoutContext getChildLayoutContext(final int childNum,
             final LayoutContext context) {
-        return new LayoutContext() {
-
-            public Object getParameter(final Parameter which) {
-                Object retVal = Mstyle.this.applyLocalAttributesToContext(
-                        context).getParameter(which);
-                if (Parameter.DISPLAY.equals(which)) {
-                    final String displayStyle = Mstyle.this.getDisplaystyle();
-                    if ("true".equalsIgnoreCase(displayStyle)) {
-                        retVal = Display.BLOCK;
-                    }
-                    if ("false".equalsIgnoreCase(displayStyle)) {
-                        retVal = Display.INLINE;
-                    }
-                }
-                if (Parameter.SCRIPTLEVEL.equals(which)) {
-                    String attr = Mstyle.this.getScriptlevel();
-                    if (attr == null) {
-                        attr = "";
-                    }
-                    attr = attr.trim();
-                    if (attr.length() > 0) {
-                        final char firstchar = attr.charAt(0);
-                        boolean relative = false;
-                        if (firstchar == '+') {
-                            relative = true;
-                            attr = attr.substring(1);
-                        } else if (firstchar == '-') {
-                            relative = true;
-                        }
-                        final int iValue = Integer.parseInt(attr);
-                        if (relative) {
-                            retVal = (Integer) retVal + iValue;
-                        } else {
-                            retVal = iValue;
-                        }
-                    }
-                }
-                return retVal;
-            }
-        };
+        return new Mstyle.StyleLayoutContext(context);
     }
 
     /** {@inheritDoc} */
