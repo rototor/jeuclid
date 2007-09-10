@@ -668,14 +668,25 @@ public class Mo extends AbstractJEuclidElement implements
                 true);
         if (stretchVertically) {
 
-            final float targetAscent = parentInfo.getStretchAscent();
-            final float targetDescent = parentInfo.getStretchDescent();
+            final float targetNAscent = parentInfo.getStretchAscent();
+            final float targetNDescent = parentInfo.getStretchDescent();
 
-            final float targetHeight = targetAscent + targetDescent;
+            final float targetNHeight = targetNAscent + targetNDescent;
 
             final float realDescent = textLayoutInfo.getDescent();
             final float realHeight = textLayoutInfo.getAscent() + realDescent;
-            // TODO: use minsize / maxsize
+
+            // TODO: MaxSize / MinSize could also be inherited from MStyle.
+            final float maxSize = AttributesHelper.parseRelativeSize(this
+                    .getMaxsize(), now, realHeight);
+            final float minSize = AttributesHelper.parseRelativeSize(this
+                    .getMinsize(), now, realHeight);
+            final float targetHeight = Math.max(Math.min(targetNHeight,
+                    maxSize), minSize);
+            final float targetDescent = targetHeight / targetNHeight
+                    * (targetNHeight / 2.0f)
+                    - (targetNHeight / 2.0f - targetNDescent);
+
             if (realHeight > 0.0f) {
                 calcScaleY = targetHeight / realHeight;
             } else {
