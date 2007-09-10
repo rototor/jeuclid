@@ -18,6 +18,9 @@
 
 package net.sourceforge.jeuclid.elements.support.attributes;
 
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+
 /**
  * @author Max Berger
  * @version $Revision$
@@ -31,4 +34,60 @@ public enum HAlign {
     RIGHT;
     /** constant for center align. */
     public static final String ALIGN_CENTER = "center";
+
+    /**
+     * Parse an Alignment String.
+     * 
+     * @param alignString
+     *            String to parse.
+     * @param defaultt
+     *            default value.
+     * @return a HAlign value.
+     */
+    public static HAlign parseString(final String alignString,
+            final HAlign defaultt) {
+        final HAlign retVal;
+        if (HAlign.ALIGN_CENTER.equalsIgnoreCase(alignString)) {
+            retVal = CENTER;
+        } else if ("left".equalsIgnoreCase(alignString)) {
+            retVal = LEFT;
+        } else if ("right".equalsIgnoreCase(alignString)) {
+            retVal = RIGHT;
+        } else {
+            retVal = defaultt;
+        }
+        return retVal;
+    }
+
+    /**
+     * Retrieve H-Align offset.
+     * 
+     * @param stage
+     *            current Layout Stage
+     * @param info
+     *            Info object to examine
+     * @param width
+     *            Total width
+     * @return Alignment offset to add to left.
+     */
+    public float getHAlignOffset(final LayoutStage stage,
+            final LayoutInfo info, final float width) {
+        final float offset;
+        switch (this) {
+        case LEFT:
+            offset = 0.0f;
+            break;
+        case RIGHT:
+            offset = width - info.getWidth(stage);
+            break;
+        case CENTER:
+            offset = width / 2.0f - info.getHorizontalCenterOffset(stage);
+            break;
+        default:
+            assert false;
+            offset = 0.0f;
+        }
+        return offset;
+    }
+
 }

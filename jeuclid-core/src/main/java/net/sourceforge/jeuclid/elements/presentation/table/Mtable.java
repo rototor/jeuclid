@@ -29,9 +29,11 @@ import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
+import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+import net.sourceforge.jeuclid.elements.support.attributes.HAlign;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -39,6 +41,7 @@ import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.mathml.MathMLLabeledRowElement;
 import org.w3c.dom.mathml.MathMLNodeList;
+import org.w3c.dom.mathml.MathMLTableCellElement;
 import org.w3c.dom.mathml.MathMLTableElement;
 import org.w3c.dom.mathml.MathMLTableRowElement;
 
@@ -283,7 +286,8 @@ public class Mtable extends AbstractJEuclidElement implements
         super();
         this.setDefaultMathAttribute(Mtable.ATTR_ALIGN, "axis");
         this.setDefaultMathAttribute(Mtable.ATTR_ROWALIGN, "baseline");
-        this.setDefaultMathAttribute(Mtable.ATTR_COLUMNALIGN, "center");
+        this.setDefaultMathAttribute(Mtable.ATTR_COLUMNALIGN,
+                HAlign.ALIGN_CENTER);
         this.setDefaultMathAttribute(Mtable.ATTR_GROUPALIGN, "{left}");
         this.setDefaultMathAttribute(Mtable.ATTR_ALIGNMENTSCOPE,
                 Constants.TRUE);
@@ -1493,11 +1497,14 @@ public class Mtable extends AbstractJEuclidElement implements
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     @Override
+    // CHECKSTYLE:OFF
+    // This function is WAY TO LONG. However, it depends on values computed
+    // earlier, so it is really difficult to split into smaller function.
     public void layoutStageInvariant(final LayoutView view,
             final LayoutInfo info, final LayoutStage stage,
             final LayoutContext context) {
+        // CHECKSTYLE:ON
         final Graphics2D g = view.getGraphics();
         final LayoutContext now = this.applyLocalAttributesToContext(context);
         final List<LayoutableNode> children = this.getChildrenToLayout();
@@ -1505,6 +1512,8 @@ public class Mtable extends AbstractJEuclidElement implements
         final LayoutableNode[] rowChild = new LayoutableNode[children.size()];
         float y = 0;
         int rows = 0;
+
+        // Layout Rows vertically, calculate height of the table.
         float height = 0.0f;
         for (final LayoutableNode child : children) {
             rowChild[rows] = child;
@@ -1517,35 +1526,91 @@ public class Mtable extends AbstractJEuclidElement implements
             height = y;
             y += AttributesHelper.convertSizeToPt(this.getSpaceArrayEntry(
                     this.getRowspacing(), rows), now, AttributesHelper.PT);
-
         }
+
+        this.shiftTableVertically(stage, context, g, rowInfos, rows, height);
+
+        final List<LayoutableNode>[] mtdChildren = this
+                .createListOfMtdChildren(rowChild, rows);
+        this.stretchAndAlignMtds(view, mtdChildren, rowInfos, rows, stage);
+
+        final List<Float> columnwidth = this.calculateBasicColumnWidth(view,
+                stage, rows, mtdChildren);
+
+        // TODO This is where Alignment-Groups should be calculated
+
+        final float totalWidth = this.layoutColumnsHorizontally(view, stage,
+                now, rows, mtdChildren, columnwidth);
+
+        this.setRowWidth(stage, rowInfos, rows, totalWidth);
+
+        // TODO: Make more sophisticated.
+        final Dimension2D borderLeftTop = new Dimension2DImpl(0.0f, 0.0f);
+        final Dimension2D borderRightBottom = new Dimension2DImpl(0.0f, 0.0f);
+        ElementListSupport.fillInfoFromChildren(view, info, this, stage,
+                borderLeftTop, borderRightBottom);
+    }
+
+    private void stretchAndAlignMtds(final LayoutView view,
+            final List<LayoutableNode>[] mtdChildren,
+            final LayoutInfo[] rowInfos, final int rows,
+            final LayoutStage stage) {
+        for (int i = 0; i < rows; i++) {
+            final float rowAscent = rowInfos[i].getAscentHeight(stage);
+            final float rowDescent = rowInfos[i].getDescentHeight(stage);
+            for (final LayoutableNode n : mtdChildren[i]) {
+                final LayoutInfo mtdInfo = view.getInfo(n);
+                // TODO: Align vertically.
+                mtdInfo.setStretchAscent(rowAscent);
+                mtdInfo.setStretchDescent(rowDescent);
+            }
+        }
+    }
+
+    private void shiftTableVertically(final LayoutStage stage,
+            final LayoutContext context, final Graphics2D g,
+            final LayoutInfo[] rowInfos, final int rows, final float height) {
+        // Shift table by given vertical alignment
         // final String alignStr = this.getAlign();
         // AlignmentType align =
         // Mtable.AlignmentType.parseAlignmentType(alignStr);
+        // TODO: Proper vertical alignment;
+        // This is "axis" alignment.
         final float verticalShift = -this.getMiddleShift(g, context) - height
                 / 2.0f;
+
         for (int i = 0; i < rows; i++) {
             rowInfos[i].moveTo(0, rowInfos[i].getPosY(stage) + verticalShift,
                     stage);
         }
-        // TODO: Proper vertical alignment;
+    }
 
+    @SuppressWarnings("unchecked")
+    private List<LayoutableNode>[] createListOfMtdChildren(
+            final LayoutableNode[] rowChild, final int rows) {
         final List<LayoutableNode>[] mtdChildren = new List[rows];
-
-        final List<Float> columnwidth = new Vector<Float>();
         for (int i = 0; i < rows; i++) {
-            int col = 0;
             if (rowChild[i] instanceof MathMLTableRowElement) {
                 mtdChildren[i] = rowChild[i].getChildrenToLayout();
             } else {
                 mtdChildren[i] = new ArrayList<LayoutableNode>(1);
                 mtdChildren[i].add(rowChild[i]);
             }
+        }
+        return mtdChildren;
+    }
+
+    private List<Float> calculateBasicColumnWidth(final LayoutView view,
+            final LayoutStage stage, final int rows,
+            final List<LayoutableNode>[] mtdChildren) {
+        final List<Float> columnwidth = new Vector<Float>();
+        for (int i = 0; i < rows; i++) {
             int missing = mtdChildren[i].size() - columnwidth.size();
             while (missing > 0) {
                 columnwidth.add(0.0f);
                 missing--;
             }
+            int col = 0;
             for (final LayoutableNode n : mtdChildren[i]) {
                 final float width = Math.max(columnwidth.get(col), view
                         .getInfo(n).getWidth(stage));
@@ -1553,15 +1618,32 @@ public class Mtable extends AbstractJEuclidElement implements
                 col++;
             }
         }
+        return columnwidth;
+    }
 
+    private void setRowWidth(final LayoutStage stage,
+            final LayoutInfo[] rowInfos, final int rows,
+            final float totalWidth) {
+        for (int i = 0; i < rows; i++) {
+            rowInfos[i].setWidth(totalWidth, stage);
+        }
+    }
+
+    private float layoutColumnsHorizontally(final LayoutView view,
+            final LayoutStage stage, final LayoutContext now, final int rows,
+            final List<LayoutableNode>[] mtdChildren,
+            final List<Float> columnwidth) {
         float totalWidth = 0.0f;
         for (int i = 0; i < rows; i++) {
             float x = 0.0f;
             int col = 0;
             for (final LayoutableNode n : mtdChildren[i]) {
                 final LayoutInfo mtdInfo = view.getInfo(n);
-                mtdInfo.moveTo(x, mtdInfo.getPosY(stage), stage);
+                final HAlign halign = this.getHAlign((JEuclidElement) n, col);
                 final float colwi = columnwidth.get(col);
+                final float xo = halign
+                        .getHAlignOffset(stage, mtdInfo, colwi);
+                mtdInfo.moveTo(x + xo, mtdInfo.getPosY(stage), stage);
                 // mtdInfo.setWidth(colwi, stage);
                 mtdInfo.setStretchWidth(colwi);
                 x += colwi;
@@ -1572,16 +1654,42 @@ public class Mtable extends AbstractJEuclidElement implements
                 col++;
             }
         }
+        return totalWidth;
+    }
 
-        for (int i = 0; i < rows; i++) {
-            rowInfos[i].setWidth(totalWidth, stage);
-            // TODO: Proper horizontal alignment;
+    private HAlign getHAlign(final JEuclidElement n, final int col) {
+        assert n != null;
+        final HAlign retVal;
+        if (n instanceof MathMLTableCellElement) {
+            final MathMLTableCellElement cell = (MathMLTableCellElement) n;
+            final String alignString = cell.getColumnalign();
+            final HAlign halign = HAlign.parseString(alignString, null);
+            if (halign == null) {
+                retVal = this.getHAlign(n.getParent(), col);
+            } else {
+                retVal = halign;
+            }
+        } else if (n instanceof MathMLTableRowElement) {
+            final MathMLTableRowElement rowE = (MathMLTableRowElement) n;
+            final String alignArray = rowE.getColumnalign();
+            if ((alignArray != null) && (alignArray.length() > 0)) {
+                retVal = HAlign.parseString(this.getSpaceArrayEntry(
+                        alignArray, col), HAlign.CENTER);
+            } else {
+                retVal = this.getHAlign(n.getParent(), col);
+            }
+        } else if (n instanceof MathMLTableElement) {
+            final MathMLTableElement table = (MathMLTableElement) n;
+            final String alignArray = table.getColumnalign();
+            if ((alignArray != null) && (alignArray.length() > 0)) {
+                retVal = HAlign.parseString(this.getSpaceArrayEntry(
+                        alignArray, col), HAlign.CENTER);
+            } else {
+                retVal = HAlign.CENTER;
+            }
+        } else {
+            retVal = this.getHAlign(n.getParent(), col);
         }
-
-        // TODO: Make more sophisticated.
-        final Dimension2D borderLeftTop = new Dimension2DImpl(0.0f, 0.0f);
-        final Dimension2D borderRightBottom = new Dimension2DImpl(0.0f, 0.0f);
-        ElementListSupport.fillInfoFromChildren(view, info, this, stage,
-                borderLeftTop, borderRightBottom);
+        return retVal;
     }
 }
