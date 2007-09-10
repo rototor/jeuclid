@@ -89,13 +89,12 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
      *            LayoutContext
      * @return true if limits are moved (behave like under/over).
      */
-    private boolean limitsAreMoved(final LayoutContext context) {
+    private boolean limitsAreMoved(final LayoutContext now) {
         return (!this.getAccentAsBoolean())
                 && (this.getBase() instanceof MathMLOperatorElement)
                 && Boolean.parseBoolean(((MathMLOperatorElement) this
                         .getBase()).getMovablelimits())
-                && (Display.INLINE.equals(this.applyLocalAttributesToContext(
-                        context)
+                && (Display.INLINE.equals(now
                         .getParameter(LayoutContext.Parameter.DISPLAY)));
     }
 
@@ -167,7 +166,19 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
     protected void layoutStageInvariant(final LayoutView view,
             final LayoutInfo info, final LayoutStage stage,
             final LayoutContext context) {
-        // TODO: This is incomplete.
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
+        if (this.limitsAreMoved(now)) {
+            ScriptSupport.layout(view, info, stage, now, this,
+                    this.getBase(), this.getUnderscript(), this
+                            .getOverscript(), null, null);
+        } else {
+            this.layoutUnderOver(view, info, stage, now);
+        }
+    }
+
+    private void layoutUnderOver(final LayoutView view,
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutContext now) {
 
         final JEuclidElement base = this.getBase();
         final JEuclidElement under = this.getUnderscript();
@@ -179,7 +190,6 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
 
         float width = baseInfo.getWidth(stage);
 
-        final LayoutContext now = this.applyLocalAttributesToContext(context);
         final float extraShift = AttributesHelper.convertSizeToPt(
                 AbstractUnderOver.UNDER_OVER_SPACE, now, AttributesHelper.PT);
 
@@ -201,30 +211,12 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
                 0, stage);
 
         if (under != null) {
-            final float underextra;
-            if (this.getAccentunderAsBoolean()) {
-                underextra = extraShift;
-            } else {
-                underextra = extraShift
-                        * AbstractUnderOver.NON_ACCENT_MULTIPLIER;
-            }
-            final float y = baseInfo.getDescentHeight(stage)
-                    + underInfo.getAscentHeight(stage) + underextra;
-            underInfo.moveTo(middle
-                    - underInfo.getHorizontalCenterOffset(stage), y, stage);
+            this
+                    .positionUnder(stage, baseInfo, underInfo, extraShift,
+                            middle);
         }
         if (over != null) {
-            final float overextra;
-            if (this.getAccentAsBoolean()) {
-                overextra = extraShift;
-            } else {
-                overextra = extraShift
-                        * AbstractUnderOver.NON_ACCENT_MULTIPLIER;
-            }
-            final float y = baseInfo.getAscentHeight(stage)
-                    + overInfo.getDescentHeight(stage) + overextra;
-            overInfo.moveTo(middle
-                    - overInfo.getHorizontalCenterOffset(stage), -y, stage);
+            this.positionOver(stage, baseInfo, overInfo, extraShift, middle);
         }
 
         final Dimension2D borderLeftTop = new Dimension2DImpl(0.0f, 0.0f);
@@ -232,5 +224,35 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         ElementListSupport.fillInfoFromChildren(view, info, this, stage,
                 borderLeftTop, borderRightBottom);
         info.setStretchWidth(width);
+    }
+
+    private void positionUnder(final LayoutStage stage,
+            final LayoutInfo baseInfo, final LayoutInfo underInfo,
+            final float extraShift, final float middle) {
+        final float underextra;
+        if (this.getAccentunderAsBoolean()) {
+            underextra = extraShift;
+        } else {
+            underextra = extraShift * AbstractUnderOver.NON_ACCENT_MULTIPLIER;
+        }
+        final float y = baseInfo.getDescentHeight(stage)
+                + underInfo.getAscentHeight(stage) + underextra;
+        underInfo.moveTo(middle - underInfo.getHorizontalCenterOffset(stage),
+                y, stage);
+    }
+
+    private void positionOver(final LayoutStage stage,
+            final LayoutInfo baseInfo, final LayoutInfo overInfo,
+            final float extraShift, final float middle) {
+        final float overextra;
+        if (this.getAccentAsBoolean()) {
+            overextra = extraShift;
+        } else {
+            overextra = extraShift * AbstractUnderOver.NON_ACCENT_MULTIPLIER;
+        }
+        final float y = baseInfo.getAscentHeight(stage)
+                + overInfo.getDescentHeight(stage) + overextra;
+        overInfo.moveTo(middle - overInfo.getHorizontalCenterOffset(stage),
+                -y, stage);
     }
 }

@@ -18,6 +18,16 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
+import java.awt.geom.Dimension2D;
+
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
 
 /**
  * Support class for script elements.
@@ -33,98 +43,67 @@ public final class ScriptSupport {
         // Empty on purpose.
     }
 
-    // private static float getOptimalSubBaselineShift(final Graphics2D g,
-    // final JEuclidElement base, final JEuclidElement sub,
-    // final JEuclidElement sup) {
-    //
-    // final float baseDescent;
-    // if (base != null) {
-    // baseDescent = base.getDescentHeight(g);
-    // } else {
-    // baseDescent = 0.0f;
-    // }
-    //
-    // final float subAscent;
-    // final float subDescent;
-    // if (sub != null) {
-    // subAscent = sub.getAscentHeight(g);
-    // subDescent = sub.getDescentHeight(g);
-    // } else {
-    // subAscent = 0.0f;
-    // subDescent = 0.0f;
-    // }
-    // return baseDescent + (subAscent - subDescent) / 2.0f;
-    // }
-    //
-    // private static float getOptimalSuperBaselineShift(final Graphics2D g,
-    // final JEuclidElement base, final JEuclidElement sub,
-    // final JEuclidElement sup) {
-    // final float baseAscent;
-    // if (base != null) {
-    // baseAscent = base.getAscentHeight(g);
-    // } else {
-    // // TODO: Use context information instead!
-    // baseAscent = 0.0f;
-    // }
-    //
-    // final float subAscent;
-    // final float subDescent;
-    // if (sub != null) {
-    // subAscent = sub.getAscentHeight(g);
-    // subDescent = sub.getDescentHeight(g);
-    // } else {
-    // subAscent = 0.0f;
-    // subDescent = 0.0f;
-    // }
-    // return baseAscent - (subAscent - subDescent) / 2.0f;
-    // }
-    //
-    // private static float getOverlap(final Graphics2D g,
-    // final JEuclidElement sub, final JEuclidElement sup,
-    // final float optimalSubBaselineShift,
-    // final float optimalSuperBaselineShift) {
-    //
-    // final float topSub = -optimalSubBaselineShift
-    // + sub.getAscentHeight(g) + 1.0f;
-    // final float bottomSuper = optimalSuperBaselineShift
-    // - sup.getDescentHeight(g) - 1.0f;
-    //
-    // final float overlap = topSub - bottomSuper;
-    //
-    // return Math.max(0.0f, overlap);
-    // }
+    // CHECKSTYLE:OFF
+    // More than 7 parameters. But only used internally, so that's ok.
+    static void layout(final LayoutView view, final LayoutInfo info,
+            final LayoutStage stage, final LayoutContext now,
+            final JEuclidElement parent, final JEuclidElement base,
+            final JEuclidElement sub, final JEuclidElement sup,
+            final String subScriptShift, final String superScriptShift) {
+        // CHECKSTYLE:ON
+        final LayoutInfo baseInfo = view.getInfo(base);
+        final LayoutInfo subInfo;
+        final LayoutInfo superInfo;
+        final float width = baseInfo.getWidth(stage);
 
-    // static float getSubBaselineShift(final Graphics2D g,
-    // final JEuclidElement base, final JEuclidElement sub,
-    // final JEuclidElement sup) {
-    // final float optimalSubBaselineShift = ScriptSupport
-    // .getOptimalSubBaselineShift(g, base, sub, sup);
-    //
-    // final float overlap;
-    // if (sup != null) {
-    // overlap = ScriptSupport.getOverlap(g, sub, sup,
-    // optimalSubBaselineShift, ScriptSupport
-    // .getOptimalSuperBaselineShift(g, base, sub, sup));
-    // } else {
-    // overlap = 0.0f;
-    // }
-    //
-    // return optimalSubBaselineShift + overlap / 2.0f;
-    // }
-    //
-    // static float getSuperBaselineShift(final Graphics2D g,
-    // final JEuclidElement base, final JEuclidElement sub,
-    // final JEuclidElement sup) {
-    // final float optimalSuperBaselineShift = ScriptSupport
-    // .getOptimalSuperBaselineShift(g, base, sub, sup);
-    // final float overlap;
-    // if (sub != null) {
-    // overlap = ScriptSupport.getOverlap(g, sub, sup, ScriptSupport
-    // .getOptimalSubBaselineShift(g, base, sub, sup),
-    // optimalSuperBaselineShift);
-    // } else {
-    // overlap = 0.0f;
-    // }
-    // return optimalSuperBaselineShift + overlap / 2.0f;
-    // }
+        float subShift = 0.0f;
+        float superShift = 0.0f;
+
+        if (sub != null) {
+            subInfo = view.getInfo(sub);
+            subShift = Math.max(baseInfo.getDescentHeight(stage)
+                    + (subInfo.getAscentHeight(stage) - subInfo
+                            .getDescentHeight(stage)) / 2.0f,
+                    AttributesHelper.convertSizeToPt(subScriptShift, now,
+                            AttributesHelper.PT));
+
+        } else {
+            subInfo = null;
+        }
+        if (sup != null) {
+            superInfo = view.getInfo(sup);
+            superShift = Math.max(baseInfo.getAscentHeight(stage)
+                    - (superInfo.getAscentHeight(stage) - superInfo
+                            .getDescentHeight(stage)) / 2.0f,
+                    AttributesHelper.convertSizeToPt(superScriptShift, now,
+                            AttributesHelper.PT));
+        } else {
+            superInfo = null;
+        }
+
+        if ((subInfo != null) && (superInfo != null)) {
+            final float topSub = -subShift + subInfo.getAscentHeight(stage)
+                    + 1.0f;
+            final float bottomSuper = superShift
+                    - superInfo.getDescentHeight(stage) - 1.0f;
+
+            final float overlap = Math.max(0.0f, topSub - bottomSuper);
+            final float overlapShift = overlap / 2.0f;
+
+            superShift += overlapShift;
+            subShift += overlapShift;
+        }
+
+        if (subInfo != null) {
+            subInfo.moveTo(width, subShift, stage);
+        }
+        if (superInfo != null) {
+            superInfo.moveTo(width, -superShift, stage);
+        }
+        final Dimension2D borderLeftTop = new Dimension2DImpl(0.0f, 0.0f);
+        final Dimension2D borderRightBottom = new Dimension2DImpl(0.0f, 0.0f);
+        ElementListSupport.fillInfoFromChildren(view, info, parent, stage,
+                borderLeftTop, borderRightBottom);
+    }
+
 }
