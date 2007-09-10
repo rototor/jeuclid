@@ -18,12 +18,18 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
 import java.util.List;
 import java.util.Vector;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.MathMLNodeListImpl;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
@@ -69,25 +75,12 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     private boolean inRewriteChildren;
 
-    private Graphics2D lastCalculatedFor;
-
-    private float subBaselineShift;
-
-    private float superBaselineShift;
-
-    private float ascentHeight;
-
-    private float descentHeight;
-
-    private float width;
-
     /**
      * Default constructor.
      */
     public Mmultiscripts() {
         super();
         this.inRewriteChildren = false;
-        this.lastCalculatedFor = null;
     }
 
     /** {@inheritDoc} */
@@ -97,7 +90,6 @@ public class Mmultiscripts extends AbstractScriptElement implements
         if (!this.inRewriteChildren) {
             this.parseChildren();
         }
-        this.lastCalculatedFor = null;
     }
 
     private void parseChildren() {
@@ -137,115 +129,81 @@ public class Mmultiscripts extends AbstractScriptElement implements
         }
     }
 
-    // private void calculateSpecs(final Graphics2D g) {
-    // if (g == this.lastCalculatedFor) {
-    // return;
-    // }
-    // this.lastCalculatedFor = g;
-    // final JEuclidElement base = this.getBase();
-    //
-    // this.subBaselineShift = 0.0f;
-    // this.superBaselineShift = 0.0f;
-    //
-    // float maxSupAscent = 0.0f;
-    // float maxSubDescent = 0.0f;
-    //
-    // this.width = base.getWidth(g);
-    //
-    // for (int i = 0; i < this.postsubscripts.size(); i++) {
-    // final JEuclidElement sub = this.postsubscripts.get(i);
-    // final JEuclidElement sup = this.postsuperscripts.get(i);
-    // final float esubbaselineshift = ScriptSupport
-    // .getSubBaselineShift(g, base, sub, sup);
-    // final float esupbaselineshift = ScriptSupport
-    // .getSuperBaselineShift(g, base, sub, sup);
-    // this.subBaselineShift = Math.max(this.subBaselineShift,
-    // esubbaselineshift);
-    // this.superBaselineShift = Math.max(this.superBaselineShift,
-    // esupbaselineshift);
-    // maxSupAscent = Math.max(maxSupAscent, sup.getAscentHeight(g));
-    // maxSubDescent = Math.max(maxSubDescent, sub.getDescentHeight(g));
-    // this.width += Math.max(sub.getWidth(g), sup.getWidth(g));
-    // }
-    // for (int i = 0; i < this.presubscripts.size(); i++) {
-    // final JEuclidElement sub = this.presubscripts.get(i);
-    // final JEuclidElement sup = this.presuperscripts.get(i);
-    // final float esubbaselineshift = ScriptSupport
-    // .getSubBaselineShift(g, base, sub, sup);
-    // final float esupbaselineshift = ScriptSupport
-    // .getSuperBaselineShift(g, base, sub, sup);
-    // this.subBaselineShift = Math.max(this.subBaselineShift,
-    // esubbaselineshift);
-    // this.superBaselineShift = Math.max(this.superBaselineShift,
-    // esupbaselineshift);
-    // maxSupAscent = Math.max(maxSupAscent, sup.getAscentHeight(g));
-    // maxSubDescent = Math.max(maxSubDescent, sub.getDescentHeight(g));
-    // this.width += Math.max(sub.getWidth(g), sup.getWidth(g));
-    // }
-    //
-    // this.ascentHeight = Math.max(base.getAscentHeight(g),
-    // this.superBaselineShift + maxSupAscent);
-    // this.descentHeight = Math.max(base.getDescentHeight(g),
-    // this.subBaselineShift + maxSubDescent);
-    // }
-    //
-    // /**
-    // * Paints this element.
-    // *
-    // * @param g
-    // * The graphics context to use for painting
-    // * @param posX
-    // * The first left position for painting
-    // * @param posY
-    // * The position of the baseline
-    // */
-    // @Override
-    // public final void paint(final Graphics2D g, final float posX,
-    // final float posY) {
-    // super.paint(g, posX, posY);
-    // this.calculateSpecs(g);
-    // final JEuclidElement base = this.getBase();
-    //
-    // float pos = posX;
-    // for (int i = 0; i < this.presubscripts.size(); i++) {
-    // final JEuclidElement sub = this.presubscripts.get(i);
-    // final JEuclidElement sup = this.presuperscripts.get(i);
-    // sub.paint(g, pos, posY + this.subBaselineShift);
-    // sup.paint(g, pos, posY - this.superBaselineShift);
-    // pos += Math.max(sub.getWidth(g), sup.getWidth(g));
-    // }
-    // base.paint(g, pos, posY);
-    // pos += base.getWidth(g);
-    // for (int i = 0; i < this.postsubscripts.size(); i++) {
-    // final JEuclidElement sub = this.postsubscripts.get(i);
-    // final JEuclidElement sup = this.postsuperscripts.get(i);
-    // sub.paint(g, pos, posY + this.subBaselineShift);
-    // sup.paint(g, pos, posY - this.superBaselineShift);
-    // pos += Math.max(sub.getWidth(g), sup.getWidth(g));
-    // }
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public final float calculateWidth(final Graphics2D g) {
-    // this.calculateSpecs(g);
-    // return this.width;
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public final float calculateAscentHeight(final Graphics2D g) {
-    // this.calculateSpecs(g);
-    // return this.ascentHeight;
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public final float calculateDescentHeight(final Graphics2D g) {
-    // this.calculateSpecs(g);
-    // return this.descentHeight;
-    //
-    // }
+    /** {@inheritDoc} */
+    @Override
+    protected void layoutStageInvariant(final LayoutView view,
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutContext context) {
+        final JEuclidElement base = this.getBase();
+        final LayoutInfo baseInfo = view.getInfo(base);
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
+
+        final String subScriptshift = this.getSubscriptshift();
+        final String superScriptshift = this.getSuperscriptshift();
+
+        final ScriptSupport.ShiftInfo totalShiftInfo = this
+                .calculateTotalShift(view, stage, baseInfo, now,
+                        subScriptshift, superScriptshift);
+        float posX = 0.0f;
+        final float subBaselineShift = totalShiftInfo.getSubShift();
+        final float superBaselineShift = totalShiftInfo.getSuperShift();
+        for (int i = 0; i < this.presubscripts.size(); i++) {
+            final LayoutInfo subInfo = view
+                    .getInfo(this.presubscripts.get(i));
+            final LayoutInfo superInfo = view.getInfo(this.presuperscripts
+                    .get(i));
+            subInfo.moveTo(posX, subBaselineShift, stage);
+            superInfo.moveTo(posX, -superBaselineShift, stage);
+            posX += Math.max(subInfo.getWidth(stage), superInfo
+                    .getWidth(stage));
+        }
+        baseInfo.moveTo(posX, 0.0f, stage);
+        posX += baseInfo.getWidth(stage);
+        for (int i = 0; i < this.postsubscripts.size(); i++) {
+            final LayoutInfo subInfo = view.getInfo(this.postsubscripts
+                    .get(i));
+            final LayoutInfo superInfo = view.getInfo(this.postsuperscripts
+                    .get(i));
+            subInfo.moveTo(posX, subBaselineShift, stage);
+            superInfo.moveTo(posX, -superBaselineShift, stage);
+            posX += Math.max(subInfo.getWidth(stage), superInfo
+                    .getWidth(stage));
+        }
+
+        final Dimension2D noborder = new Dimension2DImpl(0.0f, 0.0f);
+        ElementListSupport.fillInfoFromChildren(view, info, this, stage,
+                noborder, noborder);
+    }
+
+    private ScriptSupport.ShiftInfo calculateTotalShift(
+            final LayoutView view, final LayoutStage stage,
+            final LayoutInfo baseInfo, final LayoutContext now,
+            final String subScriptshift, final String superScriptshift) {
+        final ScriptSupport.ShiftInfo totalShiftInfo = new ScriptSupport.ShiftInfo(
+                0.0f, 0.0f);
+
+        for (int i = 0; i < this.presubscripts.size(); i++) {
+            final LayoutInfo subInfo = view
+                    .getInfo(this.presubscripts.get(i));
+            final LayoutInfo superInfo = view.getInfo(this.presuperscripts
+                    .get(i));
+            final ScriptSupport.ShiftInfo shiftInfo = ScriptSupport
+                    .calculateScriptShfits(stage, now, subScriptshift,
+                            superScriptshift, baseInfo, subInfo, superInfo);
+            totalShiftInfo.max(shiftInfo);
+        }
+        for (int i = 0; i < this.postsubscripts.size(); i++) {
+            final LayoutInfo subInfo = view.getInfo(this.postsubscripts
+                    .get(i));
+            final LayoutInfo superInfo = view.getInfo(this.postsuperscripts
+                    .get(i));
+            final ScriptSupport.ShiftInfo shiftInfo = ScriptSupport
+                    .calculateScriptShfits(stage, now, subScriptshift,
+                            superScriptshift, baseInfo, subInfo, superInfo);
+            totalShiftInfo.max(shiftInfo);
+        }
+        return totalShiftInfo;
+    }
 
     /** {@inheritDoc} */
     @Override
