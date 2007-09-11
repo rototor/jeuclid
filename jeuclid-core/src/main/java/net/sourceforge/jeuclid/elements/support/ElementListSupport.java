@@ -205,8 +205,10 @@ public final class ElementListSupport {
             width = Math.max(width, childInfo.getPosX(stage)
                     + childInfo.getWidth(stage));
         }
-        info.setAscentHeight(ascentHeight, stage);
-        info.setDescentHeight(descentHeight, stage);
+        info.setAscentHeight(
+                ascentHeight + (float) borderLeftTop.getHeight(), stage);
+        info.setDescentHeight(descentHeight
+                + (float) borderRightBottom.getHeight(), stage);
         info.setHorizontalCenterOffset((width + startX) / 2.0f, stage);
         info.setWidth(width + (float) borderRightBottom.getWidth(), stage);
     }

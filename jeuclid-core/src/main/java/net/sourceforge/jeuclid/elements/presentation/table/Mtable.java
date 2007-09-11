@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
@@ -27,17 +28,21 @@ import java.util.Vector;
 
 import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.attributes.HAlign;
+import net.sourceforge.jeuclid.layout.GraphicsObject;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
+import net.sourceforge.jeuclid.layout.LineObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,8 +59,12 @@ import org.w3c.dom.mathml.MathMLTableRowElement;
  * @author Max Berger
  * @version $Revision$
  */
+// CHECKSTYLE:OFF
+// Data abstraction coupling is "to high". but this is necessary for proper
+// layout.
 public class Mtable extends AbstractJEuclidElement implements
         MathMLTableElement {
+    // CHECKSTYLE:ON
 
     /**
      * The XML element from this class.
@@ -122,8 +131,8 @@ public class Mtable extends AbstractJEuclidElement implements
     /** value for dashed lines. */
     private static final String VALUE_DASHED = "dashed";
 
-    // /** value for solid lines. Unused*/
-    // private static final String VALUE_SOLID = "solid";
+    /** value for solid lines. */
+    private static final String VALUE_SOLID = "solid";
 
     /**
      * Default column spacing.
@@ -167,12 +176,12 @@ public class Mtable extends AbstractJEuclidElement implements
          */
         public static LineType parseLineType(final String s) {
             final LineType retVal;
-            if (s.equalsIgnoreCase(Mtable.VALUE_NONE)) {
-                retVal = NONE;
+            if (s.equalsIgnoreCase(Mtable.VALUE_SOLID)) {
+                retVal = SOLID;
             } else if (s.equalsIgnoreCase(Mtable.VALUE_DASHED)) {
                 retVal = DASHED;
             } else {
-                retVal = SOLID;
+                retVal = NONE;
             }
             return retVal;
         }
@@ -326,33 +335,25 @@ public class Mtable extends AbstractJEuclidElement implements
                 .applyLocalAttributesToContext(context));
     }
 
-    // /**
-    // *
-    // * @return Horizontal frame spacing
-    // */
-    // protected float getFramespacingh() {
-    // if (Mtable.LineType.NONE.equals(this.getFrameAsLineType())) {
-    // return 0;
-    // }
-    // final String spacing = this.getSpaceArrayEntry(
-    // this.getFramespacing(), 0);
-    // return AttributesHelper.convertSizeToPt(spacing, this
-    // .getCurrentLayoutContext(), AttributesHelper.PT);
-    // }
+    private float getFramespacingh(final LayoutContext now) {
+        if (Mtable.LineType.NONE.equals(this.getFrameAsLineType())) {
+            return 0;
+        }
+        final String spacing = this.getSpaceArrayEntry(
+                this.getFramespacing(), 0);
+        return AttributesHelper.convertSizeToPt(spacing, now,
+                AttributesHelper.PT);
+    }
 
-    // /**
-    // *
-    // * @return Vertical frame spacing
-    // */
-    // protected float getFramespacingv() {
-    // if (Mtable.LineType.NONE.equals(this.getFrameAsLineType())) {
-    // return 0;
-    // }
-    // final String spacing = this.getSpaceArrayEntry(
-    // this.getFramespacing(), 1);
-    // return AttributesHelper.convertSizeToPt(spacing, this
-    // .getCurrentLayoutContext(), AttributesHelper.PT);
-    // }
+    private float getFramespacingv(final LayoutContext now) {
+        if (Mtable.LineType.NONE.equals(this.getFrameAsLineType())) {
+            return 0;
+        }
+        final String spacing = this.getSpaceArrayEntry(
+                this.getFramespacing(), 1);
+        return AttributesHelper.convertSizeToPt(spacing, now,
+                AttributesHelper.PT);
+    }
 
     // /**
     // * Paints this element.
@@ -984,7 +985,12 @@ public class Mtable extends AbstractJEuclidElement implements
      * @return the element at that index
      */
     private String getSpaceArrayEntry(final String string, final int index) {
-        final String[] array = string.split("\\s");
+        final String[] array;
+        if (string == null) {
+            array = new String[0];
+        } else {
+            array = string.split("\\s");
+        }
         int cur = -1;
         String last = "";
         for (final String s : array) {
@@ -1254,10 +1260,13 @@ public class Mtable extends AbstractJEuclidElement implements
     }
 
     /** {@inheritDoc} */
+    // CHECKSTYLE:OFF
+    // Function is too long. Unfortunately it has to be for proper layout
     @Override
     public void layoutStageInvariant(final LayoutView view,
             final LayoutInfo info, final LayoutStage stage,
             final LayoutContext context) {
+        // CHECKSTYLE:ON
         final Graphics2D g = view.getGraphics();
         final LayoutContext now = this.applyLocalAttributesToContext(context);
         final List<LayoutableNode> children = this.getChildrenToLayout();
@@ -1267,7 +1276,8 @@ public class Mtable extends AbstractJEuclidElement implements
         int rows = 0;
 
         // Layout Rows vertically, calculate height of the table.
-        float height = 0.0f;
+        final float vFrameSpacing = this.getFramespacingv(now);
+        float height = vFrameSpacing;
         for (final LayoutableNode child : children) {
             rowChild[rows] = child;
             final LayoutInfo mtrInfo = view.getInfo(child);
@@ -1280,8 +1290,10 @@ public class Mtable extends AbstractJEuclidElement implements
             y += AttributesHelper.convertSizeToPt(this.getSpaceArrayEntry(
                     this.getRowspacing(), rows), now, AttributesHelper.PT);
         }
+        height += vFrameSpacing;
 
-        this.shiftTableVertically(stage, context, g, rowInfos, rows, height);
+        final float verticalShift = this.shiftTableVertically(stage, context,
+                g, rowInfos, rows, height);
 
         final List<LayoutableNode>[] mtdChildren = this
                 .createListOfMtdChildren(rowChild, rows);
@@ -1297,11 +1309,95 @@ public class Mtable extends AbstractJEuclidElement implements
 
         this.setRowWidth(stage, rowInfos, rows, totalWidth);
 
-        // TODO: Make more sophisticated.
-        final Dimension2D borderLeftTop = new Dimension2DImpl(0.0f, 0.0f);
-        final Dimension2D borderRightBottom = new Dimension2DImpl(0.0f, 0.0f);
+        this.addRowLines(info, rowInfos, rows, totalWidth, stage, now);
+        this.addColumnLines(info, columnwidth, verticalShift, height, stage,
+                now);
+        this.addFrame(info, totalWidth, verticalShift, height, now);
+
+        final float hFrameSpacing = this.getFramespacingh(now);
+        final Dimension2D borderLeftTop = new Dimension2DImpl(hFrameSpacing,
+                vFrameSpacing);
+        final Dimension2D borderRightBottom = new Dimension2DImpl(
+                hFrameSpacing, vFrameSpacing);
         ElementListSupport.fillInfoFromChildren(view, info, this, stage,
                 borderLeftTop, borderRightBottom);
+    }
+
+    private void addFrame(final LayoutInfo info, final float width,
+            final float verticalShift, final float height,
+            final LayoutContext now) {
+        final LineType lineType = this.getFrameAsLineType();
+        final boolean solid = Mtable.LineType.SOLID.equals(lineType);
+        final boolean dashed = Mtable.LineType.DASHED.equals(lineType);
+        if (dashed || solid) {
+            final float lineWidth = GraphicsSupport.lineWidth(now);
+            final float lineInset = lineWidth / 2.0f;
+            final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
+            final List<GraphicsObject> go = info.getGraphicObjects();
+            final float vFrameSpacing = this.getFramespacingv(now);
+
+            final float left = lineInset;
+            final float right = width - lineInset;
+            final float top = verticalShift + lineInset - vFrameSpacing;
+            final float bottom = height + verticalShift - lineInset;
+            go.add(new LineObject(left, top, right, top, lineWidth, color,
+                    dashed));
+            go.add(new LineObject(left, bottom, right, bottom, lineWidth,
+                    color, dashed));
+            go.add(new LineObject(left, top, left, bottom, lineWidth, color,
+                    dashed));
+            go.add(new LineObject(right, top, right, bottom, lineWidth,
+                    color, dashed));
+        }
+    }
+
+    private void addRowLines(final LayoutInfo info,
+            final LayoutInfo[] rowInfos, final int rows, final float width,
+            final LayoutStage stage, final LayoutContext now) {
+        final float lineWidth = GraphicsSupport.lineWidth(now);
+        final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
+
+        final float inFrameStart = this.getFramespacingh(now);
+        for (int row = 0; row < rows - 1; row++) {
+            final LineType lineType = this.getRowLine(row);
+            final boolean solid = Mtable.LineType.SOLID.equals(lineType);
+            final boolean dashed = Mtable.LineType.DASHED.equals(lineType);
+            if (dashed || solid) {
+                final float y = (rowInfos[row].getPosY(stage)
+                        + rowInfos[row].getDescentHeight(stage)
+                        + rowInfos[row + 1].getPosY(stage) - rowInfos[row + 1]
+                        .getAscentHeight(stage)) / 2.0f;
+                info.getGraphicObjects().add(
+                        new LineObject(inFrameStart, y, width - inFrameStart,
+                                y, lineWidth, color, dashed));
+            }
+        }
+    }
+
+    private void addColumnLines(final LayoutInfo info,
+            final List<Float> columnwidth, final float verticalShift,
+            final float height, final LayoutStage stage,
+            final LayoutContext now) {
+        final float lineWidth = GraphicsSupport.lineWidth(now);
+        final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
+        float x = this.getFramespacingh(now);
+
+        final float inFrameStart = this.getFramespacingv(now);
+        final float colsm1 = columnwidth.size() - 1;
+        for (int col = 0; col < colsm1; col++) {
+            final LineType lineType = this.getColumnLine(col);
+            final boolean solid = Mtable.LineType.SOLID.equals(lineType);
+            final boolean dashed = Mtable.LineType.DASHED.equals(lineType);
+            if (dashed || solid) {
+                final float halfSpace = this.getSpaceAfterColumn(now, col) / 2.0f;
+                x += columnwidth.get(col) + halfSpace;
+                info.getGraphicObjects().add(
+                        new LineObject(x, verticalShift, x, height
+                                + verticalShift - inFrameStart, lineWidth,
+                                color, dashed));
+                x += halfSpace;
+            }
+        }
     }
 
     private void stretchAndAlignMtds(final LayoutView view,
@@ -1342,7 +1438,7 @@ public class Mtable extends AbstractJEuclidElement implements
         }
     }
 
-    private void shiftTableVertically(final LayoutStage stage,
+    private float shiftTableVertically(final LayoutStage stage,
             final LayoutContext context, final Graphics2D g,
             final LayoutInfo[] rowInfos, final int rows, final float height) {
         // Shift table by given vertical alignment
@@ -1357,6 +1453,7 @@ public class Mtable extends AbstractJEuclidElement implements
         for (int i = 0; i < rows; i++) {
             rowInfos[i].shiftVertically(verticalShift, stage);
         }
+        return verticalShift;
     }
 
     @SuppressWarnings("unchecked")
@@ -1392,7 +1489,21 @@ public class Mtable extends AbstractJEuclidElement implements
                 col++;
             }
         }
+        if (Boolean.parseBoolean(this.getEqualcolumns())) {
+            this.makeEqual(columnwidth);
+        }
         return columnwidth;
+    }
+
+    private void makeEqual(final List<Float> columnwidth) {
+        float maxWidth = 0.0f;
+        for (final Float width : columnwidth) {
+            maxWidth = Math.max(width, maxWidth);
+        }
+        final int cols = columnwidth.size();
+        for (int i = 0; i < cols; i++) {
+            columnwidth.set(i, maxWidth);
+        }
     }
 
     private void setRowWidth(final LayoutStage stage,
@@ -1407,9 +1518,10 @@ public class Mtable extends AbstractJEuclidElement implements
             final LayoutStage stage, final LayoutContext now, final int rows,
             final List<LayoutableNode>[] mtdChildren,
             final List<Float> columnwidth) {
-        float totalWidth = 0.0f;
+        final float hFrameSpacing = this.getFramespacingh(now);
+        float totalWidth = hFrameSpacing;
         for (int i = 0; i < rows; i++) {
-            float x = 0.0f;
+            float x = hFrameSpacing;
             int col = 0;
             for (final LayoutableNode n : mtdChildren[i]) {
                 final LayoutInfo mtdInfo = view.getInfo(n);
@@ -1422,13 +1534,18 @@ public class Mtable extends AbstractJEuclidElement implements
                 mtdInfo.setStretchWidth(colwi);
                 x += colwi;
                 totalWidth = Math.max(totalWidth, x);
-                x += AttributesHelper.convertSizeToPt(this
-                        .getSpaceArrayEntry(this.getColumnspacing(), col),
-                        now, AttributesHelper.PT);
+                x += this.getSpaceAfterColumn(now, col);
                 col++;
             }
         }
-        return totalWidth;
+        return totalWidth + hFrameSpacing;
+    }
+
+    private float getSpaceAfterColumn(final LayoutContext now, final int col) {
+        final float columnSpace = AttributesHelper.convertSizeToPt(this
+                .getSpaceArrayEntry(this.getColumnspacing(), col), now,
+                AttributesHelper.PT);
+        return columnSpace;
     }
 
     private HAlign getHAlign(final JEuclidElement n, final int col) {
