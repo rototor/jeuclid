@@ -72,6 +72,9 @@ public final class Processor {
      */
     private static final Log LOGGER = LogFactory.getLog(Processor.class);
 
+    // private static final String NAMESPACE_HTML =
+    // "http://www.w3.org/1999/xhtml";
+
     private final Transformer transformer;
 
     private Processor() throws TransformerException {
@@ -171,6 +174,27 @@ public final class Processor {
             this.safeReplaceChild(parent, node, svgGenerator.getRoot());
         } else {
             this.processChildren(node, context);
+            // TODO: This is an IE-Fix, but does not work yet.
+            // final Node parent = node.getParentNode();
+            // if ((parent != null)
+            // && (Processor.NAMESPACE_HTML.equals(parent
+            // .getNamespaceURI()))
+            // && ("html".equals(parent.getLocalName()))
+            // && ("head".equals(node.getLocalName()))) {
+            // ((Element) parent).setAttribute("xmlns:svg",
+            // "http://www.w3.org/2000/svg");
+            // final Document ownerDoc = node.getOwnerDocument();
+            // final Element objectElement = ownerDoc
+            // .createElement("object");
+            // objectElement.setAttribute("id", "AdobeSVG");
+            // objectElement.setAttribute("classid",
+            // "clsid:78156a80-c6a1-4bbf-8e6a-3cd390eeb4e2");
+            // node.appendChild(objectElement);
+            // final ProcessingInstruction pi = ownerDoc
+            // .createProcessingInstruction("import",
+            // "namespace=\"svg\" implementation=\"#AdobeSVG\"");
+            // node.appendChild(pi);
+            // }
         }
     }
 
