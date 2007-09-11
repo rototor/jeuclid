@@ -72,10 +72,10 @@ public interface LayoutInfo {
     float getWidth(LayoutStage stage);
 
     /**
-     * Retrieve the X-position of the horizontal center of the content. In most
-     * cases, this will be width / 2. This does not, however, take extra borders
-     * into account. An element may have different border width on left and
-     * right, in which case the center will be moved.
+     * Retrieve the X-position of the horizontal center of the content. In
+     * most cases, this will be width / 2. This does not, however, take extra
+     * borders into account. An element may have different border width on
+     * left and right, in which case the center will be moved.
      * 
      * @return X-position of the center of the content
      * @param stage
@@ -125,6 +125,16 @@ public interface LayoutInfo {
      *            STAGE2)
      */
     void moveTo(float x, float y, LayoutStage stage);
+
+    /**
+     * Shift vertically by given offset.
+     * 
+     * @param offsetY
+     *            offset to shift.
+     * @param stage
+     *            Stage to manipulate.
+     */
+    void shiftVertically(float offsetY, LayoutStage stage);
 
     /**
      * @param ascentHeight

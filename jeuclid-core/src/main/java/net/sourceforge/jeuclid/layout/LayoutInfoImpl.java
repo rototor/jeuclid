@@ -228,4 +228,12 @@ public class LayoutInfoImpl implements LayoutInfo {
     public void setStretchDescent(final float newStretchDescent) {
         this.stretchDescent = newStretchDescent;
     }
+
+    /** {@inheritDoc} */
+    public void shiftVertically(final float offsetY, final LayoutStage stage) {
+        this.posYS2 += offsetY;
+        if (LayoutStage.STAGE1.equals(stage)) {
+            this.posYS1 += offsetY;
+        }
+    }
 }

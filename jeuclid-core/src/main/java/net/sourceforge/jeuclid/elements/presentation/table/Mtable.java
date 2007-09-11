@@ -21,8 +21,8 @@ package net.sourceforge.jeuclid.elements.presentation.table;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import net.sourceforge.jeuclid.Constants;
@@ -39,6 +39,8 @@ import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.mathml.MathMLLabeledRowElement;
 import org.w3c.dom.mathml.MathMLNodeList;
 import org.w3c.dom.mathml.MathMLTableCellElement;
@@ -55,143 +57,95 @@ import org.w3c.dom.mathml.MathMLTableRowElement;
 public class Mtable extends AbstractJEuclidElement implements
         MathMLTableElement {
 
-    /** attribute for rowlines. */
-    public static final String ATTR_ROWLINES = "rowlines";
-
-    /** attribute for columnlines. */
-    public static final String ATTR_COLUMNLINES = "columnlines";
-
-    /** attribute for align. */
-    public static final String ATTR_ALIGN = "align";
-
-    /** attribute for alignmentscope. */
-    public static final String ATTR_ALIGNMENTSCOPE = "alignmentscope";
-
-    /** attribute for columnwidth. */
-    public static final String ATTR_COLUMNWIDTH = "columnwidth";
-
-    /** attribute for width. */
-    public static final String ATTR_WIDTH = "width";
-
-    /** attribute for rowspacing. */
-    public static final String ATTR_ROWSPACING = "rowspacing";
-
-    /** attribute for columnspacing. */
-    public static final String ATTR_COLUMNSPACING = "columnspacing";
-
-    /** attribute for frame. */
-    public static final String ATTR_FRAME = "frame";
-
-    /** attribute for framespacing. */
-    public static final String ATTR_FRAMESPACING = "framespacing";
-
-    /** attribute for equalrows. */
-    public static final String ATTR_EQUALROWS = "equalrows";
-
-    /** attribute for equalcolumns. */
-    public static final String ATTR_EQUALCOLUMNS = "equalcolumns";
-
-    /** attribute for displaystyle. */
-    public static final String ATTR_DISPLAYSTYLE = "displaystyle";
-
-    /** attribute for side. */
-    public static final String ATTR_SIDE = "side";
-
-    /** attribute for minlabelspacing. */
-    public static final String ATTR_MINLABELSPACING = "minlabelspacing";
-
-    /** value for no lines. */
-    public static final String VALUE_NONE = "none";
-
-    /** value for dashed lines. */
-    public static final String VALUE_DASHED = "dashed";
-
-    /** value for solid lines. */
-    public static final String VALUE_SOLID = "solid";
-
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mtable";
 
-    /**
-     * Align constant: top align.
-     */
-    public static final int ALIGN_TOP = 0;
-
-    /**
-     * Align constant: bottom align.
-     */
-    public static final int ALIGN_BOTTOM = 1;
+    /** Attribute for columnalign. */
+    static final String ATTR_COLUMNALIGN = "columnalign";
 
     /** Attribute for rowalign. */
-    public static final String ATTR_ROWALIGN = "rowalign";
-
-    /** Attribute for columnalign. */
-    public static final String ATTR_COLUMNALIGN = "columnalign";
+    static final String ATTR_ROWALIGN = "rowalign";
 
     /** Attribute for groupalign. */
-    public static final String ATTR_GROUPALIGN = "groupalign";
+    static final String ATTR_GROUPALIGN = "groupalign";
+
+    /** attribute for rowlines. */
+    private static final String ATTR_ROWLINES = "rowlines";
+
+    /** attribute for columnlines. */
+    private static final String ATTR_COLUMNLINES = "columnlines";
+
+    /** attribute for align. */
+    private static final String ATTR_ALIGN = "align";
+
+    /** attribute for alignmentscope. */
+    private static final String ATTR_ALIGNMENTSCOPE = "alignmentscope";
+
+    /** attribute for columnwidth. */
+    private static final String ATTR_COLUMNWIDTH = "columnwidth";
+
+    /** attribute for width. */
+    private static final String ATTR_WIDTH = "width";
+
+    /** attribute for rowspacing. */
+    private static final String ATTR_ROWSPACING = "rowspacing";
+
+    /** attribute for columnspacing. */
+    private static final String ATTR_COLUMNSPACING = "columnspacing";
+
+    /** attribute for frame. */
+    private static final String ATTR_FRAME = "frame";
+
+    /** attribute for framespacing. */
+    private static final String ATTR_FRAMESPACING = "framespacing";
+
+    /** attribute for equalrows. */
+    private static final String ATTR_EQUALROWS = "equalrows";
+
+    /** attribute for equalcolumns. */
+    private static final String ATTR_EQUALCOLUMNS = "equalcolumns";
+
+    /** attribute for displaystyle. */
+    private static final String ATTR_DISPLAYSTYLE = "displaystyle";
+
+    /** attribute for side. */
+    private static final String ATTR_SIDE = "side";
+
+    /** attribute for minlabelspacing. */
+    private static final String ATTR_MINLABELSPACING = "minlabelspacing";
+
+    /** value for no lines. */
+    private static final String VALUE_NONE = "none";
+
+    /** value for dashed lines. */
+    private static final String VALUE_DASHED = "dashed";
+
+    // /** value for solid lines. Unused*/
+    // private static final String VALUE_SOLID = "solid";
 
     /**
      * Default column spacing.
      */
-    public static final String DEFAULT_COLUMNSPACING = "0.8em";
+    private static final String DEFAULT_COLUMNSPACING = "0.8em";
 
     /**
      * Default row spacing.
      */
-    public static final String DEFAULT_ROWSPACING = "1.0ex";
-
-    /**
-     * Align constant: center align.
-     */
-    public static final int ALIGN_CENTER = 2;
-
-    /**
-     * Align constant: baseline align.
-     */
-    public static final int ALIGN_BASELINE = 3;
-
-    /**
-     * Align constant: axis align.
-     */
-    public static final int ALIGN_AXIS = 4;
-
-    /**
-     * Align constant: left align.
-     */
-    public static final int ALIGN_LEFT = 5;
-
-    /**
-     * Align constant: right align.
-     */
-    public static final int ALIGN_RIGHT = 6;
-
-    /**
-     * Align constant: mark align.
-     */
-    public static final int ALIGN_MARK = 11;
-
-    /**
-     * Align constant: decimal point align.
-     */
-    public static final int ALIGN_DECIMALPOINT = 7;
-
-    /**
-     * Constant width auto.
-     */
-    public static final int WIDTH_AUTO = -1;
-
-    /**
-     * Constant width fit.
-     */
-    public static final int WIDTH_FIT = -2;
+    private static final String DEFAULT_ROWSPACING = "1.0ex";
 
     /**
      * Default frame spacing.
      */
     private static final String DEFAULT_FRAMESPACING = "0.4em 0.5ex";
+
+    private static final String VALUE_AUTO = "auto";
+
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory.getLog(Mtable.class);
 
     /**
      * Class for line types.
@@ -227,25 +181,46 @@ public class Mtable extends AbstractJEuclidElement implements
     /**
      * Class for alignment types.
      */
-    public enum AlignmentType {
+    private static final class VAlign {
+
         /** Align to top. */
-        TOP,
+        static final int TOP = 0;
+
         /** Align to bottom. */
-        BOTTOM,
+        static final int BOTTOM = 1;
+
         /** Align to center. */
-        CENTER,
+        static final int CENTER = 2;
+
         /** Align to baseline. */
-        BASELINE,
+        static final int BASELINE = 3;
+
         /** Align to axis. */
-        AXIS,
-        /** Align to left. */
-        LEFT,
-        /** Align to right. */
-        RIGHT,
-        /** Align to decimalpoint. */
-        DECIMALPOINT,
-        /** Align to alignment markers. */
-        MARK;
+        static final int AXIS = 4;
+
+        static final String VALUE_TOP = "top";
+
+        static final String VALUE_BOTTOM = "bottom";
+
+        static final String VALUE_CENTER = "center";
+
+        static final String VALUE_BASELINE = "baseline";
+
+        static final String VALUE_AXIS = "axis";
+
+        static final VAlign BASELINE_ALIGN = new VAlign(
+                Mtable.VAlign.BASELINE, 0);
+
+        private static final String INVALID_VERTICAL_ALIGNMENT_VALUE = "Invalid vertical alignment value: ";
+
+        private final int valign;
+
+        private final int alignTo;
+
+        private VAlign(final int align, final int relativeTo) {
+            this.valign = align;
+            this.alignTo = relativeTo;
+        }
 
         /**
          * Parse a string and return a alignment.
@@ -254,28 +229,55 @@ public class Mtable extends AbstractJEuclidElement implements
          *            the string to parse
          * @return an alignment for this string type
          */
-        public static AlignmentType parseAlignmentType(final String s) {
-            final AlignmentType retVal;
-            if ("top".equalsIgnoreCase(s)) {
-                retVal = Mtable.AlignmentType.TOP;
-            } else if ("bottom".equalsIgnoreCase(s)) {
-                retVal = Mtable.AlignmentType.BOTTOM;
-            } else if ("baseline".equalsIgnoreCase(s)) {
-                retVal = Mtable.AlignmentType.BASELINE;
-            } else if ("axis".equalsIgnoreCase(s)) {
-                retVal = Mtable.AlignmentType.AXIS;
-            } else if ("left".equalsIgnoreCase(s)) {
-                retVal = Mtable.AlignmentType.LEFT;
-            } else if ("right".equalsIgnoreCase(s)) {
-                retVal = Mtable.AlignmentType.RIGHT;
-            } else if ("decimalpoint".equalsIgnoreCase(s)) {
-                retVal = Mtable.AlignmentType.DECIMALPOINT;
-            } else if ("center".equalsIgnoreCase(s)) {
-                retVal = Mtable.AlignmentType.CENTER;
-            } else {
-                retVal = null;
+        public static VAlign parseString(final String s) {
+            if ((s == null) || (s.length() == 0)) {
+                return null;
             }
-            return retVal;
+            final int align;
+            int relativeTo = 0;
+            final String s2 = s.trim().toLowerCase(Locale.ENGLISH);
+            final String s3;
+            if (s2.startsWith(Mtable.VAlign.VALUE_TOP)) {
+                align = Mtable.VAlign.TOP;
+                s3 = s2.substring(Mtable.VAlign.VALUE_TOP.length()).trim();
+            } else if (s2.startsWith(Mtable.VAlign.VALUE_BOTTOM)) {
+                align = Mtable.VAlign.BOTTOM;
+                s3 = s2.substring(Mtable.VAlign.VALUE_BOTTOM.length()).trim();
+            } else if (s2.startsWith(Mtable.VAlign.VALUE_CENTER)) {
+                align = Mtable.VAlign.CENTER;
+                s3 = s2.substring(Mtable.VAlign.VALUE_CENTER.length()).trim();
+            } else if (s2.startsWith(Mtable.VAlign.VALUE_BASELINE)) {
+                align = Mtable.VAlign.BASELINE;
+                s3 = s2.substring(Mtable.VAlign.VALUE_BASELINE.length())
+                        .trim();
+            } else if (s2.startsWith(Mtable.VAlign.VALUE_AXIS)) {
+                align = Mtable.VAlign.AXIS;
+                s3 = s2.substring(Mtable.VAlign.VALUE_AXIS.length()).trim();
+            } else {
+                Mtable.LOGGER
+                        .warn(Mtable.VAlign.INVALID_VERTICAL_ALIGNMENT_VALUE
+                                + s);
+                align = Mtable.VAlign.BASELINE;
+                s3 = "0";
+            }
+            if (s3.length() > 0) {
+                try {
+                    relativeTo = Integer.parseInt(s3);
+                } catch (final NumberFormatException nfe) {
+                    Mtable.LOGGER
+                            .warn(Mtable.VAlign.INVALID_VERTICAL_ALIGNMENT_VALUE
+                                    + s);
+                }
+            }
+            return new VAlign(align, relativeTo);
+        }
+
+        public int getAlign() {
+            return this.valign;
+        }
+
+        public int getRelative() {
+            return this.alignTo;
         }
     }
 
@@ -284,15 +286,18 @@ public class Mtable extends AbstractJEuclidElement implements
      */
     public Mtable() {
         super();
-        this.setDefaultMathAttribute(Mtable.ATTR_ALIGN, "axis");
-        this.setDefaultMathAttribute(Mtable.ATTR_ROWALIGN, "baseline");
+        this.setDefaultMathAttribute(Mtable.ATTR_ALIGN,
+                Mtable.VAlign.VALUE_AXIS);
+        this.setDefaultMathAttribute(Mtable.ATTR_ROWALIGN,
+                Mtable.VAlign.VALUE_BASELINE);
         this.setDefaultMathAttribute(Mtable.ATTR_COLUMNALIGN,
                 HAlign.ALIGN_CENTER);
         this.setDefaultMathAttribute(Mtable.ATTR_GROUPALIGN, "{left}");
         this.setDefaultMathAttribute(Mtable.ATTR_ALIGNMENTSCOPE,
                 Constants.TRUE);
-        this.setDefaultMathAttribute(Mtable.ATTR_COLUMNWIDTH, "auto");
-        this.setDefaultMathAttribute(Mtable.ATTR_WIDTH, "auto");
+        this.setDefaultMathAttribute(Mtable.ATTR_COLUMNWIDTH,
+                Mtable.VALUE_AUTO);
+        this.setDefaultMathAttribute(Mtable.ATTR_WIDTH, Mtable.VALUE_AUTO);
         this.setDefaultMathAttribute(Mtable.ATTR_ROWSPACING,
                 Mtable.DEFAULT_ROWSPACING);
         this.setDefaultMathAttribute(Mtable.ATTR_COLUMNSPACING,
@@ -308,8 +313,9 @@ public class Mtable extends AbstractJEuclidElement implements
                 Constants.FALSE);
         this.setDefaultMathAttribute(Mtable.ATTR_DISPLAYSTYLE,
                 Constants.FALSE);
-        this.setDefaultMathAttribute(Mtable.ATTR_SIDE, "right");
-        this.setDefaultMathAttribute(Mtable.ATTR_MINLABELSPACING, "0.8em");
+        this.setDefaultMathAttribute(Mtable.ATTR_SIDE, HAlign.ALIGN_RIGHT);
+        this.setDefaultMathAttribute(Mtable.ATTR_MINLABELSPACING,
+                Mtable.DEFAULT_COLUMNSPACING);
     }
 
     /** {@inheritDoc} */
@@ -469,163 +475,6 @@ public class Mtable extends AbstractJEuclidElement implements
     // g.setStroke(oldStroke);
     // }
 
-    // /**
-    // * Returns the maximal ascent height of a row in this table.
-    // *
-    // * @param row
-    // * Row.
-    // * @return Maximal ascent height.
-    // */
-    // private float getMaxRowAscentHeight(final Graphics2D g, final int row)
-    // {
-    // if (row >= this.getMathElementCount()) {
-    // return 0;
-    // }
-    // final JEuclidElement child = this.getMathElement(row);
-    // float height = 0;
-    //
-    // for (int i = 0; i < child.getMathElementCount(); i++) {
-    // height = Math.max(height, child.getMathElement(i)
-    // .getAscentHeight(g));
-    // }
-    // return height;
-    // }
-    //
-    // /**
-    // * Returns the maximal descent height of a row in this table.
-    // *
-    // * @param row
-    // * Row.
-    // * @return Maximal descent height.
-    // */
-    // private float getMaxRowDescentHeight(final Graphics2D g, final int row)
-    // {
-    // if (row >= this.getMathElementCount()) {
-    // return 0;
-    // }
-    //
-    // final JEuclidElement child = this.getMathElement(row);
-    // float height = 0;
-    //
-    // for (int i = 0; i < child.getMathElementCount(); i++) {
-    // height = Math.max(height, child.getMathElement(i)
-    // .getDescentHeight(g));
-    // }
-    // return height;
-    // }
-
-    // /**
-    // * Returns the maximal width of a column in this table.
-    // *
-    // * @param column
-    // * Column.
-    // * @return Maximal width.
-    // */
-    // private float getMaxColumnWidth(final Graphics2D g, final int column) {
-    // float width = 0;
-    //
-    // for (int i = 0; i < this.getMathElementCount(); i++) {
-    // final JEuclidElement child = this.getMathElement(i); // row
-    //
-    // if (column < child.getMathElementCount()) {
-    // width = Math.max(width, child.getMathElement(column)
-    // .getWidth(g));
-    // }
-    // }
-    // return width;
-    // }
-    //
-    // /**
-    // * Returns the maximal count of columns.
-    // *
-    // * @return Maximal count of columns.
-    // */
-    // private int getMaxColumnCount() {
-    // int count = 0;
-    //
-    // for (int i = 0; i < this.getMathElementCount(); i++) {
-    // final JEuclidElement child = this.getMathElement(i);
-    // count = Math.max(count, child.getMathElementCount());
-    // }
-    // return count;
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateWidth(final Graphics2D g) {
-    // this.calculateAlignmentGroups(g);
-    // float width = 0;
-    // final int maxcolumns = this.getMaxColumnCount();
-    //
-    // for (int i = 0; i < maxcolumns; i++) {
-    // width = width + this.getMaxColumnWidth(g, i);
-    // if (i + 1 < maxcolumns) {
-    // width = width + this.getColumnspacing(i);
-    // }
-    // }
-    // width = width + this.getFramespacingh() * 2;
-    // return width;
-    // }
-    //
-    // private float calculateActualHeight(final Graphics2D g) {
-    // float height = 0;
-    // final int mec = this.getMathElementCount();
-    // for (int i = 0; i < mec; i++) {
-    // height = height + this.getMaxRowAscentHeight(g, i)
-    // + this.getMaxRowDescentHeight(g, i);
-    // if (i + 1 < mec) {
-    // height = height + this.getRowspacing(i);
-    // }
-    // }
-    // height = height + this.getFramespacingv() * 2;
-    // return height;
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateAscentHeight(final Graphics2D g) {
-    // final AlignmentType align = Mtable.AlignmentType
-    // .parseAlignmentType(this.getAlign());
-    // if (Mtable.AlignmentType.BOTTOM.equals(align)) {
-    // return this.calculateActualHeight(g);
-    // } else if (Mtable.AlignmentType.TOP.equals(align)) {
-    // return this.getRowCount() > 0 ? this.getMaxRowAscentHeight(g, 0)
-    // : 0;
-    // } else if (Mtable.AlignmentType.AXIS.equals(align)) {
-    // // add +1 to eliminate rounding errors
-    // return (this.calculateActualHeight(g) + 1) / 2;
-    // }
-    // // baseline or center
-    // // add +1 to eliminate rounding errors
-    // return (this.calculateActualHeight(g) + 1) / 2
-    // + this.getMiddleShift(g);
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateDescentHeight(final Graphics2D g) {
-    // final Mtable.AlignmentType align = Mtable.AlignmentType
-    // .parseAlignmentType(this.getAlign());
-    // if (Mtable.AlignmentType.BOTTOM.equals(align)) {
-    // return 0;
-    // } else if (Mtable.AlignmentType.TOP.equals(align)) {
-    // return this.calculateActualHeight(g)
-    // - (this.getRowCount() > 0 ? this.getMaxRowAscentHeight(g,
-    // 0) : 0);
-    // } else if (Mtable.AlignmentType.AXIS.equals(align)) {
-    // // add +1 to eliminate rounding errors
-    // return (this.calculateActualHeight(g) + 1) / 2;
-    // }
-    // final float b = this.getMiddleShift(g);
-    // // add +1 to eliminate rounding errors
-    // final float c = (this.calculateActualHeight(g) + 1) / 2;
-    // return c - b;
-    // }
-    //
-    // /*
-    // * ----------------- NEW FUNCTIONS, CONCERNED <MALIGNGROUP> ELEMENT
-    // * -------------------
-    // */
     //
     // /**
     // * Retrieves groupalign values from mtd element. If requested cell
@@ -705,49 +554,6 @@ public class Mtable extends AbstractJEuclidElement implements
     // }
     //
     // /**
-    // * Gets count of rows in table.
-    // *
-    // * @return
-    // */
-    // private int getRowCount() {
-    // return this.getMathElementCount();
-    // }
-    //
-    // /**
-    // * Finds cell in the table by row and column indexes.
-    // *
-    // * @param row
-    // * Row index.
-    // * @param column
-    // * Column index.
-    // * @return Cell object.
-    // * @throws Exception
-    // * Throw exception, if table doesn't contain <mtr> and <mtd>
-    // * tags.
-    // */
-    // private Mtd getCell(final int row, final int column) throws Exception {
-    // final int rowsCount = this.getRowCount();
-    // final int columnsCount = this.getMaxColumnCount();
-    // Mtd cell = null;
-    //
-    // if (row > rowsCount - 1 || column > columnsCount - 1) {
-    // return cell;
-    // }
-    //
-    // final JEuclidElement theRow = this.getMathElement(row); // row
-    // if (column < theRow.getMathElementCount()) {
-    // if (theRow.getMathElement(column) instanceof Mtd) {
-    // cell = (Mtd) theRow.getMathElement(column);
-    // } else {
-    // throw new Exception(
-    // "This table doesn't contain <mtr> and <mtd> tags.");
-    // }
-    // }
-    //
-    // return cell;
-    // }
-    //
-    // /**
     // * Determines all maligngroup elements in the cell.
     // *
     // * @param cell
@@ -771,21 +577,6 @@ public class Mtable extends AbstractJEuclidElement implements
     //
     // return result;
     // }
-
-    /**
-     * Constant for calculating of align elements widths.
-     */
-    private static final int WHOLE_WIDTH = 0;
-
-    /**
-     * Constant for calculating of align elements widths.
-     */
-    private static final int LEFT_WIDTH = 1;
-
-    /**
-     * Constant for calculating of align elements widths.
-     */
-    private static final int RIGHT_WIDTH = 2;
 
     /**
      * // * Method calculates widths of alignment elements. Must be called
@@ -1015,36 +806,6 @@ public class Mtable extends AbstractJEuclidElement implements
     // }
     // }
     // }
-    /**
-     * Iterator over a NodeList.
-     * 
-     * @author Max Berger
-     */
-    private class ChildIterator implements Iterator {
-
-        private final org.w3c.dom.NodeList nodeList;
-
-        private int pos;
-
-        protected ChildIterator(final org.w3c.dom.NodeList nl) {
-            this.nodeList = nl;
-        }
-
-        public boolean hasNext() {
-            return this.pos < this.nodeList.getLength();
-        }
-
-        public Object next() {
-            this.pos++;
-            return this.nodeList.item(this.pos - 1);
-        }
-
-        public void remove() {
-            // not needed.
-        }
-
-    }
-
     // /**
     // * Method calculates width of elements till point inside of mn element
     // (or
@@ -1107,7 +868,6 @@ public class Mtable extends AbstractJEuclidElement implements
     //
     // return result;
     // }
-
     // /**
     // * Method calculates width of elements till malignmark element.
     // *
@@ -1136,7 +896,6 @@ public class Mtable extends AbstractJEuclidElement implements
     //
     // return result;
     // }
-
     // /**
     // * Method checks, whether provided element contains malignmark element.
     // *
@@ -1147,7 +906,6 @@ public class Mtable extends AbstractJEuclidElement implements
     // private boolean containsMark(final JEuclidElement element) {
     // return this.containsElement(element, Malignmark.ELEMENT);
     // }
-
     // /**
     // * Method checks, whether provided container contains element of type,
     // as
@@ -1173,7 +931,6 @@ public class Mtable extends AbstractJEuclidElement implements
     //
     // return false;
     // }
-
     /** {@inheritDoc} */
     public String getTagName() {
         return Mtable.ELEMENT;
@@ -1498,13 +1255,9 @@ public class Mtable extends AbstractJEuclidElement implements
 
     /** {@inheritDoc} */
     @Override
-    // CHECKSTYLE:OFF
-    // This function is WAY TO LONG. However, it depends on values computed
-    // earlier, so it is really difficult to split into smaller function.
     public void layoutStageInvariant(final LayoutView view,
             final LayoutInfo info, final LayoutStage stage,
             final LayoutContext context) {
-        // CHECKSTYLE:ON
         final Graphics2D g = view.getGraphics();
         final LayoutContext now = this.applyLocalAttributesToContext(context);
         final List<LayoutableNode> children = this.getChildrenToLayout();
@@ -1560,9 +1313,31 @@ public class Mtable extends AbstractJEuclidElement implements
             final float rowDescent = rowInfos[i].getDescentHeight(stage);
             for (final LayoutableNode n : mtdChildren[i]) {
                 final LayoutInfo mtdInfo = view.getInfo(n);
-                // TODO: Align vertically.
-                mtdInfo.setStretchAscent(rowAscent);
-                mtdInfo.setStretchDescent(rowDescent);
+
+                final VAlign valign = this.getVAlign((JEuclidElement) n, i);
+                final float verticalShift;
+                if (valign.getAlign() == Mtable.VAlign.TOP) {
+                    verticalShift = -rowAscent
+                            + mtdInfo.getAscentHeight(stage);
+                } else if (valign.getAlign() == Mtable.VAlign.BOTTOM) {
+                    verticalShift = rowDescent
+                            - mtdInfo.getDescentHeight(stage);
+                } else if (valign.getAlign() == Mtable.VAlign.CENTER) {
+                    verticalShift = (-rowAscent + rowDescent
+                            + mtdInfo.getAscentHeight(stage) - mtdInfo
+                            .getDescentHeight(stage)) / 2.0f;
+                } else if (valign.getAlign() == Mtable.VAlign.AXIS) {
+                    // TODO: This uses center instead of axis.
+                    verticalShift = (-rowAscent + rowDescent
+                            + mtdInfo.getAscentHeight(stage) - mtdInfo
+                            .getDescentHeight(stage)) / 2.0f;
+                } else {
+                    // BASELINE
+                    verticalShift = 0.0f;
+                }
+                mtdInfo.shiftVertically(verticalShift, stage);
+                mtdInfo.setStretchAscent(rowAscent + verticalShift);
+                mtdInfo.setStretchDescent(rowDescent - verticalShift);
             }
         }
     }
@@ -1580,8 +1355,7 @@ public class Mtable extends AbstractJEuclidElement implements
                 / 2.0f;
 
         for (int i = 0; i < rows; i++) {
-            rowInfos[i].moveTo(0, rowInfos[i].getPosY(stage) + verticalShift,
-                    stage);
+            rowInfos[i].shiftVertically(verticalShift, stage);
         }
     }
 
@@ -1692,4 +1466,43 @@ public class Mtable extends AbstractJEuclidElement implements
         }
         return retVal;
     }
+
+    private VAlign getVAlign(final JEuclidElement n, final int row) {
+        assert n != null;
+        final VAlign retVal;
+        if (n instanceof MathMLTableCellElement) {
+            final MathMLTableCellElement cell = (MathMLTableCellElement) n;
+            final String alignString = cell.getRowalign();
+            final Mtable.VAlign valign = Mtable.VAlign
+                    .parseString(alignString);
+            if (valign == null) {
+                retVal = this.getVAlign(n.getParent(), row);
+            } else {
+                retVal = valign;
+            }
+        } else if (n instanceof MathMLTableRowElement) {
+            final MathMLTableRowElement rowE = (MathMLTableRowElement) n;
+            final String alignString = rowE.getRowalign();
+            final Mtable.VAlign valign = Mtable.VAlign
+                    .parseString(alignString);
+            if (valign == null) {
+                retVal = this.getVAlign(n.getParent(), row);
+            } else {
+                retVal = valign;
+            }
+        } else if (n instanceof MathMLTableElement) {
+            final MathMLTableElement table = (MathMLTableElement) n;
+            final String alignArray = table.getRowalign();
+            if ((alignArray != null) && (alignArray.length() > 0)) {
+                retVal = Mtable.VAlign.parseString(this.getSpaceArrayEntry(
+                        alignArray, row));
+            } else {
+                retVal = Mtable.VAlign.BASELINE_ALIGN;
+            }
+        } else {
+            retVal = this.getVAlign(n.getParent(), row);
+        }
+        return retVal;
+    }
+
 }

@@ -40,10 +40,10 @@ public class Mtd extends AbstractRowLike implements MathMLTableCellElement {
     public static final String ELEMENT = "mtd";
 
     /** attribute for rowspan. */
-    public static final String ATTR_ROWSPAN = "rowspan";
+    private static final String ATTR_ROWSPAN = "rowspan";
 
     /** attribute for columnspan. */
-    public static final String ATTR_COLUMNSPAN = "columnspan";
+    private static final String ATTR_COLUMNSPAN = "columnspan";
 
     private static final String VALUE_ONE = "1";
 

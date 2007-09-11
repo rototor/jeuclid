@@ -35,6 +35,9 @@ public enum HAlign {
     /** constant for center align. */
     public static final String ALIGN_CENTER = "center";
 
+    /** constant for right align. */
+    public static final String ALIGN_RIGHT = "right";
+
     /**
      * Parse an Alignment String.
      * 
@@ -51,7 +54,7 @@ public enum HAlign {
             retVal = CENTER;
         } else if ("left".equalsIgnoreCase(alignString)) {
             retVal = LEFT;
-        } else if ("right".equalsIgnoreCase(alignString)) {
+        } else if (HAlign.ALIGN_RIGHT.equalsIgnoreCase(alignString)) {
             retVal = RIGHT;
         } else {
             retVal = defaultt;
