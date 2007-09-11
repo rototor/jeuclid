@@ -1,7 +1,3 @@
-Please download XXE from http://www.xmlmind.com/xmleditor/
+The XXE plugin is now maintained by XMLMind.
 
-Install the xxe.jar into your local maven repository (adjust the path for your system, this is an example from OS X)
-
-Ensure that XXE is EXACTLY the version you are installing!
-
-mvn install:install-file -Dfile=/Applications/XMLEditor.app/Contents/Resources/Java/xxe.jar -DgroupId=com.xmlmind -DartifactId=xxe -Dversion=3.6.1 -Dpackaging=jar
+http://www.xmlmind.com 
