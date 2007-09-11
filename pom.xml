@@ -16,6 +16,7 @@
     <module>jeuclid</module>
     <module>jeuclid-minimal</module>
     <module>jeuclid-webstart</module>
+    <module>jeuclid-testsuite</module>
   </modules>
   <description>
     JEuclid is a complete MathML rendering solution, consisting of a MathViewer
