@@ -44,6 +44,15 @@
           application bundle for Mac OS X.</para>
         </listitem>
       </varlistentry>
+
+      <varlistentry>
+        <term>jeuclid-fop</term>
+
+        <listitem>
+          <para>Contains only the plugin for <ulink
+          url="http://xmlgraphics.apache.org/fop/">Apache FOP</ulink>.</para>
+        </listitem>
+      </varlistentry>
     </variablelist>
 
     <para>If you just want the MathViewer you may also start it from our
@@ -118,7 +127,23 @@
 
           <listitem>
             <para>Unix / Linux: Please use the DejaVu fonts. Do not copy the
-            Arial Unicode Font from a Windows system, as you may violate the
+            Arial Unicode font from a Windows system, as you may violate the
+            license!</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Cambria / Cambria Math</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Windows: It is included in Windows Vista and Office
+            2007.</para>
+          </listitem>
+
+          <listitem>
+            <para>Other Systems: Do not copy the Cambria font without a valid
             license!</para>
           </listitem>
         </itemizedlist>
@@ -144,7 +169,7 @@
     <command>mml2xx.bat</command> (windows) script from the
     <command>bin/</command> directory in the distribution.</para>
 
-    <para>Example: </para>
+    <para>Example:</para>
 
     <programlisting>mml2xxx a.mml a.png -BackgroundColor white</programlisting>
 
@@ -197,6 +222,6 @@
     url="http://sourceforge.net/project/showfiles.php?group_id=44862&amp;package_id=37497&amp;release_id=220741">download
     JEuclid 2</ulink>. Please see the included INSTALL instructions. The
     Cocoon component is currently not under active development. Volunteers are
-    welcome! </para>
+    welcome!</para>
   </section>
 </article>
