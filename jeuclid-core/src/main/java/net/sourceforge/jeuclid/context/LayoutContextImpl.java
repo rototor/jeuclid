@@ -68,6 +68,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
         symbolCatchFonts.add("Wingdings 2");
         symbolCatchFonts.add("Wingdings 3");
         symbolCatchFonts.add("Arial Unicode MS");
+        symbolCatchFonts.add("Cambria Math");
         symbolCatchFonts.add("DejaVu Sans");
 
         fontsSanserif.add("Verdana");
@@ -86,6 +87,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
         this.context.put(Parameter.FONTS_SANSSERIF, fontsSanserif);
 
         fontsSerif.add("Constantina");
+        fontsSerif.add("Cambria");
         fontsSerif.add("Times");
         fontsSerif.add("Times New Roman");
         fontsSerif.add("Lucida Bright");
