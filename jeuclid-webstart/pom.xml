@@ -22,7 +22,7 @@
                 <configuration>
                     <jnlp>
                         <outputFile>mathviewer.jnlp</outputFile>
-                        <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
+                        <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
                     </jnlp>
                     <sign>
                         <keystore>${basedir}/keystore</keystore>

@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="update">Moved MathViewer into own package</action>
 			<action dev="maxberger" type="update">Support Cambria Fonts (Win Vista + Office 2007)</action>
 			<action dev="maxberger" type="add">Completed Redesign</action>
 			<action dev="maxberger" type="add">Yet another Layout Redesign</action>

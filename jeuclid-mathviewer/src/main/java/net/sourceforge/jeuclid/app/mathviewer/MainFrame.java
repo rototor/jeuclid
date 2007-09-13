@@ -37,7 +37,6 @@ import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
-import net.sourceforge.jeuclid.app.MathViewer;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 

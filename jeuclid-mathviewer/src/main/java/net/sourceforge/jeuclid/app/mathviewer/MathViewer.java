@@ -16,7 +16,7 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.app;
+package net.sourceforge.jeuclid.app.mathviewer;
 
 import java.io.File;
 
@@ -26,8 +26,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import net.sourceforge.jeuclid.Constants;
-import net.sourceforge.jeuclid.app.mathviewer.FileIO;
-import net.sourceforge.jeuclid.app.mathviewer.MainFrame;
 import net.sourceforge.jeuclid.app.support.CommandLineParser;
 
 import org.apache.commons.logging.Log;
