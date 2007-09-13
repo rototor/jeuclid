@@ -132,12 +132,12 @@ public class JMathComponent extends JComponent implements SwingConstants {
         boolean first = true;
         final StringBuilder b = new StringBuilder();
         for (final String s : list) {
-            b.append(s);
             if (!first) {
                 b.append(JMathComponent.FONT_SEPARATOR);
             } else {
                 first = false;
             }
+            b.append(s);
         }
         return b.toString();
     }
