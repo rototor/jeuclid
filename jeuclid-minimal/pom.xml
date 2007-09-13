@@ -20,7 +20,7 @@
         <configuration>
           <programs>
             <program>
-              <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
+              <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
               <name>mathviewer</name>
             </program>
             <program>

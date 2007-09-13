@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/jeuclid/jeuclid-mathviewer/src/main/java/net/sourceforge/jeuclid/app/MathViewer.java"/>
+<listEntry value="/jeuclid/jeuclid-mathviewer/src/main/java/net/sourceforge/jeuclid/app/mathviewer/MathViewer.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -10,7 +10,7 @@
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="net.sourceforge.jeuclid.app.MathViewer"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="net.sourceforge.jeuclid.app.mathviewer.MathViewer"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="jeuclid"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-enableassertions"/>
 </launchConfiguration>
