@@ -44,7 +44,6 @@ import org.w3c.dom.views.DocumentView;
 /**
  * Class for MathML Document Nodes.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class DocumentElement extends AbstractPartialDocumentImpl implements

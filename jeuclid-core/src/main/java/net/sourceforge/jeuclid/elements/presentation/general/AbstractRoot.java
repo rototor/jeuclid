@@ -40,7 +40,6 @@ import org.w3c.dom.mathml.MathMLRadicalElement;
 /**
  * common superclass for root like elements (root, sqrt).
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractRoot extends AbstractJEuclidElement implements

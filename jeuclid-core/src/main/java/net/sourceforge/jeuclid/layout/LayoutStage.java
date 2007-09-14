@@ -19,7 +19,6 @@
 package net.sourceforge.jeuclid.layout;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public enum LayoutStage {

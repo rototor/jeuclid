@@ -29,7 +29,6 @@ import org.w3c.dom.mathml.MathMLPresentationContainer;
 /**
  * Represents a Math element that is painted and defined through its children.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractMathElementWithChildren extends

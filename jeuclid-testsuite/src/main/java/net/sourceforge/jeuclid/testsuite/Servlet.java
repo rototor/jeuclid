@@ -38,7 +38,6 @@ import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class Servlet extends HttpServlet {

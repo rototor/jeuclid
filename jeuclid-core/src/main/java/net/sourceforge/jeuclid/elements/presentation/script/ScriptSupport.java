@@ -34,7 +34,6 @@ import net.sourceforge.jeuclid.layout.LayoutView;
  * 
  * @see AbstractSubSuper
  * @see AbstractUnderOver
- * @author Max Berger
  * @version $Revision$
  */
 public final class ScriptSupport {
@@ -46,7 +45,6 @@ public final class ScriptSupport {
     /**
      * Info for baseline shifts.
      * 
-     * @author Max Berger
      * @version $Revision$
      */
     static class ShiftInfo {

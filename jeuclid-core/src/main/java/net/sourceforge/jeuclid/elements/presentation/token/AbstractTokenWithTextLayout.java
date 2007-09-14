@@ -37,7 +37,6 @@ import org.w3c.dom.mathml.MathMLPresentationToken;
 /**
  * Common functionality for all tokens based on a text layout.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractTokenWithTextLayout extends

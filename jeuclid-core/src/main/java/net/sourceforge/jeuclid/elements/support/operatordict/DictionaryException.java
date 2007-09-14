@@ -21,8 +21,6 @@ package net.sourceforge.jeuclid.elements.support.operatordict;
 /**
  * Exception during loading from dictionary.
  * 
- * @author Unkown
- * @author Max Berger
  * @version $Revision$
  */
 public class DictionaryException extends Exception {

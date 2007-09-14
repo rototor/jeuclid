@@ -23,8 +23,6 @@ import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 /**
  * This class represent the empty elements mprescripts.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mprescripts extends AbstractInvisibleJEuclidElement {

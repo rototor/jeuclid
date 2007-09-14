@@ -31,7 +31,6 @@ import org.w3c.dom.Node;
  * supports conversion to SVG output through Batik.
  * 
  * @todo This code contains some duplications which should be cleaned up
- * @author Max Berger
  * @version $Revision$
  */
 public class BatikConverter implements ConverterPlugin {

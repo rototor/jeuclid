@@ -28,7 +28,6 @@ import java.io.File;
  * <p>
  * http://en.wikipedia.org/wiki/Defensive_programming
  * 
- * @author putrycze
  * @version $Revision$
  * 
  */

@@ -26,7 +26,6 @@ import javax.imageio.ImageWriter;
 /**
  * Detects and registers the Converters from ImageIO.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class ImageIODetector {

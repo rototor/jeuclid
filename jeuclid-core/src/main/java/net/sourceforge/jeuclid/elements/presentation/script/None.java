@@ -23,8 +23,6 @@ import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 /**
  * This class represent the empty elements none.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class None extends AbstractInvisibleJEuclidElement {

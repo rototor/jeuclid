@@ -26,7 +26,6 @@ import org.xml.sax.Attributes;
 /**
  * Attributes derived from SAX.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class SAXAttributeMap extends AbstractAttributeMap {

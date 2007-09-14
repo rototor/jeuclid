@@ -24,7 +24,6 @@ import java.util.List;
 import net.sourceforge.jeuclid.context.Display;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public interface LayoutContext {

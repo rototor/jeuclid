@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.elements.support;
 import java.awt.geom.Dimension2D;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class Dimension2DImpl extends Dimension2D {

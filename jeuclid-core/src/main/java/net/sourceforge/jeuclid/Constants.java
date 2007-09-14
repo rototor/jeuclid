@@ -19,7 +19,6 @@
 package net.sourceforge.jeuclid;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public final class Constants {

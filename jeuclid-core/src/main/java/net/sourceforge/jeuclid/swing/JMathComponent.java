@@ -59,8 +59,6 @@ import org.xml.sax.SAXException;
  * compatibility, but they may not work exactly as expected.
  * 
  * @see net.sourceforge.jeuclid.awt.MathComponent
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class JMathComponent extends JComponent implements SwingConstants {

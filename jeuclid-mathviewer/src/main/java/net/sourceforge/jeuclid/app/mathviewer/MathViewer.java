@@ -34,7 +34,6 @@ import org.apache.commons.logging.LogFactory;
 /**
  * A simple application for viewing MathML documents.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class MathViewer {

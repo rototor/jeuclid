@@ -31,7 +31,6 @@ import org.w3c.dom.Node;
 /**
  * Converter for output formats supported by FreeHEP.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class FreeHepConverter implements ConverterPlugin {

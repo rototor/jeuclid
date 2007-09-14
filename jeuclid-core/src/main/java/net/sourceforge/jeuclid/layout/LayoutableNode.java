@@ -26,7 +26,6 @@ import net.sourceforge.jeuclid.elements.JEuclidNode;
 import org.w3c.dom.Node;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public interface LayoutableNode extends Node, JEuclidNode {

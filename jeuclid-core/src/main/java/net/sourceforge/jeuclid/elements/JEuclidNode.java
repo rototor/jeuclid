@@ -24,7 +24,6 @@ import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 /**
  * Generic interface for all MathNodes, including document Element.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public interface JEuclidNode extends ChangeTrackingInterface {

@@ -27,8 +27,6 @@ import org.w3c.dom.mathml.MathMLScriptElement;
 /**
  * This class arranges an element lower to an other element.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Msub extends AbstractSubSuper implements MathMLScriptElement {

@@ -36,7 +36,6 @@ import org.xml.sax.InputSource;
  * <li>MathML 2.0</li>
  * </ul>
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class ResourceEntityResolver implements EntityResolver {

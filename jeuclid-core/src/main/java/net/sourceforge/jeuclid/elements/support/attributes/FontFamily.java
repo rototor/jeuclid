@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.elements.support.attributes;
 /**
  * Enumeration for font families.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public enum FontFamily {

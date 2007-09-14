@@ -58,8 +58,6 @@ import org.w3c.dom.mathml.MathMLNodeList;
  * The basic class for all math elements. Every element class inherits from
  * this class. It provides basic functionality for drawing.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 // CHECKSTYLE:OFF

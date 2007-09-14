@@ -33,8 +33,6 @@ import javax.swing.ImageIcon;
  * JEuclid in their application. With help of this class they can query useful
  * information about JMathComponent when the application uses it as a bean.
  * 
- * @author Matthias Hanisch
- * @author Max Berger
  * @version $Revision$
  */
 public class JMathComponentBeanInfo extends SimpleBeanInfo {

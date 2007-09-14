@@ -31,7 +31,6 @@ import net.sourceforge.jeuclid.font.FontFactory;
 /**
  * Class to represent and use MathVariants.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class MathVariant {

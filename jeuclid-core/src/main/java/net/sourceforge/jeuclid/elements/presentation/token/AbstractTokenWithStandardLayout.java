@@ -28,7 +28,6 @@ import net.sourceforge.jeuclid.elements.support.text.StringUtil;
  * Common functionality for all tokens where the text layout is based on the
  * text content.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractTokenWithStandardLayout extends

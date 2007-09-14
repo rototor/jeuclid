@@ -23,7 +23,6 @@ package net.sourceforge.jeuclid.elements.presentation.general;
  * Common base class for all elements that present themself as a row of
  * children, like the mrow element.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractRowLike extends AbstractMathElementWithChildren {

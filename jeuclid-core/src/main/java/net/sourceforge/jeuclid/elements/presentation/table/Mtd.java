@@ -28,8 +28,6 @@ import org.w3c.dom.mathml.MathMLTableCellElement;
 /**
  * This class presents a cell of a table.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mtd extends AbstractRowLike implements MathMLTableCellElement {

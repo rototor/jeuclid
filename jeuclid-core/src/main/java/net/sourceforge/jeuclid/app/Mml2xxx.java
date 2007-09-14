@@ -30,7 +30,6 @@ import net.sourceforge.jeuclid.converter.ConverterRegistry;
 /**
  * Utility class to be used from the command line to call the converters.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class Mml2xxx {

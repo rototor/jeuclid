@@ -26,8 +26,6 @@ import net.sourceforge.jeuclid.layout.LayoutableNode;
 /**
  * This class represents a phantom of a math element. This is used as spacer.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mphantom extends AbstractMathElementWithChildren {

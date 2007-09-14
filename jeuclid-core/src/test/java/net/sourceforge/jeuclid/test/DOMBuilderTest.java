@@ -16,7 +16,6 @@ import org.xml.sax.InputSource;
  * A JUnit test for DOMBuilder; in particular, the sources it can take as
  * input.
  * 
- * @author Ernest Mishkin
  */
 public class DOMBuilderTest {
 

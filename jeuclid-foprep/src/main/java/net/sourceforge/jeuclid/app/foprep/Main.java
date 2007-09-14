@@ -40,7 +40,6 @@ import org.apache.commons.cli.ParseException;
 /**
  * Main class for fo-preprocess application.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class Main {

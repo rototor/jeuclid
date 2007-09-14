@@ -37,7 +37,6 @@ import org.xml.sax.SAXException;
 /**
  * A JUnit Test case for MathBase.
  * 
- * @author unknown, Max Berger
  */
 public class MathBaseTest {
 

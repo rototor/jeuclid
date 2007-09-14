@@ -23,7 +23,6 @@ import java.util.Map;
 /**
  * Generic interface to access XML attributes.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public interface AttributeMap {

@@ -26,7 +26,6 @@ import net.sourceforge.jeuclid.context.StyleAttributeLayoutContext;
 /**
  * Represents an merror element.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class Merror extends AbstractRowLike {

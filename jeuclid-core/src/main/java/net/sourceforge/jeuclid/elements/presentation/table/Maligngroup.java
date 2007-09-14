@@ -25,8 +25,6 @@ import org.w3c.dom.mathml.MathMLAlignGroupElement;
 /**
  * This class represents the maligngroup tag.
  * 
- * @author PG
- * @author Max Berger
  * @version $Revision$
  */
 

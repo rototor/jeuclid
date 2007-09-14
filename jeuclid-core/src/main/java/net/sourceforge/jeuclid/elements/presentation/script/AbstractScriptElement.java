@@ -27,7 +27,6 @@ import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 /**
  * Base class for msub, msup, msubsup, and mmultiscripts.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractScriptElement extends AbstractJEuclidElement {

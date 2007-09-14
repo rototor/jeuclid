@@ -27,7 +27,6 @@ import org.w3c.dom.mathml.MathMLElement;
 /**
  * Interface for all MathElements within JEuclid.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public interface JEuclidElement extends MathMLElement, JEuclidNode,

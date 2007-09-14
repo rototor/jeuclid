@@ -47,7 +47,6 @@ import org.w3c.dom.Node;
  * http://today.java.net/pub/a/today/2007/02/22/how-to-write-custom-swing-component.html
  * for details.
  * 
- * @author putrycze
  * @version $Revision$
  * 
  */

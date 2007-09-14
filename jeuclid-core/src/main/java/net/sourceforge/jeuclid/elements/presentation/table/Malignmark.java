@@ -25,8 +25,6 @@ import org.w3c.dom.mathml.MathMLAlignMarkElement;
 /**
  * This class represents the malignmark tag.
  * 
- * @author PG
- * @author Max Berger
  * @version $Revision$
  */
 public class Malignmark extends AbstractInvisibleJEuclidElement implements

@@ -27,8 +27,6 @@ import org.w3c.dom.mathml.MathMLTableRowElement;
 /**
  * This class presents a row in MathTable.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mtr extends AbstractJEuclidElement implements

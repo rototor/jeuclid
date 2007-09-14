@@ -23,8 +23,6 @@ import org.w3c.dom.mathml.MathMLPresentationContainer;
 /**
  * This class presents a row.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mrow extends AbstractRowLike implements

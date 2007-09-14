@@ -29,8 +29,6 @@ import org.w3c.dom.mathml.MathMLStringLitElement;
 /**
  * This class represents string in a equation.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Ms extends AbstractTokenWithTextLayout implements

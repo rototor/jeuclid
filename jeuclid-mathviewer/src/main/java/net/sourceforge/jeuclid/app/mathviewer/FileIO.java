@@ -42,7 +42,6 @@ import org.xml.sax.SAXException;
 /**
  * File I/O support functionality for MathViewer.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class FileIO {

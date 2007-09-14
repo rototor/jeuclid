@@ -30,7 +30,6 @@ import org.w3c.dom.Node;
 /**
  * Describes an Image converter.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public interface ConverterPlugin {

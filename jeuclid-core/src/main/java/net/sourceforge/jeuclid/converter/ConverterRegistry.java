@@ -27,7 +27,6 @@ import java.util.Set;
 /**
  * A registry for image converters.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class ConverterRegistry {

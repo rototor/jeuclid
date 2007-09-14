@@ -25,7 +25,6 @@ import org.w3c.dom.mathml.MathMLAnnotationElement;
 /**
  * This class represents a annotation element.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class Annotation extends AbstractInvisibleJEuclidElement implements

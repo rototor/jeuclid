@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.layout;
 import org.w3c.dom.views.DocumentView;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public interface LayoutableDocument extends DocumentView, LayoutableNode {

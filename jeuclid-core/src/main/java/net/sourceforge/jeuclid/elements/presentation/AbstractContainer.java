@@ -29,7 +29,6 @@ import org.w3c.dom.mathml.MathMLNodeList;
  * Abstract implementation for all classes that provide support for the DOM
  * MathMLContainer interface.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractContainer extends AbstractJEuclidElement

@@ -69,7 +69,6 @@ import org.w3c.dom.mathml.MathMLElement;
 /**
  * Creates MathElements from given element strings.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class JEuclidElementFactory {

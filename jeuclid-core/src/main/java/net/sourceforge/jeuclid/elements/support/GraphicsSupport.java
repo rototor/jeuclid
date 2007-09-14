@@ -25,7 +25,6 @@ import net.sourceforge.jeuclid.LayoutContext.Parameter;
 /**
  * This class contains helper functions for graphical calculations.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class GraphicsSupport {

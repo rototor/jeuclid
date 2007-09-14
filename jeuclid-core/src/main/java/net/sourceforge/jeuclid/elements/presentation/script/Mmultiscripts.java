@@ -39,8 +39,6 @@ import org.w3c.dom.mathml.MathMLNodeList;
 /**
  * Prescripts and Tensor Indices.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 

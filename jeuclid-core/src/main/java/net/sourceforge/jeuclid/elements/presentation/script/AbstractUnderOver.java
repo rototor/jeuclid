@@ -42,7 +42,6 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
  * 
  * @todo some operators should "default" to being an accent, but currently
  *       they don't
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractUnderOver extends AbstractJEuclidElement

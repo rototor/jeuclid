@@ -44,7 +44,6 @@ import org.xml.sax.SAXException;
 /**
  * Generic converter which uses the registry to do its conversions.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class Converter {

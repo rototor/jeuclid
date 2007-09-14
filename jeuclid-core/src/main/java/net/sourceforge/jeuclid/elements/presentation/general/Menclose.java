@@ -51,7 +51,6 @@ import org.w3c.dom.mathml.MathMLEncloseElement;
 /**
  * Class for supporting "menclose" elements.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class Menclose extends AbstractElementWithDelegates implements
@@ -60,7 +59,6 @@ public class Menclose extends AbstractElementWithDelegates implements
     /**
      * base class for all row-like notations.
      * 
-     * @author Max Berger
      */
     private abstract static class AbstractRowLikeNotation extends
             AbstractRowLike {
@@ -137,7 +135,6 @@ public class Menclose extends AbstractElementWithDelegates implements
      * Represents the US long-division notation, to support the notation
      * "longdiv".
      * 
-     * @author Max Berger
      */
     private static class Longdiv extends Menclose.AbstractRowLikeNotation {
         /**
@@ -176,7 +173,6 @@ public class Menclose extends AbstractElementWithDelegates implements
     /**
      * Up-Diagonal Strike.
      * 
-     * @author Max Berger
      */
     private static class Updiagonalstrike extends
             Menclose.AbstractRowLikeNotation {
@@ -205,7 +201,6 @@ public class Menclose extends AbstractElementWithDelegates implements
     /**
      * Down-Diagonal Strike.
      * 
-     * @author Max Berger
      */
     private static class Downdiagonalstrike extends
             Menclose.AbstractRowLikeNotation {

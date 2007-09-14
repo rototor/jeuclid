@@ -22,7 +22,6 @@ package net.sourceforge.jeuclid.swt;
  * This class will contain a display component for SWT.
  * 
  * @todo actually implement SWT component
- * @author Max Berger
  * @version $Revision$
  */
 public final class MathView {
