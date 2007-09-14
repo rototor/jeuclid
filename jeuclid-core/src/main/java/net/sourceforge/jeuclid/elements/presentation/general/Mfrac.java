@@ -95,7 +95,7 @@ public class Mfrac extends AbstractJEuclidElement implements
     public LayoutContext getChildLayoutContext(final int childNum,
             final LayoutContext context) {
         return new InlineLayoutContext(this
-                .applyLocalAttributesToContext(context));
+                .applyLocalAttributesToContext(context), true);
     }
 
     /**

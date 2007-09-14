@@ -89,8 +89,9 @@ public class Mroot extends AbstractRoot implements MathMLRadicalElement {
         if (childNum == 0) {
             return now;
         } else {
+            // As specified in M2 3.3.3.2
             return new RelativeScriptlevelLayoutContext(
-                    new InlineLayoutContext(now), 1);
+                    new InlineLayoutContext(now), 2);
         }
     }
 
