@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
+import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -101,16 +102,26 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
         }
 
         public Object getParameter(final Parameter which) {
-
             Object retVal = Mstyle.this.applyLocalAttributesToContext(
                     this.context).getParameter(which);
             if (Parameter.DISPLAY.equals(which)) {
                 retVal = this.applyDisplay(retVal);
-            }
-            if (Parameter.SCRIPTLEVEL.equals(which)) {
+            } else if (Parameter.SCRIPTLEVEL.equals(which)) {
                 retVal = this.applyScriptlevel(retVal);
+            } else if (Parameter.SCRIPTMINSIZE.equals(which)) {
+                retVal = this.applyScriptMinsize(retVal);
             }
             return retVal;
+        }
+
+        private Object applyScriptMinsize(final Object parentLevel) {
+            final String newMinsize = Mstyle.this.getScriptminsize();
+            if ((newMinsize != null) && (newMinsize.length() > 0)) {
+                return AttributesHelper.convertSizeToPt(newMinsize,
+                        this.context, AttributesHelper.PT);
+            } else {
+                return parentLevel;
+            }
         }
 
         private Object applyScriptlevel(final Object parentLevel) {
