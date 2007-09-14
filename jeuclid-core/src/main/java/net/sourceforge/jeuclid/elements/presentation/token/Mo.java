@@ -50,8 +50,6 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
 /**
  * This class presents a math operator, like "(" or "*".
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mo extends AbstractJEuclidElement implements

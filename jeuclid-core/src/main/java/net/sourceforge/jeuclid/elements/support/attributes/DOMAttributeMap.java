@@ -27,7 +27,6 @@ import org.w3c.dom.Node;
 /**
  * Attributes derived from DOM.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class DOMAttributeMap extends AbstractAttributeMap {

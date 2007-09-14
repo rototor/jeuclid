@@ -33,7 +33,6 @@ import org.w3c.dom.Document;
 /**
  * A class for displaying MathML content in a AWT Component.
  * 
- * @author Unknown, Max Berger
  * @see net.sourceforge.jeuclid.swing.JMathComponent
  * @version $Revision$
  */

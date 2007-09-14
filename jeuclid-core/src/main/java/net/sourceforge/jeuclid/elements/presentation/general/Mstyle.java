@@ -28,8 +28,6 @@ import org.w3c.dom.mathml.MathMLStyleElement;
 /**
  * This class arrange an element lower to an other element.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mstyle extends AbstractRowLike implements MathMLStyleElement {

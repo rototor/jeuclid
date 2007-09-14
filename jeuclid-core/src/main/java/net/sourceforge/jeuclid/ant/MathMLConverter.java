@@ -32,8 +32,6 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
 /**
  * This task converts MathML files to images.
  * 
- * @author Unkown
- * @author Max Berger
  * @version $Revision$
  */
 public class MathMLConverter extends MatchingTask {

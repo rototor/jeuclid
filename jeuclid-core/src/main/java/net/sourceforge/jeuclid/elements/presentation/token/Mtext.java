@@ -23,8 +23,6 @@ import org.w3c.dom.mathml.MathMLPresentationToken;
 /**
  * This class presents text in a equation and contains some utility methods.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mtext extends AbstractTokenWithStandardLayout implements

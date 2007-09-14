@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.elements.support.attributes;
 /**
  * Generic class for reading and parsing attributes.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractAttributeMap implements AttributeMap {

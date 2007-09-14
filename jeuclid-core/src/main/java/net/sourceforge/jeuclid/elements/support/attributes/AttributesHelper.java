@@ -36,8 +36,6 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Class contains utility methods for working with elements attributes.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public final class AttributesHelper {

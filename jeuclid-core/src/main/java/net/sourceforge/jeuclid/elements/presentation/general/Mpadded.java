@@ -23,7 +23,6 @@ import org.w3c.dom.mathml.MathMLPaddedElement;
 /**
  * This class implemented the mpadded element.
  * 
- * @author Max Berger
  * @todo none of the attributes are actually implemented yet.
  * @version $Revision$
  */

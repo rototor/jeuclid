@@ -29,8 +29,6 @@ import org.w3c.dom.mathml.MathMLRadicalElement;
 /**
  * This class presents a mathematical square root.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Msqrt extends AbstractRoot implements MathMLRadicalElement {

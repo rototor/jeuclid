@@ -23,8 +23,6 @@ import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 /**
  * This class presents a mathematical idenifier, like "x".
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mi extends AbstractTokenWithStandardLayout {

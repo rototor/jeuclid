@@ -30,7 +30,6 @@ import java.util.Map;
  * Concrete FontFactory implementation that does simple caching of Fonts 
  * loaded via {@link Font#createFont(int, File)} APIs.
  * 
- * @author Ernest Mishkin
  * @version $Revision$
  */
 public class DefaultFontFactory extends FontFactory {

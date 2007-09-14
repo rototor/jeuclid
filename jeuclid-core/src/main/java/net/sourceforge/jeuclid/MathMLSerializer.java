@@ -34,7 +34,6 @@ import org.w3c.dom.Node;
 /**
  * Utility class to serialize DOM documents back into Strings.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class MathMLSerializer {

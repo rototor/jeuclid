@@ -27,8 +27,6 @@ import org.w3c.dom.mathml.MathMLScriptElement;
  * This class arranges a element lower, and a other elements upper to an
  * element.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Msubsup extends AbstractSubSuper implements MathMLScriptElement {

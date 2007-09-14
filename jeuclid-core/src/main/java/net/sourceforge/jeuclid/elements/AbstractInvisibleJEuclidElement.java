@@ -26,7 +26,6 @@ import net.sourceforge.jeuclid.layout.LayoutableNode;
 /**
  * Represents a MathElement with no content.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractInvisibleJEuclidElement extends

@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.context;
 import net.sourceforge.jeuclid.LayoutContext;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class RelativeScriptlevelLayoutContext implements LayoutContext {

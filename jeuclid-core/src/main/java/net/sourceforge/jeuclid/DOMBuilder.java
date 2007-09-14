@@ -33,8 +33,6 @@ import org.w3c.dom.NodeList;
 /**
  * Builds a MathML tree from a given DOM tree.
  * 
- * @author <a href="mailto:stephan@vern.chem.tu-berlin.de">Stephan Michels</a>
- * @author Max Berger
  * @version $Revision$
  */
 public final class DOMBuilder {

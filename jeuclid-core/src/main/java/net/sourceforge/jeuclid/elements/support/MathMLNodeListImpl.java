@@ -26,7 +26,6 @@ import org.w3c.dom.mathml.MathMLNodeList;
 /**
  * Implements a MathMLNodeList based on a java.util.List.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class MathMLNodeListImpl implements MathMLNodeList {

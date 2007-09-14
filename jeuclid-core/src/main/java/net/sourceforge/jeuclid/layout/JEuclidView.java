@@ -33,7 +33,6 @@ import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class JEuclidView implements AbstractView, LayoutView {

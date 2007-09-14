@@ -22,7 +22,6 @@ import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public enum HAlign {

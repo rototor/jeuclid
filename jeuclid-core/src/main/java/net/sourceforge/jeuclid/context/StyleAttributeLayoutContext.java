@@ -24,7 +24,6 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class StyleAttributeLayoutContext implements LayoutContext {

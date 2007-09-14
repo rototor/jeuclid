@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Detects if Batik is in the class path and registers it if its available.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class BatikDetector {

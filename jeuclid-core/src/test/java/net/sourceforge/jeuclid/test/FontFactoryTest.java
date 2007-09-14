@@ -29,7 +29,6 @@ import org.testng.annotations.Test;
  * Test for {@link net.sourceforge.jeuclid.font.FontFactory} class and its
  * concrete subclasses.
  * 
- * @author Ernest Mishkin
  * @version $Revision$
  */
 public class FontFactoryTest {

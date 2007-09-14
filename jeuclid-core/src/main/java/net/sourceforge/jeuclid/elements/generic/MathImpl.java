@@ -27,8 +27,6 @@ import org.w3c.dom.mathml.MathMLMathElement;
 /**
  * The root element for creating a MathElement tree.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class MathImpl extends AbstractRowLike implements MathMLMathElement {

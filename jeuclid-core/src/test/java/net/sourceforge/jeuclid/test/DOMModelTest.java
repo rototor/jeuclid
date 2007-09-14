@@ -65,7 +65,6 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
 /**
  * Various tests for the DOM model.
  * 
- * @author Max Berger
  */
 public class DOMModelTest {
 

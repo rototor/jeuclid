@@ -44,8 +44,6 @@ import org.w3c.dom.mathml.MathMLFractionElement;
 /**
  * This math element presents a mathematical fraction.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mfrac extends AbstractJEuclidElement implements

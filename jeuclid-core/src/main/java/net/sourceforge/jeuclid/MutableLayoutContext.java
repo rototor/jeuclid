@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid;
 
 
 /**
- * @author mage
  * @version $Revision$
  */
 public interface MutableLayoutContext extends LayoutContext {

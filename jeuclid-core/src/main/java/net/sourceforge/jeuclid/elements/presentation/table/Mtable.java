@@ -55,8 +55,6 @@ import org.w3c.dom.mathml.MathMLTableRowElement;
 /**
  * This class presents a table.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 // CHECKSTYLE:OFF

@@ -31,7 +31,6 @@ import javax.swing.SwingConstants;
 /**
  * About Dialog for MathViewer.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class AboutDialog extends JDialog {

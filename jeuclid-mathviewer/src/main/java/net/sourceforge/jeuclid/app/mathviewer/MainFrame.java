@@ -45,7 +45,6 @@ import org.w3c.dom.Document;
 /**
  * Main frame for the MathViewer application.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 // CHECKSTYLE:OFF

@@ -21,8 +21,6 @@ package net.sourceforge.jeuclid.elements.support.operatordict;
 /**
  * This is just a marker class.
  * 
- * @author PG
- * @author Max Berger
  * @version $Revision$
  */
 public class UnknownAttributeException extends Exception {

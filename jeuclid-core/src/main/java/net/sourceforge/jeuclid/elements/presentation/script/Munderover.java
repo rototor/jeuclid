@@ -25,8 +25,6 @@ import org.w3c.dom.mathml.MathMLElement;
 /**
  * This class arranges an element under, and an other element over an element.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Munderover extends AbstractUnderOver {

@@ -27,7 +27,6 @@ import net.sourceforge.jeuclid.ParameterKey;
 /**
  * This class contains a command line parser for JEuclid apps.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class CommandLineParser {

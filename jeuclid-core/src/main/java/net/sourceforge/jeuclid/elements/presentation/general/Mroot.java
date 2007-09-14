@@ -32,8 +32,6 @@ import org.w3c.dom.mathml.MathMLRadicalElement;
 /**
  * This class presents a mathematical root.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mroot extends AbstractRoot implements MathMLRadicalElement {

@@ -46,7 +46,6 @@ import org.xml.sax.Locator;
 /**
  * Defines the top-level element for MathML.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class JEuclidElement extends JEuclidObj {

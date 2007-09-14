@@ -40,8 +40,6 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * Read default values of operators from xml file.
  * 
- * @author Unkown
- * @author Max Berger
  * @version $Revision$
  */
 public class OperatorDictionary {

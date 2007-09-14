@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class LayoutInfoImpl implements LayoutInfo {

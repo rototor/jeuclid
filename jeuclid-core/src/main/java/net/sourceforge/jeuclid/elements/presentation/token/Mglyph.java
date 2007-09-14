@@ -36,7 +36,6 @@ import org.w3c.dom.mathml.MathMLGlyphElement;
  *       design.
  * @todo other attributes (such as italic, bold, etc.) may be inherited from
  *       the context.
- * @author Max Berger
  * @version $Revision$
  */
 public class Mglyph extends AbstractTokenWithTextLayout implements

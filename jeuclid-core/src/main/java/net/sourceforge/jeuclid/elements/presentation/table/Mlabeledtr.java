@@ -25,8 +25,6 @@ import org.w3c.dom.mathml.MathMLLabeledRowElement;
  * This class represents the mlabeledtr tag.
  * 
  * @todo add proper support for labels. They are currently silently ignored.
- * @author PG
- * @author Max Berger
  * @version $Revision$
  */
 public class Mlabeledtr extends Mtr implements MathMLLabeledRowElement {

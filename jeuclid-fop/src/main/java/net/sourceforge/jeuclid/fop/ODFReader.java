@@ -41,7 +41,6 @@ import org.xml.sax.SAXException;
 /**
  * Reader plugin for the ODF Format.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class ODFReader extends XMLReader {

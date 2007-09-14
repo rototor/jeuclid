@@ -33,7 +33,6 @@ import org.w3c.dom.UserDataHandler;
  * This implements only the functions necessary for MathElements. Feel free to
  * implement whatever functions you need.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractPartialNodeImpl implements Node {

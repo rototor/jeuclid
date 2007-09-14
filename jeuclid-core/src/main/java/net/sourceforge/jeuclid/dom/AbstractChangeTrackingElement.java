@@ -29,7 +29,6 @@ import org.w3c.dom.Node;
  * generic implementation of Element that tries to track if a change has
  * happened.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractChangeTrackingElement extends

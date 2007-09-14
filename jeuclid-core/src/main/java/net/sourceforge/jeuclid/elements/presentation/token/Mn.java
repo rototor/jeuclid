@@ -22,8 +22,6 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 /**
  * This class presents numbers in a equation.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mn extends AbstractTokenWithStandardLayout {

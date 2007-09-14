@@ -35,7 +35,6 @@ import org.w3c.dom.Node;
 /**
  * supports conversion to standard Raster formats through ImageIO.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class ImageIOConverter implements ConverterPlugin {

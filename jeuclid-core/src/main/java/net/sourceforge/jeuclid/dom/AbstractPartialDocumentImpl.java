@@ -38,7 +38,6 @@ import org.w3c.dom.Text;
  * This implements only the functions necesessay for MathElements. Feel free
  * to implement whatever functions you need.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractPartialDocumentImpl extends

@@ -31,7 +31,6 @@ import net.sourceforge.jeuclid.layout.LayoutableNode;
  * To use this class, overwrite {@link #createDelegates()} to create the
  * delegate objects.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractElementWithDelegates extends AbstractContainer {

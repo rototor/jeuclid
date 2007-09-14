@@ -42,7 +42,6 @@ import org.w3c.dom.Document;
 /**
  * XMLHandler which draws MathML through a fop G2DAdapter.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class JEuclidXMLHandler implements XMLHandler {

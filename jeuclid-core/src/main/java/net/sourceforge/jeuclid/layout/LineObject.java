@@ -25,7 +25,6 @@ import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class LineObject implements GraphicsObject {

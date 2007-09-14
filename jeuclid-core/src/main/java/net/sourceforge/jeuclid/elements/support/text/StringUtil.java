@@ -40,7 +40,6 @@ import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 /**
  * Utilities for String handling.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class StringUtil {

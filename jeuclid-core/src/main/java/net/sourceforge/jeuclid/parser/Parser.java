@@ -51,7 +51,6 @@ import org.xml.sax.SAXParseException;
 /**
  * A JAXP compatible approach to MathML Parsing.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class Parser {

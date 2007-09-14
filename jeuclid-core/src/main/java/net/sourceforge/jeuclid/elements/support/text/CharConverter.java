@@ -21,8 +21,6 @@ package net.sourceforge.jeuclid.elements.support.text;
 /**
  * class for char converting.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public final class CharConverter {

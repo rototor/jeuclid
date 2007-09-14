@@ -30,7 +30,6 @@ import org.freehep.util.export.ExportFileType;
  * actual detector for FreeHEP graphics formats. Depends on the presence of
  * FreeHEP, hence the "internal".
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class FreeHepInternalDetector {

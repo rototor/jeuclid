@@ -43,7 +43,6 @@ package net.sourceforge.jeuclid;
  * #rrggbbaa notation.</dd>
  * </dl>
  * 
- * @author Erik Putrycz, Max Berger
  * @version $Revision$
  * @deprecated
  */

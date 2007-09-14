@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Detects if FreeHep is in the class path and registers it if its available.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class FreeHepDetector {

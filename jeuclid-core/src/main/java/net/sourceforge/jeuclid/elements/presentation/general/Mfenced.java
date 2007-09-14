@@ -33,9 +33,6 @@ import org.w3c.dom.mathml.MathMLFencedElement;
 /**
  * The class represents the mfenced element.
  * 
- * @author AH
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mfenced extends AbstractElementWithDelegates implements

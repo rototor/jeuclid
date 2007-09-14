@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.layout;
 import java.util.List;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public interface LayoutInfo {

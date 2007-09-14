@@ -36,7 +36,6 @@ import java.io.InputStream;
  * How a concrete subclass of FontFactory is identified is subject to change
  * in the future versions.
  * 
- * @author Ernest Mishkin
  * @version $Revision$
  */
 public abstract class FontFactory {

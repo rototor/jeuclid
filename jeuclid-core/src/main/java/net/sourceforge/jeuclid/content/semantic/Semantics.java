@@ -26,7 +26,6 @@ import org.w3c.dom.mathml.MathMLSemanticsElement;
 /**
  * This class represents a semantics element.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class Semantics extends AbstractRowLike implements

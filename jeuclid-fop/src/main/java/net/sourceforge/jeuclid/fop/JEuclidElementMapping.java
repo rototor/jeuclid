@@ -48,7 +48,6 @@ import org.w3c.dom.Document;
 /**
  * This class provides the element mapping for FOP.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class JEuclidElementMapping extends ElementMapping {

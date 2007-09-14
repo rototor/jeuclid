@@ -32,7 +32,6 @@ import org.w3c.dom.mathml.MathMLScriptElement;
  * <p>
  * Supported elements: msub, msup, msubsup.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractSubSuper extends AbstractScriptElement

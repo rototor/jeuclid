@@ -37,7 +37,6 @@ import org.w3c.dom.Node;
  * This class can be used by all elements that have some kinf of a list of
  * children that they need to handle in a row-like manner.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class ElementListSupport {

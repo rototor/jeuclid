@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.context;
 /**
  * Possible values for the display attribute.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public enum Display {

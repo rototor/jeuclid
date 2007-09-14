@@ -23,7 +23,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class FillRectObject implements GraphicsObject {

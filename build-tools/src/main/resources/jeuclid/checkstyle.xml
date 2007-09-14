@@ -159,6 +159,10 @@ Description:
         <module name="FinalParameters"/>
         <module name="DescendantToken"/>
         <module name="ArrayTypeStyle"/>
+        <module name="GenericIllegalRegexp">
+          <property name='format' value='\@author'/>
+          <property name="severity" value="error"/>
+        </module>
     </module>
     <module name="Translation"/>
     <module name="NewlineAtEndOfFile"/>

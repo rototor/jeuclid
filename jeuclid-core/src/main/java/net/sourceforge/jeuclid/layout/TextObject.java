@@ -24,7 +24,6 @@ import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class TextObject implements GraphicsObject {

@@ -32,8 +32,6 @@ import org.w3c.dom.mathml.MathMLSpaceElement;
  * This class presents a mspace.
  * 
  * @todo linebreak is unimplemented
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 public class Mspace extends AbstractJEuclidElement implements

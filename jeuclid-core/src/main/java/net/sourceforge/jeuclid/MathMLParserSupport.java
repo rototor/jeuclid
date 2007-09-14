@@ -43,7 +43,6 @@ import org.xml.sax.SAXException;
  * Formula (ODF) files. It also supports parsing MathML from a given text
  * string.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class MathMLParserSupport {

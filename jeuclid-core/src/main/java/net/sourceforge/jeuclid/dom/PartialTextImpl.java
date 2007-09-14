@@ -27,7 +27,6 @@ import org.w3c.dom.Text;
  * This implements only the functions necessary for MathElements. Feel free to
  * implement whatever functions you need.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class PartialTextImpl extends AbstractPartialNodeImpl implements Text {

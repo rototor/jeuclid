@@ -29,7 +29,6 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class LayoutContextImpl implements MutableLayoutContext {
