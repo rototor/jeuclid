@@ -154,10 +154,10 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
 
     /** {@inheritDoc} */
     @Override
-    public boolean hasChildPostscripts(final JEuclidElement child) {
-        // TODO
-        return true;
-        // return this.limitsAreMoved() && child.isSameNode(this.getBase());
+    public boolean hasChildPostscripts(final JEuclidElement child,
+            final LayoutContext context) {
+        return this.limitsAreMoved(context)
+                && child.isSameNode(this.getBase());
     }
 
     /** {@inheritDoc} */
