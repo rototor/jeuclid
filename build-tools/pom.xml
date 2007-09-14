@@ -7,5 +7,10 @@
   <name>JEuclid Build Tools</name>
  <description>This module contains files needed during JEuclids build.</description>
 <packaging>jar</packaging>
+   <scm>
+    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk/build-tools</connection>
+    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk/build-tools</developerConnection>
+    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk/build-tools</url>
+  </scm>
   <build/>
 </project>
