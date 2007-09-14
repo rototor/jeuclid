@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 import java.util.List;
 import java.util.Vector;
 
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 /**
@@ -28,7 +29,7 @@ import net.sourceforge.jeuclid.layout.LayoutableNode;
  * 
  * @version $Revision$
  */
-public class Mphantom extends AbstractMathElementWithChildren {
+public class Mphantom extends AbstractContainer {
 
     /**
      * The XML element from this class.
