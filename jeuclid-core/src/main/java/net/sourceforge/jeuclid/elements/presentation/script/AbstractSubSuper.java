@@ -55,7 +55,8 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
 
     /** {@inheritDoc} */
     @Override
-    public boolean hasChildPostscripts(final JEuclidElement child) {
+    public boolean hasChildPostscripts(final JEuclidElement child,
+            final LayoutContext context) {
         return child.isSameNode(this.getBase());
     }
 

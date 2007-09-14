@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
@@ -87,9 +88,12 @@ public interface JEuclidElement extends MathMLElement, JEuclidNode,
      * 
      * @param child
      *            child to test
+     * @param context
+     *            current layout context.
      * @return true if there are attached postscripts
      */
-    boolean hasChildPostscripts(final JEuclidElement child);
+    boolean hasChildPostscripts(final JEuclidElement child,
+            LayoutContext context);
 
     /**
      * Returns the count of children for this element.

@@ -451,12 +451,6 @@ public class Mo extends AbstractJEuclidElement implements
         // TODO: Load all.
         final JEuclidElement parent = this.getParent();
         if (parent != null) {
-            if (parent.hasChildPostscripts(this)) {
-                this.setDefaultMathAttribute(Mo.ATTR_RSPACE, Constants.ZERO);
-            }
-            if (parent.hasChildPrescripts(this)) {
-                this.setDefaultMathAttribute(Mo.ATTR_LSPACE, Constants.ZERO);
-            }
             if (parent instanceof ChangeTrackingInterface) {
                 ((ChangeTrackingInterface) parent).addListener(this);
             }
@@ -631,8 +625,19 @@ public class Mo extends AbstractJEuclidElement implements
         final float descent = tli.getDescent();
         final float xOffset = tli.getOffset();
         final float contentWidth = tli.getWidth() + xOffset;
-        final float lspace = this.getLspaceAsFloat(now);
-        final float rspace = this.getRspaceAsFloat(now);
+        final JEuclidElement parent = this.getParent();
+        float lspace = this.getLspaceAsFloat(now);
+        float rspace = this.getRspaceAsFloat(now);
+        if ((parent != null) && (parent.hasChildPostscripts(this, context))) {
+            rspace = 0.0f;
+        } else {
+            rspace = this.getRspaceAsFloat(now);
+        }
+        if ((parent != null) && (parent.hasChildPrescripts(this))) {
+            lspace = 0.0f;
+        } else {
+            lspace = this.getLspaceAsFloat(now);
+        }
 
         info.setAscentHeight(ascent, LayoutStage.STAGE1);
         info.setDescentHeight(descent, LayoutStage.STAGE1);
@@ -672,42 +677,26 @@ public class Mo extends AbstractJEuclidElement implements
         final TextLayoutInfo textLayoutInfo = StringUtil.getTextLayoutInfo(t,
                 true);
         if (stretchVertically) {
-
-            final float targetNAscent = parentInfo.getStretchAscent();
-            final float targetNDescent = parentInfo.getStretchDescent();
-
-            final float targetNHeight = targetNAscent + targetNDescent;
-
-            final float realDescent = textLayoutInfo.getDescent();
-            final float realHeight = textLayoutInfo.getAscent() + realDescent;
-
-            // TODO: MaxSize / MinSize could also be inherited from MStyle.
-            final float maxSize = AttributesHelper.parseRelativeSize(this
-                    .getMaxsize(), now, realHeight);
-            final float minSize = AttributesHelper.parseRelativeSize(this
-                    .getMinsize(), now, realHeight);
-            final float targetHeight = Math.max(Math.min(targetNHeight,
-                    maxSize), minSize);
-            final float targetDescent = targetHeight / targetNHeight
-                    * (targetNHeight / 2.0f)
-                    - (targetNHeight / 2.0f - targetNDescent);
-
-            if (realHeight > 0.0f) {
-                calcScaleY = targetHeight / realHeight;
-            } else {
-                calcScaleY = 1.0f;
-            }
-            final float realDescentScaled = realDescent * calcScaleY;
-            calcBaselineShift = targetDescent - realDescentScaled;
-
-            info.setDescentHeight(targetDescent, LayoutStage.STAGE2);
-            info.setAscentHeight(targetHeight - targetDescent,
-                    LayoutStage.STAGE2);
+            final float[] yf = this.calcYScaleFactorAndBaselineShift(info,
+                    parentInfo, textLayoutInfo, now);
+            calcScaleY = yf[0];
+            calcBaselineShift = yf[1];
         } else {
             calcScaleY = 1.0f;
             calcBaselineShift = 0.0f;
         }
+        calcScaleX = this.calcXScaleFactor(info, parentInfo, textLayoutInfo);
 
+        info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(now)
+                + textLayoutInfo.getOffset() * calcScaleX, calcBaselineShift,
+                AffineTransform.getScaleInstance(calcScaleX, calcScaleY),
+                (Color) now.getParameter(Parameter.MATHCOLOR)));
+        info.setLayoutStage(LayoutStage.STAGE2);
+    }
+
+    private float calcXScaleFactor(final LayoutInfo info,
+            final LayoutInfo parentInfo, final TextLayoutInfo textLayoutInfo) {
+        final float calcScaleX;
         final float stretchWidth = parentInfo.getStretchWidth();
         if ((this.isHorizontalDelimeter()) && (stretchWidth > 0.0f)) {
             final float realwidth = textLayoutInfo.getWidth();
@@ -722,11 +711,45 @@ public class Mo extends AbstractJEuclidElement implements
         } else {
             calcScaleX = 1.0f;
         }
+        return calcScaleX;
+    }
 
-        info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(now)
-                + textLayoutInfo.getOffset() * calcScaleX, calcBaselineShift,
-                AffineTransform.getScaleInstance(calcScaleX, calcScaleY),
-                (Color) now.getParameter(Parameter.MATHCOLOR)));
-        info.setLayoutStage(LayoutStage.STAGE2);
+    private float[] calcYScaleFactorAndBaselineShift(final LayoutInfo info,
+            final LayoutInfo parentInfo, final TextLayoutInfo textLayoutInfo,
+            final LayoutContext now) {
+        final float calcScaleY;
+        final float calcBaselineShift;
+        final float targetNAscent = parentInfo.getStretchAscent();
+        final float targetNDescent = parentInfo.getStretchDescent();
+
+        final float targetNHeight = targetNAscent + targetNDescent;
+
+        final float realDescent = textLayoutInfo.getDescent();
+        final float realHeight = textLayoutInfo.getAscent() + realDescent;
+
+        // TODO: MaxSize / MinSize could also be inherited from MStyle.
+        final float maxSize = AttributesHelper.parseRelativeSize(this
+                .getMaxsize(), now, realHeight);
+        final float minSize = AttributesHelper.parseRelativeSize(this
+                .getMinsize(), now, realHeight);
+        final float targetHeight = Math.max(Math.min(targetNHeight, maxSize),
+                minSize);
+        final float targetDescent = targetHeight / targetNHeight
+                * (targetNHeight / 2.0f)
+                - (targetNHeight / 2.0f - targetNDescent);
+
+        if (realHeight > 0.0f) {
+            calcScaleY = targetHeight / realHeight;
+        } else {
+            calcScaleY = 1.0f;
+        }
+        final float realDescentScaled = realDescent * calcScaleY;
+        calcBaselineShift = targetDescent - realDescentScaled;
+
+        info.setDescentHeight(targetDescent, LayoutStage.STAGE2);
+        info
+                .setAscentHeight(targetHeight - targetDescent,
+                        LayoutStage.STAGE2);
+        return new float[] { calcScaleY, calcBaselineShift };
     }
 }

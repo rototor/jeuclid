@@ -712,7 +712,8 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /** {@inheritDoc} */
-    public boolean hasChildPostscripts(final JEuclidElement child) {
+    public boolean hasChildPostscripts(final JEuclidElement child,
+            final LayoutContext context) {
         return false;
     }
 
