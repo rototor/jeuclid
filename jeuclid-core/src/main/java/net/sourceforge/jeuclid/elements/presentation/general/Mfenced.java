@@ -132,50 +132,48 @@ public class Mfenced extends AbstractElementWithDelegates implements
     /** {@inheritDoc} */
     @Override
     protected List<LayoutableNode> createDelegates() {
-
         final List<LayoutableNode> retVal = new Vector<LayoutableNode>();
 
-        final Mo opOpen = new Mo();
-        opOpen.setFence(Constants.TRUE);
-        opOpen.setStretchy(Constants.TRUE);
-        opOpen.setRspace(Mfenced.FENCE_SPACE);
-        opOpen.setLspace(Mfenced.FENCE_SPACE);
-        opOpen.setSymmetric(Constants.FALSE.toString());
+        final Mo opOpen = this.createFenceOperator();
         opOpen.setForm(OperatorDictionary.FORM_PREFIX);
         opOpen.addText(this.getOpen());
 
         retVal.add(opOpen);
         final String sep = this.getSeparators();
+        final int contentCount = this.getMathElementCount();
+        final boolean haveSep = (sep != null) && (sep.length() > 0);
 
-        for (int i = 0; i < this.getMathElementCount(); i++) {
+        for (int i = 0; i < contentCount; i++) {
             retVal.add(this.getMathElement(i));
 
-            if (sep.length() > 0) {
-                if (i < (this.getMathElementCount() - 1)) {
-                    final Mo opSep = new Mo();
-                    opSep.setSeparator(Constants.TRUE);
-                    if (i < sep.length()) {
-                        opSep.addText(String.valueOf(sep.charAt(i)));
-                    } else {
-                        opSep.addText(String.valueOf(sep
-                                .charAt(sep.length() - 1)));
-                    }
-                    retVal.add(opSep);
+            if (haveSep && (i < (contentCount - 1))) {
+                final Mo opSep = new Mo();
+                opSep.setSeparator(Constants.TRUE);
+                if (i < sep.length()) {
+                    opSep.addText(String.valueOf(sep.charAt(i)));
+                } else {
+                    opSep.addText(String
+                            .valueOf(sep.charAt(sep.length() - 1)));
                 }
+                retVal.add(opSep);
             }
-
         }
-        final Mo opClose = new Mo();
-        opClose.setFence(Constants.TRUE);
-        opClose.setRspace(Mfenced.FENCE_SPACE);
-        opClose.setLspace(Mfenced.FENCE_SPACE);
-        opClose.setStretchy(Constants.TRUE);
-        opClose.setSymmetric(Constants.FALSE);
+        final Mo opClose = this.createFenceOperator();
         opClose.setForm(OperatorDictionary.FORM_POSTFIX);
         opClose.addText(this.getClose());
         retVal.add(opClose);
 
         return retVal;
+    }
+
+    private Mo createFenceOperator() {
+        final Mo opOpen = new Mo();
+        opOpen.setFence(Constants.TRUE);
+        opOpen.setStretchy(Constants.TRUE);
+        opOpen.setRspace(Mfenced.FENCE_SPACE);
+        opOpen.setLspace(Mfenced.FENCE_SPACE);
+        opOpen.setSymmetric(Constants.FALSE);
+        return opOpen;
     }
 
     /** {@inheritDoc} */
