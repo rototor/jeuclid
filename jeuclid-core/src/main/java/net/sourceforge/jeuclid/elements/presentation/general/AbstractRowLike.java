@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 
 /**
  * Common base class for all elements that present themself as a row of
@@ -25,7 +26,7 @@ package net.sourceforge.jeuclid.elements.presentation.general;
  * 
  * @version $Revision$
  */
-public abstract class AbstractRowLike extends AbstractMathElementWithChildren {
+public abstract class AbstractRowLike extends AbstractContainer {
 
     /**
      * Default constructor.

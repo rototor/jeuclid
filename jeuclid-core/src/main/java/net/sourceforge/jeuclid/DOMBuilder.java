@@ -29,6 +29,7 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.mathml.MathMLElement;
 
 /**
  * Builds a MathML tree from a given DOM tree.
@@ -112,16 +113,16 @@ public final class DOMBuilder {
             return;
         }
         String tagname = node.getNodeName();
-        int posSeparator = -1;
+        final int posSeparator = tagname.indexOf(":");
 
-        if ((posSeparator = tagname.indexOf(":")) >= 0) {
+        if (posSeparator >= 0) {
             tagname = tagname.substring(posSeparator + 1);
         }
         final AttributeMap attributes = new DOMAttributeMap(node
                 .getAttributes());
 
-        final AbstractJEuclidElement element = (AbstractJEuclidElement) JEuclidElementFactory
-                .elementFromName(tagname, attributes);
+        final MathMLElement element = JEuclidElementFactory.elementFromName(
+                tagname, attributes);
         parent.appendChild(element);
 
         final NodeList childs = node.getChildNodes();
@@ -132,17 +133,17 @@ public final class DOMBuilder {
             if (childNodeType == Node.ELEMENT_NODE) {
                 this.traverse(childNode, element);
             } else if (childNodeType == Node.TEXT_NODE) {
-                element.addText(childNode.getNodeValue());
+                ((AbstractJEuclidElement) element).addText(childNode
+                        .getNodeValue());
             } else if (childNodeType == Node.ENTITY_REFERENCE_NODE
                     && childNode.hasChildNodes()) {
                 final String entityValue = childNode.getFirstChild()
                         .getNodeValue();
                 if (entityValue != null) {
-                    element.addText(entityValue);
+                    ((AbstractJEuclidElement) element).addText(entityValue);
                 }
             }
         }
-
     }
 
 }
