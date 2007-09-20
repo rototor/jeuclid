@@ -128,7 +128,7 @@ public class Mo extends AbstractJEuclidElement implements
             + /* OverBracket */"\u23B4" + /* UnderBracket */"\u23B5"
             + /* OverParenthesis */"\uFE35"
             + /* UnderParenthesis */"\uFE36" + /* OverBrace */"\uFE37"
-            + /* UnderBrace */"\uFE38";
+            + /* UnderBrace */"\uFE38" + /* Frown */"\u2322";
 
     /**
      * Vertical delimiters.
