@@ -19,6 +19,7 @@
 package net.sourceforge.jeuclid;
 
 import java.awt.Color;
+import java.util.Collections;
 import java.util.List;
 
 import net.sourceforge.jeuclid.context.Display;
@@ -34,78 +35,86 @@ public interface LayoutContext {
         /**
          * Display style (Display).
          */
-        DISPLAY,
+        DISPLAY(Display.class, false),
         /**
          * Font size (Float) used for the output. Defaults to 12.0pt. Please
          * Note: You may also want to set SCRIPTMINZISE.
          */
-        MATHSIZE,
+        MATHSIZE(Float.class, false),
         /**
          * Font size (Float) for smallest script used. Defaults to 8.0pt.
          */
-        SCRIPTMINSIZE,
+        SCRIPTMINSIZE(Float.class, false),
         /** Script size multiplier (Float), defaults to 0.71. */
-        SCRIPTSIZEMULTIPLIER,
+        SCRIPTSIZEMULTIPLIER(Float.class, false),
         /** Script level (Integer), defaults to 0. */
-        SCRIPTLEVEL,
+        SCRIPTLEVEL(Integer.class, false),
         /**
          * Minimum font size for which anti-alias is turned on. Defaults to
          * 10.0pt
          */
-        ANTIALIAS_MINSIZE,
+        ANTIALIAS_MINSIZE(Float.class, false),
         /**
          * Debug mode (Boolean). If true, elements will have borders drawn
          * around them.
          */
-        DEBUG,
+        DEBUG(Boolean.class, false),
         /**
          * Anti-Alias mode (Boolean) for rendering.
          */
-        ANTIALIAS,
+        ANTIALIAS(Boolean.class, false),
         /**
          * Default foreground color (Color). See 3.2.2.2
          */
-        MATHCOLOR,
+        MATHCOLOR(Color.class, false),
         /**
          * Default background color (Color), may be null. See 3.2.2.2
          */
-        MATHBACKGROUND,
+        MATHBACKGROUND(Color.class, true),
         /**
          * List&lt;String&gt; of font families for sans-serif.
          * 
          * @see Parameter
          */
-        FONTS_SANSSERIF,
+        FONTS_SANSSERIF(List.class, false),
         /**
          * List&lt;String&gt; of font families for serif.
          * 
          * @see Parameter
          */
-        FONTS_SERIF,
+        FONTS_SERIF(List.class, false),
         /**
          * List&lt;String&gt; of font families for monospaced.
          * 
          * @see Parameter
          */
-        FONTS_MONOSPACED,
+        FONTS_MONOSPACED(List.class, false),
         /**
          * CList&lt;String&gt; of font families for script.
          * 
          * @see Parameter
          */
-        FONTS_SCRIPT,
+        FONTS_SCRIPT(List.class, false),
         /**
          * List&lt;String&gt; of font families for fraktur.
          * 
          * @see Parameter
          */
-        FONTS_FRAKTUR,
+        FONTS_FRAKTUR(List.class, false),
         /**
          * List&lt;String&gt; of font families for double-struck.
          * 
          * @see Parameter
          */
-        FONTS_DOUBLESTRUCK;
+        FONTS_DOUBLESTRUCK(List.class, false);
+        
+        private Class valueType;
+        private boolean nullAllowed;
+        
+        private Parameter(final Class valType, final boolean nullIsAllowed) {
+            this.valueType = valType;
+            this.nullAllowed = nullIsAllowed;
+        }
 
         /**
          * Checks if the object is of a valid type for this parameter.
@@ -115,41 +124,51 @@ public interface LayoutContext {
          * @return true if the parameter can be set.
          */
         public boolean valid(final Object o) {
-            boolean retVal;
-            switch (this) {
-            case DISPLAY:
-                retVal = o instanceof Display;
-                break;
-            case MATHSIZE:
-            case SCRIPTMINSIZE:
-            case ANTIALIAS_MINSIZE:
-            case SCRIPTSIZEMULTIPLIER:
-                retVal = o instanceof Float;
-                break;
-            case SCRIPTLEVEL:
-                retVal = o instanceof Integer;
-                break;
-            case DEBUG:
-            case ANTIALIAS:
-                retVal = o instanceof Boolean;
-                break;
-            case MATHCOLOR:
-                retVal = o instanceof Color;
-                break;
-            case MATHBACKGROUND:
-                retVal = (o == null) || (o instanceof Color);
-                break;
-            case FONTS_SANSSERIF:
-            case FONTS_SERIF:
-            case FONTS_MONOSPACED:
-            case FONTS_SCRIPT:
-            case FONTS_FRAKTUR:
-            case FONTS_DOUBLESTRUCK:
-                retVal = o instanceof List;
-                break;
-            default:
-                assert false;
-                retVal = false;
+            return o == null && this.nullAllowed || this.valueType.isInstance(o);
+        }
+        
+        
+        /**
+         * Attempts to convert a parameter value expressed as string 
+         * into an instance of the appropriate (for this parameter) type.
+         * 
+         *  @param value parameter value as string
+         *  @return parameter value as an instance of the proper type
+         */
+        public Object fromString(final String value) {
+            Object retVal;
+            if (value == null) {
+                retVal = null;
+            } else if (this.valueType == String.class) {
+                retVal = value;
+            } else if (Number.class.isAssignableFrom(this.valueType)) {
+                try {
+                    retVal = this.valueType.getConstructor(new Class[] {String.class})
+                        .newInstance(new Object[] {value});
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("Failed to convert <" + value
+                            + "> to " + this.valueType, e);
+                }
+            } else if (this.valueType == Boolean.class) {
+                retVal = Boolean.valueOf(value);
+            } else if (this.valueType == Color.class) {
+                try {
+                    retVal = Color.class.getField(value.toLowerCase()).get(null);    
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("<" + value
+                            + "> is not a valid color name", e);
+                }
+            } else if (this.valueType == List.class) {
+                retVal = Collections.singletonList(value);
+            } else if (this.valueType.isEnum()) {
+                retVal = Enum.valueOf(this.valueType, value);
+                if (retVal == null) {
+                    throw new IllegalArgumentException("<" + value 
+                            + "> is not a valid name for enum " + this.valueType);
+                }
+            } else {
+                throw new IllegalArgumentException("Don't know how to convert <" + value 
+                        + "> to " + this.valueType);
             }
             return retVal;
         }
