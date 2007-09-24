@@ -19,6 +19,7 @@
 package net.sourceforge.jeuclid.test;
 
 import java.awt.Color;
+import java.util.Arrays;
 import java.util.Collections;
 
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
@@ -81,4 +82,19 @@ public class LayoutContextParamTest {
         Assert.assertEquals(Parameter.MATHSIZE.fromString("0.5"), new Float(0.5));
         Assert.assertEquals(Parameter.SCRIPTLEVEL.fromString("1"), new Integer(1));
     }
+    
+    /**
+     * Tests implementation of {@link Parameter#toString(String)} method.
+     */
+    @Test
+    public void testToString() {
+        Assert.assertEquals(Parameter.DEBUG.toString(Boolean.TRUE), "true");
+        Assert.assertEquals(Parameter.DEBUG.toString(null), null);
+        Assert.assertEquals(Parameter.DISPLAY.toString(Display.INLINE), "INLINE");
+        Assert.assertEquals(Parameter.FONTS_SERIF.toString(
+                Arrays.asList(new String[] {"f1", "f2"})), "f1,f2");
+        Assert.assertEquals(Parameter.MATHCOLOR.toString(Color.RED), "red");
+        Assert.assertEquals(Parameter.MATHSIZE.toString(new Float(0.5)), "0.5");
+        Assert.assertEquals(Parameter.SCRIPTLEVEL.toString(new Integer(2)), "2");
+    }    
 }
