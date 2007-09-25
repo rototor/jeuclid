@@ -12,8 +12,6 @@ Currently in jeuclid:
         <version>1.0-alpha-2</version>
 <!--        <version>1.0-20070124.085332-18</version>-->
 
-also disable the appbundler plugin completely
-
 in jeuclid-minimal:
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>1.0-alpha-2</version>
@@ -60,7 +58,7 @@ disable all modules except -mathviewer, -core, -foprep (use only comments, do no
 
 mvn deploy
 
-7. Re-enable distribution plugins (that where disabled in 1, appbundler, appassembler)
+7. Re-enable distribution plugins (that where disabled in 1: appassembler)
 Also, re-enable all modules ( still in target / checkout )
 
 edit jeuclid/pom.xml
