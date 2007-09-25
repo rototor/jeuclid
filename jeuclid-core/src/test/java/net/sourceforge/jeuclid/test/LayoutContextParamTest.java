@@ -74,11 +74,17 @@ public class LayoutContextParamTest {
         } catch (IllegalArgumentException e) {}
         Assert.assertEquals(Parameter.FONTS_SERIF.fromString("Arial"),
                 Collections.singletonList("Arial"));
+        Assert.assertEquals(Parameter.FONTS_SERIF.fromString("Arial,Helvetica"),
+                Arrays.asList(new String[] {"Arial", "Helvetica"}));
+        Assert.assertEquals(Parameter.FONTS_SERIF.fromString("Foo, Bar"),
+                Arrays.asList(new String[] {"Foo", "Bar"}));
         Assert.assertEquals(Parameter.MATHCOLOR.fromString("RED"), Color.RED);
         try {
             Parameter.MATHCOLOR.fromString("violet");
             Assert.fail();
         } catch (IllegalArgumentException e) {}
+        Assert.assertEquals(Parameter.MATHCOLOR.fromString("rgb(100,100,100)"), 
+                new Color(100, 100, 100));
         Assert.assertEquals(Parameter.MATHSIZE.fromString("0.5"), new Float(0.5));
         Assert.assertEquals(Parameter.SCRIPTLEVEL.fromString("1"), new Integer(1));
     }
@@ -92,8 +98,12 @@ public class LayoutContextParamTest {
         Assert.assertEquals(Parameter.DEBUG.toString(null), null);
         Assert.assertEquals(Parameter.DISPLAY.toString(Display.INLINE), "INLINE");
         Assert.assertEquals(Parameter.FONTS_SERIF.toString(
+                Collections.singletonList("font")), "font");
+        Assert.assertEquals(Parameter.FONTS_SERIF.toString(
                 Arrays.asList(new String[] {"f1", "f2"})), "f1,f2");
         Assert.assertEquals(Parameter.MATHCOLOR.toString(Color.RED), "red");
+        Assert.assertEquals(Parameter.MATHCOLOR.toString(null), null);
+        Assert.assertEquals(Parameter.MATHCOLOR.toString(new Color(32, 32, 32)), "#202020");
         Assert.assertEquals(Parameter.MATHSIZE.toString(new Float(0.5)), "0.5");
         Assert.assertEquals(Parameter.SCRIPTLEVEL.toString(new Integer(2)), "2");
     }    

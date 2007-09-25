@@ -19,12 +19,16 @@
 package net.sourceforge.jeuclid.converter;
 
 import java.awt.Dimension;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
+import java.util.Properties;
 
 import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.layout.JEuclidView;
 
+import org.freehep.graphics2d.VectorGraphics;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -35,44 +39,35 @@ import org.w3c.dom.Node;
  */
 public class FreeHepConverter implements ConverterPlugin {
 
-    private final Constructor<?> streamConst;
+    private final Constructor<VectorGraphics> streamConst;
 
     FreeHepConverter(final Class<?> converterClass)
             throws NoSuchMethodException {
 
-        this.streamConst = converterClass.getConstructor(OutputStream.class,
-                Dimension.class);
+        this.streamConst = ((Class<VectorGraphics>) converterClass)
+                .getConstructor(OutputStream.class, Dimension.class);
     }
 
     /** {@inheritDoc} */
     public Dimension convert(final Node doc, final LayoutContext context,
             final OutputStream outStream) throws IOException {
-        // final Properties p = new Properties();
-        // // p.setProperty("PageSize","A5");
-        // VectorGraphics temp;
-        // try {
-        // temp = (VectorGraphics) this.streamConst.newInstance(
-        // new ByteArrayOutputStream(), new Dimension(1, 1));
-        //
-        // final Dimension size = new Dimension((int) Math.ceil(base
-        // .getWidth(temp)), (int) Math.ceil(base.getHeight(temp)));
-        //
-        // final VectorGraphics g = (VectorGraphics) this.streamConst
-        // .newInstance(outStream, size);
-        // g.setProperties(p);
-        // g.startExport();
-        // base.paint(g);
-        // g.endExport();
-        //
-        // return size;
-        // } catch (final InstantiationException e) {
-        // throw new IOException();
-        // } catch (final IllegalAccessException e) {
-        // throw new IOException();
-        // } catch (final InvocationTargetException e) {
-        // throw new IOException();
-        // }
-        return null;
+        final Properties p = new Properties();
+        p.setProperty("PageSize", "A5");
+        final VectorGraphics tempg = this.createGraphics(
+                new ByteArrayOutputStream(), new Dimension(1, 1));
+        final JEuclidView view = new JEuclidView(doc, context, tempg);
+        final int ascent = (int) Math.ceil(view.getAscentHeight());
+        final Dimension size = new Dimension((int) Math.ceil(view.getWidth()), 
+                (int) Math.ceil(view.getDescentHeight()) + ascent);
+
+        final VectorGraphics g = this.createGraphics(outStream, size);
+        g.setCreator("JEuclid (from MathML)");
+        //g.setProperties(p);
+        g.startExport();
+        view.draw(g, 0, ascent);
+        g.endExport();
+
+        return size;
     }
 
     /** {@inheritDoc} */
@@ -80,4 +75,11 @@ public class FreeHepConverter implements ConverterPlugin {
         return null;
     }
 
+    private VectorGraphics createGraphics(final OutputStream os, final Dimension d) {
+        try {
+            return this.streamConst.newInstance(os, d);
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected - failed to create a FreeHep VectorGraphics instance", e);
+        }
+    }
 }
