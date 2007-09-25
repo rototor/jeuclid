@@ -46,8 +46,8 @@
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>appbundler-maven-plugin</artifactId>
-        <version>1.0-20070228.220112-5</version>
+        <artifactId>osxappbundle-maven-plugin</artifactId>
+        <version>1.0-alpha-1</version>
         <configuration>
           <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
           <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
