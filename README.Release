@@ -79,6 +79,8 @@ $PUT ftp://upload.sf.net/incoming/ jeuclid-$VERSION-distribution.zip
 $PUT ftp://upload.sf.net/incoming/ jeuclid-$VERSION-osx.zip 
 cd ../../jeuclid-minimal/target
 $PUT ftp://upload.sf.net/incoming/ jeuclid-minimal-$VERSION-distribution.zip 
+cd ../../jeuclid-fop/target
+$PUT ftp://upload.sf.net/incoming/ jeuclid-fop-$VERSION-distribution.zip 
 cd ../..
 
 Log into SF website and use files. ( e.g. release )
