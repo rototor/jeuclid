@@ -73,7 +73,7 @@ public class DOMAttributeMap extends AbstractAttributeMap {
         final Map<String, String> m = new HashMap<String, String>();
         for (int i = 0; i < this.namedNodeMap.getLength(); i++) {
             final Node n = this.namedNodeMap.item(i);
-            m.put(n.getNodeName(), n.getNodeValue());
+            m.put(n.getLocalName(), n.getNodeValue());
         }
         return m;
     }
