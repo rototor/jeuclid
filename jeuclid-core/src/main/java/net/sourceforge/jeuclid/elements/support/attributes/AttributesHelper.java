@@ -333,8 +333,10 @@ public final class AttributesHelper {
             if (parsedColor == null) {
                 parsedColor = defaultValue;
             }
-
-            AttributesHelper.COLOR_MAPPINGS.put(value, parsedColor);
+            
+            if (parsedColor != null) {
+                AttributesHelper.COLOR_MAPPINGS.put(value, parsedColor);
+            }
         } else {
             parsedColor = AttributesHelper.COLOR_MAPPINGS.get(lowVal);
         }

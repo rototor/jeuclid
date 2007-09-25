@@ -21,10 +21,12 @@ package net.sourceforge.jeuclid;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import net.sourceforge.jeuclid.context.Display;
+import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
 /**
  * @version $Revision$
@@ -288,8 +290,8 @@ public interface LayoutContext {
         }
 
         /**
-         * Color is converted to String and back by using standard color names
-         * defined as constants in Color class. 
+         * Color is converted to String and back by using existing APIs in 
+         * {@link AttributesHelper}.
          */
         public static class ColorTypeWrapper extends SimpleTypeWrapper {
             /** Simple constructor. */
@@ -298,14 +300,12 @@ public interface LayoutContext {
             }
             /** {@inheritDoc} */
             public Object fromString(final String value) {
-                if (value == null) {
-                    return null;
-                }
-                try {
-                    return Color.class.getField(value.toLowerCase()).get(null);    
-                } catch (Exception e) {
-                    throw new IllegalArgumentException("<" + value
-                            + "> is not a valid color name", e);
+                final Color color = AttributesHelper.stringToColor(value, null);
+                if (color != null) {
+                    return color;
+                } else {
+                    throw new IllegalArgumentException('<' + value
+                            + "> is not a valid color representation");
                 }
             }
             /** {@inheritDoc} */
@@ -323,7 +323,7 @@ public interface LayoutContext {
                         }
                     }
                     if (retVal == null) {
-                        retVal = super.toString(value);
+                        retVal = AttributesHelper.colorTOsRGBString((Color) value);
                     }
                     return retVal;
                 } catch (Exception e) {
@@ -337,6 +337,8 @@ public interface LayoutContext {
          * List is converted to String and back by using comma-separated representation. 
          */
         public static class ListTypeWrapper extends SimpleTypeWrapper {
+            /** separator to be used when converting to string or parsing string. */
+            public static final String SEPARATOR = ",";
             /** Simple constructor. */
             public ListTypeWrapper() {
                 super(List.class);
@@ -346,7 +348,8 @@ public interface LayoutContext {
                 if (value == null) {
                     return null;
                 } else {
-                    return Collections.singletonList(value);
+                    final String whitespace = "\\s*";
+                    return Arrays.asList(value.split(whitespace + SEPARATOR + whitespace));
                 }
             }
             /** {@inheritDoc} */
@@ -357,7 +360,7 @@ public interface LayoutContext {
                     final StringBuilder sb = new StringBuilder();
                     for (String s : (List<String>) value) {
                         if (sb.length() > 0) {
-                            sb.append(',');
+                            sb.append(SEPARATOR);
                         }
                         sb.append(s);
                     }

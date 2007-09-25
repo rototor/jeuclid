@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="eric239" type="update">LayoutContext.Parameter.ColorTypeWrapper now uses existing AttributesHelper APIs; FreeHEPConverter works (again) but needs further ckeanup</action>
 			<action dev="maxberger" type="update" issue="1797232">DOMBuilder now uses local names for attributes.</action>
 			<action dev="maxberger" type="update">osxappbundler now has a released version.</action>
 			<action dev="eric239" type="update">Additional refactoring of LayoutContext.Parameter; also provided toString(Object) method to comlement fromString(String)</action>
