@@ -21,12 +21,17 @@ package net.sourceforge.jeuclid.app.mathviewer;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import net.sourceforge.jeuclid.LayoutContext;
 
 /**
  * About Dialog for MathViewer.
@@ -70,6 +75,15 @@ public class AboutDialog extends JDialog {
         this.setResizable(false);
         this.setContentPane(this.getJContentPane());
         this.setTitle(Messages.getString("MathViewer.aboutWindowTitle")); //$NON-NLS-1$
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(final KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_V && e.isAltDown()) {
+                    JOptionPane.showMessageDialog(AboutDialog.this, 
+                            "Version: " + LayoutContext.class.getPackage().getImplementationVersion());
+                }
+            }
+        });
     }
 
     /**

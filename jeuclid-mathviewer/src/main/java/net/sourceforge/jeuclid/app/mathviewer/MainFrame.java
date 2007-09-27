@@ -21,6 +21,8 @@ package net.sourceforge.jeuclid.app.mathviewer;
 import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -31,6 +33,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
@@ -69,10 +72,14 @@ public class MainFrame extends JFrame {
     private JMenuBar jJMenuBar;
 
     private JMenu fileMenu;
+    
+    private JMenu editMenu;
 
     private JMenu helpMenu;
 
     private JMenuItem exitMenuItem;
+    
+    private JMenuItem pasteMenuItem;
 
     private JMenuItem aboutMenuItem;
 
@@ -139,6 +146,7 @@ public class MainFrame extends JFrame {
         if (this.jJMenuBar == null) {
             this.jJMenuBar = new JMenuBar();
             this.jJMenuBar.add(this.getFileMenu());
+            this.jJMenuBar.add(this.getEditMenu());
             this.jJMenuBar.add(this.getViewMenu());
             if (!MathViewer.OSX) {
                 // This will need to be changed once the Help menu contains
@@ -165,6 +173,20 @@ public class MainFrame extends JFrame {
             }
         }
         return this.fileMenu;
+    }
+
+    /**
+     * This method initializes jMenu
+     * 
+     * @return javax.swing.JMenu
+     */
+    private JMenu getEditMenu() {
+        if (this.editMenu == null) {
+            this.editMenu = new JMenu();
+            this.editMenu.setText(Messages.getString("MathViewer.EditMenu")); //$NON-NLS-1$
+            this.editMenu.add(this.getPasteMenuItem());
+        }
+        return this.editMenu;
     }
 
     /**
@@ -204,6 +226,28 @@ public class MainFrame extends JFrame {
             });
         }
         return this.exitMenuItem;
+    }
+
+    /**
+     * This method initializes jMenuItem
+     * 
+     * @return javax.swing.JMenuItem
+     */
+    private JMenuItem getPasteMenuItem() {
+        if (this.pasteMenuItem == null) {
+            this.pasteMenuItem = new JMenuItem();
+            this.pasteMenuItem.setText(Messages.getString("MathViewer.paste")); //$NON-NLS-1$
+            this.pasteMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_V, Toolkit.getDefaultToolkit()
+                            .getMenuShortcutKeyMask(), true));
+
+            this.pasteMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    MainFrame.this.pasteFromClipboard();
+                }
+            });
+        }
+        return this.pasteMenuItem;
     }
 
     /**
@@ -469,6 +513,22 @@ public class MainFrame extends JFrame {
                     });
         }
         return this.debugMenuItem;
+    }
+    
+    
+    private void pasteFromClipboard() {
+        final Transferable content = Toolkit.getDefaultToolkit()
+            .getSystemClipboard().getContents(null);
+        if (content != null && content.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+            try {
+                this.mathComponent.setContent((String) 
+                        content.getTransferData(DataFlavor.stringFlavor));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, 
+                        new String[] {Messages.getString("MathViewer.pasteFailure"), e.toString()}, 
+                        Messages.getString("MathViewer.error"), JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
 }
