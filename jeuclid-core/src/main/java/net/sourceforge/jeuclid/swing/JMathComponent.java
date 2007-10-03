@@ -23,7 +23,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
@@ -402,10 +404,21 @@ public class JMathComponent extends JComponent implements SwingConstants {
      *            newValue
      */
     public void setParameter(final Parameter key, final Object newValue) {
-        final Object oldValue = this.parameters.getParameter(key);
-        this.parameters.setParameter(key, newValue);
-        this.firePropertyChange(key.name(), oldValue, this.parameters
-                .getParameter(key));
+       this.setParameters(Collections.singletonMap(key, newValue)); 
+    }
+
+    /**
+     * Sets generic rendering parameters.
+     * 
+     * @param newValues map of parameter keys to new values
+     */
+    public void setParameters(final Map<Parameter, Object> newValues) {
+        for (Map.Entry<Parameter, Object> entry : newValues.entrySet()) {
+            final Parameter key = entry.getKey();
+            final Object oldValue = this.parameters.getParameter(key);
+            this.parameters.setParameter(key, entry.getValue());
+            this.firePropertyChange(key.name(), oldValue, this.parameters.getParameter(key));
+        }
         this.revalidate();
         this.repaint();
     }

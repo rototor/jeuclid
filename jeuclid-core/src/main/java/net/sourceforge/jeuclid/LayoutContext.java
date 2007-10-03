@@ -22,8 +22,9 @@ import java.awt.Color;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
@@ -39,86 +40,151 @@ public interface LayoutContext {
         /**
          * Display style (Display).
          */
-        DISPLAY(new EnumTypeWrapper(Display.class), false),
+        DISPLAY(new EnumTypeWrapper(Display.class), false, "display", "display style"),
+        
         /**
          * Font size (Float) used for the output. Defaults to 12.0pt. Please
          * Note: You may also want to set SCRIPTMINZISE.
          */
-        MATHSIZE(new NumberTypeWrapper(Float.class), false),
+        MATHSIZE(new NumberTypeWrapper(Float.class), false, "fontSize", 
+                "font size used for the output (mathsize)"),
+                
         /**
          * Font size (Float) for smallest script used. Defaults to 8.0pt.
          */
-        SCRIPTMINSIZE(new NumberTypeWrapper(Float.class), false),
+        SCRIPTMINSIZE(new NumberTypeWrapper(Float.class), false, "scriptMinSize",
+                "font size to be used for smallest script"),
+                
         /** Script size multiplier (Float), defaults to 0.71. */
-        SCRIPTSIZEMULTIPLIER(new NumberTypeWrapper(Float.class), false),
+        SCRIPTSIZEMULTIPLIER(new NumberTypeWrapper(Float.class), false, "scriptSizeMult",
+                "script size multiplier"),
+        
         /** Script level (Integer), defaults to 0. */
-        SCRIPTLEVEL(new NumberTypeWrapper(Integer.class), false),
+        SCRIPTLEVEL(new NumberTypeWrapper(Integer.class), false, "scriptLevel",
+                "script level"),
+                
         /**
          * Minimum font size for which anti-alias is turned on. Defaults to
          * 10.0pt
          */
-        ANTIALIAS_MINSIZE(new NumberTypeWrapper(Float.class), false),
+        ANTIALIAS_MINSIZE(new NumberTypeWrapper(Float.class), false, "antiAliasMinSize",
+                "minimum font size for which anti-alias is turned on"),
+                
         /**
          * Debug mode (Boolean). If true, elements will have borders drawn
          * around them.
          */
-        DEBUG(new BooleanTypeWrapper(), false),
+        DEBUG(new BooleanTypeWrapper(), false, "debug", 
+                "debug mode - if on, elements will have borders drawn around them"),
+                
         /**
          * Anti-Alias mode (Boolean) for rendering.
          */
-        ANTIALIAS(new BooleanTypeWrapper(), false),
+        ANTIALIAS(new BooleanTypeWrapper(), false, "antiAlias", "anti-alias mode"),
+        
         /**
          * Default foreground color (Color). See 3.2.2.2
          */
-        MATHCOLOR(new ColorTypeWrapper(), false),
+        MATHCOLOR(new ColorTypeWrapper(), false, "foregroundColor", 
+                "default foreground color (mathcolor)"),
+                
         /**
          * Default background color (Color), may be null. See 3.2.2.2
          */
-        MATHBACKGROUND(new ColorTypeWrapper(), true),
+        MATHBACKGROUND(new ColorTypeWrapper(), true, "backgroundColor", 
+                "default background color (mathbackground)"),
+                
         /**
          * List&lt;String&gt; of font families for sans-serif.
          * 
          * @see Parameter
          */
-        FONTS_SANSSERIF(new ListTypeWrapper(), false),
+        FONTS_SANSSERIF(new ListTypeWrapper(), false, "fontsSansSerif",
+                "list of font families for Sans-Serif"),
+                
         /**
          * List&lt;String&gt; of font families for serif.
          * 
          * @see Parameter
          */
-        FONTS_SERIF(new ListTypeWrapper(), false),
+        FONTS_SERIF(new ListTypeWrapper(), false, "fontsSerif",
+                "list of font families for Serif"),
+                
         /**
          * List&lt;String&gt; of font families for monospaced.
          * 
          * @see Parameter
          */
-        FONTS_MONOSPACED(new ListTypeWrapper(), false),
+        FONTS_MONOSPACED(new ListTypeWrapper(), false, "fontsMonospaced", 
+                "list of font families for Monospaced"),
+
         /**
          * CList&lt;String&gt; of font families for script.
          * 
          * @see Parameter
          */
-        FONTS_SCRIPT(new ListTypeWrapper(), false),
+        FONTS_SCRIPT(new ListTypeWrapper(), false, "fontsScript",
+
+        "list of font families for Script"),
         /**
          * List&lt;String&gt; of font families for fraktur.
          * 
          * @see Parameter
          */
-        FONTS_FRAKTUR(new ListTypeWrapper(), false),
+        FONTS_FRAKTUR(new ListTypeWrapper(), false, "fontsFaktur",
+                "list of font families for Fraktur"),
+                
         /**
          * List&lt;String&gt; of font families for double-struck.
          * 
          * @see Parameter
          */
-        FONTS_DOUBLESTRUCK(new ListTypeWrapper(), false);
+        FONTS_DOUBLESTRUCK(new ListTypeWrapper(), false, "fontsDoublestruck",
+                "list of font families for Double-Struck"),
+        
+        /**
+         * If true, &lt;mfrac&gt; element will NEVER increase children's scriptlevel
+         * (in violation of the spec); otherwise it will behave with accordance to the spec. 
+         */
+        MFRAC_KEEP_SCRIPTLEVEL(new BooleanTypeWrapper(), false, "mfracKeepScriptLevel",
+                "if true, <mfrac> element will NEVER increase children's scriptlevel (in violation of the spec)");
         
         private TypeWrapper typeWrapper;
         private boolean nullAllowed;
         
-        private Parameter(final TypeWrapper aTypeWrapper, final boolean nullIsAllowed) {
+        private String optionName;
+        private String optionDesc;
+        
+        private Parameter(final TypeWrapper aTypeWrapper, final boolean nullIsAllowed,
+                final String oName, final String oDesc) {
             this.typeWrapper = aTypeWrapper;
             this.nullAllowed = nullIsAllowed;
+            this.optionName = oName;
+            this.optionDesc = oDesc;
         }
+        
+        /**
+         * @return TypeWrapper instance used for this parameter
+         */
+        public TypeWrapper getTypeWrapper() {
+            return this.typeWrapper;
+        }
+
+        
+        /**
+         * @return user-friendly option name associated with this parameter
+         */
+        public String getOptionName() {
+            return this.optionName;
+        }
+
+        /**
+         * @return user-friendly option name associated with this parameter
+         */
+        public String getOptionDesc() {
+            return this.optionDesc;
+        }
+
 
         /**
          * Checks if the object is of a valid type for this parameter.
@@ -357,14 +423,7 @@ public interface LayoutContext {
                 if (value == null) {
                     return null;
                 } else {
-                    final StringBuilder sb = new StringBuilder();
-                    for (String s : (List<String>) value) {
-                        if (sb.length() > 0) {
-                            sb.append(SEPARATOR);
-                        }
-                        sb.append(s);
-                    }
-                    return sb.toString();
+                    return StringUtils.join(((List) value).iterator(), SEPARATOR);
                 }
             }
         }
@@ -393,6 +452,18 @@ public interface LayoutContext {
                     return o;
                 }
             }
+            /**
+             * Retrieves values of the enum type being wrapped.
+             * @return array of possible enum values
+             */
+            public Object[] values() {
+                try {
+                    return (Object[]) this.getValueType().getMethod("values").invoke(null);
+                } catch (Exception e) {
+                    throw new RuntimeException("Failed to retrieve values of enum class " 
+                            + this.getValueType());
+                }
+            }
         }
 
     }
@@ -407,5 +478,5 @@ public interface LayoutContext {
      *         may be null.
      */
     Object getParameter(LayoutContext.Parameter which);
-
+    
 }
