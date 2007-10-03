@@ -21,11 +21,21 @@ package net.sourceforge.jeuclid.app;
 import java.io.File;
 import java.io.IOException;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MutableLayoutContext;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.LayoutContext.Parameter.BooleanTypeWrapper;
+import net.sourceforge.jeuclid.LayoutContext.Parameter.EnumTypeWrapper;
+import net.sourceforge.jeuclid.LayoutContext.Parameter.TypeWrapper;
 import net.sourceforge.jeuclid.app.support.CommandLineParser;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
+
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Utility class to be used from the command line to call the converters.
@@ -49,6 +59,34 @@ public final class Mml2xxx {
      *            command line arguments.
      */
     public static void main(final String[] args) {
+        final Options options = new Options();
+        final Option oft = new Option("outFileType", true, 
+                "output file mime type [default: derived from the target file extention"); 
+        options.addOption(oft);
+        final LayoutContext defaultCtx = LayoutContextImpl.getDefaultLayoutContext();
+        for (Parameter param : Parameter.values()) {
+            final TypeWrapper typeWrapper = param.getTypeWrapper();
+            String desc = param.getOptionDesc();
+            final String defValue = param.toString(defaultCtx.getParameter(param));
+            if (defValue != null) {
+                desc = desc + " [default: " + defValue + "]";
+            }
+            final Option o = new Option(param.getOptionName(), 
+                    !(typeWrapper instanceof BooleanTypeWrapper), desc);
+            String argName = param.getTypeWrapper().getValueType().getSimpleName().toLowerCase();
+            if (typeWrapper instanceof EnumTypeWrapper) {
+                try {
+                    argName = StringUtils.join(((EnumTypeWrapper) typeWrapper).values(), '|'); 
+                } catch (Exception e) {}
+            }
+            o.setArgName(argName);
+            options.addOption(o);
+        }
+        
+        new HelpFormatter().printHelp(
+                "mml2xxx <source file> <target file> [options]", options);
+        
+        System.exit(0);
 
         try {
             final CommandLineParser.ParseResults parseResults = CommandLineParser

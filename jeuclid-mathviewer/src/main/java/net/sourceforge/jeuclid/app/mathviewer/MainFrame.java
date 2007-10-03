@@ -121,6 +121,7 @@ public class MainFrame extends JFrame {
         this.setSize(MainFrame.DEFAULT_WIDTH, MainFrame.DEFAULT_HEIGHT);
         this.setContentPane(this.getJContentPane());
         this.setTitle(Messages.getString("MathViewer.windowTitle")); //$NON-NLS-1$
+        this.setLocationByPlatform(true);
     }
 
     /**
@@ -368,8 +369,19 @@ public class MainFrame extends JFrame {
             this.viewMenu.add(this.getSmallerMenuItem());
             this.viewMenu.add(this.getAliasMenuItem());
             this.viewMenu.add(this.getDebugMenuItem());
+            this.viewMenu.add(this.getViewModifyParams());
         }
         return this.viewMenu;
+    }
+    
+    private JMenuItem getViewModifyParams() {
+        final JMenuItem mi = new JMenuItem(Messages.getString("MathViewer.viewModifyParams"));
+        mi.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                new ParametersDialog(MainFrame.this).setVisible(true);
+            }
+        });
+        return mi;
     }
 
     /**

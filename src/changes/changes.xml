@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="eric239" type="add">Added ParametersDialog to MathViewer so that all available parameters can be viewed/changed. The dialog auto-generates UI for all the parameters</action>
+			<action dev="eric239" type="update">LayoutContext Parameters now encapsulate information suitable for auto-generating cmd line options and UI input dialogs</action>
+			<action dev="eric239" type="add">Added MFRAC_KEEP_SCRIPTLEVEL LayoutContext.Parameter</action>
 			<action dev="eric239" type="update">Added paste-mathml-from-clipboard capability to MathViewer</action>
 			<action dev="eric239" type="update">LayoutContext.Parameter.ColorTypeWrapper now uses existing AttributesHelper APIs; FreeHEPConverter works (again) but needs further ckeanup</action>
 			<action dev="maxberger" type="update" issue="1797232">DOMBuilder now uses local names for attributes.</action>
