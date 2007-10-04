@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.layout;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,18 +89,16 @@ public class JEuclidView implements AbstractView, LayoutView {
      */
     public void draw(final Graphics2D g, final float x, final float y) {
         this.layout(this.document, LayoutStage.STAGE2, this.context);
-
-        // final RenderingHints hints = g.getRenderingHints();
-        // if ((Boolean) (this.rootElement.getCurrentLayoutContext()
-        // .getParameter(Parameter.ANTIALIAS))) {
-        // hints.add(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-        // RenderingHints.VALUE_ANTIALIAS_ON));
-        // }
-        // hints.add(new RenderingHints(RenderingHints.KEY_STROKE_CONTROL,
-        // RenderingHints.VALUE_STROKE_NORMALIZE));
-        // hints.add(new RenderingHints(RenderingHints.KEY_RENDERING,
-        // RenderingHints.VALUE_RENDER_QUALITY));
-        // g.setRenderingHints(hints);
+        final RenderingHints hints = g.getRenderingHints();
+        if ((Boolean) (this.context.getParameter(Parameter.ANTIALIAS))) {
+            hints.add(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON));
+        }
+        hints.add(new RenderingHints(RenderingHints.KEY_STROKE_CONTROL,
+                RenderingHints.VALUE_STROKE_NORMALIZE));
+        hints.add(new RenderingHints(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY));
+        g.setRenderingHints(hints);
 
         final boolean debug = (Boolean) (this.context
                 .getParameter(Parameter.DEBUG));

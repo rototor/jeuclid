@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="update">re-enabled anti-alias rendering hints.</action>
 			<action dev="eric239" type="add">Added ParametersDialog to MathViewer so that all available parameters can be viewed/changed. The dialog auto-generates UI for all the parameters</action>
 			<action dev="eric239" type="update">LayoutContext Parameters now encapsulate information suitable for auto-generating cmd line options and UI input dialogs</action>
 			<action dev="eric239" type="add">Added MFRAC_KEEP_SCRIPTLEVEL LayoutContext.Parameter</action>
