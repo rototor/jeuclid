@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +40,7 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
+import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.swing.JMathComponent;
@@ -55,7 +57,7 @@ public class MainFrame extends JFrame {
     // CHECKSTYLE:ON
     private static final int DEFAULT_HEIGHT = 200;
 
-    private static final int DEFAULT_WIDTH = 300;
+    private static final int DEFAULT_WIDTH = 350;
 
     // /**
     // * Logger for this class
@@ -78,6 +80,10 @@ public class MainFrame extends JFrame {
     private JMenu helpMenu;
 
     private JMenuItem exitMenuItem;
+    
+    private JMenuItem unformattedCopyMenuItem;
+    
+    private JMenuItem formattedCopyMenuItem;
     
     private JMenuItem pasteMenuItem;
 
@@ -185,6 +191,8 @@ public class MainFrame extends JFrame {
         if (this.editMenu == null) {
             this.editMenu = new JMenu();
             this.editMenu.setText(Messages.getString("MathViewer.EditMenu")); //$NON-NLS-1$
+            this.editMenu.add(this.getUnformattedCopyMenuItem());
+            this.editMenu.add(this.getFormattedCopyMenuItem());
             this.editMenu.add(this.getPasteMenuItem());
         }
         return this.editMenu;
@@ -227,6 +235,40 @@ public class MainFrame extends JFrame {
             });
         }
         return this.exitMenuItem;
+    }
+
+    private JMenuItem getUnformattedCopyMenuItem() {
+        if (this.unformattedCopyMenuItem == null) {
+            this.unformattedCopyMenuItem = new JMenuItem();
+            this.unformattedCopyMenuItem.setText(Messages.getString("MathViewer.unformattedCopy")); //$NON-NLS-1$
+            this.unformattedCopyMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_C, Toolkit.getDefaultToolkit()
+                            .getMenuShortcutKeyMask(), true));
+
+            this.unformattedCopyMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    MainFrame.this.copyToClipboard(false);
+                }
+            });
+        }
+        return this.unformattedCopyMenuItem;
+    }
+
+    private JMenuItem getFormattedCopyMenuItem() {
+        if (this.formattedCopyMenuItem == null) {
+            this.formattedCopyMenuItem = new JMenuItem();
+            this.formattedCopyMenuItem.setText(Messages.getString("MathViewer.formattedCopy")); //$NON-NLS-1$
+            this.formattedCopyMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_C, Toolkit.getDefaultToolkit()
+                            .getMenuShortcutKeyMask() | KeyEvent.SHIFT_DOWN_MASK, true));
+
+            this.formattedCopyMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    MainFrame.this.copyToClipboard(true);
+                }
+            });
+        }
+        return this.formattedCopyMenuItem;
     }
 
     /**
@@ -379,6 +421,12 @@ public class MainFrame extends JFrame {
         mi.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 new ParametersDialog(MainFrame.this).setVisible(true);
+                MainFrame.this.debugMenuItem.setSelected(((Boolean) 
+                        MainFrame.this.mathComponent.getParameters()
+                        .getParameter(Parameter.DEBUG)).booleanValue());
+                MainFrame.this.aliasMenuItem.setSelected(((Boolean) 
+                        MainFrame.this.mathComponent.getParameters()
+                        .getParameter(Parameter.ANTIALIAS)).booleanValue());
             }
         });
         return mi;
@@ -541,6 +589,12 @@ public class MainFrame extends JFrame {
                         Messages.getString("MathViewer.error"), JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    private void copyToClipboard(final boolean formatted) {
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+                new StringSelection(MathMLSerializer.serializeDocument(
+                        this.mathComponent.getDocument(), false, formatted)), null);
     }
 
 }
