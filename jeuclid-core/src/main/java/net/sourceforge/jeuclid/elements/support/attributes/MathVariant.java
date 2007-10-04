@@ -150,7 +150,7 @@ public final class MathVariant {
      * @return a mathVariant object
      */
     public static MathVariant stringToMathVariant(final String variant) {
-        // Needs to be inialized late due to chicken-egg problem.
+        // Needs to be initialized late due to chicken-egg problem.
         if (MathVariant.ATTRIBUTEMAP.isEmpty()) {
             MathVariant.ATTRIBUTEMAP.put("normal", MathVariant.NORMAL);
             MathVariant.ATTRIBUTEMAP.put("bold", MathVariant.BOLD);
