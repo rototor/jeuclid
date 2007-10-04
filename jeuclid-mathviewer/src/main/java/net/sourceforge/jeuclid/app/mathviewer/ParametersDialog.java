@@ -58,7 +58,9 @@ import net.sourceforge.jeuclid.swing.JMathComponent;
  */
 //CHECKSTYLE:OFF
 public class ParametersDialog extends JDialog {
-// CHECKSTYLE:ON    
+// CHECKSTYLE:ON
+    
+    private static final int PADDING = 30;
     
     private static interface DataExtractor {
         Object extractData();
@@ -83,7 +85,7 @@ public class ParametersDialog extends JDialog {
         final GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridy = 0;
         gbc.weightx = 1;
-        gbc.ipadx = 30;
+        gbc.ipadx = ParametersDialog.PADDING;
         //gbc.fill = GridBagConstraints.HORIZONTAL;
         for (Parameter param : Parameter.values()) {
             final JLabel label = new JLabel(param.name());
@@ -149,7 +151,7 @@ public class ParametersDialog extends JDialog {
                 }
             };
         } else if (type instanceof ColorTypeWrapper) {
-            Map.Entry<? extends JComponent, ? extends DataExtractor> entry = 
+            final Map.Entry<? extends JComponent, ? extends DataExtractor> entry = 
                 this.setupColorParameter(param);
             input = entry.getKey();
             dataExtractor = entry.getValue();
@@ -175,7 +177,7 @@ public class ParametersDialog extends JDialog {
                 }
             };
         } else {
-            Map.Entry<? extends JComponent, ? extends DataExtractor> entry = 
+            final Map.Entry<? extends JComponent, ? extends DataExtractor> entry = 
                 this.setupTextParameter(param);
             input = entry.getKey();
             dataExtractor = entry.getValue();
@@ -209,7 +211,7 @@ public class ParametersDialog extends JDialog {
             }
         });
         box.add(btn);
-        box.add(Box.createHorizontalStrut(30));
+        box.add(Box.createHorizontalStrut(ParametersDialog.PADDING));
         return Collections.singletonMap(box, 
             new DataExtractor() {
                 public Object extractData() {
