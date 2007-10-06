@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: FontFactoryTest.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.test;
 
@@ -31,7 +31,7 @@ import org.testng.annotations.Test;
 /**
  * Test for {@link net.sourceforge.jeuclid.LayoutContext.Parameter} enum.
  * 
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public class LayoutContextParamTest {
     /**

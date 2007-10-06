@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MainFrame.java 536 2007-09-27 12:48:31Z eric239 $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.app.mathviewer;
 
@@ -54,7 +54,7 @@ import net.sourceforge.jeuclid.swing.JMathComponent;
  * Dialog that lets user see and change all Layout Parameters.
  * @see Parameter
  * 
- * @version $Revision: 536 $
+ * @version $Revision$
  */
 //CHECKSTYLE:OFF
 public class ParametersDialog extends JDialog {

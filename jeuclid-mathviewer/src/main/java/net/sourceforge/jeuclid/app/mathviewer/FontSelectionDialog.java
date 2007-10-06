@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: LayoutContext.java 535 2007-09-25 18:24:11Z eric239 $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.app.mathviewer;
 
@@ -45,7 +45,7 @@ import net.sourceforge.jeuclid.font.FontFactory;
 /**
  * Dialog that lets user select one or more fonts available in the system.
  * 
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 // CHECKSTYLE:OFF
 public class FontSelectionDialog extends JDialog {
