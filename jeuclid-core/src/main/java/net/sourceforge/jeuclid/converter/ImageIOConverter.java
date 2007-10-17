@@ -61,7 +61,7 @@ public class ImageIOConverter implements ConverterPlugin {
         final Graphics2D temp = (Graphics2D) image.getGraphics();
         return new Dimension(
                 (int) Math.ceil(base.getWidth(temp)), 
-                (int) Math.ceil(base.getWidth(temp)));
+                (int) Math.ceil(base.getHeight(temp)));
     }
 
 }
