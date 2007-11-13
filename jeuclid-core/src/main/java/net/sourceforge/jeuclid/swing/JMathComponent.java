@@ -65,7 +65,7 @@ import org.xml.sax.SAXException;
  */
 public class JMathComponent extends JComponent implements SwingConstants {
 
-    private static final String FONT_SEPARATOR = ",";
+	private static final String FONT_SEPARATOR = ",";
 
     /**
      * Logger for this class
@@ -259,7 +259,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
         return this.getMinimumSize();
     }
 
-    /**
+	/**
      * @return the UI implementation.
      */
     public MathComponentUI getUI() {
@@ -545,5 +545,11 @@ public class JMathComponent extends JComponent implements SwingConstants {
     public MutableLayoutContext getParameters() {
         return this.parameters;
     }
+
+	@Override
+	public void setSize(int width, int height) {
+		// TODO Auto-generated method stub
+		super.setSize(width, height);
+	}
 
 }
