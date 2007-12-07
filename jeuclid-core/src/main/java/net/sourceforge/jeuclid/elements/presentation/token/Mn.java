@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
-
 /**
  * This class presents numbers in a equation.
  * 
@@ -31,7 +30,7 @@ public class Mn extends AbstractTokenWithStandardLayout {
      */
     public static final String ELEMENT = "mn";
 
-    private static final String DOT = ".";
+    // private static final String DOT = ".";
 
     /**
      * Default constructor.

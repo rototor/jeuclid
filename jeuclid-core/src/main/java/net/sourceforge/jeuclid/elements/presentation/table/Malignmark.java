@@ -38,7 +38,7 @@ public class Malignmark extends AbstractInvisibleJEuclidElement implements
     /** The edge attribute. */
     public static final String ATTR_EDGE = "edge";
 
-    private final int width = 0;
+    // private final int width = 0;
 
     /**
      * Creates a math element.
