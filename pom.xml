@@ -110,6 +110,12 @@
   </developers>
   <contributors>
     <contributor>
+      <name>Jean-Francois Maurel</name>
+      <roles>
+        <role>french translation</role>
+      </roles>
+    </contributor>
+    <contributor>
       <name>Jean Roland</name>
       <roles>
         <role>testing</role>
