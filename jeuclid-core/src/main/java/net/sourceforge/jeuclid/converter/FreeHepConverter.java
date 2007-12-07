@@ -41,6 +41,7 @@ public class FreeHepConverter implements ConverterPlugin {
 
     private final Constructor<VectorGraphics> streamConst;
 
+    @SuppressWarnings("unchecked")
     FreeHepConverter(final Class<?> converterClass)
             throws NoSuchMethodException {
 
@@ -57,12 +58,14 @@ public class FreeHepConverter implements ConverterPlugin {
                 new ByteArrayOutputStream(), new Dimension(1, 1));
         final JEuclidView view = new JEuclidView(doc, context, tempg);
         final int ascent = (int) Math.ceil(view.getAscentHeight());
-        final Dimension size = new Dimension((int) Math.ceil(view.getWidth()), 
-                (int) Math.ceil(view.getDescentHeight()) + ascent);
+        final Dimension size = new Dimension(
+                (int) Math.ceil(view.getWidth()), (int) Math.ceil(view
+                        .getDescentHeight())
+                        + ascent);
 
         final VectorGraphics g = this.createGraphics(outStream, size);
         g.setCreator("JEuclid (from MathML)");
-        //g.setProperties(p);
+        // g.setProperties(p);
         g.startExport();
         view.draw(g, 0, ascent);
         g.endExport();
@@ -75,11 +78,14 @@ public class FreeHepConverter implements ConverterPlugin {
         return null;
     }
 
-    private VectorGraphics createGraphics(final OutputStream os, final Dimension d) {
+    private VectorGraphics createGraphics(final OutputStream os,
+            final Dimension d) {
         try {
             return this.streamConst.newInstance(os, d);
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected - failed to create a FreeHep VectorGraphics instance", e);
+        } catch (final Exception e) {
+            throw new RuntimeException(
+                    "Unexpected - failed to create a FreeHep VectorGraphics instance",
+                    e);
         }
     }
 }

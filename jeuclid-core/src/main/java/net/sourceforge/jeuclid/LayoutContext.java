@@ -24,10 +24,10 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-
 import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @version $Revision$
@@ -40,60 +40,63 @@ public interface LayoutContext {
         /**
          * Display style (Display).
          */
-        DISPLAY(new EnumTypeWrapper(Display.class), false, "display", "display style"),
-        
+        DISPLAY(new EnumTypeWrapper(Display.class), false, "display",
+                "display style"),
+
         /**
          * Font size (Float) used for the output. Defaults to 12.0pt. Please
          * Note: You may also want to set SCRIPTMINZISE.
          */
-        MATHSIZE(new NumberTypeWrapper(Float.class), false, "fontSize", 
+        MATHSIZE(new NumberTypeWrapper(Float.class), false, "fontSize",
                 "font size used for the output (mathsize)"),
-                
+
         /**
          * Font size (Float) for smallest script used. Defaults to 8.0pt.
          */
-        SCRIPTMINSIZE(new NumberTypeWrapper(Float.class), false, "scriptMinSize",
-                "font size to be used for smallest script"),
-                
+        SCRIPTMINSIZE(new NumberTypeWrapper(Float.class), false,
+                "scriptMinSize", "font size to be used for smallest script"),
+
         /** Script size multiplier (Float), defaults to 0.71. */
-        SCRIPTSIZEMULTIPLIER(new NumberTypeWrapper(Float.class), false, "scriptSizeMult",
-                "script size multiplier"),
-        
+        SCRIPTSIZEMULTIPLIER(new NumberTypeWrapper(Float.class), false,
+                "scriptSizeMult", "script size multiplier"),
+
         /** Script level (Integer), defaults to 0. */
-        SCRIPTLEVEL(new NumberTypeWrapper(Integer.class), false, "scriptLevel",
-                "script level"),
-                
+        SCRIPTLEVEL(new NumberTypeWrapper(Integer.class), false,
+                "scriptLevel", "script level"),
+
         /**
          * Minimum font size for which anti-alias is turned on. Defaults to
          * 10.0pt
          */
-        ANTIALIAS_MINSIZE(new NumberTypeWrapper(Float.class), false, "antiAliasMinSize",
+        ANTIALIAS_MINSIZE(new NumberTypeWrapper(Float.class), false,
+                "antiAliasMinSize",
                 "minimum font size for which anti-alias is turned on"),
-                
+
         /**
          * Debug mode (Boolean). If true, elements will have borders drawn
          * around them.
          */
-        DEBUG(new BooleanTypeWrapper(), false, "debug", 
+        DEBUG(new BooleanTypeWrapper(), false, "debug",
                 "debug mode - if on, elements will have borders drawn around them"),
-                
+
         /**
          * Anti-Alias mode (Boolean) for rendering.
          */
-        ANTIALIAS(new BooleanTypeWrapper(), false, "antiAlias", "anti-alias mode"),
-        
+        ANTIALIAS(new BooleanTypeWrapper(), false, "antiAlias",
+                "anti-alias mode"),
+
         /**
          * Default foreground color (Color). See 3.2.2.2
          */
-        MATHCOLOR(new ColorTypeWrapper(), false, "foregroundColor", 
+        MATHCOLOR(new ColorTypeWrapper(), false, "foregroundColor",
                 "default foreground color (mathcolor)"),
-                
+
         /**
          * Default background color (Color), may be null. See 3.2.2.2
          */
-        MATHBACKGROUND(new ColorTypeWrapper(), true, "backgroundColor", 
+        MATHBACKGROUND(new ColorTypeWrapper(), true, "backgroundColor",
                 "default background color (mathbackground)"),
-                
+
         /**
          * List&lt;String&gt; of font families for sans-serif.
          * 
@@ -101,7 +104,7 @@ public interface LayoutContext {
          */
         FONTS_SANSSERIF(new ListTypeWrapper(), false, "fontsSansSerif",
                 "list of font families for Sans-Serif"),
-                
+
         /**
          * List&lt;String&gt; of font families for serif.
          * 
@@ -109,13 +112,13 @@ public interface LayoutContext {
          */
         FONTS_SERIF(new ListTypeWrapper(), false, "fontsSerif",
                 "list of font families for Serif"),
-                
+
         /**
          * List&lt;String&gt; of font families for monospaced.
          * 
          * @see Parameter
          */
-        FONTS_MONOSPACED(new ListTypeWrapper(), false, "fontsMonospaced", 
+        FONTS_MONOSPACED(new ListTypeWrapper(), false, "fontsMonospaced",
                 "list of font families for Monospaced"),
 
         /**
@@ -133,7 +136,7 @@ public interface LayoutContext {
          */
         FONTS_FRAKTUR(new ListTypeWrapper(), false, "fontsFaktur",
                 "list of font families for Fraktur"),
-                
+
         /**
          * List&lt;String&gt; of font families for double-struck.
          * 
@@ -141,28 +144,35 @@ public interface LayoutContext {
          */
         FONTS_DOUBLESTRUCK(new ListTypeWrapper(), false, "fontsDoublestruck",
                 "list of font families for Double-Struck"),
-        
+
         /**
-         * If true, &lt;mfrac&gt; element will NEVER increase children's scriptlevel
-         * (in violation of the spec); otherwise it will behave with accordance to the spec. 
+         * If true, &lt;mfrac&gt; element will NEVER increase children's
+         * scriptlevel (in violation of the spec); otherwise it will behave
+         * with accordance to the spec.
          */
-        MFRAC_KEEP_SCRIPTLEVEL(new BooleanTypeWrapper(), false, "mfracKeepScriptLevel",
+        MFRAC_KEEP_SCRIPTLEVEL(
+                new BooleanTypeWrapper(),
+                false,
+                "mfracKeepScriptLevel",
                 "if true, <mfrac> element will NEVER increase children's scriptlevel (in violation of the spec)");
-        
-        private TypeWrapper typeWrapper;
-        private boolean nullAllowed;
-        
-        private String optionName;
-        private String optionDesc;
-        
-        private Parameter(final TypeWrapper aTypeWrapper, final boolean nullIsAllowed,
-                final String oName, final String oDesc) {
+
+        private final TypeWrapper typeWrapper;
+
+        private final boolean nullAllowed;
+
+        private final String optionName;
+
+        private final String optionDesc;
+
+        private Parameter(final TypeWrapper aTypeWrapper,
+                final boolean nullIsAllowed, final String oName,
+                final String oDesc) {
             this.typeWrapper = aTypeWrapper;
             this.nullAllowed = nullIsAllowed;
             this.optionName = oName;
             this.optionDesc = oDesc;
         }
-        
+
         /**
          * @return TypeWrapper instance used for this parameter
          */
@@ -170,7 +180,6 @@ public interface LayoutContext {
             return this.typeWrapper;
         }
 
-        
         /**
          * @return user-friendly option name associated with this parameter
          */
@@ -185,7 +194,6 @@ public interface LayoutContext {
             return this.optionDesc;
         }
 
-
         /**
          * Checks if the object is of a valid type for this parameter.
          * 
@@ -196,92 +204,113 @@ public interface LayoutContext {
         public boolean valid(final Object o) {
             return o == null && this.nullAllowed || this.typeWrapper.valid(o);
         }
-        
+
         /**
-         * Attempts to convert a parameter value expressed as string 
-         * into an instance of the appropriate (for this parameter) type.
+         * Attempts to convert a parameter value expressed as string into an
+         * instance of the appropriate (for this parameter) type.
          * 
-         *  @param value parameter value as string
-         *  @return parameter value as an instance of the proper type
+         * @param value
+         *            parameter value as string
+         * @return parameter value as an instance of the proper type
          */
         public Object fromString(final String value) {
             return this.typeWrapper.fromString(value);
         }
-        
+
         /**
-         * Attempts to convert a parameter value expressed as an object
-         * of the appropriate (for this parameter) type into a string representation.
-         * @param value parameter value as object
+         * Attempts to convert a parameter value expressed as an object of the
+         * appropriate (for this parameter) type into a string representation.
+         * 
+         * @param value
+         *            parameter value as object
          * @return parameter value as string
          */
         public String toString(final Object value) {
             return this.typeWrapper.toString(value);
         }
 
-        
         /**
-         * Incapsulates information about a parameter's value type and 
-         * how values should be converted between strings and 
-         * the appropriate object instances.
-         * <p>This allows elimination of an additional "evil" if-elseif...else" pattern.  
+         * Incapsulates information about a parameter's value type and how
+         * values should be converted between strings and the appropriate
+         * object instances.
+         * <p>
+         * This allows elimination of an additional "evil" if-elseif...else"
+         * pattern.
          */
         public static interface TypeWrapper {
             /**
              * @return the class instance being wrapped
              */
-            Class getValueType();
+            Class<?> getValueType();
+
             /**
              * Checks if the object is of a valid type for this type info.
-             * @param o the object to check
+             * 
+             * @param o
+             *            the object to check
              * @return true if the parameter can be set.
              */
             boolean valid(Object o);
+
             /**
-             * Attempts to convert a parameter value expressed as string 
-             * into an instance of the appropriate (for this parameter) type.
-             * @param value parameter value as string
+             * Attempts to convert a parameter value expressed as string into
+             * an instance of the appropriate (for this parameter) type.
+             * 
+             * @param value
+             *            parameter value as string
              * @return parameter value as an instance of the proper type
              */
             Object fromString(String value);
+
             /**
-             * Attempts to convert a parameter value expressed as an object
-             * of the appropriate (for this parameter) type into a string representation.
-             * @param value parameter value as object
+             * Attempts to convert a parameter value expressed as an object of
+             * the appropriate (for this parameter) type into a string
+             * representation.
+             * 
+             * @param value
+             *            parameter value as object
              * @return parameter value as string
              */
             String toString(Object value);
         }
-        
+
         /**
-         * Basic (and simple) implementation of TypeWrapper.
-         * Maintains an instance of type being wrapped as well as 
-         * provides reasonable default implementations for all the operations.  
+         * Basic (and simple) implementation of TypeWrapper. Maintains an
+         * instance of type being wrapped as well as provides reasonable
+         * default implementations for all the operations.
          */
         public static class SimpleTypeWrapper implements TypeWrapper {
             /** the class instance being wrapped */
-            private final Class valueType;
+            private final Class<?> valueType;
+
             /**
-             * @param valType a Class object
+             * @param valType
+             *            a Class object
              */
-            protected SimpleTypeWrapper(final Class valType) {
+            protected SimpleTypeWrapper(final Class<?> valType) {
                 this.valueType = valType;
             }
+
             /** {@inheritDoc} */
-            public Class getValueType() {
+            public Class<?> getValueType() {
                 return this.valueType;
             }
+
             /** {@inheritDoc} */
             public boolean valid(final Object o) {
                 return this.valueType.isInstance(o);
             }
+
             /** {@inheritDoc} */
             public Object fromString(final String value) {
                 if (value == null) {
                     return null;
                 }
-                throw new IllegalArgumentException("Don't know how to convert <" + value 
-                        + "> to " + this.valueType);
+                throw new IllegalArgumentException(
+                        "Don't know how to convert <" + value + "> to "
+                                + this.valueType);
             }
+
             /** {@inheritDoc} */
             public String toString(final Object value) {
                 if (value == null) {
@@ -291,61 +320,73 @@ public interface LayoutContext {
                 }
             }
         }
-        
-        
+
         /**
-         * Converting String to String is trivial... 
+         * Converting String to String is trivial...
          */
         public static class StringTypeWrapper extends SimpleTypeWrapper {
             /** Simple c'tor. */
             public StringTypeWrapper() {
                 super(String.class);
             }
+
             /** {@inheritDoc} */
+            @Override
             public Object fromString(final String value) {
                 return value;
             }
+
             /** {@inheritDoc} */
+            @Override
             public String toString(final Object value) {
                 return (String) value;
             }
         }
 
         /**
-         * Converting String to Numbers and vice versa is also straightforward. 
+         * Converting String to Numbers and vice versa is also
+         * straightforward.
          */
         public static class NumberTypeWrapper extends SimpleTypeWrapper {
-            /** 
+            /**
              * Simple constructor.
-             * @param valueType a subclass of Number  
+             * 
+             * @param valueType
+             *            a subclass of Number
              */
             public NumberTypeWrapper(final Class<? extends Number> valueType) {
                 super(valueType);
             }
+
             /** {@inheritDoc} */
+            @Override
             public Object fromString(final String value) {
                 if (value == null) {
                     return null;
                 }
                 try {
-                    return this.getValueType().getConstructor(new Class[] {String.class})
-                        .newInstance(new Object[] {value});
-                } catch (Exception e) {
-                    throw new IllegalArgumentException("Failed to convert <" + value
-                            + "> to " + this.getValueType(), e);
+                    return this.getValueType().getConstructor(
+                            new Class[] { String.class }).newInstance(
+                            new Object[] { value });
+                } catch (final Exception e) {
+                    throw new IllegalArgumentException("Failed to convert <"
+                            + value + "> to " + this.getValueType(), e);
                 }
             }
         }
 
         /**
-         * Converting String to Boolean and vice versa is also straightforward. 
+         * Converting String to Boolean and vice versa is also
+         * straightforward.
          */
         public static class BooleanTypeWrapper extends SimpleTypeWrapper {
             /** Simple constructor. */
             public BooleanTypeWrapper() {
                 super(Boolean.class);
             }
+
             /** {@inheritDoc} */
+            @Override
             public Object fromString(final String value) {
                 if (value == null) {
                     return null;
@@ -356,7 +397,7 @@ public interface LayoutContext {
         }
 
         /**
-         * Color is converted to String and back by using existing APIs in 
+         * Color is converted to String and back by using existing APIs in
          * {@link AttributesHelper}.
          */
         public static class ColorTypeWrapper extends SimpleTypeWrapper {
@@ -364,9 +405,12 @@ public interface LayoutContext {
             public ColorTypeWrapper() {
                 super(Color.class);
             }
+
             /** {@inheritDoc} */
+            @Override
             public Object fromString(final String value) {
-                final Color color = AttributesHelper.stringToColor(value, null);
+                final Color color = AttributesHelper.stringToColor(value,
+                        null);
                 if (color != null) {
                     return color;
                 } else {
@@ -374,25 +418,28 @@ public interface LayoutContext {
                             + "> is not a valid color representation");
                 }
             }
+
             /** {@inheritDoc} */
+            @Override
             public String toString(final Object value) {
                 if (value == null) {
                     return null;
                 }
                 try {
                     String retVal = null;
-                    for (Field field : Color.class.getFields()) {
-                        if (Modifier.isStatic(field.getModifiers()) 
-                            && field.get(null) == value) {
+                    for (final Field field : Color.class.getFields()) {
+                        if (Modifier.isStatic(field.getModifiers())
+                                && field.get(null) == value) {
                             retVal = field.getName().toLowerCase();
                             break;
                         }
                     }
                     if (retVal == null) {
-                        retVal = AttributesHelper.colorTOsRGBString((Color) value);
+                        retVal = AttributesHelper
+                                .colorTOsRGBString((Color) value);
                     }
                     return retVal;
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     throw new IllegalArgumentException("<" + value
                             + "> is not a valid color name", e);
                 }
@@ -400,75 +447,97 @@ public interface LayoutContext {
         }
 
         /**
-         * List is converted to String and back by using comma-separated representation. 
+         * List is converted to String and back by using comma-separated
+         * representation.
          */
         public static class ListTypeWrapper extends SimpleTypeWrapper {
-            /** separator to be used when converting to string or parsing string. */
+            /**
+             * separator to be used when converting to string or parsing
+             * string.
+             */
             public static final String SEPARATOR = ",";
+
             /** Simple constructor. */
             public ListTypeWrapper() {
                 super(List.class);
             }
+
             /** {@inheritDoc} */
+            @Override
             public Object fromString(final String value) {
                 if (value == null) {
                     return null;
                 } else {
                     final String whitespace = "\\s*";
-                    return Arrays.asList(value.split(whitespace + SEPARATOR + whitespace));
+                    return Arrays.asList(value.split(whitespace
+                            + ListTypeWrapper.SEPARATOR + whitespace));
                 }
             }
+
             /** {@inheritDoc} */
+            @Override
             public String toString(final Object value) {
                 if (value == null) {
                     return null;
                 } else {
-                    return StringUtils.join(((List) value).iterator(), SEPARATOR);
+                    return StringUtils.join(((List<?>) value).iterator(),
+                            ListTypeWrapper.SEPARATOR);
                 }
             }
         }
 
         /**
-         * Converting String to Enum and vice versa is easy with help of Enum class. 
+         * Converting String to Enum and vice versa is easy with help of Enum
+         * class.
          */
         public static class EnumTypeWrapper extends SimpleTypeWrapper {
-            /** 
-             * Simple constructor. 
-             * @param valueType an enum class 
+            /**
+             * Simple constructor.
+             * 
+             * @param valueType
+             *            an enum class
              */
-            public EnumTypeWrapper(final Class<? extends Enum> valueType) {
+            public EnumTypeWrapper(final Class<? extends Enum<?>> valueType) {
                 super(valueType);
             }
+
             /** {@inheritDoc} */
+            @SuppressWarnings("unchecked")
+            @Override
             public Object fromString(final String value) {
                 if (value == null) {
                     return null;
                 }
-                final Object o = Enum.valueOf(this.getValueType(), value);
+                final Object o = Enum.valueOf((Class) this.getValueType(),
+                        value);
                 if (o == null) {
-                    throw new IllegalArgumentException("<" + value 
-                            + "> is not a valid instance of enum type " + this.getValueType());
+                    throw new IllegalArgumentException("<" + value
+                            + "> is not a valid instance of enum type "
+                            + this.getValueType());
                 } else {
                     return o;
                 }
             }
+
             /**
              * Retrieves values of the enum type being wrapped.
+             * 
              * @return array of possible enum values
              */
             public Object[] values() {
                 try {
-                    return (Object[]) this.getValueType().getMethod("values").invoke(null);
-                } catch (Exception e) {
-                    throw new RuntimeException("Failed to retrieve values of enum class " 
-                            + this.getValueType());
+                    return (Object[]) this.getValueType().getMethod("values")
+                            .invoke(null);
+                } catch (final Exception e) {
+                    throw new RuntimeException(
+                            "Failed to retrieve values of enum class "
+                                    + this.getValueType());
                 }
             }
         }
 
     }
 
-    
     /**
      * Retrieve a layout parameter.
      * 
@@ -478,5 +547,5 @@ public interface LayoutContext {
      *         may be null.
      */
     Object getParameter(LayoutContext.Parameter which);
-    
+
 }
