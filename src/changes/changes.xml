@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="add">Support for autoloading fonts in jar files</action>
 			<action dev="maxberger" type="add" due-to="Jean-Francois Maurel">Added french translation to MathViewer</action>
 			<action dev="maxberger" type="remove">Removed old command line parser</action>
 			<action dev="eric239" type="update">Finished converting Mml2xxx to use commons-cli and new LayoutContext.Parameter. Also implemented copy to clipboard in MathViewer.</action>		
