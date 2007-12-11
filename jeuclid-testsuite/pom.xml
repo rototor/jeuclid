@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-testsuite</artifactId>
@@ -22,10 +22,10 @@
       <artifactId>jeuclid-foprep</artifactId>
       <version>3.1.0-SNAPSHOT</version>
     </dependency>
-<dependency>
-      <groupId>batik</groupId>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>batik-svggen</artifactId>
-      <version>1.6-1</version>
+      <version>1.7pre</version>
       <exclusions>
         <exclusion>
           <groupId>javax.servlet</groupId>
@@ -33,26 +33,30 @@
         </exclusion>
         <exclusion>
           <groupId>xml-apis</groupId>
-          <artifactId>xmlParserAPIs</artifactId>
+          <artifactId>xml-apis</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>xerces</groupId>
-          <artifactId>xercesImpl</artifactId>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis-ext</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xalan</groupId>
+          <artifactId>xalan</artifactId>
         </exclusion>
       </exclusions>
       <optional>true</optional>
     </dependency>
-</dependencies>
+  </dependencies>
   <build>
     <finalName>jeuclid-testsuite</finalName>
-         <plugins>
-             <plugin>
-                  <groupId>org.mortbay.jetty</groupId>
-                  <artifactId>maven-jetty-plugin</artifactId>
-<configuration>
-<scanIntervalSeconds>5</scanIntervalSeconds>
-</configuration>
-             </plugin>
-         </plugins>
-   </build> 
+    <plugins>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <configuration>
+          <scanIntervalSeconds>5</scanIntervalSeconds>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

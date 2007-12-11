@@ -42,6 +42,56 @@
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>fop</artifactId>
       <version>0.94</version>
+      <exclusions>
+        <exclusion>
+          <groupId>batik</groupId>
+          <artifactId>batik-svg-dom</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>batik</groupId>
+          <artifactId>batik-bridge</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>batik</groupId>
+          <artifactId>batik-awt-util</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>batik</groupId>
+          <artifactId>batik-gvt</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>batik</groupId>
+          <artifactId>batik-transcoder</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>batik</groupId>
+          <artifactId>batik-extension</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>batik</groupId>
+          <artifactId>batik-ext</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.avalon.framework</groupId>
+          <artifactId>avalon-framework-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.avalon.framework</groupId>
+          <artifactId>avalon-framework-impl</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <repositories>
