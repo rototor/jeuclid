@@ -33,8 +33,8 @@
             <manifest>
               <mainClass>net.sourceforge.jeuclid.app.Mml2xxx</mainClass>
               <addClasspath>true</addClasspath>
-              <addExtensions />
-              <classpathPrefix />
+              <addExtensions/>
+              <classpathPrefix/>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
@@ -70,7 +70,7 @@
           <artifactId>logkit</artifactId>
         </exclusion>
       </exclusions>
-     </dependency>
+    </dependency>
     <dependency>
       <groupId>ant</groupId>
       <artifactId>ant</artifactId>
@@ -78,9 +78,9 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>batik</groupId>
+      <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>batik-svggen</artifactId>
-      <version>1.6-1</version>
+      <version>1.7pre</version>
       <exclusions>
         <exclusion>
           <groupId>javax.servlet</groupId>
@@ -88,11 +88,15 @@
         </exclusion>
         <exclusion>
           <groupId>xml-apis</groupId>
-          <artifactId>xmlParserAPIs</artifactId>
+          <artifactId>xml-apis</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>xerces</groupId>
-          <artifactId>xercesImpl</artifactId>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis-ext</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xalan</groupId>
+          <artifactId>xalan</artifactId>
         </exclusion>
       </exclusions>
       <optional>true</optional>
@@ -148,6 +152,5 @@
       <artifactId>xmlgraphics-commons</artifactId>
       <version>1.3svn-071207</version>
     </dependency>
-
   </dependencies>
 </project>
