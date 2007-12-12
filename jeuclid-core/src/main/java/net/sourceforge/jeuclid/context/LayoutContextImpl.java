@@ -69,6 +69,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
         symbolCatchFonts.add("Arial Unicode MS");
         symbolCatchFonts.add("Cambria Math");
         symbolCatchFonts.add("DejaVu Sans");
+        symbolCatchFonts.add("STIXGeneral");
 
         fontsSanserif.add("Verdana");
         fontsSanserif.add("Helvetica");
@@ -138,7 +139,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsDoublestruck.add("Imprint MT Shadow");
         fontsDoublestruck.addAll(symbolCatchFonts);
         this.context.put(Parameter.FONTS_DOUBLESTRUCK, fontsDoublestruck);
-        
+
         this.context.put(Parameter.MFRAC_KEEP_SCRIPTLEVEL, Boolean.FALSE);
         // CHECKSTYLE:ON
     }
