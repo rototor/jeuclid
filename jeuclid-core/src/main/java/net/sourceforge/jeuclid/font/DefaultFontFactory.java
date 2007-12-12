@@ -55,11 +55,9 @@ public class DefaultFontFactory extends FontFactory {
 
     @SuppressWarnings("unchecked")
     private void autoloadFontsFromClasspath() {
-        System.out.println("Entering");
         final List<URL> fonts = ClasspathResource.getInstance()
                 .listResourcesOfMimeType("application/x-font");
         for (final URL u : fonts) {
-            System.out.println("Adding: " + u);
             try {
                 this.cacheFont(Font.createFont(Font.TRUETYPE_FONT, u
                         .openStream()));
@@ -154,7 +152,18 @@ public class DefaultFontFactory extends FontFactory {
      */
     protected Font cacheFont(final Font font) {
         this.fontCache.put(font.getFontName(), font);
-        this.fontCache.put(font.getFamily(), font);
+        final String family = font.getFamily();
+        // This is a safeguard. On Linux for DejaVu Sans Oblique we get:
+        // Name: DejaVu Sans Oblique
+        // Family: DejaVu Sans
+        // For DejaVu Sans we get:
+        // Name: DejaVu Sans
+        // Family: DejaVu Sans
+        // And of course we don't want the oblique font to override the
+        // regular font...
+        if (!this.fontCache.containsKey(family)) {
+            this.fontCache.put(font.getFamily(), font);
+        }
         return font;
     }
 

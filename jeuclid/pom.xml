@@ -191,5 +191,15 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>dejavu-fonts</artifactId>
+      <version>2.22</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>stix-fonts</artifactId>
+      <version>1.0-beta</version>
+    </dependency>
   </dependencies>
 </project>
