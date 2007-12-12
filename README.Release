@@ -104,7 +104,7 @@ cd ../..
 mvn install && mvn site && mvn site-deploy
 
 12. commit changes
-svn commit -m "Updated file after release"
+mvn -Dmessage="Updated file after release" scm:checkin
 
 13. Send email to jeuclid-users and jeuclid-devel, and optionally to www-math@w3.org
 

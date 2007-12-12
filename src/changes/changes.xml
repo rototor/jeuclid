@@ -5,8 +5,12 @@
 		<author>Max Berger</author>
 	</properties>
 	<body>
-		<release version="3.0.2" date="in SVN"
-			description="NONE yet">
+		<release version="3.0.3" date="in SVN"
+			description="none yet">
+		<action dev="maxberger" type="update">Update after release</action>
+                </release>
+		<release version="3.0.2" date="2007-12-12"
+			description="smallBugs">
 		<action dev="maxberger" type="add">Support for Cambria Math (Windows Vista) and STIXGeneral fonts</action>
 		<action dev="maxberger" type="update" issue="1814499">ImageIOConvert.convert now returns proper height / width.</action>
 		<action dev="maxberger" type="update" issue="1797232">DOMBuilder now uses local names for attributes.</action>
