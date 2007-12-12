@@ -15,8 +15,8 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
-        <version>1.0-alpha-2</version>
-<!--        <version>1.0-20070124.085332-18</version>  -->
+<!--        <version>1.0-alpha-2</version> -->
+        <version>1.0-20070124.085332-18</version>
         <configuration>
           <programs>
             <program>
