@@ -8,7 +8,7 @@
     <parent>
         <groupId>net.sourceforge.jeuclid</groupId>
         <artifactId>jeuclid-parent</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.3-SNAPSHOT</version>
     </parent>
     <description>This module handles creation of the JEuclid webstartable app.</description>
     <build>
