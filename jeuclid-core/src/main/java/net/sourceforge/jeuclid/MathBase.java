@@ -288,7 +288,8 @@ public class MathBase {
         // CHECKSTYLE:OFF
         final String symbolCatchFonts = "OpenSymbol," + "Standard Symbols L,"
                 + "Symbol," + "Webdings," + "Wingdings," + "Wingdings 2,"
-                + "Wingdings 3," + "Arial Unicode MS," + "DejaVu Sans";
+                + "Wingdings 3," + "Arial Unicode MS," + "DejaVu Sans"
+                + "Cambria Math" + "STIXGeneral";
         params.put(ParameterKey.FontsSanserif, "Verdana," + "Helvetica,"
                 + "Arial," + "Arial Unicode MS," + "Lucida Sans Unicode,"
                 + "Lucida Sans," + "Lucida Grande," + "DejaVu Sans,"

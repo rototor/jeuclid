@@ -7,6 +7,7 @@
 	<body>
 		<release version="3.0.2" date="in SVN"
 			description="NONE yet">
+		<action dev="maxberger" type="add">Support for Cambria Math (Windows Vista) and STIXGeneral fonts</action>
 		<action dev="maxberger" type="update" issue="1814499">ImageIOConvert.convert now returns proper height / width.</action>
 		<action dev="maxberger" type="update" issue="1797232">DOMBuilder now uses local names for attributes.</action>
 		<action dev="maxberger" type="update">osxappbundler now has a released version.</action>
