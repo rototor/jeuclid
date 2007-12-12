@@ -1,13 +1,4 @@
 
-Name: fonts/STIXGeneralBolIta.otf
-Content-Type: application/x-font
-
-Name: fonts/STIXGeneralBol.otf
-Content-Type: application/x-font
-
-Name: fonts/STIXGeneralItalic.otf
-Content-Type: application/x-font
-
-Name: fonts/STIXGeneral.otf
+Name: fonts/STIXGeneral.ttf
 Content-Type: application/x-font
 
