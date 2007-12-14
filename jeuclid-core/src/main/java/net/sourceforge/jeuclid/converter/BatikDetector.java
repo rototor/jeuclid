@@ -18,8 +18,13 @@
 
 package net.sourceforge.jeuclid.converter;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
 /**
  * Detects if Batik is in the class path and registers it if its available.
@@ -36,6 +41,46 @@ public final class BatikDetector {
         // Empty on purpose
     }
 
+    private static DOMImplementation findSVGDOMImplementation() {
+        DOMImplementation impl;
+        try {
+            final Class<?> svgdomimpl = Thread.currentThread()
+                    .getContextClassLoader().loadClass(
+                            "org.apache.batik.dom.svg.SVGDOMImplementation");
+            final Method getDOMimpl = svgdomimpl.getMethod(
+                    "getDOMImplementation", new Class<?>[] {});
+            impl = (DOMImplementation) getDOMimpl.invoke(null,
+                    (Object[]) null);
+        } catch (final RuntimeException e) {
+            impl = null;
+        } catch (final ClassNotFoundException e) {
+            impl = null;
+        } catch (final NoSuchMethodException e) {
+            impl = null;
+        } catch (final IllegalAccessException e) {
+            impl = null;
+        } catch (final InvocationTargetException e) {
+            impl = null;
+        }
+
+        if (impl == null) {
+            try {
+                final DOMImplementationRegistry reg = DOMImplementationRegistry
+                        .newInstance();
+                impl = reg.getDOMImplementation("");
+            } catch (final ClassCastException e) {
+                impl = null;
+            } catch (final ClassNotFoundException e) {
+                impl = null;
+            } catch (final InstantiationException e) {
+                impl = null;
+            } catch (final IllegalAccessException e) {
+                impl = null;
+            }
+        }
+        return impl;
+    }
+
     /**
      * Detects if Batik is in the classpath.
      * 
@@ -48,12 +93,18 @@ public final class BatikDetector {
             Thread.currentThread().getContextClassLoader().loadClass(
                     "org.apache.batik.svggen.SVGGraphics2D");
             BatikDetector.LOGGER.debug("Batik detected!");
-            registry.registerMimeTypeAndSuffix(
-                    net.sourceforge.jeuclid.converter.Converter.TYPE_SVG,
-                    net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG, true);
-            registry.registerConverter(
-                    net.sourceforge.jeuclid.converter.Converter.TYPE_SVG,
-                    new BatikConverter(), true);
+            registry
+                    .registerMimeTypeAndSuffix(
+                            net.sourceforge.jeuclid.converter.Converter.TYPE_SVG,
+                            net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG,
+                            true);
+            final DOMImplementation impl = BatikDetector
+                    .findSVGDOMImplementation();
+            if (impl != null) {
+                registry.registerConverter(
+                        net.sourceforge.jeuclid.converter.Converter.TYPE_SVG,
+                        new BatikConverter(impl), true);
+            }
         } catch (final ClassNotFoundException e) {
             BatikDetector.LOGGER.debug("Batik is not in classpath!");
         }

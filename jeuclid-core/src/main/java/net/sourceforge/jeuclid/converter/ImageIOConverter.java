@@ -29,7 +29,6 @@ import javax.imageio.stream.MemoryCacheImageOutputStream;
 
 import net.sourceforge.jeuclid.LayoutContext;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
@@ -65,7 +64,8 @@ public class ImageIOConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public Document convert(final Node doc, final LayoutContext context) {
+    public DocumentWithDimension convert(final Node doc,
+            final LayoutContext context) {
         return null;
     }
 
