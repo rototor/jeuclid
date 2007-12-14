@@ -29,7 +29,6 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.freehep.graphics2d.VectorGraphics;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
@@ -74,7 +73,8 @@ public class FreeHepConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public Document convert(final Node doc, final LayoutContext context) {
+    public DocumentWithDimension convert(final Node doc,
+            final LayoutContext context) {
         return null;
     }
 

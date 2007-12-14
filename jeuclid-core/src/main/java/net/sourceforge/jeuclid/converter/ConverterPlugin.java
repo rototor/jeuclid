@@ -51,6 +51,45 @@ public interface ConverterPlugin {
     Dimension convert(Node doc, LayoutContext context, OutputStream outStream)
             throws IOException;
 
+    class DocumentWithDimension {
+        private final Document document;
+
+        private final Dimension dimension;
+
+        private final float baseline;
+
+        public DocumentWithDimension(final Document doc, final Dimension dim,
+                final float bline) {
+            super();
+            this.document = doc;
+            this.dimension = dim;
+            this.baseline = bline;
+        }
+
+        /**
+         * @return the document resulting from this conversion, a suptype of
+         *         Document (e.g. SVGDocument) if possible.
+         */
+        public Document getDocument() {
+            return this.document;
+        }
+
+        /**
+         * @return The dimensions from this conversion
+         */
+        public Dimension getDimension() {
+            return this.dimension;
+        }
+
+        /**
+         * @return the position of the baseline in pixels from the bottom.
+         */
+        public float getBaseline() {
+            return this.baseline;
+        }
+
+    }
+
     /**
      * Convert from the given Math Object to an XML DOM Document.
      * 
@@ -58,10 +97,11 @@ public interface ConverterPlugin {
      *            A JEuclid DocumentElement
      * @param context
      *            LayoutContext to use.
-     * @return an instance of Document, or the appropriate subtype for this
-     *         format (e.g. SVGDocument). If conversion is not supported by
-     *         this plugin, it may return null.
+     * @return an instance of DocumentWithDimension, containing a Document of
+     *         the appropriate subtype for this format (e.g. SVGDocument), if
+     *         available. If conversion is not supported by this plugin, it
+     *         may return null.
      */
-    Document convert(final Node doc, final LayoutContext context);
+    DocumentWithDimension convert(final Node doc, final LayoutContext context);
 
 }

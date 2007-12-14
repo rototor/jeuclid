@@ -33,6 +33,7 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.converter.ConverterPlugin.DocumentWithDimension;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.apache.commons.logging.Log;
@@ -183,13 +184,12 @@ public final class Converter {
      * @return an instance of Document, or the appropriate subtype for this
      *         format (e.g. SVGDocument). If conversion is not supported to
      *         this type, it may return null.
-     * @todo This code contains duplications. Clean up!
      */
-    public Document convert(final Node doc, final String outFileType,
-            final MutableLayoutContext params) {
+    public DocumentWithDimension convert(final Node doc,
+            final String outFileType, final LayoutContext params) {
         final ConverterPlugin plugin = ConverterRegistry.getRegisty()
                 .getConverter(outFileType);
-        Document result = null;
+        DocumentWithDimension result = null;
         if (plugin != null) {
             result = plugin.convert(doc, params);
         }

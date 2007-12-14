@@ -18,7 +18,6 @@
 
 package net.sourceforge.jeuclid.app.foprep;
 
-import java.awt.Dimension;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,18 +31,14 @@ import javax.xml.transform.dom.DOMSource;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.converter.Converter;
+import net.sourceforge.jeuclid.converter.ConverterPlugin.DocumentWithDimension;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
-import net.sourceforge.jeuclid.layout.JEuclidView;
 import net.sourceforge.jeuclid.parser.Parser;
 
-import org.apache.batik.dom.GenericDOMImplementation;
-import org.apache.batik.svggen.SVGGeneratorContext;
-import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -113,13 +108,9 @@ public final class Processor {
         Processor.LOGGER.info("Processing " + inputSource + " to " + result);
         try {
             final Node doc = Parser.getParser().parse(inputSource);
-
             this.processSubtree(doc, context);
-
             final DOMSource source = new DOMSource(doc);
-
             this.transformer.transform(source, result);
-
         } catch (final IOException e) {
             throw new TransformerException("IOException", e);
         } catch (final SAXException e) {
@@ -149,17 +140,15 @@ public final class Processor {
         if (AbstractJEuclidElement.URI.equals(node.getNamespaceURI())
                 && MathImpl.ELEMENT.equals(node.getLocalName())) {
 
-            final SVGGraphics2D svgGenerator = this.createSVGGenerator();
-            final JEuclidView view = new JEuclidView(node, context,
-                    svgGenerator);
-            final int ascent = (int) Math.ceil(view.getAscentHeight());
-            final int descent = (int) Math.ceil(view.getDescentHeight());
-            final int height = ascent + descent;
-            final Dimension size = new Dimension((int) Math.ceil(view
-                    .getWidth()), height);
-            svgGenerator.setSVGCanvasSize(size);
-            view.draw(svgGenerator, 0, ascent);
-            final float baselinePercent = -((float) descent / (float) height) * 100f;
+            final DocumentWithDimension svgdocdim = Converter
+                    .getConverter()
+                    .convert(
+                            node,
+                            net.sourceforge.jeuclid.converter.Converter.TYPE_SVG,
+                            context);
+
+            final float baselinePercent = -(svgdocdim.getBaseline() / (float) svgdocdim
+                    .getDimension().getHeight()) * 100f;
 
             final Node parent = node.getParentNode();
             if ("http://www.w3.org/1999/XSL/Format".equals(parent
@@ -170,7 +159,8 @@ public final class Processor {
                 pElement.setAttribute("alignment-adjust", baselinePercent
                         + "%");
             }
-            this.safeReplaceChild(parent, node, svgGenerator.getRoot());
+            this.safeReplaceChild(parent, node, svgdocdim.getDocument()
+                    .getFirstChild());
         } else {
             this.processChildren(node, context);
             // TODO: This is an IE-Fix, but does not work yet.
@@ -195,21 +185,6 @@ public final class Processor {
             // node.appendChild(pi);
             // }
         }
-    }
-
-    private SVGGraphics2D createSVGGenerator() {
-        final DOMImplementation domImpl = GenericDOMImplementation
-                .getDOMImplementation();
-
-        final Document document = domImpl.createDocument(null,
-                net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG,
-                null);
-        final SVGGeneratorContext svgContext = SVGGeneratorContext
-                .createDefault(document);
-        svgContext.setComment("Converted from MathML using JEuclid");
-        final SVGGraphics2D svgGenerator = new SVGGraphics2D(svgContext, true);
-
-        return svgGenerator;
     }
 
     private void safeReplaceChild(final Node parent, final Node oldChild,
