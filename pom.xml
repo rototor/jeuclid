@@ -282,6 +282,11 @@
   </pluginRepositories>
   <repositories>
     <repository>
+      <id>jeuclid-deps</id>
+      <name>JEuclid dependencies</name>
+      <url>http://jeuclid.sf.net/m2</url>
+    </repository>
+    <repository>
       <id>freehep-maven</id>
       <name>Maven FreeHEP</name>
       <url>http://java.freehep.org/maven2</url>
