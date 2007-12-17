@@ -39,6 +39,8 @@ import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -65,18 +67,19 @@ import org.xml.sax.SAXException;
  */
 public class JMathComponent extends JComponent implements SwingConstants {
 
-	private static final String FONT_SEPARATOR = ",";
+    private static final String FONT_SEPARATOR = ",";
 
     /**
      * Logger for this class
      */
-    // currently unused.
-    // private static final Log LOGGER =
-    // LogFactory.getLog(JMathComponent.class);
+    private static final Log LOGGER = LogFactory.getLog(JMathComponent.class);
+
     /** */
     private static final long serialVersionUID = 1L;
 
-    private static final String UI_CLASS_ID = "MathComponentUI";
+    private static String UI_CLASS_ID;
+
+    private static Class<?> mathComponentUIClass;
 
     private Node document;
 
@@ -259,7 +262,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
         return this.getMinimumSize();
     }
 
-	/**
+    /**
      * @return the UI implementation.
      */
     public MathComponentUI getUI() {
@@ -404,20 +407,22 @@ public class JMathComponent extends JComponent implements SwingConstants {
      *            newValue
      */
     public void setParameter(final Parameter key, final Object newValue) {
-       this.setParameters(Collections.singletonMap(key, newValue)); 
+        this.setParameters(Collections.singletonMap(key, newValue));
     }
 
     /**
      * Sets generic rendering parameters.
      * 
-     * @param newValues map of parameter keys to new values
+     * @param newValues
+     *            map of parameter keys to new values
      */
     public void setParameters(final Map<Parameter, Object> newValues) {
-        for (Map.Entry<Parameter, Object> entry : newValues.entrySet()) {
+        for (final Map.Entry<Parameter, Object> entry : newValues.entrySet()) {
             final Parameter key = entry.getKey();
             final Object oldValue = this.parameters.getParameter(key);
             this.parameters.setParameter(key, entry.getValue());
-            this.firePropertyChange(key.name(), oldValue, this.parameters.getParameter(key));
+            this.firePropertyChange(key.name(), oldValue, this.parameters
+                    .getParameter(key));
         }
         this.revalidate();
         this.repaint();
@@ -535,7 +540,15 @@ public class JMathComponent extends JComponent implements SwingConstants {
         if (UIManager.get(this.getUIClassID()) != null) {
             this.setUI(UIManager.getUI(this));
         } else {
-            this.setUI(new MathComponentUI());
+            try {
+                this
+                        .setUI((MathComponentUI) JMathComponent.mathComponentUIClass
+                                .newInstance());
+            } catch (final InstantiationException e) {
+                JMathComponent.LOGGER.warn(e.getMessage());
+            } catch (final IllegalAccessException e) {
+                JMathComponent.LOGGER.warn(e.getMessage());
+            }
         }
     }
 
@@ -546,10 +559,25 @@ public class JMathComponent extends JComponent implements SwingConstants {
         return this.parameters;
     }
 
-	@Override
-	public void setSize(int width, int height) {
-		// TODO Auto-generated method stub
-		super.setSize(width, height);
-	}
+    @Override
+    public void setSize(final int width, final int height) {
+        // TODO Auto-generated method stub
+        super.setSize(width, height);
+    }
+
+    {
+        Class<?> ui;
+        String id;
+        try {
+            ui = Thread.currentThread().getContextClassLoader().loadClass(
+                    "net.sourceforge.jeuclid.swing.MathComponentUI16");
+            id = "MathComponentUI16";
+        } catch (final Throwable t) {
+            ui = MathComponentUI.class;
+            id = "MathComponentUI";
+        }
+        JMathComponent.UI_CLASS_ID = id;
+        JMathComponent.mathComponentUIClass = ui;
+    }
 
 }

@@ -19,13 +19,11 @@
 package net.sourceforge.jeuclid.swing;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
-import java.awt.Component.BaselineResizeBehavior;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -79,19 +77,6 @@ public class MathComponentUI extends ComponentUI implements
      */
     public MathComponentUI() {
         // nothing to do
-    }
-
-    @Override
-    public BaselineResizeBehavior getBaselineResizeBehavior(final JComponent c) {
-        switch (((JMathComponent) c).getVerticalAlignment()) {
-        case SwingConstants.TOP:
-            return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
-        case SwingConstants.BOTTOM:
-            return Component.BaselineResizeBehavior.CONSTANT_DESCENT;
-        case SwingConstants.CENTER:
-            return Component.BaselineResizeBehavior.CENTER_OFFSET;
-        }
-        return Component.BaselineResizeBehavior.OTHER;
     }
 
     /** {@inheritDoc} */
