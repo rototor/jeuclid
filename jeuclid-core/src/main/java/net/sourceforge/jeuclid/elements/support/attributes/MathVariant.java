@@ -192,7 +192,7 @@ public final class MathVariant {
      * @return a font object.
      */
     @SuppressWarnings("unchecked")
-    public Font createFont(final float size, final char c,
+    public Font createFont(final float size, final int codepoint,
             final LayoutContext context) {
 
         final Parameter theParam = MathVariant.PARAMFORFONT
@@ -205,7 +205,7 @@ public final class MathVariant {
             font = fontFactory.getFont(fontList.get(i), this.awtStyle,
                     (int) size);
             if (font.getFamily().equalsIgnoreCase(fontList.get(i).trim())) {
-                if (!font.canDisplay(c)) {
+                if (!font.canDisplay(codepoint)) {
                     font = null;
                 }
             } else {

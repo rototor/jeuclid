@@ -137,9 +137,19 @@ public final class StringUtil {
         final int len = builder.length();
 
         for (int i = 0; i < len; i++) {
-            final MathVariant variant = variants.get(i);
-            aString.addAttribute(TextAttribute.FONT, variant.createFont(
-                    fontSize, builder.charAt(i), context), i, i + 1);
+            final char currentChar = builder.charAt(i);
+            if (!Character.isLowSurrogate(currentChar)) {
+                final MathVariant variant = variants.get(i);
+                final int count;
+                if (Character.isHighSurrogate(currentChar)) {
+                    count = 2;
+                } else {
+                    count = 1;
+                }
+                aString.addAttribute(TextAttribute.FONT, variant.createFont(
+                        fontSize, builder.codePointAt(i), context), i, i
+                        + count);
+            }
         }
         return aString;
     }
