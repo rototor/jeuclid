@@ -69,6 +69,17 @@ public class LayoutContextImpl implements MutableLayoutContext {
         symbolCatchFonts.add("Arial Unicode MS");
         symbolCatchFonts.add("Cambria Math");
         symbolCatchFonts.add("DejaVu Sans");
+        symbolCatchFonts.add("DejaVu Sans Oblique");
+        symbolCatchFonts.add("DejaVu Sans Bold");
+        symbolCatchFonts.add("DejaVu Sans Bold Oblique");
+        symbolCatchFonts.add("DejaVu Sans Mono");
+        symbolCatchFonts.add("DejaVu Sans Mono Oblique");
+        symbolCatchFonts.add("DejaVu Sans Mono Bold");
+        symbolCatchFonts.add("DejaVu Sans Mono Bold Oblique");
+        symbolCatchFonts.add("DejaVu Serif");
+        symbolCatchFonts.add("DejaVu Serif Italic");
+        symbolCatchFonts.add("DejaVu Serif Bold");
+        symbolCatchFonts.add("DejaVu Serif Bold Italic");
         symbolCatchFonts.add("STIXGeneral");
 
         fontsSanserif.add("Verdana");

@@ -204,7 +204,9 @@ public final class MathVariant {
         for (int i = 0; (i < fontList.size()) && (font == null); i++) {
             font = fontFactory.getFont(fontList.get(i), this.awtStyle,
                     (int) size);
-            if (font.getFamily().equalsIgnoreCase(fontList.get(i).trim())) {
+            final String desiredFont = fontList.get(i).trim();
+            if ((font.getFamily().equalsIgnoreCase(desiredFont))
+                    || (font.getFontName().equalsIgnoreCase(desiredFont))) {
                 if (!font.canDisplay(codepoint)) {
                     font = null;
                 }

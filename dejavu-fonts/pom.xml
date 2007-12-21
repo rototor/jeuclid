@@ -5,7 +5,7 @@
   <artifactId>dejavu-fonts</artifactId>
 <packaging>jar</packaging>
   <name>Dejavu Fonts</name>
-    <version>2.22</version>
+    <version>2.22-patched</version>
   <description>This module contains the Dejavu Fonts for applications supporting fonts in classpath.</description>
   <build>
 <plugins>
