@@ -53,6 +53,8 @@ public final class BatikDetector {
                     (Object[]) null);
         } catch (final RuntimeException e) {
             impl = null;
+        } catch (final LinkageError e) {
+            impl = null;
         } catch (final ClassNotFoundException e) {
             impl = null;
         } catch (final NoSuchMethodException e) {
