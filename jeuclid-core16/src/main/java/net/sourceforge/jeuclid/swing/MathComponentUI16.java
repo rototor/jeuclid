@@ -25,10 +25,10 @@ import net.sourceforge.jeuclid.swing.MathComponentUI;
  * limitations under the License.
  */
 
-/* $Id: MathComponentUI16.java $ */
+/* $Id$ */
 
 /**
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public class MathComponentUI16 extends MathComponentUI {
     /**

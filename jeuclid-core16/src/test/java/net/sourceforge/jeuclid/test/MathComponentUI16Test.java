@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathComponentTest.java 517 2007-09-13 19:22:07Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.test;
 
@@ -30,7 +30,7 @@ import org.testng.annotations.Test;
 /**
  * Tests the MathComponentUI16
  * 
- * @version $Revision: 517 $
+ * @version $Revision$
  */
 public class MathComponentUI16Test {
 
