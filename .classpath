@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="**" kind="src" output="build-tools/src/main/resources" path="build-tools/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="stix-fonts/src/main/resources" path="stix-fonts/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="dejavu-fonts/src/main/resources" path="dejavu-fonts/src/main/resources"/>
 	<classpathentry kind="src" path="jeuclid-core/src/main/java"/>
 	<classpathentry kind="src" path="jeuclid-core/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="jeuclid-core/src/main/resources" path="jeuclid-core/src/main/resources"/>

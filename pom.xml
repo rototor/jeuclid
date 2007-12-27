@@ -8,8 +8,10 @@
   <packaging>pom</packaging>
   <modules>
     <module>build-tools</module>
+    <module>stix-fonts</module>
+    <module>dejavu-fonts</module>
     <module>jeuclid-core</module>
-    <module>jeuclid-core16</module>
+<!--    <module>jeuclid-core16</module> -->
     <module>jeuclid-swt</module>
     <module>jeuclid-mathviewer</module>
     <module>jeuclid-fop</module>
@@ -295,7 +297,7 @@
     <repository>
       <id>batik-pre</id>
       <name>Temporary batik prerelease</name>
-      <url>http://mcc.id.au/temp/2007/maven</url>
+      <url>http://people.apache.org/~cam/b17/maven</url>
     </repository>
   </repositories>
   <reporting>
