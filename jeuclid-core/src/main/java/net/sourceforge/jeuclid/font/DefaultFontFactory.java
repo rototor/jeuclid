@@ -20,10 +20,12 @@ package net.sourceforge.jeuclid.font;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,9 +50,21 @@ public class DefaultFontFactory extends FontFactory {
     private static final Log LOGGER = LogFactory
             .getLog(DefaultFontFactory.class);
 
+    private static final String AWT_SANSSERIF = "sansserif";
+
     DefaultFontFactory() {
         this.fontCache = new HashMap<String, Font>();
+        this.autoloadFontsFromAWT();
         this.autoloadFontsFromClasspath();
+    }
+
+    private void autoloadFontsFromAWT() {
+        final String[] fam = GraphicsEnvironment
+                .getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        for (final String element : fam) {
+            final Font f = new Font(element, 0, 12);
+            this.cacheFont(f);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -92,6 +106,38 @@ public class DefaultFontFactory extends FontFactory {
             font = font.deriveFont(style, size);
         }
         return font;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Font getFont(final List<String> preferredFonts,
+            final int codepoint, final int style, final int size) {
+        Font font = this.searchFontList(preferredFonts, codepoint, style,
+                size);
+        if (font == null) {
+            font = this.searchFontList(this.fontCache.keySet(), codepoint,
+                    style, size);
+        }
+        if (font == null) {
+            font = this
+                    .getFont(DefaultFontFactory.AWT_SANSSERIF, style, size);
+        }
+        return font;
+    }
+
+    private Font searchFontList(final Collection<String> fontList,
+            final int codepoint, final int style, final int size) {
+        for (final String fontName : fontList) {
+            final Font font = this.getFont(fontName, style, size);
+            final String desiredFont = fontName.trim();
+            if ((font.getFamily().equalsIgnoreCase(desiredFont))
+                    || (font.getFontName().equalsIgnoreCase(desiredFont))) {
+                if (font.canDisplay(codepoint)) {
+                    return font;
+                }
+            }
+        }
+        return null;
     }
 
     /**

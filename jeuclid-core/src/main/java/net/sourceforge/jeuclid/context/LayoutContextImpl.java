@@ -58,30 +58,6 @@ public class LayoutContextImpl implements MutableLayoutContext {
         final List<String> fontsFraktur = new Vector<String>();
         final List<String> fontsDoublestruck = new Vector<String>();
 
-        final List<String> symbolCatchFonts = new Vector<String>(9);
-        symbolCatchFonts.add("OpenSymbol");
-        symbolCatchFonts.add("Standard Symbols L");
-        symbolCatchFonts.add("Symbol");
-        symbolCatchFonts.add("Webdings");
-        symbolCatchFonts.add("Wingdings");
-        symbolCatchFonts.add("Wingdings 2");
-        symbolCatchFonts.add("Wingdings 3");
-        symbolCatchFonts.add("Arial Unicode MS");
-        symbolCatchFonts.add("Cambria Math");
-        symbolCatchFonts.add("DejaVu Sans");
-        symbolCatchFonts.add("DejaVu Sans Oblique");
-        symbolCatchFonts.add("DejaVu Sans Bold");
-        symbolCatchFonts.add("DejaVu Sans Bold Oblique");
-        symbolCatchFonts.add("DejaVu Sans Mono");
-        symbolCatchFonts.add("DejaVu Sans Mono Oblique");
-        symbolCatchFonts.add("DejaVu Sans Mono Bold");
-        symbolCatchFonts.add("DejaVu Sans Mono Bold Oblique");
-        symbolCatchFonts.add("DejaVu Serif");
-        symbolCatchFonts.add("DejaVu Serif Italic");
-        symbolCatchFonts.add("DejaVu Serif Bold");
-        symbolCatchFonts.add("DejaVu Serif Bold Italic");
-        symbolCatchFonts.add("STIXGeneral");
-
         fontsSanserif.add("Verdana");
         fontsSanserif.add("Helvetica");
         fontsSanserif.add("Arial");
@@ -94,7 +70,6 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsSanserif.add("Luxi Sans");
         fontsSanserif.add("FreeSans");
         fontsSanserif.add("sansserif");
-        fontsSanserif.addAll(symbolCatchFonts);
         this.context.put(Parameter.FONTS_SANSSERIF, fontsSanserif);
 
         fontsSerif.add("Constantina");
@@ -107,7 +82,6 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsSerif.add("Luxi Serif");
         fontsSerif.add("FreeSerif");
         fontsSerif.add("serif");
-        fontsSerif.addAll(symbolCatchFonts);
         this.context.put(Parameter.FONTS_SERIF, fontsSerif);
 
         fontsMonospaced.add("Andale Mono");
@@ -120,7 +94,6 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsMonospaced.add("Luxi Mono");
         fontsMonospaced.add("FreeMono");
         fontsMonospaced.add("monospaced");
-        fontsMonospaced.addAll(symbolCatchFonts);
         this.context.put(Parameter.FONTS_MONOSPACED, fontsMonospaced);
 
         fontsScript.add("Savoye LET");
@@ -131,7 +104,6 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsScript.add("Lucida Handwriting");
         fontsScript.add("Monotype Corsiva");
         fontsScript.add("Santa Fe LET");
-        fontsScript.addAll(symbolCatchFonts);
         this.context.put(Parameter.FONTS_SCRIPT, fontsScript);
 
         fontsFraktur.add("FetteFraktur");
@@ -139,7 +111,6 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsFraktur.add("Euclid Fraktur");
         fontsFraktur.add("Lucida Blackletter");
         fontsFraktur.add("Blackmoor LET");
-        fontsFraktur.addAll(symbolCatchFonts);
         this.context.put(Parameter.FONTS_FRAKTUR, fontsFraktur);
 
         fontsDoublestruck.add("Caslon Open Face");
@@ -148,7 +119,6 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsDoublestruck.add("Academy Engraved LET");
         fontsDoublestruck.add("Colonna MT");
         fontsDoublestruck.add("Imprint MT Shadow");
-        fontsDoublestruck.addAll(symbolCatchFonts);
         this.context.put(Parameter.FONTS_DOUBLESTRUCK, fontsDoublestruck);
 
         this.context.put(Parameter.MFRAC_KEEP_SCRIPTLEVEL, Boolean.FALSE);
