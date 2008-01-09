@@ -121,8 +121,6 @@ public final class MathVariant {
 
     private static final Map<String, MathVariant> ATTRIBUTEMAP = new HashMap<String, MathVariant>();
 
-    private static final String AWT_SANSSERIF = "sansserif";
-
     private static final Map<FontFamily, Parameter> PARAMFORFONT = new HashMap<FontFamily, Parameter>();
 
     private final int awtStyle;
@@ -197,28 +195,9 @@ public final class MathVariant {
 
         final Parameter theParam = MathVariant.PARAMFORFONT
                 .get(this.fontFamily);
-        final List<String> fontList = (List<String>) context
-                .getParameter(theParam);
-        Font font = null;
-        final FontFactory fontFactory = FontFactory.getInstance();
-        for (int i = 0; (i < fontList.size()) && (font == null); i++) {
-            font = fontFactory.getFont(fontList.get(i), this.awtStyle,
-                    (int) size);
-            final String desiredFont = fontList.get(i).trim();
-            if ((font.getFamily().equalsIgnoreCase(desiredFont))
-                    || (font.getFontName().equalsIgnoreCase(desiredFont))) {
-                if (!font.canDisplay(codepoint)) {
-                    font = null;
-                }
-            } else {
-                font = null;
-            }
-        }
-        if (font == null) {
-            font = fontFactory.getFont(MathVariant.AWT_SANSSERIF,
-                    this.awtStyle, (int) size);
-        }
-        return font;
+        return FontFactory.getInstance().getFont(
+                (List<String>) context.getParameter(theParam), codepoint,
+                this.awtStyle, (int) size);
     }
 
     /**

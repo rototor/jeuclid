@@ -461,7 +461,10 @@ public final class StringUtil {
 
     static {
         StringUtil.initializeVariantToStandardMapping();
-        StringUtil.initializeHighPlaneMappings();
+        // TODO: These are disabled, since high plane is much better supported
+        // when the right fonts are available. But should it be removed
+        // completely?
+        // StringUtil.initializeHighPlaneMappings();
     }
 
 }

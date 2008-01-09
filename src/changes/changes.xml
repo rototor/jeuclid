@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="update">Now uses all available fonts as symbol catch fonts, to support new types of fonts</action>
 			<action dev="maxberger" type="update">Improved character support from high plane</action>
 			<action dev="maxberger" type="add">Moved 1.6-dependent code to jeuclid-core16</action>
 			<action dev="maxberger" type="add">Repaired Batik SVG support, cleaned up triple use of batik</action>
