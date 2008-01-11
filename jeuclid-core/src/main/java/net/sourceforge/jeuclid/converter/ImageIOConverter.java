@@ -18,7 +18,9 @@
 
 package net.sourceforge.jeuclid.converter;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -39,6 +41,7 @@ import org.w3c.dom.Node;
 public class ImageIOConverter implements ConverterPlugin {
 
     private final ImageWriter writer;
+    private final boolean removeAlpha;
 
     /**
      * Default constructor.
@@ -46,8 +49,9 @@ public class ImageIOConverter implements ConverterPlugin {
      * @param iw
      *            ImageWrite instance to use for this converter.
      */
-    ImageIOConverter(final ImageWriter iw) {
+    ImageIOConverter(final ImageWriter iw, final boolean remAlpha) {
         this.writer = iw;
+        this.removeAlpha = remAlpha;
     }
 
     /** {@inheritDoc} */
@@ -58,7 +62,12 @@ public class ImageIOConverter implements ConverterPlugin {
         this.writer.setOutput(ios);
         final BufferedImage image = Converter.getConverter().render(doc,
                 context);
-        this.writer.write(image);
+        if (this.removeAlpha && image.getColorModel().hasAlpha()) {
+            this.writer.write(this.removeAlpha(image));
+        } else {
+            this.writer.write(image);
+        }
+
         ios.close();
         return new Dimension(image.getWidth(), image.getHeight());
     }
@@ -67,6 +76,18 @@ public class ImageIOConverter implements ConverterPlugin {
     public DocumentWithDimension convert(final Node doc,
             final LayoutContext context) {
         return null;
+    }
+
+    private BufferedImage removeAlpha(final BufferedImage image) {
+        final int width = image.getWidth();
+        final int height = image.getHeight();
+        final BufferedImage noAlpha = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_RGB);
+        final Graphics2D g = noAlpha.createGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, width, height);
+        g.drawImage(image, 0, 0, null);
+        return noAlpha;
     }
 
 }
