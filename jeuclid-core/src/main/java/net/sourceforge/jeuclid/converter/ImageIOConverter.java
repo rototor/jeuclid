@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.converter;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -40,28 +41,48 @@ public class ImageIOConverter implements ConverterPlugin {
 
     private final ImageWriter writer;
 
+    private final boolean removeAlpha;
+
     /**
      * Default constructor.
      * 
      * @param iw
      *            ImageWrite instance to use for this converter.
      */
-    ImageIOConverter(final ImageWriter iw) {
+    ImageIOConverter(final ImageWriter iw, final boolean remAlpha) {
         this.writer = iw;
+        this.removeAlpha = remAlpha;
     }
 
     /** {@inheritDoc} */
     public Dimension convert(final MathBase base, final OutputStream outStream)
             throws IOException {
-        final ImageOutputStream ios = new MemoryCacheImageOutputStream(outStream);
+        final ImageOutputStream ios = new MemoryCacheImageOutputStream(
+                outStream);
         this.writer.setOutput(ios);
         final BufferedImage image = Converter.getConverter().render(base);
-        this.writer.write(image);
+        if (this.removeAlpha && image.getColorModel().hasAlpha()) {
+            this.writer.write(this.removeAlpha(image));
+        } else {
+            this.writer.write(image);
+        }
         ios.close();
         final Graphics2D temp = (Graphics2D) image.getGraphics();
-        return new Dimension(
-                (int) Math.ceil(base.getWidth(temp)), 
-                (int) Math.ceil(base.getHeight(temp)));
+        return new Dimension((int) Math.ceil(base.getWidth(temp)), (int) Math
+                .ceil(base.getHeight(temp)));
+    }
+
+    private BufferedImage removeAlpha(final BufferedImage image) {
+        final int width = image.getWidth();
+        final int height = image.getHeight();
+        final BufferedImage noAlpha = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_RGB);
+        final Graphics2D g = noAlpha.createGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, width, height);
+        g.drawImage(image, 0, 0, null);
+        // g.drawRenderedImage(image, new AffineTransform());
+        return noAlpha;
     }
 
 }

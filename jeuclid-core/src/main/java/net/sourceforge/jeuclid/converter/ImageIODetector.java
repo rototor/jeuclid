@@ -19,6 +19,8 @@
 package net.sourceforge.jeuclid.converter;
 
 import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
@@ -46,6 +48,10 @@ public final class ImageIODetector {
 
         final String[] mimeTypes = ImageIO.getWriterMIMETypes();
 
+        final Set<String> noAlphaMimeTypes = new TreeSet<String>();
+        noAlphaMimeTypes.add("image/jpeg");
+        noAlphaMimeTypes.add("image/bmp");
+
         for (final String mimeType : mimeTypes) {
             final Iterator<ImageWriter> iwit = ImageIO
                     .getImageWritersByMIMEType(mimeType);
@@ -61,7 +67,9 @@ public final class ImageIODetector {
                         }
                     }
                     registry.registerConverter(mimeType,
-                            new ImageIOConverter(iw), false);
+                            new ImageIOConverter(iw, noAlphaMimeTypes
+                                    .contains(mimeType)), false);
+
                 }
 
             }
