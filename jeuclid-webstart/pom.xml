@@ -54,7 +54,7 @@
         <dependency>
             <groupId>net.sourceforge.jeuclid</groupId>
             <artifactId>jeuclid-mathviewer</artifactId>
-            <version>3.0.2</version>
+            <version>3.0.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
