@@ -85,7 +85,7 @@ Improvements made in 2007 have been contributed by Josh Bode.
   <xsl:param name="LeftCeiling">⌈</xsl:param>
   <xsl:param name="LeftFloor">⌊</xsl:param>
   <xsl:param name="LessEqual">≦</xsl:param>
-  <xsl:param name="lt">&amp;</xsl:param>
+  <xsl:param name="lt">&lt;</xsl:param>
   <xsl:param name="Not">⫬</xsl:param>
   <xsl:param name="NotEqual">≠</xsl:param>
   <xsl:param name="notin">∉</xsl:param>
@@ -1578,7 +1578,7 @@ Improvements made in 2007 have been contributed by Josh Bode.
   <xsl:template match="m:apply[*[1][self::m:real]]">
     <mrow>
       <mi>
-        <xsl:text disable-output-escaping="yes">&amp;#x0211C;</xsl:text>
+        <xsl:text disable-output-escaping="yes">ℜ</xsl:text>
 <!-- &Re; or &realpart; should work-->
       </mi>
       <mo>
@@ -1593,7 +1593,7 @@ Improvements made in 2007 have been contributed by Josh Bode.
   <xsl:template match="m:apply[*[1][self::m:imaginary]]">
     <mrow>
       <mi>
-        <xsl:text disable-output-escaping="yes">&amp;#x02111;</xsl:text>
+        <xsl:text disable-output-escaping="yes">ℑ</xsl:text>
 <!-- &Im; or &impartl should work-->
       </mi>
       <mo>
@@ -1869,7 +1869,7 @@ Improvements made in 2007 have been contributed by Josh Bode.
     <mrow>
       <xsl:apply-templates select="*[2]"/>
       <mo>
-        <xsl:text disable-output-escaping="yes">&amp;#x02248;</xsl:text>
+        <xsl:text disable-output-escaping="yes">≈</xsl:text>
 <!-- &TildeTilde; or &approx; should work-->
       </mo>
       <xsl:apply-templates select="*[3]"/>
@@ -1879,7 +1879,7 @@ Improvements made in 2007 have been contributed by Josh Bode.
     <mrow>
       <xsl:apply-templates select="*[2]"/>
       <mo>
-        <xsl:text disable-output-escaping="yes">&amp;#x02248;</xsl:text>
+        <xsl:text disable-output-escaping="yes">≈</xsl:text>
 <!-- &TildeTilde; or &approx; should work-->
       </mo>
       <xsl:apply-templates select="*[3]"/>
@@ -2246,7 +2246,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
     <mrow>
       <msup>
         <mo>
-          <xsl:text disable-output-escaping="yes">&amp;#x02207;</xsl:text>
+          <xsl:text disable-output-escaping="yes">∇</xsl:text>
         </mo>
 <!-- Del or nabla should work-->
         <mn>2</mn>
@@ -3628,7 +3628,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- integer numbers -->
   <xsl:template match="m:integers">
     <mi>
-      <xsl:text disable-output-escaping="yes">&amp;#x2124;</xsl:text>
+      <xsl:text disable-output-escaping="yes">ℤ</xsl:text>
     </mi>
 <!-- open face Z -->
 <!-- UNICODE char works -->
@@ -3636,7 +3636,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- real numbers -->
   <xsl:template match="m:reals">
     <mi>
-      <xsl:text disable-output-escaping="yes">&amp;#x211D;</xsl:text>
+      <xsl:text disable-output-escaping="yes">ℝ</xsl:text>
     </mi>
 <!-- open face R -->
 <!-- UNICODE char works -->
@@ -3644,7 +3644,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- rational numbers -->
   <xsl:template match="m:rationals">
     <mi>
-      <xsl:text disable-output-escaping="yes">&amp;#x211A;</xsl:text>
+      <xsl:text disable-output-escaping="yes">ℚ</xsl:text>
     </mi>
 <!-- open face Q -->
 <!-- UNICODE char works -->
@@ -3652,7 +3652,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- natural numbers -->
   <xsl:template match="m:naturalnumbers">
     <mi>
-      <xsl:text disable-output-escaping="yes">&amp;#x2115;</xsl:text>
+      <xsl:text disable-output-escaping="yes">ℕ</xsl:text>
     </mi>
 <!-- open face N -->
 <!-- UNICODE char works -->
@@ -3660,7 +3660,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- complex numbers -->
   <xsl:template match="m:complexes">
     <mi>
-      <xsl:text disable-output-escaping="yes">&amp;#x2102;</xsl:text>
+      <xsl:text disable-output-escaping="yes">ℂ</xsl:text>
     </mi>
 <!-- open face C -->
 <!-- UNICODE char works -->
@@ -3668,7 +3668,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- prime numbers -->
   <xsl:template match="m:primes">
     <mi>
-      <xsl:text disable-output-escaping="yes">&amp;#x2119;</xsl:text>
+      <xsl:text disable-output-escaping="yes">ℙ</xsl:text>
     </mi>
 <!-- open face P -->
 <!-- UNICODE char works -->
