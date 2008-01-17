@@ -98,8 +98,8 @@ Improvements made in 2007 have been contributed by Josh Bode.
   <xsl:param name="Product">∏</xsl:param>
   <xsl:param name="rang">〉</xsl:param>
   <xsl:param name="RightArrow">→</xsl:param>
-  <xsl:param name="RightFloor">&#x0230B;</xsl:param>
-  <xsl:param name="RightCeiling">&#x02309;</xsl:param>
+  <xsl:param name="RightFloor">⌋</xsl:param>
+  <xsl:param name="RightCeiling">⌉</xsl:param>
   <xsl:param name="sigma">σ</xsl:param>
   <xsl:param name="SmallCircle">∘</xsl:param>
   <xsl:param name="Subset">⋐</xsl:param>
@@ -110,11 +110,7 @@ Improvements made in 2007 have been contributed by Josh Bode.
   <xsl:param name="UpArrow">↑</xsl:param>
 <!-- #################### main #################### -->
   <xsl:template match="/">
-    <xsl:for-each select="//m:math">
-      <math>
-        <xsl:apply-templates/>
-      </math>
-    </xsl:for-each>
+    <xsl:apply-templates/>
   </xsl:template>
   <xsl:template match="text()|@*">
     <xsl:value-of disable-output-escaping="no" select="."/>
@@ -3726,5 +3722,13 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
     <mi>
       <xsl:value-of select="$infin"/>
     </mi>
+  </xsl:template>
+  <xsl:template match="*">
+    <xsl:copy>
+      <xsl:for-each select="@*">
+        <xsl:copy/>
+      </xsl:for-each>
+      <xsl:apply-templates/>
+    </xsl:copy>
   </xsl:template>
 </xsl:stylesheet>
