@@ -18,17 +18,29 @@
 
 package net.sourceforge.jeuclid;
 
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamSource;
+
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.DOMAttributeMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.mathml.MathMLElement;
 
 /**
@@ -40,13 +52,50 @@ public final class DOMBuilder {
     /**
      * Logger for this class
      */
-    // unused
-    // private static final Log LOGGER =
-    // LogFactory.getLog(DOMMathBuilder.class);
+    private static final Log LOGGER = LogFactory.getLog(DOMBuilder.class);
+
     private static DOMBuilder domBuilder;
 
-    private DOMBuilder() {
+    private final Transformer contentTransformer;
 
+    private final DOMImplementation domImplementation;
+
+    private DOMBuilder() {
+        Transformer t;
+        DOMImplementation impl = null;
+        try {
+            t = TransformerFactory.newInstance().newTransformer(
+                    new StreamSource(DOMBuilder.class
+                            .getResourceAsStream("/content/mathmlc2p.xsl")));
+        } catch (final TransformerException e) {
+            DOMBuilder.LOGGER.warn(e.getMessage());
+            t = null;
+        }
+
+        if (t != null) {
+            try {
+                impl = DOMImplementationRegistry.newInstance()
+                        .getDOMImplementation("");
+            } catch (final ClassCastException e) {
+                DOMBuilder.LOGGER.warn(e.getMessage());
+                impl = null;
+            } catch (final ClassNotFoundException e) {
+                DOMBuilder.LOGGER.warn(e.getMessage());
+                impl = null;
+            } catch (final InstantiationException e) {
+                DOMBuilder.LOGGER.warn(e.getMessage());
+                impl = null;
+            } catch (final IllegalAccessException e) {
+                DOMBuilder.LOGGER.warn(e.getMessage());
+                impl = null;
+            }
+            if (impl == null) {
+                t = null;
+            }
+        }
+
+        this.contentTransformer = t;
+        this.domImplementation = impl;
     }
 
     /**
@@ -72,23 +121,41 @@ public final class DOMBuilder {
      * @see MathMLParserSupport
      */
     public DocumentElement createJeuclidDom(final Node node) {
-        final Element documentElement;
+        Node documentElement;
         if (node instanceof Document) {
             documentElement = ((Document) node).getDocumentElement();
         } else if (node instanceof Element) {
-            documentElement = (Element) node;
+            documentElement = node;
         } else if (node instanceof DocumentFragment) {
             final Node child = node.getFirstChild();
             if (!(child instanceof Element)) {
                 throw new IllegalArgumentException(
                         "Expected DocumentFragment with Element child");
             }
-            documentElement = (Element) child;
+            documentElement = child;
         } else {
             throw new IllegalArgumentException(
                     "Unsupported node: "
                             + node
                             + ". Expected either Document, Element or DocumentFragment");
+        }
+
+        // TODO: This could be enabled / disabled with a switch?
+        try {
+            final DOMSource source = new DOMSource(documentElement);
+            final Document d = this.domImplementation.createDocument(
+                    documentElement.getNamespaceURI(), documentElement
+                            .getNodeName(), null);
+            final DOMResult result = new DOMResult(d.getDocumentElement());
+            this.contentTransformer.transform(source, result);
+            final Node realDE = d.getDocumentElement().getFirstChild();
+            documentElement = realDE;
+        } catch (final TransformerException e) {
+            DOMBuilder.LOGGER.warn(e.getMessage());
+            e.printStackTrace();
+        } catch (final DOMException e) {
+            DOMBuilder.LOGGER.warn(e.getMessage());
+            e.printStackTrace();
         }
 
         final DocumentElement rootElement = new DocumentElement();
