@@ -152,10 +152,11 @@ public final class DOMBuilder {
             documentElement = realDE;
         } catch (final TransformerException e) {
             DOMBuilder.LOGGER.warn(e.getMessage());
-            e.printStackTrace();
+        } catch (final NullPointerException e) {
+            // Happens if the stylesheet was not loaded correctly
+            DOMBuilder.LOGGER.warn(e.getMessage());
         } catch (final DOMException e) {
             DOMBuilder.LOGGER.warn(e.getMessage());
-            e.printStackTrace();
         }
 
         final DocumentElement rootElement = new DocumentElement();
