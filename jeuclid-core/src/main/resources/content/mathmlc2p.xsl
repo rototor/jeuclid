@@ -98,6 +98,8 @@ Improvements made in 2007 have been contributed by Josh Bode.
   <xsl:param name="Product">∏</xsl:param>
   <xsl:param name="rang">〉</xsl:param>
   <xsl:param name="RightArrow">→</xsl:param>
+  <xsl:param name="RightFloor">&#x0230B;</xsl:param>
+  <xsl:param name="RightCeiling">&#x02309;</xsl:param>
   <xsl:param name="sigma">σ</xsl:param>
   <xsl:param name="SmallCircle">∘</xsl:param>
   <xsl:param name="Subset">⋐</xsl:param>
