@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="update">Fix for missing xinclude support</action>
 			<action dev="maxberger" type="add">Now supports content Math through stylesheet!</action>
 			<action dev="maxberger" type="update" issue="1867094">Remove Alpha channel from BMP and JPG output.</action>
 			<action dev="maxberger" type="update">Now uses all available fonts as symbol catch fonts, to support new types of fonts</action>
