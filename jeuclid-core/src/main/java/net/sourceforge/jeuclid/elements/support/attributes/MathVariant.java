@@ -19,7 +19,10 @@
 package net.sourceforge.jeuclid.elements.support.attributes;
 
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -176,7 +179,7 @@ public final class MathVariant {
             MathVariant.ATTRIBUTEMAP.put("monospace", MathVariant.MONOSPACE);
         }
 
-        return (MathVariant) MathVariant.ATTRIBUTEMAP.get(variant
+        return MathVariant.ATTRIBUTEMAP.get(variant
                 .toLowerCase(Locale.ENGLISH));
     }
 
@@ -197,23 +200,10 @@ public final class MathVariant {
                 .get(this.fontFamily);
         final String paramValue = base.getParams().get(theParam);
         final String[] fontArray = paramValue.split(",");
-        Font font = null;
-        final FontFactory fontFactory = FontFactory.getInstance();
-        for (int i = 0; (i < fontArray.length) && (font == null); i++) {
-            font = fontFactory.getFont(fontArray[i], this.awtStyle, (int) size);
-            if (font.getFamily().equalsIgnoreCase(fontArray[i].trim())) {
-                if (!font.canDisplay(c)) {
-                    font = null;
-                }
-            } else {
-                font = null;
-            }
-        }
-        if (font == null) {
-            font = fontFactory.getFont(MathVariant.AWT_SANSSERIF, 
-                    this.awtStyle, (int) size);
-        }
-        return font;
+        final List<String> fonts = new ArrayList<String>(fontArray.length);
+        Collections.addAll(fonts, fontArray);
+        return FontFactory.getInstance().getFont(fonts, c, this.awtStyle,
+                (int) size);
     }
 
     /**
