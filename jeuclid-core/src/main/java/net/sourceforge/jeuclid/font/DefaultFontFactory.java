@@ -20,38 +20,56 @@ package net.sourceforge.jeuclid.font;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * Concrete FontFactory implementation that does simple caching of Fonts 
+ * Concrete FontFactory implementation that does simple caching of Fonts
  * loaded via {@link Font#createFont(int, File)} APIs.
  * 
  * @author Ernest Mishkin
  * @version $Revision$
  */
 public class DefaultFontFactory extends FontFactory {
-    
-    private Map<String, Font> fontCache;
-    
+
+    private final Map<String, Font> fontCache;
+
+    private static final String AWT_SANSSERIF = "sansserif";
+
     DefaultFontFactory() {
         this.fontCache = new HashMap<String, Font>();
+        this.autoloadFontsFromAWT();
     }
-    
+
+    private void autoloadFontsFromAWT() {
+        final String[] fam = GraphicsEnvironment
+                .getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        for (final String element : fam) {
+            final Font f = new Font(element, 0, 12);
+            this.cacheFont(f);
+        }
+    }
 
     /**
-     * Create a font object with specified properties.
-     * Font name may refer to either 'built-in' or loaded externally 
-     * and 'cached' font.
-     * @param name font name or font family name
-     * @param style font style
-     * @param size font size
+     * Create a font object with specified properties. Font name may refer to
+     * either 'built-in' or loaded externally and 'cached' font.
+     * 
+     * @param name
+     *            font name or font family name
+     * @param style
+     *            font style
+     * @param size
+     *            font size
      * @return Font instance
-     * @see java.awt.Font#Font(String, int, int)  
+     * @see java.awt.Font#Font(String, int, int)
      */
+    @Override
     public Font getFont(final String name, final int style, final int size) {
         Font font = this.fontCache.get(name);
         if (font == null) {
@@ -61,52 +79,110 @@ public class DefaultFontFactory extends FontFactory {
         }
         return font;
     }
-    
+
+    /** {@inheritDoc} */
+    @Override
+    public Font getFont(final List<String> preferredFonts,
+            final int codepoint, final int style, final int size) {
+        Font font = this.searchFontList(preferredFonts, codepoint, style,
+                size);
+        if (font == null) {
+            font = this.searchFontList(this.fontCache.keySet(), codepoint,
+                    style, size);
+        }
+        if (font == null) {
+            font = this
+                    .getFont(DefaultFontFactory.AWT_SANSSERIF, style, size);
+        }
+        return font;
+    }
+
+    private Font searchFontList(final Collection<String> fontList,
+            final int codepoint, final int style, final int size) {
+        for (final String fontName : fontList) {
+            final Font font = this.getFont(fontName, style, size);
+            final String desiredFont = fontName.trim();
+            if ((font.getFamily().equalsIgnoreCase(desiredFont))
+                    || (font.getFontName().equalsIgnoreCase(desiredFont))) {
+                if (font.canDisplay(codepoint)) {
+                    return font;
+                }
+            }
+        }
+        return null;
+    }
+
     /**
-     * Load an external font from a file and 'register' (aka 'cache') it
-     * for future use.
-     * @param format font format (TTF or TYPE_1 currently supported by the platform)
-     * @param fontFile file which contains the font
+     * Load an external font from a file and 'register' (aka 'cache') it for
+     * future use.
+     * 
+     * @param format
+     *            font format (TTF or TYPE_1 currently supported by the
+     *            platform)
+     * @param fontFile
+     *            file which contains the font
      * @return The newly created Font instance
-     * @throws FontFormatException if font contained in the file 
-     *         doesn't match the specified format
-     * @throws IOException in case of problem while reading the file
+     * @throws FontFormatException
+     *             if font contained in the file doesn't match the specified
+     *             format
+     * @throws IOException
+     *             in case of problem while reading the file
      * @see java.awt.Font#createFont(int, File)
      */
-    public Font registerFont(final int format, final File fontFile) 
-        throws IOException, FontFormatException {
-        
+    @Override
+    public Font registerFont(final int format, final File fontFile)
+            throws IOException, FontFormatException {
+
         return this.cacheFont(Font.createFont(format, fontFile));
     }
 
     /**
-     * Load an external font from a stream and 'register' (aka 'cache') it
-     * for future use.
-     * @param format font format (TTF or TYPE_1 currently supported by the platform)
-     * @param fontStream file which contains the font
+     * Load an external font from a stream and 'register' (aka 'cache') it for
+     * future use.
+     * 
+     * @param format
+     *            font format (TTF or TYPE_1 currently supported by the
+     *            platform)
+     * @param fontStream
+     *            file which contains the font
      * @return The newly created Font instance
-     * @throws FontFormatException if font contained in the stream 
-     *         doesn't match the specified format
-     * @throws IOException in case of problem while reading the stream
+     * @throws FontFormatException
+     *             if font contained in the stream doesn't match the specified
+     *             format
+     * @throws IOException
+     *             in case of problem while reading the stream
      * @see java.awt.Font#createFont(int, InputStream)
      */
-    public Font registerFont(final int format, final InputStream fontStream) 
-        throws IOException, FontFormatException {
-    
+    @Override
+    public Font registerFont(final int format, final InputStream fontStream)
+            throws IOException, FontFormatException {
+
         return this.cacheFont(Font.createFont(format, fontStream));
     }
-    
-    
+
     /**
-     * Actually stores a font in the cache.
-     * Uses font name and font family as keys.
-     * @param font Font instance to cache
-     * @return the font instance that was cached 
+     * Actually stores a font in the cache. Uses font name and font family as
+     * keys.
+     * 
+     * @param font
+     *            Font instance to cache
+     * @return the font instance that was cached
      */
     protected Font cacheFont(final Font font) {
         this.fontCache.put(font.getFontName(), font);
-        this.fontCache.put(font.getFamily(), font);
+        final String family = font.getFamily();
+        // This is a safeguard. On Linux for DejaVu Sans Oblique we get:
+        // Name: DejaVu Sans Oblique
+        // Family: DejaVu Sans
+        // For DejaVu Sans we get:
+        // Name: DejaVu Sans
+        // Family: DejaVu Sans
+        // And of course we don't want the oblique font to override the
+        // regular font...
+        if (!this.fontCache.containsKey(family)) {
+            this.fontCache.put(font.getFamily(), font);
+        }
         return font;
     }
-    
+
 }

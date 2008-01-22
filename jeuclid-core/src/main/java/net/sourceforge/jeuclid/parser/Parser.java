@@ -78,16 +78,17 @@ public final class Parser {
     private final DocumentBuilder builder;
 
     private Parser() throws ParserConfigurationException {
-        final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-                .newInstance();
-        documentBuilderFactory.setNamespaceAware(true);
+        DocumentBuilder documentBuilder;
         try {
-            documentBuilderFactory.setXIncludeAware(true);
+            documentBuilder = this.createDocumentBuilder(true);
         } catch (final UnsupportedOperationException uoe) {
             Parser.LOGGER.debug("Unsupported Operation: " + uoe.getMessage());
+            documentBuilder = this.createDocumentBuilder(false);
+        } catch (final ParserConfigurationException pce) {
+            Parser.LOGGER.debug("ParserConfigurationException: "
+                    + pce.getMessage());
+            documentBuilder = this.createDocumentBuilder(false);
         }
-        final DocumentBuilder documentBuilder = documentBuilderFactory
-                .newDocumentBuilder();
         documentBuilder.setEntityResolver(new ResourceEntityResolver());
         documentBuilder.setErrorHandler(new ErrorHandler() {
             public void error(final SAXParseException exception)
@@ -106,6 +107,19 @@ public final class Parser {
             }
         });
         this.builder = documentBuilder;
+    }
+
+    private DocumentBuilder createDocumentBuilder(final boolean xinclude)
+            throws ParserConfigurationException {
+        final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
+                .newInstance();
+        documentBuilderFactory.setNamespaceAware(true);
+        if (xinclude) {
+            documentBuilderFactory.setXIncludeAware(true);
+        }
+        final DocumentBuilder documentBuilder = documentBuilderFactory
+                .newDocumentBuilder();
+        return documentBuilder;
     }
 
     /**

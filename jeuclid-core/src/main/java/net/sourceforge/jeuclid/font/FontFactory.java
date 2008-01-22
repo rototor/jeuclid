@@ -23,6 +23,7 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Abstract factory to be used to create instances of java.awt.Font. The
@@ -66,6 +67,24 @@ public abstract class FontFactory {
      * @see java.awt.Font#Font(String, int, int)
      */
     public abstract Font getFont(String name, int style, int size);
+
+    /**
+     * Create a font object which is able to display the requested code point.
+     * Uses one of the list of preferred fonts is possible. If no matching
+     * font is found a generic font is returned.
+     * 
+     * @param preferredFonts
+     *            List of preferred fonts
+     * @param codepoint
+     *            code point which must be displayable
+     * @param style
+     *            font style
+     * @param size
+     *            font size
+     * @return a valid Font instance
+     */
+    public abstract Font getFont(final List<String> preferredFonts,
+            final int codepoint, final int style, final int size);
 
     /**
      * Load an external font from a file and 'register' (aka 'cache') it for

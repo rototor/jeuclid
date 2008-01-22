@@ -7,6 +7,8 @@
 	<body>
 		<release version="3.0.3" date="in SVN"
 			description="none yet">
+		<action dev="maxberger" type="update">Fix for failure on xinclude feature.</action>
+		<action dev="maxberger" type="update" issue="1854211">Backported font-search from unstable.</action>
 		<action dev="maxberger" type="update" issue="1867094">Remove Alpha channel from BMP and JPG output.</action>
 		<action dev="maxberger" type="update">Update after release</action>
                 </release>
