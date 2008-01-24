@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ascii"?>
 <!-- 
 Copyright 2008 - 2008 JEuclid, http://jeuclid.sf.net
 
@@ -59,55 +59,55 @@ Improvements made in 2007 have been contributed by Josh Bode.
 -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns="http://www.w3.org/1998/Math/MathML" version="1.0" exclude-result-prefixes="m">
   <xsl:output method="xml" indent="yes" omit-xml-declaration="no"/>
-  <xsl:param name="And">⩓</xsl:param>
-  <xsl:param name="ApplyFunction">⁡</xsl:param>
-  <xsl:param name="Backslash">∖</xsl:param>
-  <xsl:param name="DoubleRightArrow">⇒</xsl:param>
-  <xsl:param name="DownArrow">↓</xsl:param>
-  <xsl:param name="ee">ⅇ</xsl:param>
-  <xsl:param name="empty">∅</xsl:param>
-  <xsl:param name="equiv">≡</xsl:param>
-  <xsl:param name="Exists">∃</xsl:param>
-  <xsl:param name="ExponentialE">ⅇ</xsl:param>
-  <xsl:param name="ForAll">∀</xsl:param>
-  <xsl:param name="gamma">γ</xsl:param>
-  <xsl:param name="GreaterEqual">≥</xsl:param>
+  <xsl:param name="And">&#8743;</xsl:param>
+  <xsl:param name="ApplyFunction">&#8289;</xsl:param>
+  <xsl:param name="Backslash">&#8726;</xsl:param>
+  <xsl:param name="DoubleRightArrow">&#8658;</xsl:param>
+  <xsl:param name="DownArrow">&#8595;</xsl:param>
+  <xsl:param name="ee">&#8519;</xsl:param>
+  <xsl:param name="empty">&#8709;</xsl:param>
+  <xsl:param name="equiv">&#8801;</xsl:param>
+  <xsl:param name="Exists">&#8707;</xsl:param>
+  <xsl:param name="ExponentialE">&#8519;</xsl:param>
+  <xsl:param name="ForAll">&#8704;</xsl:param>
+  <xsl:param name="gamma">&#947;</xsl:param>
+  <xsl:param name="GreaterEqual">&#8805;</xsl:param>
   <xsl:param name="gt">&gt;</xsl:param>
-  <xsl:param name="ImaginaryI">ⅈ</xsl:param>
-  <xsl:param name="infin">∞</xsl:param>
-  <xsl:param name="Integral">∫</xsl:param>
-  <xsl:param name="Intersection">⋂</xsl:param>
-  <xsl:param name="InvisibleComma">⁣</xsl:param>
-  <xsl:param name="InvisibleTimes">⁢</xsl:param>
-  <xsl:param name="isin">∈</xsl:param>
-  <xsl:param name="lambda">λ</xsl:param>
-  <xsl:param name="lang">〈</xsl:param>
-  <xsl:param name="LeftCeiling">⌈</xsl:param>
-  <xsl:param name="LeftFloor">⌊</xsl:param>
-  <xsl:param name="LessEqual">≦</xsl:param>
+  <xsl:param name="ImaginaryI">&#8520;</xsl:param>
+  <xsl:param name="infin">&#8734;</xsl:param>
+  <xsl:param name="Integral">&#8747;</xsl:param>
+  <xsl:param name="Intersection">&#8898;</xsl:param>
+  <xsl:param name="InvisibleComma">&#8291;</xsl:param>
+  <xsl:param name="InvisibleTimes">&#8290;</xsl:param>
+  <xsl:param name="isin">&#8712;</xsl:param>
+  <xsl:param name="lambda">&#955;</xsl:param>
+  <xsl:param name="lang">&#9001;</xsl:param>
+  <xsl:param name="LeftCeiling">&#8968;</xsl:param>
+  <xsl:param name="LeftFloor">&#8970;</xsl:param>
+  <xsl:param name="LessEqual">&#8806;</xsl:param>
   <xsl:param name="lt">&lt;</xsl:param>
-  <xsl:param name="Not">⫬</xsl:param>
-  <xsl:param name="NotEqual">≠</xsl:param>
-  <xsl:param name="notin">∉</xsl:param>
-  <xsl:param name="NotSubset">⊂⃒</xsl:param>
-  <xsl:param name="NotSubsetEqual">⊈</xsl:param>
-  <xsl:param name="Or">⩔</xsl:param>
-  <xsl:param name="ovbar">⌽</xsl:param>
-  <xsl:param name="PartialD">∂</xsl:param>
-  <xsl:param name="pi">π</xsl:param>
-  <xsl:param name="Product">∏</xsl:param>
-  <xsl:param name="rang">〉</xsl:param>
-  <xsl:param name="RightArrow">→</xsl:param>
-  <xsl:param name="RightFloor">⌋</xsl:param>
-  <xsl:param name="RightCeiling">⌉</xsl:param>
-  <xsl:param name="sigma">σ</xsl:param>
-  <xsl:param name="SmallCircle">∘</xsl:param>
-  <xsl:param name="Subset">⋐</xsl:param>
-  <xsl:param name="SubsetEqual">⊆</xsl:param>
-  <xsl:param name="Sum">∑</xsl:param>
-  <xsl:param name="times">×</xsl:param>
-  <xsl:param name="Union">⋃</xsl:param>
-  <xsl:param name="UpArrow">↑</xsl:param>
+  <xsl:param name="Not">&#172;</xsl:param>
+  <xsl:param name="NotEqual">&#8800;</xsl:param>
+  <xsl:param name="notin">&#8713;</xsl:param>
+  <xsl:param name="NotSubset">&#8834;&#8402;</xsl:param>
+  <xsl:param name="NotSubsetEqual">&#8840;</xsl:param>
+  <xsl:param name="Or">&#8744;</xsl:param>
+  <xsl:param name="ovbar">&#9021;</xsl:param>
+  <xsl:param name="PartialD">&#8706;</xsl:param>
+  <xsl:param name="pi">&#960;</xsl:param>
+  <xsl:param name="Product">&#8719;</xsl:param>
+  <xsl:param name="rang">&#9002;</xsl:param>
+  <xsl:param name="RightArrow">&#8594;</xsl:param>
+  <xsl:param name="RightFloor">&#8971;</xsl:param>
+  <xsl:param name="RightCeiling">&#8969;</xsl:param>
+  <xsl:param name="sigma">&#963;</xsl:param>
+  <xsl:param name="SmallCircle">&#8728;</xsl:param>
+  <xsl:param name="Subset">&#8912;</xsl:param>
+  <xsl:param name="SubsetEqual">&#8838;</xsl:param>
+  <xsl:param name="Sum">&#8721;</xsl:param>
+  <xsl:param name="times">&#215;</xsl:param>
+  <xsl:param name="Union">&#8899;</xsl:param>
+  <xsl:param name="UpArrow">&#8593;</xsl:param>
 <!-- #################### main #################### -->
   <xsl:template match="/">
     <xsl:apply-templates/>
@@ -1578,7 +1578,7 @@ Improvements made in 2007 have been contributed by Josh Bode.
   <xsl:template match="m:apply[*[1][self::m:real]]">
     <mrow>
       <mi>
-        <xsl:text disable-output-escaping="yes">ℜ</xsl:text>
+        <xsl:text disable-output-escaping="yes">&#8476;</xsl:text>
 <!-- &Re; or &realpart; should work-->
       </mi>
       <mo>
@@ -1593,7 +1593,7 @@ Improvements made in 2007 have been contributed by Josh Bode.
   <xsl:template match="m:apply[*[1][self::m:imaginary]]">
     <mrow>
       <mi>
-        <xsl:text disable-output-escaping="yes">ℑ</xsl:text>
+        <xsl:text disable-output-escaping="yes">&#8465;</xsl:text>
 <!-- &Im; or &impartl should work-->
       </mi>
       <mo>
@@ -1869,7 +1869,7 @@ Improvements made in 2007 have been contributed by Josh Bode.
     <mrow>
       <xsl:apply-templates select="*[2]"/>
       <mo>
-        <xsl:text disable-output-escaping="yes">≈</xsl:text>
+        <xsl:text disable-output-escaping="yes">&#8776;</xsl:text>
 <!-- &TildeTilde; or &approx; should work-->
       </mo>
       <xsl:apply-templates select="*[3]"/>
@@ -1879,7 +1879,7 @@ Improvements made in 2007 have been contributed by Josh Bode.
     <mrow>
       <xsl:apply-templates select="*[2]"/>
       <mo>
-        <xsl:text disable-output-escaping="yes">≈</xsl:text>
+        <xsl:text disable-output-escaping="yes">&#8776;</xsl:text>
 <!-- &TildeTilde; or &approx; should work-->
       </mo>
       <xsl:apply-templates select="*[3]"/>
@@ -2246,7 +2246,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
     <mrow>
       <msup>
         <mo>
-          <xsl:text disable-output-escaping="yes">∇</xsl:text>
+          <xsl:text disable-output-escaping="yes">&#8711;</xsl:text>
         </mo>
 <!-- Del or nabla should work-->
         <mn>2</mn>
@@ -3628,7 +3628,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- integer numbers -->
   <xsl:template match="m:integers">
     <mi>
-      <xsl:text disable-output-escaping="yes">ℤ</xsl:text>
+      <xsl:text disable-output-escaping="yes">&#8484;</xsl:text>
     </mi>
 <!-- open face Z -->
 <!-- UNICODE char works -->
@@ -3636,7 +3636,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- real numbers -->
   <xsl:template match="m:reals">
     <mi>
-      <xsl:text disable-output-escaping="yes">ℝ</xsl:text>
+      <xsl:text disable-output-escaping="yes">&#8477;</xsl:text>
     </mi>
 <!-- open face R -->
 <!-- UNICODE char works -->
@@ -3644,7 +3644,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- rational numbers -->
   <xsl:template match="m:rationals">
     <mi>
-      <xsl:text disable-output-escaping="yes">ℚ</xsl:text>
+      <xsl:text disable-output-escaping="yes">&#8474;</xsl:text>
     </mi>
 <!-- open face Q -->
 <!-- UNICODE char works -->
@@ -3652,7 +3652,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- natural numbers -->
   <xsl:template match="m:naturalnumbers">
     <mi>
-      <xsl:text disable-output-escaping="yes">ℕ</xsl:text>
+      <xsl:text disable-output-escaping="yes">&#8469;</xsl:text>
     </mi>
 <!-- open face N -->
 <!-- UNICODE char works -->
@@ -3660,7 +3660,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- complex numbers -->
   <xsl:template match="m:complexes">
     <mi>
-      <xsl:text disable-output-escaping="yes">ℂ</xsl:text>
+      <xsl:text disable-output-escaping="yes">&#8450;</xsl:text>
     </mi>
 <!-- open face C -->
 <!-- UNICODE char works -->
@@ -3668,7 +3668,7 @@ of every partial diff's orders; not supported yet (I am not sure it is even poss
 <!-- prime numbers -->
   <xsl:template match="m:primes">
     <mi>
-      <xsl:text disable-output-escaping="yes">ℙ</xsl:text>
+      <xsl:text disable-output-escaping="yes">&#8473;</xsl:text>
     </mi>
 <!-- open face P -->
 <!-- UNICODE char works -->
