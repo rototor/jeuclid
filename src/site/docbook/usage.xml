@@ -180,23 +180,6 @@
   </section>
 
   <section>
-    <title>With Maven</title>
-
-    <para>JEuclid releases are distributed on the main maven repository.</para>
-    <para>You simply need to declare the dependencies in your pom.xml. Example:</para>
-    <programlisting>
-        &lt;dependency&gt;
-      &lt;groupId&gt;net.sourceforge.jeuclid&lt;/groupId&gt;
-      &lt;artifactId&gt;jeuclid-core&lt;/artifactId&gt;
-      &lt;version&gt;3.1.0&lt;/version&gt;
-    &lt;/dependency&gt;
-    </programlisting>
-
-    <para>with the needed JAR files in the classpath. Please see the API
-    documentation or the source code for usage.</para>
-  </section>
-
-  <section>
     <title>Within Ant</title>
 
     <para>You will need to define the converter task:</para>
@@ -230,6 +213,26 @@
 
       <para>to your <emphasis>dependencies</emphasis> section.</para>
     </section>
+    
+    <section>
+    <title>Snapshot versions</title>
+    <para>If you wish to use the latest developer version, you need to declare
+    the following repository</para>
+    <programlisting>
+    &lt;repository&gt;
+      &lt;id&gt;jeuclid-snapshots&lt;/id&gt;
+      &lt;url&gt;http://jeuclid.sourceforge.net/m2-snap/&lt;/url&gt;
+      &lt;releases&gt;
+        &lt;enabled&gt;false&lt;/enabled&gt;
+      &lt;/releases&gt;
+      &lt;snapshots&gt;
+        &lt;enabled&gt;true&lt;/enabled&gt;
+      &lt;/snapshots&gt;  
+    &lt;/repository&gt;
+    </programlisting>
+    
+    </section>
+    
   </section>
 
   <section>
