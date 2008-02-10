@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="update" issue="1885767">Use different classloaders</action>
 			<action dev="maxberger" type="update">Fix attributes without namespaces.</action>
 			<action dev="maxberger" type="update">Fix for missing xinclude support</action>
 			<action dev="maxberger" type="add">Now supports content Math through stylesheet!</action>
