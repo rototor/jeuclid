@@ -55,33 +55,44 @@ public final class FreeHepInternalDetector {
     public static void actuallyDetectConversionPlugins(
             final ConverterRegistry registry) {
 
-        for (Map.Entry<String, String> e : FreeHepInternalDetector.PLUGINS_CLASSES
+        for (final Map.Entry<String, String> e : FreeHepInternalDetector.PLUGINS_CLASSES
                 .entrySet()) {
 
             try {
-                final Class<?> infoClass = Thread.currentThread()
-                        .getContextClassLoader().loadClass(e.getKey());
+                Class<?> infoClass;
+                try {
+                    infoClass = Thread.currentThread()
+                            .getContextClassLoader().loadClass(e.getKey());
+                } catch (final ClassNotFoundException cnfe) {
+                    infoClass = FreeHepInternalDetector.class
+                            .getClassLoader().loadClass(e.getKey());
+                }
                 final ExportFileType fileType = (ExportFileType) infoClass
                         .getConstructor().newInstance();
 
-                final Class<?> graphicsClass = Thread.currentThread()
-                        .getContextClassLoader().loadClass(e.getValue());
-
+                Class<?> graphicsClass;
+                try {
+                    graphicsClass = Thread.currentThread()
+                            .getContextClassLoader().loadClass(e.getValue());
+                } catch (final ClassNotFoundException cnfe) {
+                    graphicsClass = FreeHepInternalDetector.class
+                            .getClassLoader().loadClass(e.getValue());
+                }
                 FreeHepInternalDetector.actuallyRegister(registry, fileType,
                         graphicsClass);
             } catch (final NoSuchMethodException ex) {
                 FreeHepInternalDetector.LOGGER.debug(ex);
             } catch (final ClassNotFoundException ex) {
                 FreeHepInternalDetector.LOGGER.debug(ex);
-            } catch (IllegalArgumentException ex) {
+            } catch (final IllegalArgumentException ex) {
                 FreeHepInternalDetector.LOGGER.debug(ex);
-            } catch (SecurityException ex) {
+            } catch (final SecurityException ex) {
                 FreeHepInternalDetector.LOGGER.debug(ex);
-            } catch (InstantiationException ex) {
+            } catch (final InstantiationException ex) {
                 FreeHepInternalDetector.LOGGER.debug(ex);
-            } catch (IllegalAccessException ex) {
+            } catch (final IllegalAccessException ex) {
                 FreeHepInternalDetector.LOGGER.debug(ex);
-            } catch (InvocationTargetException ex) {
+            } catch (final InvocationTargetException ex) {
                 FreeHepInternalDetector.LOGGER.debug(ex);
             }
         }
@@ -90,8 +101,8 @@ public final class FreeHepInternalDetector {
     private static void actuallyRegister(final ConverterRegistry registry,
             final ExportFileType fileType, final Class<?> graphicsClass)
             throws NoSuchMethodException {
-        for (String mimeType : fileType.getMIMETypes()) {
-            for (String suffix : fileType.getExtensions()) {
+        for (final String mimeType : fileType.getMIMETypes()) {
+            for (final String suffix : fileType.getExtensions()) {
                 registry.registerMimeTypeAndSuffix(mimeType, suffix, false);
             }
             registry.registerConverter(mimeType, new FreeHepConverter(

@@ -47,8 +47,13 @@ public final class FreeHepDetector {
             final ConverterRegistry registry) {
 
         try {
-            Thread.currentThread().getContextClassLoader().loadClass(
-                    "org.freehep.util.export.ExportFileType");
+            try {
+                Thread.currentThread().getContextClassLoader().loadClass(
+                        "org.freehep.util.export.ExportFileType");
+            } catch (final ClassNotFoundException e) {
+                FreeHepConverter.class.getClassLoader().loadClass(
+                        "org.freehep.util.export.ExportFileType");
+            }
             FreeHepInternalDetector.actuallyDetectConversionPlugins(registry);
         } catch (final ClassNotFoundException e) {
             FreeHepDetector.LOGGER.debug(e);
