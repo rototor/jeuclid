@@ -26,7 +26,6 @@ import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
 /**
  * Detects if Batik is in the class path and registers it if its available.
@@ -66,21 +65,9 @@ public final class BatikDetector {
         } catch (final InvocationTargetException e) {
             impl = null;
         }
-
         if (impl == null) {
-            try {
-                final DOMImplementationRegistry reg = DOMImplementationRegistry
-                        .newInstance();
-                impl = reg.getDOMImplementation("");
-            } catch (final ClassCastException e) {
-                impl = null;
-            } catch (final ClassNotFoundException e) {
-                impl = null;
-            } catch (final InstantiationException e) {
-                impl = null;
-            } catch (final IllegalAccessException e) {
-                impl = null;
-            }
+            impl = ClassLoaderSupport.getInstance()
+                    .getGenericDOMImplementation();
         }
         return impl;
     }
