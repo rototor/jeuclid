@@ -22,6 +22,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.freehep.util.export.ExportFileType;
@@ -59,25 +61,13 @@ public final class FreeHepInternalDetector {
                 .entrySet()) {
 
             try {
-                Class<?> infoClass;
-                try {
-                    infoClass = Thread.currentThread()
-                            .getContextClassLoader().loadClass(e.getKey());
-                } catch (final ClassNotFoundException cnfe) {
-                    infoClass = FreeHepInternalDetector.class
-                            .getClassLoader().loadClass(e.getKey());
-                }
+                final Class<?> infoClass = ClassLoaderSupport.getInstance()
+                        .loadClass(e.getKey());
                 final ExportFileType fileType = (ExportFileType) infoClass
                         .getConstructor().newInstance();
 
-                Class<?> graphicsClass;
-                try {
-                    graphicsClass = Thread.currentThread()
-                            .getContextClassLoader().loadClass(e.getValue());
-                } catch (final ClassNotFoundException cnfe) {
-                    graphicsClass = FreeHepInternalDetector.class
-                            .getClassLoader().loadClass(e.getValue());
-                }
+                final Class<?> graphicsClass = ClassLoaderSupport
+                        .getInstance().loadClass(e.getValue());
                 FreeHepInternalDetector.actuallyRegister(registry, fileType,
                         graphicsClass);
             } catch (final NoSuchMethodException ex) {

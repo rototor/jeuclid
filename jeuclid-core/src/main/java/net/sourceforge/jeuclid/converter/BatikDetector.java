@@ -21,6 +21,8 @@ package net.sourceforge.jeuclid.converter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.DOMImplementation;
@@ -44,17 +46,9 @@ public final class BatikDetector {
     private static DOMImplementation findSVGDOMImplementation() {
         DOMImplementation impl;
         try {
-            Class<?> svgdomimpl;
-            try {
-                svgdomimpl = Thread
-                        .currentThread()
-                        .getContextClassLoader()
-                        .loadClass(
-                                "org.apache.batik.dom.svg.SVGDOMImplementation");
-            } catch (final ClassNotFoundException e) {
-                svgdomimpl = BatikDetector.class.getClassLoader().loadClass(
-                        "org.apache.batik.dom.svg.SVGDOMImplementation");
-            }
+            final Class<?> svgdomimpl = ClassLoaderSupport.getInstance()
+                    .loadClass(
+                            "org.apache.batik.dom.svg.SVGDOMImplementation");
             final Method getDOMimpl = svgdomimpl.getMethod(
                     "getDOMImplementation", new Class<?>[] {});
             impl = (DOMImplementation) getDOMimpl.invoke(null,
@@ -100,13 +94,8 @@ public final class BatikDetector {
     public static void detectConversionPlugins(
             final ConverterRegistry registry) {
         try {
-            try {
-                Thread.currentThread().getContextClassLoader().loadClass(
-                        "org.apache.batik.svggen.SVGGraphics2D");
-            } catch (final ClassNotFoundException e) {
-                BatikDetector.class.getClassLoader().loadClass(
-                        "org.apache.batik.svggen.SVGGraphics2D");
-            }
+            ClassLoaderSupport.getInstance().loadClass(
+                    "org.apache.batik.svggen.SVGGraphics2D");
             BatikDetector.LOGGER.debug("Batik detected!");
             registry
                     .registerMimeTypeAndSuffix(
