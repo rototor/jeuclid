@@ -38,6 +38,7 @@ import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
+import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -570,15 +571,9 @@ public class JMathComponent extends JComponent implements SwingConstants {
         String id;
         try {
             try {
-                uiClass = Thread
-                        .currentThread()
-                        .getContextClassLoader()
+                uiClass = ClassLoaderSupport.getInstance()
                         .loadClass(
                                 "net.sourceforge.jeuclid.swing.MathComponentUI16");
-            } catch (final ClassNotFoundException e) {
-                uiClass = JMathComponent.class.getClassLoader().loadClass(
-                        "net.sourceforge.jeuclid.swing.MathComponentUI16");
-            }
             id = "MathComponentUI16";
         } catch (final Throwable t) {
             uiClass = MathComponentUI.class;
