@@ -570,10 +570,8 @@ public class JMathComponent extends JComponent implements SwingConstants {
         Class<?> uiClass;
         String id;
         try {
-            try {
-                uiClass = ClassLoaderSupport.getInstance()
-                        .loadClass(
-                                "net.sourceforge.jeuclid.swing.MathComponentUI16");
+            uiClass = ClassLoaderSupport.getInstance().loadClass(
+                    "net.sourceforge.jeuclid.swing.MathComponentUI16");
             id = "MathComponentUI16";
         } catch (final Throwable t) {
             uiClass = MathComponentUI.class;
