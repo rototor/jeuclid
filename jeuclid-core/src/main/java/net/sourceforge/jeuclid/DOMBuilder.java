@@ -28,6 +28,7 @@ import javax.xml.transform.stream.StreamSource;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
+import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.DOMAttributeMap;
 
@@ -40,7 +41,6 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.mathml.MathMLElement;
 
 /**
@@ -73,22 +73,8 @@ public final class DOMBuilder {
         }
 
         if (t != null) {
-            try {
-                impl = DOMImplementationRegistry.newInstance()
-                        .getDOMImplementation("");
-            } catch (final ClassCastException e) {
-                DOMBuilder.LOGGER.warn(e.getMessage());
-                impl = null;
-            } catch (final ClassNotFoundException e) {
-                DOMBuilder.LOGGER.warn(e.getMessage());
-                impl = null;
-            } catch (final InstantiationException e) {
-                DOMBuilder.LOGGER.warn(e.getMessage());
-                impl = null;
-            } catch (final IllegalAccessException e) {
-                DOMBuilder.LOGGER.warn(e.getMessage());
-                impl = null;
-            }
+            impl = ClassLoaderSupport.getInstance()
+                    .getGenericDOMImplementation();
             if (impl == null) {
                 t = null;
             }
