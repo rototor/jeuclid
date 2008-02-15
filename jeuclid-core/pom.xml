@@ -166,7 +166,7 @@
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>xmlgraphics-commons</artifactId>
-      <version>1.3svn-071207</version>
+      <version>1.3svn-080215</version>
     </dependency>
   </dependencies>
 </project>

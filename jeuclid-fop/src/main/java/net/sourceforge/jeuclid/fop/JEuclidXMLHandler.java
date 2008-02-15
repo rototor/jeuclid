@@ -28,15 +28,18 @@ import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.apache.fop.render.Graphics2DAdapter;
-import org.apache.fop.render.Graphics2DImagePainter;
 import org.apache.fop.render.Renderer;
 import org.apache.fop.render.RendererContext;
 import org.apache.fop.render.XMLHandler;
+import org.apache.fop.render.pdf.PDFRendererContextConstants;
+import org.apache.xmlgraphics.java2d.Graphics2DImagePainter;
 import org.w3c.dom.Document;
 
 /**
@@ -55,12 +58,24 @@ public class JEuclidXMLHandler implements XMLHandler {
             final Document document, final String ns) throws Exception {
         final Graphics2DAdapter g2dAdapter = rendererContext.getRenderer()
                 .getGraphics2DAdapter();
+
+        final MutableLayoutContext layoutContext = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
+
+        final Number n = (Number) rendererContext
+                .getProperty(PDFRendererContextConstants.PDF_FONT_SIZE);
+        if (n != null) {
+            final float fontSize = n.floatValue() / 1000.0f;
+            layoutContext.setParameter(LayoutContext.Parameter.MATHSIZE,
+                    fontSize);
+        }
+
         if (g2dAdapter != null) {
             final Image tempimage = new BufferedImage(1, 1,
                     BufferedImage.TYPE_INT_ARGB);
             final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-            final JEuclidView view = new JEuclidView(document,
-                    LayoutContextImpl.getDefaultLayoutContext(), tempg);
+            final JEuclidView view = new JEuclidView(document, layoutContext,
+                    tempg);
             final int w = (int) Math.ceil(view.getWidth() * 1000);
             final float ascent = view.getAscentHeight();
             final int h = (int) Math

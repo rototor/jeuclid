@@ -131,9 +131,14 @@ public class LayoutContextImpl implements MutableLayoutContext {
      * @param copyFromContext
      *            LayoutContext to use for initialization of values
      */
-    public LayoutContextImpl(final LayoutContextImpl copyFromContext) {
-        this.context = new TreeMap<Parameter, Object>(copyFromContext
-                .getParameters());
+    public LayoutContextImpl(final LayoutContext copyFromContext) {
+
+        if (copyFromContext instanceof LayoutContextImpl) {
+            this.context = new TreeMap<Parameter, Object>(
+                    ((LayoutContextImpl) copyFromContext).getParameters());
+        } else
+            throw new UnsupportedOperationException("LayoutContextImpl("
+                    + copyFromContext.getClass() + ") not supported.");
     }
 
     /**
@@ -141,7 +146,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
      * 
      * @return the default layout context.
      */
-    public static synchronized LayoutContextImpl getDefaultLayoutContext() {
+    public static synchronized LayoutContext getDefaultLayoutContext() {
         if (LayoutContextImpl.defaultContext == null) {
             LayoutContextImpl.defaultContext = new LayoutContextImpl();
         }

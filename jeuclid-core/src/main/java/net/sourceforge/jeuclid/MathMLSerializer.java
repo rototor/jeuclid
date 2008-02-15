@@ -75,7 +75,7 @@ public final class MathMLSerializer {
                 transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,
                         ResourceEntityResolver.MML2_SYSTEMID);
                 transformer.setOutputProperty(OutputKeys.MEDIA_TYPE,
-                        "application/mathml+xml");
+                        Constants.MATHML_MIMETYPE);
             }
             if (format) {
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");

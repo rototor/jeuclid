@@ -32,11 +32,14 @@ import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.datatypes.Length;
+import org.apache.fop.fo.FOEventHandler;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.PropertyList;
 import org.apache.fop.fo.properties.FixedLength;
@@ -54,6 +57,8 @@ public class JEuclidElement extends JEuclidObj {
 
     private Length baseline;
 
+    private final MutableLayoutContext layoutContext;
+
     /**
      * Default constructor.
      * 
@@ -62,6 +67,8 @@ public class JEuclidElement extends JEuclidObj {
      */
     public JEuclidElement(final FONode parent) {
         super(parent);
+        this.layoutContext = new LayoutContextImpl(LayoutContextImpl
+                .getDefaultLayoutContext());
     }
 
     /** {@inheritDoc} */
@@ -77,12 +84,12 @@ public class JEuclidElement extends JEuclidObj {
         final Image tempimage = new BufferedImage(1, 1,
                 BufferedImage.TYPE_INT_ARGB);
         final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-        final JEuclidView view = new JEuclidView(this.doc, LayoutContextImpl
-                .getDefaultLayoutContext(), tempg);
+        final JEuclidView view = new JEuclidView(this.doc,
+                this.layoutContext, tempg);
         final float descent = view.getDescentHeight();
         this.size = new Point2D.Float(view.getWidth(), view.getAscentHeight()
                 + descent);
-        this.baseline = new FixedLength((int) (-descent * 1000));
+        this.baseline = FixedLength.getInstance(-descent, "pt");
 
     }
 
@@ -103,4 +110,22 @@ public class JEuclidElement extends JEuclidObj {
         }
         return this.baseline;
     }
+
+    @Override
+    public void bind(final PropertyList propertyList) throws FOPException {
+        System.out.println("PropList: " + propertyList);
+        super.bind(propertyList);
+    }
+
+    @Override
+    protected PropertyList createPropertyList(final PropertyList pList,
+            final FOEventHandler foEventHandler) throws FOPException {
+        this.layoutContext
+                .setParameter(LayoutContext.Parameter.MATHSIZE,
+                        (float) (pList.getFontProps().fontSize
+                                .getNumericValue() / 1000f));
+
+        return super.createPropertyList(pList, foEventHandler);
+    }
+
 }

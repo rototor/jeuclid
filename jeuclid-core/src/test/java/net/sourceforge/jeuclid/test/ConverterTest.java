@@ -30,8 +30,8 @@ public class ConverterTest {
         final Document doc = MathMLParserSupport
                 .parseString(ConverterTest.TEST1);
         final File outFile = new File(this.getOutDir(), "test1.png");
-        final MutableLayoutContext params = LayoutContextImpl
-                .getDefaultLayoutContext();
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 25f);
 
         Converter.getConverter().convert(doc, outFile, "image/png", params);
@@ -44,8 +44,8 @@ public class ConverterTest {
         final Document doc = MathMLParserSupport
                 .parseString(ConverterTest.TEST1);
         final File outFile = new File(this.getOutDir(), "test1.svg");
-        final MutableLayoutContext params = LayoutContextImpl
-                .getDefaultLayoutContext();
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 25f);
         Converter.getConverter().convert(doc, outFile,
                 net.sourceforge.jeuclid.converter.Converter.TYPE_SVG, params);
@@ -57,8 +57,8 @@ public class ConverterTest {
     public void testConverterSVGtoDOM() throws Exception {
         final Document doc = MathMLParserSupport
                 .parseString(ConverterTest.TEST1);
-        final MutableLayoutContext params = LayoutContextImpl
-                .getDefaultLayoutContext();
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 25f);
         final DocumentWithDimension svgdocdim = Converter.getConverter()
                 .convert(doc,
@@ -93,8 +93,8 @@ public class ConverterTest {
      */
     @Test
     public void testConvertEmbeddedExamples() throws Exception {
-        final MutableLayoutContext params = LayoutContextImpl
-                .getDefaultLayoutContext();
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 16f);
 
         for (int example = 1; example <= 9; example++) {

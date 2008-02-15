@@ -41,6 +41,7 @@ import net.sourceforge.jeuclid.ResourceEntityResolver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.xmlgraphics.image.loader.ImageSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
@@ -292,6 +293,11 @@ public final class Parser {
         final Node retVal;
         if (source instanceof StreamSource) {
             final StreamSource streamSource = (StreamSource) source;
+            retVal = this.parseStreamSource(streamSource);
+        } else if (source instanceof ImageSource) {
+            final ImageSource imageSoruce = (ImageSource) source;
+            final StreamSource streamSource = new StreamSource(imageSoruce
+                    .getInputStream());
             retVal = this.parseStreamSource(streamSource);
         } else if (source instanceof DOMSource) {
             final DOMSource domSource = (DOMSource) source;

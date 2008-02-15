@@ -40,7 +40,6 @@ import org.apache.fop.fo.ElementMapping;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.properties.FixedLength;
 import org.apache.fop.image.FopImage;
-import org.apache.fop.image.analyser.ImageReaderFactory;
 import org.apache.fop.image.analyser.XMLReader;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -74,7 +73,6 @@ public class JEuclidElementMapping extends ElementMapping {
 
             // Additional Initialization
             XMLReader.setConverter(this.namespaceURI, new MathMLConverter());
-            ImageReaderFactory.registerFormat(new ODFReader());
         }
     }
 
@@ -107,8 +105,8 @@ public class JEuclidElementMapping extends ElementMapping {
                 final float descent = view.getDescentHeight();
                 info.height = (int) Math.ceil(view.getAscentHeight()
                         + descent);
-                info.alignmentAdjust = new FixedLength(
-                        (int) (-descent * 1000));
+                info.alignmentAdjust = FixedLength
+                        .getInstance(-descent, "pt");
 
                 // info.mimeType = "application/mathml+xml";
                 info.mimeType = "text/xml";

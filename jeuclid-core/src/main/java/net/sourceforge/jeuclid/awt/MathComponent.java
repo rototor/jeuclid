@@ -58,8 +58,8 @@ public class MathComponent extends Component {
 
     private Document document;
 
-    private MutableLayoutContext parameters = LayoutContextImpl
-            .getDefaultLayoutContext();
+    private MutableLayoutContext parameters = new LayoutContextImpl(
+            LayoutContextImpl.getDefaultLayoutContext());
 
     /**
      * Default constructor.
