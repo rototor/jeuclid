@@ -97,8 +97,8 @@ public final class Converter {
      */
     public Dimension convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
-        final MutableLayoutContext params = LayoutContextImpl
-                .getDefaultLayoutContext();
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
         return this.convert(inFile, outFile, outFileType, params);
     }
 

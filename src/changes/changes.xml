@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="update">Updated jeuclid-fop for version 0.95. Implemented new XMLGraphics interfaces; added support for fontSize (currently broken on non-pdf)</action>
+			<action dev="maxberger" type="update" issue="1893007">Default LayoutContext is now non-mutable.</action>
 			<action dev="maxberger" type="update" issue="1885767">Use different classloaders</action>
 			<action dev="maxberger" type="update">Fix attributes without namespaces.</action>
 			<action dev="maxberger" type="update">Fix for missing xinclude support</action>

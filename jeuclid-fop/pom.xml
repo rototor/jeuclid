@@ -41,7 +41,7 @@
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>fop</artifactId>
-      <version>0.94</version>
+      <version>0.95svn-080215</version>
       <exclusions>
         <exclusion>
           <groupId>batik</groupId>

@@ -52,7 +52,7 @@ public class Servlet extends HttpServlet {
      * Default Constructor.
      */
     public Servlet() {
-        this.context = LayoutContextImpl.getDefaultLayoutContext();
+        this.context = new LayoutContextImpl(LayoutContextImpl.getDefaultLayoutContext());
         this.context.setParameter(Parameter.MATHSIZE, 16.0f);
     }
 

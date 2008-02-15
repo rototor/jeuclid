@@ -86,8 +86,8 @@ public class JMathComponent extends JComponent implements SwingConstants {
 
     private int horizontalAlignment = SwingConstants.CENTER;
 
-    private final MutableLayoutContext parameters = LayoutContextImpl
-            .getDefaultLayoutContext();
+    private final MutableLayoutContext parameters = new LayoutContextImpl(
+            LayoutContextImpl.getDefaultLayoutContext());
 
     private int verticalAlignment = SwingConstants.CENTER;
 

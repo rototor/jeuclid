@@ -37,6 +37,8 @@ public final class Constants {
     /** Default ScriptSize multiplier. */
     public static final float DEFAULT_SCIPTSIZEMULTIPLIER = 0.71f;
 
+    public static final String MATHML_MIMETYPE = "application/mathml+xml";
+
     /**
      * Default Constructor.
      */
