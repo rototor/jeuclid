@@ -23,6 +23,9 @@ import java.io.IOException;
 
 import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -55,10 +58,13 @@ public class MathMLConverter extends MatchingTask {
 
     private boolean mforce;
 
+    private MutableLayoutContext context;
+
     /**
      * Creates a new MathMLConverter Task.
      */
     public MathMLConverter() {
+        context = new LayoutContextImpl(LayoutContextImpl.getDefaultLayoutContext());
     }
 
     /**
@@ -79,8 +85,7 @@ public class MathMLConverter extends MatchingTask {
         // if we have an in file and out then process them
         if ((this.minFile != null) && (this.moutFile != null)) {
             try {
-                Converter.getConverter().convert(this.minFile, this.moutFile,
-                        this.moutType);
+                Converter.getConverter().convert(this.minFile, this.moutFile, this.moutType, context);
             } catch (final IOException io) {
                 throw new BuildException(io);
             }
@@ -103,18 +108,174 @@ public class MathMLConverter extends MatchingTask {
 
         // Process all the files marked for styling
         list = scanner.getIncludedFiles();
-        for (int i = 0; i < list.length; ++i) {
-            this.process(this.mbaseDir, list[i], this.mdestDir);
+        for (String aList : list) {
+            this.process(this.mbaseDir, aList, this.mdestDir);
         }
 
         // Process all the directoried marked for styling
         dirs = scanner.getIncludedDirectories();
-        for (int j = 0; j < dirs.length; ++j) {
-            list = new File(this.mbaseDir, dirs[j]).list();
-            for (int i = 0; i < list.length; ++i) {
-                this.process(this.mbaseDir, list[i], this.mdestDir);
+        for (String dir : dirs) {
+            list = new File(this.mbaseDir, dir).list();
+            for (String file : list) {
+                this.process(this.mbaseDir, file, this.mdestDir);
             }
         }
+    }
+
+    /**
+     * Sets support for anti alias (default is <i>true</i>).
+     *
+     * @param antiAlias Flag for support anti alias.
+     */
+    public void setAntiAlias(final boolean antiAlias) {
+        setOption(LayoutContext.Parameter.ANTIALIAS, antiAlias);
+    }
+
+    /**
+     * Sets minimal size for turn on anti alias (default is <i>10.0</i>).
+     *
+     * @param antiAliasMinSize Minimal size in float number.
+     */
+    public void setAntiAliasMinSize(final float antiAliasMinSize) {
+        setOption(LayoutContext.Parameter.ANTIALIAS_MINSIZE, antiAliasMinSize);
+    }
+
+    /**
+     * Sets background color.
+     *
+     * @param color String representation of color.
+     */
+    public void setBackgroundColor(final String color) {
+        setOption(LayoutContext.Parameter.MATHBACKGROUND, color);
+    }
+
+    /**
+     * Sets support for debug (default is <i>false</i>).
+     *
+     * @param debug Flag for support debug.
+     */
+    public void setDebug(final boolean debug) {
+        setOption(LayoutContext.Parameter.DEBUG, debug);
+    }
+
+    /**
+     * Sets display style (default is <i>BLOCK</i>.
+     *
+     * @param display String value of display style.
+     *
+     * @see net.sourceforge.jeuclid.context.Display
+     */
+    public void setDisplay(final String display) {
+        setOption(LayoutContext.Parameter.DISPLAY, display);
+    }
+
+    /**
+     * Sets list of supported font families for <i>Double-Struck</i>.
+     *
+     * @param fonts List separated by comma.
+     */
+    public void setFontsDoublestruck(final String fonts) {
+        setOption(LayoutContext.Parameter.FONTS_DOUBLESTRUCK, fonts);
+    }
+
+    /**
+     * Sets list of supported font families for <i>Fraktur</i>.
+     *
+     * @param fonts List separated by comma.
+     */
+    public void setFontsFraktur(final String fonts) {
+        setOption(LayoutContext.Parameter.FONTS_FRAKTUR, fonts);
+    }
+
+    /**
+     * Sets font size of text.
+     *
+     * @param fontSize Font size as float value.
+     */
+    public void setFontSize(final float fontSize) {
+        setOption(LayoutContext.Parameter.MATHSIZE, fontSize);
+    }
+
+    /**
+     * Sets list of supported font families for <i>Monospaced</i>.
+     *
+     * @param fonts List separated by comma.
+     */
+    public void setFontsMonospaced(final String fonts) {
+        setOption(LayoutContext.Parameter.FONTS_MONOSPACED, fonts);
+    }
+
+    /**
+     * Sets list of supported font families for <i>Sans-Serif</i>.
+     *
+     * @param fonts List separated by comma.
+     */
+    public void setFontsSansSerif(final String fonts) {
+       setOption(LayoutContext.Parameter.FONTS_SANSSERIF, fonts);
+    }
+
+    /**
+     * Sets list of supported font families for <i>Script</i>.
+     *
+     * @param fonts List separated by comma.
+     */
+    public void  setFontsScript(final String fonts) {
+        setOption(LayoutContext.Parameter.FONTS_SCRIPT, fonts);
+    }
+
+    /**
+     * Sets list of supported font families for <i>Serif</i>.
+     *
+     * @param fonts List separated by comma.
+     */
+    public void  setFontsSerif(final String fonts) {
+        setOption(LayoutContext.Parameter.FONTS_SERIF, fonts);
+    }
+
+    /**
+     * Sets foreground color.
+     *
+     * @param color String representation of color.
+     */
+    public void setForegroundColor(final String color) {
+        setOption(LayoutContext.Parameter.MATHCOLOR, color);
+    }
+
+    /**
+     * Sets &lt;mfrac&gt; keep scriptlevel.
+     *
+     * @param keepScriptLevel if true, element will NEVER increase children's scriptlevel
+     *                        (in violation of the spec).
+     */
+    public void setMfracKeepScriptLevel(final boolean keepScriptLevel) {
+        setOption(LayoutContext.Parameter.MFRAC_KEEP_SCRIPTLEVEL, keepScriptLevel);
+    }
+
+    /**
+     * Sets scripts level (default is <i>0</i>).
+     *
+     * @param level Script level.
+     */
+    public void setScriptLevel(final int level) {
+        setOption(LayoutContext.Parameter.SCRIPTLEVEL, level);
+    }
+
+    /**
+     * Sets minnimal size of smallest font size (default is <i>8.0</i>).
+     *
+     * @param minSize Size of font.
+     */
+    public void setScriptMinSize(final float minSize) {
+        setOption(LayoutContext.Parameter.SCRIPTMINSIZE, minSize);
+    }
+
+    /**
+     * Sets size of multiplier (default is <i>0.71</i>).
+     *
+     * @param multSize Size of multiplier.
+     */
+    public void setScriptSizeMult(final float multSize) {
+        setOption(LayoutContext.Parameter.SCRIPTSIZEMULTIPLIER, multSize);
     }
 
     /**
@@ -220,9 +381,7 @@ public class MathMLConverter extends MatchingTask {
             final int dotPos = xmlFile.lastIndexOf('.');
 
             if (dotPos > 0) {
-                outFile = new File(destDir, xmlFile.substring(0, xmlFile
-                        .lastIndexOf('.'))
-                        + suffix);
+                outFile = new File(destDir, xmlFile.substring(0, dotPos) + suffix);
             } else {
                 outFile = new File(destDir, xmlFile + suffix);
             }
@@ -230,7 +389,7 @@ public class MathMLConverter extends MatchingTask {
                     || (inFile.lastModified() > outFile.lastModified())) {
                 this.ensureDirectoryFor(outFile);
                 Converter.getConverter().convert(inFile, outFile,
-                        this.moutType);
+                        this.moutType, context);
             }
         } catch (final IOException ex) {
             // If failed to process document, must delete target document,
@@ -245,4 +404,22 @@ public class MathMLConverter extends MatchingTask {
 
     }
 
+    /**
+     * Convert string value of parameter and sets to current context.
+     *
+     * @param param Type of parameter.
+     * @param value String value of parameter.
+     */
+    private void setOption(LayoutContext.Parameter param, String value) {
+        setOption(param, param.fromString(value));
+    }
+
+    /**
+     * Sets parameter for current context.
+     * @param param Type of parameter.
+     * @param value Object with value of paramter.
+     */
+    private void setOption(LayoutContext.Parameter param, Object value) {
+        context.setParameter(param, value);
+    }
 }
