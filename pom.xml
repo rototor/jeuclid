@@ -110,6 +110,15 @@
       </roles>
       <timezone>-5</timezone>
     </developer>
+    <developer>
+      <id>epietrig</id>
+      <name>Emmanuel Pietriga</name>
+      <email> AT DOT DOT </email>
+      <roles>
+        <role>delevoper</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
   </developers>
   <contributors>
     <contributor>
