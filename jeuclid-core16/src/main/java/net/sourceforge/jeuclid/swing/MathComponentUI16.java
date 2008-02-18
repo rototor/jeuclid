@@ -19,6 +19,7 @@
 package net.sourceforge.jeuclid.swing;
 
 import java.awt.Component;
+import java.awt.Component.BaselineResizeBehavior;
 
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
