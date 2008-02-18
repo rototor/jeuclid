@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,10 @@ public interface ConverterPlugin {
     Dimension convert(Node doc, LayoutContext context, OutputStream outStream)
             throws IOException;
 
+    /**
+     * Internal class describing an XML document and the dimensions of its
+     * default view.
+     */
     class DocumentWithDimension {
         private final Document document;
 

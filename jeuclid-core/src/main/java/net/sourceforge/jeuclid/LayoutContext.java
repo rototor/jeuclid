@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -279,7 +279,8 @@ public interface LayoutContext {
          * instance of type being wrapped as well as provides reasonable
          * default implementations for all the operations.
          */
-        public static class SimpleTypeWrapper implements TypeWrapper {
+        public static class SimpleTypeWrapper implements
+                LayoutContext.Parameter.TypeWrapper {
             /** the class instance being wrapped */
             private final Class<?> valueType;
 
@@ -324,7 +325,8 @@ public interface LayoutContext {
         /**
          * Converting String to String is trivial...
          */
-        public static class StringTypeWrapper extends SimpleTypeWrapper {
+        public static class StringTypeWrapper extends
+                LayoutContext.Parameter.SimpleTypeWrapper {
             /** Simple c'tor. */
             public StringTypeWrapper() {
                 super(String.class);
@@ -347,7 +349,8 @@ public interface LayoutContext {
          * Converting String to Numbers and vice versa is also
          * straightforward.
          */
-        public static class NumberTypeWrapper extends SimpleTypeWrapper {
+        public static class NumberTypeWrapper extends
+                LayoutContext.Parameter.SimpleTypeWrapper {
             /**
              * Simple constructor.
              * 
@@ -379,7 +382,8 @@ public interface LayoutContext {
          * Converting String to Boolean and vice versa is also
          * straightforward.
          */
-        public static class BooleanTypeWrapper extends SimpleTypeWrapper {
+        public static class BooleanTypeWrapper extends
+                LayoutContext.Parameter.SimpleTypeWrapper {
             /** Simple constructor. */
             public BooleanTypeWrapper() {
                 super(Boolean.class);
@@ -400,7 +404,8 @@ public interface LayoutContext {
          * Color is converted to String and back by using existing APIs in
          * {@link AttributesHelper}.
          */
-        public static class ColorTypeWrapper extends SimpleTypeWrapper {
+        public static class ColorTypeWrapper extends
+                LayoutContext.Parameter.SimpleTypeWrapper {
             /** Simple constructor. */
             public ColorTypeWrapper() {
                 super(Color.class);
@@ -450,7 +455,8 @@ public interface LayoutContext {
          * List is converted to String and back by using comma-separated
          * representation.
          */
-        public static class ListTypeWrapper extends SimpleTypeWrapper {
+        public static class ListTypeWrapper extends
+                LayoutContext.Parameter.SimpleTypeWrapper {
             /**
              * separator to be used when converting to string or parsing
              * string.
@@ -469,8 +475,11 @@ public interface LayoutContext {
                     return null;
                 } else {
                     final String whitespace = "\\s*";
-                    return Arrays.asList(value.split(whitespace
-                            + ListTypeWrapper.SEPARATOR + whitespace));
+                    return Arrays
+                            .asList(value
+                                    .split(whitespace
+                                            + LayoutContext.Parameter.ListTypeWrapper.SEPARATOR
+                                            + whitespace));
                 }
             }
 
@@ -480,8 +489,10 @@ public interface LayoutContext {
                 if (value == null) {
                     return null;
                 } else {
-                    return StringUtils.join(((List<?>) value).iterator(),
-                            ListTypeWrapper.SEPARATOR);
+                    return StringUtils
+                            .join(
+                                    ((List<?>) value).iterator(),
+                                    LayoutContext.Parameter.ListTypeWrapper.SEPARATOR);
                 }
             }
         }
@@ -490,7 +501,8 @@ public interface LayoutContext {
          * Converting String to Enum and vice versa is easy with help of Enum
          * class.
          */
-        public static class EnumTypeWrapper extends SimpleTypeWrapper {
+        public static class EnumTypeWrapper extends
+                LayoutContext.Parameter.SimpleTypeWrapper {
             /**
              * Simple constructor.
              * 

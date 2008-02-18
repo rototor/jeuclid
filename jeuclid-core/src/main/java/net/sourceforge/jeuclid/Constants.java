@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ public final class Constants {
     /** Default ScriptSize multiplier. */
     public static final float DEFAULT_SCIPTSIZEMULTIPLIER = 0.71f;
 
+    /** Default MIME Type for MathML documents. */
     public static final String MATHML_MIMETYPE = "application/mathml+xml";
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2006 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ import org.xml.sax.SAXException;
 /**
  * A JUnit Test case for MathBase.
  * 
+ * @version $Revision$
  */
 public class MathBaseTest {
 
@@ -74,7 +75,7 @@ public class MathBaseTest {
     }
 
     /**
-     * Tests ODF Reader
+     * Tests ODF Reader.
      * 
      * @throws Exception
      *             if an error occurs.
@@ -87,7 +88,7 @@ public class MathBaseTest {
     }
 
     /**
-     * Tests the new Parser API
+     * Tests the new Parser API.
      * 
      * @throws Exception
      *             if an error occurs.

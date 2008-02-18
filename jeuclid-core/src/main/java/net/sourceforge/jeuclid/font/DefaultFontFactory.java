@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,8 +42,6 @@ import org.apache.xmlgraphics.util.ClasspathResource;
  */
 public class DefaultFontFactory extends FontFactory {
 
-    private final Map<String, Font> fontCache;
-
     /**
      * Logger for this class
      */
@@ -51,6 +49,8 @@ public class DefaultFontFactory extends FontFactory {
             .getLog(DefaultFontFactory.class);
 
     private static final String AWT_SANSSERIF = "sansserif";
+
+    private final Map<String, Font> fontCache;
 
     DefaultFontFactory() {
         this.fontCache = new HashMap<String, Font>();

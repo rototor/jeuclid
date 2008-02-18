@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -136,9 +136,10 @@ public class LayoutContextImpl implements MutableLayoutContext {
         if (copyFromContext instanceof LayoutContextImpl) {
             this.context = new TreeMap<Parameter, Object>(
                     ((LayoutContextImpl) copyFromContext).getParameters());
-        } else
+        } else {
             throw new UnsupportedOperationException("LayoutContextImpl("
                     + copyFromContext.getClass() + ") not supported.");
+        }
     }
 
     /**

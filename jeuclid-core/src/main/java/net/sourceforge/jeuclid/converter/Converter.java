@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,13 +49,6 @@ import org.xml.sax.SAXException;
  */
 public final class Converter {
 
-    private static Converter converter;
-
-    /**
-     * Logger for this class
-     */
-    private static final Log LOGGER = LogFactory.getLog(Converter.class);
-
     /**
      * Mime type for SVG.
      */
@@ -65,6 +58,15 @@ public final class Converter {
      * File extension for SVG.
      */
     public static final String EXTENSION_SVG = "svg";
+
+    private static final String UNSUPPORTED_OUTPUT_TYPE = "Unsupported output type: ";
+
+    private static Converter converter;
+
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory.getLog(Converter.class);
 
     private Converter() {
 
@@ -194,7 +196,8 @@ public final class Converter {
             result = plugin.convert(doc, params);
         }
         if (result == null) {
-            Converter.LOGGER.fatal("Unsupported output type: " + outFileType);
+            Converter.LOGGER.fatal(Converter.UNSUPPORTED_OUTPUT_TYPE
+                    + outFileType);
         }
         return result;
     }
@@ -230,7 +233,8 @@ public final class Converter {
                         + ex.getMessage(), ex);
             }
         } else {
-            Converter.LOGGER.fatal("Unsupported output type: " + outFileType);
+            Converter.LOGGER.fatal(Converter.UNSUPPORTED_OUTPUT_TYPE
+                    + outFileType);
         }
         return result;
     }

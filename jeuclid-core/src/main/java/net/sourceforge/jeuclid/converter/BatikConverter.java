@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,12 +46,12 @@ import org.w3c.dom.Node;
  */
 public class BatikConverter implements ConverterPlugin {
 
-    private final DOMImplementation domImplementation;
-
     /**
      * Logger for this class
      */
     private static final Log LOGGER = LogFactory.getLog(BatikConverter.class);
+
+    private final DOMImplementation domImplementation;
 
     BatikConverter(final DOMImplementation domImpl) {
         this.domImplementation = domImpl;

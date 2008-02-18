@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -183,7 +183,7 @@ public final class MathVariant {
      * 
      * @param size
      *            size of the font to create
-     * @param c
+     * @param codepoint
      *            a character that must exist in this font
      * @param context
      *            LayoutContext to use.
