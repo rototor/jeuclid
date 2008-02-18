@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * Tests the MathComponentUI16
+ * Tests the MathComponentUI16.
  * 
  * @version $Revision$
  */

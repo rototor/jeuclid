@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,7 +127,7 @@ public class ParametersDialog extends JDialog {
         btnSave.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 final Map<Parameter, Object> newValues = new HashMap<Parameter, Object>();
-                for (final Map.Entry<Parameter, DataExtractor> entry : ParametersDialog.this.extractors
+                for (final Map.Entry<Parameter, ParametersDialog.DataExtractor> entry : ParametersDialog.this.extractors
                         .entrySet()) {
                     newValues.put(entry.getKey(), entry.getValue()
                             .extractData());
@@ -168,7 +168,7 @@ public class ParametersDialog extends JDialog {
                 }
             };
         } else if (type instanceof ColorTypeWrapper) {
-            final Map.Entry<? extends JComponent, ? extends DataExtractor> entry = this
+            final Map.Entry<? extends JComponent, ? extends ParametersDialog.DataExtractor> entry = this
                     .setupColorParameter(param);
             input = entry.getKey();
             dataExtractor = entry.getValue();
@@ -196,7 +196,7 @@ public class ParametersDialog extends JDialog {
                 }
             };
         } else {
-            final Map.Entry<? extends JComponent, ? extends DataExtractor> entry = this
+            final Map.Entry<? extends JComponent, ? extends ParametersDialog.DataExtractor> entry = this
                     .setupTextParameter(param);
             input = entry.getKey();
             dataExtractor = entry.getValue();
@@ -206,7 +206,7 @@ public class ParametersDialog extends JDialog {
         return input;
     }
 
-    private Map.Entry<? extends JComponent, ? extends DataExtractor> setupColorParameter(
+    private Map.Entry<? extends JComponent, ? extends ParametersDialog.DataExtractor> setupColorParameter(
             final Parameter param) {
         Color color = (Color) this.mathComponent.getParameters()
                 .getParameter(param);
@@ -238,7 +238,7 @@ public class ParametersDialog extends JDialog {
         }).entrySet().iterator().next();
     }
 
-    private Map.Entry<? extends JComponent, ? extends DataExtractor> setupTextParameter(
+    private Map.Entry<? extends JComponent, ? extends ParametersDialog.DataExtractor> setupTextParameter(
             final Parameter param) {
         final JTextField text = new JTextField(param
                 .toString(this.mathComponent.getParameters().getParameter(

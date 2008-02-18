@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ public class MathComponentUI extends ComponentUI implements
     /** Reference to document. */
     private Node document;
 
-    private Dimension preferedSize;
+    private Dimension preferredSize;
 
     /**
      * Creates a new UI.
@@ -82,7 +82,7 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     @Override
     public void paint(final Graphics g, final JComponent c) {
-        this.preferedSize = null;
+        this.preferredSize = null;
         final Graphics2D g2 = (Graphics2D) g;
         // using the size seems to cause flickering is some cases
         final Dimension dim = this.mathComponent.getSize();
@@ -229,29 +229,41 @@ public class MathComponentUI extends ComponentUI implements
         return this.getMathComponentSize(c);
     }
 
-    protected Dimension getMathComponentSize(final JComponent c) {
-        if (this.preferedSize != null) {
-            return this.preferedSize;
-        }
-        if (this.jEuclidView == null || c.getGraphics() == null) {
-            return super.getPreferredSize(c);
-        } else {
+    /**
+     * Retrieve the preferred size of the math component. This function caches
+     * its result for faster operation.
+     * 
+     * @param c
+     *            the math component to measure
+     * @return the preferred size.
+     */
+    private Dimension getMathComponentSize(final JComponent c) {
+        if (this.preferredSize == null) {
+            if (this.jEuclidView == null || c.getGraphics() == null) {
+                return super.getPreferredSize(c);
+            }
+
             final Graphics2D g2d = (Graphics2D) c.getGraphics();
             Defense.notNull(g2d, "g2d");
-            this.preferedSize = new Dimension((int) Math
-                    .ceil(this.jEuclidView.getWidth()), (int) Math
-                    .ceil(this.jEuclidView.getAscentHeight()
-                            + this.jEuclidView.getDescentHeight()));
+            this.calculatePreferredSize(c);
         }
+        return this.preferredSize;
+    }
+
+    private void calculatePreferredSize(final JComponent c) {
+        this.preferredSize = new Dimension((int) Math.ceil(this.jEuclidView
+                .getWidth()), (int) Math.ceil(this.jEuclidView
+                .getAscentHeight()
+                + this.jEuclidView.getDescentHeight()));
+
         final Border border = c.getBorder();
         if (border != null) {
             final Insets insets = border.getBorderInsets(c);
             if (insets != null) {
-                this.preferedSize.width += insets.left + insets.right;
-                this.preferedSize.height += insets.top + insets.bottom;
+                this.preferredSize.width += insets.left + insets.right;
+                this.preferredSize.height += insets.top + insets.bottom;
             }
         }
-        return this.preferedSize;
     }
 
     /** {@inheritDoc} */

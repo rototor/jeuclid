@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.layout.JEuclidView;
+import net.sourceforge.jeuclid.xmlgraphics.PreloaderMathML;
 
 import org.apache.fop.render.Graphics2DAdapter;
 import org.apache.fop.render.Renderer;
@@ -65,7 +66,8 @@ public class JEuclidXMLHandler implements XMLHandler {
         final Number n = (Number) rendererContext
                 .getProperty(PDFRendererContextConstants.PDF_FONT_SIZE);
         if (n != null) {
-            final float fontSize = n.floatValue() / 1000.0f;
+            final float fontSize = n.floatValue()
+                    / PreloaderMathML.MPT_FACTOR;
             layoutContext.setParameter(LayoutContext.Parameter.MATHSIZE,
                     fontSize);
         }
@@ -76,10 +78,11 @@ public class JEuclidXMLHandler implements XMLHandler {
             final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
             final JEuclidView view = new JEuclidView(document, layoutContext,
                     tempg);
-            final int w = (int) Math.ceil(view.getWidth() * 1000);
+            final int w = (int) Math.ceil(view.getWidth()
+                    * PreloaderMathML.MPT_FACTOR);
             final float ascent = view.getAscentHeight();
-            final int h = (int) Math
-                    .ceil((ascent + view.getDescentHeight()) * 1000);
+            final int h = (int) Math.ceil((ascent + view.getDescentHeight())
+                    * PreloaderMathML.MPT_FACTOR);
             final Graphics2DImagePainter painter = new Graphics2DImagePainter() {
 
                 public void paint(final Graphics2D g2d, final Rectangle2D area) {

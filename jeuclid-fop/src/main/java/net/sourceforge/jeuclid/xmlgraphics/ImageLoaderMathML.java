@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,15 +42,15 @@ public class ImageLoaderMathML extends AbstractImageLoader {
     /**
      * Main constructor.
      * 
-     * @param targetFlavor
+     * @param target
      *            the target flavor
      */
-    public ImageLoaderMathML(final ImageFlavor targetFlavor) {
-        if (!(ImageFlavor.XML_DOM.equals(targetFlavor))) {
+    public ImageLoaderMathML(final ImageFlavor target) {
+        if (!(ImageFlavor.XML_DOM.equals(target))) {
             throw new IllegalArgumentException(
-                    "Unsupported target ImageFlavor: " + targetFlavor);
+                    "Unsupported target ImageFlavor: " + target);
         }
-        this.targetFlavor = targetFlavor;
+        this.targetFlavor = target;
     }
 
     /** {@inheritDoc} */

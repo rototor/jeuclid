@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,16 +28,17 @@ import org.apache.xmlgraphics.image.loader.spi.ImageLoader;
  * @version $Revision$
  */
 public class ImageLoaderFactoryMathML extends AbstractImageLoaderFactory {
+
+    private static final ImageFlavor[] FLAVORS = new ImageFlavor[] { ImageFlavor.XML_DOM };
+
+    private static final String[] MIMES = new String[] { Constants.MATHML_MIMETYPE };
+
     /**
      * Default Constructor.
      */
     public ImageLoaderFactoryMathML() {
         // Empty on purpose
     }
-
-    private static final ImageFlavor[] FLAVORS = new ImageFlavor[] { ImageFlavor.XML_DOM };
-
-    private static final String[] MIMES = new String[] { Constants.MATHML_MIMETYPE };
 
     /** {@inheritDoc} */
     public String[] getSupportedMIMETypes() {

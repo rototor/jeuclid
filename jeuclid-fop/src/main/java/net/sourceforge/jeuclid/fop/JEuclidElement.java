@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.layout.JEuclidView;
+import net.sourceforge.jeuclid.xmlgraphics.PreloaderMathML;
 
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.datatypes.Length;
@@ -111,19 +112,22 @@ public class JEuclidElement extends JEuclidObj {
         return this.baseline;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void bind(final PropertyList propertyList) throws FOPException {
         System.out.println("PropList: " + propertyList);
         super.bind(propertyList);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected PropertyList createPropertyList(final PropertyList pList,
             final FOEventHandler foEventHandler) throws FOPException {
         this.layoutContext
-                .setParameter(LayoutContext.Parameter.MATHSIZE,
+                .setParameter(
+                        LayoutContext.Parameter.MATHSIZE,
                         (float) (pList.getFontProps().fontSize
-                                .getNumericValue() / 1000f));
+                                .getNumericValue() / PreloaderMathML.MPT_FACTOR));
 
         return super.createPropertyList(pList, foEventHandler);
     }

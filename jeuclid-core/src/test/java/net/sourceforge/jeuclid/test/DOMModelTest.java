@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,6 +65,7 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
 /**
  * Various tests for the DOM model.
  * 
+ * @version $Revision$
  */
 public class DOMModelTest {
 

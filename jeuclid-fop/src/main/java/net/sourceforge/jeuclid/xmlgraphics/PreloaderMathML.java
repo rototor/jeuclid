@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +50,8 @@ import org.xml.sax.SAXException;
  * @version $Revision$
  */
 public class PreloaderMathML extends AbstractImagePreloader {
+    public static final float MPT_FACTOR = 1000.0f;
+
     /**
      * Default Constructor.
      */
@@ -91,10 +93,11 @@ public class PreloaderMathML extends AbstractImagePreloader {
             final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
             final JEuclidView view = new JEuclidView(n, LayoutContextImpl
                     .getDefaultLayoutContext(), tempg);
-            final int descentMpt = (int) (view.getDescentHeight() * 1000);
-            final int ascentMpt = (int) (view.getAscentHeight() * 1000);
+            final int descentMpt = (int) (view.getDescentHeight() * PreloaderMathML.MPT_FACTOR);
+            final int ascentMpt = (int) (view.getAscentHeight() * PreloaderMathML.MPT_FACTOR);
 
-            size.setSizeInMillipoints((int) (view.getWidth() * 1000),
+            size.setSizeInMillipoints(
+                    (int) (view.getWidth() * PreloaderMathML.MPT_FACTOR),
                     ascentMpt + descentMpt);
             size.setBaselinePositionFromBottom(descentMpt);
             // Set the resolution to that of the FOUserAgent

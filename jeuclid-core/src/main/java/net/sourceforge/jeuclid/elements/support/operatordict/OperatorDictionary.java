@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -160,7 +160,7 @@ public class OperatorDictionary {
             { "movablelimits", Constants.FALSE },
             { "accent", Constants.FALSE }, };
 
-    OperatorDictionary() throws DictionaryException {
+    private OperatorDictionary() throws DictionaryException {
         this.initialize();
     }
 

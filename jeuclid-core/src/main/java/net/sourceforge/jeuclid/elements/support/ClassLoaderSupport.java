@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,11 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
 /**
+ * Support utilities for classloading.
+ * 
  * @version $Revision$
  */
-public class ClassLoaderSupport {
+public final class ClassLoaderSupport {
 
     private static ClassLoaderSupport instance;
 
@@ -60,13 +62,28 @@ public class ClassLoaderSupport {
         this.domImpl = impl;
     }
 
-    public synchronized static ClassLoaderSupport getInstance() {
+    /**
+     * accessor for singleton instance.
+     * 
+     * @return an instance of this class.
+     */
+    public static synchronized ClassLoaderSupport getInstance() {
         if (ClassLoaderSupport.instance == null) {
             ClassLoaderSupport.instance = new ClassLoaderSupport();
         }
         return ClassLoaderSupport.instance;
     }
 
+    /**
+     * Try to load the given lass from the current context.
+     * 
+     * @param className
+     *            name of the class to load
+     * @return a Class object for the given class if possible.
+     * @throws ClassNotFoundException
+     *             if the class could not be found.
+     * @see ClassLoader#loadClass(String)
+     */
     public Class<?> loadClass(final String className)
             throws ClassNotFoundException {
         Class<?> retVal;
@@ -80,6 +97,11 @@ public class ClassLoaderSupport {
         return retVal;
     }
 
+    /**
+     * Retrieve a generic DOM implementation.
+     * 
+     * @return a DOMImplementation or null if none could be found.
+     */
     public DOMImplementation getGenericDOMImplementation() {
         return this.domImpl;
     }

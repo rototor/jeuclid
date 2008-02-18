@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,6 @@ import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -50,8 +49,8 @@ import org.xml.sax.SAXException;
  * Displays MathML content in a Swing Component.
  * <p>
  * There are two properties which expose the actual content, accessible though
- * {@link #getDocument()} / {@link #setDocument(Document)} for content already
- * available as a DOM model, and {@link #getContent()} and
+ * {@link #getDocument()} / {@link #setDocument(org.w3c.dom.Document)} for
+ * content already available as a DOM model, and {@link #getContent()} and
  * {@link #setContent(String)} for content available as a String.
  * <p>
  * This class exposes most of the rendering parameters as standard bean
@@ -78,7 +77,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
     /** */
     private static final long serialVersionUID = 1L;
 
-    private static String UI_CLASS_ID;
+    private static String uiClassId;
 
     private static Class<?> mathComponentUIClass;
 
@@ -275,7 +274,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      */
     @Override
     public String getUIClassID() {
-        return JMathComponent.UI_CLASS_ID;
+        return JMathComponent.uiClassId;
     }
 
     /**
@@ -560,6 +559,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
         return this.parameters;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void setSize(final int width, final int height) {
         // TODO Auto-generated method stub
@@ -573,11 +573,11 @@ public class JMathComponent extends JComponent implements SwingConstants {
             uiClass = ClassLoaderSupport.getInstance().loadClass(
                     "net.sourceforge.jeuclid.swing.MathComponentUI16");
             id = "MathComponentUI16";
-        } catch (final Throwable t) {
+        } catch (final ClassNotFoundException t) {
             uiClass = MathComponentUI.class;
             id = "MathComponentUI";
         }
-        JMathComponent.UI_CLASS_ID = id;
+        JMathComponent.uiClassId = id;
         JMathComponent.mathComponentUIClass = uiClass;
     }
 
