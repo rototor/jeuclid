@@ -26,7 +26,8 @@
       </listitem>
 
       <listitem>
-        <para><ulink url="http://www.eclipse.org">Eclipse</ulink>
+        <para><ulink url="http://www.eclipse.org">Eclipse</ulink> (optional)
+        or <ulink url="http://www.netbeans.org/">NetBeans</ulink>
         (optional)</para>
       </listitem>
 
@@ -41,7 +42,7 @@
       </listitem>
     </itemizedlist>
 
-    <para>If you have commit access, the following extra plugins for eclipse
+    <para>If you have commit access, the following extra plug-ins for eclipse
     are highly recommended:</para>
 
     <itemizedlist>
@@ -162,8 +163,7 @@
     <para>If you have developer access, please add the following to your
     <literal>~/.m2/settings.xml</literal> file:</para>
 
-    <programlisting>
-&lt;settings xmlns="http://maven.apache.org/POM/4.0.0"
+    <programlisting>&lt;settings xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                       http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
@@ -176,7 +176,6 @@
       &lt;directoryPermissions&gt;775&lt;/directoryPermissions&gt;
     &lt;/server&gt;
   &lt;/servers&gt;
-&lt;/settings&gt;
-</programlisting>
+&lt;/settings&gt;</programlisting>
   </section>
 </article>
