@@ -10,7 +10,7 @@
     <para>You may download JEuclid from the <ulink
     url="http://sourceforge.net/project/showfiles.php?group_id=44862">sourceforge
     project site for JEuclid</ulink> as a binary package or from <ulink
-    url="./source.html">source</ulink>. Please note: There are 3 Binary
+    url="./source.html">source</ulink>. Please note: There are serveral binary
     packages:</para>
 
     <variablelist>
@@ -30,7 +30,7 @@
         <listitem>
           <para>Contains a minimal JEuclid distribution which supports only
           the standard Java output formats. Use this if you need only these
-          formats (such as png), if you want to embedd JEuclid into a
+          formats (such as png), if you want to embed JEuclid into a
           non-maven2 project, or if you're interested in viewing math
           only.</para>
         </listitem>
@@ -49,7 +49,7 @@
         <term>jeuclid-fop</term>
 
         <listitem>
-          <para>Contains only the plugin for <ulink
+          <para>Contains only the plug-in for <ulink
           url="http://xmlgraphics.apache.org/fop/">Apache FOP</ulink>.</para>
         </listitem>
       </varlistentry>
@@ -171,7 +171,7 @@
 
     <para>Example:</para>
 
-    <programlisting>mml2xxx a.mml a.png -BackgroundColor white</programlisting>
+    <programlisting>mml2xxx a.mml a.png -backgroundColor white</programlisting>
 
     <para>To get a list of possible options, just <command>mml2xxx</command>
     without any parameters. Please see the <ulink url="./faq.html">JEuclid
@@ -191,6 +191,28 @@
   </section>
 
   <section>
+    <title>As FOP plugin</title>
+
+    <para>To use the MathML support within fop, copy the files
+    <filename>jeculid-core-xxx.jar</filename> and
+    <filename>jeuclid-fop-xxx.jar</filename> to the <filename>lib</filename>
+    directory of your fop installation. You may now use MathML as
+    <computeroutput>external-graphic</computeroutput> or as
+    <computeroutput>instream-foreign-object</computeroutput>. Please note that
+    your MathML content must be in the proper MathML namespace:
+    <computeroutput>"http://www.w3.org/1998/Math/MathML"</computeroutput>.</para>
+  </section>
+
+  <section>
+    <title>Embedded MathML within XSL-FO or XHTML</title>
+
+    <para>You may use the included <command>foprep</command> application to
+    convert MathML embedded in XSL-FO and XHTML files to SVG. This will allow
+    you to render your documents with other xsl-fo renderers or on browsers
+    with SVG support (newer versions of Opera, Firefox, Safari, ... ).</para>
+  </section>
+
+  <section>
     <title>In your own App</title>
 
     <para>Please look at the <ulink url="./apidocs/index.html">API
@@ -198,6 +220,15 @@
     url="./apidocs/net/sourceforge/jeuclid/awt/MathComponent.html">net.sourceforge.jeuclid.awt.MathComponent</ulink>
     and <ulink
     url="./apidocs/net/sourceforge/jeuclid/swing/JMathComponent.html">net.sourceforge.jeuclid.swing.JMathComponent</ulink>.</para>
+
+    <section>
+      <title>Java 1.6</title>
+
+      <para>JEuclid contains additional functionality available on Java ≥ 1.6.
+      To use this functionality you need to add
+      <filename>jeuclid-core16-xxx.jar</filename> to your project in addition
+      to <filename>jeuclid-core-xxx.jar</filename>.</para>
+    </section>
 
     <section>
       <title>Maven based projects</title>
@@ -208,31 +239,28 @@
       <programlisting>&lt;depencency&gt;
   &lt;groupId&gt;net.sourceforge.jeuclid&lt;/groupId&gt;
   &lt;artifactId&gt;jeuclid-core&lt;/artifactId&gt;
-&lt;/depencenty&gt;
-</programlisting>
+&lt;/depencenty&gt;</programlisting>
 
       <para>to your <emphasis>dependencies</emphasis> section.</para>
     </section>
-    
+
     <section>
-    <title>Snapshot versions</title>
-    <para>If you wish to use the latest developer version, you need to declare
-    the following repository</para>
-    <programlisting>
-    &lt;repository&gt;
-      &lt;id&gt;jeuclid-snapshots&lt;/id&gt;
-      &lt;url&gt;http://jeuclid.sourceforge.net/m2-snap/&lt;/url&gt;
-      &lt;releases&gt;
-        &lt;enabled&gt;false&lt;/enabled&gt;
-      &lt;/releases&gt;
-      &lt;snapshots&gt;
-        &lt;enabled&gt;true&lt;/enabled&gt;
-      &lt;/snapshots&gt;  
-    &lt;/repository&gt;
-    </programlisting>
-    
+      <title>Snapshot versions</title>
+
+      <para>If you wish to use the latest developer version, you need to
+      declare the following repository</para>
+
+      <programlisting>&lt;repository&gt;
+  &lt;id&gt;jeuclid-snapshots&lt;/id&gt;
+  &lt;url&gt;http://jeuclid.sourceforge.net/m2-snap/&lt;/url&gt;
+  &lt;releases&gt;
+    &lt;enabled&gt;false&lt;/enabled&gt;
+  &lt;/releases&gt;
+  &lt;snapshots&gt;
+    &lt;enabled&gt;true&lt;/enabled&gt;
+  &lt;/snapshots&gt;  
+&lt;/repository&gt;    </programlisting>
     </section>
-    
   </section>
 
   <section>
