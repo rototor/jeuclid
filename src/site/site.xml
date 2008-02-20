@@ -44,7 +44,7 @@
       <item name="Screenshots" href="screenshots.html"/>
     </menu>
     <menu name="Samples">
-      <item name="Testsuite" href="testsuite/index.html"/>
+      <item name="Testsuite" href="jeuclid-testsuite/index.html"/>
       <item name="Example 1" href="example1.html"/>
       <item name="Example 2" href="example2.html"/>
       <item name="Example 3" href="example3.html"/>
