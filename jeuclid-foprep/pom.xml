@@ -7,7 +7,7 @@
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
-    <version>3.0.3-SNAPSHOT</version>
+    <version>3.0.3</version>
   </parent>
   <description>This module contains a FO pre-processor application.</description>
   <build>
@@ -51,7 +51,7 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core</artifactId>
-      <version>3.0.3-SNAPSHOT</version>
+      <version>3.0.3</version>
     </dependency>
  <dependency>
       <groupId>commons-cli</groupId>
