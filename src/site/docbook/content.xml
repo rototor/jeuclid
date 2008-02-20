@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
+<article>
+  <title>Content Math</title>
+
+  <section>
+    <title>Content Math</title>
+
+    <para>Content Math support is based on an XSLT transformation script.
+    Although this script is now integrated into JEuclid, it has its own
+    homepage at:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><ulink
+        url="http://www.lri.fr/~pietriga/mathmlc2p/mathmlc2p.html">MathMLc2p
+        Homepage</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para><ulink
+        url="http://sourceforge.net/tracker/?group_id=44862&amp;atid=1042625">MathMLc2p
+        Tracker</ulink></para>
+      </listitem>
+    </itemizedlist>
+
+    <para>At this point the content math support is to be considered
+    preliminary. Therefore feature wishes and bug fixes are greatly
+    appreciated!</para>
+
+    <para>Please note that content math <emphasis>only works if your document
+    is in the MathML namespace</emphasis>. Declaring the DTD is not
+    sufficient!</para>
+  </section>
+</article>
