@@ -27,7 +27,6 @@
 		<action dev="maxberger" type="update">Undid De-Anti-alias below 10pt</action>
 		<action dev="maxberger" type="update">Update after release</action>
  		</release>
-	<body>
 		<release version="3.0.1" date="2007-08-31"
 			description="bugfix release">
 		<action dev="maxberger" type="update">MathBase now returns only full pixels height;
