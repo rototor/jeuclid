@@ -350,12 +350,12 @@
           <targetJdk>1.5</targetJdk>
         </configuration>
       </plugin>
-      <plugin>
+<!--      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>dashboard-maven-plugin</artifactId>
         <version>1.0-20070324.094245-8</version>
       </plugin>
-    </plugins>
+-->    </plugins>
   </reporting>
   <distributionManagement>
     <repository>
