@@ -291,11 +291,6 @@
       <name>Maven FreeHEP</name>
       <url>http://java.freehep.org/maven2</url>
     </repository>
-    <repository>
-      <id>batik-pre</id>
-      <name>Temporary batik prerelease</name>
-      <url>http://people.apache.org/~cam/b17/maven</url>
-    </repository>
   </repositories>
   <reporting>
     <plugins>
