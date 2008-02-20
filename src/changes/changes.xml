@@ -5,8 +5,12 @@
 		<author>Max Berger</author>
 	</properties>
 	<body>
-		<release version="3.0.3" date="in SVN"
+		<release version="3.0.4" date="in SVN"
 			description="none yet">
+		<action dev="maxberger" type="update">Update after release</action>
+                </release>
+		<release version="3.0.3" date="2008-02-20"
+			description="the last one?">
 		<action dev="maxberger" type="update">Fix attributes without namespaces.</action>
 		<action dev="maxberger" type="update">Fix for failure on xinclude feature.</action>
 		<action dev="maxberger" type="update" issue="1854211">Backported font-search from unstable.</action>

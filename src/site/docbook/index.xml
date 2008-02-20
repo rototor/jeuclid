@@ -47,6 +47,12 @@
 
     <itemizedlist>
       <listitem>
+        <para>JEuclid 3.0.3 Released.</para>
+
+        <para>This release fixes some minor bug discoverd since 3.0.2. It is recommended for all users.</para>
+        <para>See the <ulink url="./changes-report.html">JEuclid Changelog page</ulink> for details.</para>
+      </listitem>
+      <listitem>
         <para>JEuclid 3.0.2 Released.</para>
 
         <para>This release fixes some minor bug discoverd since 3.0.1. It is recommended for all users.</para>
