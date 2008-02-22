@@ -31,6 +31,7 @@ import javax.xml.transform.stream.StreamSource;
 import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
+import net.sourceforge.jeuclid.elements.generic.MathImpl;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 import net.sourceforge.jeuclid.parser.Parser;
 
@@ -43,7 +44,7 @@ import org.apache.xmlgraphics.image.loader.impl.AbstractImagePreloader;
 import org.apache.xmlgraphics.image.loader.impl.ImageXMLDOM;
 import org.apache.xmlgraphics.image.loader.util.ImageUtil;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 /**
@@ -63,13 +64,21 @@ public class PreloaderMathML extends AbstractImagePreloader {
     @SuppressWarnings("unchecked")
     public ImageInfo preloadImage(final String uri, final Source src,
             final ImageContext context) throws ImageException, IOException {
-        Node n;
+        Document n;
         InputStream in = null;
         try {
             in = new UnclosableInputStream(ImageUtil.needInputStream(src));
             final int length = in.available();
             in.mark(length + 1);
-            n = Parser.getParser().parse(new StreamSource(in));
+            n = Parser.getParser().parseStreamSource(new StreamSource(in));
+            final Element rootNode = n.getDocumentElement();
+            if (!(AbstractJEuclidElement.URI.equals(rootNode
+                    .getNamespaceURI()) || MathImpl.ELEMENT.equals(rootNode
+                    .getNodeName()))) {
+                n = null;
+            }
+        } catch (final IOException e) {
+            n = null;
         } catch (final SAXException e) {
             n = null;
         } catch (final ParserConfigurationException e) {
@@ -87,7 +96,6 @@ public class PreloaderMathML extends AbstractImagePreloader {
             final ImageInfo info = new ImageInfo(uri,
                     Constants.MATHML_MIMETYPE);
             final ImageSize size = new ImageSize();
-
             final Image tempimage = new BufferedImage(1, 1,
                     BufferedImage.TYPE_INT_ARGB);
             final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
@@ -106,7 +114,7 @@ public class PreloaderMathML extends AbstractImagePreloader {
             info.setSize(size);
 
             // The whole image had to be loaded for this, so keep it
-            final ImageXMLDOM xmlImage = new ImageXMLDOM(info, (Document) n,
+            final ImageXMLDOM xmlImage = new ImageXMLDOM(info, n,
                     AbstractJEuclidElement.URI);
             info.getCustomObjects().put(ImageInfo.ORIGINAL_IMAGE, xmlImage);
             return info;
