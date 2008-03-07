@@ -82,6 +82,14 @@
                   <groupId>net.sourceforge.jeuclid</groupId>
                   <artifactId>jeuclid-foprep</artifactId>
                 </element>
+                <element>
+                  <groupId>net.sourceforge.jeuclid</groupId>
+                  <artifactId>dejavu-fonts</artifactId>
+                </element>
+                <element>
+                  <groupId>net.sourceforge.jeuclid</groupId>
+                  <artifactId>stix-fonts</artifactId>
+                </element>
               </classpath>
               <source>
 import java.io.FileInputStream;
