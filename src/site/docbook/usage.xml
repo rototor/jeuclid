@@ -162,7 +162,7 @@
     application bundle.</para>
   </section>
 
-  <section>
+  <section id="cmdline">
     <title>Convert MathML to other Formats</title>
 
     <para>You may use the included <command>mml2xxx</command> (unix) or
@@ -179,15 +179,103 @@
     of supported output formats.</para>
   </section>
 
-  <section>
+  <section id="ant">
     <title>Within Ant</title>
 
     <para>You will need to define the converter task:</para>
 
     <programlisting>&lt;taskdef name="mmlconverter" classname="net.sourceforge.jeuclid.ant.MathMLConverter"&gt;</programlisting>
 
-    <para>with the needed JAR files in the classpath. Please see the API
-    documentation or the source code for usage.</para>
+    <para>with the needed JAR files in the classpath.</para>
+
+    <section>
+      <title>Input and output file(s)</title>
+
+      <para>The task can work with single input file or with a fileset. If you
+      use a single input file, you must set an output file as well.</para>
+
+      <example>
+        <title>Single input file</title>
+
+        <programlisting>&lt;mmlconverter <emphasis role="bold">in="input.odf"</emphasis> <emphasis
+            role="bold">out="output.svg"</emphasis>/&gt;</programlisting>
+      </example>
+
+      <para>For using simple filesets, there are 2 methods: as
+      <emphasis>attribute</emphasis> of task or <emphasis>nested
+      element</emphasis>. Nested elements are universal, because they can
+      repeat more than one element include/exclude. Examples are below:</para>
+
+      <example>
+        <title>Fileset with input files specified by attributes</title>
+
+        <programlisting>&lt;mmlconverter basedir="input_dir" destdir="output_dir" <emphasis
+            role="bold">includes="*.odf"</emphasis> <emphasis role="bold">excludes="test*.odf"</emphasis>/&gt;</programlisting>
+      </example>
+
+      <example>
+        <title>Fileset with input files specified by elements</title>
+
+        <programlisting>&lt;mmlconverter basedir="input_dir" destdir="output_dir"&gt;
+  <emphasis role="bold">&lt;include name="*.odf"/&gt;</emphasis>
+  <emphasis role="bold">&lt;include name="*.mml"/&gt;</emphasis>
+  <emphasis role="bold">&lt;exclude name="test*.odf"/&gt;</emphasis>
+  <emphasis role="bold">&lt;exclude name="test*.mml"/&gt;</emphasis>
+&lt;/mmlconverter&gt;</programlisting>
+      </example>
+
+      <para>If you do not set basedir, the task will use the base directory of
+      the called build file.</para>
+    </section>
+
+    <section>
+      <title>Type of output file</title>
+
+      <para>The next attribute is type, which specifies which converter class
+      to use. Default type is <emphasis>image/png</emphasis>.</para>
+
+      <programlisting>&lt;mmlconverter in="input.odf" out="output.svg" <emphasis
+          role="bold">type="image/svg+xml"</emphasis>/&gt;</programlisting>
+    </section>
+
+    <section>
+      <title>Font size and fonts</title>
+
+      <para>Sets basic font size and others font size as minimal for anti
+      alias.</para>
+
+      <example>
+        <title>Font size</title>
+
+        <programlisting>&lt;mml converter in="input.odf" out="output.svg" type="image/svg+xml"
+  <emphasis role="bold">fontsize="22.0"</emphasis>
+  <emphasis role="bold">antialiasminsize="10.0"</emphasis>
+  <emphasis role="bold">scriptminsize="8.0"</emphasis>
+  <emphasis role="bold">scriptsizemult="0.71"</emphasis>
+/&gt;</programlisting>
+      </example>
+
+      <para>Next parameters are lists of font families e.g. for Sun-Serif,
+      Monospaced font family. List is seperated by
+      <emphasis>comma</emphasis>.</para>
+
+      <example>
+        <title>List of font family</title>
+
+        <programlisting>&lt;mml converter in="input.odf" out="output.svg" type="image/svg+xml"
+  <emphasis role="bold">fontsmonospaced="Courier,Courier Mono,Courier New,Lucida Sans</emphasis>"
+  <emphasis role="bold">fontssunserif="Helvetica,Arial,Arial Unicode MS,Lucida Sans"</emphasis>
+/&gt;</programlisting>
+      </example>
+    </section>
+
+    <section>
+      <title>Others parameters</title>
+
+      <para>As others parameters can sets background/foreground color, enable
+      anti alias or debugging and other. All supported parameters are same as
+      in command line interface (see <xref linkend="cmdline" />).</para>
+    </section>
   </section>
 
   <section>
