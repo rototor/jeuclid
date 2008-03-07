@@ -115,7 +115,6 @@ public class JEuclidElement extends JEuclidObj {
     /** {@inheritDoc} */
     @Override
     public void bind(final PropertyList propertyList) throws FOPException {
-        System.out.println("PropList: " + propertyList);
         super.bind(propertyList);
     }
 
