@@ -119,6 +119,14 @@
       </roles>
       <timezone>+1</timezone>
     </developer>
+    <developer>
+      <id>petrprochy</id>
+      <name>PetrProchy</name>
+      <email> AT DOT DOT </email>
+      <roles>
+        <role>delevoper</role>
+      </roles>
+    </developer>
   </developers>
   <contributors>
     <contributor>
