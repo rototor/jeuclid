@@ -1,0 +1,62 @@
+/*
+ * Copyright 2002 - 2006 JEuclid, http://jeuclid.sf.net
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* $Id: MathComponentTest.java 517 2007-09-13 19:22:07Z maxberger $ */
+
+package net.sourceforge.jeuclid.test;
+
+import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
+import net.sourceforge.jeuclid.elements.support.operatordict.UnknownAttributeException;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+/**
+ * Tests the OperatorDict class.
+ * 
+ * @version $Revision: 000 $
+ */
+public class OperatorDictTest {
+    /**
+     * Default Constructor.
+     */
+    public OperatorDictTest() {
+        // Empty on purpose
+    }
+
+    @Test
+    public void testAttrs() throws Exception {
+        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
+                "\u0028", "prefix", "lspace"), "0em");
+        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
+                "\u0028", "infix", "lspace"), "0em");
+        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
+                "\u0028", "postfix", "lspace"), "0em");
+        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
+                "\u2063", "infix", "rspace"), "0em");
+        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
+                "\u2063", "postfix", "rspace"), "0em");
+        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
+                "\u2063", "infix", "fence"), "false");
+        try {
+            OperatorDictionary.getDefaultAttributeValue("\u2063", "infix",
+                    "foobar");
+            Assert.fail("foobar should throw UnknownAttributeException!");
+        } catch (final UnknownAttributeException uae) {
+            // Ignore
+        }
+    }
+}
