@@ -117,6 +117,8 @@ public class Mo extends AbstractJEuclidElement implements
      */
     public static final String ATTR_FENCE = "fence";
 
+    private final OperatorDictionary opDict;
+
     /**
      * Horizontal delimiters.
      * 
@@ -169,6 +171,7 @@ public class Mo extends AbstractJEuclidElement implements
         this.setDefaultMathAttribute(Mo.ATTR_LARGEOP, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_ACCENT, Constants.FALSE);
+        this.opDict = OperatorDictionary.getInstance();
     }
 
     /**
@@ -466,8 +469,8 @@ public class Mo extends AbstractJEuclidElement implements
             final String defvalue) {
         String attr;
         try {
-            attr = OperatorDictionary.getDefaultAttributeValue(
-                    this.getText(), this.getForm(), attrname);
+            attr = this.opDict.getDefaultAttributeValue(this.getText(), this
+                    .getForm(), attrname);
         } catch (final UnknownAttributeException e) {
             attr = defvalue;
         }

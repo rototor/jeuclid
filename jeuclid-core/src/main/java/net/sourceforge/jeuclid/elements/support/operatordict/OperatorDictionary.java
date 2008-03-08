@@ -20,13 +20,13 @@ package net.sourceforge.jeuclid.elements.support.operatordict;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
-import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 
 import org.apache.commons.logging.Log;
@@ -89,26 +89,11 @@ public class OperatorDictionary {
      */
     public static final String NAME_INFINITY = "infinity";
 
-    /**
-     * Value for PREFIX.
-     */
-    private static final int VALUE_PREFIX = 100;
-
     /** Form value for prefix. */
     public static final String FORM_PREFIX = "prefix";
 
-    /**
-     * Value for INFIX.
-     */
-    private static final int VALUE_INFIX = 101;
-
     /** form value for infix. */
     public static final String FORM_INFIX = "infix";
-
-    /**
-     * Value for POSTFIX.
-     */
-    private static final int VALUE_POSTFIX = 102;
 
     /** form value for postfix. */
     public static final String FORM_POSTFIX = "postfix";
@@ -125,49 +110,29 @@ public class OperatorDictionary {
     private static final Log LOGGER = LogFactory
             .getLog(OperatorDictionary.class);
 
-    /**
-     * Hashtable that contains dictionary itself. Where a key = (value of
-     * operator)+ (type of form) and the two-dimensional array as a value. The
-     * array contains name-value pairs of attributes that have to be applied
-     * for the key. For example: <element form="infix" fence="true"
-     * lspace="0em" rspace="0em">+</element> key =+101(101 - because constant
-     * value for form 'infix' is 101), and values: { {"lspace",
-     * "thickmathspace"} {"rspace", "thickmathspace"} }
-     */
-    private static Map<String, String[][]> dictionary;
-
-    /**
-     * flag - is we read dictionary from modictionary.xml
-     */
-    private static boolean isDictionaryRead;
+    private static final Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> dict = new EnumMap<OperatorAttribute, Map<String, Map<OperatorForm, String>>>(
+            OperatorAttribute.class);
 
     /**
      * The instance of the Dictionary
      */
     private static OperatorDictionary instance;
 
-    /**
-     * Array of default values of operators attributes.
-     */
-    private static final String[][] ATTRIBUTE_DEFAULT_VALUES = {
-            { Mo.ATTR_FORM, OperatorDictionary.FORM_INFIX },
-            { "fence", Constants.FALSE }, { "separator", Constants.FALSE },
-            { "lspace", OperatorDictionary.NAME_THICKMATHSPACE },
-            { "rspace", OperatorDictionary.NAME_THICKMATHSPACE },
-            { "stretchy", Constants.FALSE }, { "symmetric", Constants.TRUE },
-            { "maxsize", OperatorDictionary.NAME_INFINITY },
-            { "minsize", "1" }, { "largeop", Constants.FALSE },
-            { "movablelimits", Constants.FALSE },
-            { "accent", Constants.FALSE }, };
+    public static synchronized OperatorDictionary getInstance() {
+        if (OperatorDictionary.instance == null) {
+            OperatorDictionary.instance = new OperatorDictionary();
+        }
+        return OperatorDictionary.instance;
+    }
 
-    private OperatorDictionary() throws DictionaryException {
+    private OperatorDictionary() {
         this.initialize();
     }
 
     /**
      * Initializes Dictionary
      */
-    private void initialize() throws DictionaryException {
+    private void initialize() {
         try {
             final InputStream dictInput = OperatorDictionary.class
                     .getResourceAsStream(OperatorDictionary.DICTIONARY_FILE);
@@ -176,13 +141,14 @@ public class OperatorDictionary {
             reader.setContentHandler(new DictionaryReader());
             reader.parse(new InputSource(dictInput));
         } catch (final ParserConfigurationException e) {
-            throw new DictionaryException("Cannot get SAXParser:"
+            OperatorDictionary.LOGGER.warn("Cannot get SAXParser:"
                     + e.getMessage());
         } catch (final SAXException e) {
-            throw new DictionaryException(
-                    "SAXException while parsing dictionary:" + e.getMessage());
+            OperatorDictionary.LOGGER
+                    .warn("SAXException while parsing dictionary:"
+                            + e.getMessage());
         } catch (final IOException e) {
-            throw new DictionaryException(
+            OperatorDictionary.LOGGER.warn(
                     "Read error while accessing XML dictionary", e);
         }
     }
@@ -200,21 +166,12 @@ public class OperatorDictionary {
      * @throws UnknownAttributeException
      *             Raised, if wrong attributeName was provided.
      */
-    public static String getDefaultAttributeValue(final String operator,
+    public String getDefaultAttributeValue(final String operator,
             final String form, final String attributeName)
             throws UnknownAttributeException {
-        final int intForm;
-        if (OperatorDictionary.FORM_INFIX.equalsIgnoreCase(form)) {
-            intForm = OperatorDictionary.VALUE_INFIX;
-        } else if (OperatorDictionary.FORM_POSTFIX.equalsIgnoreCase(form)) {
-            intForm = OperatorDictionary.VALUE_POSTFIX;
-        } else if (OperatorDictionary.FORM_PREFIX.equalsIgnoreCase(form)) {
-            intForm = OperatorDictionary.VALUE_PREFIX;
-        } else {
-            intForm = OperatorDictionary.VALUE_INFIX;
-        }
-        return OperatorDictionary.getDefaultAttributeValue(operator, intForm,
-                attributeName);
+        final OperatorForm intForm = OperatorForm.parseOperatorForm(form);
+        return this.getDefaultAttributeValue(operator, intForm,
+                OperatorAttribute.parseOperatorAttribute(attributeName));
     }
 
     /**
@@ -231,96 +188,34 @@ public class OperatorDictionary {
      * @throws UnknownAttributeException
      *             Raised, if wrong attributeName was provided.
      */
-    private static String getDefaultAttributeValue(final String operator,
-            final int form, final String attributeName)
-            throws UnknownAttributeException {
+    private String getDefaultAttributeValue(final String operator,
+            final OperatorForm form, final OperatorAttribute attribute) {
 
-        OperatorDictionary.loadDictIfNeeded();
-        String retVal = null;
-        if (OperatorDictionary.instance != null) {
-            retVal = OperatorDictionary.getAttrFromDict(operator, form,
-                    attributeName);
+        final Map<String, Map<OperatorForm, String>> opForAttr = OperatorDictionary.dict
+                .get(attribute);
+        if (opForAttr == null) {
+            return attribute.getDefaultValue();
+        }
+        final Map<OperatorForm, String> valuesPerForm = opForAttr
+                .get(operator);
+        if (valuesPerForm == null) {
+            return attribute.getDefaultValue();
+        }
+
+        String retVal = valuesPerForm.get(form);
+        if (retVal == null) {
+            retVal = valuesPerForm.get(OperatorForm.INFIX);
         }
         if (retVal == null) {
-            retVal = OperatorDictionary.getDefaultValue(attributeName);
+            retVal = valuesPerForm.get(OperatorForm.POSTFIX);
         }
-        if (retVal != null) {
-            return retVal;
-        } else {
-            throw new UnknownAttributeException(attributeName);
+        if (retVal == null) {
+            retVal = valuesPerForm.get(OperatorForm.PREFIX);
         }
-    }
-
-    private static String getAttrFromDict(final String operator,
-            final int form, final String attributeName) {
-        String retVal = null;
-        final String[][] attribute = OperatorDictionary
-                .readDictValueWithForm(operator, form);
-        if (attribute == null) {
-            retVal = OperatorDictionary.VALUE_UNKNOWN;
-        } else {
-            for (final String[] element : attribute) {
-                if (element[0].equals(attributeName)) {
-                    retVal = element[1];
-                    break;
-                }
-            }
+        if (retVal == null) {
+            retVal = attribute.getDefaultValue();
         }
         return retVal;
-    }
-
-    private static String[][] readDictValueWithForm(final String operator,
-            final int form) {
-        /*
-         * If the operator does not occur in the dictionary with the specified
-         * form, the renderer should use one of the forms that is available
-         * there, in the order of preference: infix, postfix, prefix; if no
-         * forms are available for the given mo element content, the renderer
-         * should use the defaults given in parentheses in the table of
-         * attributes for mo.
-         */
-        String[][] attr = OperatorDictionary.dictionary.get(operator + form);
-        if (attr == null && form != OperatorDictionary.VALUE_INFIX) {
-            attr = OperatorDictionary.dictionary.get(operator
-                    + OperatorDictionary.VALUE_INFIX);
-        }
-        if (attr == null && form != OperatorDictionary.VALUE_POSTFIX) {
-            attr = OperatorDictionary.dictionary.get(operator
-                    + OperatorDictionary.VALUE_POSTFIX);
-        }
-        if (attr == null && form != OperatorDictionary.VALUE_PREFIX) {
-            attr = OperatorDictionary.dictionary.get(operator
-                    + OperatorDictionary.VALUE_PREFIX);
-        }
-        return attr;
-    }
-
-    private static void loadDictIfNeeded() {
-        if (!OperatorDictionary.isDictionaryRead) {
-            try {
-                OperatorDictionary.isDictionaryRead = true;
-                OperatorDictionary.instance = new OperatorDictionary();
-            } catch (final DictionaryException e) {
-                OperatorDictionary.LOGGER.error(e.getMessage(), e);
-
-            }
-        }
-    }
-
-    /**
-     * Gets default value of the attribute. For internal use only.
-     * 
-     * @param attributeName
-     *            the name of the attribute.
-     * @return Default value of the attribute.
-     */
-    private static String getDefaultValue(final String attributeName) {
-        for (final String[] element : OperatorDictionary.ATTRIBUTE_DEFAULT_VALUES) {
-            if (attributeName.equalsIgnoreCase(element[0])) {
-                return element[1];
-            }
-        }
-        return null;
     }
 
     /**
@@ -338,11 +233,9 @@ public class OperatorDictionary {
 
         private String currentOperator;
 
-        private int currentFormIndex;
+        private OperatorForm currentFormIndex;
 
-        private int currentLength;
-
-        private String[][] currentEntry;
+        private Map<OperatorAttribute, String> currentEntry;
 
         public DictionaryReader() {
             // Empty on purpose.
@@ -350,7 +243,6 @@ public class OperatorDictionary {
 
         @Override
         public void startDocument() throws SAXException {
-            OperatorDictionary.dictionary = new HashMap<String, String[][]>();
         }
 
         @Override
@@ -364,35 +256,29 @@ public class OperatorDictionary {
 
             if (rawName
                     .equals(OperatorDictionary.DictionaryReader.ELEMENT_ELEMENT)) {
-                // attlist.getLength() - 1 - because we don't include form
-                // attribute
-                this.currentLength = attlist.getLength() - 1;
-                // [currentLength -number of atrribute][2 - attribute name,
-                // value of attribute]
-                this.currentEntry = new String[this.currentLength][2];
+                this.currentEntry = new TreeMap<OperatorAttribute, String>();
                 final String form = attlist.getValue(Mo.ATTR_FORM);
                 if (form == null) {
-                    // it is impossibhle because "form" is required attribute
+                    // it is impossible because "form" is required attribute
                     // for the dictionary.
-                    // todo: what is here?
                     OperatorDictionary.DictionaryReader.LOGGER
                             .fatal("Error in dictionary, attribute 'form' is required attribute for the dictionary");
-                    this.currentFormIndex = OperatorDictionary.VALUE_INFIX;
-                } else if (form.equals(OperatorDictionary.FORM_PREFIX)) {
-                    this.currentFormIndex = OperatorDictionary.VALUE_PREFIX;
-                } else if (form.equals(OperatorDictionary.FORM_INFIX)) {
-                    this.currentFormIndex = OperatorDictionary.VALUE_INFIX;
-                } else if (form.equals(OperatorDictionary.FORM_POSTFIX)) {
-                    this.currentFormIndex = OperatorDictionary.VALUE_POSTFIX;
+                    this.currentFormIndex = OperatorForm.INFIX;
+                } else {
+                    this.currentFormIndex = OperatorForm
+                            .parseOperatorForm(form);
                 }
-                int index = 0;
-                for (int i = 0; i < this.currentLength + 1; i++) {
+                for (int i = 0; i < attlist.getLength(); i++) {
                     final String attName = attlist.getQName(i);
                     final String attValue = attlist.getValue(i);
                     if (!attName.equals(Mo.ATTR_FORM)) {
-                        this.currentEntry[index][0] = attName;
-                        this.currentEntry[index][1] = attValue;
-                        index++;
+                        try {
+                            this.currentEntry.put(OperatorAttribute
+                                    .parseOperatorAttribute(attName),
+                                    attValue);
+                        } catch (final UnknownAttributeException e) {
+                            DictionaryReader.LOGGER.fatal(e.getMessage());
+                        }
                     }
                 }
             }
@@ -403,16 +289,26 @@ public class OperatorDictionary {
                 final String rawName) throws SAXException {
             if (rawName
                     .equals(OperatorDictionary.DictionaryReader.ELEMENT_ELEMENT)) {
-                final String key = this.currentOperator
-                        + this.currentFormIndex;
-                final Object existedEntry = OperatorDictionary.dictionary
-                        .get(key);
-                if (existedEntry == null) {
-                    OperatorDictionary.dictionary.put(key, this.currentEntry);
-                } else {
-                    OperatorDictionary.DictionaryReader.LOGGER
-                            .error("Objects " + key
-                                    + " exists twice in operator dictionary!");
+
+                for (final Map.Entry<OperatorAttribute, String> attributeValues : this.currentEntry
+                        .entrySet()) {
+                    final OperatorAttribute attribute = attributeValues
+                            .getKey();
+                    final String value = attributeValues.getValue();
+                    Map<String, Map<OperatorForm, String>> mapForAttr = OperatorDictionary.dict
+                            .get(attribute);
+                    if (mapForAttr == null) {
+                        mapForAttr = new TreeMap<String, Map<OperatorForm, String>>();
+                        OperatorDictionary.dict.put(attribute, mapForAttr);
+                    }
+                    Map<OperatorForm, String> valueForForm = mapForAttr
+                            .get(this.currentOperator);
+                    if (valueForForm == null) {
+                        valueForForm = new EnumMap<OperatorForm, String>(
+                                OperatorForm.class);
+                        mapForAttr.put(this.currentOperator, valueForForm);
+                    }
+                    valueForForm.put(this.currentFormIndex, value);
                 }
             }
             this.currentEntry = null;

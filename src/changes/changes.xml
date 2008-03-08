@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="update">Rewrote OperatorDictonary to make use of standard Java data types.</action>
 			<action dev="maxberger" type="add" due-to="petrprochy" issue="1906976">Documentation for new ant task</action>
 			<action dev="maxberger" type="remove">Removed ParameterKey.</action>
 			<action dev="maxberger" type="add" due-to="petrprochy">Ant task now supports many layoutcontext parameters</action>
