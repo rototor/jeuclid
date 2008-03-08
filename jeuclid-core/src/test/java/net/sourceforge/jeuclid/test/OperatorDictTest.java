@@ -39,21 +39,27 @@ public class OperatorDictTest {
 
     @Test
     public void testAttrs() throws Exception {
-        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
-                "\u0028", "prefix", "lspace"), "0em");
-        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
-                "\u0028", "infix", "lspace"), "0em");
-        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
-                "\u0028", "postfix", "lspace"), "0em");
-        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
-                "\u2063", "infix", "rspace"), "0em");
-        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
-                "\u2063", "postfix", "rspace"), "0em");
-        Assert.assertEquals(OperatorDictionary.getDefaultAttributeValue(
-                "\u2063", "infix", "fence"), "false");
+        final OperatorDictionary opDict = OperatorDictionary.getInstance();
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d",
+                "infix", "lspace"), "mediummathspace");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d",
+                "prefix", "lspace"), "0em");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d",
+                "postfix", "lspace"), "verythinmathspace");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u0028",
+                "prefix", "lspace"), "0em");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u0028",
+                "infix", "lspace"), "0em");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u0028",
+                "postfix", "lspace"), "0em");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u2063",
+                "infix", "rspace"), "0em");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u2063",
+                "postfix", "rspace"), "0em");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u2063",
+                "infix", "fence"), "false");
         try {
-            OperatorDictionary.getDefaultAttributeValue("\u2063", "infix",
-                    "foobar");
+            opDict.getDefaultAttributeValue("\u2063", "infix", "foobar");
             Assert.fail("foobar should throw UnknownAttributeException!");
         } catch (final UnknownAttributeException uae) {
             // Ignore
