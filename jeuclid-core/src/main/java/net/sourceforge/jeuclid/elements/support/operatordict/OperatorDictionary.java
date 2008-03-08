@@ -47,7 +47,7 @@ public class OperatorDictionary {
     /**
      * MathML dictionary resource.
      */
-    public static final String DICTIONARY_FILE = "/moDictionary.xml";
+    private static final String DICTIONARY_FILE = "/moDictionary.xml";
 
     /**
      * name for VERYVERYTHINMATHSPACE size of math space.
@@ -92,7 +92,7 @@ public class OperatorDictionary {
     /**
      * Value for PREFIX.
      */
-    public static final int VALUE_PREFIX = 100;
+    private static final int VALUE_PREFIX = 100;
 
     /** Form value for prefix. */
     public static final String FORM_PREFIX = "prefix";
@@ -100,7 +100,7 @@ public class OperatorDictionary {
     /**
      * Value for INFIX.
      */
-    public static final int VALUE_INFIX = 101;
+    private static final int VALUE_INFIX = 101;
 
     /** form value for infix. */
     public static final String FORM_INFIX = "infix";
@@ -108,7 +108,7 @@ public class OperatorDictionary {
     /**
      * Value for POSTFIX.
      */
-    public static final int VALUE_POSTFIX = 102;
+    private static final int VALUE_POSTFIX = 102;
 
     /** form value for postfix. */
     public static final String FORM_POSTFIX = "postfix";
@@ -199,7 +199,6 @@ public class OperatorDictionary {
      * @return VALUE_UNKOWN or value from dict.
      * @throws UnknownAttributeException
      *             Raised, if wrong attributeName was provided.
-     * @see #getDefaultAttributeValue(String, int, String)
      */
     public static String getDefaultAttributeValue(final String operator,
             final String form, final String attributeName)
@@ -232,7 +231,7 @@ public class OperatorDictionary {
      * @throws UnknownAttributeException
      *             Raised, if wrong attributeName was provided.
      */
-    public static String getDefaultAttributeValue(final String operator,
+    private static String getDefaultAttributeValue(final String operator,
             final int form, final String attributeName)
             throws UnknownAttributeException {
 
