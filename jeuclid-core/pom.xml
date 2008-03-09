@@ -62,6 +62,8 @@ import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 
+import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
+
 Source stylesheet = new StreamSource(new File("${project.basedir}/target/classes/content/mathmlc2p.xsl"));
 TransformerFactory factory = TransformerFactory.newInstance();
 factory.setAttribute("generate-translet", Boolean.TRUE);
@@ -72,6 +74,12 @@ Templates templates = factory.newTemplates(stylesheet);
 OutputStream os = new FileOutputStream(new File("${project.basedir}/target/classes/content/mathmlc2p.ser"));
 ObjectOutput oo = new ObjectOutputStream(os);
 oo.writeObject(templates);
+oo.close();
+
+Object dict = OperatorDictionary.getInstance().getDict();
+os = new FileOutputStream(new File("${project.basedir}/target/classes/moDictionary.ser"));
+oo = new ObjectOutputStream(os);
+oo.writeObject(dict);
 oo.close();
             </source>
             </configuration>

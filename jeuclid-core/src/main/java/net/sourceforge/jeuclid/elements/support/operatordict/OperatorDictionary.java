@@ -20,6 +20,8 @@ package net.sourceforge.jeuclid.elements.support.operatordict;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -110,8 +112,7 @@ public class OperatorDictionary {
     private static final Log LOGGER = LogFactory
             .getLog(OperatorDictionary.class);
 
-    private final Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> dict = new EnumMap<OperatorAttribute, Map<String, Map<OperatorForm, String>>>(
-            OperatorAttribute.class);
+    private final Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> dict;
 
     /**
      * The instance of the Dictionary
@@ -126,13 +127,42 @@ public class OperatorDictionary {
     }
 
     private OperatorDictionary() {
-        this.initialize();
+        Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> theDict;
+        theDict = this.initializeFromSer();
+        if (theDict == null) {
+            this.dict = new EnumMap<OperatorAttribute, Map<String, Map<OperatorForm, String>>>(
+                    OperatorAttribute.class);
+            this.initializeFromXML();
+        } else {
+            this.dict = theDict;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> initializeFromSer() {
+        Map dict = null;
+        try {
+            final InputStream is = OperatorDictionary.class
+                    .getResourceAsStream("/moDictionary.ser");
+            final ObjectInput oi = new ObjectInputStream(is);
+            dict = (Map) oi.readObject();
+            oi.close();
+        } catch (final ClassNotFoundException cnfe) {
+            dict = null;
+        } catch (final IllegalArgumentException e) {
+            dict = null;
+        } catch (final IOException e) {
+            dict = null;
+        } catch (final NullPointerException e) {
+            dict = null;
+        }
+        return dict;
     }
 
     /**
      * Initializes Dictionary
      */
-    private void initialize() {
+    private void initializeFromXML() {
         try {
             final InputStream dictInput = OperatorDictionary.class
                     .getResourceAsStream(OperatorDictionary.DICTIONARY_FILE);
@@ -325,4 +355,9 @@ public class OperatorDictionary {
             }
         }
     }
+
+    public final Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> getDict() {
+        return this.dict;
+    }
+
 }
