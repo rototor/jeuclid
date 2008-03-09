@@ -110,7 +110,7 @@ public class OperatorDictionary {
     private static final Log LOGGER = LogFactory
             .getLog(OperatorDictionary.class);
 
-    private static final Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> dict = new EnumMap<OperatorAttribute, Map<String, Map<OperatorForm, String>>>(
+    private final Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> dict = new EnumMap<OperatorAttribute, Map<String, Map<OperatorForm, String>>>(
             OperatorAttribute.class);
 
     /**
@@ -191,7 +191,7 @@ public class OperatorDictionary {
     private String getDefaultAttributeValue(final String operator,
             final OperatorForm form, final OperatorAttribute attribute) {
 
-        final Map<String, Map<OperatorForm, String>> opForAttr = OperatorDictionary.dict
+        final Map<String, Map<OperatorForm, String>> opForAttr = this.dict
                 .get(attribute);
         if (opForAttr == null) {
             return attribute.getDefaultValue();
@@ -222,14 +222,8 @@ public class OperatorDictionary {
      * The DictionaryReader reads dictionary XML file and initializes
      * Dictionary fields.
      */
-    private static class DictionaryReader extends DefaultHandler {
+    private class DictionaryReader extends DefaultHandler {
         private static final String ELEMENT_ELEMENT = "element";
-
-        /**
-         * Logger for this class.
-         */
-        private static final Log LOGGER = LogFactory
-                .getLog(OperatorDictionary.DictionaryReader.class);
 
         private String currentOperator;
 
@@ -261,7 +255,7 @@ public class OperatorDictionary {
                 if (form == null) {
                     // it is impossible because "form" is required attribute
                     // for the dictionary.
-                    OperatorDictionary.DictionaryReader.LOGGER
+                    OperatorDictionary.LOGGER
                             .fatal("Error in dictionary, attribute 'form' is required attribute for the dictionary");
                     this.currentFormIndex = OperatorForm.INFIX;
                 } else {
@@ -277,7 +271,7 @@ public class OperatorDictionary {
                                     .parseOperatorAttribute(attName),
                                     attValue);
                         } catch (final UnknownAttributeException e) {
-                            DictionaryReader.LOGGER.fatal(e.getMessage());
+                            OperatorDictionary.LOGGER.fatal(e.getMessage());
                         }
                     }
                 }
@@ -295,11 +289,12 @@ public class OperatorDictionary {
                     final OperatorAttribute attribute = attributeValues
                             .getKey();
                     final String value = attributeValues.getValue();
-                    Map<String, Map<OperatorForm, String>> mapForAttr = OperatorDictionary.dict
+                    Map<String, Map<OperatorForm, String>> mapForAttr = OperatorDictionary.this.dict
                             .get(attribute);
                     if (mapForAttr == null) {
                         mapForAttr = new TreeMap<String, Map<OperatorForm, String>>();
-                        OperatorDictionary.dict.put(attribute, mapForAttr);
+                        OperatorDictionary.this.dict.put(attribute,
+                                mapForAttr);
                     }
                     Map<OperatorForm, String> valueForForm = mapForAttr
                             .get(this.currentOperator);
