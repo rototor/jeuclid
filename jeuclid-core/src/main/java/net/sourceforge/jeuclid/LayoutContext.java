@@ -134,7 +134,7 @@ public interface LayoutContext {
          * 
          * @see Parameter
          */
-        FONTS_FRAKTUR(new ListTypeWrapper(), false, "fontsFaktur",
+        FONTS_FRAKTUR(new ListTypeWrapper(), false, "fontsFraktur",
                 "list of font families for Fraktur"),
 
         /**
@@ -230,7 +230,7 @@ public interface LayoutContext {
         }
 
         /**
-         * Incapsulates information about a parameter's value type and how
+         * Encapsulates information about a parameter's value type and how
          * values should be converted between strings and the appropriate
          * object instances.
          * <p>
