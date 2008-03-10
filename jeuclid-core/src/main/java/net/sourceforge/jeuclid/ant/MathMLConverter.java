@@ -114,7 +114,7 @@ public class MathMLConverter extends MatchingTask {
             this.process(this.mbaseDir, aList, this.mdestDir);
         }
 
-        // Process all the directoried marked for styling
+        // Process all the directories marked for styling
         dirs = scanner.getIncludedDirectories();
         for (final String dir : dirs) {
             list = new File(this.mbaseDir, dir).list();
@@ -280,7 +280,7 @@ public class MathMLConverter extends MatchingTask {
     }
 
     /**
-     * Sets minnimal size of smallest font size (default is <i>8.0</i>).
+     * Sets minimal size of smallest font size (default is <i>8.0</i>).
      * 
      * @param minSize
      *            Size of font.
@@ -353,7 +353,7 @@ public class MathMLConverter extends MatchingTask {
     }
 
     /**
-     * Sets outpuf file mimetype.
+     * Sets output file mimetype.
      * 
      * @param mimetype
      *            mimetype for output file.
@@ -419,9 +419,7 @@ public class MathMLConverter extends MatchingTask {
             // If failed to process document, must delete target document,
             // or it will not attempt to process it the second time
             this.log("Failed to process " + inFile, Project.MSG_INFO);
-            if (outFile != null) {
-                outFile.delete();
-            }
+            outFile.delete();
 
             throw new BuildException(ex);
         }
@@ -447,7 +445,7 @@ public class MathMLConverter extends MatchingTask {
      * @param param
      *            Type of parameter.
      * @param value
-     *            Object with value of paramter.
+     *            Object with value of parameter.
      */
     private void setOption(final LayoutContext.Parameter param,
             final Object value) {
