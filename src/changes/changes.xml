@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="add">Mapping from/to high plane is now done using UnicodeData.txt</action>
 			<action dev="maxberger" type="update">Precompile operator dictionary for more performance.</action>
 			<action dev="maxberger" type="update">Precompile Content-Math Transformer for more performance.</action>
 			<action dev="maxberger" type="update">Rewrote OperatorDictonary to make use of standard Java data types.</action>

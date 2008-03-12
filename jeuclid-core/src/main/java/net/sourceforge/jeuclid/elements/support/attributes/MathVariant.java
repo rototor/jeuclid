@@ -227,4 +227,58 @@ public final class MathVariant {
         MathVariant.PARAMFORFONT.put(FontFamily.DOUBLE_STRUCK,
                 Parameter.FONTS_DOUBLESTRUCK);
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + this.awtStyle;
+        result = prime
+                * result
+                + ((this.fontFamily == null) ? 0 : this.fontFamily.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        final MathVariant other = (MathVariant) obj;
+        if (this.awtStyle != other.awtStyle) {
+            return false;
+        }
+        if (this.fontFamily == null) {
+            if (other.fontFamily != null) {
+                return false;
+            }
+        } else if (!this.fontFamily.equals(other.fontFamily)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder b = new StringBuilder();
+        b.append('[');
+        b.append(this.fontFamily);
+        if (this.awtStyle > 0) {
+            b.append(' ');
+        }
+        if ((this.awtStyle & Font.BOLD) > 0) {
+            b.append('B');
+        }
+        if ((this.awtStyle & Font.ITALIC) > 0) {
+            b.append('I');
+        }
+        b.append(']');
+        return b.toString();
+    }
 }
