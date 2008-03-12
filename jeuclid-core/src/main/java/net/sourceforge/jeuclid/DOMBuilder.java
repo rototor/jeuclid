@@ -117,7 +117,7 @@ public final class DOMBuilder {
         } catch (final IOException e) {
             DOMBuilder.LOGGER.warn(e.getMessage());
         } catch (final NullPointerException e) {
-            DOMBuilder.LOGGER.warn(e.getMessage());
+            // Ignore
         }
         return t;
     }
