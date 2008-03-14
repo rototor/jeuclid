@@ -35,6 +35,14 @@ public class CodePointAndVariant implements Serializable {
 
     private final MathVariant variant;
 
+    /**
+     * Create a new CodePointAndVariant.
+     * 
+     * @param icodePoint
+     *            the codepoint to use
+     * @param ivariant
+     *            the MathVariant of the character.
+     */
     public CodePointAndVariant(final int icodePoint,
             final MathVariant ivariant) {
         this.codePoint = icodePoint;
@@ -55,6 +63,7 @@ public class CodePointAndVariant implements Serializable {
         return this.variant;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -65,6 +74,7 @@ public class CodePointAndVariant implements Serializable {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -90,6 +100,7 @@ public class CodePointAndVariant implements Serializable {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder b = new StringBuilder();

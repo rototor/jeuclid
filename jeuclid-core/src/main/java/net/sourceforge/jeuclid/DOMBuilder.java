@@ -27,7 +27,6 @@ import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
@@ -68,9 +67,9 @@ public final class DOMBuilder {
     private final DOMImplementation domImplementation;
 
     private DOMBuilder() {
-        Transformer t = null;
+        Transformer t;
         DOMImplementation impl = null;
-        t = this.loadPrecompiledTransformer(t);
+        t = this.loadPrecompiledTransformer();
         if (t == null) {
             t = this.createTransformer();
         }
@@ -85,8 +84,7 @@ public final class DOMBuilder {
         this.domImplementation = impl;
     }
 
-    private Transformer createTransformer()
-            throws TransformerFactoryConfigurationError {
+    private Transformer createTransformer() {
         Transformer t;
         try {
             t = TransformerFactory.newInstance().newTemplates(
@@ -100,7 +98,8 @@ public final class DOMBuilder {
         return t;
     }
 
-    private Transformer loadPrecompiledTransformer(Transformer t) {
+    private Transformer loadPrecompiledTransformer() {
+        Transformer t = null;
         try {
             final InputStream is = DOMBuilder.class
                     .getResourceAsStream("/content/mathmlc2p.ser");

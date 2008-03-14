@@ -29,8 +29,15 @@ public enum OperatorForm {
     /** Infix form, e.g. a+a. */
     INFIX,
     /** Postfix form, e.g. a+. */
-    POSTFIX, ;
+    POSTFIX;
 
+    /**
+     * Parse a String into an OperatorForm.
+     * 
+     * @param form
+     *            the string to parse
+     * @return an OperatorForm
+     */
     public static OperatorForm parseOperatorForm(final String form) {
         try {
             return OperatorForm.valueOf(form.toUpperCase(Locale.US));

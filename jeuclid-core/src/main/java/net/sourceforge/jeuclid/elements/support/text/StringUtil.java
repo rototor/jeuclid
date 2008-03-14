@@ -46,7 +46,7 @@ public final class StringUtil {
      */
     public static final boolean OSX = System.getProperty("mrj.version") != null; //$NON-NLS-1$
 
-    static final CharacterMapping cMap = CharacterMapping.getInstance();
+    static final CharacterMapping CMAP = CharacterMapping.getInstance();
 
     private StringUtil() {
         // do nothing
@@ -80,10 +80,10 @@ public final class StringUtil {
                 CodePointAndVariant cpav = new CodePointAndVariant(
                         plainString.codePointAt(i), baseVariant);
 
-                cpav = StringUtil.cMap.extractUnicodeAttr(cpav);
+                cpav = StringUtil.CMAP.extractUnicodeAttr(cpav);
 
                 // High Plane is broken on OS X!
-                cpav = StringUtil.cMap.composeUnicodeChar(cpav,
+                cpav = StringUtil.CMAP.composeUnicodeChar(cpav,
                         StringUtil.OSX);
 
                 final int codePoint = cpav.getCodePoint();

@@ -37,11 +37,6 @@ import net.sourceforge.jeuclid.font.FontFactory;
 public final class MathVariant implements Serializable {
 
     /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-
-    /**
      * Mathvariant constant. Bold style.
      */
     public static final MathVariant BOLD = new MathVariant(Font.BOLD,
@@ -128,6 +123,11 @@ public final class MathVariant implements Serializable {
     private static final transient Map<String, MathVariant> ATTRIBUTEMAP = new HashMap<String, MathVariant>();
 
     private static final transient Map<FontFamily, Parameter> PARAMFORFONT = new HashMap<FontFamily, Parameter>();
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     private final int awtStyle;
 
@@ -234,6 +234,7 @@ public final class MathVariant implements Serializable {
                 Parameter.FONTS_DOUBLESTRUCK);
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -245,6 +246,7 @@ public final class MathVariant implements Serializable {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -270,6 +272,7 @@ public final class MathVariant implements Serializable {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder b = new StringBuilder();

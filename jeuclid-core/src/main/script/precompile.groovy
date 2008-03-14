@@ -36,7 +36,7 @@ log.info("Preloading operator dictionary...");
 File newDict = new File(basedir,"target/classes/moDictionary.ser");
 File oldDict = new File(basedir,"target/classes/moDictionary.xml");
 ant.delete(file:newDict);
-Object dict = OperatorDictionary.getInstance().getDict();
+Object dict = OperatorDictionary.getInstance();
 os = new FileOutputStream(newDict);
 oo = new ObjectOutputStream(os);
 oo.writeObject(dict);

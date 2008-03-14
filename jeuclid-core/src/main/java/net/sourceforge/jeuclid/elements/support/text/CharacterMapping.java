@@ -43,6 +43,16 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class CharacterMapping implements Serializable {
 
+    private static final int POS_MAPS = 5;
+
+    private static final int POS_DESCRIPTION = 1;
+
+    private static final int POS_CODESTR = 0;
+
+    private static final int HIGHPLANE_MATH_CHARS_START = 0x1D400;
+
+    private static final int HIGHPLANE_START = 0x10000;
+
     /**
      * 
      */
@@ -86,8 +96,10 @@ public final class CharacterMapping implements Serializable {
         try {
             while ((s = r.readLine()) != null) {
                 final String[] c = s.split(";");
-                if (c.length >= 6) {
-                    this.process(c[0], c[1], c[5]);
+                if (c.length > CharacterMapping.POS_MAPS) {
+                    this.process(c[CharacterMapping.POS_CODESTR],
+                            c[CharacterMapping.POS_DESCRIPTION],
+                            c[CharacterMapping.POS_MAPS]);
                 }
             }
         } catch (final IOException e) {
@@ -104,37 +116,15 @@ public final class CharacterMapping implements Serializable {
             }
             final int mapsTo = Integer.parseInt(mapsStr.substring(7), 16);
 
-            int awtStyle = Font.PLAIN;
-            if (descr.contains("BOLD")) {
-                awtStyle += Font.BOLD;
-            }
-            if (descr.contains("ITALIC")) {
-                awtStyle += Font.ITALIC;
-            }
+            final int awtStyle = this.parseAwtStyle(descr);
 
-            final FontFamily fam;
-            if (descr.contains("DOUBLE-STRUCK")) {
-                fam = FontFamily.DOUBLE_STRUCK;
-            } else if (descr.contains("SCRIPT")) {
-                fam = FontFamily.SCRIPT;
-            } else if (descr.contains("BLACK-LETTER")
-                    || descr.contains("FRAKTUR")) {
-                fam = FontFamily.FRAKTUR;
-            } else if (descr.contains("SANS-SERIF")) {
-                fam = FontFamily.SANSSERIF;
-            } else if (descr.contains("MONOSPACE")) {
-                fam = FontFamily.MONOSPACED;
-            } else if (descr.contains("MATHEMATICAL")) {
-                fam = FontFamily.SERIF;
-            } else {
-                fam = null;
-            }
+            final FontFamily fam = this.parseFontFamily(descr);
 
             if (fam == null) {
                 return;
             }
 
-            final boolean force = (codepoint >= 0x1D400)
+            final boolean force = (codepoint >= CharacterMapping.HIGHPLANE_MATH_CHARS_START)
                     && ((FontFamily.SANSSERIF.equals(fam)) || (FontFamily.SERIF
                             .equals(fam)));
             if (force) {
@@ -145,24 +135,73 @@ public final class CharacterMapping implements Serializable {
 
             this.extractAttrs.put(codepoint, cpav);
 
-            Map<Integer, Integer[]> ffmap = this.composeAttrs.get(fam);
-            if (ffmap == null) {
-                ffmap = new TreeMap<Integer, Integer[]>();
-                this.composeAttrs.put(fam, ffmap);
-            }
+            final Map<Integer, Integer[]> ffmap = this.getFFMap(fam);
 
-            Integer[] ia = ffmap.get(mapsTo);
-            if (ia == null) {
-                ia = new Integer[Font.BOLD + Font.ITALIC + 1];
-                ffmap.put(mapsTo, ia);
-            }
+            final Integer[] ia = this.getMapsTo(mapsTo, ffmap);
 
             ia[awtStyle] = codepoint;
         } catch (final NumberFormatException nfe) {
+            CharacterMapping.LOGGER.debug(nfe.getMessage());
         }
 
     }
 
+    private Integer[] getMapsTo(final int mapsTo,
+            final Map<Integer, Integer[]> ffmap) {
+        Integer[] ia = ffmap.get(mapsTo);
+        if (ia == null) {
+            ia = new Integer[Font.BOLD + Font.ITALIC + 1];
+            ffmap.put(mapsTo, ia);
+        }
+        return ia;
+    }
+
+    private Map<Integer, Integer[]> getFFMap(final FontFamily fam) {
+        Map<Integer, Integer[]> ffmap = this.composeAttrs.get(fam);
+        if (ffmap == null) {
+            ffmap = new TreeMap<Integer, Integer[]>();
+            this.composeAttrs.put(fam, ffmap);
+        }
+        return ffmap;
+    }
+
+    private int parseAwtStyle(final String descr) {
+        int awtStyle = Font.PLAIN;
+        if (descr.contains("BOLD")) {
+            awtStyle += Font.BOLD;
+        }
+        if (descr.contains("ITALIC")) {
+            awtStyle += Font.ITALIC;
+        }
+        return awtStyle;
+    }
+
+    private FontFamily parseFontFamily(final String descr) {
+        final FontFamily fam;
+        if (descr.contains("DOUBLE-STRUCK")) {
+            fam = FontFamily.DOUBLE_STRUCK;
+        } else if (descr.contains("SCRIPT")) {
+            fam = FontFamily.SCRIPT;
+        } else if (descr.contains("BLACK-LETTER")
+                || descr.contains("FRAKTUR")) {
+            fam = FontFamily.FRAKTUR;
+        } else if (descr.contains("SANS-SERIF")) {
+            fam = FontFamily.SANSSERIF;
+        } else if (descr.contains("MONOSPACE")) {
+            fam = FontFamily.MONOSPACED;
+        } else if (descr.contains("MATHEMATICAL")) {
+            fam = FontFamily.SERIF;
+        } else {
+            fam = null;
+        }
+        return fam;
+    }
+
+    /**
+     * Get the singleton instance of this class.
+     * 
+     * @return an instance of CharacterMapping.
+     */
     public static synchronized CharacterMapping getInstance() {
         if (CharacterMapping.instance == null) {
             CharacterMapping m;
@@ -190,6 +229,17 @@ public final class CharacterMapping implements Serializable {
         return CharacterMapping.instance;
     }
 
+    /**
+     * Compose a new SERIF Unicode char. This function tries to compose the
+     * given char into a SERIF char which shows the same characteristics at a
+     * particular Unicode codepoint.
+     * 
+     * @param split
+     *            the char which contains a coidepoint and variant.
+     * @param forbidHighplane
+     *            if the high plane is broken (e.g. on OS X).
+     * @return a CodePointAndVariant representing the same char.
+     */
     public CodePointAndVariant composeUnicodeChar(
             final CodePointAndVariant split, final boolean forbidHighplane) {
         final MathVariant splitVariant = split.getVariant();
@@ -206,7 +256,7 @@ public final class CharacterMapping implements Serializable {
         final int splitStyle = splitVariant.getAwtStyle();
         Integer to = aList[splitStyle];
         if (to != null) {
-            if (forbidHighplane && to >= 0x10000) {
+            if (forbidHighplane && to >= CharacterMapping.HIGHPLANE_START) {
                 return split;
             }
             return new CodePointAndVariant(to, MathVariant.NORMAL);
@@ -215,7 +265,7 @@ public final class CharacterMapping implements Serializable {
             to = aList[0];
         }
         if (to != null) {
-            if (forbidHighplane && to >= 0x10000) {
+            if (forbidHighplane && to >= CharacterMapping.HIGHPLANE_START) {
                 return split;
             }
             return new CodePointAndVariant(to, new MathVariant(splitStyle,
@@ -225,6 +275,14 @@ public final class CharacterMapping implements Serializable {
 
     }
 
+    /**
+     * Extract the given char into variant and codepoint.
+     * 
+     * @param test
+     *            the Unicode char to split up.
+     * @return A {@link CodePointAndVariant} representing the same character
+     *         with explicit variant.
+     */
     public CodePointAndVariant extractUnicodeAttr(
             final CodePointAndVariant test) {
         final CodePointAndVariant mapsTo = this.extractAttrs.get(test

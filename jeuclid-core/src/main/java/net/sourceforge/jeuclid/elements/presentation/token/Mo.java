@@ -117,8 +117,6 @@ public class Mo extends AbstractJEuclidElement implements
      */
     public static final String ATTR_FENCE = "fence";
 
-    private final OperatorDictionary opDict;
-
     /**
      * Horizontal delimiters.
      * 
@@ -143,6 +141,8 @@ public class Mo extends AbstractJEuclidElement implements
             + /* Up Arrow Up Arrow */"\u21C8"
             + /* Down Down Arrows */"\u21CA"
             + /* Down Arrow Up Arrow */"\u21F5" + "\u2223\u2225\u2329\u232A";
+
+    private final OperatorDictionary opDict;
 
     /**
      * Logger for this class
