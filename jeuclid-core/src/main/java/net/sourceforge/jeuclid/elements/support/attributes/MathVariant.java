@@ -19,6 +19,7 @@
 package net.sourceforge.jeuclid.elements.support.attributes;
 
 import java.awt.Font;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +34,12 @@ import net.sourceforge.jeuclid.font.FontFactory;
  * 
  * @version $Revision$
  */
-public final class MathVariant {
+public final class MathVariant implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     /**
      * Mathvariant constant. Bold style.
@@ -119,9 +125,9 @@ public final class MathVariant {
     public static final MathVariant SCRIPT = new MathVariant(Font.PLAIN,
             FontFamily.SCRIPT);
 
-    private static final Map<String, MathVariant> ATTRIBUTEMAP = new HashMap<String, MathVariant>();
+    private static final transient Map<String, MathVariant> ATTRIBUTEMAP = new HashMap<String, MathVariant>();
 
-    private static final Map<FontFamily, Parameter> PARAMFORFONT = new HashMap<FontFamily, Parameter>();
+    private static final transient Map<FontFamily, Parameter> PARAMFORFONT = new HashMap<FontFamily, Parameter>();
 
     private final int awtStyle;
 

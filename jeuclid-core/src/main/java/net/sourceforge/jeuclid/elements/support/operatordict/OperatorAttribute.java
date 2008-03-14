@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: OperatorAttribute.java $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.support.operatordict;
 
@@ -23,7 +23,7 @@ import java.util.Locale;
 import net.sourceforge.jeuclid.Constants;
 
 /**
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public enum OperatorAttribute {
 

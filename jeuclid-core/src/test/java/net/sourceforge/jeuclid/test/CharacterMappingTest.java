@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: CharacterMappingTest.java $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.test;
 
@@ -29,7 +29,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public class CharacterMappingTest {
     /**

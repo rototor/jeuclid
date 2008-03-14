@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-/* $Id: CodePointAndVariant.java $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.support.text;
+
+import java.io.Serializable;
 
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 
 /**
- * @version $Revision: 000 $
+ * @version $Revision$
  */
-public class CodePointAndVariant {
+public class CodePointAndVariant implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     private final int codePoint;
 
     private final MathVariant variant;
