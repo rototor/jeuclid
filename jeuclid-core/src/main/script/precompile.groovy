@@ -9,6 +9,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
+import net.sourceforge.jeuclid.elements.support.text.CharacterMapping;
 
 File basedir = new File("${project.basedir}");
 
@@ -32,9 +33,25 @@ try {
 }
 
 log.info("Preloading operator dictionary...");
+File newDict = new File(basedir,"target/classes/moDictionary.ser");
+File oldDict = new File(basedir,"target/classes/moDictionary.xml");
+ant.delete(file:newDict);
 Object dict = OperatorDictionary.getInstance().getDict();
-os = new FileOutputStream(new File(basedir,"target/classes/moDictionary.ser"));
+os = new FileOutputStream(newDict);
 oo = new ObjectOutputStream(os);
 oo.writeObject(dict);
 oo.close();
+ant.delete(file:oldDict);
 
+log.info("Preloading character mappings...");
+File newMap = new File(basedir,"target/classes/charmap.ser");
+File oldMap = new File(basedir,"target/classes/UnicodeData.txt");
+ant.delete(file:newMap);
+CharacterMapping map = CharacterMapping.getInstance();
+os = new FileOutputStream(newMap);
+oo = new ObjectOutputStream(os);
+oo.writeObject(map);
+oo.close();
+ant.delete(file:oldMap);
+
+log.info("Precompilation done!");

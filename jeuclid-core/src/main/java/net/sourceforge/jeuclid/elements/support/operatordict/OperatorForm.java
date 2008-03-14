@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: OperatorForm.java $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.support.operatordict;
 
 import java.util.Locale;
 
 /**
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public enum OperatorForm {
     /** Prefix form, e.g. +a. */

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathComponentTest.java 517 2007-09-13 19:22:07Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.test;
 
@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 /**
  * Tests the OperatorDict class.
  * 
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public class OperatorDictTest {
     /**

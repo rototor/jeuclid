@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: CharacterMapping.java $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.elements.support.text;
 
@@ -23,6 +23,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
@@ -36,11 +39,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * @version $Revision: 000 $
+ * @version $Revision$
  */
-public class CharacterMapping {
+public final class CharacterMapping implements Serializable {
 
-    private static CharacterMapping instance;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    private static transient CharacterMapping instance;
 
     /**
      * Logger for this class.
@@ -137,7 +145,6 @@ public class CharacterMapping {
 
             this.extractAttrs.put(codepoint, cpav);
 
-            // if (codepoint < 0x10000) {
             Map<Integer, Integer[]> ffmap = this.composeAttrs.get(fam);
             if (ffmap == null) {
                 ffmap = new TreeMap<Integer, Integer[]>();
@@ -151,7 +158,6 @@ public class CharacterMapping {
             }
 
             ia[awtStyle] = codepoint;
-            // }
         } catch (final NumberFormatException nfe) {
         }
 
@@ -159,7 +165,27 @@ public class CharacterMapping {
 
     public static synchronized CharacterMapping getInstance() {
         if (CharacterMapping.instance == null) {
-            CharacterMapping.instance = new CharacterMapping();
+            CharacterMapping m;
+            try {
+                final InputStream is = CharacterMapping.class
+                        .getResourceAsStream("/charmap.ser");
+                final ObjectInput oi = new ObjectInputStream(is);
+                m = (CharacterMapping) oi.readObject();
+                oi.close();
+            } catch (final ClassNotFoundException cnfe) {
+                m = null;
+            } catch (final IllegalArgumentException e) {
+                m = null;
+            } catch (final IOException e) {
+                m = null;
+            } catch (final NullPointerException e) {
+                m = null;
+            }
+            if (m == null) {
+                CharacterMapping.instance = new CharacterMapping();
+            } else {
+                CharacterMapping.instance = m;
+            }
         }
         return CharacterMapping.instance;
     }
