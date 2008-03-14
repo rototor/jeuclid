@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -44,12 +45,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @version $Revision$
  */
-public class OperatorDictionary {
-
-    /**
-     * MathML dictionary resource.
-     */
-    private static final String DICTIONARY_FILE = "/moDictionary.xml";
+public final class OperatorDictionary implements Serializable {
 
     /**
      * name for VERYVERYTHINMATHSPACE size of math space.
@@ -112,55 +108,63 @@ public class OperatorDictionary {
     private static final Log LOGGER = LogFactory
             .getLog(OperatorDictionary.class);
 
-    private final Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> dict;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * MathML dictionary resource.
+     */
+    private static final String DICTIONARY_FILE = "/moDictionary.xml";
 
     /**
      * The instance of the Dictionary
      */
     private static OperatorDictionary instance;
 
+    private final Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> dict;
+
+    private OperatorDictionary() {
+        this.dict = new EnumMap<OperatorAttribute, Map<String, Map<OperatorForm, String>>>(
+                OperatorAttribute.class);
+        this.initializeFromXML();
+    }
+
+    /**
+     * Get the for singleton instance.
+     * 
+     * @return an instance of OperatorDictionary.
+     */
     public static synchronized OperatorDictionary getInstance() {
         if (OperatorDictionary.instance == null) {
-            OperatorDictionary.instance = new OperatorDictionary();
+            OperatorDictionary newDict = null;
+            try {
+                final InputStream is = OperatorDictionary.class
+                        .getResourceAsStream("/moDictionary.ser");
+                final ObjectInput oi = new ObjectInputStream(is);
+                newDict = (OperatorDictionary) oi.readObject();
+                oi.close();
+            } catch (final ClassNotFoundException cnfe) {
+                newDict = null;
+            } catch (final IllegalArgumentException e) {
+                newDict = null;
+            } catch (final IOException e) {
+                newDict = null;
+            } catch (final NullPointerException e) {
+                newDict = null;
+            }
+            if (newDict == null) {
+                OperatorDictionary.instance = new OperatorDictionary();
+            } else {
+                OperatorDictionary.instance = newDict;
+            }
         }
         return OperatorDictionary.instance;
     }
 
-    private OperatorDictionary() {
-        Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> theDict;
-        theDict = this.initializeFromSer();
-        if (theDict == null) {
-            this.dict = new EnumMap<OperatorAttribute, Map<String, Map<OperatorForm, String>>>(
-                    OperatorAttribute.class);
-            this.initializeFromXML();
-        } else {
-            this.dict = theDict;
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> initializeFromSer() {
-        Map dict = null;
-        try {
-            final InputStream is = OperatorDictionary.class
-                    .getResourceAsStream("/moDictionary.ser");
-            final ObjectInput oi = new ObjectInputStream(is);
-            dict = (Map) oi.readObject();
-            oi.close();
-        } catch (final ClassNotFoundException cnfe) {
-            dict = null;
-        } catch (final IllegalArgumentException e) {
-            dict = null;
-        } catch (final IOException e) {
-            dict = null;
-        } catch (final NullPointerException e) {
-            dict = null;
-        }
-        return dict;
-    }
-
     /**
-     * Initializes Dictionary
+     * Initializes Dictionary.
      */
     private void initializeFromXML() {
         try {
@@ -228,22 +232,23 @@ public class OperatorDictionary {
         }
         final Map<OperatorForm, String> valuesPerForm = opForAttr
                 .get(operator);
+        String retVal;
         if (valuesPerForm == null) {
-            return attribute.getDefaultValue();
-        }
-
-        String retVal = valuesPerForm.get(form);
-        if (retVal == null) {
-            retVal = valuesPerForm.get(OperatorForm.INFIX);
-        }
-        if (retVal == null) {
-            retVal = valuesPerForm.get(OperatorForm.POSTFIX);
-        }
-        if (retVal == null) {
-            retVal = valuesPerForm.get(OperatorForm.PREFIX);
-        }
-        if (retVal == null) {
             retVal = attribute.getDefaultValue();
+        } else {
+            retVal = valuesPerForm.get(form);
+            if (retVal == null) {
+                retVal = valuesPerForm.get(OperatorForm.INFIX);
+            }
+            if (retVal == null) {
+                retVal = valuesPerForm.get(OperatorForm.POSTFIX);
+            }
+            if (retVal == null) {
+                retVal = valuesPerForm.get(OperatorForm.PREFIX);
+            }
+            if (retVal == null) {
+                retVal = attribute.getDefaultValue();
+            }
         }
         return retVal;
     }
@@ -354,10 +359,6 @@ public class OperatorDictionary {
                 this.currentOperator = this.currentOperator.trim();
             }
         }
-    }
-
-    public final Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> getDict() {
-        return this.dict;
     }
 
 }

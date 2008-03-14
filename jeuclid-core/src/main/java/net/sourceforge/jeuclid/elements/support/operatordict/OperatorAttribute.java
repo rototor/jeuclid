@@ -25,6 +25,9 @@ import net.sourceforge.jeuclid.Constants;
 /**
  * @version $Revision$
  */
+/**
+ * @version $Revision$
+ */
 public enum OperatorAttribute {
 
     /** */
@@ -50,7 +53,7 @@ public enum OperatorAttribute {
     /** */
     MOVABLELIMITS(Constants.FALSE),
     /** */
-    ACCENT(Constants.FALSE), ;
+    ACCENT(Constants.FALSE);
 
     private final String defaultValue;
 
@@ -58,10 +61,22 @@ public enum OperatorAttribute {
         this.defaultValue = defValue;
     }
 
+    /**
+     * @return the default value for this operator attribute.
+     */
     public String getDefaultValue() {
         return this.defaultValue;
     }
 
+    /**
+     * Parses a String into an OperatorAttribute.
+     * 
+     * @param attr
+     *            the String to parse
+     * @return an operatorAttibute if possible
+     * @throws UnknownAttributeException
+     *             if the string does not represent a valid attribute.
+     */
     public static OperatorAttribute parseOperatorAttribute(final String attr)
             throws UnknownAttributeException {
         try {
