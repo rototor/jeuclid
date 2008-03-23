@@ -467,7 +467,8 @@ public class MathMLConverter extends MatchingTask {
      * @return <code>true</code> if string is null or empty else <code>false</code>.
      */
     private boolean isNullOrEmpty(final String s) {
-        return !(s != null && !s.isEmpty());
+        // TODO: use .isEmpty() when JEuclid moves to 1.6
+        return s == null || s.length() == 0;
     }
 
     /**
