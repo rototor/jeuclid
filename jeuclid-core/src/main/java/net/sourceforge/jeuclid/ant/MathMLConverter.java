@@ -18,20 +18,19 @@
 
 package net.sourceforge.jeuclid.ant;
 
-import java.io.File;
-import java.io.IOException;
-
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.util.FileUtils;
 import org.apache.tools.ant.taskdefs.MatchingTask;
+import org.apache.tools.ant.util.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * This task converts MathML files to images.
@@ -90,9 +89,10 @@ public class MathMLConverter extends MatchingTask {
 
         // if we have an in file and out then process them
         if ((this.minFile != null) && (this.moutFile != null)) {
+            this.log("Transforming file: " + minFile + " --> " + moutFile, Project.MSG_VERBOSE);
             try {
                 Converter.getConverter().convert(this.minFile, this.moutFile,
-                        this.moutType, this.context);
+                    this.moutType, this.context);
             } catch (final IOException io) {
                 throw new BuildException(io);
             }
@@ -115,14 +115,14 @@ public class MathMLConverter extends MatchingTask {
 
         // Process all the files marked for styling
         list = scanner.getIncludedFiles();
-        this.log("Included files: " + convertArrayToString(list), Project.MSG_DEBUG);
+        this.log("Included files: " + convertArrayToString(list), Project.MSG_VERBOSE);
         for (final String aList : list) {
             this.process(this.mbaseDir, aList, this.mdestDir);
         }
 
         // Process all the directories marked for styling
         dirs = scanner.getIncludedDirectories();
-        this.log("Included directories: " + convertArrayToString(dirs), Project.MSG_DEBUG);
+        this.log("Included directories: " + convertArrayToString(dirs), Project.MSG_VERBOSE);
         for (final String dir : dirs) {
             list = fileUtils.resolveFile(this.mbaseDir, dir).list();
             for (final String file : list) {
