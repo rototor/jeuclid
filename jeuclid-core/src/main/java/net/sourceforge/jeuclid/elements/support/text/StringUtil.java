@@ -89,6 +89,9 @@ public final class StringUtil {
 
                 final int codePoint;
                 final Font font;
+               
+                // Try the combined versions (cpav3 and cpav1) first, and
+                // fall back to extracted version if needed.
                 final int cp3 = cpav3.getCodePoint();
                 final Font font3 = cpav3.getVariant().createFont(fontSize,
                         cp3, context, false);
@@ -96,15 +99,15 @@ public final class StringUtil {
                     codePoint = cp3;
                     font = font3;
                 } else {
-                    final int cp2 = cpav2.getCodePoint();
-                    final Font font2 = cpav2.getVariant().createFont(
-                            fontSize, cp2, context, false);
-                    if (font2 != null) {
-                        codePoint = cp2;
-                        font = font2;
+                    final int cp1 = cpav1.getCodePoint();
+                    final Font font1 = cpav1.getVariant().createFont(
+                            fontSize, cp1, context, false);
+                    if (font1 != null) {
+                        codePoint = cp1;
+                        font = font1;
                     } else {
-                        codePoint = cpav1.getCodePoint();
-                        font = cpav1.getVariant().createFont(fontSize,
+                        codePoint = cpav2.getCodePoint();
+                        font = cpav2.getVariant().createFont(fontSize,
                                 codePoint, context, true);
                     }
 
