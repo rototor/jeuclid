@@ -48,8 +48,6 @@ public class DefaultFontFactory extends FontFactory {
     private static final Log LOGGER = LogFactory
             .getLog(DefaultFontFactory.class);
 
-    private static final String AWT_SANSSERIF = "sansserif";
-
     private final Map<String, Font> fontCache;
 
     DefaultFontFactory() {
@@ -117,10 +115,6 @@ public class DefaultFontFactory extends FontFactory {
         if (font == null) {
             font = this.searchFontList(this.fontCache.keySet(), codepoint,
                     style, size);
-        }
-        if (font == null) {
-            font = this
-                    .getFont(DefaultFontFactory.AWT_SANSSERIF, style, size);
         }
         return font;
     }

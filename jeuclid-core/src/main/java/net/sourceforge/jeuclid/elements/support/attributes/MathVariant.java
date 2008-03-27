@@ -193,17 +193,25 @@ public final class MathVariant implements Serializable {
      *            a character that must exist in this font
      * @param context
      *            LayoutContext to use.
+     * @param force
+     *            if true will always return a font, otherwise will return
+     *            null.
      * @return a font object.
      */
     @SuppressWarnings("unchecked")
     public Font createFont(final float size, final int codepoint,
-            final LayoutContext context) {
+            final LayoutContext context, final boolean force) {
 
         final Parameter theParam = MathVariant.PARAMFORFONT
                 .get(this.fontFamily);
-        return FontFactory.getInstance().getFont(
+        final Font font = FontFactory.getInstance().getFont(
                 (List<String>) context.getParameter(theParam), codepoint,
                 this.awtStyle, (int) size);
+        if (force && font == null) {
+            return FontFactory.getInstance().getFont(FontFactory.SANSSERIF,
+                    this.awtStyle, (int) size);
+        }
+        return font;
     }
 
     /**

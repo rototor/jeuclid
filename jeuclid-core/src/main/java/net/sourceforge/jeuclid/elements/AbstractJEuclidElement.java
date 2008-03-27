@@ -170,7 +170,7 @@ public abstract class AbstractJEuclidElement extends
         }
         return this.getMathvariantAsVariant().createFont(
                 GraphicsSupport.getFontsizeInPoint(context), aChar,
-                this.applyLocalAttributesToContext(context));
+                this.applyLocalAttributesToContext(context), true);
 
     }
 

@@ -71,28 +71,49 @@ public final class StringUtil {
             final String inputString, final MathVariant baseVariant,
             final float fontSize, final LayoutContext context) {
         final StringBuilder builder = new StringBuilder();
-        final List<MathVariant> variants = new Vector<MathVariant>();
+        final List<Font> fonts = new Vector<Font>();
         final String plainString = CharConverter.convertLate(inputString);
 
         for (int i = 0; i < plainString.length(); i++) {
             if (!Character.isLowSurrogate(plainString.charAt(i))) {
 
-                CodePointAndVariant cpav = new CodePointAndVariant(
+                final CodePointAndVariant cpav1 = new CodePointAndVariant(
                         plainString.codePointAt(i), baseVariant);
 
-                cpav = StringUtil.CMAP.extractUnicodeAttr(cpav);
+                final CodePointAndVariant cpav2 = StringUtil.CMAP
+                        .extractUnicodeAttr(cpav1);
 
                 // High Plane is broken on OS X!
-                cpav = StringUtil.CMAP.composeUnicodeChar(cpav,
-                        StringUtil.OSX);
+                final CodePointAndVariant cpav3 = StringUtil.CMAP
+                        .composeUnicodeChar(cpav2, StringUtil.OSX);
 
-                final int codePoint = cpav.getCodePoint();
-                final MathVariant variant = cpav.getVariant();
+                final int codePoint;
+                final Font font;
+                final int cp3 = cpav3.getCodePoint();
+                final Font font3 = cpav3.getVariant().createFont(fontSize,
+                        cp3, context, false);
+                if (font3 != null) {
+                    codePoint = cp3;
+                    font = font3;
+                } else {
+                    final int cp2 = cpav2.getCodePoint();
+                    final Font font2 = cpav2.getVariant().createFont(
+                            fontSize, cp2, context, false);
+                    if (font2 != null) {
+                        codePoint = cp2;
+                        font = font2;
+                    } else {
+                        codePoint = cpav1.getCodePoint();
+                        font = cpav1.getVariant().createFont(fontSize,
+                                codePoint, context, true);
+                    }
+
+                }
 
                 builder.appendCodePoint(codePoint);
-                variants.add(variant);
+                fonts.add(font);
                 if (Character.isSupplementaryCodePoint(codePoint)) {
-                    variants.add(variant);
+                    fonts.add(font);
                 }
             }
         }
@@ -105,16 +126,14 @@ public final class StringUtil {
         for (int i = 0; i < len; i++) {
             final char currentChar = builder.charAt(i);
             if (!Character.isLowSurrogate(currentChar)) {
-                final MathVariant variant = variants.get(i);
+                final Font font = fonts.get(i);
                 final int count;
                 if (Character.isHighSurrogate(currentChar)) {
                     count = 2;
                 } else {
                     count = 1;
                 }
-                aString.addAttribute(TextAttribute.FONT, variant.createFont(
-                        fontSize, builder.codePointAt(i), context), i, i
-                        + count);
+                aString.addAttribute(TextAttribute.FONT, font, i, i + count);
             }
         }
         return aString;
