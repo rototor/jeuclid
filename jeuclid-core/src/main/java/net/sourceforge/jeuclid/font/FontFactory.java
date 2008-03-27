@@ -41,6 +41,9 @@ import java.util.List;
  */
 public abstract class FontFactory {
 
+    /** Name for the default (sans serif) font. */
+    public static final String SANSSERIF = "sansserif";
+
     private static FontFactory instance = new DefaultFontFactory();
 
     /**
@@ -71,7 +74,7 @@ public abstract class FontFactory {
     /**
      * Create a font object which is able to display the requested code point.
      * Uses one of the list of preferred fonts is possible. If no matching
-     * font is found a generic font is returned.
+     * font is found null is returned.
      * 
      * @param preferredFonts
      *            List of preferred fonts
@@ -81,7 +84,7 @@ public abstract class FontFactory {
      *            font style
      * @param size
      *            font size
-     * @return a valid Font instance
+     * @return a valid Font instance or null if no font could be found.
      */
     public abstract Font getFont(final List<String> preferredFonts,
             final int codepoint, final int style, final int size);
