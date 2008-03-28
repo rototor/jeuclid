@@ -84,9 +84,45 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-dependencies</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>net.sourceforge.jeuclid</groupId>
+                  <artifactId>jeuclid-core</artifactId>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/core</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>net.sourceforge.jeuclid</groupId>
+                  <artifactId>jeuclid-fop</artifactId>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/fop</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>jeuclid-core</artifactId>
+      <version>3.1.0-SNAPSHOT</version>
+    </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-swt</artifactId>
