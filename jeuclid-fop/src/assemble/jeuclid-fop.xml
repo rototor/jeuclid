@@ -22,17 +22,17 @@
   </dependencySets>
   <files>
     <file>
-      <source>../LICENSE.txt</source>
+      <source>target/core/LICENSE.txt</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>../NOTICE</source>
+      <source>target/core/NOTICE</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>../README.fop</source>
+      <source>target/classes/README.fop</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
