@@ -16,7 +16,7 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
 <!--        <version>1.0-alpha-2</version> -->
-        <version>1.0-20070124.085332-18</version> 
+        <version>1.0-20070124.085332-18</version>
         <configuration>
           <programs>
             <program>
@@ -40,7 +40,7 @@
           </execution>
         </executions>
       </plugin>
-     <plugin>
+      <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <version>2.2-beta-1</version>
         <configuration>
