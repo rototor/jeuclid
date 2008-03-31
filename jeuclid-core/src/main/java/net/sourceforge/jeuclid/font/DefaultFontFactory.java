@@ -71,10 +71,17 @@ public class DefaultFontFactory extends FontFactory {
                 .listResourcesOfMimeType("application/x-font");
         for (final URL u : fonts) {
             try {
-                this.cacheFont(Font.createFont(Font.TRUETYPE_FONT, u
-                        .openStream()));
-            } catch (final FontFormatException e) {
-                DefaultFontFactory.LOGGER.warn(e.getMessage());
+                try {
+                    this.cacheFont(Font.createFont(Font.TRUETYPE_FONT, u
+                            .openStream()));
+                } catch (final FontFormatException e) {
+                    try {
+                        this.cacheFont(Font.createFont(Font.TYPE1_FONT, u
+                                .openStream()));
+                    } catch (final FontFormatException e1) {
+                        DefaultFontFactory.LOGGER.warn(e.getMessage());
+                    }
+                }
             } catch (final IOException e) {
                 DefaultFontFactory.LOGGER.warn(e.getMessage());
             }

@@ -96,6 +96,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsMonospaced.add("monospaced");
         this.context.put(Parameter.FONTS_MONOSPACED, fontsMonospaced);
 
+        fontsScript.add("EUSM10");
         fontsScript.add("Savoye LET");
         fontsScript.add("Brush Script MT");
         fontsScript.add("Zapfino");
@@ -106,6 +107,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsScript.add("Santa Fe LET");
         this.context.put(Parameter.FONTS_SCRIPT, fontsScript);
 
+        fontsFraktur.add("EUFM10");
         fontsFraktur.add("FetteFraktur");
         fontsFraktur.add("Fette Fraktur");
         fontsFraktur.add("Euclid Fraktur");
@@ -113,6 +115,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsFraktur.add("Blackmoor LET");
         this.context.put(Parameter.FONTS_FRAKTUR, fontsFraktur);
 
+        fontsDoublestruck.add("MSBM10");
         fontsDoublestruck.add("Caslon Open Face");
         fontsDoublestruck.add("Caslon Openface");
         fontsDoublestruck.add("Cloister Open Face");
