@@ -31,7 +31,7 @@
     <site>
       <id>sourceforge</id>
       <name>Website for JEuclid on SourceForge</name>
-      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/trunk</url>
+      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/trunk/build-tools</url>
     </site>
   </distributionManagement>
 </project>
