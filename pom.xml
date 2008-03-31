@@ -10,6 +10,7 @@
     <module>build-tools</module>
     <module>stix-fonts</module>
     <module>dejavu-fonts</module>
+    <module>ams-fonts</module>
     <module>jeuclid-core</module>
 <!--    <module>jeuclid-core16</module> -->
     <module>jeuclid-swt</module>

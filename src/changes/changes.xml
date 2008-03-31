@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="3.1.0" date="in SVN" description="None yet">
+			<action dev="maxberger" type="add">Added AMSFonts and support for them</action>
 			<action dev="maxberger" type="update">Unicode mapping now searches through all possible fonts.</action>
 			<action dev="maxberger" type="add">Mapping from/to high plane is now done using UnicodeData.txt</action>
 			<action dev="maxberger" type="update">Precompile operator dictionary for more performance.</action>
