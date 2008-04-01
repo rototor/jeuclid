@@ -1,6 +1,6 @@
 Installation of the fop-plugin
 
-Make sure you have Fop 0.94 or newer installed.
+Make sure you have Fop 0.95beta or newer installed.
 
 copy the these files into your fop's lib/ directory
 
