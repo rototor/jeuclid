@@ -56,6 +56,11 @@
       <artifactId>stix-fonts</artifactId>
       <version>1.0-beta</version>
     </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>ams-fonts</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>jeuclid-testsuite</finalName>
@@ -85,6 +90,10 @@
                 <element>
                   <groupId>net.sourceforge.jeuclid</groupId>
                   <artifactId>dejavu-fonts</artifactId>
+                </element>
+                <element>
+                  <groupId>net.sourceforge.jeuclid</groupId>
+                  <artifactId>ams-fonts</artifactId>
                 </element>
                 <element>
                   <groupId>net.sourceforge.jeuclid</groupId>
