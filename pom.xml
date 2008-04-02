@@ -392,11 +392,13 @@
           <targetJdk>1.5</targetJdk>
         </configuration>
       </plugin>
+<!-- Disabled for now... maybe until they release?
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>dashboard-maven-plugin</artifactId>
         <version>1.0-20080210.183905-16</version>
       </plugin>
+-->
     </plugins>
   </reporting>
   <distributionManagement>

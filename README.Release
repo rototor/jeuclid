@@ -17,8 +17,6 @@ in jeuclid-minimal:
         <version>1.0-alpha-2</version>
 <!--        <version>1.0-20070124.085332-18</version>-->
 
-in the root directory:
-  disable dashboard plugin completely
 
 You may have to commit these changes
 
@@ -64,7 +62,6 @@ Also, re-enable all modules ( still in target / checkout )
 edit jeuclid/pom.xml
 edit jeuclid-minimal/pom.xml
 edit pom.xml
-you may safely skip dashboard (root pom).
 
 build the real release packages:
 
