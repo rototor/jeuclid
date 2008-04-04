@@ -38,8 +38,45 @@
 
     <itemizedlist>
       <listitem>
-        <para>This is the development branch of JEuclid. There are no official
-        releases yet, and the API is to be considered unstable.</para>
+        <para>JEuclid 3.1.0 is released!</para>
+
+        <para>This is the first release of the current development (trunk)
+        branch. It includes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>a completely rewritten layout engine</para>
+          </listitem>
+
+          <listitem>
+            <para>many performance improvements</para>
+          </listitem>
+
+          <listitem>
+            <para>many rendering improvements</para>
+          </listitem>
+
+          <listitem>
+            <para>preliminary content math support</para>
+          </listitem>
+
+          <listitem>
+            <para>better font support with full unicode high-plane
+            support</para>
+          </listitem>
+
+          <listitem>
+            <para>compatibility with fop 0.95 beta and the upcoming
+            0.95</para>
+          </listitem>
+
+          <listitem>
+            <para>copy/paste support in mathviewer</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>The API is has changed and is still to be considered
+        unstable.</para>
       </listitem>
     </itemizedlist>
 
