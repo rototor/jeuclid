@@ -2,17 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.jeuclid</groupId>
-  <artifactId>dejavu-fonts</artifactId>
+  <artifactId>stix-fonts</artifactId>
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
-    <artifactId>jeuclid-parent</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <artifactId>jeuclid-support</artifactId>
+    <version>1.0.0</version>
   </parent>
   <packaging>jar</packaging>
-  <name>Dejavu Fonts</name>
-  <version>2.23</version>
+  <name>STIX Fonts</name>
+  <version>1.0-beta-2</version>
   <description>
-    This module contains the Dejavu Fonts for applications supporting fonts in classpath.
+    This module contains the STIX Fonts for applications supporting fonts in classpath.
   </description>
   <build>
     <plugins>
