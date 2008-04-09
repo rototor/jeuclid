@@ -104,6 +104,8 @@ public final class CharacterMapping implements Serializable {
             }
         } catch (final IOException e) {
             CharacterMapping.LOGGER.warn(e.getMessage());
+        } catch (final NullPointerException e) {
+            CharacterMapping.LOGGER.warn(e.getMessage());
         }
     }
 
