@@ -18,12 +18,6 @@
 
 package net.sourceforge.jeuclid;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-
-import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -69,10 +63,11 @@ public final class DOMBuilder {
     private DOMBuilder() {
         Transformer t;
         DOMImplementation impl = null;
-        t = this.loadPrecompiledTransformer();
-        if (t == null) {
-            t = this.createTransformer();
-        }
+        // currently disabled - encountered problems
+        // t = this.loadPrecompiledTransformer();
+        // if (t == null) {
+        t = this.createTransformer();
+        // }
         if (t != null) {
             impl = ClassLoaderSupport.getInstance()
                     .getGenericDOMImplementation();
@@ -98,28 +93,28 @@ public final class DOMBuilder {
         return t;
     }
 
-    private Transformer loadPrecompiledTransformer() {
-        Transformer t = null;
-        try {
-            final InputStream is = DOMBuilder.class
-                    .getResourceAsStream("/content/mathmlc2p.ser");
-            final ObjectInput oi = new ObjectInputStream(is);
-            final Templates tpl = (Templates) oi.readObject();
-            oi.close();
-            t = tpl.newTransformer();
-        } catch (final ClassNotFoundException cnfe) {
-            DOMBuilder.LOGGER.warn(cnfe.getMessage());
-        } catch (final TransformerException e) {
-            DOMBuilder.LOGGER.warn(e.getMessage());
-        } catch (final IllegalArgumentException e) {
-            DOMBuilder.LOGGER.warn(e.getMessage());
-        } catch (final IOException e) {
-            DOMBuilder.LOGGER.warn(e.getMessage());
-        } catch (final NullPointerException e) {
-            // Ignore
-        }
-        return t;
-    }
+    // private Transformer loadPrecompiledTransformer() {
+    // Transformer t = null;
+    // try {
+    // final InputStream is = DOMBuilder.class
+    // .getResourceAsStream("/content/mathmlc2p.ser");
+    // final ObjectInput oi = new ObjectInputStream(is);
+    // final Templates tpl = (Templates) oi.readObject();
+    // oi.close();
+    // t = tpl.newTransformer();
+    // } catch (final ClassNotFoundException cnfe) {
+    // DOMBuilder.LOGGER.warn(cnfe.getMessage());
+    // } catch (final TransformerException e) {
+    // DOMBuilder.LOGGER.warn(e.getMessage());
+    // } catch (final IllegalArgumentException e) {
+    // DOMBuilder.LOGGER.warn(e.getMessage());
+    // } catch (final IOException e) {
+    // DOMBuilder.LOGGER.warn(e.getMessage());
+    // } catch (final NullPointerException e) {
+    // // Ignore
+    // }
+    // return t;
+    // }
 
     /**
      * @return the singleton instance of the DOMBuilder
