@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
@@ -62,15 +63,17 @@ public final class Mml2xxx {
                 .getDefaultLayoutContext();
         for (final Parameter param : Parameter.values()) {
             final TypeWrapper typeWrapper = param.getTypeWrapper();
-            String desc = param.getOptionDesc();
+            final StringBuilder desc = new StringBuilder(param
+                    .getOptionDesc());
             final String defValue = param.toString(defaultCtx
                     .getParameter(param));
             if (defValue != null) {
-                desc = desc + " [default: " + defValue + "]";
+                desc.append(" [default: ").append(defValue).append("]");
             }
-            final Option o = new Option(param.getOptionName(), true, desc);
+            final Option o = new Option(param.getOptionName(), true, desc
+                    .toString());
             String argName = param.getTypeWrapper().getValueType()
-                    .getSimpleName().toLowerCase();
+                    .getSimpleName().toLowerCase(Locale.ENGLISH);
             if (typeWrapper instanceof EnumTypeWrapper) {
                 try {
                     argName = StringUtils.join(

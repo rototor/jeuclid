@@ -18,19 +18,20 @@
 
 package net.sourceforge.jeuclid.ant;
 
+import java.io.File;
+import java.io.IOException;
+
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.MatchingTask;
 import org.apache.tools.ant.util.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * This task converts MathML files to images.
@@ -60,7 +61,7 @@ public class MathMLConverter extends MatchingTask {
 
     private final MutableLayoutContext context;
 
-    private FileUtils fileUtils;
+    private final FileUtils fileUtils;
 
     /**
      * Creates a new MathMLConverter Task.
@@ -68,7 +69,7 @@ public class MathMLConverter extends MatchingTask {
     public MathMLConverter() {
         this.context = new LayoutContextImpl(LayoutContextImpl
                 .getDefaultLayoutContext());
-        fileUtils = FileUtils.getFileUtils();
+        this.fileUtils = FileUtils.getFileUtils();
     }
 
     /**
@@ -84,15 +85,17 @@ public class MathMLConverter extends MatchingTask {
         if (this.mbaseDir == null) {
             this.mbaseDir = this.getProject().resolveFile(
                     MathMLConverter.CURRENT_DIR);
-            this.log("Base is not sets, sets to " + mbaseDir, Project.MSG_WARN);
+            this.log("Base is not sets, sets to " + this.mbaseDir,
+                    Project.MSG_WARN);
         }
 
         // if we have an in file and out then process them
         if ((this.minFile != null) && (this.moutFile != null)) {
-            this.log("Transforming file: " + minFile + " --> " + moutFile, Project.MSG_VERBOSE);
+            this.log("Transforming file: " + this.minFile + " --> "
+                    + this.moutFile, Project.MSG_VERBOSE);
             try {
                 Converter.getConverter().convert(this.minFile, this.moutFile,
-                    this.moutType, this.context);
+                        this.moutType, this.context);
             } catch (final IOException io) {
                 throw new BuildException(io);
             }
@@ -106,25 +109,25 @@ public class MathMLConverter extends MatchingTask {
 
         // -- make sure Source directory exists...
         if (this.mdestDir == null) {
-            final String msg = "m_destDir attributes must be set!";
-
-            throw new BuildException(msg);
+            throw new BuildException("m_destDir attributes must be set!");
         }
         scanner = this.getDirectoryScanner(this.mbaseDir);
         this.log("Transforming into " + this.mdestDir, Project.MSG_INFO);
 
         // Process all the files marked for styling
         list = scanner.getIncludedFiles();
-        this.log("Included files: " + convertArrayToString(list), Project.MSG_VERBOSE);
+        this.log("Included files: " + this.convertArrayToString(list),
+                Project.MSG_VERBOSE);
         for (final String aList : list) {
             this.process(this.mbaseDir, aList, this.mdestDir);
         }
 
         // Process all the directories marked for styling
         dirs = scanner.getIncludedDirectories();
-        this.log("Included directories: " + convertArrayToString(dirs), Project.MSG_VERBOSE);
+        this.log("Included directories: " + this.convertArrayToString(dirs),
+                Project.MSG_VERBOSE);
         for (final String dir : dirs) {
-            list = fileUtils.resolveFile(this.mbaseDir, dir).list();
+            list = this.fileUtils.resolveFile(this.mbaseDir, dir).list();
             for (final String file : list) {
                 this.process(this.mbaseDir, file, this.mdestDir);
             }
@@ -159,8 +162,9 @@ public class MathMLConverter extends MatchingTask {
      *            String representation of color.
      */
     public void setBackgroundColor(final String color) {
-        if (isNullOrEmpty(color)) {
-            log("Attribute \"backgroundcolor\" is empty, not used", Project.MSG_WARN);
+        if (this.isNullOrEmpty(color)) {
+            this.log("Attribute \"backgroundcolor\" is empty, not used",
+                    Project.MSG_WARN);
         } else {
             this.setOption(LayoutContext.Parameter.MATHBACKGROUND, color);
         }
@@ -265,8 +269,11 @@ public class MathMLConverter extends MatchingTask {
      *            String representation of color.
      */
     public void setForegroundColor(final String color) {
-        if (isNullOrEmpty(color)) {
-            log("Attribute \"foregroundcolor\" is empty, use default color", Project.MSG_WARN);
+        if (this.isNullOrEmpty(color)) {
+            this
+                    .log(
+                            "Attribute \"foregroundcolor\" is empty, use default color",
+                            Project.MSG_WARN);
         } else {
             this.setOption(LayoutContext.Parameter.MATHCOLOR, color);
         }
@@ -323,7 +330,7 @@ public class MathMLConverter extends MatchingTask {
      *            True, if the task should always generate the images.
      */
     public void setForce(final boolean force) {
-        logProperty("force", force);
+        this.logProperty("force", force);
         this.mforce = force;
     }
 
@@ -334,7 +341,7 @@ public class MathMLConverter extends MatchingTask {
      *            Base directory
      */
     public void setBasedir(final File dir) {
-        logProperty("basedir", dir);
+        this.logProperty("basedir", dir);
         this.mbaseDir = dir;
     }
 
@@ -346,7 +353,7 @@ public class MathMLConverter extends MatchingTask {
      *            Destination directory
      */
     public void setDestdir(final File dir) {
-        logProperty("destdir", dir);
+        this.logProperty("destdir", dir);
         this.mdestDir = dir;
     }
 
@@ -357,7 +364,7 @@ public class MathMLConverter extends MatchingTask {
      *            Output file
      */
     public void setOut(final File outFile) {
-        logProperty("out", outFile);
+        this.logProperty("out", outFile);
         this.moutFile = outFile;
     }
 
@@ -368,7 +375,7 @@ public class MathMLConverter extends MatchingTask {
      *            Input file
      */
     public void setIn(final File inFile) {
-        logProperty("in", inFile);
+        this.logProperty("in", inFile);
         this.minFile = inFile;
     }
 
@@ -379,7 +386,7 @@ public class MathMLConverter extends MatchingTask {
      *            mimetype for output file.
      */
     public void setType(final String mimetype) {
-        logProperty("type", mimetype);
+        this.logProperty("type", mimetype);
         this.moutType = mimetype;
     }
 
@@ -405,22 +412,23 @@ public class MathMLConverter extends MatchingTask {
         this.log("Founded extension: " + suffix, Project.MSG_DEBUG);
 
         try {
-            inFile = fileUtils.resolveFile(baseDir, xmlFile);
+            inFile = this.fileUtils.resolveFile(baseDir, xmlFile);
             final int dotPos = xmlFile.lastIndexOf('.');
 
             if (dotPos > 0) {
-                outFile = fileUtils.resolveFile(destDir, xmlFile.substring(0, dotPos)
+                outFile = this.fileUtils.resolveFile(destDir, xmlFile
+                        .substring(0, dotPos)
                         + suffix);
             } else {
-                outFile = fileUtils.resolveFile(destDir, xmlFile + suffix);
+                outFile = this.fileUtils.resolveFile(destDir, xmlFile
+                        + suffix);
             }
             this.log("Input file: " + inFile, Project.MSG_DEBUG);
             this.log("Output file: " + outFile, Project.MSG_DEBUG);
-            if (this.mforce
-                || !fileUtils.isUpToDate(inFile, outFile)) {
-                fileUtils.createNewFile(outFile, true);
+            if (this.mforce || !this.fileUtils.isUpToDate(inFile, outFile)) {
+                this.fileUtils.createNewFile(outFile, true);
                 Converter.getConverter().convert(inFile, outFile,
-                    this.moutType, this.context);
+                        this.moutType, this.context);
             }
         } catch (final IOException ex) {
             // If failed to process document, must delete target document,
@@ -455,16 +463,18 @@ public class MathMLConverter extends MatchingTask {
      */
     private void setOption(final LayoutContext.Parameter param,
             final Object value) {
-        logProperty(param.getOptionName(), value);
+        this.logProperty(param.getOptionName(), value);
         this.context.setParameter(param, value);
     }
 
     /**
      * Tests if string is null or is empty.
-     *
-     * @param s Tested string.
-     *
-     * @return <code>true</code> if string is null or empty else <code>false</code>.
+     * 
+     * @param s
+     *            Tested string.
+     * 
+     * @return <code>true</code> if string is null or empty else
+     *         <code>false</code>.
      */
     private boolean isNullOrEmpty(final String s) {
         // TODO: use .isEmpty() when JEuclid moves to 1.6
@@ -472,17 +482,19 @@ public class MathMLConverter extends MatchingTask {
     }
 
     /**
-     * Convert array of objects to string in format "{&lt;object&gt;, &lt;object&gt;, ...}"
-     *
-     * @param array Array with objects.
-     *
+     * Convert array of objects to string in format "{&lt;object&gt;,
+     * &lt;object&gt;, ...}"
+     * 
+     * @param array
+     *            Array with objects.
+     * 
      * @return Converted string.
      */
     private String convertArrayToString(final Object[] array) {
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         sb.append("{");
         boolean first = false;
-        for (Object o : array) {
+        for (final Object o : array) {
             if (!first) {
                 first = true;
             } else {
@@ -497,11 +509,14 @@ public class MathMLConverter extends MatchingTask {
 
     /**
      * Logs property, which is sets.
-     *
-     * @param param Parameter name.
-     * @param value Parameter value.
+     * 
+     * @param param
+     *            Parameter name.
+     * @param value
+     *            Parameter value.
      */
     private void logProperty(final String param, final Object value) {
-        this.log("Sets property \"" + param + "\" with value: " + value, Project.MSG_DEBUG);
+        this.log("Sets property \"" + param + "\" with value: " + value,
+                Project.MSG_DEBUG);
     }
 }
