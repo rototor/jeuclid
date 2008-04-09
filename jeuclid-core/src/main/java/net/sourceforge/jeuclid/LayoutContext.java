@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
@@ -506,6 +507,8 @@ public interface LayoutContext {
          */
         public static class EnumTypeWrapper extends
                 LayoutContext.Parameter.SimpleTypeWrapper {
+            private static final String FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS = "Failed to retrieve values of enum class ";
+
             /**
              * Simple constructor.
              * 
@@ -537,9 +540,17 @@ public interface LayoutContext {
                 try {
                     return (Object[]) this.getValueType().getMethod("values")
                             .invoke(null);
-                } catch (final Exception e) {
+                } catch (final InvocationTargetException e) {
                     throw new RuntimeException(
-                            "Failed to retrieve values of enum class "
+                            EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
+                                    + this.getValueType());
+                } catch (final IllegalAccessException e) {
+                    throw new RuntimeException(
+                            EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
+                                    + this.getValueType());
+                } catch (final NoSuchMethodException e) {
+                    throw new RuntimeException(
+                            EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
                                     + this.getValueType());
                 }
             }
