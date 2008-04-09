@@ -23,6 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
@@ -430,24 +431,26 @@ public interface LayoutContext {
                 if (value == null) {
                     return null;
                 }
+                String retVal = null;
+
+                // Do some reflection magic to find standard color names
                 try {
-                    String retVal = null;
                     for (final Field field : Color.class.getFields()) {
                         if (Modifier.isStatic(field.getModifiers())
                                 && field.get(null) == value) {
-                            retVal = field.getName().toLowerCase();
+                            retVal = field.getName().toLowerCase(
+                                    Locale.ENGLISH);
                             break;
                         }
                     }
-                    if (retVal == null) {
-                        retVal = AttributesHelper
-                                .colorTOsRGBString((Color) value);
-                    }
-                    return retVal;
-                } catch (final Exception e) {
-                    throw new IllegalArgumentException("<" + value
-                            + "> is not a valid color name", e);
+                } catch (final IllegalAccessException e) {
+                    retVal = null;
                 }
+                if (retVal == null) {
+                    retVal = AttributesHelper
+                            .colorTOsRGBString((Color) value);
+                }
+                return retVal;
             }
         }
 
@@ -522,13 +525,7 @@ public interface LayoutContext {
                 }
                 final Object o = Enum.valueOf((Class) this.getValueType(),
                         value);
-                if (o == null) {
-                    throw new IllegalArgumentException("<" + value
-                            + "> is not a valid instance of enum type "
-                            + this.getValueType());
-                } else {
-                    return o;
-                }
+                return o;
             }
 
             /**
