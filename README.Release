@@ -28,6 +28,8 @@ mvn -DdryRun=true release:prepare
 (check if that works, and resolve any issues before going ahead)
 mvn release:clean
 
+mvn install
+
 3. Actually prepare release:
 
 mvn release:prepare
@@ -48,7 +50,7 @@ mvn release:clean
 cd target/checkout
 mvn install
 
-6. Deploy to m2-releas (which is automatically synced to ibiblio)
+6. Deploy to m2-release (which is automatically synced to ibiblio)
 
 disable all modules except -mathviewer, -core, -foprep (use only comments, do not delete lines!)
 
