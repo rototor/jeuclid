@@ -29,6 +29,7 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
 import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
+import net.sourceforge.jeuclid.dom.ChangeTrackingListener;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.layout.JEuclidView;
@@ -50,7 +51,7 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
         MathMLDocument, JEuclidNode, ChangeTrackingInterface, DocumentView,
         LayoutableDocument {
 
-    private final Set<ChangeTrackingInterface> listeners = new HashSet<ChangeTrackingInterface>();
+    private final Set<ChangeTrackingListener> listeners = new HashSet<ChangeTrackingListener>();
 
     /**
      * Creates a math element.
@@ -75,15 +76,15 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
     }
 
     /** {@inheritDoc} */
-    public void addListener(final ChangeTrackingInterface listener) {
+    public void addListener(final ChangeTrackingListener listener) {
         this.listeners.add(listener);
     }
 
     /** {@inheritDoc} */
     public void fireChanged(final boolean propagate) {
         if (propagate) {
-            for (final ChangeTrackingInterface listener : this.listeners) {
-                listener.fireChanged(false);
+            for (final ChangeTrackingListener listener : this.listeners) {
+                listener.changeHook(this);
             }
         }
     }

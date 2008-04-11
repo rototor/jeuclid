@@ -41,10 +41,6 @@ import org.w3c.dom.mathml.MathMLPresentationToken;
  */
 public abstract class AbstractTokenWithTextLayout extends
         AbstractJEuclidElement implements MathMLPresentationToken {
-    // /**
-    // * Last used layout instance.
-    // */
-    // private TextLayout layout;
 
     /**
      * Default constructor.
@@ -52,28 +48,6 @@ public abstract class AbstractTokenWithTextLayout extends
     public AbstractTokenWithTextLayout() {
         super();
     }
-
-    // /**
-    // * Paints this element.
-    // *
-    // * @param g
-    // * The graphics context to use for painting.
-    // * @param posX
-    // * The first left position for painting.
-    // * @param posY
-    // * The position of the baseline.
-    // */
-    // @Override
-    // public void paint(final Graphics2D g, final float posX, final float
-    // posY) {
-    // super.paint(g, posX, posY);
-    // if (!this.isEmpty()) {
-    // this.produceTextLayout(g);
-    // this.layout.draw(g, posX + this.xOffset, posY);
-    // // g.draw(this.produceTextLayout(g).getOutline(
-    // // AffineTransform.getTranslateInstance(posX, posY)));
-    // }
-    // }
 
     /** {@inheritDoc} */
     @Override
@@ -128,62 +102,6 @@ public abstract class AbstractTokenWithTextLayout extends
         // this.xOffset = 0.0f;
         // }
         return layout;
-    }
-
-    // /**
-    // * Returns TextLayout used to paint text of this element.
-    // *
-    // * @return TextLayout instance or null, if layout was not computed yet
-    // */
-    // public TextLayout getLayout() {
-    // return this.layout;
-    // }
-
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateWidth(final Graphics2D g) {
-    // if (this.isEmpty()) {
-    // return 0;
-    // } else {
-    // this.produceTextLayout(g);
-    // return StringUtil.getWidthForTextLayout(this.layout)
-    // + this.xOffset;
-    // }
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateAscentHeight(final Graphics2D g) {
-    // if (this.isEmpty()) {
-    // return g.getFontMetrics().getAscent();
-    // } else {
-    // this.produceTextLayout(g);
-    // // TextLayout.getAscent returns the max ascent for this font,
-    // // not the one for the actual content!
-    // final Rectangle2D textBounds = this.layout.getBounds();
-    // return (float) (-textBounds.getY());
-    // }
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateDescentHeight(final Graphics2D g) {
-    // if (this.isEmpty()) {
-    // return g.getFontMetrics().getDescent();
-    // } else {
-    // this.produceTextLayout(g);
-    // // TextLayout.getDescent returns the max descent for this font,
-    // // not the one for the actual content!
-    // final Rectangle2D textBounds = this.layout.getBounds();
-    // return (float) (textBounds.getY() + textBounds.getHeight());
-    // }
-    // }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void changeHook() {
-        super.changeHook();
-        // this.layout = null;
     }
 
 }

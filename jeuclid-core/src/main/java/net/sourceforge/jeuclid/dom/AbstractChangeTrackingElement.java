@@ -32,9 +32,10 @@ import org.w3c.dom.Node;
  * @version $Revision$
  */
 public abstract class AbstractChangeTrackingElement extends
-        AbstractPartialElementImpl implements ChangeTrackingInterface {
+        AbstractPartialElementImpl implements ChangeTrackingInterface,
+        ChangeTrackingListener {
 
-    private final Set<ChangeTrackingInterface> listeners = new HashSet<ChangeTrackingInterface>();
+    private final Set<ChangeTrackingListener> listeners = new HashSet<ChangeTrackingListener>();
 
     /** {@inheritDoc} */
     @Override
@@ -66,16 +67,20 @@ public abstract class AbstractChangeTrackingElement extends
         return retVal;
     }
 
+    public void changeHook(final Node origin) {
+        // Overwrite me!
+    }
+
     /** {@inheritDoc} */
     public void fireChanged(final boolean propagate) {
-        this.changeHook();
+        this.changeHook(this);
         if (propagate) {
             final Node superNode = this.getParentNode();
             if (superNode instanceof ChangeTrackingInterface) {
                 ((ChangeTrackingInterface) superNode).fireChanged(propagate);
             }
-            for (final ChangeTrackingInterface listener : this.listeners) {
-                listener.fireChanged(false);
+            for (final ChangeTrackingListener listener : this.listeners) {
+                listener.changeHook(this);
             }
         }
     }
@@ -87,15 +92,8 @@ public abstract class AbstractChangeTrackingElement extends
                 .createListOfChildren(this));
     }
 
-    /**
-     * Called on any change. Please override!
-     */
-    protected void changeHook() {
-        // Override me!
-    }
-
     /** {@inheritDoc} */
-    public void addListener(final ChangeTrackingInterface listener) {
+    public void addListener(final ChangeTrackingListener listener) {
         this.listeners.add(listener);
     }
 

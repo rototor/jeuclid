@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-/* $Id: DOMModelTest.java 615 2008-02-18 19:42:05Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.test.elements;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.MathMLSerializer;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -32,7 +33,7 @@ import org.w3c.dom.mathml.MathMLSemanticsElement;
 /**
  * Various tests for the DOM model.
  * 
- * @version $Revision: 615 $
+ * @version $Revision$
  */
 public class ContentTest {
 
@@ -67,9 +68,12 @@ public class ContentTest {
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<semantics><apply><plus/><apply><sin/><ci> x </ci></apply><cn> 5 </cn>"
                         + "</apply><annotation encoding=\"text/plain\">sin(x)+5</annotation></semantics></math>");
-        //TODO
-        //Assert.assertTrue(reserial.isEqualNode(docElement));
-
+        final MathMLDocument docElement2 = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(reserial);
+        // TODO
+        Assert.assertEquals(MathMLSerializer.serializeDocument(docElement,
+                false, false), MathMLSerializer.serializeDocument(
+                docElement2, false, false));
     }
 
 }
