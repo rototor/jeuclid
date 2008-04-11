@@ -24,8 +24,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sourceforge.jeuclid.content.semantic.Annotation;
-import net.sourceforge.jeuclid.content.semantic.Semantics;
+import net.sourceforge.jeuclid.elements.content.semantic.Annotation;
+import net.sourceforge.jeuclid.elements.content.semantic.Semantics;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
 import net.sourceforge.jeuclid.elements.presentation.enlivening.Maction;
 import net.sourceforge.jeuclid.elements.presentation.general.Menclose;

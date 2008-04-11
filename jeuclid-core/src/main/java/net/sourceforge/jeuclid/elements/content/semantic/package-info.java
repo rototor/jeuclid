@@ -22,5 +22,5 @@
  <p>This package contains support for semantic mapping elements, as defined in <a
  href="http://www.w3.org/TR/MathML/chapter4.html#id.4.4.11">http://www.w3.org/TR/MathML/chapter4.html#id.4.4.11</a></p>
  */
-package net.sourceforge.jeuclid.content.semantic;
+package net.sourceforge.jeuclid.elements.content.semantic;
 

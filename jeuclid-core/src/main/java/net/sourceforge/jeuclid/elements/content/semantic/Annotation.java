@@ -16,7 +16,7 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.content.semantic;
+package net.sourceforge.jeuclid.elements.content.semantic;
 
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
@@ -35,9 +35,6 @@ public class Annotation extends AbstractInvisibleJEuclidElement implements
      */
     public static final String ELEMENT = "annotation";
 
-    /** The body attribute. */
-    public static final String ATTR_BODY = "body";
-
     /** The encoding attribute. */
     public static final String ATTR_ENCODING = "encoding";
 
@@ -55,7 +52,7 @@ public class Annotation extends AbstractInvisibleJEuclidElement implements
 
     /** {@inheritDoc} */
     public String getBody() {
-        return this.getMathAttribute(Annotation.ATTR_BODY);
+        return this.getText();
     }
 
     /** {@inheritDoc} */
@@ -65,7 +62,7 @@ public class Annotation extends AbstractInvisibleJEuclidElement implements
 
     /** {@inheritDoc} */
     public void setBody(final String body) {
-        this.setAttribute(Annotation.ATTR_BODY, body);
+        this.setTextContent(body);
     }
 
     /** {@inheritDoc} */
