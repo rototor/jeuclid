@@ -83,8 +83,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     /** {@inheritDoc} */
     @Override
-    protected void changeHook() {
-        super.changeHook();
+    public void changeHook(final Node origin) {
+        super.changeHook(origin);
         if (!this.inRewriteChildren) {
             this.parseChildren();
         }

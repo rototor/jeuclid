@@ -44,6 +44,7 @@ import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.TextObject;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLOperatorElement;
 import org.w3c.dom.mathml.MathMLUnderOverElement;
 
@@ -143,6 +144,8 @@ public class Mo extends AbstractJEuclidElement implements
             + /* Down Arrow Up Arrow */"\u21F5" + "\u2223\u2225\u2329\u232A";
 
     private final OperatorDictionary opDict;
+
+    private boolean inChangeHook = false;
 
     /**
      * Logger for this class
@@ -437,32 +440,42 @@ public class Mo extends AbstractJEuclidElement implements
 
     /** {@inheritDoc} */
     @Override
-    protected void changeHook() {
-        super.changeHook();
-        this.detectFormParameter();
-        this.loadAttributeFromDictionary(Mo.ATTR_LARGEOP, Constants.FALSE);
-        this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC, Constants.TRUE);
-        this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY, Constants.FALSE);
-        this.loadAttributeFromDictionary(Mo.ATTR_FENCE, Constants.FALSE);
-        this.loadAttributeFromDictionary(Mo.ATTR_LSPACE,
-                AttributesHelper.THICKMATHSPACE);
-        this.loadAttributeFromDictionary(Mo.ATTR_RSPACE,
-                AttributesHelper.THICKMATHSPACE);
-        this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS,
-                Constants.FALSE);
+    public void changeHook(final Node origin) {
+        if (!this.inChangeHook) {
+            this.inChangeHook = true;
+            super.changeHook(origin);
+            this.detectFormParameter();
+            this
+                    .loadAttributeFromDictionary(Mo.ATTR_LARGEOP,
+                            Constants.FALSE);
+            this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC,
+                    Constants.TRUE);
+            this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY,
+                    Constants.FALSE);
+            this.loadAttributeFromDictionary(Mo.ATTR_FENCE, Constants.FALSE);
+            this.loadAttributeFromDictionary(Mo.ATTR_LSPACE,
+                    AttributesHelper.THICKMATHSPACE);
+            this.loadAttributeFromDictionary(Mo.ATTR_RSPACE,
+                    AttributesHelper.THICKMATHSPACE);
+            this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS,
+                    Constants.FALSE);
 
-        // TODO: Load all.
-        final JEuclidElement parent = this.getParent();
-        if (parent != null) {
-            if (parent instanceof ChangeTrackingInterface) {
-                ((ChangeTrackingInterface) parent).addListener(this);
+            // TODO: Load all.
+            final JEuclidElement parent = this.getParent();
+            if (parent != null) {
+                if (parent instanceof ChangeTrackingInterface) {
+                    ((ChangeTrackingInterface) parent).addListener(this);
+                }
             }
-        }
 
-        if (this.isFence()) {
-            this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, Constants.TRUE);
+            if (this.isFence()) {
+                this
+                        .setDefaultMathAttribute(Mo.ATTR_STRETCHY,
+                                Constants.TRUE);
+            }
+            this.fireChanged(true);
+            this.inChangeHook = false;
         }
-
     }
 
     private void loadAttributeFromDictionary(final String attrname,

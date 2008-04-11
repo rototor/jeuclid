@@ -28,6 +28,7 @@ import java.util.Map;
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.dom.ChangeTrackingListener;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.views.AbstractView;
@@ -36,7 +37,8 @@ import org.w3c.dom.views.DocumentView;
 /**
  * @version $Revision$
  */
-public class JEuclidView implements AbstractView, LayoutView {
+public class JEuclidView implements AbstractView, LayoutView,
+        ChangeTrackingListener {
 
     private final LayoutableDocument document;
 
@@ -138,6 +140,7 @@ public class JEuclidView implements AbstractView, LayoutView {
     private LayoutInfo layout(final LayoutableNode node,
             final LayoutStage toStage, final LayoutContext parentContext) {
         final LayoutInfo info = this.getInfo(node);
+        node.addListener(this);
         if (LayoutStage.NONE.equals(info.getLayoutStage())) {
             LayoutStage childMinStage = LayoutStage.STAGE2;
             int count = 0;
@@ -208,4 +211,13 @@ public class JEuclidView implements AbstractView, LayoutView {
     public Graphics2D getGraphics() {
         return this.graphics;
     }
+
+    public void changeHook(final Node origin) {
+        if (origin instanceof LayoutableNode) {
+            final LayoutableNode lorigin = (LayoutableNode) origin;
+            final LayoutInfo info = this.getInfo(lorigin);
+            info.setLayoutStage(LayoutStage.NONE);
+        }
+    }
+
 }

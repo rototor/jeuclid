@@ -146,12 +146,6 @@ public abstract class AbstractJEuclidElement extends
     public AbstractJEuclidElement() {
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected void changeHook() {
-        super.changeHook();
-    }
-
     /**
      * Gets the used font. Everything regardes font, processed by MathBase
      * object.

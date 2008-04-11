@@ -152,12 +152,12 @@ public abstract class AbstractPartialNodeImpl implements Node {
 
     /** {@inheritDoc} */
     public final String getBaseURI() {
-        throw new UnsupportedOperationException("getBaseURI");
+        return null;
     }
 
     /** {@inheritDoc} */
     public final String getPrefix() {
-        throw new UnsupportedOperationException("getPrefix");
+        return null;
     }
 
     /** {@inheritDoc} */

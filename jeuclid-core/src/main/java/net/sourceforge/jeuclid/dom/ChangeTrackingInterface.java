@@ -40,7 +40,7 @@ public interface ChangeTrackingInterface {
      *            the element to be notified in case of changes (if propagate
      *            is set).
      */
-    void addListener(ChangeTrackingInterface listener);
+    void addListener(ChangeTrackingListener listener);
 
     /**
      * fires a change on this element and all its children, but no listeners
