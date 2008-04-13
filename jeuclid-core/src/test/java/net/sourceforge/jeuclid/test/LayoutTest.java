@@ -65,19 +65,21 @@ public class LayoutTest {
         denom.setTextContent("123");
         mfrac.setDenominator(denom);
         final Mi nom = new Mi();
-        nom.setTextContent("x");
+        nom.setTextContent("X");
         mfrac.setNumerator(nom);
         mrow.appendChild(mfrac);
 
-        Assert.assertTrue(view.getAscentHeight() > oldAscent, view
-                .getAscentHeight()
-                + " > " + oldAscent);
-        Assert.assertTrue(view.getWidth() > oldWidth, view.getWidth() + " > "
-                + oldWidth);
+        Assert.assertTrue(view.getWidth() > oldWidth,
+                "Width should increase: " + view.getWidth() + " > "
+                        + oldWidth);
+        Assert.assertTrue(view.getAscentHeight() > oldAscent,
+                "Height should increase: " + view.getAscentHeight() + " > "
+                        + oldAscent);
 
         final float newmopascent = view.getInfo(mop).getAscentHeight(
                 LayoutStage.STAGE2);
-        Assert.assertTrue(newmopascent > oldmopascent, newmopascent + " > "
-                + oldmopascent);
+        Assert.assertTrue(newmopascent > oldmopascent,
+                "Operator should be larger: " + newmopascent + " > "
+                        + oldmopascent);
     }
 }
