@@ -4,8 +4,6 @@
 	<classpathentry kind="src" path="jeuclid-core/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="jeuclid-core/src/main/resources" path="jeuclid-core/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="jeuclid-core/src/test/resources" path="jeuclid-core/src/test/resources"/>
-	<classpathentry kind="src" path="jeuclid-core16/src/main/java"/>
-	<classpathentry kind="src" path="jeuclid-core16/src/test/java"/>
 	<classpathentry kind="src" path="jeuclid-swt/src/main/java"/>
 	<classpathentry kind="src" path="jeuclid-mathviewer/src/main/java"/>
 	<classpathentry excluding="**" kind="src" output="jeuclid-mathviewer/src/main/resources" path="jeuclid-mathviewer/src/main/resources"/>

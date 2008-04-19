@@ -24,7 +24,7 @@
     task for autmated conversion, Display components for AWT and Swing and a
     component for Apache Cocoon
   </description>
-  <url>http://jeuclid.sourceforge.net/</url>
+  <url>http://jeuclid.sourceforge.net/trunk</url>
   <issueManagement>
     <system>SourceForge</system>
     <url>https://sourceforge.net/tracker/?group_id=44862</url>
