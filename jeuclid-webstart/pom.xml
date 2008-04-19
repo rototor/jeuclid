@@ -14,11 +14,9 @@
   <build>
     <plugins>
       <plugin>
-<!-- Please note: Wehn upgrading back to >= 1.0-alpha-2  -->
-<!-- The JNLP direcotyr will have to be moved back to src/main/jnlp -->
-        <groupId>org.codehaus.mojo</groupId>
+        <groupId>org.codehaus.mojo.webstart</groupId>
         <artifactId>webstart-maven-plugin</artifactId>
-        <version>1.0-alpha-1</version>
+        <version>1.0-alpha-2</version>
         <configuration>
           <jnlp>
             <outputFile>mathviewer.jnlp</outputFile>
@@ -32,11 +30,11 @@
             <validity>365</validity>
             <dnameCn>jeuclid.sf.net</dnameCn>
             <verify>true</verify>
+            <keystoreConfig>
+              <delete>true</delete>
+              <gen>true</gen>
+            </keystoreConfig>
           </sign>
-          <keystore>
-            <delete>true</delete>
-            <gen>true</gen>
-          </keystore>
           <workDirectory>${project.build.directory}/site</workDirectory>
         </configuration>
         <executions>
