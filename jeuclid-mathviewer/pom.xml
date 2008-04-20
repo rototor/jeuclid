@@ -19,13 +19,47 @@
             <manifest>
               <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
               <addClasspath>true</addClasspath>
-              <addExtensions />
-              <classpathPrefix />
+              <addExtensions/>
+              <classpathPrefix/>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
           </archive>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo.webstart</groupId>
+        <artifactId>webstart-maven-plugin</artifactId>
+        <version>1.0-alpha-2</version>
+        <configuration>
+          <jnlp>
+            <outputFile>mathviewer.jnlp</outputFile>
+            <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
+          </jnlp>
+          <pack200>true</pack200>
+          <sign>
+            <keystore>${basedir}/keystore</keystore>
+            <keypass>verysecret</keypass>
+            <storepass>evenmoresecret</storepass>
+            <alias>signKey</alias>
+            <validity>365</validity>
+            <dnameCn>jeuclid.sf.net</dnameCn>
+            <verify>true</verify>
+            <keystoreConfig>
+              <delete>true</delete>
+              <gen>true</gen>
+            </keystoreConfig>
+          </sign>
+          <workDirectory>${project.build.directory}/site</workDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>site</phase>
+            <goals>
+              <goal>jnlp</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
