@@ -104,7 +104,8 @@ public final class Processor {
      */
     public void process(final Source inputSource, final Result result,
             final LayoutContext context) throws TransformerException {
-        Processor.LOGGER.info("Processing " + inputSource + " to " + result);
+        Processor.LOGGER.info("Processing " + inputSource.getSystemId()
+                + " to " + result.getSystemId());
         try {
             final Node doc = Parser.getParser().parse(inputSource);
             this.processSubtree(doc, context);
