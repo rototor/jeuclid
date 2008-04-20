@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.jeuclid</groupId>
-  <artifactId>jeuclid-foprep</artifactId>
-  <name>JEuclid FO processor Module</name>
+  <artifactId>jeuclid-cli</artifactId>
+  <name>JEuclid command line tools</name>
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
@@ -18,33 +18,16 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>net.sourceforge.jeuclid.app.foprep.Main</mainClass>
+              <mainClass>net.sourceforge.jeuclid.app.Mml2xxx</mainClass>
               <addClasspath>true</addClasspath>
-              <addExtensions />
-              <classpathPrefix />
+              <addExtensions/>
+              <classpathPrefix/>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
           </archive>
         </configuration>
       </plugin>
-<!--
-      <plugin>
-        <groupId>com.pyx4me</groupId>
-        <artifactId>proguard-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>proguard</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <proguardInclude>${common.dir}/proguard.app.conf</proguardInclude>
-        </configuration>
-      </plugin>
--->
     </plugins>
   </build>
   <dependencies>
@@ -63,6 +46,11 @@
           <artifactId>junit</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.3</version>
     </dependency>
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>

@@ -29,3 +29,5 @@
  */
 package net.sourceforge.jeuclid.app.foprep;
 
+import net.sourceforge.jeuclid.converter.Processor;
+
