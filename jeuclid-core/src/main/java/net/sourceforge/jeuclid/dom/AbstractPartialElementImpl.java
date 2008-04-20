@@ -38,7 +38,7 @@ import org.w3c.dom.TypeInfo;
  * @version $Revision$
  */
 public abstract class AbstractPartialElementImpl extends
-        AbstractPartialNodeImpl implements Element {
+        AbstractEventTargetImpl implements Element {
 
     private final Map<String, String> attributes = new HashMap<String, String>();
 

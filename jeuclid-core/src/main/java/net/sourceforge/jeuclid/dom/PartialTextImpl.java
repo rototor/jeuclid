@@ -29,7 +29,7 @@ import org.w3c.dom.Text;
  * 
  * @version $Revision$
  */
-public class PartialTextImpl extends AbstractPartialNodeImpl implements Text {
+public class PartialTextImpl extends AbstractEventTargetImpl implements Text {
 
     private String content;
 

@@ -180,7 +180,6 @@ public final class DOMBuilder {
         final DocumentElement rootElement = new DocumentElement();
 
         this.traverse(documentElement, rootElement);
-        rootElement.fireChangeForSubTree();
         return rootElement;
     }
 

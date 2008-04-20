@@ -29,7 +29,7 @@ import net.sourceforge.jeuclid.Defense;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.Display;
-import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
+import net.sourceforge.jeuclid.dom.AbstractEventTargetImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
@@ -45,6 +45,9 @@ import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.TextObject;
 
 import org.w3c.dom.Node;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.mathml.MathMLOperatorElement;
 import org.w3c.dom.mathml.MathMLUnderOverElement;
 
@@ -54,7 +57,7 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
  * @version $Revision$
  */
 public class Mo extends AbstractJEuclidElement implements
-        MathMLOperatorElement {
+        MathMLOperatorElement, EventListener {
 
     /** Attribute for form. */
     public static final String ATTR_FORM = "form";
@@ -459,12 +462,19 @@ public class Mo extends AbstractJEuclidElement implements
                     AttributesHelper.THICKMATHSPACE);
             this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS,
                     Constants.FALSE);
-
             // TODO: Load all.
-            final JEuclidElement parent = this.getParent();
-            if (parent != null) {
-                if (parent instanceof ChangeTrackingInterface) {
-                    ((ChangeTrackingInterface) parent).addListener(this);
+
+            JEuclidElement parent = this.getParent();
+            while (parent != null) {
+                if (parent instanceof EventTarget) {
+                    ((EventTarget) parent).addEventListener(
+                            AbstractEventTargetImpl.MUTATIONSEVENTS, this,
+                            false);
+                }
+                if (parent instanceof Mrow) {
+                    parent = null;
+                } else {
+                    parent = parent.getParent();
                 }
             }
 
@@ -473,7 +483,7 @@ public class Mo extends AbstractJEuclidElement implements
                         .setDefaultMathAttribute(Mo.ATTR_STRETCHY,
                                 Constants.TRUE);
             }
-            this.fireChanged(true);
+            this.dispatchEvent(this.mutationEventFactory());
             this.inChangeHook = false;
         }
     }
@@ -767,5 +777,9 @@ public class Mo extends AbstractJEuclidElement implements
                 .setAscentHeight(targetHeight - targetDescent,
                         LayoutStage.STAGE2);
         return new float[] { calcScaleY, calcBaselineShift };
+    }
+
+    public void handleEvent(final Event evt) {
+        this.changeHook((Node) evt.getTarget());
     }
 }
