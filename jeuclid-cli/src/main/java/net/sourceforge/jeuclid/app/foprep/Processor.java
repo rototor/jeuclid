@@ -31,8 +31,6 @@ import javax.xml.transform.dom.DOMSource;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
-import net.sourceforge.jeuclid.converter.Converter;
-import net.sourceforge.jeuclid.converter.ConverterPlugin.DocumentWithDimension;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
 import net.sourceforge.jeuclid.parser.Parser;
