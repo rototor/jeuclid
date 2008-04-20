@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-cli</artifactId>
-  <name>JEuclid command line tools</name>
+  <name>JEuclid Command Line Tools</name>
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
