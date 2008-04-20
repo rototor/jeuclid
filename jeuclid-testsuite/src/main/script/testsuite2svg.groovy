@@ -3,7 +3,7 @@ import java.io.FileOutputStream;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import net.sourceforge.jeuclid.app.foprep.Processor;
+import net.sourceforge.jeuclid.converter.Processor;
 
 log.info("Converting testsuite...");
 
@@ -23,8 +23,8 @@ for (f in scanner) {
   Processor p = Processor.getProcessor();
 
   if (f.getPath().endsWith(".xml")) {
-    def inputSource = new StreamSource(new FileInputStream(f))
-    def result = new StreamResult(new FileOutputStream(f2))
+    def inputSource = new StreamSource(f)
+    def result = new StreamResult(f2)
     try {
       p.process(inputSource, result);
       processed = true;
