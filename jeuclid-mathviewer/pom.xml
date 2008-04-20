@@ -113,9 +113,9 @@
       <version>3.1.1-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>mrj</groupId>
-      <artifactId>MRJToolkitStubs</artifactId>
-      <version>1.0</version>
+      <groupId>com.apple</groupId>
+      <artifactId>AppleJavaExtensions</artifactId>
+      <version>1.2</version>
     </dependency>
   </dependencies>
 </project>
