@@ -19,7 +19,10 @@
 package net.sourceforge.jeuclid.dom;
 
 import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -35,17 +38,13 @@ public abstract class AbstractEventTargetImpl extends AbstractPartialNodeImpl
 
     public static final String MUTATIONSEVENTS = "MutationEvents";
 
-    private final Set<EventListener> mutationListeners = new HashSet<EventListener>();
+    private final Map<String, Set<EventListener>> mutationListeners = new TreeMap<String, Set<EventListener>>();
 
-    public class MutationEventImpl implements MutationEvent {
-
-        final EventTarget target;
-
-        EventTarget currentTarget;
+    public class MutationEventImpl extends AbstractEventImpl implements
+            MutationEvent {
 
         public MutationEventImpl(final EventTarget element) {
-            this.target = element;
-            this.currentTarget = element;
+            super(element);
         }
 
         public short getAttrChange() {
@@ -76,49 +75,8 @@ public abstract class AbstractEventTargetImpl extends AbstractPartialNodeImpl
             throw new UnsupportedOperationException("initMutationEvent");
         }
 
-        public boolean getBubbles() {
-            return true;
-        }
-
-        public boolean getCancelable() {
-            return false;
-        }
-
-        public EventTarget getCurrentTarget() {
-            return this.currentTarget;
-        }
-
-        public short getEventPhase() {
-            return Event.BUBBLING_PHASE;
-        }
-
-        public EventTarget getTarget() {
-            return this.target;
-        }
-
-        public long getTimeStamp() {
-            throw new UnsupportedOperationException("getTimeStamp");
-        }
-
         public String getType() {
             return AbstractEventTargetImpl.MUTATIONSEVENTS;
-        }
-
-        public void initEvent(final String eventTypeArg,
-                final boolean canBubbleArg, final boolean cancelableArg) {
-            throw new UnsupportedOperationException("initEvent");
-        }
-
-        public void preventDefault() {
-            throw new UnsupportedOperationException("preventDefault");
-        }
-
-        public void stopPropagation() {
-            throw new UnsupportedOperationException("stopPropagation");
-        }
-
-        public void setCurrentTarget(final EventTarget current) {
-            this.currentTarget = current;
         }
 
     }
@@ -130,15 +88,20 @@ public abstract class AbstractEventTargetImpl extends AbstractPartialNodeImpl
     /** {@inheritDoc} */
     public boolean dispatchEvent(final Event evt) {
 
-        if (evt instanceof MutationEventImpl) {
-            final MutationEventImpl mutEvt = (MutationEventImpl) evt;
+        if (evt instanceof AbstractEventImpl) {
+            final AbstractEventImpl mutEvt = (AbstractEventImpl) evt;
             mutEvt.setCurrentTarget(this);
         }
 
         this.changeHook(this);
 
-        for (final EventListener listener : this.mutationListeners) {
-            listener.handleEvent(evt);
+        final Set<EventListener> listeners = this.mutationListeners.get(evt
+                .getType().toLowerCase(Locale.ENGLISH));
+
+        if (listeners != null) {
+            for (final EventListener listener : listeners) {
+                listener.handleEvent(evt);
+            }
         }
 
         final Node superNode = this.getParentNode();
@@ -151,21 +114,29 @@ public abstract class AbstractEventTargetImpl extends AbstractPartialNodeImpl
     /** {@inheritDoc} */
     public void addEventListener(final String type,
             final EventListener listener, final boolean useCapture) {
-        if (!(AbstractEventTargetImpl.MUTATIONSEVENTS.equalsIgnoreCase(type))) {
-            throw new UnsupportedOperationException(
-                    "Unsupported Event Type: " + type);
-        }
         if (useCapture) {
             throw new UnsupportedOperationException(
                     "Capture is not supported!");
         }
-        this.mutationListeners.add(listener);
+        final String lowerType = type.toLowerCase(Locale.ENGLISH);
+        Set<EventListener> listenerSet = this.mutationListeners
+                .get(lowerType);
+        if (listenerSet == null) {
+            listenerSet = new HashSet<EventListener>();
+            this.mutationListeners.put(lowerType, listenerSet);
+        }
+        listenerSet.add(listener);
     }
 
     /** {@inheritDoc} */
     public void removeEventListener(final String type,
             final EventListener listener, final boolean useCapture) {
-        this.mutationListeners.remove(listener);
+        final String lowerType = type.toLowerCase(Locale.ENGLISH);
+        final Set<EventListener> listenerSet = this.mutationListeners
+                .get(lowerType);
+        if (listenerSet != null) {
+            listenerSet.remove(listener);
+        }
     }
 
     protected void changeHook(final Node origin) {
