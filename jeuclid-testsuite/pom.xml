@@ -19,7 +19,7 @@
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
-      <artifactId>jeuclid-foprep</artifactId>
+      <artifactId>jeuclid-core</artifactId>
       <version>3.1.1-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -86,7 +86,7 @@
               <classpath>
                 <element>
                   <groupId>net.sourceforge.jeuclid</groupId>
-                  <artifactId>jeuclid-foprep</artifactId>
+                  <artifactId>jeuclid-core</artifactId>
                 </element>
                 <element>
                   <groupId>net.sourceforge.jeuclid</groupId>
