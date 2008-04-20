@@ -65,7 +65,7 @@ public final class FileIO {
      * 
      * @return the FileIO object
      */
-    public static FileIO getFileIO() {
+    public static synchronized FileIO getFileIO() {
         if (FileIO.fileio == null) {
             FileIO.fileio = new FileIO();
         }
@@ -91,13 +91,13 @@ public final class FileIO {
     }
 
     /**
-     * Load a document.
+     * Select a file.
      * 
      * @param parent
      *            Frame of the parent
-     * @return A parsed Document, or null.
+     * @return A File or null.
      */
-    public Document loadDocument(final Frame parent) {
+    public File selectFileToOpen(final Frame parent) {
         final File selectedFile;
 
         if (MathViewer.OSX) {
@@ -125,9 +125,8 @@ public final class FileIO {
         }
         if (selectedFile != null) {
             this.lastPath = selectedFile.getParentFile();
-            return this.loadFile(parent, selectedFile);
         }
-        return null;
+        return selectedFile;
     }
 
     /**
@@ -140,6 +139,9 @@ public final class FileIO {
      * @return a parsed Document or null
      */
     public Document loadFile(final Frame parent, final File selectedFile) {
+        if (selectedFile == null) {
+            return null;
+        }
         try {
             return MathMLParserSupport.parseFile(selectedFile);
         } catch (final SAXException e) {
