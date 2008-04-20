@@ -5,7 +5,7 @@
   <artifactId>jeuclid-testsuite</artifactId>
   <packaging>war</packaging>
   <version>3.1.1-SNAPSHOT</version>
-  <name>jeuclid-testsuite Maven Webapp</name>
+  <name>JEuclid Rendering of W3C MathML Testsuite</name>
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
