@@ -246,19 +246,25 @@ public final class Parser {
      */
     public Document parseStreamSourceAsXml(final StreamSource streamSource)
             throws SAXException, IOException {
-        final InputSource inp;
-        final InputStream is = streamSource.getInputStream();
-        if (is != null) {
-            inp = new InputSource(is);
-        } else {
-            final Reader ir = streamSource.getReader();
-            if (ir != null) {
-                inp = new InputSource(ir);
-            } else {
-                throw new IllegalArgumentException(Parser.BAD_STREAM_SOURCE
-                        + streamSource);
-            }
+        InputSource inp = null;
+        final String systemId = streamSource.getSystemId();
+        if (systemId != null) {
+            inp = new InputSource(systemId);
         }
+        final InputStream is = streamSource.getInputStream();
+        if ((inp == null) && (is != null)) {
+            inp = new InputSource(is);
+        }
+        final Reader ir = streamSource.getReader();
+        if ((inp == null) && (ir != null)) {
+            inp = new InputSource(ir);
+        }
+
+        if (inp == null) {
+            throw new IllegalArgumentException(Parser.BAD_STREAM_SOURCE
+                    + streamSource);
+        }
+
         return this.builder.parse(inp);
     }
 
