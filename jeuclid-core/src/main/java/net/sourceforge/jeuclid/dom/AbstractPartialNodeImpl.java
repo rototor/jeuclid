@@ -310,4 +310,5 @@ public abstract class AbstractPartialNodeImpl implements Node {
     public List<Node> getChildren() {
         return this.children;
     }
+
 }

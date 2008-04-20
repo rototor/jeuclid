@@ -21,15 +21,11 @@ package net.sourceforge.jeuclid.elements.generic;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
-import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
-import net.sourceforge.jeuclid.dom.ChangeTrackingListener;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.layout.JEuclidView;
@@ -48,10 +44,7 @@ import org.w3c.dom.views.DocumentView;
  * @version $Revision$
  */
 public class DocumentElement extends AbstractPartialDocumentImpl implements
-        MathMLDocument, JEuclidNode, ChangeTrackingInterface, DocumentView,
-        LayoutableDocument {
-
-    private final Set<ChangeTrackingListener> listeners = new HashSet<ChangeTrackingListener>();
+        MathMLDocument, JEuclidNode, DocumentView, LayoutableDocument {
 
     /**
      * Creates a math element.
@@ -73,26 +66,6 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
     /** {@inheritDoc} */
     public String getURI() {
         throw new UnsupportedOperationException();
-    }
-
-    /** {@inheritDoc} */
-    public void addListener(final ChangeTrackingListener listener) {
-        this.listeners.add(listener);
-    }
-
-    /** {@inheritDoc} */
-    public void fireChanged(final boolean propagate) {
-        if (propagate) {
-            for (final ChangeTrackingListener listener : this.listeners) {
-                listener.changeHook(this);
-            }
-        }
-    }
-
-    /** {@inheritDoc} */
-    public void fireChangeForSubTree() {
-        ElementListSupport.fireChangeForSubTree(ElementListSupport
-                .createListOfChildren(this));
     }
 
     /** {@inheritDoc} */

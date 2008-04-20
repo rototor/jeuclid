@@ -28,17 +28,19 @@ import java.util.Map;
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
-import net.sourceforge.jeuclid.dom.ChangeTrackingListener;
+import net.sourceforge.jeuclid.dom.AbstractEventTargetImpl;
 
 import org.w3c.dom.Node;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 
 /**
  * @version $Revision$
  */
-public class JEuclidView implements AbstractView, LayoutView,
-        ChangeTrackingListener {
+public class JEuclidView implements AbstractView, LayoutView, EventListener {
 
     private final LayoutableDocument document;
 
@@ -140,7 +142,13 @@ public class JEuclidView implements AbstractView, LayoutView,
     private LayoutInfo layout(final LayoutableNode node,
             final LayoutStage toStage, final LayoutContext parentContext) {
         final LayoutInfo info = this.getInfo(node);
-        node.addListener(this);
+
+        if (node instanceof EventTarget) {
+            final EventTarget evtNode = (EventTarget) node;
+            evtNode.addEventListener(AbstractEventTargetImpl.MUTATIONSEVENTS,
+                    this, false);
+        }
+
         if (LayoutStage.NONE.equals(info.getLayoutStage())) {
             LayoutStage childMinStage = LayoutStage.STAGE2;
             int count = 0;
@@ -212,7 +220,8 @@ public class JEuclidView implements AbstractView, LayoutView,
         return this.graphics;
     }
 
-    public void changeHook(final Node origin) {
+    public void handleEvent(final Event evt) {
+        final EventTarget origin = evt.getCurrentTarget();
         if (origin instanceof LayoutableNode) {
             final LayoutableNode lorigin = (LayoutableNode) origin;
             final LayoutInfo info = this.getInfo(lorigin);

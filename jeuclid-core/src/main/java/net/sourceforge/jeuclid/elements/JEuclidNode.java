@@ -19,14 +19,13 @@
 package net.sourceforge.jeuclid.elements;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 
 /**
  * Generic interface for all MathNodes, including document Element.
  * 
  * @version $Revision$
  */
-public interface JEuclidNode extends ChangeTrackingInterface {
+public interface JEuclidNode {
 
     /**
      * get the layout context for the given child.

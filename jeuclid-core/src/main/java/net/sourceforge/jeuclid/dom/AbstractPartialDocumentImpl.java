@@ -41,7 +41,7 @@ import org.w3c.dom.Text;
  * @version $Revision$
  */
 public abstract class AbstractPartialDocumentImpl extends
-        AbstractPartialNodeImpl implements Document {
+        AbstractEventTargetImpl implements Document {
 
     /** {@inheritDoc} */
     public final Node adoptNode(final Node source) {

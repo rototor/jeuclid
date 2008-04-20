@@ -18,11 +18,6 @@
 
 package net.sourceforge.jeuclid.dom;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import net.sourceforge.jeuclid.elements.support.ElementListSupport;
-
 import org.w3c.dom.Node;
 
 /**
@@ -32,16 +27,13 @@ import org.w3c.dom.Node;
  * @version $Revision$
  */
 public abstract class AbstractChangeTrackingElement extends
-        AbstractPartialElementImpl implements ChangeTrackingInterface,
-        ChangeTrackingListener {
-
-    private final Set<ChangeTrackingListener> listeners = new HashSet<ChangeTrackingListener>();
+        AbstractPartialElementImpl {
 
     /** {@inheritDoc} */
     @Override
     public final Node appendChild(final Node newChild) {
         final Node retVal = super.appendChild(newChild);
-        this.fireChanged(true);
+        this.dispatchEvent(this.mutationEventFactory());
         return retVal;
     }
 
@@ -49,52 +41,22 @@ public abstract class AbstractChangeTrackingElement extends
     @Override
     public final void setAttribute(final String name, final String value) {
         super.setAttribute(name, value);
-        this.fireChanged(true);
+        this.dispatchEvent(this.mutationEventFactory());
     }
 
     /** {@inheritDoc} */
     @Override
     public final void setTextContent(final String newTextContent) {
         super.setTextContent(newTextContent);
-        this.fireChanged(true);
+        this.dispatchEvent(this.mutationEventFactory());
     }
 
     /** {@inheritDoc} */
     @Override
     public final Node replaceChild(final Node newChild, final Node oldChild) {
         final Node retVal = super.replaceChild(newChild, oldChild);
-        this.fireChanged(true);
+        this.dispatchEvent(this.mutationEventFactory());
         return retVal;
-    }
-
-    public void changeHook(final Node origin) {
-        // Overwrite me!
-    }
-
-    /** {@inheritDoc} */
-    public void fireChanged(final boolean propagate) {
-        this.changeHook(this);
-        if (propagate) {
-            final Node superNode = this.getParentNode();
-            if (superNode instanceof ChangeTrackingInterface) {
-                ((ChangeTrackingInterface) superNode).fireChanged(propagate);
-            }
-            for (final ChangeTrackingListener listener : this.listeners) {
-                listener.changeHook(this);
-            }
-        }
-    }
-
-    /** {@inheritDoc} */
-    public void fireChangeForSubTree() {
-        this.fireChanged(false);
-        ElementListSupport.fireChangeForSubTree(ElementListSupport
-                .createListOfChildren(this));
-    }
-
-    /** {@inheritDoc} */
-    public void addListener(final ChangeTrackingListener listener) {
-        this.listeners.add(listener);
     }
 
 }
