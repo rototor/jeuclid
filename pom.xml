@@ -15,7 +15,6 @@
     <module>jeuclid-foprep</module>
     <module>jeuclid</module>
     <module>jeuclid-minimal</module>
-    <module>jeuclid-webstart</module>
     <module>jeuclid-testsuite</module>
   </modules>
   <description>
@@ -24,7 +23,7 @@
     task for autmated conversion, Display components for AWT and Swing and a
     component for Apache Cocoon
   </description>
-  <url>http://jeuclid.sourceforge.net/trunk</url>
+  <url>http://jeuclid.sourceforge.net</url>
   <issueManagement>
     <system>SourceForge</system>
     <url>https://sourceforge.net/tracker/?group_id=44862</url>
