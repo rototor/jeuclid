@@ -29,6 +29,7 @@ import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.dom.AbstractEventTargetImpl;
+import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -147,6 +148,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
             final EventTarget evtNode = (EventTarget) node;
             evtNode.addEventListener(AbstractEventTargetImpl.MUTATIONSEVENTS,
                     this, false);
+            evtNode.addEventListener(Mo.MOEVENT, this, false);
         }
 
         if (LayoutStage.NONE.equals(info.getLayoutStage())) {

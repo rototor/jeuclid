@@ -29,6 +29,7 @@ import net.sourceforge.jeuclid.Defense;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.Display;
+import net.sourceforge.jeuclid.dom.AbstractEventImpl;
 import net.sourceforge.jeuclid.dom.AbstractEventTargetImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
@@ -120,6 +121,8 @@ public class Mo extends AbstractJEuclidElement implements
      * Attribute name of the fence property.
      */
     public static final String ATTR_FENCE = "fence";
+
+    public static final String MOEVENT = "MOEvent";
 
     /**
      * Horizontal delimiters.
@@ -292,155 +295,6 @@ public class Mo extends AbstractJEuclidElement implements
         return theLayout;
     }
 
-    // private void calculateSpecs(final Graphics2D g) {
-    //
-    // if (Boolean.parseBoolean(this.getStretchy())) {
-    // final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
-    // .getBounds();
-    // this.calculateVerticalStretchAndBaseline(g, textBounds);
-    // this.calculateHorizontalStrech(g, textBounds);
-    // } else {
-    // this.calcScaleX = 1.0f;
-    // this.calcScaleY = 1.0f;
-    // this.calcBaselineShift = 0.0f;
-    // }
-    // }
-
-    // private void calculateHorizontalStrech(final Graphics2D g,
-    // final Rectangle2D textBounds) {
-    // final JEuclidElement parent = this.getParent();
-    // if ((this.isHorizontalDelimeter())
-    // && (parent instanceof MathMLUnderOverElement)) {
-    // final float realwidth = (float) (textBounds.getWidth() + textBounds
-    // .getX());
-    //
-    // final MathMLUnderOverElement muo = (MathMLUnderOverElement) parent;
-    // final JEuclidElement base = (JEuclidElement) muo.getBase();
-    // parent.setCalculatingSize(true);
-    // final float targetwidth = base.getWidth(g);
-    // parent.setCalculatingSize(false);
-    // if (realwidth > 0) {
-    // this.calcScaleX = targetwidth / realwidth;
-    // } else {
-    // this.calcScaleX = 1.0f;
-    // }
-    // } else {
-    // this.calcScaleX = 1.0f;
-    // }
-    // }
-    //
-    // private void calculateVerticalStretchAndBaseline(final Graphics2D g,
-    // final Rectangle2D textBounds) {
-    // if (this.isVerticalDelimeter()) {
-    // final JEuclidElement parent = this.getParent();
-    // parent.setCalculatingSize(true);
-    // final List<JEuclidElement> parentsChildren = ElementListSupport
-    // .createListOfChildren(parent);
-    // final float ascent = ElementListSupport.getAscentHeight(g,
-    // parentsChildren);
-    // final float descent = ElementListSupport.getDescentHeight(g,
-    // parentsChildren);
-    // parent.setCalculatingSize(false);
-    // final float realheight = (float) textBounds.getHeight();
-    // final float targetheight = Math.max(realheight, ascent + descent);
-    //
-    // // TODO: use minsize / maxsize
-    // if (realheight > 0) {
-    // this.calcScaleY = targetheight / realheight;
-    // } else {
-    // this.calcScaleY = 1.0f;
-    // }
-    //
-    // final float realDescent = (float) ((textBounds.getY() + textBounds
-    // .getHeight()) * this.calcScaleY);
-    // this.calcBaselineShift = descent - realDescent;
-    // } else {
-    // this.calcScaleY = 1.0f;
-    // this.calcBaselineShift = 0.0f;
-    // }
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateWidth(final Graphics2D g) {
-    // final float space = this.getLspaceAsFloat() + this.getRspaceAsFloat();
-    // if (this.getText().equals("")) {
-    // return space;
-    // } else {
-    // final float scaleFactor;
-    // if (this.getParent().isCalculatingSize()) {
-    // scaleFactor = 1.0f;
-    // } else {
-    // this.calculateSpecs(g);
-    // scaleFactor = this.calcScaleX;
-    // }
-    // return StringUtil.getWidthForTextLayout(this
-    // .produceUnstrechtedLayout(g))
-    // * scaleFactor + space;
-    // }
-    //
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float getXCenter(final Graphics2D g) {
-    // return (this.getWidth(g) - this.getRspaceAsFloat() + this
-    // .getLspaceAsFloat()) / 2.0f;
-    //
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateAscentHeight(final Graphics2D g) {
-    // if (this.getText().equals("")) {
-    // return g.getFontMetrics().getAscent();
-    // } else {
-    //
-    // final float scaleFactor;
-    // if (this.getParent().isCalculatingSize()) {
-    // scaleFactor = 1.0f;
-    // } else {
-    // this.calculateSpecs(g);
-    // scaleFactor = this.calcScaleY;
-    // }
-    //
-    // // TextLayout.getAscent returns the max ascent for this font,
-    // // not the one for the actual content!
-    // final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
-    // .getBounds();
-    // return (float) (-textBounds.getY() * scaleFactor -
-    // this.calcBaselineShift);
-    // }
-    //
-    // }
-    //
-    // private float descentWithoutScaleFactor(final Graphics2D g) {
-    // final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
-    // .getBounds();
-    // return (float) (textBounds.getY() + textBounds.getHeight());
-    // }
-    //
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateDescentHeight(final Graphics2D g) {
-    //
-    // if (this.getText().equals("")) {
-    // return g.getFontMetrics().getDescent();
-    // } else {
-    //
-    // final float scaleFactor;
-    // if (this.getParent().isCalculatingSize()) {
-    // scaleFactor = 1.0f;
-    // } else {
-    // this.calculateSpecs(g);
-    // scaleFactor = this.calcScaleY;
-    // }
-    // return this.descentWithoutScaleFactor(g) * scaleFactor
-    // + this.calcBaselineShift;
-    // }
-    //
-    // }
-
     /** {@inheritDoc} */
     @Override
     public void changeHook(final Node origin) {
@@ -483,7 +337,12 @@ public class Mo extends AbstractJEuclidElement implements
                         .setDefaultMathAttribute(Mo.ATTR_STRETCHY,
                                 Constants.TRUE);
             }
-            this.dispatchEvent(this.mutationEventFactory());
+            this.dispatchEvent(new AbstractEventImpl(this) {
+
+                public String getType() {
+                    return Mo.MOEVENT;
+                }
+            });
             this.inChangeHook = false;
         }
     }
@@ -523,7 +382,7 @@ public class Mo extends AbstractJEuclidElement implements
             form = OperatorDictionary.FORM_INFIX;
         }
         this.setDefaultMathAttribute(Mo.ATTR_FORM, form);
-        // TODO: Exception for embelished operators
+        // TODO: Exception for embellished operators
     }
 
     /** {@inheritDoc} */
