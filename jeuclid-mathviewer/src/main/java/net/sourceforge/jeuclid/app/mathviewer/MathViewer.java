@@ -30,6 +30,8 @@ import net.sourceforge.jeuclid.Constants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.apple.eawt.Application;
+
 /**
  * A simple application for viewing MathML documents.
  * 
@@ -84,10 +86,15 @@ public final class MathViewer {
             public void run() {
                 final MainFrame mainFrame = new MainFrame();
                 mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                if (MathViewer.OSX) {
+                    final Application a = Application.getApplication();
+                    a.setEnabledAboutMenu(true);
+                    a.setEnabledPreferencesMenu(true);
+                    a.addApplicationListener(new MainFrameAppListener(
+                            mainFrame));
+                }
                 if (MathViewer.source != null) {
-                    mainFrame.getMathComponent().setDocument(
-                            FileIO.getFileIO().loadFile(mainFrame,
-                                    MathViewer.source));
+                    mainFrame.loadFile(MathViewer.source);
                 }
                 mainFrame.setVisible(true);
             }
