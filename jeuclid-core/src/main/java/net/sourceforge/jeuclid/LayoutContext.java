@@ -29,8 +29,6 @@ import java.util.Locale;
 import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
-import org.apache.commons.lang.StringUtils;
-
 /**
  * @version $Revision$
  */
@@ -493,10 +491,19 @@ public interface LayoutContext {
                 if (value == null) {
                     return null;
                 } else {
-                    return StringUtils
-                            .join(
-                                    ((List<?>) value).iterator(),
-                                    LayoutContext.Parameter.ListTypeWrapper.SEPARATOR);
+                    final StringBuilder b = new StringBuilder();
+                    boolean first = true;
+                    for (final Object o : ((List<?>) value)) {
+                        if (first) {
+                            first = false;
+                        } else {
+                            b
+                                    .append(LayoutContext.Parameter.ListTypeWrapper.SEPARATOR);
+                            b.append(' ');
+                        }
+                        b.append(o);
+                    }
+                    return b.toString();
                 }
             }
         }
