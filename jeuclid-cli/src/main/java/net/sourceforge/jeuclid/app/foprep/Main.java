@@ -18,9 +18,6 @@
 
 package net.sourceforge.jeuclid.app.foprep;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.xml.transform.Result;
@@ -80,13 +77,13 @@ public final class Main {
             if (Main.STD_INOUT.equals(outputFile)) {
                 result = new StreamResult(new PrintWriter(System.out));
             } else {
-                result = new StreamResult(new File(outputFile));
+                result = new StreamResult(outputFile);
             }
             final Source source;
             if (Main.STD_INOUT.equals(inputFile)) {
                 source = new StreamSource(System.in);
             } else {
-                source = new StreamSource(new FileInputStream(inputFile));
+                source = new StreamSource(inputFile);
             }
             Processor.getProcessor().process(source, result);
         } catch (final ParseException e1) {
@@ -95,10 +92,6 @@ public final class Main {
                     "foprep -in input.fo -out output.fo", options);
         } catch (final TransformerException e) {
             System.out.println("An error occurred during processing: "
-                    + e.getMessage());
-            e.printStackTrace();
-        } catch (final IOException e) {
-            System.out.println("An I/O error occurred during processing: "
                     + e.getMessage());
             e.printStackTrace();
         }
