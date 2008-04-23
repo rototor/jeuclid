@@ -29,8 +29,6 @@ import net.sourceforge.jeuclid.Defense;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.Display;
-import net.sourceforge.jeuclid.dom.AbstractEventImpl;
-import net.sourceforge.jeuclid.dom.AbstractEventTargetImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
@@ -45,7 +43,8 @@ import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.TextObject;
 
-import org.w3c.dom.Node;
+import org.apache.batik.dom.events.DOMCustomEvent;
+import org.w3c.dom.events.CustomEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -297,10 +296,10 @@ public class Mo extends AbstractJEuclidElement implements
 
     /** {@inheritDoc} */
     @Override
-    public void changeHook(final Node origin) {
+    public void changeHook() {
+        super.changeHook();
         if (!this.inChangeHook) {
             this.inChangeHook = true;
-            super.changeHook(origin);
             this.detectFormParameter();
             this
                     .loadAttributeFromDictionary(Mo.ATTR_LARGEOP,
@@ -322,8 +321,7 @@ public class Mo extends AbstractJEuclidElement implements
             while (parent != null) {
                 if (parent instanceof EventTarget) {
                     ((EventTarget) parent).addEventListener(
-                            AbstractEventTargetImpl.MUTATIONSEVENTS, this,
-                            false);
+                            "DOMSubtreeModified", this, false);
                 }
                 if (parent instanceof Mrow) {
                     parent = null;
@@ -337,12 +335,9 @@ public class Mo extends AbstractJEuclidElement implements
                         .setDefaultMathAttribute(Mo.ATTR_STRETCHY,
                                 Constants.TRUE);
             }
-            this.dispatchEvent(new AbstractEventImpl(this) {
-
-                public String getType() {
-                    return Mo.MOEVENT;
-                }
-            });
+            final CustomEvent evt = new DOMCustomEvent();
+            evt.initCustomEventNS(null, Mo.MOEVENT, true, false, null);
+            this.dispatchEvent(evt);
             this.inChangeHook = false;
         }
     }
@@ -386,6 +381,7 @@ public class Mo extends AbstractJEuclidElement implements
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getTagName() {
         return Mo.ELEMENT;
     }
@@ -639,6 +635,6 @@ public class Mo extends AbstractJEuclidElement implements
     }
 
     public void handleEvent(final Event evt) {
-        this.changeHook((Node) evt.getTarget());
+        this.changeHook();
     }
 }

@@ -83,8 +83,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     /** {@inheritDoc} */
     @Override
-    public void changeHook(final Node origin) {
-        super.changeHook(origin);
+    public void changeHook() {
+        super.changeHook();
         if (!this.inRewriteChildren) {
             this.parseChildren();
         }
@@ -120,10 +120,12 @@ public class Mmultiscripts extends AbstractScriptElement implements
             }
         }
         if (this.postsuperscripts.size() < this.postsubscripts.size()) {
-            this.postsuperscripts.add(new None());
+            this.postsuperscripts.add((JEuclidElement) this
+                    .getOwnerDocument().createElement(None.ELEMENT));
         }
         if (this.presuperscripts.size() < this.presubscripts.size()) {
-            this.presuperscripts.add(new None());
+            this.presuperscripts.add((JEuclidElement) this.getOwnerDocument()
+                    .createElement(None.ELEMENT));
         }
     }
 
@@ -219,6 +221,7 @@ public class Mmultiscripts extends AbstractScriptElement implements
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getTagName() {
         return Mmultiscripts.ELEMENT;
     }
@@ -227,7 +230,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
     public JEuclidElement getBase() {
         final JEuclidElement base = this.getMathElement(0);
         if (base == null) {
-            return new None();
+            return (JEuclidElement) this.getOwnerDocument().createElement(
+                    None.ELEMENT);
         } else {
             return base;
         }
@@ -280,11 +284,17 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     /** {@inheritDoc} */
     public MathMLElement getSubScript(final int colIndex) {
+        if ((colIndex < 1) || (colIndex > this.postsubscripts.size())) {
+            return null;
+        }
         return this.postsubscripts.get(colIndex - 1);
     }
 
     /** {@inheritDoc} */
     public MathMLElement getSuperScript(final int colIndex) {
+        if ((colIndex < 1) || (colIndex > this.postsuperscripts.size())) {
+            return null;
+        }
         return this.postsuperscripts.get(colIndex - 1);
     }
 
@@ -298,7 +308,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
             this.removeChild(childList.item(1));
         }
         if (len == 0) {
-            this.addMathElement(new None());
+            this.addMathElement((JEuclidElement) this.getOwnerDocument()
+                    .createElement(None.ELEMENT));
         }
         for (int i = 0; i < this.postsubscripts.size(); i++) {
             this.addMathElement(this.postsubscripts.get(i));
@@ -306,7 +317,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
         }
         final int numprescripts = this.presubscripts.size();
         if (numprescripts > 0) {
-            this.addMathElement(new Mprescripts());
+            this.addMathElement((Mprescripts) this.getOwnerDocument()
+                    .createElement(Mprescripts.ELEMENT));
             for (int i = 0; i < numprescripts; i++) {
                 this.addMathElement(this.presubscripts.get(i));
                 this.addMathElement(this.presuperscripts.get(i));
@@ -325,7 +337,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
             targetIndex = colIndex - 1;
         }
         this.presubscripts.add(targetIndex, (JEuclidElement) newScript);
-        this.presuperscripts.add(targetIndex, new None());
+        this.presuperscripts.add(targetIndex, (JEuclidElement) this
+                .getOwnerDocument().createElement(None.ELEMENT));
         this.rewriteChildren();
         return newScript;
     }
@@ -339,7 +352,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
         } else {
             targetIndex = colIndex - 1;
         }
-        this.presubscripts.add(targetIndex, new None());
+        this.presubscripts.add(targetIndex, (JEuclidElement) this
+                .getOwnerDocument().createElement(None.ELEMENT));
         this.presuperscripts.add(targetIndex, (JEuclidElement) newScript);
         this.rewriteChildren();
         return newScript;
@@ -355,7 +369,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
             targetIndex = colIndex - 1;
         }
         this.postsubscripts.add(targetIndex, (JEuclidElement) newScript);
-        this.postsuperscripts.add(targetIndex, new None());
+        this.postsuperscripts.add(targetIndex, (JEuclidElement) this
+                .getOwnerDocument().createElement(None.ELEMENT));
         this.rewriteChildren();
         return newScript;
     }
@@ -369,7 +384,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
         } else {
             targetIndex = colIndex - 1;
         }
-        this.postsubscripts.add(targetIndex, new None());
+        this.postsubscripts.add(targetIndex, (JEuclidElement) this
+                .getOwnerDocument().createElement(None.ELEMENT));
         this.postsuperscripts.add(targetIndex, (JEuclidElement) newScript);
         this.rewriteChildren();
         return newScript;

@@ -25,7 +25,7 @@ import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
-import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
+import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.layout.JEuclidView;
@@ -35,6 +35,10 @@ import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableDocument;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.GenericDocument;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLDocument;
 import org.w3c.dom.views.DocumentView;
 
@@ -43,7 +47,7 @@ import org.w3c.dom.views.DocumentView;
  * 
  * @version $Revision$
  */
-public class DocumentElement extends AbstractPartialDocumentImpl implements
+public class DocumentElement extends GenericDocument implements
         MathMLDocument, JEuclidNode, DocumentView, LayoutableDocument {
 
     /**
@@ -51,6 +55,9 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
      * 
      */
     public DocumentElement() {
+        super(null, JEuclidDOMImplementation.getInstance());
+        super.setEventsEnabled(true);
+        this.ownerDocument = this;
     }
 
     /** {@inheritDoc} */
@@ -88,14 +95,14 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public List<LayoutableNode> getChildrenToLayout() {
-        final List l = super.getChildren();
+        final List l = ElementListSupport.createListOfLayoutChildren(this);
         return l;
     }
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public List<LayoutableNode> getChildrenToDraw() {
-        final List l = super.getChildren();
+        final List l = ElementListSupport.createListOfLayoutChildren(this);
         return l;
     }
 
@@ -113,6 +120,35 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
         ElementListSupport.layoutSequential(view, info, this
                 .getChildrenToLayout(), LayoutStage.STAGE2);
         info.setLayoutStage(LayoutStage.STAGE2);
+    }
+
+    @Override
+    protected Node newNode() {
+        return new DocumentElement();
+    }
+
+    /**
+     * <b>DOM</b>: Implements {@link
+     * org.w3c.dom.Document#createElement(String)}.
+     */
+    @Override
+    public Element createElement(final String tagName) throws DOMException {
+        // TODO: This should be refactored.
+        return JEuclidElementFactory.elementFromName(tagName, null, this);
+    }
+
+    @Override
+    public Element createElementNS(String namespaceURI,
+            final String qualifiedName) throws DOMException {
+        if (namespaceURI != null && namespaceURI.length() == 0) {
+            namespaceURI = null;
+        }
+        if (namespaceURI == null) {
+            return this.createElement(qualifiedName.intern());
+        } else {
+            // TODO: This should be an elementNS;
+            return this.createElement(qualifiedName.intern());
+        }
     }
 
 }

@@ -62,8 +62,10 @@ import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
 import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 
+import org.apache.batik.dom.AbstractNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Document;
 import org.w3c.dom.mathml.MathMLElement;
 
 /**
@@ -95,7 +97,7 @@ public final class JEuclidElementFactory {
      * @return A new MathElement for this tag name.
      */
     public static MathMLElement elementFromName(final String localName,
-            final AttributeMap aMap) {
+            final AttributeMap aMap, final Document ownerDocument) {
 
         final Constructor<?> con = JEuclidElementFactory.IMPL_CLASSES
                 .get(localName);
@@ -117,8 +119,11 @@ public final class JEuclidElementFactory {
                     + localName);
             element = new Mrow();
         }
-
-        element.setMathAttributes(aMap);
+        ((AbstractNode) element).setOwnerDocument(ownerDocument);
+        ((AbstractNode) element).setNodeName(localName);
+        if (aMap != null) {
+            element.setMathAttributes(aMap);
+        }
         return element;
     }
 

@@ -5,11 +5,13 @@ import java.io.StringReader;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.sourceforge.jeuclid.DOMBuilder;
+import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 /**
@@ -31,14 +33,14 @@ public class DOMBuilderTest {
     @Test
     public void testConstructor() throws Exception {
         final Document doc = this.parse("<math><mn>1</mn></math>");
-        Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(doc)
-                .getFirstChild().getNodeName(), "math");
-        Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(
-                doc.getDocumentElement().getFirstChild()).getFirstChild()
-                .getNodeName(), "mn");
+        final Document jdoc = DOMBuilder.getDOMBuilder()
+                .createJeuclidDom(doc);
+        final Node firstChild = jdoc.getFirstChild();
+        Assert.assertEquals(firstChild.getNodeName(), "math");
+        Assert.assertEquals(firstChild.getFirstChild().getNodeName(), "mn");
         final DocumentFragment documentFragment = doc
                 .createDocumentFragment();
-        documentFragment.appendChild(doc.createElement("mspace"));
+        documentFragment.appendChild(doc.createElement(Mspace.ELEMENT));
         Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(
                 documentFragment).getFirstChild().getNodeName(), "mspace");
         try {

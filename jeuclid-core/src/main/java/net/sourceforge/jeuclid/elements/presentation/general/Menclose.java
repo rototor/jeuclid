@@ -46,6 +46,7 @@ import net.sourceforge.jeuclid.layout.LineObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLEncloseElement;
 
 /**
@@ -71,6 +72,7 @@ public class Menclose extends AbstractElementWithDelegates implements
         }
 
         /** {@inheritDoc} */
+        @Override
         public String getTagName() {
             return "";
         }
@@ -304,6 +306,7 @@ public class Menclose extends AbstractElementWithDelegates implements
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getTagName() {
         return Menclose.ELEMENT;
     }
@@ -328,7 +331,7 @@ public class Menclose extends AbstractElementWithDelegates implements
         JEuclidElement lastChild;
         if (this.getMathElementCount() != 1) {
             lastChild = new Mrow();
-            for (final JEuclidElement child : ElementListSupport
+            for (final Node child : ElementListSupport
                     .createListOfChildren(this)) {
                 lastChild.appendChild(child);
             }

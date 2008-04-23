@@ -207,7 +207,7 @@ public final class DOMBuilder {
                 .getAttributes());
 
         final MathMLElement element = JEuclidElementFactory.elementFromName(
-                tagname, attributes);
+                tagname, attributes, parent.getOwnerDocument());
         parent.appendChild(element);
 
         final NodeList childs = node.getChildNodes();

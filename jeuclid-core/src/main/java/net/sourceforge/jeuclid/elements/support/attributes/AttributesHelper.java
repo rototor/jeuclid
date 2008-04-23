@@ -235,7 +235,9 @@ public final class AttributesHelper {
             return 0;
         }
         final String tSize = AttributesHelper.prepareSizeString(sizeString);
-
+        if (tSize.length() == 0) {
+            return 0;
+        }
         float retVal;
         try {
 
@@ -333,7 +335,7 @@ public final class AttributesHelper {
             if (parsedColor == null) {
                 parsedColor = defaultValue;
             }
-            
+
             if (parsedColor != null) {
                 AttributesHelper.COLOR_MAPPINGS.put(value, parsedColor);
             }
