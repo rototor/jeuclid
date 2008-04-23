@@ -20,8 +20,6 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
-import org.w3c.dom.Node;
-
 /**
  * This class presents a mathematical idenifier, like "x".
  * 
@@ -42,8 +40,8 @@ public class Mi extends AbstractTokenWithStandardLayout {
 
     /** {@inheritDoc} */
     @Override
-    public void changeHook(final Node origin) {
-        super.changeHook(origin);
+    public void changeHook() {
+        super.changeHook();
         if (this.getText().length() == 1) {
             this.setDefaultMathAttribute(
                     AbstractJEuclidElement.ATTR_MATHVARIANT, "italic");
@@ -54,6 +52,7 @@ public class Mi extends AbstractTokenWithStandardLayout {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getTagName() {
         return Mi.ELEMENT;
     }

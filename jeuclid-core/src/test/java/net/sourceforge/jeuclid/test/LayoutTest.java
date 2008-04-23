@@ -15,6 +15,7 @@ import org.w3c.dom.mathml.MathMLDocument;
 import org.w3c.dom.mathml.MathMLFractionElement;
 import org.w3c.dom.mathml.MathMLMathElement;
 import org.w3c.dom.mathml.MathMLPresentationContainer;
+import org.w3c.dom.mathml.MathMLPresentationToken;
 import org.w3c.dom.views.DocumentView;
 
 public class LayoutTest {
@@ -60,21 +61,26 @@ public class LayoutTest {
         final float oldmopascent = view.getInfo(mop).getAscentHeight(
                 LayoutStage.STAGE2);
 
-        final MathMLFractionElement mfrac = new Mfrac();
-        final Mn denom = new Mn();
+        final MathMLFractionElement mfrac = (MathMLFractionElement) docElement
+                .createElement(Mfrac.ELEMENT);
+
+        final MathMLPresentationToken denom = (MathMLPresentationToken) docElement
+                .createElement(Mn.ELEMENT);
+
         denom.setTextContent("123");
         mfrac.setDenominator(denom);
-        final Mi nom = new Mi();
+        final MathMLPresentationToken nom = (MathMLPresentationToken) docElement
+                .createElement(Mi.ELEMENT);
         nom.setTextContent("X");
         mfrac.setNumerator(nom);
         mrow.appendChild(mfrac);
 
         Assert.assertTrue(view.getWidth() > oldWidth,
-                "Width should increase: " + view.getWidth() + " > "
+                "Width of view should increase: " + view.getWidth() + " > "
                         + oldWidth);
         Assert.assertTrue(view.getAscentHeight() > oldAscent,
-                "Height should increase: " + view.getAscentHeight() + " > "
-                        + oldAscent);
+                "Heightof view should increase: " + view.getAscentHeight()
+                        + " > " + oldAscent);
 
         final float newmopascent = view.getInfo(mop).getAscentHeight(
                 LayoutStage.STAGE2);

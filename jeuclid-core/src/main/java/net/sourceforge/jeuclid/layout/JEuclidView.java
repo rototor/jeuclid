@@ -28,7 +28,6 @@ import java.util.Map;
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
-import net.sourceforge.jeuclid.dom.AbstractEventTargetImpl;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 
 import org.w3c.dom.Node;
@@ -146,8 +145,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
 
         if (node instanceof EventTarget) {
             final EventTarget evtNode = (EventTarget) node;
-            evtNode.addEventListener(AbstractEventTargetImpl.MUTATIONSEVENTS,
-                    this, false);
+            evtNode.addEventListener("DOMSubtreeModified", this, false);
             evtNode.addEventListener(Mo.MOEVENT, this, false);
         }
 

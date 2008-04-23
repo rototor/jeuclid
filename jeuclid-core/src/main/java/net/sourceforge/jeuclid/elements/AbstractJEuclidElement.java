@@ -30,8 +30,6 @@ import java.util.Set;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.StyleAttributeLayoutContext;
-import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
-import net.sourceforge.jeuclid.dom.PartialTextImpl;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
@@ -46,10 +44,14 @@ import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.GenericElement;
+import org.apache.batik.dom.events.DOMMutationEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLMathElement;
 import org.w3c.dom.mathml.MathMLNodeList;
@@ -63,7 +65,7 @@ import org.w3c.dom.mathml.MathMLNodeList;
 // CHECKSTYLE:OFF
 public abstract class AbstractJEuclidElement extends
 // CHECKSTYLE:ON
-        AbstractChangeTrackingElement implements JEuclidElement {
+        GenericElement implements JEuclidElement {
 
     /** Constant for mathvariant attribute. */
     public static final String ATTR_MATHVARIANT = "mathvariant";
@@ -309,7 +311,8 @@ public abstract class AbstractJEuclidElement extends
      * @return The child MathElement object.
      */
     protected JEuclidElement getMathElement(final int index) {
-        final List<Node> childList = this.getChildren();
+        final List<Node> childList = ElementListSupport
+                .createListOfChildren(this);
         int count = 0;
         for (final Node n : childList) {
             if (n instanceof JEuclidElement) {
@@ -340,7 +343,7 @@ public abstract class AbstractJEuclidElement extends
             final MathMLElement newElement) {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         while (childList.getLength() < index) {
-            this.addMathElement(new Mtext());
+            this.appendChild(this.getOwnerDocument().createTextNode(""));
         }
         if (childList.getLength() == index) {
             this.addMathElement(newElement);
@@ -362,7 +365,8 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public int getMathElementCount() {
-        final List<Node> childList = this.getChildren();
+        final List<Node> childList = ElementListSupport
+                .createListOfChildren(this);
         int count = 0;
         for (final Node n : childList) {
             if (n instanceof JEuclidElement) {
@@ -381,7 +385,7 @@ public abstract class AbstractJEuclidElement extends
     public void addText(final String text) {
         Node textNode = this.getLastChild();
         if (!(textNode instanceof Text)) {
-            textNode = new PartialTextImpl("");
+            textNode = this.getCurrentDocument().createTextNode("");
             this.appendChild(textNode);
         }
 
@@ -408,7 +412,7 @@ public abstract class AbstractJEuclidElement extends
 
         final String toSet = CharConverter.convertEarly(newText.toString());
         if (toSet.length() > 0) {
-            textNode.setTextContent(toSet);
+            textNode.setNodeValue(toSet);
         } else {
             this.removeChild(textNode);
         }
@@ -569,10 +573,10 @@ public abstract class AbstractJEuclidElement extends
     protected String getMathAttribute(final String attrName) {
         String attrValue;
         attrValue = this.getAttributeNS(AbstractJEuclidElement.URI, attrName);
-        if (attrValue == null) {
+        if ((attrValue == null) || (attrValue.trim().length() == 0)) {
             attrValue = this.getAttribute(attrName);
         }
-        if (attrValue == null) {
+        if ((attrValue == null) || (attrValue.trim().length() == 0)) {
             attrValue = this.defaultMathAttributes.get(attrName);
         }
         return attrValue;
@@ -659,6 +663,7 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getId() {
         return this.getAttribute(AbstractJEuclidElement.ATTR_ID);
     }
@@ -777,14 +782,15 @@ public abstract class AbstractJEuclidElement extends
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public List<LayoutableNode> getChildrenToLayout() {
-        final List l = ElementListSupport.createListOfChildren(this);
+        final List<LayoutableNode> l = ElementListSupport
+                .createListOfLayoutChildren(this);
         return l;
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public List<LayoutableNode> getChildrenToDraw() {
-        final List l = ElementListSupport.createListOfChildren(this);
+        final List<LayoutableNode> l = ElementListSupport
+                .createListOfLayoutChildren(this);
         return l;
     }
 
@@ -862,5 +868,17 @@ public abstract class AbstractJEuclidElement extends
 
         AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
                 .add(Mo.ATTR_MOVEABLEWRONG);
+    }
+
+    protected void changeHook() {
+        // Override me!
+    }
+
+    @Override
+    public boolean dispatchEvent(final Event evt) throws EventException {
+        if (evt instanceof DOMMutationEvent) {
+            this.changeHook();
+        }
+        return super.dispatchEvent(evt);
     }
 }

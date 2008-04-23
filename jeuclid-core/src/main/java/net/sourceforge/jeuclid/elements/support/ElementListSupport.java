@@ -22,7 +22,6 @@ import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -33,7 +32,7 @@ import org.w3c.dom.Node;
 /**
  * Class to support Lists of MathElements.
  * <p>
- * This class can be used by all elements that have some kinf of a list of
+ * This class can be used by all elements that have some kind of a list of
  * children that they need to handle in a row-like manner.
  * 
  * @version $Revision$
@@ -45,21 +44,41 @@ public final class ElementListSupport {
     }
 
     /**
-     * Creates a list of children for the given MathElement.
+     * Creates a list of children for the given Element.
      * 
      * @param parent
      *            the parent element.
      * @return list of Children.
      */
-    public static List<JEuclidElement> createListOfChildren(final Node parent) {
+    public static List<Node> createListOfChildren(final Node parent) {
         final org.w3c.dom.NodeList childList = parent.getChildNodes();
         final int len = childList.getLength();
-        final List<JEuclidElement> children = new ArrayList<JEuclidElement>(
+        final List<Node> children = new ArrayList<Node>(len);
+        for (int i = 0; i < len; i++) {
+            final Node child = childList.item(i);
+            children.add(child);
+        }
+        return children;
+
+    }
+
+    /**
+     * Creates a list of layoutable children for the given Element.
+     * 
+     * @param parent
+     *            the parent element.
+     * @return list of Children.
+     */
+    public static List<LayoutableNode> createListOfLayoutChildren(
+            final Node parent) {
+        final org.w3c.dom.NodeList childList = parent.getChildNodes();
+        final int len = childList.getLength();
+        final List<LayoutableNode> children = new ArrayList<LayoutableNode>(
                 len);
         for (int i = 0; i < len; i++) {
             final Node child = childList.item(i);
-            if (child instanceof JEuclidElement) {
-                children.add((JEuclidElement) child);
+            if (child instanceof LayoutableNode) {
+                children.add((LayoutableNode) child);
             }
         }
         return children;
@@ -89,7 +108,7 @@ public final class ElementListSupport {
         final float startX = (float) borderLeftTop.getWidth();
         float width = startX;
         for (final LayoutableNode child : ElementListSupport
-                .createListOfChildren(parent)) {
+                .createListOfLayoutChildren(parent)) {
             final LayoutInfo childInfo = view.getInfo(child);
             ascentHeight = Math.max(ascentHeight, -childInfo.getPosY(stage)
                     + childInfo.getAscentHeight(stage));

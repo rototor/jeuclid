@@ -167,7 +167,8 @@ public class Mfenced extends AbstractElementWithDelegates implements
     }
 
     private Mo createFenceOperator() {
-        final Mo opOpen = new Mo();
+        final Mo opOpen = (Mo) this.getOwnerDocument().createElement(
+                Mo.ELEMENT);
         opOpen.setFence(Constants.TRUE);
         opOpen.setStretchy(Constants.TRUE);
         opOpen.setRspace(Mfenced.FENCE_SPACE);
@@ -177,6 +178,7 @@ public class Mfenced extends AbstractElementWithDelegates implements
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getTagName() {
         return Mfenced.ELEMENT;
     }

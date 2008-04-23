@@ -9,6 +9,7 @@
 			<action dev="maxberger" type="add">Improvement for OS X integration of mathviewer</action>
                 </release>
 		<release version="3.1.0" date="2008-04-04" description="first alpha">
+			<action dev="maxberger" type="update">replaced own DOM model with standard model from Batik</action>
 			<action dev="maxberger" type="add">Made event model DOM compatible</action>
 			<action dev="maxberger" type="add">Re-organized submodules</action>
 			<action dev="maxberger" type="add">Added AMSFonts and support for them</action>
