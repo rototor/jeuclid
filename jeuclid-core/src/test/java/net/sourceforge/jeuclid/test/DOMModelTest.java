@@ -28,6 +28,9 @@ import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import net.sourceforge.jeuclid.elements.presentation.general.Mfrac;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
+import net.sourceforge.jeuclid.elements.presentation.script.Msub;
+import net.sourceforge.jeuclid.elements.presentation.script.Msubsup;
+import net.sourceforge.jeuclid.elements.presentation.script.Msup;
 import net.sourceforge.jeuclid.elements.presentation.token.Mi;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.support.attributes.AbstractAttributeMap;
@@ -793,6 +796,24 @@ public class DOMModelTest {
         Assert.assertTrue(this.mathCount > 0, "Event must be called on Math");
         Assert.assertTrue(this.docCount > 0,
                 "Event must be called on Document");
+    }
+
+    @Test
+    public void testBadSupSuper() throws Exception {
+        final Document ownerDocument = new DocumentElement();
+
+        final MathMLScriptElement msup = (MathMLScriptElement) ownerDocument
+                .createElement(Msup.ELEMENT);
+        final MathMLScriptElement msubsup = (MathMLScriptElement) ownerDocument
+                .createElement(Msubsup.ELEMENT);
+        final MathMLScriptElement msub = (MathMLScriptElement) ownerDocument
+                .createElement(Msub.ELEMENT);
+        msup.getSuperscript();
+        msup.getSubscript();
+        msub.getSuperscript();
+        msub.getSubscript();
+        msubsup.getSuperscript();
+        msubsup.getSubscript();
     }
 
 }

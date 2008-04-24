@@ -323,9 +323,10 @@ public abstract class AbstractJEuclidElement extends
             }
         }
         for (; count < index; count++) {
-            this.appendChild(new Mtext());
+            this.appendChild(this.ownerDocument.createElement(Mtext.ELEMENT));
         }
-        final JEuclidElement last = new Mtext();
+        final JEuclidElement last = (JEuclidElement) this.ownerDocument
+                .createElement(Mtext.ELEMENT);
         this.appendChild(last);
         return last;
     }
