@@ -44,6 +44,7 @@ import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 import net.sourceforge.jeuclid.layout.LineObject;
 
+import org.apache.batik.dom.AbstractNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
@@ -69,12 +70,6 @@ public class Menclose extends AbstractElementWithDelegates implements
          */
         public AbstractRowLikeNotation() {
             super();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public String getTagName() {
-            return "";
         }
 
         /** {@inheritDoc} */
@@ -330,7 +325,8 @@ public class Menclose extends AbstractElementWithDelegates implements
         // that each of the standard delegates has exactly one child.
         JEuclidElement lastChild;
         if (this.getMathElementCount() != 1) {
-            lastChild = new Mrow();
+            lastChild = (JEuclidElement) this.ownerDocument
+                    .createElement(Mrow.ELEMENT);
             for (final Node child : ElementListSupport
                     .createListOfChildren(this)) {
                 lastChild.appendChild(child);
@@ -343,6 +339,7 @@ public class Menclose extends AbstractElementWithDelegates implements
             try {
                 final JEuclidElement element = (JEuclidElement) con
                         .newInstance();
+                ((AbstractNode) element).setOwnerDocument(this.ownerDocument);
                 element.appendChild(lastChild);
                 lastChild = element;
             } catch (final InstantiationException e) {
