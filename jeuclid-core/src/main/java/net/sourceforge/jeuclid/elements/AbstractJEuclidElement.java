@@ -44,7 +44,7 @@ import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
-import org.apache.batik.dom.GenericElement;
+import org.apache.batik.dom.GenericElementNS;
 import org.apache.batik.dom.events.DOMMutationEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -65,7 +65,7 @@ import org.w3c.dom.mathml.MathMLNodeList;
 // CHECKSTYLE:OFF
 public abstract class AbstractJEuclidElement extends
 // CHECKSTYLE:ON
-        GenericElement implements JEuclidElement {
+        GenericElementNS implements JEuclidElement {
 
     /** Constant for mathvariant attribute. */
     public static final String ATTR_MATHVARIANT = "mathvariant";
