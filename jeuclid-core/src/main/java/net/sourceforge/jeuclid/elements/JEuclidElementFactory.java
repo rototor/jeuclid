@@ -66,7 +66,7 @@ import org.apache.batik.dom.AbstractNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.mathml.MathMLElement;
+import org.w3c.dom.Element;
 
 /**
  * Creates MathElements from given element strings.
@@ -96,7 +96,7 @@ public final class JEuclidElementFactory {
      *            Attributes for this element.
      * @return A new MathElement for this tag name.
      */
-    public static MathMLElement elementFromName(final String localName,
+    public static Element elementFromName(final String localName,
             final AttributeMap aMap, final Document ownerDocument) {
 
         final Constructor<?> con = JEuclidElementFactory.IMPL_CLASSES
@@ -115,8 +115,8 @@ public final class JEuclidElementFactory {
             }
         }
         if (element == null) {
-            JEuclidElementFactory.LOGGER.info("Unsupported element: "
-                    + localName);
+            // JEuclidElementFactory.LOGGER.info("Unsupported element: "
+            // + localName);
             element = new Mrow();
         }
         ((AbstractNode) element).setOwnerDocument(ownerDocument);

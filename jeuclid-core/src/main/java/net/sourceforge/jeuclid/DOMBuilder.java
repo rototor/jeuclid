@@ -41,7 +41,6 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.mathml.MathMLElement;
 
 /**
  * Builds a MathML tree from a given DOM tree.
@@ -206,7 +205,7 @@ public final class DOMBuilder {
         final AttributeMap attributes = new DOMAttributeMap(node
                 .getAttributes());
 
-        final MathMLElement element = JEuclidElementFactory.elementFromName(
+        final Element element = JEuclidElementFactory.elementFromName(
                 tagname, attributes, parent.getOwnerDocument());
         parent.appendChild(element);
 
