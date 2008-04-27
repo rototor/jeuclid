@@ -42,7 +42,10 @@ public class JEuclidDOMImplementation extends AbstractDOMImplementation {
     public Document createDocument(final String namespaceURI,
             final String qualifiedName, final DocumentType doctype)
             throws DOMException {
-        throw new UnsupportedOperationException();
+        final Document result = new DocumentElement(doctype);
+        result.appendChild(result
+                .createElementNS(namespaceURI, qualifiedName));
+        return result;
     }
 
     /** {@inheritDoc} */
