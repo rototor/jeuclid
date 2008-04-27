@@ -18,9 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.support;
 
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
-
 /**
  * Support utilities for classloading.
  * 
@@ -30,36 +27,10 @@ public final class ClassLoaderSupport {
 
     private static ClassLoaderSupport instance;
 
-    private final DOMImplementation domImpl;
-
     /**
      * Default Constructor.
      */
     private ClassLoaderSupport() {
-        DOMImplementation impl;
-        try {
-            final DOMImplementationRegistry reg = DOMImplementationRegistry
-                    .newInstance();
-            impl = reg.getDOMImplementation("");
-            if (impl == null) {
-                // This is due to a bug in JDK 1.5 on the Mac: It seems like
-                // the default DOMImplementations are not registered in the
-                // DOMImplementationRegistry
-                impl = (DOMImplementation) this
-                        .loadClass(
-                                "com.sun.org.apache.xerces.internal.dom.CoreDOMImplementationImpl")
-                        .newInstance();
-            }
-        } catch (final ClassCastException e) {
-            impl = null;
-        } catch (final ClassNotFoundException e) {
-            impl = null;
-        } catch (final InstantiationException e) {
-            impl = null;
-        } catch (final IllegalAccessException e) {
-            impl = null;
-        }
-        this.domImpl = impl;
     }
 
     /**
@@ -97,12 +68,4 @@ public final class ClassLoaderSupport {
         return retVal;
     }
 
-    /**
-     * Retrieve a generic DOM implementation.
-     * 
-     * @return a DOMImplementation or null if none could be found.
-     */
-    public DOMImplementation getGenericDOMImplementation() {
-        return this.domImpl;
-    }
 }

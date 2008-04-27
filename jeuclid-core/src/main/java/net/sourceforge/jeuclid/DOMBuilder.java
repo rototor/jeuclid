@@ -28,14 +28,12 @@ import javax.xml.transform.stream.StreamSource;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
-import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.DOMAttributeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -57,25 +55,10 @@ public final class DOMBuilder {
 
     private final Transformer contentTransformer;
 
-    private final DOMImplementation domImplementation;
-
     private DOMBuilder() {
         Transformer t;
-        DOMImplementation impl = null;
-        // currently disabled - encountered problems
-        // t = this.loadPrecompiledTransformer();
-        // if (t == null) {
         t = this.createTransformer();
-        // }
-        if (t != null) {
-            impl = ClassLoaderSupport.getInstance()
-                    .getGenericDOMImplementation();
-            if (impl == null) {
-                t = null;
-            }
-        }
         this.contentTransformer = t;
-        this.domImplementation = impl;
     }
 
     private Transformer createTransformer() {
@@ -91,29 +74,6 @@ public final class DOMBuilder {
         }
         return t;
     }
-
-    // private Transformer loadPrecompiledTransformer() {
-    // Transformer t = null;
-    // try {
-    // final InputStream is = DOMBuilder.class
-    // .getResourceAsStream("/content/mathmlc2p.ser");
-    // final ObjectInput oi = new ObjectInputStream(is);
-    // final Templates tpl = (Templates) oi.readObject();
-    // oi.close();
-    // t = tpl.newTransformer();
-    // } catch (final ClassNotFoundException cnfe) {
-    // DOMBuilder.LOGGER.warn(cnfe.getMessage());
-    // } catch (final TransformerException e) {
-    // DOMBuilder.LOGGER.warn(e.getMessage());
-    // } catch (final IllegalArgumentException e) {
-    // DOMBuilder.LOGGER.warn(e.getMessage());
-    // } catch (final IOException e) {
-    // DOMBuilder.LOGGER.warn(e.getMessage());
-    // } catch (final NullPointerException e) {
-    // // Ignore
-    // }
-    // return t;
-    // }
 
     /**
      * @return the singleton instance of the DOMBuilder
@@ -158,12 +118,11 @@ public final class DOMBuilder {
         }
 
         // TODO: This could be enabled / disabled with a switch?
+        Document d = null;
         try {
             final DOMSource source = new DOMSource(documentElement);
-            final Document d = this.domImplementation.createDocument(
-                    documentElement.getNamespaceURI(), documentElement
-                            .getNodeName(), null);
-            final DOMResult result = new DOMResult(d.getDocumentElement());
+            d = new DocumentElement();
+            final DOMResult result = new DOMResult(d);
             this.contentTransformer.transform(source, result);
             final Node realDE = d.getDocumentElement().getFirstChild();
             documentElement = realDE;
@@ -176,9 +135,13 @@ public final class DOMBuilder {
             DOMBuilder.LOGGER.warn(e.getMessage());
         }
 
-        final DocumentElement rootElement = new DocumentElement();
-
-        this.traverse(documentElement, rootElement);
+        final DocumentElement rootElement;
+        if (d instanceof DocumentElement) {
+            rootElement = (DocumentElement) d;
+        } else {
+            rootElement = new DocumentElement();
+            this.traverse(documentElement, rootElement);
+        }
         return rootElement;
     }
 
