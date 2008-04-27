@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.converter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import net.sourceforge.jeuclid.elements.generic.JEuclidDOMImplementation;
 import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 
 import org.apache.commons.logging.Log;
@@ -66,8 +67,7 @@ public final class BatikDetector {
             impl = null;
         }
         if (impl == null) {
-            impl = ClassLoaderSupport.getInstance()
-                    .getGenericDOMImplementation();
+            impl = JEuclidDOMImplementation.getInstance();
         }
         return impl;
     }
