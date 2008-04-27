@@ -37,6 +37,7 @@ import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.apache.batik.dom.GenericDocument;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLDocument;
@@ -55,7 +56,11 @@ public class DocumentElement extends GenericDocument implements
      * 
      */
     public DocumentElement() {
-        super(null, JEuclidDOMImplementation.getInstance());
+        this(null);
+    }
+
+    public DocumentElement(final DocumentType doctype) {
+        super(doctype, JEuclidDOMImplementation.getInstance());
         super.setEventsEnabled(true);
         this.ownerDocument = this;
     }
@@ -146,8 +151,14 @@ public class DocumentElement extends GenericDocument implements
         if (namespaceURI == null) {
             return this.createElement(qualifiedName.intern());
         } else {
-            // TODO: This should be an elementNS;
-            return this.createElement(qualifiedName.intern());
+            String tagname = qualifiedName;
+            final int posSeparator = tagname.indexOf(":");
+            if (posSeparator >= 0) {
+                tagname = tagname.substring(posSeparator + 1);
+            }
+            final Element e = this.createElement(tagname);
+            // TODO: E should contain namespaceURI
+            return e;
         }
     }
 
