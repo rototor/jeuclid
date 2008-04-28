@@ -18,19 +18,21 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
+import org.w3c.dom.Node;
+
 /**
  * This class presents numbers in a equation.
  * 
  * @version $Revision$
  */
-public class Mn extends AbstractTokenWithStandardLayout {
+public final class Mn extends AbstractTokenWithStandardLayout {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mn";
 
-    // private static final String DOT = ".";
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
@@ -39,44 +41,10 @@ public class Mn extends AbstractTokenWithStandardLayout {
         super();
     }
 
-    // /**
-    // * @return Width of till point
-    // * @param g
-    // * Graphics2D context to use.
-    // */
-    // public int getWidthTillPoint(final Graphics2D g) {
-    // int result = 0;
-    //
-    // if (this.getText() == null && this.getText().length() == 0) {
-    // return result;
-    // }
-    // final FontMetrics metrics = this.getFontMetrics(g);
-    // String integer = this.getText();
-    // final int dotIndex = integer.indexOf(Mn.DOT);
-    // if (dotIndex >= 0) {
-    // integer = integer.substring(0, dotIndex);
-    // }
-    // result = metrics.stringWidth(integer);
-    // return result;
-    // }
-
-    // /**
-    // * @return width of point
-    // * @param g
-    // * Graphics2D context to use.
-    // */
-    // public float getPointWidth(final Graphics2D g) {
-    // float result = 0;
-    //
-    // final FontMetrics metrics = this.getFontMetrics(g);
-    // result = metrics.stringWidth(Mn.DOT);
-    //
-    // return result;
-    // }
-
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Mn.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Mn();
     }
 
 }

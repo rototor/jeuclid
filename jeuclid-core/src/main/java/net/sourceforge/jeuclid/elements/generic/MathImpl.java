@@ -22,6 +22,7 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLMathElement;
 
 /**
@@ -29,7 +30,8 @@ import org.w3c.dom.mathml.MathMLMathElement;
  * 
  * @version $Revision$
  */
-public class MathImpl extends AbstractRowLike implements MathMLMathElement {
+public final class MathImpl extends AbstractRowLike implements
+        MathMLMathElement {
 
     /** attribute for display. */
     public static final String ATTR_DISPLAY = "display";
@@ -42,11 +44,19 @@ public class MathImpl extends AbstractRowLike implements MathMLMathElement {
      */
     public static final String ELEMENT = "math";
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates a math element.
      */
     public MathImpl() {
         super();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new MathImpl();
     }
 
     /**
@@ -99,11 +109,6 @@ public class MathImpl extends AbstractRowLike implements MathMLMathElement {
     /** {@inheritDoc} */
     public void setMacros(final String macros) {
         this.setAttribute(MathImpl.ATTR_MACROS, macros);
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return MathImpl.ELEMENT;
     }
 
 }

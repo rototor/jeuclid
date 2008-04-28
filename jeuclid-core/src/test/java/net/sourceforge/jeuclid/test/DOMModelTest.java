@@ -18,21 +18,54 @@
 
 package net.sourceforge.jeuclid.test;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
+import net.sourceforge.jeuclid.elements.content.semantic.Annotation;
+import net.sourceforge.jeuclid.elements.content.semantic.Semantics;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
+import net.sourceforge.jeuclid.elements.generic.MathImpl;
+import net.sourceforge.jeuclid.elements.presentation.enlivening.Maction;
+import net.sourceforge.jeuclid.elements.presentation.general.Menclose;
+import net.sourceforge.jeuclid.elements.presentation.general.Merror;
+import net.sourceforge.jeuclid.elements.presentation.general.Mfenced;
 import net.sourceforge.jeuclid.elements.presentation.general.Mfrac;
+import net.sourceforge.jeuclid.elements.presentation.general.Mpadded;
+import net.sourceforge.jeuclid.elements.presentation.general.Mphantom;
+import net.sourceforge.jeuclid.elements.presentation.general.Mroot;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
+import net.sourceforge.jeuclid.elements.presentation.general.Msqrt;
+import net.sourceforge.jeuclid.elements.presentation.general.Mstyle;
+import net.sourceforge.jeuclid.elements.presentation.script.Mmultiscripts;
+import net.sourceforge.jeuclid.elements.presentation.script.Mover;
+import net.sourceforge.jeuclid.elements.presentation.script.Mprescripts;
 import net.sourceforge.jeuclid.elements.presentation.script.Msub;
 import net.sourceforge.jeuclid.elements.presentation.script.Msubsup;
 import net.sourceforge.jeuclid.elements.presentation.script.Msup;
+import net.sourceforge.jeuclid.elements.presentation.script.Munder;
+import net.sourceforge.jeuclid.elements.presentation.script.Munderover;
+import net.sourceforge.jeuclid.elements.presentation.script.None;
+import net.sourceforge.jeuclid.elements.presentation.table.Maligngroup;
+import net.sourceforge.jeuclid.elements.presentation.table.Malignmark;
+import net.sourceforge.jeuclid.elements.presentation.table.Mlabeledtr;
+import net.sourceforge.jeuclid.elements.presentation.table.Mtable;
+import net.sourceforge.jeuclid.elements.presentation.table.Mtd;
+import net.sourceforge.jeuclid.elements.presentation.table.Mtr;
+import net.sourceforge.jeuclid.elements.presentation.token.Mglyph;
 import net.sourceforge.jeuclid.elements.presentation.token.Mi;
+import net.sourceforge.jeuclid.elements.presentation.token.Mn;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
+import net.sourceforge.jeuclid.elements.presentation.token.Ms;
+import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
+import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
 import net.sourceforge.jeuclid.elements.support.attributes.AbstractAttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 
@@ -816,4 +849,59 @@ public class DOMModelTest {
         msubsup.getSubscript();
     }
 
+    private void testImpl(final Class<?> whichClass) throws Exception {
+        final String name = whichClass.getName();
+        final Method[] methods = whichClass.getDeclaredMethods();
+        final Set<String> names = new TreeSet<String>();
+        for (final Method m : methods) {
+            names.add(m.getName());
+        }
+        Assert.assertTrue(names.contains("newNode"), name
+                + " must override newNode");
+        Assert.assertFalse(names.contains("getTagName"), name
+                + " must not override getTagName");
+        Assert.assertTrue(Modifier.isFinal(whichClass.getModifiers()), name
+                + " must be final");
+
+    }
+
+    @Test
+    public void testProperImplementation() throws Exception {
+        this.testImpl(MathImpl.class);
+        this.testImpl(Mfenced.class);
+        this.testImpl(Mfrac.class);
+        this.testImpl(Menclose.class);
+        this.testImpl(Mphantom.class);
+        this.testImpl(Msup.class);
+        this.testImpl(Msub.class);
+        this.testImpl(Mmultiscripts.class);
+        this.testImpl(Mprescripts.class);
+        this.testImpl(None.class);
+        this.testImpl(Msubsup.class);
+        this.testImpl(Munder.class);
+        this.testImpl(Mover.class);
+        this.testImpl(Munderover.class);
+        this.testImpl(Mspace.class);
+        this.testImpl(Ms.class);
+        this.testImpl(Mstyle.class);
+        this.testImpl(Msqrt.class);
+        this.testImpl(Mroot.class);
+        this.testImpl(Mtable.class);
+        this.testImpl(Mtr.class);
+        this.testImpl(Mlabeledtr.class);
+        this.testImpl(Mtd.class);
+        this.testImpl(Mo.class);
+        this.testImpl(Mi.class);
+        this.testImpl(Mn.class);
+        this.testImpl(Mtext.class);
+        this.testImpl(Mrow.class);
+        this.testImpl(Maligngroup.class);
+        this.testImpl(Malignmark.class);
+        this.testImpl(Semantics.class);
+        this.testImpl(Annotation.class);
+        this.testImpl(Mpadded.class);
+        this.testImpl(Merror.class);
+        this.testImpl(Maction.class);
+        this.testImpl(Mglyph.class);
+    }
 }

@@ -18,11 +18,9 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
-import java.util.List;
-import java.util.Vector;
-
 import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLTableCellElement;
 
 /**
@@ -30,7 +28,8 @@ import org.w3c.dom.mathml.MathMLTableCellElement;
  * 
  * @version $Revision$
  */
-public class Mtd extends AbstractRowLike implements MathMLTableCellElement {
+public final class Mtd extends AbstractRowLike implements
+        MathMLTableCellElement {
 
     /**
      * The XML element from this class.
@@ -45,7 +44,7 @@ public class Mtd extends AbstractRowLike implements MathMLTableCellElement {
 
     private static final String VALUE_ONE = "1";
 
-    private final List<Maligngroup> groups = new Vector<Maligngroup>();
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -56,36 +55,10 @@ public class Mtd extends AbstractRowLike implements MathMLTableCellElement {
         this.setDefaultMathAttribute(Mtd.ATTR_COLUMNSPAN, Mtd.VALUE_ONE);
     }
 
-    /**
-     * Adds "maligngroup" element.
-     * 
-     * @param element
-     *            "maligngroup" element.
-     */
-    public void addAlignGroupElement(final Maligngroup element) {
-        this.groups.add(element);
-    }
-
-    /**
-     * Returns array list of align groups, contained in this cell.
-     * 
-     * @return Array list of "maligngroup" elements.
-     */
-    public List<Maligngroup> getAlignGroups() {
-        return this.groups;
-    }
-
-    /**
-     * Adds mark to last added align group.
-     * 
-     * @param mark
-     *            malignmark element.
-     */
-    public void addAlignMarkElement(final Malignmark mark) {
-        if (this.groups == null || this.groups.size() == 0) {
-            return;
-        }
-        (this.groups.get(this.groups.size() - 1)).setMark(mark);
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mtd();
     }
 
     /**
@@ -167,11 +140,6 @@ public class Mtd extends AbstractRowLike implements MathMLTableCellElement {
      */
     public void setGroupalign(final String groupalign) {
         this.setAttribute(Mtable.ATTR_GROUPALIGN, groupalign);
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mtd.ELEMENT;
     }
 
     /** {@inheritDoc} */

@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 
 /**
@@ -27,12 +28,14 @@ import org.w3c.dom.mathml.MathMLElement;
  * 
  * @version $Revision$
  */
-public class Munderover extends AbstractUnderOver {
+public final class Munderover extends AbstractUnderOver {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "munderover";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -42,8 +45,9 @@ public class Munderover extends AbstractUnderOver {
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Munderover.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Munderover();
     }
 
     /** {@inheritDoc} */

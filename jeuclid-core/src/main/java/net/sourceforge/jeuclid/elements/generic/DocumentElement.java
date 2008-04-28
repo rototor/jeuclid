@@ -36,7 +36,6 @@ import net.sourceforge.jeuclid.layout.LayoutableDocument;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.apache.batik.dom.GenericDocument;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -48,8 +47,10 @@ import org.w3c.dom.views.DocumentView;
  * 
  * @version $Revision$
  */
-public class DocumentElement extends GenericDocument implements
+public final class DocumentElement extends GenericDocument implements
         MathMLDocument, JEuclidNode, DocumentView, LayoutableDocument {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -59,6 +60,12 @@ public class DocumentElement extends GenericDocument implements
         this(null);
     }
 
+    /**
+     * Creates a MathML compatible document with the given DocumentType.
+     * 
+     * @param doctype
+     *            DocumentType to use. This is currently ignored.
+     */
     public DocumentElement(final DocumentType doctype) {
         super(doctype, JEuclidDOMImplementation.getInstance());
         super.setEventsEnabled(true);
@@ -127,28 +134,30 @@ public class DocumentElement extends GenericDocument implements
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected Node newNode() {
         return new DocumentElement();
     }
 
-    /**
-     * <b>DOM</b>: Implements {@link
-     * org.w3c.dom.Document#createElement(String)}.
-     */
+    /** {@inheritDoc} */
     @Override
-    public Element createElement(final String tagName) throws DOMException {
+    public Element createElement(final String tagName) {
         // TODO: This should be refactored.
         return JEuclidElementFactory.elementFromName(tagName, null, this);
     }
 
+    /** {@inheritDoc} */
     @Override
-    public Element createElementNS(String namespaceURI,
-            final String qualifiedName) throws DOMException {
+    public Element createElementNS(final String namespaceURI,
+            final String qualifiedName) {
+        final String ns;
         if (namespaceURI != null && namespaceURI.length() == 0) {
-            namespaceURI = null;
+            ns = null;
+        } else {
+            ns = namespaceURI;
         }
-        if (namespaceURI == null) {
+        if (ns == null) {
             return this.createElement(qualifiedName.intern());
         } else {
             String tagname = qualifiedName;
@@ -157,7 +166,7 @@ public class DocumentElement extends GenericDocument implements
                 tagname = tagname.substring(posSeparator + 1);
             }
             final Element e = this.createElement(tagname);
-            // TODO: E should contain namespaceURI
+            // TODO: E should contain ns
             return e;
         }
     }

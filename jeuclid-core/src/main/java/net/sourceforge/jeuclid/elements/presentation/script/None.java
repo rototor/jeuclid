@@ -20,17 +20,21 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
+import org.w3c.dom.Node;
+
 /**
  * This class represent the empty elements none.
  * 
  * @version $Revision$
  */
-public class None extends AbstractInvisibleJEuclidElement {
+public final class None extends AbstractInvisibleJEuclidElement {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "none";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -41,7 +45,8 @@ public class None extends AbstractInvisibleJEuclidElement {
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return None.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new None();
     }
 }

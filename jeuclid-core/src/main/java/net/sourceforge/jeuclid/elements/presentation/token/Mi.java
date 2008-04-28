@@ -20,22 +20,32 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
+import org.w3c.dom.Node;
+
 /**
  * This class presents a mathematical idenifier, like "x".
  * 
  * @version $Revision$
  */
-public class Mi extends AbstractTokenWithStandardLayout {
+public final class Mi extends AbstractTokenWithStandardLayout {
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mi";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
      */
     public Mi() {
         super();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mi();
     }
 
     /** {@inheritDoc} */
@@ -51,9 +61,4 @@ public class Mi extends AbstractTokenWithStandardLayout {
         }
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public String getTagName() {
-        return Mi.ELEMENT;
-    }
 }

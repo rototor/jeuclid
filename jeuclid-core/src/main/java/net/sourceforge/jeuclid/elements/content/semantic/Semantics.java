@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.content.semantic;
 
 import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLSemanticsElement;
 
@@ -28,13 +29,15 @@ import org.w3c.dom.mathml.MathMLSemanticsElement;
  * 
  * @version $Revision$
  */
-public class Semantics extends AbstractRowLike implements
+public final class Semantics extends AbstractRowLike implements
         MathMLSemanticsElement {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "semantics";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -44,8 +47,9 @@ public class Semantics extends AbstractRowLike implements
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Semantics.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Semantics();
     }
 
     /** {@inheritDoc} */

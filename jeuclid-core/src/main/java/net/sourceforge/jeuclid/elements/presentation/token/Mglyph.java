@@ -27,6 +27,7 @@ import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 import net.sourceforge.jeuclid.font.FontFactory;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLGlyphElement;
 
 /**
@@ -38,7 +39,7 @@ import org.w3c.dom.mathml.MathMLGlyphElement;
  *       the context.
  * @version $Revision$
  */
-public class Mglyph extends AbstractTokenWithTextLayout implements
+public final class Mglyph extends AbstractTokenWithTextLayout implements
         MathMLGlyphElement {
 
     /**
@@ -52,11 +53,19 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
 
     private static final String ATTR_INDEX = "index";
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Default constructor.
      */
     public Mglyph() {
         super();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mglyph();
     }
 
     /** {@inheritDoc} */
@@ -115,11 +124,6 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
     /** {@inheritDoc} */
     public void setIndex(final int index) {
         this.setAttribute(Mglyph.ATTR_INDEX, Integer.toString(index));
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mglyph.ELEMENT;
     }
 
 }

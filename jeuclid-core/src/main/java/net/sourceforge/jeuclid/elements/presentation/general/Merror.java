@@ -23,17 +23,21 @@ import java.awt.Color;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.StyleAttributeLayoutContext;
 
+import org.w3c.dom.Node;
+
 /**
  * Represents an merror element.
  * 
  * @version $Revision$
  */
-public class Merror extends AbstractRowLike {
+public final class Merror extends AbstractRowLike {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "merror";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -44,8 +48,9 @@ public class Merror extends AbstractRowLike {
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Merror.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Merror();
     }
 
     /** {@inheritDoc} */

@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLPresentationToken;
 
 /**
@@ -25,12 +26,14 @@ import org.w3c.dom.mathml.MathMLPresentationToken;
  * 
  * @version $Revision$
  */
-public class Mtext extends AbstractTokenWithStandardLayout implements
+public final class Mtext extends AbstractTokenWithStandardLayout implements
         MathMLPresentationToken {
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mtext";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -41,8 +44,9 @@ public class Mtext extends AbstractTokenWithStandardLayout implements
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Mtext.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Mtext();
     }
 
 }

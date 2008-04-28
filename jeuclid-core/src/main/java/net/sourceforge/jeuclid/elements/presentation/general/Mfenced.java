@@ -28,6 +28,7 @@ import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLFencedElement;
 
 /**
@@ -35,7 +36,7 @@ import org.w3c.dom.mathml.MathMLFencedElement;
  * 
  * @version $Revision$
  */
-public class Mfenced extends AbstractElementWithDelegates implements
+public final class Mfenced extends AbstractElementWithDelegates implements
         MathMLFencedElement {
 
     /** The separators attribute. */
@@ -54,6 +55,8 @@ public class Mfenced extends AbstractElementWithDelegates implements
 
     private static final String FENCE_SPACE = "0.2em";
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates a new MathFenced object.
      */
@@ -63,6 +66,12 @@ public class Mfenced extends AbstractElementWithDelegates implements
         this.setDefaultMathAttribute(Mfenced.ATTR_OPEN, "(");
         this.setDefaultMathAttribute(Mfenced.ATTR_CLOSE, ")");
         this.setDefaultMathAttribute(Mfenced.ATTR_SEPARATORS, ",");
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mfenced();
     }
 
     /**
@@ -175,12 +184,6 @@ public class Mfenced extends AbstractElementWithDelegates implements
         opOpen.setLspace(Mfenced.FENCE_SPACE);
         opOpen.setSymmetric(Constants.FALSE);
         return opOpen;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getTagName() {
-        return Mfenced.ELEMENT;
     }
 
 }

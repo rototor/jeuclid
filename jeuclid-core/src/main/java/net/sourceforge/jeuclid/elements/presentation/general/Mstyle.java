@@ -24,6 +24,7 @@ import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLStyleElement;
 
 /**
@@ -31,7 +32,8 @@ import org.w3c.dom.mathml.MathMLStyleElement;
  * 
  * @version $Revision$
  */
-public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
+public final class Mstyle extends AbstractRowLike implements
+        MathMLStyleElement {
 
     /** Attribute for scriptminsize. */
     public static final String ATTR_SCRIPTMINSIZE = "scriptminsize";
@@ -55,12 +57,20 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
      */
     private static final Log LOGGER = LogFactory.getLog(Mstyle.class);
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates a math element.
      */
     public Mstyle() {
         super();
         this.setDefaultMathAttribute(Mstyle.ATTR_DISPLAYSTYLE, "");
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mstyle();
     }
 
     /**
@@ -175,11 +185,6 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
     public LayoutContext getChildLayoutContext(final int childNum,
             final LayoutContext context) {
         return new Mstyle.StyleLayoutContext(context);
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mstyle.ELEMENT;
     }
 
     /** {@inheritDoc} */

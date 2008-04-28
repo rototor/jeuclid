@@ -19,7 +19,6 @@
 package net.sourceforge.jeuclid.elements.generic;
 
 import org.apache.batik.dom.AbstractDOMImplementation;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -27,7 +26,9 @@ import org.w3c.dom.DocumentType;
 /**
  * @version $Revision$
  */
-public class JEuclidDOMImplementation extends AbstractDOMImplementation {
+public final class JEuclidDOMImplementation extends AbstractDOMImplementation {
+
+    private static final long serialVersionUID = 1L;
 
     private static DOMImplementation instance;
 
@@ -40,8 +41,7 @@ public class JEuclidDOMImplementation extends AbstractDOMImplementation {
 
     /** {@inheritDoc} */
     public Document createDocument(final String namespaceURI,
-            final String qualifiedName, final DocumentType doctype)
-            throws DOMException {
+            final String qualifiedName, final DocumentType doctype) {
         final Document result = new DocumentElement(doctype);
         result.appendChild(result
                 .createElementNS(namespaceURI, qualifiedName));
@@ -50,10 +50,15 @@ public class JEuclidDOMImplementation extends AbstractDOMImplementation {
 
     /** {@inheritDoc} */
     public DocumentType createDocumentType(final String qualifiedName,
-            final String publicId, final String systemId) throws DOMException {
+            final String publicId, final String systemId) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Retrieve the singleton instance of this {@link DOMImplementation}.
+     * 
+     * @return a {@link DOMImplementation} implementing MathML DOM.
+     */
     public static synchronized DOMImplementation getInstance() {
         if (JEuclidDOMImplementation.instance == null) {
             JEuclidDOMImplementation.instance = new JEuclidDOMImplementation();

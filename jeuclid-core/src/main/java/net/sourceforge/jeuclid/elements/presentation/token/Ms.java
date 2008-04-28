@@ -24,6 +24,7 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLStringLitElement;
 
 /**
@@ -31,7 +32,7 @@ import org.w3c.dom.mathml.MathMLStringLitElement;
  * 
  * @version $Revision$
  */
-public class Ms extends AbstractTokenWithTextLayout implements
+public final class Ms extends AbstractTokenWithTextLayout implements
         MathMLStringLitElement {
 
     /**
@@ -47,6 +48,8 @@ public class Ms extends AbstractTokenWithTextLayout implements
 
     private static final String VALUE_DOUBLEQUOTE = "\"";
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates a math element.
      */
@@ -54,6 +57,12 @@ public class Ms extends AbstractTokenWithTextLayout implements
         super();
         this.setDefaultMathAttribute(Ms.ATTR_LQUOTE, Ms.VALUE_DOUBLEQUOTE);
         this.setDefaultMathAttribute(Ms.ATTR_RQUOTE, Ms.VALUE_DOUBLEQUOTE);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Ms();
     }
 
     /**
@@ -102,8 +111,4 @@ public class Ms extends AbstractTokenWithTextLayout implements
         return false;
     }
 
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Ms.ELEMENT;
-    }
 }

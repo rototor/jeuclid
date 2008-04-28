@@ -44,6 +44,7 @@ import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.TextObject;
 
 import org.apache.batik.dom.events.DOMCustomEvent;
+import org.w3c.dom.Node;
 import org.w3c.dom.events.CustomEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -56,8 +57,13 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
  * 
  * @version $Revision$
  */
-public class Mo extends AbstractJEuclidElement implements
+
+// CHECKSTYLE:OFF
+// Class Fan-out is to high. However, this is required due to complexity of
+// mo.
+public final class Mo extends AbstractJEuclidElement implements
         MathMLOperatorElement, EventListener {
+    // CHECKSTYLE:ON
 
     /** Attribute for form. */
     public static final String ATTR_FORM = "form";
@@ -121,6 +127,9 @@ public class Mo extends AbstractJEuclidElement implements
      */
     public static final String ATTR_FENCE = "fence";
 
+    /**
+     * Event name for operator events.
+     */
     public static final String MOEVENT = "MOEvent";
 
     /**
@@ -148,9 +157,11 @@ public class Mo extends AbstractJEuclidElement implements
             + /* Down Down Arrows */"\u21CA"
             + /* Down Arrow Up Arrow */"\u21F5" + "\u2223\u2225\u2329\u232A";
 
+    private static final long serialVersionUID = 1L;
+
     private final OperatorDictionary opDict;
 
-    private boolean inChangeHook = false;
+    private boolean inChangeHook;
 
     /**
      * Logger for this class
@@ -180,6 +191,12 @@ public class Mo extends AbstractJEuclidElement implements
         this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_ACCENT, Constants.FALSE);
         this.opDict = OperatorDictionary.getInstance();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mo();
     }
 
     /**
@@ -378,12 +395,6 @@ public class Mo extends AbstractJEuclidElement implements
         }
         this.setDefaultMathAttribute(Mo.ATTR_FORM, form);
         // TODO: Exception for embellished operators
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getTagName() {
-        return Mo.ELEMENT;
     }
 
     /** {@inheritDoc} */
@@ -634,6 +645,7 @@ public class Mo extends AbstractJEuclidElement implements
         return new float[] { calcScaleY, calcBaselineShift };
     }
 
+    /** {@inheritDoc} */
     public void handleEvent(final Event evt) {
         this.changeHook();
     }

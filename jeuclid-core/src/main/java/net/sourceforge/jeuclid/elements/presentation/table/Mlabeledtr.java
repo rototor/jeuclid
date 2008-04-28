@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLLabeledRowElement;
 
@@ -27,17 +28,14 @@ import org.w3c.dom.mathml.MathMLLabeledRowElement;
  * @todo add proper support for labels. They are currently silently ignored.
  * @version $Revision$
  */
-public class Mlabeledtr extends Mtr implements MathMLLabeledRowElement {
+public final class Mlabeledtr extends AbstractTableRow implements
+        MathMLLabeledRowElement {
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mlabeledtr";
 
-    /**
-     * This variable is only used when the tree is created. I am not sure what
-     * it is for.
-     */
-    public boolean labelIgnored;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -48,8 +46,8 @@ public class Mlabeledtr extends Mtr implements MathMLLabeledRowElement {
 
     /** {@inheritDoc} */
     @Override
-    public String getTagName() {
-        return Mlabeledtr.ELEMENT;
+    protected Node newNode() {
+        return new Mlabeledtr();
     }
 
     /** {@inheritDoc} */

@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.presentation.table;
 
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLAlignMarkElement;
 
 /**
@@ -27,8 +28,8 @@ import org.w3c.dom.mathml.MathMLAlignMarkElement;
  * 
  * @version $Revision$
  */
-public class Malignmark extends AbstractInvisibleJEuclidElement implements
-        MathMLAlignMarkElement {
+public final class Malignmark extends AbstractInvisibleJEuclidElement
+        implements MathMLAlignMarkElement {
 
     /**
      * The XML element from this class.
@@ -38,7 +39,7 @@ public class Malignmark extends AbstractInvisibleJEuclidElement implements
     /** The edge attribute. */
     public static final String ATTR_EDGE = "edge";
 
-    // private final int width = 0;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -47,15 +48,10 @@ public class Malignmark extends AbstractInvisibleJEuclidElement implements
         super();
     }
 
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateWidth(final Graphics2D g) {
-    // return this.width;
-    // }
-
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Malignmark.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Malignmark();
     }
 
     /** {@inheritDoc} */

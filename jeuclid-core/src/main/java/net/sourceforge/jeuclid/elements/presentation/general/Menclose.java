@@ -55,7 +55,7 @@ import org.w3c.dom.mathml.MathMLEncloseElement;
  * 
  * @version $Revision$
  */
-public class Menclose extends AbstractElementWithDelegates implements
+public final class Menclose extends AbstractElementWithDelegates implements
         MathMLEncloseElement {
 
     /**
@@ -133,12 +133,20 @@ public class Menclose extends AbstractElementWithDelegates implements
      * "longdiv".
      * 
      */
-    private static class Longdiv extends Menclose.AbstractRowLikeNotation {
+    private static final class Longdiv extends
+            Menclose.AbstractRowLikeNotation {
+        private static final long serialVersionUID = 1L;
+
         /**
          * Default constructor.
          */
         public Longdiv() {
             super();
+        }
+
+        @Override
+        protected Node newNode() {
+            return new Longdiv();
         }
 
         /** {@inheritDoc} */
@@ -171,14 +179,21 @@ public class Menclose extends AbstractElementWithDelegates implements
      * Up-Diagonal Strike.
      * 
      */
-    private static class Updiagonalstrike extends
+    private static final class Updiagonalstrike extends
             Menclose.AbstractRowLikeNotation {
+
+        private static final long serialVersionUID = 1L;
 
         /**
          * Default constructor.
          */
         public Updiagonalstrike() {
             super();
+        }
+
+        @Override
+        protected Node newNode() {
+            return new Updiagonalstrike();
         }
 
         /** {@inheritDoc} */
@@ -199,14 +214,21 @@ public class Menclose extends AbstractElementWithDelegates implements
      * Down-Diagonal Strike.
      * 
      */
-    private static class Downdiagonalstrike extends
+    private static final class Downdiagonalstrike extends
             Menclose.AbstractRowLikeNotation {
+
+        private static final long serialVersionUID = 1L;
 
         /**
          * Default constructor.
          */
         public Downdiagonalstrike() {
             super();
+        }
+
+        @Override
+        protected Node newNode() {
+            return new Downdiagonalstrike();
         }
 
         /** {@inheritDoc} */
@@ -222,9 +244,17 @@ public class Menclose extends AbstractElementWithDelegates implements
         }
     }
 
-    private static class Actuarial extends Menclose.AbstractRowLikeNotation {
+    private static final class Actuarial extends
+            Menclose.AbstractRowLikeNotation {
+        private static final long serialVersionUID = 1L;
+
         public Actuarial() {
             super();
+        }
+
+        @Override
+        protected Node newNode() {
+            return new Actuarial();
         }
 
         /** {@inheritDoc} */
@@ -275,12 +305,20 @@ public class Menclose extends AbstractElementWithDelegates implements
 
     private static final Map<String, Constructor<?>> IMPL_CLASSES = new HashMap<String, Constructor<?>>();;
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates a math element.
      */
     public Menclose() {
         super();
         this.setDefaultMathAttribute(Menclose.ATTR_NOTATION, "");
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Menclose();
     }
 
     /**
@@ -298,12 +336,6 @@ public class Menclose extends AbstractElementWithDelegates implements
      */
     public void setNotation(final String notation) {
         this.setAttribute(Menclose.ATTR_NOTATION, notation);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getTagName() {
-        return Menclose.ELEMENT;
     }
 
     /** {@inheritDoc} */
