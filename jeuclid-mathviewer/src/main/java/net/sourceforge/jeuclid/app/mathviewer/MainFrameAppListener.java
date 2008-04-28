@@ -20,9 +20,6 @@ package net.sourceforge.jeuclid.app.mathviewer;
 
 import java.io.File;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
 import com.apple.eawt.ApplicationListener;
@@ -35,11 +32,12 @@ public class MainFrameAppListener extends ApplicationAdapter implements
 
     private final MainFrame frame;
 
-    /**
-     * Logger for this class
-     */
-    private static final Log LOGGER = LogFactory
-            .getLog(MainFrameAppListener.class);
+    // /**
+    // * Logger for this class
+    // */
+    // Unused.
+    // private static final Log LOGGER = LogFactory
+    // .getLog(MainFrameAppListener.class);
 
     /**
      * Default Constructor.
@@ -51,24 +49,28 @@ public class MainFrameAppListener extends ApplicationAdapter implements
         this.frame = mainFrame;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void handleOpenFile(final ApplicationEvent arg0) {
         this.frame.loadFile(new File(arg0.getFilename()));
         arg0.setHandled(true);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void handleAbout(final ApplicationEvent arg0) {
         this.frame.displayAbout();
         arg0.setHandled(true);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void handlePreferences(final ApplicationEvent arg0) {
         this.frame.displaySettings();
         arg0.setHandled(true);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void handleQuit(final ApplicationEvent arg0) {
         System.exit(0);
