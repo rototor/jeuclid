@@ -31,6 +31,10 @@
               <mainClass>net.sourceforge.jeuclid.app.foprep.Main</mainClass>
               <name>foprep</name>
             </program>
+            <program>
+              <mainClass>net.sourceforge.jeuclid.app.ListFonts</mainClass>
+              <name>listfonts</name>
+            </program>
           </programs>
 <!--          <repositoryLayout>flat</repositoryLayout> -->
         </configuration>

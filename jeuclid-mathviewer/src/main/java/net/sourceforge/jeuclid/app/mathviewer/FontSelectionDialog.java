@@ -23,12 +23,12 @@ import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -52,6 +52,8 @@ import net.sourceforge.jeuclid.font.FontFactory;
 // CHECKSTYLE:OFF
 public class FontSelectionDialog extends JDialog {
     // CHECKSTYLE:ON
+
+    private static final int SAMPLE_FONTSIZE = 14;
 
     /**
      * 
@@ -118,13 +120,17 @@ public class FontSelectionDialog extends JDialog {
     }
 
     private void setupFontsList(final List<String> currentFontNames) {
-        final String[] allFonts = GraphicsEnvironment
-                .getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        // CHECKSTYLE:OFF
+        // Vector is a must because JList requires it.
+        final Vector<String> allFonts = new Vector<String>(FontFactory
+                .getInstance().listFontNames());
+        // CHECKSTYLE:ON
+        Collections.sort(allFonts);
         this.list = new JList(allFonts);
         final List<Integer> selectedIndicies = new ArrayList<Integer>();
         if (currentFontNames != null && !currentFontNames.isEmpty()) {
             for (final String value : currentFontNames) {
-                final int i = Arrays.binarySearch(allFonts, value);
+                final int i = Collections.binarySearch(allFonts, value);
                 if (i > -1) {
                     selectedIndicies.add(i);
                 }
@@ -144,7 +150,8 @@ public class FontSelectionDialog extends JDialog {
             public void valueChanged(final ListSelectionEvent e) {
                 preview.setFont(FontFactory.getInstance().getFont(
                         (String) FontSelectionDialog.this.list
-                                .getSelectedValue(), Font.PLAIN, 14));
+                                .getSelectedValue(), Font.PLAIN,
+                        FontSelectionDialog.SAMPLE_FONTSIZE));
                 preview.revalidate();
             }
         });
