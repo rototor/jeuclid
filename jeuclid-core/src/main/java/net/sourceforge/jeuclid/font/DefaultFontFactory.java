@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -212,6 +213,12 @@ public class DefaultFontFactory extends FontFactory {
             this.fontCache.put(font.getFamily(), font);
         }
         return font;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Set<String> listFontNames() {
+        return this.fontCache.keySet();
     }
 
 }

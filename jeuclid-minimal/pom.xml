@@ -27,6 +27,14 @@
               <mainClass>net.sourceforge.jeuclid.app.Mml2xxx</mainClass>
               <name>mml2xxx</name>
             </program>
+            <program>
+              <mainClass>net.sourceforge.jeuclid.app.foprep.Main</mainClass>
+              <name>foprep</name>
+            </program>
+            <program>
+              <mainClass>net.sourceforge.jeuclid.app.ListFonts</mainClass>
+              <name>listfonts</name>
+            </program>
           </programs>
 <!--          <repositoryLayout>flat</repositoryLayout> -->
         </configuration>
@@ -89,6 +97,11 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core</artifactId>
+      <version>3.1.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>jeuclid-cli</artifactId>
       <version>3.1.1-SNAPSHOT</version>
     </dependency>
     <dependency>

@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Abstract factory to be used to create instances of java.awt.Font. The
@@ -128,4 +129,11 @@ public abstract class FontFactory {
      */
     public abstract Font registerFont(int format, InputStream fontStream)
             throws IOException, FontFormatException;
+
+    /**
+     * Retrieve a list of all fonts registered with this fontFactory.
+     * 
+     * @return A set of recognized font names
+     */
+    public abstract Set<String> listFontNames();
 }
