@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLPaddedElement;
 
 /**
@@ -26,7 +27,8 @@ import org.w3c.dom.mathml.MathMLPaddedElement;
  * @todo none of the attributes are actually implemented yet.
  * @version $Revision$
  */
-public class Mpadded extends AbstractRowLike implements MathMLPaddedElement {
+public final class Mpadded extends AbstractRowLike implements
+        MathMLPaddedElement {
 
     /** constant for depth attribute. */
     public static final String ATTR_DEPTH = "depth";
@@ -45,11 +47,19 @@ public class Mpadded extends AbstractRowLike implements MathMLPaddedElement {
      */
     public static final String ELEMENT = "mpadded";
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Default constructor.
      */
     public Mpadded() {
         super();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mpadded();
     }
 
     /** {@inheritDoc} */
@@ -90,11 +100,6 @@ public class Mpadded extends AbstractRowLike implements MathMLPaddedElement {
     /** {@inheritDoc} */
     public void setWidth(final String width) {
         this.setAttribute(Mpadded.ATTR_WIDTH, width);
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mpadded.ELEMENT;
     }
 
 }

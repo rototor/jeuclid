@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.content.semantic;
 
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLAnnotationElement;
 
 /**
@@ -27,8 +28,8 @@ import org.w3c.dom.mathml.MathMLAnnotationElement;
  * 
  * @version $Revision$
  */
-public class Annotation extends AbstractInvisibleJEuclidElement implements
-        MathMLAnnotationElement {
+public final class Annotation extends AbstractInvisibleJEuclidElement
+        implements MathMLAnnotationElement {
 
     /**
      * The XML element from this class.
@@ -38,6 +39,8 @@ public class Annotation extends AbstractInvisibleJEuclidElement implements
     /** The encoding attribute. */
     public static final String ATTR_ENCODING = "encoding";
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates a math element.
      */
@@ -46,8 +49,9 @@ public class Annotation extends AbstractInvisibleJEuclidElement implements
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Annotation.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Annotation();
     }
 
     /** {@inheritDoc} */

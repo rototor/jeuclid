@@ -24,6 +24,7 @@ import java.util.Vector;
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLActionElement;
 
 /**
@@ -32,7 +33,7 @@ import org.w3c.dom.mathml.MathMLActionElement;
  * @todo This element does not actually implement any action.
  * @version $Revision$
  */
-public class Maction extends AbstractElementWithDelegates implements
+public final class Maction extends AbstractElementWithDelegates implements
         MathMLActionElement {
 
     /**
@@ -44,6 +45,8 @@ public class Maction extends AbstractElementWithDelegates implements
 
     private static final String ATTR_SELECTION = "selection";
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates a math element.
      */
@@ -53,8 +56,9 @@ public class Maction extends AbstractElementWithDelegates implements
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Maction.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Maction();
     }
 
     /** {@inheritDoc} */

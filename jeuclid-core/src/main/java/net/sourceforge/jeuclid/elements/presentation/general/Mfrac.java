@@ -38,6 +38,7 @@ import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 import net.sourceforge.jeuclid.layout.LineObject;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLFractionElement;
 
@@ -46,7 +47,7 @@ import org.w3c.dom.mathml.MathMLFractionElement;
  * 
  * @version $Revision$
  */
-public class Mfrac extends AbstractJEuclidElement implements
+public final class Mfrac extends AbstractJEuclidElement implements
         MathMLFractionElement {
 
     /**
@@ -75,6 +76,8 @@ public class Mfrac extends AbstractJEuclidElement implements
 
     private static final String EXTRA_SPACE_AROUND = "0.1em";
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates a math element.
      */
@@ -92,11 +95,18 @@ public class Mfrac extends AbstractJEuclidElement implements
 
     /** {@inheritDoc} */
     @Override
+    protected Node newNode() {
+        return new Mfrac();
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public LayoutContext getChildLayoutContext(final int childNum,
             final LayoutContext context) {
         return new InlineLayoutContext(this
-                .applyLocalAttributesToContext(context),
-                ! ((Boolean) context.getParameter(Parameter.MFRAC_KEEP_SCRIPTLEVEL)).booleanValue());
+                .applyLocalAttributesToContext(context), !((Boolean) context
+                .getParameter(Parameter.MFRAC_KEEP_SCRIPTLEVEL))
+                .booleanValue());
     }
 
     /**
@@ -146,11 +156,6 @@ public class Mfrac extends AbstractJEuclidElement implements
      */
     public String getBevelled() {
         return this.getMathAttribute(Mfrac.ATTR_BEVELLED);
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mfrac.ELEMENT;
     }
 
     /** {@inheritDoc} */

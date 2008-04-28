@@ -20,17 +20,21 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
+import org.w3c.dom.Node;
+
 /**
  * This class represent the empty elements mprescripts.
  * 
  * @version $Revision$
  */
-public class Mprescripts extends AbstractInvisibleJEuclidElement {
+public final class Mprescripts extends AbstractInvisibleJEuclidElement {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mprescripts";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -40,7 +44,8 @@ public class Mprescripts extends AbstractInvisibleJEuclidElement {
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Mprescripts.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Mprescripts();
     }
 }

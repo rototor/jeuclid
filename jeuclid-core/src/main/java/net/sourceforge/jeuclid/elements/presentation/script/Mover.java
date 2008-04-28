@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 
 /**
@@ -28,12 +29,14 @@ import org.w3c.dom.mathml.MathMLElement;
  * 
  * @version $Revision$
  */
-public class Mover extends AbstractUnderOver {
+public final class Mover extends AbstractUnderOver {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mover";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -43,8 +46,9 @@ public class Mover extends AbstractUnderOver {
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Mover.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Mover();
     }
 
     /** {@inheritDoc} */

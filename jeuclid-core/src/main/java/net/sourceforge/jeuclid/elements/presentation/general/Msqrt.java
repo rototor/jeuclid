@@ -23,6 +23,7 @@ import java.util.List;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLRadicalElement;
 
@@ -31,12 +32,14 @@ import org.w3c.dom.mathml.MathMLRadicalElement;
  * 
  * @version $Revision$
  */
-public class Msqrt extends AbstractRoot implements MathMLRadicalElement {
+public final class Msqrt extends AbstractRoot implements MathMLRadicalElement {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "msqrt";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -46,8 +49,9 @@ public class Msqrt extends AbstractRoot implements MathMLRadicalElement {
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Msqrt.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Msqrt();
     }
 
     /** {@inheritDoc} */

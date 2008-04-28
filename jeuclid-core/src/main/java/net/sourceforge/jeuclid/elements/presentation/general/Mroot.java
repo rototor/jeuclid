@@ -26,6 +26,7 @@ import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.context.RelativeScriptlevelLayoutContext;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLRadicalElement;
 
@@ -34,12 +35,14 @@ import org.w3c.dom.mathml.MathMLRadicalElement;
  * 
  * @version $Revision$
  */
-public class Mroot extends AbstractRoot implements MathMLRadicalElement {
+public final class Mroot extends AbstractRoot implements MathMLRadicalElement {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mroot";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -49,8 +52,9 @@ public class Mroot extends AbstractRoot implements MathMLRadicalElement {
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Mroot.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Mroot();
     }
 
     /** {@inheritDoc} */

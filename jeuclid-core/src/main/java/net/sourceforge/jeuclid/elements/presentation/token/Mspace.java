@@ -26,6 +26,7 @@ import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLSpaceElement;
 
 /**
@@ -34,7 +35,7 @@ import org.w3c.dom.mathml.MathMLSpaceElement;
  * @todo linebreak is unimplemented
  * @version $Revision$
  */
-public class Mspace extends AbstractJEuclidElement implements
+public final class Mspace extends AbstractJEuclidElement implements
         MathMLSpaceElement {
 
     /**
@@ -54,6 +55,8 @@ public class Mspace extends AbstractJEuclidElement implements
     /** Attribute for linebreak. */
     public static final String ATTR_LINEBREAK = "linebreak";
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates a math element.
      */
@@ -63,6 +66,12 @@ public class Mspace extends AbstractJEuclidElement implements
         this.setDefaultMathAttribute(Mspace.ATTR_HEIGHT, Constants.ZERO);
         this.setDefaultMathAttribute(Mspace.ATTR_WIDTH, Constants.ZERO);
         this.setDefaultMathAttribute(Mspace.ATTR_LINEBREAK, "auto");
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mspace();
     }
 
     /**
@@ -122,11 +131,6 @@ public class Mspace extends AbstractJEuclidElement implements
                 .getDepth(), now, AttributesHelper.PT), stage);
         info.setWidth(AttributesHelper.convertSizeToPt(this.getWidth(), now,
                 AttributesHelper.PT), stage);
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mspace.ELEMENT;
     }
 
     /** {@inheritDoc} */

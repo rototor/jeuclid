@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.1" date="SVN" description="None yet">
+      <action dev="maxberger" type="update">Clean-up of Element Implementations</action>
       <action dev="maxberger" type="add">Added listfonts command-line tool</action>
       <action dev="maxberger" type="update">XSLT transformation is now done directly into the JEuclid DOM model.</action>
       <action dev="maxberger" type="update">more compatibility fixes for DOM implementation</action>

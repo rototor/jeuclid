@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.presentation.table;
 
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLAlignGroupElement;
 
 /**
@@ -28,8 +29,8 @@ import org.w3c.dom.mathml.MathMLAlignGroupElement;
  * @version $Revision$
  */
 
-public class Maligngroup extends AbstractInvisibleJEuclidElement implements
-        MathMLAlignGroupElement {
+public final class Maligngroup extends AbstractInvisibleJEuclidElement
+        implements MathMLAlignGroupElement {
 
     /**
      * The XML element from this class.
@@ -39,10 +40,7 @@ public class Maligngroup extends AbstractInvisibleJEuclidElement implements
     /** The groupalign attribute. */
     public static final String ATTR_GROUPALIGN = "groupalign";
 
-    /** The width is calculated within MathTable. */
-    protected float width;
-
-    private Malignmark mathAlignMark;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -51,119 +49,10 @@ public class Maligngroup extends AbstractInvisibleJEuclidElement implements
         super();
     }
 
-    /**
-     * Return the current width of this element. Initially it's zero, but
-     * MathTable after calculating will give it the right value.
-     * 
-     * @return Width of this element
-     */
-
-    public float getWidth() {
-        return this.width;
-    }
-
-    // /** {@inheritDoc} */
-    // @Override
-    // public float calculateWidth(final Graphics2D g) {
-    // return this.width;
-    // }
-
-    /**
-     * @param mark
-     *            MathAlignMark
-     */
-    protected void setMark(final Malignmark mark) {
-        if (this.mathAlignMark == null) {
-            this.mathAlignMark = mark;
-        }
-    }
-
-    /**
-     * @return mark
-     */
-    protected Malignmark getMark() {
-        return this.mathAlignMark;
-    }
-
-    // /**
-    // * @param elements
-    // * Listof elements
-    // * @return width of all elements
-    // * @param g
-    // * Graphics2D context to use.
-    // */
-    // protected static float getElementsWholeWidth(final Graphics2D g,
-    // final List<JEuclidElement> elements) {
-    // float result = 0;
-    //
-    // if (elements == null || elements.size() == 0) {
-    // return result;
-    // }
-    //
-    // for (int i = 0; i < elements.size(); i++) {
-    // if (elements.get(i) != null) {
-    // result += (elements.get(i)).getWidth(g);
-    // }
-    // }
-    //
-    // return result;
-    // }
-
-    // /**
-    // * @param alignGroupElement
-    // * maligngroup element
-    // * @return list of elements of the maligngroup
-    // */
-    // protected static List<JEuclidElement> getElementsOfAlignGroup(
-    // final JEuclidElement alignGroupElement) {
-    // final List<JEuclidElement> result = new Vector<JEuclidElement>();
-    //
-    // JEuclidElement parent = alignGroupElement.getParent();
-    // int index = parent.getIndexOfMathElement(alignGroupElement) + 1;
-    // JEuclidElement current = parent.getMathElement(index);
-    // final boolean searching = true;
-    //
-    // while (searching) {
-    // if (parent.getMathElementCount() == index) {
-    // // end of parent
-    // if (parent instanceof Mtr || parent instanceof MathImpl) {
-    // // parent is tablerow or root, exit
-    // break;
-    // }
-    // index = parent.getParent().getIndexOfMathElement(parent) + 1;
-    // parent = parent.getParent();
-    // current = parent.getMathElement(index);
-    // // going out from mrow or something...
-    // continue;
-    // } else {
-    // // parent elements didn't over
-    // if (current instanceof Mrow) {
-    // // go inside mrow
-    // parent = current;
-    // current = parent.getMathElement(0);
-    // index = 0;
-    // continue;
-    // } else {
-    // if (current instanceof Maligngroup) {
-    // // we've found next aligngroup element, stop search
-    // break;
-    // } else {
-    // // adding element, continue loop
-    // result.add(current);
-    // }
-    // // next element
-    // current = parent.getMathElement(index + 1);
-    // index++;
-    // }
-    // }
-    // }
-    //
-    // return result;
-    // }
-
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Maligngroup.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Maligngroup();
     }
 
     /** {@inheritDoc} */

@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLPresentationContainer;
 
 /**
@@ -25,13 +26,15 @@ import org.w3c.dom.mathml.MathMLPresentationContainer;
  * 
  * @version $Revision$
  */
-public class Mrow extends AbstractRowLike implements
+public final class Mrow extends AbstractRowLike implements
         MathMLPresentationContainer {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mrow";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -41,8 +44,9 @@ public class Mrow extends AbstractRowLike implements
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Mrow.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Mrow();
     }
 
 }

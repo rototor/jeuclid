@@ -42,12 +42,14 @@ import org.w3c.dom.mathml.MathMLNodeList;
  * @version $Revision$
  */
 
-public class Mmultiscripts extends AbstractScriptElement implements
+public final class Mmultiscripts extends AbstractScriptElement implements
         MathMLMultiScriptsElement {
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mmultiscripts";
+
+    private static final long serialVersionUID = 1L;
 
     // /**
     // * Logger for this class
@@ -79,6 +81,12 @@ public class Mmultiscripts extends AbstractScriptElement implements
     public Mmultiscripts() {
         super();
         this.inRewriteChildren = false;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mmultiscripts();
     }
 
     /** {@inheritDoc} */
@@ -218,12 +226,6 @@ public class Mmultiscripts extends AbstractScriptElement implements
             final LayoutContext context) {
         return child.isSameNode(this.getBase())
                 && this.getNumscriptcolumns() > 0;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getTagName() {
-        return Mmultiscripts.ELEMENT;
     }
 
     /** {@inheritDoc} */

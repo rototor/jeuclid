@@ -24,17 +24,21 @@ import java.util.Vector;
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.w3c.dom.Node;
+
 /**
  * This class represents a phantom of a math element. This is used as spacer.
  * 
  * @version $Revision$
  */
-public class Mphantom extends AbstractContainer {
+public final class Mphantom extends AbstractContainer {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mphantom";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -44,8 +48,9 @@ public class Mphantom extends AbstractContainer {
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Mphantom.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Mphantom();
     }
 
     /** {@inheritDoc} */

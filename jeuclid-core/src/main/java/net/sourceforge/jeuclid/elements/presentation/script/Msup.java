@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLScriptElement;
 
@@ -29,12 +30,15 @@ import org.w3c.dom.mathml.MathMLScriptElement;
  * 
  * @version $Revision$
  */
-public class Msup extends AbstractSubSuper implements MathMLScriptElement {
+public final class Msup extends AbstractSubSuper implements
+        MathMLScriptElement {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "msup";
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
@@ -44,8 +48,9 @@ public class Msup extends AbstractSubSuper implements MathMLScriptElement {
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Msup.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Msup();
     }
 
     /** {@inheritDoc} */
