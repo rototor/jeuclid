@@ -44,6 +44,8 @@ import org.apache.fop.fo.FOEventHandler;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.PropertyList;
 import org.apache.fop.fo.properties.FixedLength;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 
@@ -78,7 +80,14 @@ public class JEuclidElement extends JEuclidObj {
             final Attributes attlist, final PropertyList propertyList)
             throws FOPException {
         super.processNode(elementName, locator, attlist, propertyList);
-        this.createBasicDocument();
+        final Document d = this.createBasicDocument();
+        final Element e = d.getDocumentElement();
+        for (final LayoutContext.Parameter p : LayoutContext.Parameter
+                .values()) {
+            e.setAttributeNS(JEuclidXMLHandler.FOPEXT_NS, "jeuclid:"
+                    + p.toString(), p.toString(this.layoutContext
+                    .getParameter(p)));
+        }
     }
 
     private void calculate() {
@@ -91,7 +100,6 @@ public class JEuclidElement extends JEuclidObj {
         this.size = new Point2D.Float(view.getWidth(), view.getAscentHeight()
                 + descent);
         this.baseline = FixedLength.getInstance(-descent, "pt");
-
     }
 
     /** {@inheritDoc} */
@@ -114,12 +122,6 @@ public class JEuclidElement extends JEuclidObj {
 
     /** {@inheritDoc} */
     @Override
-    public void bind(final PropertyList propertyList) throws FOPException {
-        super.bind(propertyList);
-    }
-
-    /** {@inheritDoc} */
-    @Override
     protected PropertyList createPropertyList(final PropertyList pList,
             final FOEventHandler foEventHandler) throws FOPException {
         this.layoutContext
@@ -127,7 +129,6 @@ public class JEuclidElement extends JEuclidObj {
                         LayoutContext.Parameter.MATHSIZE,
                         (float) (pList.getFontProps().fontSize
                                 .getNumericValue() / PreloaderMathML.MPT_FACTOR));
-
         return super.createPropertyList(pList, foEventHandler);
     }
 
