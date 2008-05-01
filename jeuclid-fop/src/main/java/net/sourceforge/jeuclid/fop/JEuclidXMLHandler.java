@@ -39,9 +39,9 @@ import org.apache.fop.render.Graphics2DAdapter;
 import org.apache.fop.render.Renderer;
 import org.apache.fop.render.RendererContext;
 import org.apache.fop.render.XMLHandler;
-import org.apache.fop.render.pdf.PDFRendererContextConstants;
 import org.apache.xmlgraphics.java2d.Graphics2DImagePainter;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * XMLHandler which draws MathML through a fop G2DAdapter.
@@ -49,6 +49,11 @@ import org.w3c.dom.Document;
  * @version $Revision$
  */
 public class JEuclidXMLHandler implements XMLHandler {
+
+    /**
+     * Namespace to be used for internal communication of fop extension.
+     */
+    public static final String FOPEXT_NS = "http://jeuclid.sf.net/ns/fopext";
 
     /** Creates a new instance of JEuclidXMLHandler. */
     public JEuclidXMLHandler() {
@@ -63,13 +68,14 @@ public class JEuclidXMLHandler implements XMLHandler {
         final MutableLayoutContext layoutContext = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
 
-        final Number n = (Number) rendererContext
-                .getProperty(PDFRendererContextConstants.PDF_FONT_SIZE);
-        if (n != null) {
-            final float fontSize = n.floatValue()
-                    / PreloaderMathML.MPT_FACTOR;
-            layoutContext.setParameter(LayoutContext.Parameter.MATHSIZE,
-                    fontSize);
+        final Element e = document.getDocumentElement();
+        for (final LayoutContext.Parameter p : LayoutContext.Parameter
+                .values()) {
+            final String s = e.getAttributeNS(JEuclidXMLHandler.FOPEXT_NS, p
+                    .toString());
+            if ((s != null) && (s.length() > 0)) {
+                layoutContext.setParameter(p, p.fromString(s));
+            }
         }
 
         if (g2dAdapter != null) {
