@@ -27,6 +27,7 @@
 
 package net.sourceforge.jeuclid.fop;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Point2D;
@@ -40,6 +41,7 @@ import net.sourceforge.jeuclid.xmlgraphics.PreloaderMathML;
 
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.datatypes.Length;
+import org.apache.fop.fo.Constants;
 import org.apache.fop.fo.FOEventHandler;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.PropertyList;
@@ -124,11 +126,19 @@ public class JEuclidElement extends JEuclidObj {
     @Override
     protected PropertyList createPropertyList(final PropertyList pList,
             final FOEventHandler foEventHandler) throws FOPException {
-        this.layoutContext
-                .setParameter(
-                        LayoutContext.Parameter.MATHSIZE,
-                        (float) (pList.getFontProps().fontSize
-                                .getNumericValue() / PreloaderMathML.MPT_FACTOR));
+        final float msize = (float) (pList.getFontProps().fontSize
+                .getNumericValue() / PreloaderMathML.MPT_FACTOR);
+        final Color color = pList.get(Constants.PR_COLOR).getColor(
+                this.getUserAgent());
+        final Color bcolor = pList.get(Constants.PR_BACKGROUND_COLOR)
+                .getColor(this.getUserAgent());
+
+        this.layoutContext.setParameter(LayoutContext.Parameter.MATHSIZE,
+                msize);
+        this.layoutContext.setParameter(LayoutContext.Parameter.MATHCOLOR,
+                color);
+        this.layoutContext.setParameter(
+                LayoutContext.Parameter.MATHBACKGROUND, bcolor);
         return super.createPropertyList(pList, foEventHandler);
     }
 
