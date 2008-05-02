@@ -49,9 +49,7 @@ import org.apache.batik.dom.events.DOMMutationEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventException;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLMathElement;
 import org.w3c.dom.mathml.MathMLNodeList;
@@ -378,49 +376,6 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /**
-     * Add the content of a String to this element.
-     * 
-     * @param text
-     *            String with text of this object.
-     */
-    public void addText(final String text) {
-        Node textNode = this.getLastChild();
-        if (!(textNode instanceof Text)) {
-            textNode = this.getCurrentDocument().createTextNode("");
-            this.appendChild(textNode);
-        }
-
-        final StringBuilder newText = new StringBuilder();
-        if (this.getTextContent() != null) {
-            newText.append(textNode.getTextContent());
-        }
-
-        // As seen in 2.4.6
-        if (text != null) {
-            newText.append(text.trim());
-        }
-
-        for (int i = 0; i < newText.length() - 1; i++) {
-            if (newText.charAt(i) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX
-                    && newText.charAt(i + 1) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX) {
-                newText.deleteCharAt(i);
-                // CHECKSTYLE:OFF
-                // This is intentional
-                i--;
-                // CHECKSTYLE:ON
-            }
-        }
-
-        final String toSet = CharConverter.convertEarly(newText.toString());
-        if (toSet.length() > 0) {
-            textNode.setNodeValue(toSet);
-        } else {
-            this.removeChild(textNode);
-        }
-
-    }
-
-    /**
      * Returns the text content of this element.
      * 
      * @return Text content.
@@ -430,7 +385,23 @@ public abstract class AbstractJEuclidElement extends
         if (theText == null) {
             return "";
         } else {
-            return theText;
+
+            final StringBuilder newText = new StringBuilder();
+
+            // As seen in 2.4.6
+            newText.append(theText.trim());
+
+            for (int i = 0; i < newText.length() - 1; i++) {
+                if (newText.charAt(i) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX
+                        && newText.charAt(i + 1) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX) {
+                    newText.deleteCharAt(i);
+                    // CHECKSTYLE:OFF
+                    // This is intentional
+                    i--;
+                    // CHECKSTYLE:ON
+                }
+            }
+            return CharConverter.convertEarly(newText.toString());
         }
     }
 
@@ -871,12 +842,17 @@ public abstract class AbstractJEuclidElement extends
                 .add(Mo.ATTR_MOVEABLEWRONG);
     }
 
+    /**
+     * Override this function to get notified whenever the contents of this
+     * element have changed.
+     */
     protected void changeHook() {
         // Override me!
     }
 
+    /** {@inheritDoc} */
     @Override
-    public boolean dispatchEvent(final Event evt) throws EventException {
+    public boolean dispatchEvent(final Event evt) {
         if (evt instanceof DOMMutationEvent) {
             this.changeHook();
         }

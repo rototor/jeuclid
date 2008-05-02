@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.1" date="SVN" description="None yet">
+      <action dev="maxberger" type="update">Whitespace trimming was lost and is now restored.</action>
       <action dev="maxberger" type="add">Added support for Mathematica Fonts</action>
       <action dev="maxberger" type="add">FOP plugin: support for color</action>
       <action dev="maxberger" type="add">FOP plugin: context parameters are now supported in all targets (not just pdf)</action>

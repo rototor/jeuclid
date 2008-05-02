@@ -26,10 +26,6 @@ public class LayoutTest {
     final public static String TEST1 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
             + "<mrow><mo>(</mo><mn>5</mn></mrow></math>";
 
-    // final public static String TEST2 = "<?xml version=\"1.0\"
-    // encoding=\"ISO-8859-1\"?><math mode=\"display\">"
-    // + "<mrow><mo>(</mo><mn>5</mn></mrow></math>";
-
     @Test
     public void testViewNotEmpty() throws Exception {
         final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
@@ -88,4 +84,36 @@ public class LayoutTest {
                 "Operator should be larger: " + newmopascent + " > "
                         + oldmopascent);
     }
+
+    @Test
+    public void testWhitespace() throws Exception {
+        final MathMLDocument docElement = DOMBuilder
+                .getDOMBuilder()
+                .createJeuclidDom(
+                        MathMLParserSupport
+                                .parseString("<math><mtext>x x</mtext><mtext> x x </mtext><mtext>x    x</mtext></math>"));
+        final JEuclidView view = (JEuclidView) (((DocumentView) docElement)
+                .getDefaultView());
+
+        final MathMLMathElement mathElement = (MathMLMathElement) docElement
+                .getFirstChild();
+        final LayoutableNode m1 = (LayoutableNode) mathElement
+                .getFirstChild();
+        final LayoutableNode m2 = (LayoutableNode) m1.getNextSibling();
+        final LayoutableNode m3 = (LayoutableNode) m2.getNextSibling();
+
+        // To trigger layout
+        view.getWidth();
+
+        final float w1 = view.getInfo(m1).getWidth(LayoutStage.STAGE2);
+        final float w2 = view.getInfo(m2).getWidth(LayoutStage.STAGE2);
+        final float w3 = view.getInfo(m3).getWidth(LayoutStage.STAGE2);
+
+        Assert.assertEquals(w2, w1,
+                "Whitespace around text should be trimmed to none");
+        Assert.assertEquals(w3, w1,
+                "Whitespace inside text should be trimmed to 1");
+
+    }
+
 }

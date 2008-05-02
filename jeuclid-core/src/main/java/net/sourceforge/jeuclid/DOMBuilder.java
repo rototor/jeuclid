@@ -25,7 +25,6 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
@@ -180,17 +179,17 @@ public final class DOMBuilder {
             if (childNodeType == Node.ELEMENT_NODE) {
                 this.traverse(childNode, element);
             } else if (childNodeType == Node.TEXT_NODE) {
-                ((AbstractJEuclidElement) element).addText(childNode
-                        .getNodeValue());
+                element.appendChild(element.getOwnerDocument()
+                        .createTextNode(childNode.getNodeValue()));
             } else if (childNodeType == Node.ENTITY_REFERENCE_NODE
                     && childNode.hasChildNodes()) {
                 final String entityValue = childNode.getFirstChild()
                         .getNodeValue();
                 if (entityValue != null) {
-                    ((AbstractJEuclidElement) element).addText(entityValue);
+                    element.appendChild(element.getOwnerDocument()
+                            .createTextNode(entityValue));
                 }
             }
         }
     }
-
 }
