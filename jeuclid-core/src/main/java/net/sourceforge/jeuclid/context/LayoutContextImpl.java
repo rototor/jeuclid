@@ -97,6 +97,9 @@ public class LayoutContextImpl implements MutableLayoutContext {
         this.context.put(Parameter.FONTS_MONOSPACED, fontsMonospaced);
 
         fontsScript.add("EUSM10");
+        fontsScript.add("cmsy10");
+        fontsScript.add("Math5");
+        fontsScript.add("Mathematica5");
         fontsScript.add("Savoye LET");
         fontsScript.add("Brush Script MT");
         fontsScript.add("Zapfino");
@@ -108,6 +111,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
         this.context.put(Parameter.FONTS_SCRIPT, fontsScript);
 
         fontsFraktur.add("EUFM10");
+        fontsFraktur.add("Mathematica6");
         fontsFraktur.add("FetteFraktur");
         fontsFraktur.add("Fette Fraktur");
         fontsFraktur.add("Euclid Fraktur");
@@ -116,6 +120,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
         this.context.put(Parameter.FONTS_FRAKTUR, fontsFraktur);
 
         fontsDoublestruck.add("MSBM10");
+        fontsDoublestruck.add("Mathematica7");
         fontsDoublestruck.add("Caslon Open Face");
         fontsDoublestruck.add("Caslon Openface");
         fontsDoublestruck.add("Cloister Open Face");
