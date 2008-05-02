@@ -145,7 +145,7 @@ public final class Mfenced extends AbstractElementWithDelegates implements
 
         final Mo opOpen = this.createFenceOperator();
         opOpen.setForm(OperatorDictionary.FORM_PREFIX);
-        opOpen.addText(this.getOpen());
+        opOpen.setTextContent(this.getOpen());
 
         retVal.add(opOpen);
         final String sep = this.getSeparators();
@@ -159,17 +159,17 @@ public final class Mfenced extends AbstractElementWithDelegates implements
                 final Mo opSep = new Mo();
                 opSep.setSeparator(Constants.TRUE);
                 if (i < sep.length()) {
-                    opSep.addText(String.valueOf(sep.charAt(i)));
+                    opSep.setTextContent(String.valueOf(sep.charAt(i)));
                 } else {
-                    opSep.addText(String
-                            .valueOf(sep.charAt(sep.length() - 1)));
+                    opSep.setTextContent(String.valueOf(sep.charAt(sep
+                            .length() - 1)));
                 }
                 retVal.add(opSep);
             }
         }
         final Mo opClose = this.createFenceOperator();
         opClose.setForm(OperatorDictionary.FORM_POSTFIX);
-        opClose.addText(this.getClose());
+        opClose.setTextContent(this.getClose());
         retVal.add(opClose);
 
         return retVal;
