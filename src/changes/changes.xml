@@ -7,6 +7,7 @@
 	<body>
 		<release version="3.0.4" date="in SVN"
 			description="none yet">
+		<action dev="maxberger" type="update" issue="1956099">Fixed list of symbol catch fonts</action>
 		<action dev="maxberger" type="update">Update after release</action>
                 </release>
 		<release version="3.0.3" date="2008-02-20"
