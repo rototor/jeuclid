@@ -34,6 +34,7 @@ import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
+import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
 /**
  * common superclass for root like elements (root, sqrt).
@@ -181,7 +182,7 @@ public abstract class AbstractRoot extends AbstractJEuclidElement {
         final float x = posX / xScale;
 
         g.setTransform(transform);
-        g.drawString(String.valueOf(this.rootChar), x, y);
+        StringUtil.createTextLayoutFromAttributedString(g, StringUtil.convertStringtoAttributedString(String.valueOf(this.rootChar), this.getMathvariantAsVariant(), this.getFontsizeInPoint(), this.getMathBase()), this.getMathBase()).draw(g, x, y);
         g.setTransform(prevTransform);
 
     }
