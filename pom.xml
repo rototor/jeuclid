@@ -229,6 +229,18 @@
     </extensions>
     <plugins>
       <plugin>
+<!-- This is necessary for docbook sites on OS X -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.doxia</groupId>
+            <artifactId>doxia-module-docbook-simple</artifactId>
+            <version>1.0-alpha-10</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <source>1.5</source>
