@@ -40,7 +40,11 @@ import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
  * 
  * @version $Revision$
  */
+// CHECKSTYLE:OFF
+// Data Abstraction Coupling is too high. Hover, String handling is not
+// simple.
 public final class StringUtil {
+    // CHECKSTYLE:ON
 
     /**
      * Set to true if we're running under Mac OS X.
@@ -80,31 +84,10 @@ public final class StringUtil {
 
                 final CodePointAndVariant cpav1 = new CodePointAndVariant(
                         plainString.codePointAt(i), baseVariant);
-
-                final List<CodePointAndVariant> alternatives = StringUtil.CMAP
-                        .getAllAternatives(cpav1);
-
-                Font font = null;
-                int codePoint = 0;
-                final Iterator<CodePointAndVariant> it = alternatives
-                        .iterator();
-                boolean cont = true;
-                while (cont) {
-                    final CodePointAndVariant cpav = it.next();
-                    if (it.hasNext()) {
-                        codePoint = cpav.getCodePoint();
-                        font = cpav.getVariant().createFont(fontSize,
-                                codePoint, context, false);
-                        if (font != null) {
-                            cont = false;
-                        }
-                    } else {
-                        codePoint = cpav.getCodePoint();
-                        font = cpav.getVariant().createFont(fontSize,
-                                codePoint, context, true);
-                        cont = false;
-                    }
-                }
+                final Object[] codeAndFont = StringUtil.mapCpavToCpaf(cpav1,
+                        fontSize, context);
+                final int codePoint = (Integer) codeAndFont[0];
+                final Font font = (Font) codeAndFont[1];
 
                 builder.appendCodePoint(codePoint);
                 fonts.add(font);
@@ -133,6 +116,34 @@ public final class StringUtil {
             }
         }
         return aString;
+    }
+
+    private static Object[] mapCpavToCpaf(final CodePointAndVariant cpav1,
+            final float fontSize, final LayoutContext context) {
+        final List<CodePointAndVariant> alternatives = StringUtil.CMAP
+                .getAllAternatives(cpav1);
+
+        Font font = null;
+        int codePoint = 0;
+        final Iterator<CodePointAndVariant> it = alternatives.iterator();
+        boolean cont = true;
+        while (cont) {
+            final CodePointAndVariant cpav = it.next();
+            if (it.hasNext()) {
+                codePoint = cpav.getCodePoint();
+                font = cpav.getVariant().createFont(fontSize, codePoint,
+                        context, false);
+                if (font != null) {
+                    cont = false;
+                }
+            } else {
+                codePoint = cpav.getCodePoint();
+                font = cpav.getVariant().createFont(fontSize, codePoint,
+                        context, true);
+                cont = false;
+            }
+        }
+        return new Object[] { codePoint, font };
     }
 
     /**
