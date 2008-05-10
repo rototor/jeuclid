@@ -26,17 +26,23 @@ import java.io.InputStreamReader;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.Vector;
 
 import net.sourceforge.jeuclid.elements.support.attributes.FontFamily;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.xmlgraphics.fonts.Glyphs;
 
 /**
  * @version $Revision$
@@ -72,20 +78,22 @@ public final class CharacterMapping implements Serializable {
 
     private final Map<FontFamily, Map<Integer, Integer[]>> composeAttrs;
 
+    private transient Map<CodePointAndVariant, Reference<List<CodePointAndVariant>>> alternatives;
+
     /**
      * Default Constructor.
      */
     private CharacterMapping() {
-        // Map<Integer, CodePointAndVariant> eAttrs;
-        // Map<FontFamily, Map<Integer, Integer[]>> cAttrs;
-        // this.extractAttrs = eAttrs;
-        // this.composeAttrs = cAttrs;
-
         this.extractAttrs = new TreeMap<Integer, CodePointAndVariant>();
         this.forceSet = new TreeSet<Integer>();
         this.composeAttrs = new EnumMap<FontFamily, Map<Integer, Integer[]>>(
                 FontFamily.class);
+        this.initTransientFields();
         this.loadUnicodeData();
+    }
+
+    private void initTransientFields() {
+        this.alternatives = new HashMap<CodePointAndVariant, Reference<List<CodePointAndVariant>>>();
     }
 
     private void loadUnicodeData() {
@@ -145,7 +153,6 @@ public final class CharacterMapping implements Serializable {
         } catch (final NumberFormatException nfe) {
             CharacterMapping.LOGGER.debug(nfe.getMessage());
         }
-
     }
 
     private Integer[] getMapsTo(final int mapsTo,
@@ -213,6 +220,7 @@ public final class CharacterMapping implements Serializable {
                 final ObjectInput oi = new ObjectInputStream(is);
                 m = (CharacterMapping) oi.readObject();
                 oi.close();
+                m.initTransientFields();
             } catch (final ClassNotFoundException cnfe) {
                 m = null;
             } catch (final IllegalArgumentException e) {
@@ -304,4 +312,78 @@ public final class CharacterMapping implements Serializable {
                 testStyle | mapsToVariant.getAwtStyle(), mapsToVariant
                         .getFontFamily()));
     }
+
+    /**
+     * Get all alternatives codePoints for this codePoint. They can be used if
+     * the original code point and variant is not available.
+     * 
+     * @param cpav
+     *            original CodePointAndVariant
+     * @return A List of alternative code points to check.
+     */
+    public List<CodePointAndVariant> getAllAternatives(
+            final CodePointAndVariant cpav) {
+        final Reference<List<CodePointAndVariant>> ref = this.alternatives
+                .get(cpav);
+        List<CodePointAndVariant> result = null;
+        if (ref != null) {
+            result = ref.get();
+        }
+        if (result == null) {
+            result = this.reallyGetAllAternatives(cpav, true);
+            this.alternatives.put(cpav,
+                    new SoftReference<List<CodePointAndVariant>>(result));
+        }
+        return result;
+    }
+
+    private List<CodePointAndVariant> reallyGetAllAternatives(
+            final CodePointAndVariant cpav, final boolean useGlyphMapping) {
+        final List<CodePointAndVariant> list = new Vector<CodePointAndVariant>(
+                3, 1);
+
+        final CodePointAndVariant cpav2 = this.extractUnicodeAttr(cpav);
+        // High Plane is broken on OS X!
+        final CodePointAndVariant cpav3 = this.composeUnicodeChar(cpav2,
+                StringUtil.OSX);
+
+        this.addGlyphsAnsTheirAlternatives(list, cpav3, useGlyphMapping);
+        this.addGlyphsAnsTheirAlternatives(list, cpav, useGlyphMapping);
+        this.addGlyphsAnsTheirAlternatives(list, cpav2, useGlyphMapping);
+
+        return list;
+    }
+
+    private void addGlyphsAnsTheirAlternatives(
+            final List<CodePointAndVariant> list,
+            final CodePointAndVariant cpav, final boolean useGlyphMapping) {
+        if (!list.contains(cpav)) {
+            list.add(cpav);
+            if (useGlyphMapping) {
+                final int codePoint = cpav.getCodePoint();
+                final String charAsString = new String(
+                        new int[] { codePoint }, 0, 1);
+                final String glyphName = Glyphs.stringToGlyph(charAsString);
+                final String[] alternateGlyphNames = Glyphs
+                        .getCharNameAlternativesFor(glyphName);
+                if (alternateGlyphNames != null) {
+                    for (final String altGlyph : alternateGlyphNames) {
+                        final int altcp = Glyphs
+                                .getUnicodeSequenceForGlyphName(altGlyph)
+                                .codePointAt(0);
+                        final List<CodePointAndVariant> alternateList = this
+                                .reallyGetAllAternatives(
+                                        new CodePointAndVariant(altcp, cpav
+                                                .getVariant()), false);
+                        for (final CodePointAndVariant alternateCpav : alternateList) {
+                            if (!list.contains(alternateCpav)) {
+                                list.add(alternateCpav);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

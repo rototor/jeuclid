@@ -27,6 +27,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.text.CharacterIterator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -80,37 +81,29 @@ public final class StringUtil {
                 final CodePointAndVariant cpav1 = new CodePointAndVariant(
                         plainString.codePointAt(i), baseVariant);
 
-                final CodePointAndVariant cpav2 = StringUtil.CMAP
-                        .extractUnicodeAttr(cpav1);
+                final List<CodePointAndVariant> alternatives = StringUtil.CMAP
+                        .getAllAternatives(cpav1);
 
-                // High Plane is broken on OS X!
-                final CodePointAndVariant cpav3 = StringUtil.CMAP
-                        .composeUnicodeChar(cpav2, StringUtil.OSX);
-
-                final int codePoint;
-                final Font font;
-               
-                // Try the combined versions (cpav3 and cpav1) first, and
-                // fall back to extracted version if needed.
-                final int cp3 = cpav3.getCodePoint();
-                final Font font3 = cpav3.getVariant().createFont(fontSize,
-                        cp3, context, false);
-                if (font3 != null) {
-                    codePoint = cp3;
-                    font = font3;
-                } else {
-                    final int cp1 = cpav1.getCodePoint();
-                    final Font font1 = cpav1.getVariant().createFont(
-                            fontSize, cp1, context, false);
-                    if (font1 != null) {
-                        codePoint = cp1;
-                        font = font1;
+                Font font = null;
+                int codePoint = 0;
+                final Iterator<CodePointAndVariant> it = alternatives
+                        .iterator();
+                boolean cont = true;
+                while (cont) {
+                    final CodePointAndVariant cpav = it.next();
+                    if (it.hasNext()) {
+                        codePoint = cpav.getCodePoint();
+                        font = cpav.getVariant().createFont(fontSize,
+                                codePoint, context, false);
+                        if (font != null) {
+                            cont = false;
+                        }
                     } else {
-                        codePoint = cpav2.getCodePoint();
-                        font = cpav2.getVariant().createFont(fontSize,
+                        codePoint = cpav.getCodePoint();
+                        font = cpav.getVariant().createFont(fontSize,
                                 codePoint, context, true);
+                        cont = false;
                     }
-
                 }
 
                 builder.appendCodePoint(codePoint);

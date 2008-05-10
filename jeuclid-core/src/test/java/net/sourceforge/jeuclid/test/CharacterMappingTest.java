@@ -19,6 +19,7 @@
 package net.sourceforge.jeuclid.test;
 
 import java.awt.Font;
+import java.util.List;
 
 import net.sourceforge.jeuclid.elements.support.attributes.FontFamily;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
@@ -71,5 +72,27 @@ public class CharacterMappingTest {
                 true);
         Assert.assertEquals(fin2a, new CodePointAndVariant(0x64,
                 new MathVariant(Font.BOLD, FontFamily.DOUBLE_STRUCK)));
+    }
+
+    @Test
+    public void testAlternatives() throws Exception {
+        final CharacterMapping cMap = CharacterMapping.getInstance();
+        final CodePointAndVariant space = new CodePointAndVariant(0x20,
+                MathVariant.NORMAL);
+        final List<CodePointAndVariant> spacelist = cMap
+                .getAllAternatives(space);
+        Assert.assertEquals(spacelist.get(0), space);
+        Assert.assertEquals(spacelist.get(1), new CodePointAndVariant(160,
+                MathVariant.NORMAL));
+        Assert.assertEquals(spacelist.size(), 2);
+
+        final CodePointAndVariant a = new CodePointAndVariant(65,
+                MathVariant.NORMAL);
+        Assert.assertEquals(cMap.getAllAternatives(a).size(), 1);
+
+        final CodePointAndVariant test = new CodePointAndVariant(0x1D555,
+                MathVariant.ITALIC);
+        Assert.assertEquals(cMap.getAllAternatives(test).size(), 3);
+
     }
 }
