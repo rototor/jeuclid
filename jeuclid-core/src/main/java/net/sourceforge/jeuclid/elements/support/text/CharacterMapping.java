@@ -303,14 +303,17 @@ public final class CharacterMapping implements Serializable {
         final MathVariant testVariant = test.getVariant();
         final int testStyle = testVariant.getAwtStyle();
         final int mapsToCodepoint = mapsTo.getCodePoint();
+        final CodePointAndVariant retVal;
         if ((testStyle == Font.PLAIN)
                 || (this.forceSet.contains(mapsToCodepoint))) {
-            return mapsTo;
+            retVal = mapsTo;
+        } else {
+            final MathVariant mapsToVariant = mapsTo.getVariant();
+            retVal = new CodePointAndVariant(mapsToCodepoint,
+                    new MathVariant(testStyle | mapsToVariant.getAwtStyle(),
+                            mapsToVariant.getFontFamily()));
         }
-        final MathVariant mapsToVariant = mapsTo.getVariant();
-        return new CodePointAndVariant(mapsToCodepoint, new MathVariant(
-                testStyle | mapsToVariant.getAwtStyle(), mapsToVariant
-                        .getFontFamily()));
+        return retVal;
     }
 
     /**
@@ -347,39 +350,41 @@ public final class CharacterMapping implements Serializable {
         final CodePointAndVariant cpav3 = this.composeUnicodeChar(cpav2,
                 StringUtil.OSX);
 
-        this.addGlyphsAnsTheirAlternatives(list, cpav3, useGlyphMapping);
-        this.addGlyphsAnsTheirAlternatives(list, cpav, useGlyphMapping);
-        this.addGlyphsAnsTheirAlternatives(list, cpav2, useGlyphMapping);
+        this.addGlyphsAndTheirAlternatives(list, cpav3, useGlyphMapping);
+        this.addGlyphsAndTheirAlternatives(list, cpav, useGlyphMapping);
+        this.addGlyphsAndTheirAlternatives(list, cpav2, useGlyphMapping);
 
         return list;
     }
 
-    private void addGlyphsAnsTheirAlternatives(
+    private void addGlyphsAndTheirAlternatives(
             final List<CodePointAndVariant> list,
             final CodePointAndVariant cpav, final boolean useGlyphMapping) {
         if (!list.contains(cpav)) {
             list.add(cpav);
             if (useGlyphMapping) {
-                final int codePoint = cpav.getCodePoint();
-                final String charAsString = new String(
-                        new int[] { codePoint }, 0, 1);
-                final String glyphName = Glyphs.stringToGlyph(charAsString);
-                final String[] alternateGlyphNames = Glyphs
-                        .getCharNameAlternativesFor(glyphName);
-                if (alternateGlyphNames != null) {
-                    for (final String altGlyph : alternateGlyphNames) {
-                        final int altcp = Glyphs
-                                .getUnicodeSequenceForGlyphName(altGlyph)
-                                .codePointAt(0);
-                        final List<CodePointAndVariant> alternateList = this
-                                .reallyGetAllAternatives(
-                                        new CodePointAndVariant(altcp, cpav
-                                                .getVariant()), false);
-                        for (final CodePointAndVariant alternateCpav : alternateList) {
-                            if (!list.contains(alternateCpav)) {
-                                list.add(alternateCpav);
-                            }
-                        }
+                this.addAlternateGlyph(list, cpav);
+            }
+        }
+    }
+
+    private void addAlternateGlyph(final List<CodePointAndVariant> list,
+            final CodePointAndVariant cpav) {
+        final int codePoint = cpav.getCodePoint();
+        final String charAsString = new String(new int[] { codePoint }, 0, 1);
+        final String glyphName = Glyphs.stringToGlyph(charAsString);
+        final String[] alternateGlyphNames = Glyphs
+                .getCharNameAlternativesFor(glyphName);
+        if (alternateGlyphNames != null) {
+            for (final String altGlyph : alternateGlyphNames) {
+                final int altcp = Glyphs.getUnicodeSequenceForGlyphName(
+                        altGlyph).codePointAt(0);
+                final List<CodePointAndVariant> alternateList = this
+                        .reallyGetAllAternatives(new CodePointAndVariant(
+                                altcp, cpav.getVariant()), false);
+                for (final CodePointAndVariant alternateCpav : alternateList) {
+                    if (!list.contains(alternateCpav)) {
+                        list.add(alternateCpav);
                     }
                 }
             }
