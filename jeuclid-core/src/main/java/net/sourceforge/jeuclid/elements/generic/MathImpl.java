@@ -46,6 +46,13 @@ public final class MathImpl extends AbstractRowLike implements
 
     private static final long serialVersionUID = 1L;
 
+    /** attribute for mode. */
+    private static final String ATTR_MODE = "mode";
+
+    private static final String DISPLAY_INLINE = "inline";
+
+    private static final String DISPLAY_BLOCK = "block";
+
     /**
      * Creates a math element.
      */
@@ -75,7 +82,24 @@ public final class MathImpl extends AbstractRowLike implements
      * @return Display display
      */
     public String getDisplay() {
-        return this.getMathAttribute(MathImpl.ATTR_DISPLAY);
+        final String retVal;
+        final String attrDisplay = this
+                .getMathAttribute(MathImpl.ATTR_DISPLAY);
+        if (attrDisplay != null) {
+            if (MathImpl.DISPLAY_BLOCK.equalsIgnoreCase(attrDisplay)) {
+                retVal = MathImpl.DISPLAY_BLOCK;
+            } else {
+                retVal = MathImpl.DISPLAY_INLINE;
+            }
+        } else {
+            if ("display".equalsIgnoreCase(this
+                    .getMathAttribute(MathImpl.ATTR_MODE))) {
+                retVal = MathImpl.DISPLAY_BLOCK;
+            } else {
+                retVal = MathImpl.DISPLAY_INLINE;
+            }
+        }
+        return retVal;
     }
 
     /** {@inheritDoc} */
@@ -87,7 +111,8 @@ public final class MathImpl extends AbstractRowLike implements
             public Object getParameter(final Parameter which) {
                 final Object retVal;
                 if (Parameter.DISPLAY.equals(which)) {
-                    if ("block".equalsIgnoreCase(MathImpl.this.getDisplay())) {
+                    if (MathImpl.DISPLAY_BLOCK.equals(MathImpl.this
+                            .getDisplay())) {
                         retVal = Display.BLOCK;
                     } else {
                         retVal = Display.INLINE;
