@@ -145,8 +145,7 @@ public class DOMModelTest {
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();
 
-        // // TODO: enable this test
-        // Assert.assertEquals(mathElement.getDisplay(), "block");
+        Assert.assertEquals(mathElement.getDisplay(), "block");
         final MathMLPresentationContainer row = (MathMLPresentationContainer) mathElement
                 .getFirstChild();
         Assert.assertNotNull(row);
