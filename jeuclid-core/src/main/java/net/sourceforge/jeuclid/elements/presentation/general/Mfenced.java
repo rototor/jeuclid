@@ -156,7 +156,8 @@ public final class Mfenced extends AbstractElementWithDelegates implements
             retVal.add(this.getMathElement(i));
 
             if (haveSep && (i < (contentCount - 1))) {
-                final Mo opSep = new Mo();
+                final Mo opSep = (Mo) this.getOwnerDocument().createElement(
+                        Mo.ELEMENT);
                 opSep.setSeparator(Constants.TRUE);
                 if (i < sep.length()) {
                     opSep.setTextContent(String.valueOf(sep.charAt(i)));
