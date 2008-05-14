@@ -30,7 +30,12 @@ public final class JEuclidDOMImplementation extends AbstractDOMImplementation {
 
     private static final long serialVersionUID = 1L;
 
-    private static DOMImplementation instance;
+    private static final class SingletonHolder {
+        private static JEuclidDOMImplementation instance = new JEuclidDOMImplementation();
+
+        private SingletonHolder() {
+        }
+    }
 
     /**
      * Default Constructor.
@@ -59,10 +64,7 @@ public final class JEuclidDOMImplementation extends AbstractDOMImplementation {
      * 
      * @return a {@link DOMImplementation} implementing MathML DOM.
      */
-    public static synchronized DOMImplementation getInstance() {
-        if (JEuclidDOMImplementation.instance == null) {
-            JEuclidDOMImplementation.instance = new JEuclidDOMImplementation();
-        }
-        return JEuclidDOMImplementation.instance;
+    public static DOMImplementation getInstance() {
+        return JEuclidDOMImplementation.SingletonHolder.instance;
     }
 }

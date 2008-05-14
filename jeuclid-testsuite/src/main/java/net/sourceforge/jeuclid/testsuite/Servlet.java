@@ -33,14 +33,18 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sourceforge.jeuclid.MutableLayoutContext;
+import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.converter.Processor;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
 
 /**
  * @version $Revision$
  */
 public class Servlet extends HttpServlet {
+    private static final int BLOCK_SIZE = 4096;
+
+    private static final float DISPLAY_SIZE = 16.0f;
+
     /**
      * 
      */
@@ -52,8 +56,9 @@ public class Servlet extends HttpServlet {
      * Default Constructor.
      */
     public Servlet() {
-        this.context = new LayoutContextImpl(LayoutContextImpl.getDefaultLayoutContext());
-        this.context.setParameter(Parameter.MATHSIZE, 16.0f);
+        this.context = new LayoutContextImpl(LayoutContextImpl
+                .getDefaultLayoutContext());
+        this.context.setParameter(Parameter.MATHSIZE, Servlet.DISPLAY_SIZE);
     }
 
     /** {@inheritDoc} */
@@ -67,7 +72,7 @@ public class Servlet extends HttpServlet {
         // final InputStream stream = ClassLoader
         // .getSystemResourceAsStream(file);
         if (stream == null) {
-            resp.sendError(404, file);
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND, file);
         } else {
             final OutputStream out = resp.getOutputStream();
 
@@ -76,14 +81,14 @@ public class Servlet extends HttpServlet {
                 final Source inputSource = new StreamSource(stream);
                 final Result result = new StreamResult(out);
                 try {
-                    Processor.getProcessor().process(inputSource, result);
+                    Processor.getInstance().process(inputSource, result);
                     processed = true;
                 } catch (final TransformerException te) {
                     processed = false;
                 }
             }
             if (!processed) {
-                final byte[] buf = new byte[4096];
+                final byte[] buf = new byte[Servlet.BLOCK_SIZE];
                 int count = stream.read(buf);
                 while (count > -1) {
                     out.write(buf, 0, count);

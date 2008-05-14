@@ -25,7 +25,12 @@ package net.sourceforge.jeuclid.elements.support;
  */
 public final class ClassLoaderSupport {
 
-    private static ClassLoaderSupport instance;
+    private static final class SingletonHolder {
+        private static ClassLoaderSupport instance = new ClassLoaderSupport();
+
+        private SingletonHolder() {
+        }
+    }
 
     /**
      * Default Constructor.
@@ -38,11 +43,8 @@ public final class ClassLoaderSupport {
      * 
      * @return an instance of this class.
      */
-    public static synchronized ClassLoaderSupport getInstance() {
-        if (ClassLoaderSupport.instance == null) {
-            ClassLoaderSupport.instance = new ClassLoaderSupport();
-        }
-        return ClassLoaderSupport.instance;
+    public static ClassLoaderSupport getInstance() {
+        return ClassLoaderSupport.SingletonHolder.instance;
     }
 
     /**

@@ -33,7 +33,7 @@ public class DOMBuilderTest {
     @Test
     public void testConstructor() throws Exception {
         final Document doc = this.parse("<math><mn>1</mn></math>");
-        final Document jdoc = DOMBuilder.getDOMBuilder()
+        final Document jdoc = DOMBuilder.getInstance()
                 .createJeuclidDom(doc);
         final Node firstChild = jdoc.getFirstChild();
         Assert.assertEquals(firstChild.getNodeName(), "math");
@@ -41,10 +41,10 @@ public class DOMBuilderTest {
         final DocumentFragment documentFragment = doc
                 .createDocumentFragment();
         documentFragment.appendChild(doc.createElement(Mspace.ELEMENT));
-        Assert.assertEquals(DOMBuilder.getDOMBuilder().createJeuclidDom(
+        Assert.assertEquals(DOMBuilder.getInstance().createJeuclidDom(
                 documentFragment).getFirstChild().getNodeName(), "mspace");
         try {
-            DOMBuilder.getDOMBuilder().createJeuclidDom(
+            DOMBuilder.getInstance().createJeuclidDom(
                     doc.getDocumentElement().getFirstChild().getFirstChild());
             Assert.fail("Expected IllegalArgumentException");
         } catch (final IllegalArgumentException e) {

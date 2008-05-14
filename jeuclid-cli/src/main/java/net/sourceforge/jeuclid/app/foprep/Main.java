@@ -85,7 +85,7 @@ public final class Main {
             } else {
                 source = new StreamSource(inputFile);
             }
-            Processor.getProcessor().process(source, result);
+            Processor.getInstance().process(source, result);
         } catch (final ParseException e1) {
             System.out.println("Invalid command line:" + e1.getMessage());
             new HelpFormatter().printHelp(

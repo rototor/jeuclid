@@ -50,7 +50,7 @@ public class ContentTest {
                         + "<semantics><apply><plus/><apply><sin/><ci> x </ci></apply><cn> 5 </cn>"
                         + "</apply><annotation encoding=\"TeX\">\\sin x + 5</annotation></semantics></math>");
 
-        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+        final MathMLDocument docElement = DOMBuilder.getInstance()
                 .createJeuclidDom(docWithID);
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();
@@ -68,7 +68,7 @@ public class ContentTest {
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<semantics><apply><plus/><apply><sin/><ci> x </ci></apply><cn> 5 </cn>"
                         + "</apply><annotation encoding=\"text/plain\">sin(x)+5</annotation></semantics></math>");
-        final MathMLDocument docElement2 = DOMBuilder.getDOMBuilder()
+        final MathMLDocument docElement2 = DOMBuilder.getInstance()
                 .createJeuclidDom(reserial);
         // TODO
         Assert.assertEquals(MathMLSerializer.serializeDocument(docElement,
