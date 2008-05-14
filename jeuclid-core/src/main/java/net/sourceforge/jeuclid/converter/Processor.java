@@ -82,12 +82,25 @@ public final class Processor {
      *             an error occurred creating the necessary Transformer
      *             instance.
      */
-    public static synchronized Processor getProcessor()
+    public static synchronized Processor getInstance()
             throws TransformerException {
         if (Processor.processor == null) {
             Processor.processor = new Processor();
         }
         return Processor.processor;
+    }
+
+    /**
+     * use {@link #getInstance()} instead.
+     * 
+     * @return see {@link #getInstance()}
+     * @throws TransformerException
+     *             see {@link #getInstance()}
+     * @deprecated
+     */
+    @Deprecated
+    public static Processor getProcessor() throws TransformerException {
+        return Processor.getInstance();
     }
 
     /**
@@ -107,7 +120,7 @@ public final class Processor {
         Processor.LOGGER.info("Processing " + inputSource.getSystemId()
                 + " to " + result.getSystemId());
         try {
-            final Node doc = Parser.getParser().parse(inputSource);
+            final Node doc = Parser.getInstance().parse(inputSource);
             this.processSubtree(doc, context);
             final DOMSource source = new DOMSource(doc);
             this.transformer.transform(source, result);

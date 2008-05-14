@@ -35,6 +35,8 @@ import net.sourceforge.jeuclid.elements.generic.MathImpl;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 import net.sourceforge.jeuclid.parser.Parser;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.fop.util.UnclosableInputStream;
 import org.apache.xmlgraphics.image.loader.ImageContext;
 import org.apache.xmlgraphics.image.loader.ImageException;
@@ -51,7 +53,16 @@ import org.xml.sax.SAXException;
  * @version $Revision$
  */
 public class PreloaderMathML extends AbstractImagePreloader {
+    /**
+     * Convert from point to millipoint.
+     */
     public static final float MPT_FACTOR = 1000.0f;
+
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory
+            .getLog(PreloaderMathML.class);
 
     /**
      * Default Constructor.
@@ -61,16 +72,53 @@ public class PreloaderMathML extends AbstractImagePreloader {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public ImageInfo preloadImage(final String uri, final Source src,
             final ImageContext context) throws ImageException, IOException {
+        final Document n = this.parseSource(src);
+        if (n != null) {
+            return this.createImageInfo(uri, context, n);
+        }
+
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private ImageInfo createImageInfo(final String uri,
+            final ImageContext context, final Document n) {
+        final ImageInfo info = new ImageInfo(uri, Constants.MATHML_MIMETYPE);
+        final ImageSize size = new ImageSize();
+        final Image tempimage = new BufferedImage(1, 1,
+                BufferedImage.TYPE_INT_ARGB);
+        final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
+        final JEuclidView view = new JEuclidView(n, LayoutContextImpl
+                .getDefaultLayoutContext(), tempg);
+        final int descentMpt = (int) (view.getDescentHeight() * PreloaderMathML.MPT_FACTOR);
+        final int ascentMpt = (int) (view.getAscentHeight() * PreloaderMathML.MPT_FACTOR);
+
+        size.setSizeInMillipoints(
+                (int) (view.getWidth() * PreloaderMathML.MPT_FACTOR),
+                ascentMpt + descentMpt);
+        size.setBaselinePositionFromBottom(descentMpt);
+        // Set the resolution to that of the FOUserAgent
+        size.setResolution(context.getSourceResolution());
+        size.calcPixelsFromSize();
+        info.setSize(size);
+
+        // The whole image had to be loaded for this, so keep it
+        final ImageXMLDOM xmlImage = new ImageXMLDOM(info, n,
+                AbstractJEuclidElement.URI);
+        info.getCustomObjects().put(ImageInfo.ORIGINAL_IMAGE, xmlImage);
+        return info;
+    }
+
+    private Document parseSource(final Source src) {
         Document n;
         InputStream in = null;
         try {
             in = new UnclosableInputStream(ImageUtil.needInputStream(src));
             final int length = in.available();
             in.mark(length + 1);
-            n = Parser.getParser().parseStreamSource(new StreamSource(in));
+            n = Parser.getInstance().parseStreamSource(new StreamSource(in));
             final Element rootNode = n.getDocumentElement();
             if (!(AbstractJEuclidElement.URI.equals(rootNode
                     .getNamespaceURI()) || MathImpl.ELEMENT.equals(rootNode
@@ -90,37 +138,9 @@ public class PreloaderMathML extends AbstractImagePreloader {
         try {
             in.reset();
         } catch (final IOException ioe) {
-            // Should not happen
+            PreloaderMathML.LOGGER.warn("Should never happen: "
+                    + ioe.getMessage());
         }
-        if (n != null) {
-            final ImageInfo info = new ImageInfo(uri,
-                    Constants.MATHML_MIMETYPE);
-            final ImageSize size = new ImageSize();
-            final Image tempimage = new BufferedImage(1, 1,
-                    BufferedImage.TYPE_INT_ARGB);
-            final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-            final JEuclidView view = new JEuclidView(n, LayoutContextImpl
-                    .getDefaultLayoutContext(), tempg);
-            final int descentMpt = (int) (view.getDescentHeight() * PreloaderMathML.MPT_FACTOR);
-            final int ascentMpt = (int) (view.getAscentHeight() * PreloaderMathML.MPT_FACTOR);
-
-            size.setSizeInMillipoints(
-                    (int) (view.getWidth() * PreloaderMathML.MPT_FACTOR),
-                    ascentMpt + descentMpt);
-            size.setBaselinePositionFromBottom(descentMpt);
-            // Set the resolution to that of the FOUserAgent
-            size.setResolution(context.getSourceResolution());
-            size.calcPixelsFromSize();
-            info.setSize(size);
-
-            // The whole image had to be loaded for this, so keep it
-            final ImageXMLDOM xmlImage = new ImageXMLDOM(info, n,
-                    AbstractJEuclidElement.URI);
-            info.getCustomObjects().put(ImageInfo.ORIGINAL_IMAGE, xmlImage);
-            return info;
-
-        }
-
-        return null;
+        return n;
     }
 }

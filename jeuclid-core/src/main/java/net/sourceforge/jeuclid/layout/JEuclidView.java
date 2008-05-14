@@ -67,7 +67,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
         if (node instanceof LayoutableDocument) {
             this.document = (LayoutableDocument) node;
         } else {
-            this.document = DOMBuilder.getDOMBuilder().createJeuclidDom(node);
+            this.document = DOMBuilder.getInstance().createJeuclidDom(node);
         }
         this.graphics = layoutGraphics;
         this.context = layoutContext;
@@ -220,6 +220,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
         return this.graphics;
     }
 
+    /** {@inheritDoc} */
     public void handleEvent(final Event evt) {
         final EventTarget origin = evt.getCurrentTarget();
         if (origin instanceof LayoutableNode) {

@@ -54,7 +54,10 @@ import org.xml.sax.SAXParseException;
  * 
  * @version $Revision$
  */
+// CHECKSTYLE:OFF
+// This class is too complex.
 public final class Parser {
+    // CHECKSTYLE:ON
 
     /**
      * Detection buffer size. Rationale: After the first 128 bytes a XML file
@@ -129,12 +132,25 @@ public final class Parser {
      * @throws ParserConfigurationException
      *             when the internal (DOM) parser could not be created.
      */
-    public static synchronized Parser getParser()
+    public static synchronized Parser getInstance()
             throws ParserConfigurationException {
         if (Parser.parser == null) {
             Parser.parser = new Parser();
         }
         return Parser.parser;
+    }
+
+    /**
+     * use {@link #getInstance()} instead.
+     * 
+     * @return see {@link #getInstance()}
+     * @throws ParserConfigurationException
+     *             see {@link #getInstance()}
+     * @deprecated
+     */
+    @Deprecated
+    public static Parser getParser() throws ParserConfigurationException {
+        return Parser.getInstance();
     }
 
     /**

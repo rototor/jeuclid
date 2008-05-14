@@ -50,7 +50,12 @@ public final class DOMBuilder {
      */
     private static final Log LOGGER = LogFactory.getLog(DOMBuilder.class);
 
-    private static DOMBuilder domBuilder;
+    private static final class SingletonHolder {
+        private static DOMBuilder instance = new DOMBuilder();
+
+        private SingletonHolder() {
+        }
+    }
 
     private final Transformer contentTransformer;
 
@@ -77,11 +82,19 @@ public final class DOMBuilder {
     /**
      * @return the singleton instance of the DOMBuilder
      */
-    public static synchronized DOMBuilder getDOMBuilder() {
-        if (DOMBuilder.domBuilder == null) {
-            DOMBuilder.domBuilder = new DOMBuilder();
-        }
-        return DOMBuilder.domBuilder;
+    public static DOMBuilder getInstance() {
+        return DOMBuilder.SingletonHolder.instance;
+    }
+
+    /**
+     * use {@link #getInstance()} instead.
+     * 
+     * @return see {@link #getInstance()}
+     * @deprecated
+     */
+    @Deprecated
+    public static DOMBuilder getDOMBuilder() {
+        return DOMBuilder.getInstance();
     }
 
     /**

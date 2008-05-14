@@ -122,7 +122,7 @@ public final class MathMLParserSupport {
      */
     public static DocumentBuilder createDocumentBuilder()
             throws ParserConfigurationException {
-        final DocumentBuilder builder = Parser.getParser()
+        final DocumentBuilder builder = Parser.getInstance()
                 .getDocumentBuilder();
         return builder;
     }
@@ -141,7 +141,7 @@ public final class MathMLParserSupport {
     public static Document parseInputStreamXML(final InputStream inStream)
             throws SAXException, IOException {
         try {
-            return Parser.getParser().parseStreamSourceAsXml(
+            return Parser.getInstance().parseStreamSourceAsXml(
                     new StreamSource(inStream));
         } catch (final ParserConfigurationException e) {
             // Should not happen. But who knows?
@@ -164,7 +164,7 @@ public final class MathMLParserSupport {
     public static Document parseInputStreamODF(final InputStream inStream)
             throws SAXException, IOException {
         try {
-            return Parser.getParser().parseStreamSourceAsOdf(
+            return Parser.getInstance().parseStreamSourceAsOdf(
                     new StreamSource(inStream));
         } catch (final ParserConfigurationException e) {
             // Should not happen. But who knows?
@@ -190,7 +190,7 @@ public final class MathMLParserSupport {
     public static Document parseFile(final File inFile) throws SAXException,
             IOException {
         try {
-            return Parser.getParser().parseStreamSource(
+            return Parser.getInstance().parseStreamSource(
                     new StreamSource(new FileInputStream(inFile)));
         } catch (final ParserConfigurationException e) {
             // Should not happen. But who knows?
@@ -215,7 +215,7 @@ public final class MathMLParserSupport {
      */
     public static Document parseString(final String content)
             throws SAXException, ParserConfigurationException, IOException {
-        return Parser.getParser().parseStreamSourceAsXml(
+        return Parser.getInstance().parseStreamSourceAsXml(
                 new StreamSource(new StringReader(content)));
     }
 

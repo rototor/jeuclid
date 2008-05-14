@@ -139,7 +139,7 @@ public class DOMModelTest {
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mrow id='abc'><mn>1</mn></mrow></math>");
 
-        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+        final MathMLDocument docElement = DOMBuilder.getInstance()
                 .createJeuclidDom(docWithID);
 
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
@@ -163,7 +163,7 @@ public class DOMModelTest {
         final Document origDoc = MathMLParserSupport
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mrow id='abc'><mn>1</mn></mrow></math>");
-        final MathMLDocument mathMLDoc = DOMBuilder.getDOMBuilder()
+        final MathMLDocument mathMLDoc = DOMBuilder.getInstance()
                 .createJeuclidDom(origDoc);
         final String reserialStr = MathMLSerializer.serializeDocument(
                 mathMLDoc, false, false);
@@ -184,7 +184,7 @@ public class DOMModelTest {
         final Document origDoc = MathMLParserSupport
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mtext>Alignment<malignmark/>Test</mtext></math>");
-        final MathMLDocument mathMLDoc = DOMBuilder.getDOMBuilder()
+        final MathMLDocument mathMLDoc = DOMBuilder.getInstance()
                 .createJeuclidDom(origDoc);
         final String reserialStr = MathMLSerializer.serializeDocument(
                 mathMLDoc, false, false);
@@ -209,7 +209,7 @@ public class DOMModelTest {
                         + "<mo>&#x0007d;</mo>"
                         + "<mo>&#x02254;</mo>"
                         + "<mo>&#x0201d;</mo>" + "</math>");
-        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+        final MathMLDocument docElement = DOMBuilder.getInstance()
                 .createJeuclidDom(doc);
 
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
@@ -724,7 +724,7 @@ public class DOMModelTest {
                         + "<mprescripts/>"
                         + "<mi>c</mi>"
                         + "<mi>d</mi>" + "</mmultiscripts>" + "</math>");
-        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+        final MathMLDocument docElement = DOMBuilder.getInstance()
                 .createJeuclidDom(doc);
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();
@@ -750,7 +750,7 @@ public class DOMModelTest {
         final Document doc = MathMLParserSupport
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mmultiscripts>" + "</mmultiscripts>" + "</math>");
-        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+        final MathMLDocument docElement = DOMBuilder.getInstance()
                 .createJeuclidDom(doc);
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();
@@ -786,7 +786,7 @@ public class DOMModelTest {
         final Document doc = MathMLParserSupport
                 .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
                         + "<mi>x</mi>" + "</math>");
-        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+        final MathMLDocument docElement = DOMBuilder.getInstance()
                 .createJeuclidDom(doc);
         final MathMLMathElement mathElement = (MathMLMathElement) docElement
                 .getFirstChild();

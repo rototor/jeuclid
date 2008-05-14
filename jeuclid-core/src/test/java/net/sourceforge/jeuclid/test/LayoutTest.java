@@ -28,7 +28,7 @@ public class LayoutTest {
 
     @Test
     public void testViewNotEmpty() throws Exception {
-        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+        final MathMLDocument docElement = DOMBuilder.getInstance()
                 .createJeuclidDom(
                         MathMLParserSupport.parseString(LayoutTest.TEST1));
         final JEuclidView view = (JEuclidView) (((DocumentView) docElement)
@@ -40,7 +40,7 @@ public class LayoutTest {
 
     @Test
     public void testViewMutable() throws Exception {
-        final MathMLDocument docElement = DOMBuilder.getDOMBuilder()
+        final MathMLDocument docElement = DOMBuilder.getInstance()
                 .createJeuclidDom(
                         MathMLParserSupport.parseString(LayoutTest.TEST1));
         final JEuclidView view = (JEuclidView) (((DocumentView) docElement)
@@ -88,7 +88,7 @@ public class LayoutTest {
     @Test
     public void testWhitespace() throws Exception {
         final MathMLDocument docElement = DOMBuilder
-                .getDOMBuilder()
+                .getInstance()
                 .createJeuclidDom(
                         MathMLParserSupport
                                 .parseString("<math><mtext>x x</mtext><mtext> x x </mtext><mtext>x    x</mtext></math>"));

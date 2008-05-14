@@ -32,7 +32,13 @@ import net.sourceforge.jeuclid.MutableLayoutContext;
  * @version $Revision$
  */
 public class LayoutContextImpl implements MutableLayoutContext {
-    private static LayoutContextImpl defaultContext;
+
+    private static final class SingletonHolder {
+        private static LayoutContextImpl instance = new LayoutContextImpl();
+
+        private SingletonHolder() {
+        }
+    }
 
     private final Map<Parameter, Object> context;
 
@@ -155,11 +161,8 @@ public class LayoutContextImpl implements MutableLayoutContext {
      * 
      * @return the default layout context.
      */
-    public static synchronized LayoutContext getDefaultLayoutContext() {
-        if (LayoutContextImpl.defaultContext == null) {
-            LayoutContextImpl.defaultContext = new LayoutContextImpl();
-        }
-        return LayoutContextImpl.defaultContext;
+    public static LayoutContext getDefaultLayoutContext() {
+        return LayoutContextImpl.SingletonHolder.instance;
     }
 
     /** {@inheritDoc} */
