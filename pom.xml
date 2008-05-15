@@ -381,6 +381,7 @@
         <configuration>
           <threshold>Low</threshold>
           <effort>Max</effort>
+          <omitVisitors>FindDeadLocalStores</omitVisitors>
         </configuration>
       </plugin>
       <plugin>
