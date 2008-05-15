@@ -350,9 +350,9 @@ public final class CharacterMapping implements Serializable {
         final CodePointAndVariant cpav3 = this.composeUnicodeChar(cpav2,
                 StringUtil.OSX);
 
+        this.addGlyphsAndTheirAlternatives(list, cpav2, useGlyphMapping);
         this.addGlyphsAndTheirAlternatives(list, cpav3, useGlyphMapping);
         this.addGlyphsAndTheirAlternatives(list, cpav, useGlyphMapping);
-        this.addGlyphsAndTheirAlternatives(list, cpav2, useGlyphMapping);
 
         return list;
     }
