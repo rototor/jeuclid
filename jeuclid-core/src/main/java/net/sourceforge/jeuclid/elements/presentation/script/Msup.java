@@ -23,15 +23,13 @@ import net.sourceforge.jeuclid.elements.JEuclidElement;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
-import org.w3c.dom.mathml.MathMLScriptElement;
 
 /**
  * This class arranges an element lower to an other element.
  * 
  * @version $Revision$
  */
-public final class Msup extends AbstractSubSuper implements
-        MathMLScriptElement {
+public final class Msup extends AbstractSubSuper {
 
     /**
      * The XML element from this class.

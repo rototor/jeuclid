@@ -22,7 +22,6 @@ import net.sourceforge.jeuclid.elements.JEuclidElement;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
-import org.w3c.dom.mathml.MathMLScriptElement;
 
 /**
  * This class arranges a element lower, and a other elements upper to an
@@ -30,8 +29,7 @@ import org.w3c.dom.mathml.MathMLScriptElement;
  * 
  * @version $Revision$
  */
-public final class Msubsup extends AbstractSubSuper implements
-        MathMLScriptElement {
+public final class Msubsup extends AbstractSubSuper {
 
     /**
      * The XML element from this class.

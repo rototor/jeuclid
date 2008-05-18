@@ -19,15 +19,13 @@
 package net.sourceforge.jeuclid.elements.presentation.token;
 
 import org.w3c.dom.Node;
-import org.w3c.dom.mathml.MathMLPresentationToken;
 
 /**
  * This class presents text in a equation and contains some utility methods.
  * 
  * @version $Revision$
  */
-public final class Mtext extends AbstractTokenWithStandardLayout implements
-        MathMLPresentationToken {
+public final class Mtext extends AbstractTokenWithStandardLayout {
     /**
      * The XML element from this class.
      */

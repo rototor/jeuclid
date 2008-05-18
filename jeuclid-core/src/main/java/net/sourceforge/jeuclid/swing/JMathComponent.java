@@ -566,7 +566,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
         super.setSize(width, height);
     }
 
-    {
+    static {
         Class<?> uiClass;
         String id;
         try {

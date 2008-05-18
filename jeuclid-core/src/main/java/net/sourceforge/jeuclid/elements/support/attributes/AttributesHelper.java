@@ -359,7 +359,7 @@ public final class AttributesHelper {
         final int pose = value.indexOf("]");
         if (poss != -1 && pose != -1) {
             parsedColor = AttributesHelper.parseCommaSeparatedString(value
-                    .substring(poss + 1, pose), poss, pose);
+                    .substring(poss + 1, pose));
         } else {
             parsedColor = null;
         }
@@ -379,15 +379,14 @@ public final class AttributesHelper {
         final int pose = value.indexOf(")");
         if (poss != -1 && pose != -1) {
             parsedColor = AttributesHelper.parseCommaSeparatedString(value
-                    .substring(poss + 1, pose), poss, pose);
+                    .substring(poss + 1, pose));
         } else {
             parsedColor = null;
         }
         return parsedColor;
     }
 
-    private static Color parseCommaSeparatedString(final String value,
-            final int poss, final int pose) {
+    private static Color parseCommaSeparatedString(final String value) {
         Color parsedColor;
         final StringTokenizer st = new StringTokenizer(value,
                 AttributesHelper.COMMA);

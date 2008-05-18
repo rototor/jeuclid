@@ -19,15 +19,13 @@
 package net.sourceforge.jeuclid.elements.presentation.general;
 
 import org.w3c.dom.Node;
-import org.w3c.dom.mathml.MathMLPresentationContainer;
 
 /**
  * This class presents a row.
  * 
  * @version $Revision$
  */
-public final class Mrow extends AbstractRowLike implements
-        MathMLPresentationContainer {
+public final class Mrow extends AbstractRowLike {
 
     /**
      * The XML element from this class.
