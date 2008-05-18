@@ -76,12 +76,12 @@ public class LayoutContextParamTest {
         } catch (final IllegalArgumentException e) {
         }
         Assert.assertEquals(Parameter.FONTS_SERIF.fromString("Arial"),
-                Collections.singletonList("Arial"));
+                Collections.singletonList("arial"));
         Assert.assertEquals(Parameter.FONTS_SERIF
                 .fromString("Arial,Helvetica"), Arrays.asList(new String[] {
-                "Arial", "Helvetica" }));
+                "arial", "helvetica" }));
         Assert.assertEquals(Parameter.FONTS_SERIF.fromString("Foo, Bar"),
-                Arrays.asList(new String[] { "Foo", "Bar" }));
+                Arrays.asList(new String[] { "foo", "bar" }));
         Assert.assertEquals(Parameter.MATHCOLOR.fromString("RED"), Color.RED);
         try {
             Parameter.MATHCOLOR.fromString("violet");

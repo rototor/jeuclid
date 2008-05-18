@@ -83,15 +83,13 @@ public class MathComponentUI extends ComponentUI implements
     @Override
     public void paint(final Graphics g, final JComponent c) {
         this.preferredSize = null;
-        final Graphics2D g2 = (Graphics2D) g;
         // using the size seems to cause flickering is some cases
         final Dimension dim = this.mathComponent.getSize();
         final Point start = this
                 .getStartPointWithBordersAndAdjustDimension(dim);
         this.paintBackground(g, dim, start);
         if (this.jEuclidView != null) {
-            final Point2D alignOffset = this
-                    .calculateAlignmentOffset(g2, dim);
+            final Point2D alignOffset = this.calculateAlignmentOffset(dim);
             this.jEuclidView.draw((Graphics2D) g, (float) alignOffset.getX()
                     + start.x, (float) alignOffset.getY() + start.y);
         }
@@ -108,8 +106,7 @@ public class MathComponentUI extends ComponentUI implements
         this.paint(g, c);
     }
 
-    private Point2D calculateAlignmentOffset(final Graphics2D g2,
-            final Dimension dim) {
+    private Point2D calculateAlignmentOffset(final Dimension dim) {
         final float xo;
         if ((this.mathComponent.getHorizontalAlignment() == SwingConstants.LEADING)
                 || (this.mathComponent.getHorizontalAlignment() == SwingConstants.LEFT)) {

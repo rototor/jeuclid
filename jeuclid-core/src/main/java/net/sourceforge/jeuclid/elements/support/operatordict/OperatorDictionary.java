@@ -267,7 +267,8 @@ public final class OperatorDictionary implements Serializable {
         private Map<OperatorAttribute, String> currentEntry;
 
         public DictionaryReader() {
-            // Empty on purpose.
+            // makes findbugs happy
+            this.currentEntry = null;
         }
 
         @Override

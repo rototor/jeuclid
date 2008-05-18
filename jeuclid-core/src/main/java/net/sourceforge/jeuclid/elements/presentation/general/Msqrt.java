@@ -25,14 +25,13 @@ import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
-import org.w3c.dom.mathml.MathMLRadicalElement;
 
 /**
  * This class presents a mathematical square root.
  * 
  * @version $Revision$
  */
-public final class Msqrt extends AbstractRoot implements MathMLRadicalElement {
+public final class Msqrt extends AbstractRoot {
 
     /**
      * The XML element from this class.

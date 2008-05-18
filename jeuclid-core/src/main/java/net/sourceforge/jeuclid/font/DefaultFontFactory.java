@@ -132,11 +132,10 @@ public class DefaultFontFactory extends FontFactory {
         for (final String fontName : fontList) {
             final Font font = this.getFont(fontName, style, size);
             final String desiredFont = fontName.trim();
-            if ((font.getFamily().equalsIgnoreCase(desiredFont))
-                    || (font.getFontName().equalsIgnoreCase(desiredFont))) {
-                if (font.canDisplay(codepoint)) {
-                    return font;
-                }
+            if (((font.getFamily().equalsIgnoreCase(desiredFont)) || (font
+                    .getFontName().equalsIgnoreCase(desiredFont)))
+                    && (font.canDisplay(codepoint))) {
+                return font;
             }
         }
         return null;

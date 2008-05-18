@@ -735,8 +735,7 @@ public final class Mtable extends AbstractJEuclidElement implements
         this.setRowWidth(stage, rowInfos, rows, totalWidth);
 
         this.addRowLines(info, rowInfos, rows, totalWidth, stage, now);
-        this.addColumnLines(info, columnwidth, verticalShift, height, stage,
-                now);
+        this.addColumnLines(info, columnwidth, verticalShift, height, now);
         this.addFrame(info, totalWidth, verticalShift, height, now);
 
         final float hFrameSpacing = this.getFramespacingh(now);
@@ -801,8 +800,7 @@ public final class Mtable extends AbstractJEuclidElement implements
 
     private void addColumnLines(final LayoutInfo info,
             final List<Float> columnwidth, final float verticalShift,
-            final float height, final LayoutStage stage,
-            final LayoutContext now) {
+            final float height, final LayoutContext now) {
         final float lineWidth = GraphicsSupport.lineWidth(now);
         final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
         float x = this.getFramespacingh(now);

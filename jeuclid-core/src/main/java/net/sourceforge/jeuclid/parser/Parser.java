@@ -59,6 +59,39 @@ import org.xml.sax.SAXParseException;
 public final class Parser {
     // CHECKSTYLE:ON
 
+    private static final class LoggerErrorHandler implements ErrorHandler {
+        public LoggerErrorHandler() {
+            // Empty on purpose
+        }
+
+        public void error(final SAXParseException exception)
+                throws SAXException {
+            Parser.LOGGER.warn(exception);
+        }
+
+        public void fatalError(final SAXParseException exception)
+                throws SAXException {
+            throw exception;
+        }
+
+        public void warning(final SAXParseException exception)
+                throws SAXException {
+            Parser.LOGGER.debug(exception);
+        }
+    }
+
+    private static final class UnclosableInputStream extends
+            FilterInputStream {
+        private UnclosableInputStream(final InputStream in) {
+            super(in);
+        }
+
+        @Override
+        public void close() throws IOException {
+            // Do Nothing.
+        }
+    }
+
     /**
      * Detection buffer size. Rationale: After the first 128 bytes a XML file
      * and a ZIP file should be distinguishable.
@@ -93,22 +126,7 @@ public final class Parser {
             documentBuilder = this.createDocumentBuilder(false);
         }
         documentBuilder.setEntityResolver(new ResourceEntityResolver());
-        documentBuilder.setErrorHandler(new ErrorHandler() {
-            public void error(final SAXParseException exception)
-                    throws SAXException {
-                Parser.LOGGER.warn(exception);
-            }
-
-            public void fatalError(final SAXParseException exception)
-                    throws SAXException {
-                throw exception;
-            }
-
-            public void warning(final SAXParseException exception)
-                    throws SAXException {
-                Parser.LOGGER.debug(exception);
-            }
-        });
+        documentBuilder.setErrorHandler(new LoggerErrorHandler());
         this.builder = documentBuilder;
     }
 
@@ -177,12 +195,8 @@ public final class Parser {
             if (!inputStream.markSupported()) {
                 inputStream = new BufferedInputStream(inputStream);
             }
-            final InputStream filterInput = new FilterInputStream(inputStream) {
-                @Override
-                public void close() throws IOException {
-                    // Do Nothing.
-                }
-            };
+            final InputStream filterInput = new UnclosableInputStream(
+                    inputStream);
             filterInput.mark(Parser.DETECTION_BUFFER_SIZE);
             try {
                 retVal = this.parseStreamSourceAsXml(new StreamSource(

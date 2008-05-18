@@ -22,7 +22,7 @@ import java.awt.Color;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -102,7 +102,7 @@ public interface LayoutContext {
          * 
          * @see Parameter
          */
-        FONTS_SANSSERIF(new ListTypeWrapper(), false, "fontsSansSerif",
+        FONTS_SANSSERIF(new TLIListTypeWrapper(), false, "fontsSansSerif",
                 "list of font families for Sans-Serif"),
 
         /**
@@ -110,7 +110,7 @@ public interface LayoutContext {
          * 
          * @see Parameter
          */
-        FONTS_SERIF(new ListTypeWrapper(), false, "fontsSerif",
+        FONTS_SERIF(new TLIListTypeWrapper(), false, "fontsSerif",
                 "list of font families for Serif"),
 
         /**
@@ -118,7 +118,7 @@ public interface LayoutContext {
          * 
          * @see Parameter
          */
-        FONTS_MONOSPACED(new ListTypeWrapper(), false, "fontsMonospaced",
+        FONTS_MONOSPACED(new TLIListTypeWrapper(), false, "fontsMonospaced",
                 "list of font families for Monospaced"),
 
         /**
@@ -126,7 +126,7 @@ public interface LayoutContext {
          * 
          * @see Parameter
          */
-        FONTS_SCRIPT(new ListTypeWrapper(), false, "fontsScript",
+        FONTS_SCRIPT(new TLIListTypeWrapper(), false, "fontsScript",
 
         "list of font families for Script"),
         /**
@@ -134,7 +134,7 @@ public interface LayoutContext {
          * 
          * @see Parameter
          */
-        FONTS_FRAKTUR(new ListTypeWrapper(), false, "fontsFraktur",
+        FONTS_FRAKTUR(new TLIListTypeWrapper(), false, "fontsFraktur",
                 "list of font families for Fraktur"),
 
         /**
@@ -142,7 +142,8 @@ public interface LayoutContext {
          * 
          * @see Parameter
          */
-        FONTS_DOUBLESTRUCK(new ListTypeWrapper(), false, "fontsDoublestruck",
+        FONTS_DOUBLESTRUCK(new TLIListTypeWrapper(), false,
+                "fontsDoublestruck",
                 "list of font families for Double-Struck"),
 
         /**
@@ -456,8 +457,10 @@ public interface LayoutContext {
         /**
          * List is converted to String and back by using comma-separated
          * representation.
+         * 
+         * Strings are Stored Trimmed, Lower-cased, Interned.
          */
-        public static class ListTypeWrapper extends
+        public static class TLIListTypeWrapper extends
                 LayoutContext.Parameter.SimpleTypeWrapper {
             /**
              * separator to be used when converting to string or parsing
@@ -466,7 +469,7 @@ public interface LayoutContext {
             public static final String SEPARATOR = ",";
 
             /** Simple constructor. */
-            public ListTypeWrapper() {
+            public TLIListTypeWrapper() {
                 super(List.class);
             }
 
@@ -477,11 +480,17 @@ public interface LayoutContext {
                     return null;
                 } else {
                     final String whitespace = "\\s*";
-                    return Arrays
-                            .asList(value
-                                    .split(whitespace
-                                            + LayoutContext.Parameter.ListTypeWrapper.SEPARATOR
-                                            + whitespace));
+                    final String[] strList = value
+                            .split(whitespace
+                                    + LayoutContext.Parameter.TLIListTypeWrapper.SEPARATOR
+                                    + whitespace);
+                    final List<String> retVal = new ArrayList<String>(
+                            strList.length);
+                    for (final String str : strList) {
+                        retVal.add(str.trim().toLowerCase(Locale.ENGLISH)
+                                .intern());
+                    }
+                    return retVal;
                 }
             }
 
@@ -493,12 +502,12 @@ public interface LayoutContext {
                 } else {
                     final StringBuilder b = new StringBuilder();
                     boolean first = true;
-                    for (final Object o : ((List<?>) value)) {
+                    for (final Object o : (List<?>) value) {
                         if (first) {
                             first = false;
                         } else {
                             b
-                                    .append(LayoutContext.Parameter.ListTypeWrapper.SEPARATOR);
+                                    .append(LayoutContext.Parameter.TLIListTypeWrapper.SEPARATOR);
                             b.append(' ');
                         }
                         b.append(o);

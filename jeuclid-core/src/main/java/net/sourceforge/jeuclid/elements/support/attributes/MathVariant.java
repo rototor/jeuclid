@@ -120,9 +120,9 @@ public final class MathVariant implements Serializable {
     public static final MathVariant SCRIPT = new MathVariant(Font.PLAIN,
             FontFamily.SCRIPT);
 
-    private static final transient Map<String, MathVariant> ATTRIBUTEMAP = new HashMap<String, MathVariant>();
+    private static final Map<String, MathVariant> ATTRIBUTEMAP = new HashMap<String, MathVariant>();
 
-    private static final transient Map<FontFamily, Parameter> PARAMFORFONT = new HashMap<FontFamily, Parameter>();
+    private static final Map<FontFamily, Parameter> PARAMFORFONT = new HashMap<FontFamily, Parameter>();
 
     /**
      * 
