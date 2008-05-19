@@ -22,6 +22,7 @@ import java.awt.Color;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.StyleAttributeLayoutContext;
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 
 import org.w3c.dom.Node;
 
@@ -30,7 +31,7 @@ import org.w3c.dom.Node;
  * 
  * @version $Revision$
  */
-public final class Merror extends AbstractRowLike {
+public final class Merror extends AbstractContainer {
 
     /**
      * The XML element from this class.

@@ -33,6 +33,7 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
@@ -63,7 +64,7 @@ public final class Menclose extends AbstractElementWithDelegates implements
      * 
      */
     private abstract static class AbstractRowLikeNotation extends
-            AbstractRowLike {
+            AbstractContainer {
 
         /**
          * Default constructor.

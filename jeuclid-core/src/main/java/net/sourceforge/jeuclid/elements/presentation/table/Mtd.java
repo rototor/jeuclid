@@ -18,8 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
-import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
-
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLTableCellElement;
 
@@ -28,7 +26,7 @@ import org.w3c.dom.mathml.MathMLTableCellElement;
  * 
  * @version $Revision$
  */
-public final class Mtd extends AbstractRowLike implements
+public final class Mtd extends AbstractTableElement implements
         MathMLTableCellElement {
 
     /**
@@ -89,57 +87,6 @@ public final class Mtd extends AbstractRowLike implements
      */
     public void setColumnspan(final String columnspan) {
         this.setAttribute(Mtd.ATTR_COLUMNSPAN, columnspan);
-    }
-
-    /**
-     * @return Row align
-     */
-    public String getRowalign() {
-        return this.getMathAttribute(Mtable.ATTR_ROWALIGN);
-    }
-
-    /**
-     * Sets property of the rowalign attribute.
-     * 
-     * @param rowalign
-     *            new value.
-     */
-    public void setRowalign(final String rowalign) {
-        this.setAttribute(Mtable.ATTR_ROWALIGN, rowalign);
-    }
-
-    /**
-     * @return Column align
-     */
-    public String getColumnalign() {
-        return this.getMathAttribute(Mtable.ATTR_COLUMNALIGN);
-    }
-
-    /**
-     * Sets property of the columnalign attribute.
-     * 
-     * @param columnalign
-     *            Value
-     */
-    public void setColumnalign(final String columnalign) {
-        this.setAttribute(Mtable.ATTR_COLUMNALIGN, columnalign);
-    }
-
-    /**
-     * @return Group align
-     */
-    public String getGroupalign() {
-        return this.getMathAttribute(Mtable.ATTR_GROUPALIGN);
-    }
-
-    /**
-     * Sets property of the groupalign attribute.
-     * 
-     * @param groupalign
-     *            Groupalign
-     */
-    public void setGroupalign(final String groupalign) {
-        this.setAttribute(Mtable.ATTR_GROUPALIGN, groupalign);
     }
 
     /** {@inheritDoc} */
