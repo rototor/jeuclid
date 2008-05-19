@@ -18,6 +18,8 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
+
 import org.w3c.dom.Node;
 
 /**
@@ -25,7 +27,7 @@ import org.w3c.dom.Node;
  * 
  * @version $Revision$
  */
-public final class Mrow extends AbstractRowLike {
+public final class Mrow extends AbstractContainer {
 
     /**
      * The XML element from this class.

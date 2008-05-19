@@ -18,7 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.content.semantic;
 
-import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
@@ -29,7 +29,7 @@ import org.w3c.dom.mathml.MathMLSemanticsElement;
  * 
  * @version $Revision$
  */
-public final class Semantics extends AbstractRowLike implements
+public final class Semantics extends AbstractContainer implements
         MathMLSemanticsElement {
 
     /**

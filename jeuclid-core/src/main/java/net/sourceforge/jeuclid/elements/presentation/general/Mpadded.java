@@ -18,6 +18,8 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLPaddedElement;
 
@@ -27,7 +29,7 @@ import org.w3c.dom.mathml.MathMLPaddedElement;
  * @todo none of the attributes are actually implemented yet.
  * @version $Revision$
  */
-public final class Mpadded extends AbstractRowLike implements
+public final class Mpadded extends AbstractContainer implements
         MathMLPaddedElement {
 
     /** constant for depth attribute. */

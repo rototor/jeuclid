@@ -20,7 +20,7 @@ package net.sourceforge.jeuclid.elements.generic;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
-import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLMathElement;
@@ -30,7 +30,7 @@ import org.w3c.dom.mathml.MathMLMathElement;
  * 
  * @version $Revision$
  */
-public final class MathImpl extends AbstractRowLike implements
+public final class MathImpl extends AbstractContainer implements
         MathMLMathElement {
 
     /** attribute for display. */

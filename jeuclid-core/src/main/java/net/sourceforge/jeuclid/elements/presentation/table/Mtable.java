@@ -30,7 +30,6 @@ import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.InlineLayoutContext;
-import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
@@ -61,7 +60,7 @@ import org.w3c.dom.mathml.MathMLTableRowElement;
 // CHECKSTYLE:OFF
 // Data abstraction coupling is "to high". but this is necessary for proper
 // layout.
-public final class Mtable extends AbstractJEuclidElement implements
+public final class Mtable extends AbstractTableElement implements
         MathMLTableElement {
     // CHECKSTYLE:ON
 
@@ -458,37 +457,6 @@ public final class Mtable extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     public void setAlign(final String align) {
         this.setAttribute(Mtable.ATTR_ALIGN, align);
-    }
-
-    /** {@inheritDoc} */
-    public String getRowalign() {
-        return this.getMathAttribute(Mtable.ATTR_ROWALIGN);
-    }
-
-    /** {@inheritDoc} */
-    public void setRowalign(final String rowalign) {
-        this.setAttribute(Mtable.ATTR_ROWALIGN, rowalign);
-    }
-
-    /** {@inheritDoc} */
-    public String getColumnalign() {
-        return this.getMathAttribute(Mtable.ATTR_COLUMNALIGN);
-    }
-
-    /** {@inheritDoc} */
-    public void setColumnalign(final String columnalign) {
-        this.setAttribute(Mtable.ATTR_COLUMNALIGN, columnalign);
-
-    }
-
-    /** {@inheritDoc} */
-    public String getGroupalign() {
-        return this.getMathAttribute(Mtable.ATTR_GROUPALIGN);
-    }
-
-    /** {@inheritDoc} */
-    public void setGroupalign(final String groupalign) {
-        this.setAttribute(Mtable.ATTR_GROUPALIGN, groupalign);
     }
 
     /** {@inheritDoc} */

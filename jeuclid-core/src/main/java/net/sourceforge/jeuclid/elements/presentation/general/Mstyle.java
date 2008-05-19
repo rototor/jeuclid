@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
 import org.apache.commons.logging.Log;
@@ -32,7 +33,7 @@ import org.w3c.dom.mathml.MathMLStyleElement;
  * 
  * @version $Revision$
  */
-public final class Mstyle extends AbstractRowLike implements
+public final class Mstyle extends AbstractContainer implements
         MathMLStyleElement {
 
     /** Attribute for scriptminsize. */

@@ -18,8 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
-import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
-
 import org.w3c.dom.mathml.MathMLNodeList;
 import org.w3c.dom.mathml.MathMLTableCellElement;
 import org.w3c.dom.mathml.MathMLTableRowElement;
@@ -29,8 +27,8 @@ import org.w3c.dom.mathml.MathMLTableRowElement;
  * 
  * @version $Revision$
  */
-public abstract class AbstractTableRow extends AbstractJEuclidElement
-        implements MathMLTableRowElement {
+public abstract class AbstractTableRow extends AbstractTableElement implements
+        MathMLTableRowElement {
 
     /**
      * Default Constructor.
@@ -38,63 +36,6 @@ public abstract class AbstractTableRow extends AbstractJEuclidElement
     public AbstractTableRow() {
         super();
         this.setDefaultMathAttribute(Mtable.ATTR_GROUPALIGN, "");
-    }
-
-    /**
-     * Gets row alignment.
-     * 
-     * @return Alignment of the row.
-     */
-    public String getRowalign() {
-        return this.getMathAttribute(Mtable.ATTR_ROWALIGN);
-    }
-
-    /**
-     * Sets row alignment.
-     * 
-     * @param rowalign
-     *            Value of row alignment.
-     */
-    public void setRowalign(final String rowalign) {
-        this.setAttribute(Mtable.ATTR_ROWALIGN, rowalign);
-    }
-
-    /**
-     * Gets alignment for group in column. (not implemented yet).
-     * 
-     * @return Alignment for group in column.
-     */
-    public String getColumnalign() {
-        return this.getMathAttribute(Mtable.ATTR_COLUMNALIGN);
-    }
-
-    /**
-     * Sets alignment for group in column. (not implemented yet).
-     * 
-     * @param columnalign
-     *            Alignment for group in column.
-     */
-    public void setColumnalign(final String columnalign) {
-        this.setAttribute(Mtable.ATTR_COLUMNALIGN, columnalign);
-    }
-
-    /**
-     * Gets alignment of the group for the row. (not implemented yet).
-     * 
-     * @return Alignment of the row.
-     */
-    public String getGroupalign() {
-        return this.getMathAttribute(Mtable.ATTR_GROUPALIGN);
-    }
-
-    /**
-     * Sets alignment of the group for the row. (not implemented yet).
-     * 
-     * @param groupalign
-     *            Alignment.
-     */
-    public void setGroupalign(final String groupalign) {
-        this.setAttribute(Mtable.ATTR_GROUPALIGN, groupalign);
     }
 
     /** {@inheritDoc} */
