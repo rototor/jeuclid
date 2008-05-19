@@ -398,6 +398,9 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <configuration>
           <targetJdk>1.5</targetJdk>
+          <excludes>
+            <exclude>org/**/*.java</exclude>
+          </excludes>
         </configuration>
       </plugin>
 <!-- Disabled for now... maybe until they release?
