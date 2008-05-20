@@ -34,7 +34,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
 
-import net.sourceforge.jeuclid.Defense;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 
@@ -241,7 +240,7 @@ public class MathComponentUI extends ComponentUI implements
             }
 
             final Graphics2D g2d = (Graphics2D) c.getGraphics();
-            Defense.notNull(g2d, "g2d");
+            assert g2d!=null : "Graphics2D is null in getMathComponentSize";
             this.calculatePreferredSize(c);
         }
         return this.preferredSize;

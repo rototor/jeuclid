@@ -25,7 +25,6 @@ import java.awt.geom.AffineTransform;
 import java.text.AttributedString;
 
 import net.sourceforge.jeuclid.Constants;
-import net.sourceforge.jeuclid.Defense;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.Display;
@@ -296,7 +295,7 @@ public final class Mo extends AbstractJEuclidElement implements
 
     private TextLayout produceUnstrechtedLayout(final Graphics2D g,
             final LayoutContext now) {
-        Defense.notNull(g, "g");
+        assert g!=null : "Graphics2d is null in produceUnstrechtedLayout";
         float fontSizeInPoint = GraphicsSupport.getFontsizeInPoint(now);
         if (Boolean.parseBoolean(this.getLargeop())) {
             fontSizeInPoint *= this.getLargeOpCorrector(now);
