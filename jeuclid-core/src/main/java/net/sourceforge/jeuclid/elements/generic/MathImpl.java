@@ -53,6 +53,9 @@ public final class MathImpl extends AbstractContainer implements
 
     private static final String DISPLAY_BLOCK = "block";
 
+    // Happens to be display as well.
+    private static final String DEPRECATED_BLOCK_VALUE_FOR_MODE = MathImpl.ATTR_DISPLAY;
+
     /**
      * Creates a math element.
      */
@@ -92,8 +95,9 @@ public final class MathImpl extends AbstractContainer implements
                 retVal = MathImpl.DISPLAY_INLINE;
             }
         } else {
-            if ("display".equalsIgnoreCase(this
-                    .getMathAttribute(MathImpl.ATTR_MODE))) {
+            if (MathImpl.DEPRECATED_BLOCK_VALUE_FOR_MODE
+                    .equalsIgnoreCase(this
+                            .getMathAttribute(MathImpl.ATTR_MODE))) {
                 retVal = MathImpl.DISPLAY_BLOCK;
             } else {
                 retVal = MathImpl.DISPLAY_INLINE;
