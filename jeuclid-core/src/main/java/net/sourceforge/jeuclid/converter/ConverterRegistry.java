@@ -31,7 +31,12 @@ import java.util.Set;
  */
 public final class ConverterRegistry {
 
-    private static ConverterRegistry converterRegisty;
+    private static final class SingletonHolder {
+        private static ConverterRegistry instance = new ConverterRegistry();
+
+        private SingletonHolder() {
+        }
+    }
 
     private final Map<String, ConverterPlugin> mimetype2converter = new HashMap<String, ConverterPlugin>();
 
@@ -40,6 +45,9 @@ public final class ConverterRegistry {
     private final Map<String, String> suffix2mimetype = new HashMap<String, String>();
 
     private ConverterRegistry() {
+        ImageIODetector.detectConversionPlugins(this);
+        BatikDetector.detectConversionPlugins(this);
+        FreeHepDetector.detectConversionPlugins(this);
     }
 
     /**
@@ -47,17 +55,19 @@ public final class ConverterRegistry {
      * 
      * @return the ConverterRegistry.
      */
+    public static ConverterRegistry getInstance() {
+        return ConverterRegistry.SingletonHolder.instance;
+    }
+
+    /**
+     * use {@link #getInstance()} instead.
+     * 
+     * @return see {@link #getInstance()}
+     * @deprecated
+     */
+    @Deprecated
     public static ConverterRegistry getRegisty() {
-        if (ConverterRegistry.converterRegisty == null) {
-            ConverterRegistry.converterRegisty = new ConverterRegistry();
-            ImageIODetector
-                    .detectConversionPlugins(ConverterRegistry.converterRegisty);
-            BatikDetector
-                    .detectConversionPlugins(ConverterRegistry.converterRegisty);
-            FreeHepDetector
-                    .detectConversionPlugins(ConverterRegistry.converterRegisty);
-        }
-        return ConverterRegistry.converterRegisty;
+        return ConverterRegistry.getInstance();
     }
 
     /**

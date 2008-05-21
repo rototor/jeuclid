@@ -60,7 +60,7 @@ public class ImageIOConverter implements ConverterPlugin {
         final ImageOutputStream ios = new MemoryCacheImageOutputStream(
                 outStream);
         this.writer.setOutput(ios);
-        final BufferedImage image = Converter.getConverter().render(doc,
+        final BufferedImage image = Converter.getInstance().render(doc,
                 context);
         if (this.removeAlpha && image.getColorModel().hasAlpha()) {
             this.writer.write(this.removeAlpha(image));

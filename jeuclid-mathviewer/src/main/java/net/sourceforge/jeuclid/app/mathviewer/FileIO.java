@@ -81,7 +81,7 @@ public final class FileIO {
         private final Set<String> extensions;
 
         protected SaveExportFilter() {
-            this.extensions = ConverterRegistry.getRegisty()
+            this.extensions = ConverterRegistry.getInstance()
                     .getAvailableExtensions();
         };
 
@@ -226,11 +226,11 @@ public final class FileIO {
             final Node document, final MutableLayoutContext params) {
         final String fileName = selectedFile.getName();
         final String extension = FileIO.getExtension(fileName);
-        final String mimetype = ConverterRegistry.getRegisty()
+        final String mimetype = ConverterRegistry.getInstance()
                 .getMimeTypeForSuffix(extension);
         if (mimetype != null) {
             try {
-                if (Converter.getConverter().convert(document, selectedFile,
+                if (Converter.getInstance().convert(document, selectedFile,
                         mimetype, params) == null) {
                     JOptionPane.showMessageDialog(parent,
                             "Failed to write to " + fileName, Messages
