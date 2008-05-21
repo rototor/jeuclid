@@ -24,7 +24,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
@@ -128,8 +127,6 @@ public class PreloaderMathML extends AbstractImagePreloader {
         } catch (final IOException e) {
             n = null;
         } catch (final SAXException e) {
-            n = null;
-        } catch (final ParserConfigurationException e) {
             n = null;
         } catch (final IllegalArgumentException e) {
             n = null;

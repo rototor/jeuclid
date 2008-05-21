@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.converter;
 
 import java.io.IOException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -128,8 +127,6 @@ public final class Processor {
             throw new TransformerException("IOException", e);
         } catch (final SAXException e) {
             throw new TransformerException("SAXException", e);
-        } catch (final ParserConfigurationException e) {
-            throw new TransformerException("ParserConfigurationException", e);
         }
     }
 

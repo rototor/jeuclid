@@ -30,8 +30,6 @@ import javax.xml.transform.stream.StreamSource;
 
 import net.sourceforge.jeuclid.parser.Parser;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -50,9 +48,8 @@ public final class MathMLParserSupport {
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory
-            .getLog(MathMLParserSupport.class);
-
+    // private static final Log LOGGER = LogFactory
+    // .getLog(MathMLParserSupport.class);
     private MathMLParserSupport() {
     }
 
@@ -140,14 +137,8 @@ public final class MathMLParserSupport {
      */
     public static Document parseInputStreamXML(final InputStream inStream)
             throws SAXException, IOException {
-        try {
-            return Parser.getInstance().parseStreamSourceAsXml(
-                    new StreamSource(inStream));
-        } catch (final ParserConfigurationException e) {
-            // Should not happen. But who knows?
-            MathMLParserSupport.LOGGER.warn(e);
-            return null;
-        }
+        return Parser.getInstance().parseStreamSourceAsXml(
+                new StreamSource(inStream));
     }
 
     /**
@@ -163,14 +154,8 @@ public final class MathMLParserSupport {
      */
     public static Document parseInputStreamODF(final InputStream inStream)
             throws SAXException, IOException {
-        try {
-            return Parser.getInstance().parseStreamSourceAsOdf(
-                    new StreamSource(inStream));
-        } catch (final ParserConfigurationException e) {
-            // Should not happen. But who knows?
-            MathMLParserSupport.LOGGER.warn(e);
-            return null;
-        }
+        return Parser.getInstance().parseStreamSourceAsOdf(
+                new StreamSource(inStream));
     }
 
     /**
@@ -189,14 +174,8 @@ public final class MathMLParserSupport {
      */
     public static Document parseFile(final File inFile) throws SAXException,
             IOException {
-        try {
-            return Parser.getInstance().parseStreamSource(
-                    new StreamSource(new FileInputStream(inFile)));
-        } catch (final ParserConfigurationException e) {
-            // Should not happen. But who knows?
-            MathMLParserSupport.LOGGER.warn(e);
-            return null;
-        }
+        return Parser.getInstance().parseStreamSource(
+                new StreamSource(new FileInputStream(inFile)));
     }
 
     /**

@@ -113,20 +113,28 @@ public final class Parser {
 
     private final DocumentBuilder builder;
 
-    private Parser() throws ParserConfigurationException {
+    private Parser() {
         DocumentBuilder documentBuilder;
         try {
-            documentBuilder = this.createDocumentBuilder(true);
-        } catch (final UnsupportedOperationException uoe) {
-            Parser.LOGGER.debug("Unsupported Operation: " + uoe.getMessage());
-            documentBuilder = this.createDocumentBuilder(false);
-        } catch (final ParserConfigurationException pce) {
-            Parser.LOGGER.debug("ParserConfigurationException: "
-                    + pce.getMessage());
-            documentBuilder = this.createDocumentBuilder(false);
+            try {
+                documentBuilder = this.createDocumentBuilder(true);
+            } catch (final UnsupportedOperationException uoe) {
+                Parser.LOGGER.debug("Unsupported Operation: "
+                        + uoe.getMessage());
+                documentBuilder = this.createDocumentBuilder(false);
+            } catch (final ParserConfigurationException pce) {
+                Parser.LOGGER.debug("ParserConfigurationException: "
+                        + pce.getMessage());
+                documentBuilder = this.createDocumentBuilder(false);
+            }
+            documentBuilder.setEntityResolver(new ResourceEntityResolver());
+            documentBuilder.setErrorHandler(new LoggerErrorHandler());
+        } catch (final ParserConfigurationException pce2) {
+            Parser.LOGGER.warn("Could not create Parser: "
+                    + pce2.getMessage());
+            assert false : "Could not create Parser";
+            documentBuilder = null;
         }
-        documentBuilder.setEntityResolver(new ResourceEntityResolver());
-        documentBuilder.setErrorHandler(new LoggerErrorHandler());
         this.builder = documentBuilder;
     }
 
@@ -147,11 +155,8 @@ public final class Parser {
      * Retrieve the singleton Parser instance.
      * 
      * @return a Parser object.
-     * @throws ParserConfigurationException
-     *             when the internal (DOM) parser could not be created.
      */
-    public static synchronized Parser getInstance()
-            throws ParserConfigurationException {
+    public static synchronized Parser getInstance() {
         if (Parser.parser == null) {
             Parser.parser = new Parser();
         }
