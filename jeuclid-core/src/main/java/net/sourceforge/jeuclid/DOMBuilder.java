@@ -135,7 +135,9 @@ public final class DOMBuilder {
             final DOMSource source = new DOMSource(documentElement);
             d = new DocumentElement();
             final DOMResult result = new DOMResult(d);
-            this.contentTransformer.transform(source, result);
+            synchronized (this.contentTransformer) {
+                this.contentTransformer.transform(source, result);
+            }
             final Node realDE = d.getDocumentElement().getFirstChild();
             documentElement = realDE;
         } catch (final TransformerException e) {

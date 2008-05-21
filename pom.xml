@@ -261,6 +261,7 @@
               <value>true</value>
             </property>
           </systemProperties>
+          <parallel>methods</parallel>
         </configuration>
       </plugin>
       <plugin>

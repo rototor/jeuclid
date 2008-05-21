@@ -41,6 +41,7 @@ import org.w3c.dom.Node;
 public class ImageIOConverter implements ConverterPlugin {
 
     private final ImageWriter writer;
+
     private final boolean removeAlpha;
 
     /**
@@ -55,8 +56,9 @@ public class ImageIOConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public Dimension convert(final Node doc, final LayoutContext context,
-            final OutputStream outStream) throws IOException {
+    public synchronized Dimension convert(final Node doc,
+            final LayoutContext context, final OutputStream outStream)
+            throws IOException {
         final ImageOutputStream ios = new MemoryCacheImageOutputStream(
                 outStream);
         this.writer.setOutput(ios);
