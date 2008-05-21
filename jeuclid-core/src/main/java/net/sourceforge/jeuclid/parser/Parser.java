@@ -104,7 +104,12 @@ public final class Parser {
 
     private static final String CANNOT_HANDLE_SOURCE = "Cannot handle Source: ";
 
-    private static Parser parser;
+    private static final class SingletonHolder {
+        private static Parser instance = new Parser();
+
+        private SingletonHolder() {
+        }
+    }
 
     /**
      * Logger for this class.
@@ -156,11 +161,8 @@ public final class Parser {
      * 
      * @return a Parser object.
      */
-    public static synchronized Parser getInstance() {
-        if (Parser.parser == null) {
-            Parser.parser = new Parser();
-        }
-        return Parser.parser;
+    public static Parser getInstance() {
+        return Parser.SingletonHolder.instance;
     }
 
     /**
