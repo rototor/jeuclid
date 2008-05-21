@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.1" date="SVN" description="None yet">
+      <action dev="maxberger" type="add">JEuclid is now thread safe!<action>
       <action dev="maxberger" type="update">changed order of font prefernece for a more consistent output.</action>
       <action dev="maxberger" type="add" issue="1949127">Added character mapping for Mathematica 4.1 and firefox compatibility.</action>
       <action dev="maxberger" type="add">All singleton instances are now accessed with getInstance().</action>
