@@ -61,7 +61,12 @@ public final class Converter {
 
     private static final String UNSUPPORTED_OUTPUT_TYPE = "Unsupported output type: ";
 
-    private static Converter converter;
+    private static final class SingletonHolder {
+        private static Converter instance = new Converter();
+
+        private SingletonHolder() {
+        }
+    }
 
     /**
      * Logger for this class
@@ -77,11 +82,17 @@ public final class Converter {
      * 
      * @return a Converter object.
      */
+    public static Converter getInstance() {
+        return Converter.SingletonHolder.instance;
+    }
+
+    /**
+     * @return Converter instance
+     * @deprecated use {@link #getInstance()} instead.
+     */
+    @Deprecated
     public static Converter getConverter() {
-        if (Converter.converter == null) {
-            Converter.converter = new Converter();
-        }
-        return Converter.converter;
+        return Converter.getInstance();
     }
 
     /**
@@ -189,7 +200,7 @@ public final class Converter {
      */
     public DocumentWithDimension convert(final Node doc,
             final String outFileType, final LayoutContext params) {
-        final ConverterPlugin plugin = ConverterRegistry.getRegisty()
+        final ConverterPlugin plugin = ConverterRegistry.getInstance()
                 .getConverter(outFileType);
         DocumentWithDimension result = null;
         if (plugin != null) {
@@ -222,7 +233,7 @@ public final class Converter {
     public Dimension convert(final Node doc, final OutputStream outStream,
             final String outFileType, final MutableLayoutContext params)
             throws IOException {
-        final ConverterPlugin plugin = ConverterRegistry.getRegisty()
+        final ConverterPlugin plugin = ConverterRegistry.getInstance()
                 .getConverter(outFileType);
         Dimension result = null;
         if (plugin != null) {

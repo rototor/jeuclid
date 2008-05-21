@@ -34,7 +34,7 @@ public class ConverterTest {
                 LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 25f);
 
-        Converter.getConverter().convert(doc, outFile, "image/png", params);
+        Converter.getInstance().convert(doc, outFile, "image/png", params);
         Assert.assertTrue(outFile.exists());
         Assert.assertTrue(outFile.length() > 0);
     }
@@ -47,7 +47,7 @@ public class ConverterTest {
         final MutableLayoutContext params = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 25f);
-        Converter.getConverter().convert(doc, outFile,
+        Converter.getInstance().convert(doc, outFile,
                 net.sourceforge.jeuclid.converter.Converter.TYPE_SVG, params);
         Assert.assertTrue(outFile.exists(), "SVG file was not created");
         Assert.assertTrue(outFile.length() > 0, "SVG file is empty");
@@ -60,7 +60,7 @@ public class ConverterTest {
         final MutableLayoutContext params = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 25f);
-        final DocumentWithDimension svgdocdim = Converter.getConverter()
+        final DocumentWithDimension svgdocdim = Converter.getInstance()
                 .convert(doc,
                         net.sourceforge.jeuclid.converter.Converter.TYPE_SVG,
                         params);
@@ -102,7 +102,7 @@ public class ConverterTest {
             final File outFile = new File(this.getOutDir(), "example"
                     + example + ".png");
             final Document document = MathBaseTest.loadDocument(exName);
-            Converter.getConverter().convert(document, outFile, "image/png",
+            Converter.getInstance().convert(document, outFile, "image/png",
                     params);
             Assert.assertTrue(outFile.exists());
             Assert.assertTrue(outFile.length() > 0);
@@ -114,22 +114,22 @@ public class ConverterTest {
         Assert
                 .assertTrue(net.sourceforge.jeuclid.converter.Converter.TYPE_SVG
                         .equalsIgnoreCase(ConverterRegistry
-                                .getRegisty()
+                                .getInstance()
                                 .getMimeTypeForSuffix(
                                         net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG)));
         Assert
                 .assertTrue(net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG
                         .equalsIgnoreCase(ConverterRegistry
-                                .getRegisty()
+                                .getInstance()
                                 .getSuffixForMimeType(
                                         net.sourceforge.jeuclid.converter.Converter.TYPE_SVG)));
 
-        final String pngType = ConverterRegistry.getRegisty()
+        final String pngType = ConverterRegistry.getInstance()
                 .getMimeTypeForSuffix("png");
         Assert.assertTrue("image/png".equalsIgnoreCase(pngType)
                 || "image/x-png".equalsIgnoreCase(pngType));
         Assert.assertTrue("png".equalsIgnoreCase(ConverterRegistry
-                .getRegisty().getSuffixForMimeType("image/png")));
+                .getInstance().getSuffixForMimeType("image/png")));
 
     }
 

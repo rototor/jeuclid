@@ -151,7 +151,7 @@ public final class Processor {
                 && MathImpl.ELEMENT.equals(node.getLocalName())) {
 
             final DocumentWithDimension svgdocdim = Converter
-                    .getConverter()
+                    .getInstance()
                     .convert(
                             node,
                             net.sourceforge.jeuclid.converter.Converter.TYPE_SVG,

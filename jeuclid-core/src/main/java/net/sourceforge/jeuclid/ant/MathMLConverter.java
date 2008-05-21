@@ -94,7 +94,7 @@ public class MathMLConverter extends MatchingTask {
             this.log("Transforming file: " + this.minFile + " --> "
                     + this.moutFile, Project.MSG_VERBOSE);
             try {
-                Converter.getConverter().convert(this.minFile, this.moutFile,
+                Converter.getInstance().convert(this.minFile, this.moutFile,
                         this.moutType, this.context);
             } catch (final IOException io) {
                 throw new BuildException(io);
@@ -407,7 +407,7 @@ public class MathMLConverter extends MatchingTask {
         File outFile = null;
         File inFile = null;
         final String suffix = MathMLConverter.EXTENSION_SEP
-                + ConverterRegistry.getRegisty().getSuffixForMimeType(
+                + ConverterRegistry.getInstance().getSuffixForMimeType(
                         this.moutType);
         this.log("Founded extension: " + suffix, Project.MSG_DEBUG);
 
@@ -427,7 +427,7 @@ public class MathMLConverter extends MatchingTask {
             this.log("Output file: " + outFile, Project.MSG_DEBUG);
             if (this.mforce || !this.fileUtils.isUpToDate(inFile, outFile)) {
                 this.fileUtils.createNewFile(outFile, true);
-                Converter.getConverter().convert(inFile, outFile,
+                Converter.getInstance().convert(inFile, outFile,
                         this.moutType, this.context);
             }
         } catch (final IOException ex) {

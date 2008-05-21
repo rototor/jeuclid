@@ -56,7 +56,7 @@ public final class Mml2xxx {
         final Option oft = new Option(Mml2xxx.OUT_FILE_TYPE, true,
                 "output file mime type [default: derived from the target file's extention]"
                         + "; available values are: "
-                        + StringUtils.join(ConverterRegistry.getRegisty()
+                        + StringUtils.join(ConverterRegistry.getInstance()
                                 .getAvailableOutfileTypes().iterator(), ' '));
         options.addOption(oft);
         final LayoutContext defaultCtx = LayoutContextImpl
@@ -129,14 +129,14 @@ public final class Mml2xxx {
                                     + " option is given and target file has no extension");
                 }
                 final String extension = fileName.substring(dot + 1);
-                outFileType = ConverterRegistry.getRegisty()
+                outFileType = ConverterRegistry.getInstance()
                         .getMimeTypeForSuffix(extension);
                 if (outFileType == null) {
                     throw new IllegalArgumentException("File extension "
                             + extension + isNotSupported);
                 }
             } else {
-                if (!ConverterRegistry.getRegisty()
+                if (!ConverterRegistry.getInstance()
                         .getAvailableOutfileTypes().contains(outFileType)) {
                     throw new IllegalArgumentException("Output type "
                             + outFileType + isNotSupported);
@@ -152,7 +152,7 @@ public final class Mml2xxx {
                 }
             }
 
-            Converter.getConverter().convert(source, new File(files[1]),
+            Converter.getInstance().convert(source, new File(files[1]),
                     outFileType, ctx);
 
         } catch (final ParseException pe) {
