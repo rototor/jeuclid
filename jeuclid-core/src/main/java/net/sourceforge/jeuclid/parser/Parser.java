@@ -23,6 +23,10 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -116,21 +120,25 @@ public final class Parser {
      */
     private static final Log LOGGER = LogFactory.getLog(Parser.class);
 
-    private final DocumentBuilder builder;
+    private final Map<Long, Reference<DocumentBuilder>> builders;
 
     private Parser() {
+        this.builders = new ConcurrentHashMap<Long, Reference<DocumentBuilder>>();
+    }
+
+    private DocumentBuilder createDocumentBuilder() {
         DocumentBuilder documentBuilder;
         try {
             try {
-                documentBuilder = this.createDocumentBuilder(true);
+                documentBuilder = this.tryCreateDocumentBuilder(true);
             } catch (final UnsupportedOperationException uoe) {
                 Parser.LOGGER.debug("Unsupported Operation: "
                         + uoe.getMessage());
-                documentBuilder = this.createDocumentBuilder(false);
+                documentBuilder = this.tryCreateDocumentBuilder(false);
             } catch (final ParserConfigurationException pce) {
                 Parser.LOGGER.debug("ParserConfigurationException: "
                         + pce.getMessage());
-                documentBuilder = this.createDocumentBuilder(false);
+                documentBuilder = this.tryCreateDocumentBuilder(false);
             }
             documentBuilder.setEntityResolver(new ResourceEntityResolver());
             documentBuilder.setErrorHandler(new LoggerErrorHandler());
@@ -140,10 +148,10 @@ public final class Parser {
             assert false : "Could not create Parser";
             documentBuilder = null;
         }
-        this.builder = documentBuilder;
+        return documentBuilder;
     }
 
-    private DocumentBuilder createDocumentBuilder(final boolean xinclude)
+    private DocumentBuilder tryCreateDocumentBuilder(final boolean xinclude)
             throws ParserConfigurationException {
         final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
                 .newInstance();
@@ -261,7 +269,7 @@ public final class Parser {
         ZipEntry entry = zipStream.getNextEntry();
         while (entry != null) {
             if (Parser.CONTENT_XML.equals(entry.getName())) {
-                document = this.builder.parse(zipStream);
+                document = this.getDocumentBuilder().parse(zipStream);
                 entry = null;
             } else {
                 entry = zipStream.getNextEntry();
@@ -302,7 +310,7 @@ public final class Parser {
                     + streamSource);
         }
 
-        return this.builder.parse(inp);
+        return this.getDocumentBuilder().parse(inp);
     }
 
     /**
@@ -310,14 +318,28 @@ public final class Parser {
      * <p>
      * Please note:
      * <ul>
-     * <li>There is only one instance of the builder.</li>
-     * <li>The builder instance is not thread safe.</li>
+     * <li>There is one instance of the builder per thread.</li>
+     * <li>The builder instance is not thread safe, so it may not be parsed
+     * among threads.</li>
+     * <li>Multiple Threads may call getDocumentBuilder concurrently</li>
      * </ul>
      * 
      * @return a DocumentBuilder
      */
     public DocumentBuilder getDocumentBuilder() {
-        return this.builder;
+        // Note: No synchronization needed, as id will be different for every
+        // thread!
+        final long id = Thread.currentThread().getId();
+        final Reference<DocumentBuilder> builderRef = this.builders.get(id);
+        if (builderRef != null) {
+            final DocumentBuilder builder = builderRef.get();
+            if (builder != null) {
+                return builder;
+            }
+        }
+        final DocumentBuilder builder = this.createDocumentBuilder();
+        this.builders.put(id, new SoftReference<DocumentBuilder>(builder));
+        return builder;
     }
 
     /**
