@@ -34,7 +34,6 @@ import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
-import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 import net.sourceforge.jeuclid.elements.support.text.CharConverter;
@@ -46,8 +45,6 @@ import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.apache.batik.dom.GenericElementNS;
 import org.apache.batik.dom.events.DOMMutationEvent;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.mathml.MathMLElement;
@@ -123,11 +120,11 @@ public abstract class AbstractJEuclidElement extends
 
     private static final float MIDDLE_SHIFT = 0.38f;
 
-    /**
-     * Logger for this class
-     */
-    private static final Log LOGGER = LogFactory
-            .getLog(AbstractJEuclidElement.class);
+    // /**
+    // * Logger for this class
+    // */
+    // private static final Log LOGGER = LogFactory
+    // .getLog(AbstractJEuclidElement.class);
 
     private static final Set<String> DEPRECATED_ATTRIBUTES = new HashSet<String>();
 
@@ -594,22 +591,6 @@ public abstract class AbstractJEuclidElement extends
             final LayoutContext context) {
         return this.getFontMetrics(g, context).getAscent()
                 * AbstractJEuclidElement.MIDDLE_SHIFT;
-    }
-
-    /** {@inheritDoc} */
-    public void setMathAttributes(final AttributeMap attributes) {
-        final Map<String, String> attrsAsMap = attributes.getAsMap();
-        for (final Map.Entry<String, String> e : attrsAsMap.entrySet()) {
-            final String attrName = e.getKey();
-            if (AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
-                    .contains(attrName)) {
-                AbstractJEuclidElement.LOGGER
-                        .warn("Deprecated attribute for " + this.getTagName()
-                                + ": " + attrName);
-            }
-            this.setAttribute(attrName, e.getValue());
-        }
-        // TODO: Make sure changehook is called
     }
 
     /** {@inheritDoc} */
