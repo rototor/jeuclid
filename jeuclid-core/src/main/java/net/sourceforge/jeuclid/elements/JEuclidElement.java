@@ -19,7 +19,6 @@
 package net.sourceforge.jeuclid.elements;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
@@ -40,14 +39,6 @@ public interface JEuclidElement extends MathMLElement, JEuclidNode,
      *            Parent element
      */
     void setFakeParent(final JEuclidElement parent);
-
-    /**
-     * convenience method to set multiple attributes at once.
-     * 
-     * @param attributes
-     *            List of attribute names and values.
-     */
-    void setMathAttributes(final AttributeMap attributes);
 
     /**
      * Gets index of child element.

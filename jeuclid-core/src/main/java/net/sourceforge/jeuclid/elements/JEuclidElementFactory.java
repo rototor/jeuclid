@@ -60,7 +60,6 @@ import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.presentation.token.Ms;
 import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
 import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
-import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 
 import org.apache.batik.dom.AbstractNode;
 import org.apache.commons.logging.Log;
@@ -92,12 +91,12 @@ public final class JEuclidElementFactory {
      * 
      * @param localName
      *            name of the element without namespaces.
-     * @param aMap
-     *            Attributes for this element.
+     * @param ownerDocument
+     *            Document this element belongs to.
      * @return A new MathElement for this tag name.
      */
     public static Element elementFromName(final String localName,
-            final AttributeMap aMap, final Document ownerDocument) {
+            final Document ownerDocument) {
 
         final Constructor<?> con = JEuclidElementFactory.IMPL_CLASSES
                 .get(localName);
@@ -121,9 +120,6 @@ public final class JEuclidElementFactory {
         }
         ((AbstractNode) element).setOwnerDocument(ownerDocument);
         ((AbstractNode) element).setNodeName(localName);
-        if (aMap != null) {
-            element.setMathAttributes(aMap);
-        }
         return element;
     }
 

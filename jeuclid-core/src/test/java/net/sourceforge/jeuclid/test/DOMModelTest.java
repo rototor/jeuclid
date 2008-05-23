@@ -20,8 +20,6 @@ package net.sourceforge.jeuclid.test;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -66,8 +64,6 @@ import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.presentation.token.Ms;
 import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
 import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
-import net.sourceforge.jeuclid.elements.support.attributes.AbstractAttributeMap;
-import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -109,23 +105,6 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
  * @version $Revision$
  */
 public class DOMModelTest {
-
-    final static AttributeMap aMap = new AbstractAttributeMap() {
-
-        @Override
-        protected String getAttribute(String attrName) {
-            return null;
-        }
-
-        @Override
-        protected String getAttributeNS(String namespace, String attrName) {
-            return this.getAttribute(attrName);
-        }
-
-        public Map<String, String> getAsMap() {
-            return new HashMap<String, String>();
-        }
-    };
 
     /**
      * Tests is the "id" attribute works.
@@ -247,102 +226,72 @@ public class DOMModelTest {
         // TODO: Use DOM instead;
         final Document ownerDocument = new DocumentElement();
 
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("math",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLMathElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mi",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLPresentationToken);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mn",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLPresentationToken);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mo",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLOperatorElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mtext",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLPresentationToken);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mspace",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLSpaceElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("ms",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLStringLitElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mglyph",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLGlyphElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mrow",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLPresentationContainer);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mfrac",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLFractionElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("msqrt",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLRadicalElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mroot",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLRadicalElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mstyle",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLStyleElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("merror",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLPresentationContainer);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mpadded",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLPaddedElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mphantom",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLPresentationContainer);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mfenced",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLFencedElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("menclose",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLEncloseElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("msub",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLScriptElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("msup",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLScriptElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("msubsup",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLScriptElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("munder",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLUnderOverElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mover",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLUnderOverElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("math",
+                ownerDocument) instanceof MathMLMathElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mi",
+                ownerDocument) instanceof MathMLPresentationToken);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mn",
+                ownerDocument) instanceof MathMLPresentationToken);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mo",
+                ownerDocument) instanceof MathMLOperatorElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mtext",
+                ownerDocument) instanceof MathMLPresentationToken);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mspace",
+                ownerDocument) instanceof MathMLSpaceElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("ms",
+                ownerDocument) instanceof MathMLStringLitElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mglyph",
+                ownerDocument) instanceof MathMLGlyphElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mrow",
+                ownerDocument) instanceof MathMLPresentationContainer);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mfrac",
+                ownerDocument) instanceof MathMLFractionElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("msqrt",
+                ownerDocument) instanceof MathMLRadicalElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mroot",
+                ownerDocument) instanceof MathMLRadicalElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mstyle",
+                ownerDocument) instanceof MathMLStyleElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("merror",
+                ownerDocument) instanceof MathMLPresentationContainer);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mpadded",
+                ownerDocument) instanceof MathMLPaddedElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mphantom",
+                ownerDocument) instanceof MathMLPresentationContainer);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mfenced",
+                ownerDocument) instanceof MathMLFencedElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("menclose",
+                ownerDocument) instanceof MathMLEncloseElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("msub",
+                ownerDocument) instanceof MathMLScriptElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("msup",
+                ownerDocument) instanceof MathMLScriptElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("msubsup",
+                ownerDocument) instanceof MathMLScriptElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("munder",
+                ownerDocument) instanceof MathMLUnderOverElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mover",
+                ownerDocument) instanceof MathMLUnderOverElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("munderover",
+                ownerDocument) instanceof MathMLUnderOverElement);
         Assert
                 .assertTrue(JEuclidElementFactory.elementFromName(
-                        "munderover", DOMModelTest.aMap, ownerDocument) instanceof MathMLUnderOverElement);
+                        "mmultiscripts", ownerDocument) instanceof MathMLMultiScriptsElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mtable",
+                ownerDocument) instanceof MathMLTableElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mlabeledtr",
+                ownerDocument) instanceof MathMLLabeledRowElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mtr",
+                ownerDocument) instanceof MathMLTableRowElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("mtd",
+                ownerDocument) instanceof MathMLTableCellElement);
         Assert
                 .assertTrue(JEuclidElementFactory.elementFromName(
-                        "mmultiscripts", DOMModelTest.aMap, ownerDocument) instanceof MathMLMultiScriptsElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mtable",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLTableElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName(
-                        "mlabeledtr", DOMModelTest.aMap, ownerDocument) instanceof MathMLLabeledRowElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mtr",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLTableRowElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("mtd",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLTableCellElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName(
-                        "maligngroup", DOMModelTest.aMap, ownerDocument) instanceof MathMLAlignGroupElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName(
-                        "malignmark", DOMModelTest.aMap, ownerDocument) instanceof MathMLAlignMarkElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName("maction",
-                        DOMModelTest.aMap, ownerDocument) instanceof MathMLActionElement);
+                        "maligngroup", ownerDocument) instanceof MathMLAlignGroupElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("malignmark",
+                ownerDocument) instanceof MathMLAlignMarkElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("maction",
+                ownerDocument) instanceof MathMLActionElement);
         // Assert
         // .assertTrue(MathElementFactory.elementFromName("cn", aMap,
         // base) instanceof MathMLCnElement);
@@ -648,12 +597,10 @@ public class DOMModelTest {
         // aMap) instanceof MathMLPredefinedSymbol);
         // Assert.assertTrue(MathElementFactory.elementFromName("outerproduct",
         // aMap) instanceof MathMLPredefinedSymbol);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName(
-                        "annotation", DOMModelTest.aMap, ownerDocument) instanceof MathMLAnnotationElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName(
-                        "semantics", DOMModelTest.aMap, ownerDocument) instanceof MathMLSemanticsElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("annotation",
+                ownerDocument) instanceof MathMLAnnotationElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("semantics",
+                ownerDocument) instanceof MathMLSemanticsElement);
         // Assert
         // .assertTrue(MathElementFactory.elementFromName(
         // "annotation-xml", aMap) instanceof

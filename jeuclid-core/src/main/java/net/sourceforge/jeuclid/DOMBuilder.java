@@ -25,10 +25,7 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
-import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
-import net.sourceforge.jeuclid.elements.support.attributes.DOMAttributeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +34,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Builds a MathML tree from a given DOM tree.
@@ -59,13 +55,27 @@ public final class DOMBuilder {
 
     private final Transformer contentTransformer;
 
+    private final Transformer identityTransformer;
+
     private DOMBuilder() {
-        Transformer t;
-        t = this.createTransformer();
-        this.contentTransformer = t;
+        this.identityTransformer = this.createIdentityTransformer();
+        this.contentTransformer = this
+                .createContentTransformer(this.identityTransformer);
     }
 
-    private Transformer createTransformer() {
+    private Transformer createIdentityTransformer() {
+        Transformer t;
+        try {
+            t = TransformerFactory.newInstance().newTransformer();
+        } catch (final TransformerException e) {
+            DOMBuilder.LOGGER.warn(e.getMessage());
+            t = null;
+            assert false;
+        }
+        return t;
+    }
+
+    private Transformer createContentTransformer(final Transformer fallback) {
         Transformer t;
         try {
             t = TransformerFactory.newInstance().newTemplates(
@@ -74,7 +84,7 @@ public final class DOMBuilder {
                     .newTransformer();
         } catch (final TransformerException e) {
             DOMBuilder.LOGGER.warn(e.getMessage());
-            t = null;
+            t = fallback;
         }
         return t;
     }
@@ -98,6 +108,19 @@ public final class DOMBuilder {
     }
 
     /**
+     * Constructs a builder with content math support.
+     * 
+     * @param node
+     *            The MathML document. Can be an instance of Document, Element
+     *            or DocumentFragment with Element child
+     * @return the parsed Document
+     * @see #createJeuclidDom(Node, boolean)
+     */
+    public DocumentElement createJeuclidDom(final Node node) {
+        return this.createJeuclidDom(node, true);
+    }
+
+    /**
      * Constructs a builder.
      * <p>
      * This constructor needs a valid DOM Tree. To obtain a DOM tree, you may
@@ -106,10 +129,14 @@ public final class DOMBuilder {
      * @param node
      *            The MathML document. Can be an instance of Document, Element
      *            or DocumentFragment with Element child
+     * @param supportContent
+     *            if set to true, content Math will be supported. This impacts
+     *            performance.
      * @return the parsed Document
      * @see MathMLParserSupport
      */
-    public DocumentElement createJeuclidDom(final Node node) {
+    public DocumentElement createJeuclidDom(final Node node,
+            final boolean supportContent) {
         Node documentElement;
         if (node instanceof Document) {
             documentElement = ((Document) node).getDocumentElement();
@@ -130,81 +157,32 @@ public final class DOMBuilder {
         }
 
         // TODO: This could be enabled / disabled with a switch?
-        Document d = null;
+        DocumentElement d = null;
         try {
             final DOMSource source = new DOMSource(documentElement);
             d = new DocumentElement();
             final DOMResult result = new DOMResult(d);
-            synchronized (this.contentTransformer) {
-                this.contentTransformer.transform(source, result);
+            final Transformer t;
+            if (supportContent) {
+                t = this.contentTransformer;
+            } else {
+                t = this.identityTransformer;
             }
-            final Node realDE = d.getDocumentElement().getFirstChild();
-            documentElement = realDE;
+            synchronized (t) {
+                t.transform(source, result);
+            }
         } catch (final TransformerException e) {
+            d = null;
             DOMBuilder.LOGGER.warn(e.getMessage());
         } catch (final NullPointerException e) {
+            d = null;
             // Happens if the stylesheet was not loaded correctly
             DOMBuilder.LOGGER.warn(e.getMessage());
         } catch (final DOMException e) {
+            d = null;
             DOMBuilder.LOGGER.warn(e.getMessage());
         }
-
-        final DocumentElement rootElement;
-        if (d instanceof DocumentElement) {
-            rootElement = (DocumentElement) d;
-        } else {
-            rootElement = new DocumentElement();
-            this.traverse(documentElement, rootElement);
-        }
-        return rootElement;
+        return d;
     }
 
-    /**
-     * Creates a MathElement through traversing the DOM tree.
-     * 
-     * @param node
-     *            Current element of the DOM tree.
-     * @param parent
-     *            Current element of the MathElement tree.
-     * @param alignmentScope
-     *            Alignment scope of elements.
-     */
-    private void traverse(final Node node, final Node parent) {
-        if (node.getNodeType() != Node.ELEMENT_NODE) {
-            return;
-        }
-        String tagname = node.getNodeName();
-        final int posSeparator = tagname.indexOf(":");
-
-        if (posSeparator >= 0) {
-            tagname = tagname.substring(posSeparator + 1);
-        }
-        final AttributeMap attributes = new DOMAttributeMap(node
-                .getAttributes());
-
-        final Element element = JEuclidElementFactory.elementFromName(
-                tagname, attributes, parent.getOwnerDocument());
-        parent.appendChild(element);
-
-        final NodeList childs = node.getChildNodes();
-
-        for (int i = 0; i < childs.getLength(); i++) {
-            final Node childNode = childs.item(i);
-            final short childNodeType = childNode.getNodeType();
-            if (childNodeType == Node.ELEMENT_NODE) {
-                this.traverse(childNode, element);
-            } else if (childNodeType == Node.TEXT_NODE) {
-                element.appendChild(element.getOwnerDocument()
-                        .createTextNode(childNode.getNodeValue()));
-            } else if (childNodeType == Node.ENTITY_REFERENCE_NODE
-                    && childNode.hasChildNodes()) {
-                final String entityValue = childNode.getFirstChild()
-                        .getNodeValue();
-                if (entityValue != null) {
-                    element.appendChild(element.getOwnerDocument()
-                            .createTextNode(entityValue));
-                }
-            }
-        }
-    }
 }

@@ -144,7 +144,7 @@ public final class DocumentElement extends GenericDocument implements
     @Override
     public Element createElement(final String tagName) {
         // TODO: This should be refactored.
-        return JEuclidElementFactory.elementFromName(tagName, null, this);
+        return JEuclidElementFactory.elementFromName(tagName, this);
     }
 
     /** {@inheritDoc} */
