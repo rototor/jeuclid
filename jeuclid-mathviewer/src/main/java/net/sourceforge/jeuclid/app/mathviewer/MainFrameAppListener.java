@@ -22,13 +22,11 @@ import java.io.File;
 
 import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
-import com.apple.eawt.ApplicationListener;
 
 /**
  * @version $Revision$
  */
-public class MainFrameAppListener extends ApplicationAdapter implements
-        ApplicationListener {
+public class MainFrameAppListener extends ApplicationAdapter {
 
     private final MainFrame frame;
 

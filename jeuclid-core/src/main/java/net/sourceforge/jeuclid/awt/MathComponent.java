@@ -52,9 +52,7 @@ public class MathComponent extends Component {
     /**
      * Reference to the MathBase class.
      */
-    private JEuclidView view;
-
-    private boolean debug;
+    private transient JEuclidView view;
 
     private Document document;
 
@@ -129,7 +127,6 @@ public class MathComponent extends Component {
     private void redo() {
         final Graphics2D g2d = (Graphics2D) this.getGraphics();
         if ((this.document != null) && (g2d != null)) {
-            this.parameters.setParameter(Parameter.DEBUG, this.debug);
             this.view = new JEuclidView(this.document, this.parameters, g2d);
         } else {
             this.view = null;
@@ -144,7 +141,7 @@ public class MathComponent extends Component {
      *            Debug mode.
      */
     public void setDebug(final boolean debugMode) {
-        this.debug = debugMode;
+        this.parameters.setParameter(Parameter.DEBUG, debugMode);
         this.redo();
     }
 

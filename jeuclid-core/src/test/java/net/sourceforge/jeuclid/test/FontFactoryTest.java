@@ -31,7 +31,7 @@ import org.testng.annotations.Test;
  * 
  * @version $Revision$
  */
-public class FontFactoryTest {
+public final class FontFactoryTest {
 
     /** */
     public FontFactoryTest() {
