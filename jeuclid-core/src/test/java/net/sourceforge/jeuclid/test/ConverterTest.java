@@ -80,7 +80,8 @@ public class ConverterTest {
     public File getOutDir() {
         final File outDir = new File("temp");
         if (!outDir.isDirectory()) {
-            outDir.mkdirs();
+            final boolean success = outDir.mkdirs();
+            assert success;
         }
         return outDir;
     }

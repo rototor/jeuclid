@@ -42,12 +42,12 @@ public class ImageLoaderFactoryMathML extends AbstractImageLoaderFactory {
 
     /** {@inheritDoc} */
     public String[] getSupportedMIMETypes() {
-        return ImageLoaderFactoryMathML.MIMES;
+        return ImageLoaderFactoryMathML.MIMES.clone();
     }
 
     /** {@inheritDoc} */
     public ImageFlavor[] getSupportedFlavors(final String mime) {
-        return ImageLoaderFactoryMathML.FLAVORS;
+        return ImageLoaderFactoryMathML.FLAVORS.clone();
     }
 
     /** {@inheritDoc} */

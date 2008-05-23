@@ -46,8 +46,6 @@ import org.xml.sax.SAXException;
  */
 public final class FileIO {
 
-    private static FileIO fileio;
-
     /**
      * Logger for this class
      */
@@ -57,6 +55,13 @@ public final class FileIO {
 
     private File lastPath;
 
+    private static final class SingletonHolder {
+        private static FileIO instance = new FileIO();
+
+        private SingletonHolder() {
+        }
+    }
+
     private FileIO() {
     }
 
@@ -65,11 +70,8 @@ public final class FileIO {
      * 
      * @return the FileIO object
      */
-    public static synchronized FileIO getFileIO() {
-        if (FileIO.fileio == null) {
-            FileIO.fileio = new FileIO();
-        }
-        return FileIO.fileio;
+    public static FileIO getInstance() {
+        return FileIO.SingletonHolder.instance;
     }
 
     private static String getExtension(final String fileName) {
@@ -139,27 +141,32 @@ public final class FileIO {
      * @return a parsed Document or null
      */
     public Document loadFile(final Frame parent, final File selectedFile) {
+        Document retVal;
         if (selectedFile == null) {
-            return null;
+            retVal = null;
+        } else {
+            try {
+                retVal = MathMLParserSupport.parseFile(selectedFile);
+            } catch (final SAXException e) {
+                retVal = null;
+                FileIO.LOGGER.warn(e.getMessage(), e);
+                JOptionPane
+                        .showMessageDialog(
+                                parent,
+                                e.getMessage(),
+                                Messages.getString("MathViewer.errorParsing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+            } catch (final IOException e) {
+                retVal = null;
+                FileIO.LOGGER.warn(e.getMessage(), e);
+                JOptionPane
+                        .showMessageDialog(
+                                parent,
+                                e.getMessage(),
+                                Messages
+                                        .getString("MathViewer.errorAccessing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+            }
         }
-        try {
-            return MathMLParserSupport.parseFile(selectedFile);
-        } catch (final SAXException e) {
-            FileIO.LOGGER.warn(e.getMessage(), e);
-            JOptionPane
-                    .showMessageDialog(
-                            parent,
-                            e.getMessage(),
-                            Messages.getString("MathViewer.errorParsing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
-        } catch (final IOException e) {
-            FileIO.LOGGER.warn(e.getMessage(), e);
-            JOptionPane
-                    .showMessageDialog(
-                            parent,
-                            e.getMessage(),
-                            Messages.getString("MathViewer.errorAccessing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
-        }
-        return null;
+        return retVal;
     }
 
     /**

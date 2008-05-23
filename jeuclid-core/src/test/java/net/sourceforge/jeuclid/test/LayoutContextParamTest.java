@@ -55,10 +55,10 @@ public class LayoutContextParamTest {
         Assert.assertFalse(Parameter.FONTS_SERIF.valid("Courier"));
         Assert.assertTrue(Parameter.MATHBACKGROUND.valid(Color.RED));
         Assert.assertTrue(Parameter.MATHBACKGROUND.valid(null));
-        Assert.assertTrue(Parameter.MATHSIZE.valid(new Float(1)));
-        Assert.assertFalse(Parameter.MATHSIZE.valid(new Integer(1)));
-        Assert.assertTrue(Parameter.SCRIPTLEVEL.valid(new Integer(1)));
-        Assert.assertFalse(Parameter.SCRIPTLEVEL.valid(new Float(1)));
+        Assert.assertTrue(Parameter.MATHSIZE.valid(Float.valueOf(1)));
+        Assert.assertFalse(Parameter.MATHSIZE.valid(Integer.valueOf(1)));
+        Assert.assertTrue(Parameter.SCRIPTLEVEL.valid(Integer.valueOf(1)));
+        Assert.assertFalse(Parameter.SCRIPTLEVEL.valid(Float.valueOf(1)));
     }
 
     /**
@@ -90,10 +90,10 @@ public class LayoutContextParamTest {
         }
         Assert.assertEquals(Parameter.MATHCOLOR
                 .fromString("rgb(100,100,100)"), new Color(100, 100, 100));
-        Assert.assertEquals(Parameter.MATHSIZE.fromString("0.5"), new Float(
-                0.5));
-        Assert.assertEquals(Parameter.SCRIPTLEVEL.fromString("1"),
-                new Integer(1));
+        Assert.assertEquals(Parameter.MATHSIZE.fromString("0.5"), Float
+                .valueOf(0.5f));
+        Assert.assertEquals(Parameter.SCRIPTLEVEL.fromString("1"), Integer
+                .valueOf(1));
     }
 
     /**
@@ -113,9 +113,9 @@ public class LayoutContextParamTest {
         Assert.assertEquals(Parameter.MATHCOLOR.toString(null), null);
         Assert.assertEquals(Parameter.MATHCOLOR
                 .toString(new Color(32, 32, 32)), "#202020");
-        Assert.assertEquals(Parameter.MATHSIZE.toString(new Float(0.5)),
+        Assert.assertEquals(Parameter.MATHSIZE.toString(Float.valueOf(0.5f)),
                 "0.5");
-        Assert.assertEquals(Parameter.SCRIPTLEVEL.toString(new Integer(2)),
-                "2");
+        Assert.assertEquals(Parameter.SCRIPTLEVEL
+                .toString(Integer.valueOf(2)), "2");
     }
 }

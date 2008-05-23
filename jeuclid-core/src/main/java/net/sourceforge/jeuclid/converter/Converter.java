@@ -177,7 +177,9 @@ public final class Converter {
                 Converter.LOGGER.debug(e);
             }
         } else {
-            outFile.delete();
+            if (!outFile.delete()) {
+                Converter.LOGGER.debug("Could not delete " + outFile);
+            }
         }
         return result;
     }

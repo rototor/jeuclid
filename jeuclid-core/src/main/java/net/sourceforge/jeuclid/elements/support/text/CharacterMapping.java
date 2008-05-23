@@ -64,7 +64,7 @@ public final class CharacterMapping implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    private static transient CharacterMapping instance;
+    private static CharacterMapping instance;
 
     /**
      * Logger for this class.
@@ -88,12 +88,13 @@ public final class CharacterMapping implements Serializable {
         this.forceSet = new TreeSet<Integer>();
         this.composeAttrs = new EnumMap<FontFamily, Map<Integer, Integer[]>>(
                 FontFamily.class);
-        this.initTransientFields();
+        this.readResolve();
         this.loadUnicodeData();
     }
 
-    private void initTransientFields() {
+    private Object readResolve() {
         this.alternatives = new HashMap<CodePointAndVariant, Reference<List<CodePointAndVariant>>>();
+        return this;
     }
 
     private void loadUnicodeData() {
@@ -226,7 +227,6 @@ public final class CharacterMapping implements Serializable {
                 final ObjectInput oi = new ObjectInputStream(is);
                 m = (CharacterMapping) oi.readObject();
                 oi.close();
-                m.initTransientFields();
             } catch (final ClassNotFoundException cnfe) {
                 m = null;
             } catch (final IllegalArgumentException e) {

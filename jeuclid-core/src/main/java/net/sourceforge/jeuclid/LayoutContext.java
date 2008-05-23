@@ -19,6 +19,7 @@
 package net.sourceforge.jeuclid;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -238,7 +239,7 @@ public interface LayoutContext {
          * This allows elimination of an additional "evil" if-elseif...else"
          * pattern.
          */
-        public static interface TypeWrapper {
+        public static interface TypeWrapper extends Serializable {
             /**
              * @return the class instance being wrapped
              */
@@ -282,6 +283,11 @@ public interface LayoutContext {
          */
         public static class SimpleTypeWrapper implements
                 LayoutContext.Parameter.TypeWrapper {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+
             /** the class instance being wrapped */
             private final Class<?> valueType;
 
@@ -328,6 +334,12 @@ public interface LayoutContext {
          */
         public static class StringTypeWrapper extends
                 LayoutContext.Parameter.SimpleTypeWrapper {
+
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+
             /** Simple c'tor. */
             public StringTypeWrapper() {
                 super(String.class);
@@ -352,6 +364,11 @@ public interface LayoutContext {
          */
         public static class NumberTypeWrapper extends
                 LayoutContext.Parameter.SimpleTypeWrapper {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+
             /**
              * Simple constructor.
              * 
@@ -385,6 +402,11 @@ public interface LayoutContext {
          */
         public static class BooleanTypeWrapper extends
                 LayoutContext.Parameter.SimpleTypeWrapper {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+
             /** Simple constructor. */
             public BooleanTypeWrapper() {
                 super(Boolean.class);
@@ -407,6 +429,11 @@ public interface LayoutContext {
          */
         public static class ColorTypeWrapper extends
                 LayoutContext.Parameter.SimpleTypeWrapper {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+
             /** Simple constructor. */
             public ColorTypeWrapper() {
                 super(Color.class);
@@ -462,11 +489,17 @@ public interface LayoutContext {
          */
         public static class TLIListTypeWrapper extends
                 LayoutContext.Parameter.SimpleTypeWrapper {
+
             /**
              * separator to be used when converting to string or parsing
              * string.
              */
             public static final String SEPARATOR = ",";
+
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
 
             /** Simple constructor. */
             public TLIListTypeWrapper() {
@@ -526,6 +559,11 @@ public interface LayoutContext {
             private static final String FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS = "Failed to retrieve values of enum class ";
 
             /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+
+            /**
              * Simple constructor.
              * 
              * @param valueType
@@ -558,15 +596,15 @@ public interface LayoutContext {
                             .invoke(null);
                 } catch (final InvocationTargetException e) {
                     throw new RuntimeException(
-                            EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
+                            LayoutContext.Parameter.EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
                                     + this.getValueType());
                 } catch (final IllegalAccessException e) {
                     throw new RuntimeException(
-                            EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
+                            LayoutContext.Parameter.EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
                                     + this.getValueType());
                 } catch (final NoSuchMethodException e) {
                     throw new RuntimeException(
-                            EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
+                            LayoutContext.Parameter.EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
                                     + this.getValueType());
                 }
             }

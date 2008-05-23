@@ -19,10 +19,12 @@
 package net.sourceforge.jeuclid.context;
 
 import java.awt.Color;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Vector;
 
 import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
@@ -31,7 +33,12 @@ import net.sourceforge.jeuclid.MutableLayoutContext;
 /**
  * @version $Revision$
  */
-public class LayoutContextImpl implements MutableLayoutContext {
+public class LayoutContextImpl implements MutableLayoutContext, Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     private static final class SingletonHolder {
         private static LayoutContextImpl instance = new LayoutContextImpl();
@@ -57,13 +64,7 @@ public class LayoutContextImpl implements MutableLayoutContext {
         this.context.put(Parameter.MATHCOLOR, Color.BLACK);
         this.context.put(Parameter.MATHBACKGROUND, null);
 
-        final List<String> fontsSanserif = new Vector<String>();
-        final List<String> fontsSerif = new Vector<String>();
-        final List<String> fontsMonospaced = new Vector<String>();
-        final List<String> fontsScript = new Vector<String>();
-        final List<String> fontsFraktur = new Vector<String>();
-        final List<String> fontsDoublestruck = new Vector<String>();
-
+        final List<String> fontsSanserif = new ArrayList<String>(12);
         fontsSanserif.add("Verdana");
         fontsSanserif.add("Helvetica");
         fontsSanserif.add("Arial");
@@ -76,8 +77,10 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsSanserif.add("Luxi Sans");
         fontsSanserif.add("FreeSans");
         fontsSanserif.add("sansserif");
-        this.context.put(Parameter.FONTS_SANSSERIF, fontsSanserif);
+        this.context.put(Parameter.FONTS_SANSSERIF, Collections
+                .unmodifiableList(fontsSanserif));
 
+        final List<String> fontsSerif = new ArrayList<String>(10);
         fontsSerif.add("Constantina");
         fontsSerif.add("Cambria");
         fontsSerif.add("Times");
@@ -88,8 +91,10 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsSerif.add("Luxi Serif");
         fontsSerif.add("FreeSerif");
         fontsSerif.add("serif");
-        this.context.put(Parameter.FONTS_SERIF, fontsSerif);
+        this.context.put(Parameter.FONTS_SERIF, Collections
+                .unmodifiableList(fontsSerif));
 
+        final List<String> fontsMonospaced = new ArrayList<String>(10);
         fontsMonospaced.add("Andale Mono");
         fontsMonospaced.add("Courier");
         fontsMonospaced.add("Courier Mono");
@@ -100,8 +105,10 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsMonospaced.add("Luxi Mono");
         fontsMonospaced.add("FreeMono");
         fontsMonospaced.add("monospaced");
-        this.context.put(Parameter.FONTS_MONOSPACED, fontsMonospaced);
+        this.context.put(Parameter.FONTS_MONOSPACED, Collections
+                .unmodifiableList(fontsMonospaced));
 
+        final List<String> fontsScript = new ArrayList<String>(12);
         fontsScript.add("EUSM10");
         fontsScript.add("cmsy10");
         fontsScript.add("Math5");
@@ -114,8 +121,10 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsScript.add("Lucida Handwriting");
         fontsScript.add("Monotype Corsiva");
         fontsScript.add("Santa Fe LET");
-        this.context.put(Parameter.FONTS_SCRIPT, fontsScript);
+        this.context.put(Parameter.FONTS_SCRIPT, Collections
+                .unmodifiableList(fontsScript));
 
+        final List<String> fontsFraktur = new ArrayList<String>(7);
         fontsFraktur.add("EUFM10");
         fontsFraktur.add("Mathematica6");
         fontsFraktur.add("FetteFraktur");
@@ -123,8 +132,10 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsFraktur.add("Euclid Fraktur");
         fontsFraktur.add("Lucida Blackletter");
         fontsFraktur.add("Blackmoor LET");
-        this.context.put(Parameter.FONTS_FRAKTUR, fontsFraktur);
+        this.context.put(Parameter.FONTS_FRAKTUR, Collections
+                .unmodifiableList(fontsFraktur));
 
+        final List<String> fontsDoublestruck = new ArrayList<String>(8);
         fontsDoublestruck.add("MSBM10");
         fontsDoublestruck.add("Mathematica7");
         fontsDoublestruck.add("Caslon Open Face");
@@ -133,7 +144,8 @@ public class LayoutContextImpl implements MutableLayoutContext {
         fontsDoublestruck.add("Academy Engraved LET");
         fontsDoublestruck.add("Colonna MT");
         fontsDoublestruck.add("Imprint MT Shadow");
-        this.context.put(Parameter.FONTS_DOUBLESTRUCK, fontsDoublestruck);
+        this.context.put(Parameter.FONTS_DOUBLESTRUCK, Collections
+                .unmodifiableList(fontsDoublestruck));
 
         this.context.put(Parameter.MFRAC_KEEP_SCRIPTLEVEL, Boolean.FALSE);
         // CHECKSTYLE:ON

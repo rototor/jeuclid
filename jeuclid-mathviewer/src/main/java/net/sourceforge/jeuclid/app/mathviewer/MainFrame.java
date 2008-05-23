@@ -61,6 +61,8 @@ public class MainFrame extends JFrame {
 
     private static final int DEFAULT_WIDTH = 350;
 
+    private static final FileIO FILEIO = FileIO.getInstance();
+
     // /**
     // * Logger for this class
     // */
@@ -110,8 +112,6 @@ public class MainFrame extends JFrame {
     private JCheckBoxMenuItem aliasMenuItem;
 
     private JCheckBoxMenuItem debugMenuItem;
-
-    private final FileIO fileIO = FileIO.getFileIO();
 
     /**
      * This is the default constructor.
@@ -322,6 +322,9 @@ public class MainFrame extends JFrame {
         return this.aboutMenuItem;
     }
 
+    /**
+     * Display the about dialog.
+     */
     public void displayAbout() {
         final JDialog aDialog = MainFrame.this.getAboutDialog();
         aDialog.pack();
@@ -370,8 +373,14 @@ public class MainFrame extends JFrame {
         return this.openMenuItem;
     }
 
+    /**
+     * Try to load a given file into this frame.
+     * 
+     * @param f
+     *            reference to the file.
+     */
     public void loadFile(final File f) {
-        final Document doc = this.fileIO.loadFile(this, f);
+        final Document doc = MainFrame.FILEIO.loadFile(this, f);
         if (doc != null) {
             this.getMathComponent().setDocument(doc);
         }
@@ -382,7 +391,7 @@ public class MainFrame extends JFrame {
      * carries out the actual file-open procedure.
      */
     protected void openFile() {
-        final File file = this.fileIO.selectFileToOpen(this);
+        final File file = MainFrame.FILEIO.selectFileToOpen(this);
         this.loadFile(file);
     }
 
@@ -452,6 +461,9 @@ public class MainFrame extends JFrame {
         return mi;
     }
 
+    /**
+     * Display the settings dialog.
+     */
     public void displaySettings() {
         new ParametersDialog(MainFrame.this).setVisible(true);
         MainFrame.this.debugMenuItem
@@ -548,8 +560,8 @@ public class MainFrame extends JFrame {
      * Carries out the actual export File operation.
      */
     protected void exportFile() {
-        this.fileIO.saveDocument(this, this.getMathComponent().getDocument(),
-                this.getMathComponent().getParameters());
+        MainFrame.FILEIO.saveDocument(this, this.getMathComponent()
+                .getDocument(), this.getMathComponent().getParameters());
     }
 
     /**
@@ -618,7 +630,7 @@ public class MainFrame extends JFrame {
             } catch (final Exception e) {
                 JOptionPane.showMessageDialog(this, new String[] {
                         Messages.getString("MathViewer.pasteFailure"),
-                        e.toString() }, Messages
+                        e.toString(), }, Messages
                         .getString("MathViewer.error"),
                         JOptionPane.ERROR_MESSAGE);
             }
