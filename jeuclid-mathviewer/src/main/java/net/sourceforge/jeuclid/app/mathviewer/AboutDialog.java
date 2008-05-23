@@ -38,7 +38,7 @@ import net.sourceforge.jeuclid.LayoutContext;
  * 
  * @version $Revision$
  */
-public class AboutDialog extends JDialog {
+public final class AboutDialog extends JDialog {
 
     private static final int LARGE_FONT = 14;
 
@@ -79,8 +79,10 @@ public class AboutDialog extends JDialog {
             @Override
             public void keyPressed(final KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_V && e.isAltDown()) {
-                    JOptionPane.showMessageDialog(AboutDialog.this, 
-                            "Version: " + LayoutContext.class.getPackage().getImplementationVersion());
+                    JOptionPane.showMessageDialog(AboutDialog.this,
+                            "Version: "
+                                    + LayoutContext.class.getPackage()
+                                            .getImplementationVersion());
                 }
             }
         });
