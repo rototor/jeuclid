@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.generic;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -124,6 +125,12 @@ public final class DocumentElement extends GenericDocument implements
         ElementListSupport.layoutSequential(view, info, this
                 .getChildrenToLayout(), LayoutStage.STAGE1);
         info.setLayoutStage(childMinStage);
+        // TODO: This should be done in a better way.
+        if (context.getParameter(LayoutContext.Parameter.MATHBACKGROUND) == null) {
+            info.setLayoutStage(childMinStage);
+        } else {
+            info.setLayoutStage(LayoutStage.STAGE1);
+        }
     }
 
     /** {@inheritDoc} */
@@ -131,6 +138,8 @@ public final class DocumentElement extends GenericDocument implements
             final LayoutContext context) {
         ElementListSupport.layoutSequential(view, info, this
                 .getChildrenToLayout(), LayoutStage.STAGE2);
+        ElementListSupport.addBackground((Color) context
+                .getParameter(LayoutContext.Parameter.MATHBACKGROUND), info);
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 
