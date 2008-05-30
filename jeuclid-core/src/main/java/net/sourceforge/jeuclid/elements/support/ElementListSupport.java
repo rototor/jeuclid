@@ -18,10 +18,12 @@
 
 package net.sourceforge.jeuclid.elements.support;
 
+import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.jeuclid.layout.FillRectObject;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -157,4 +159,25 @@ public final class ElementListSupport {
         info.setWidth(posX, stage);
     }
 
+    /**
+     * Add a background Rectangle for the given background color.
+     * 
+     * @param backgroundColor
+     *            background color (may be null)
+     * @param info
+     *            LayoutInfo object to add to. Must already be completely
+     *            rendered (stage 2)
+     */
+    public static void addBackground(final Color backgroundColor,
+            final LayoutInfo info) {
+        if (backgroundColor != null) {
+            info.getGraphicObjects().add(
+                    0,
+                    new FillRectObject(backgroundColor, info
+                            .getAscentHeight(LayoutStage.STAGE2), info
+                            .getDescentHeight(LayoutStage.STAGE2), info
+                            .getWidth(LayoutStage.STAGE2)));
+        }
+
+    }
 }

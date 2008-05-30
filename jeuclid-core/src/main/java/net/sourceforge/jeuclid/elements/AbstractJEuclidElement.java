@@ -37,7 +37,6 @@ import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 import net.sourceforge.jeuclid.elements.support.text.CharConverter;
-import net.sourceforge.jeuclid.layout.FillRectObject;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -792,16 +791,9 @@ public abstract class AbstractJEuclidElement extends
         // TODO: put in own function, ensure this is also called from
         // subclasses.
         final String background = this.getMathbackground();
-        if (background != null) {
-            final Color backgroundColor = AttributesHelper.stringToColor(
-                    background, null);
-            info.getGraphicObjects().add(
-                    0,
-                    new FillRectObject(backgroundColor, info
-                            .getAscentHeight(LayoutStage.STAGE2), info
-                            .getDescentHeight(LayoutStage.STAGE2), info
-                            .getWidth(LayoutStage.STAGE2)));
-        }
+        final Color backgroundColor = AttributesHelper.stringToColor(
+                background, null);
+        ElementListSupport.addBackground(backgroundColor, info);
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 
