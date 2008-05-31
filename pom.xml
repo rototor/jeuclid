@@ -8,7 +8,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>jeuclid-core</module>
-<!--    <module>jeuclid-core16</module> -->
+    <module>jeuclid-core16</module>
     <module>jeuclid-swt</module>
     <module>jeuclid-mathviewer</module>
     <module>jeuclid-fop</module>
