@@ -287,6 +287,17 @@
   </dependencies>
   <pluginRepositories>
     <pluginRepository>
+      <id>codehaus-plugins</id>
+      <name>codehaus-plugins</name>
+      <url>http://repository.codehaus.org/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </pluginRepository>
+    <pluginRepository>
       <id>codehaus-snapshot-plugins</id>
       <name>codehaus-shapshot-plugins</name>
       <url>http://snapshots.repository.codehaus.org/</url>
