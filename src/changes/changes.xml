@@ -5,9 +5,11 @@
     <author>Max Berger</author>
   </properties>
   <body>
-    <release version="3.1.1" date="SVN" description="None yet">
-      <action dev="maxberger" type="update">Background color from context was ignored<action>
-      <action dev="maxberger" type="add">JEuclid is now thread safe!<action>
+    <release version="3.1.2" date="in SVN" description="TBD">
+   </release>
+    <release version="3.1.1" date="2008-06-01" description="Second Alpha">
+      <action dev="maxberger" type="update">Background color from context was ignored</action>
+      <action dev="maxberger" type="add">JEuclid is now thread safe!</action>
       <action dev="maxberger" type="update">changed order of font prefernece for a more consistent output.</action>
       <action dev="maxberger" type="add" issue="1949127">Added character mapping for Mathematica 4.1 and firefox compatibility.</action>
       <action dev="maxberger" type="add">All singleton instances are now accessed with getInstance().</action>
