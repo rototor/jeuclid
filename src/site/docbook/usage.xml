@@ -149,6 +149,10 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
+
+    <para>Also, please ensure you have installed <emphasis>Asian
+    font</emphasis> support. Some characters in MathML are part of the CJK
+    character set.</para>
   </section>
 
   <section>
