@@ -297,17 +297,6 @@
         <enabled>true</enabled>
       </releases>
     </pluginRepository>
-    <pluginRepository>
-      <id>codehaus-snapshot-plugins</id>
-      <name>codehaus-shapshot-plugins</name>
-      <url>http://snapshots.repository.codehaus.org/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </pluginRepository>
   </pluginRepositories>
   <repositories>
     <repository>
