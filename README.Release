@@ -62,9 +62,13 @@ build the real release packages:
 
 mvn package
 
-upload to sf: 
+build source packages:
+mvn assembly:assembly -Ddescriptor=src/assemble/source.xml 
+(TODO: Maybe also in support/ )
 
-VERSION=3.1.1  #replace with version
+upload to sf: (todo: also upload source package)
+
+VERSION=3.1.2  #replace with version
 USER=maxberger   #replace with your sf id
 cd jeuclid/target
 rsync -avP -e ssh jeuclid-$VERSION-distribution.zip ${USER}@frs.sourceforge.net:uploads/
