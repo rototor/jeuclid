@@ -80,7 +80,7 @@ public class CharacterMappingTest {
         final CodePointAndVariant space = new CodePointAndVariant(0x20,
                 MathVariant.NORMAL);
         final List<CodePointAndVariant> spacelist = cMap
-                .getAllAternatives(space);
+                .getAllAlternatives(space);
         Assert.assertEquals(spacelist.get(0), space);
         Assert.assertEquals(spacelist.get(1), new CodePointAndVariant(160,
                 MathVariant.NORMAL));
@@ -88,11 +88,11 @@ public class CharacterMappingTest {
 
         final CodePointAndVariant a = new CodePointAndVariant(65,
                 MathVariant.NORMAL);
-        Assert.assertEquals(cMap.getAllAternatives(a).size(), 1);
+        Assert.assertEquals(cMap.getAllAlternatives(a).size(), 1);
 
         final CodePointAndVariant test = new CodePointAndVariant(0x1D555,
                 MathVariant.ITALIC);
-        Assert.assertEquals(cMap.getAllAternatives(test).size(), 3);
+        Assert.assertEquals(cMap.getAllAlternatives(test).size(), 3);
 
     }
 }

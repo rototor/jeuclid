@@ -27,7 +27,11 @@ import java.util.Map;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.elements.support.text.CharacterMapping;
 import net.sourceforge.jeuclid.font.FontFactory;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Class to represent and use MathVariants.
@@ -129,6 +133,12 @@ public final class MathVariant implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Logger for this class.
+     */
+    private static final Log LOGGER = LogFactory
+            .getLog(CharacterMapping.class);
+
     private final int awtStyle;
 
     private final FontFamily fontFamily;
@@ -208,6 +218,8 @@ public final class MathVariant implements Serializable {
                 (List<String>) context.getParameter(theParam), codepoint,
                 this.awtStyle, (int) size);
         if (force && font == null) {
+            MathVariant.LOGGER.info("No font available to display &#x"
+                    + Integer.toHexString(codepoint));
             return FontFactory.getInstance().getFont(FontFactory.SANSSERIF,
                     this.awtStyle, (int) size);
         }
