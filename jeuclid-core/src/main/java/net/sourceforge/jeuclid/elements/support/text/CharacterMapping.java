@@ -330,7 +330,7 @@ public final class CharacterMapping implements Serializable {
      *            original CodePointAndVariant
      * @return A List of alternative code points to check.
      */
-    public List<CodePointAndVariant> getAllAternatives(
+    public List<CodePointAndVariant> getAllAlternatives(
             final CodePointAndVariant cpav) {
         final Reference<List<CodePointAndVariant>> ref = this.alternatives
                 .get(cpav);

@@ -121,7 +121,7 @@ public final class StringUtil {
     private static Object[] mapCpavToCpaf(final CodePointAndVariant cpav1,
             final float fontSize, final LayoutContext context) {
         final List<CodePointAndVariant> alternatives = StringUtil.CMAP
-                .getAllAternatives(cpav1);
+                .getAllAlternatives(cpav1);
 
         Font font = null;
         int codePoint = 0;
