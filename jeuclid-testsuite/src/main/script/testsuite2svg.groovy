@@ -15,12 +15,12 @@ scanner = ant.fileScanner {
 
 def target = "target/site/svg"
 
+Processor p = Processor.getInstance();
 for (f in scanner) {
   f2 = new File(f.getPath().replace("src/main/resources","target/site/svg"))
   ant.mkdir(dir: f2.getParent())
 
   def processed = false;
-  Processor p = Processor.getProcessor();
 
   if (f.getPath().endsWith(".xml")) {
     def inputSource = new StreamSource(f)
