@@ -50,14 +50,19 @@ import org.xml.sax.SAXException;
  * Document.
  * <p>
  * This will replace all occurrences of MathML within fo:instream tags by the
- * equivalent SVG code. It will also add a baseline-shift attribute so that
- * the formula is in line with the rest of the text.
+ * equivalent SVG code. It will also add a baseline-shift attribute so that the
+ * formula is in line with the rest of the text.
  * 
  * @version $Revision$
  */
 public final class Processor {
 
-    private static Processor processor;
+    private static final class SingletonHolder {
+        private static final Processor INSTANCE = new Processor();
+
+        private SingletonHolder() {
+        }
+    }
 
     /**
      * Logger for this class
@@ -69,24 +74,28 @@ public final class Processor {
 
     private final Transformer transformer;
 
-    private Processor() throws TransformerException {
-        this.transformer = TransformerFactory.newInstance().newTransformer();
+    /**
+     * Default constructor.
+     */
+    protected Processor() {
+        Transformer t;
+        try {
+            t = TransformerFactory.newInstance().newTransformer();
+        } catch (final TransformerException e) {
+            t = null;
+            Processor.LOGGER.warn(e.getMessage());
+            assert false;
+        }
+        this.transformer = t;
     }
 
     /**
      * Retrieve the processor singleton object.
      * 
      * @return the Processor.
-     * @throws TransformerException
-     *             an error occurred creating the necessary Transformer
-     *             instance.
      */
-    public static synchronized Processor getInstance()
-            throws TransformerException {
-        if (Processor.processor == null) {
-            Processor.processor = new Processor();
-        }
-        return Processor.processor;
+    public static Processor getInstance() {
+        return Processor.SingletonHolder.INSTANCE;
     }
 
     /**
@@ -163,11 +172,10 @@ public final class Processor {
             final Node parent = node.getParentNode();
             if ("http://www.w3.org/1999/XSL/Format".equals(parent
                     .getNamespaceURI())
-                    && "instream-foreign-object"
-                            .equals(parent.getLocalName())) {
+                    && "instream-foreign-object".equals(parent.getLocalName())) {
                 final Element pElement = (Element) parent;
-                pElement.setAttribute("alignment-adjust", baselinePercent
-                        + "%");
+                pElement
+                        .setAttribute("alignment-adjust", baselinePercent + "%");
             }
             this.safeReplaceChild(parent, node, svgdocdim.getDocument()
                     .getFirstChild());

@@ -36,8 +36,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlgraphics.util.ClasspathResource;
 
 /**
- * Concrete FontFactory implementation that does simple caching of Fonts
- * loaded via {@link Font#createFont(int, File)} APIs.
+ * Concrete FontFactory implementation that does simple caching of Fonts loaded
+ * via {@link Font#createFont(int, File)} APIs.
  * 
  * @version $Revision$
  */
@@ -58,8 +58,8 @@ public class DefaultFontFactory extends FontFactory {
     }
 
     private void autoloadFontsFromAWT() {
-        final String[] fam = GraphicsEnvironment
-                .getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        final String[] fam = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                .getAvailableFontFamilyNames();
         for (final String element : fam) {
             final Font f = new Font(element, 0, 12);
             this.cacheFont(f);
@@ -116,10 +116,9 @@ public class DefaultFontFactory extends FontFactory {
 
     /** {@inheritDoc} */
     @Override
-    public Font getFont(final List<String> preferredFonts,
-            final int codepoint, final int style, final int size) {
-        Font font = this.searchFontList(preferredFonts, codepoint, style,
-                size);
+    public Font getFont(final List<String> preferredFonts, final int codepoint,
+            final int style, final int size) {
+        Font font = this.searchFontList(preferredFonts, codepoint, style, size);
         if (font == null) {
             font = this.searchFontList(this.fontCache.keySet(), codepoint,
                     style, size);
@@ -197,7 +196,7 @@ public class DefaultFontFactory extends FontFactory {
      *            Font instance to cache
      * @return the font instance that was cached
      */
-    protected Font cacheFont(final Font font) {
+    private Font cacheFont(final Font font) {
         this.fontCache.put(font.getFontName(), font);
         final String family = font.getFamily();
         // This is a safeguard. On Linux for DejaVu Sans Oblique we get:

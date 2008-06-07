@@ -19,8 +19,8 @@
 package net.sourceforge.jeuclid.elements.presentation.script;
 
 import java.awt.geom.Dimension2D;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
@@ -65,13 +65,13 @@ public final class Mmultiscripts extends AbstractScriptElement implements
 
     private static final int STATE_PRESUPER = 3;
 
-    private final List<JEuclidElement> postsubscripts = new Vector<JEuclidElement>();
+    private final List<JEuclidElement> postsubscripts = new ArrayList<JEuclidElement>();
 
-    private final List<JEuclidElement> postsuperscripts = new Vector<JEuclidElement>();
+    private final List<JEuclidElement> postsuperscripts = new ArrayList<JEuclidElement>();
 
-    private final List<JEuclidElement> presubscripts = new Vector<JEuclidElement>();
+    private final List<JEuclidElement> presubscripts = new ArrayList<JEuclidElement>();
 
-    private final List<JEuclidElement> presuperscripts = new Vector<JEuclidElement>();
+    private final List<JEuclidElement> presuperscripts = new ArrayList<JEuclidElement>();
 
     private boolean inRewriteChildren;
 
@@ -128,8 +128,8 @@ public final class Mmultiscripts extends AbstractScriptElement implements
             }
         }
         if (this.postsuperscripts.size() < this.postsubscripts.size()) {
-            this.postsuperscripts.add((JEuclidElement) this
-                    .getOwnerDocument().createElement(None.ELEMENT));
+            this.postsuperscripts.add((JEuclidElement) this.getOwnerDocument()
+                    .createElement(None.ELEMENT));
         }
         if (this.presuperscripts.size() < this.presubscripts.size()) {
             this.presuperscripts.add((JEuclidElement) this.getOwnerDocument()
@@ -156,26 +156,24 @@ public final class Mmultiscripts extends AbstractScriptElement implements
         final float subBaselineShift = totalShiftInfo.getSubShift();
         final float superBaselineShift = totalShiftInfo.getSuperShift();
         for (int i = 0; i < this.presubscripts.size(); i++) {
-            final LayoutInfo subInfo = view
-                    .getInfo(this.presubscripts.get(i));
+            final LayoutInfo subInfo = view.getInfo(this.presubscripts.get(i));
             final LayoutInfo superInfo = view.getInfo(this.presuperscripts
                     .get(i));
             subInfo.moveTo(posX, subBaselineShift, stage);
             superInfo.moveTo(posX, -superBaselineShift, stage);
-            posX += Math.max(subInfo.getWidth(stage), superInfo
-                    .getWidth(stage));
+            posX += Math
+                    .max(subInfo.getWidth(stage), superInfo.getWidth(stage));
         }
         baseInfo.moveTo(posX, 0.0f, stage);
         posX += baseInfo.getWidth(stage);
         for (int i = 0; i < this.postsubscripts.size(); i++) {
-            final LayoutInfo subInfo = view.getInfo(this.postsubscripts
-                    .get(i));
+            final LayoutInfo subInfo = view.getInfo(this.postsubscripts.get(i));
             final LayoutInfo superInfo = view.getInfo(this.postsuperscripts
                     .get(i));
             subInfo.moveTo(posX, subBaselineShift, stage);
             superInfo.moveTo(posX, -superBaselineShift, stage);
-            posX += Math.max(subInfo.getWidth(stage), superInfo
-                    .getWidth(stage));
+            posX += Math
+                    .max(subInfo.getWidth(stage), superInfo.getWidth(stage));
         }
 
         final Dimension2D noborder = new Dimension2DImpl(0.0f, 0.0f);
@@ -183,16 +181,15 @@ public final class Mmultiscripts extends AbstractScriptElement implements
                 noborder, noborder);
     }
 
-    private ScriptSupport.ShiftInfo calculateTotalShift(
-            final LayoutView view, final LayoutStage stage,
-            final LayoutInfo baseInfo, final LayoutContext now,
-            final String subScriptshift, final String superScriptshift) {
+    private ScriptSupport.ShiftInfo calculateTotalShift(final LayoutView view,
+            final LayoutStage stage, final LayoutInfo baseInfo,
+            final LayoutContext now, final String subScriptshift,
+            final String superScriptshift) {
         final ScriptSupport.ShiftInfo totalShiftInfo = new ScriptSupport.ShiftInfo(
                 0.0f, 0.0f);
 
         for (int i = 0; i < this.presubscripts.size(); i++) {
-            final LayoutInfo subInfo = view
-                    .getInfo(this.presubscripts.get(i));
+            final LayoutInfo subInfo = view.getInfo(this.presubscripts.get(i));
             final LayoutInfo superInfo = view.getInfo(this.presuperscripts
                     .get(i));
             final ScriptSupport.ShiftInfo shiftInfo = ScriptSupport
@@ -201,8 +198,7 @@ public final class Mmultiscripts extends AbstractScriptElement implements
             totalShiftInfo.max(shiftInfo);
         }
         for (int i = 0; i < this.postsubscripts.size(); i++) {
-            final LayoutInfo subInfo = view.getInfo(this.postsubscripts
-                    .get(i));
+            final LayoutInfo subInfo = view.getInfo(this.postsubscripts.get(i));
             final LayoutInfo superInfo = view.getInfo(this.postsuperscripts
                     .get(i));
             final ScriptSupport.ShiftInfo shiftInfo = ScriptSupport
@@ -266,8 +262,9 @@ public final class Mmultiscripts extends AbstractScriptElement implements
 
     /** {@inheritDoc} */
     public MathMLNodeList getPrescripts() {
-        final List<Node> list = new Vector<Node>();
-        for (int i = 0; i < this.presubscripts.size(); i++) {
+        final int presubsize = this.presubscripts.size();
+        final List<Node> list = new ArrayList<Node>(2 * presubsize);
+        for (int i = 0; i < presubsize; i++) {
             list.add(this.presubscripts.get(i));
             list.add(this.presuperscripts.get(i));
         }
@@ -276,8 +273,9 @@ public final class Mmultiscripts extends AbstractScriptElement implements
 
     /** {@inheritDoc} */
     public MathMLNodeList getScripts() {
-        final List<Node> list = new Vector<Node>();
-        for (int i = 0; i < this.postsubscripts.size(); i++) {
+        final int postsubsize = this.postsubscripts.size();
+        final List<Node> list = new ArrayList<Node>(2 * postsubsize);
+        for (int i = 0; i < postsubsize; i++) {
             list.add(this.postsubscripts.get(i));
             list.add(this.postsuperscripts.get(i));
         }

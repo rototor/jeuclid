@@ -18,8 +18,8 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Vector;
 
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
@@ -56,6 +56,6 @@ public final class Mphantom extends AbstractContainer {
     /** {@inheritDoc} */
     @Override
     public List<LayoutableNode> getChildrenToDraw() {
-        return new Vector<LayoutableNode>(0);
+        return Collections.emptyList();
     }
 }

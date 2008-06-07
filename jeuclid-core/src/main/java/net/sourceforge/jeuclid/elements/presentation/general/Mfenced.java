@@ -18,8 +18,8 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
@@ -115,8 +115,7 @@ public final class Mfenced extends AbstractElementWithDelegates implements
      */
     public String getSeparators() {
         final StringBuilder retVal = new StringBuilder();
-        final String attValue = this
-                .getMathAttribute(Mfenced.ATTR_SEPARATORS);
+        final String attValue = this.getMathAttribute(Mfenced.ATTR_SEPARATORS);
         if (attValue != null) {
             for (int i = 0; i < attValue.length(); i++) {
                 final char c = attValue.charAt(i);
@@ -141,7 +140,9 @@ public final class Mfenced extends AbstractElementWithDelegates implements
     /** {@inheritDoc} */
     @Override
     protected List<LayoutableNode> createDelegates() {
-        final List<LayoutableNode> retVal = new Vector<LayoutableNode>();
+        final int contentCount = this.getMathElementCount();
+        final List<LayoutableNode> retVal = new ArrayList<LayoutableNode>(
+                2 * contentCount + 1);
 
         final Mo opOpen = this.createFenceOperator();
         opOpen.setForm(OperatorDictionary.FORM_PREFIX);
@@ -149,7 +150,6 @@ public final class Mfenced extends AbstractElementWithDelegates implements
 
         retVal.add(opOpen);
         final String sep = this.getSeparators();
-        final int contentCount = this.getMathElementCount();
         final boolean haveSep = (sep != null) && (sep.length() > 0);
 
         for (int i = 0; i < contentCount; i++) {
@@ -162,8 +162,8 @@ public final class Mfenced extends AbstractElementWithDelegates implements
                 if (i < sep.length()) {
                     opSep.setTextContent(String.valueOf(sep.charAt(i)));
                 } else {
-                    opSep.setTextContent(String.valueOf(sep.charAt(sep
-                            .length() - 1)));
+                    opSep.setTextContent(String.valueOf(sep
+                            .charAt(sep.length() - 1)));
                 }
                 retVal.add(opSep);
             }
@@ -177,8 +177,8 @@ public final class Mfenced extends AbstractElementWithDelegates implements
     }
 
     private Mo createFenceOperator() {
-        final Mo opOpen = (Mo) this.getOwnerDocument().createElement(
-                Mo.ELEMENT);
+        final Mo opOpen = (Mo) this.getOwnerDocument()
+                .createElement(Mo.ELEMENT);
         opOpen.setFence(Constants.TRUE);
         opOpen.setStretchy(Constants.TRUE);
         opOpen.setRspace(Mfenced.FENCE_SPACE);

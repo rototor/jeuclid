@@ -32,7 +32,7 @@ import java.util.Set;
 public final class ConverterRegistry {
 
     private static final class SingletonHolder {
-        private static ConverterRegistry instance = new ConverterRegistry();
+        private static final ConverterRegistry INSTANCE = new ConverterRegistry();
 
         private SingletonHolder() {
         }
@@ -44,7 +44,10 @@ public final class ConverterRegistry {
 
     private final Map<String, String> suffix2mimetype = new HashMap<String, String>();
 
-    private ConverterRegistry() {
+    /**
+     * Default constructor.
+     */
+    protected ConverterRegistry() {
         ImageIODetector.detectConversionPlugins(this);
         BatikDetector.detectConversionPlugins(this);
         FreeHepDetector.detectConversionPlugins(this);
@@ -56,7 +59,7 @@ public final class ConverterRegistry {
      * @return the ConverterRegistry.
      */
     public static ConverterRegistry getInstance() {
-        return ConverterRegistry.SingletonHolder.instance;
+        return ConverterRegistry.SingletonHolder.INSTANCE;
     }
 
     /**
@@ -101,8 +104,8 @@ public final class ConverterRegistry {
      * This function is not fully implemented yet
      * 
      * @param mimeType
-     *            a mimetype, as returned by
-     *            {@link #getAvailableOutfileTypes()}, or null if unknown.
+     *            a mimetype, as returned by {@link #getAvailableOutfileTypes()},
+     *            or null if unknown.
      * @return the three letter suffix common for this type.
      */
     public String getSuffixForMimeType(final String mimeType) {
@@ -172,7 +175,7 @@ public final class ConverterRegistry {
      * @return a Converter instance
      */
     public ConverterPlugin getConverter(final String mimeType) {
-        return this.mimetype2converter.get(mimeType
-                .toLowerCase(Locale.ENGLISH));
+        return this.mimetype2converter
+                .get(mimeType.toLowerCase(Locale.ENGLISH));
     }
 }

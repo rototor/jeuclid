@@ -84,9 +84,8 @@ public final class Parser {
         }
     }
 
-    private static final class UnclosableInputStream extends
-            FilterInputStream {
-        private UnclosableInputStream(final InputStream in) {
+    private static final class UnclosableInputStream extends FilterInputStream {
+        protected UnclosableInputStream(final InputStream in) {
             super(in);
         }
 
@@ -109,7 +108,7 @@ public final class Parser {
     private static final String CANNOT_HANDLE_SOURCE = "Cannot handle Source: ";
 
     private static final class SingletonHolder {
-        private static Parser instance = new Parser();
+        private static final Parser INSTANCE = new Parser();
 
         private SingletonHolder() {
         }
@@ -122,7 +121,10 @@ public final class Parser {
 
     private final Map<Long, Reference<DocumentBuilder>> builders;
 
-    private Parser() {
+    /**
+     * Default constructor.
+     */
+    protected Parser() {
         this.builders = new ConcurrentHashMap<Long, Reference<DocumentBuilder>>();
     }
 
@@ -143,8 +145,7 @@ public final class Parser {
             documentBuilder.setEntityResolver(new ResourceEntityResolver());
             documentBuilder.setErrorHandler(new LoggerErrorHandler());
         } catch (final ParserConfigurationException pce2) {
-            Parser.LOGGER.warn("Could not create Parser: "
-                    + pce2.getMessage());
+            Parser.LOGGER.warn("Could not create Parser: " + pce2.getMessage());
             assert false : "Could not create Parser";
             documentBuilder = null;
         }
@@ -170,7 +171,7 @@ public final class Parser {
      * @return a Parser object.
      */
     public static Parser getInstance() {
-        return Parser.SingletonHolder.instance;
+        return Parser.SingletonHolder.INSTANCE;
     }
 
     /**
@@ -376,8 +377,8 @@ public final class Parser {
                 retVal = r.getNode();
             } catch (final TransformerException e) {
                 Parser.LOGGER.warn(e.getMessage());
-                throw new IllegalArgumentException(
-                        Parser.CANNOT_HANDLE_SOURCE + source);
+                throw new IllegalArgumentException(Parser.CANNOT_HANDLE_SOURCE
+                        + source, e);
             }
         }
         return retVal;

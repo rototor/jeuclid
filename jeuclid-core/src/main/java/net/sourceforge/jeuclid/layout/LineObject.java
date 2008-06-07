@@ -60,8 +60,8 @@ public class LineObject implements GraphicsObject {
      *            X2 Offset from left.
      */
     public LineObject(final float offsetX, final float offsetY,
-            final float offsetX2, final float offsetY2,
-            final float lineWidth, final Color color) {
+            final float offsetX2, final float offsetY2, final float lineWidth,
+            final Color color) {
         this.x1 = offsetX;
         this.y1 = offsetY;
         this.x2 = offsetX2;
@@ -90,8 +90,8 @@ public class LineObject implements GraphicsObject {
      *            if true line is dashed instead of solid.
      */
     public LineObject(final float offsetX, final float offsetY,
-            final float offsetX2, final float offsetY2,
-            final float lineWidth, final Color color, final boolean dashed) {
+            final float offsetX2, final float offsetY2, final float lineWidth,
+            final Color color, final boolean dashed) {
         this.x1 = offsetX;
         this.y1 = offsetY;
         this.x2 = offsetX2;
@@ -105,13 +105,13 @@ public class LineObject implements GraphicsObject {
     public void paint(final float x, final float y, final Graphics2D g) {
         g.setColor(this.col);
         final Stroke oldStroke = g.getStroke();
-        if (!this.dash) {
-            g.setStroke(new BasicStroke(this.width));
-        } else {
+        if (this.dash) {
             final float dashWidth = 3.0f * this.width;
             g.setStroke(new BasicStroke(this.width, BasicStroke.CAP_SQUARE,
                     BasicStroke.JOIN_BEVEL, this.width, new float[] {
                             dashWidth, dashWidth, }, 0));
+        } else {
+            g.setStroke(new BasicStroke(this.width));
         }
         g.draw(new Line2D.Float(x + this.x1, y + this.y1, x + this.x2, y
                 + this.y2));

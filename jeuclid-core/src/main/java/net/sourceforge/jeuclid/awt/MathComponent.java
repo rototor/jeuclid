@@ -126,10 +126,10 @@ public class MathComponent extends Component {
 
     private void redo() {
         final Graphics2D g2d = (Graphics2D) this.getGraphics();
-        if ((this.document != null) && (g2d != null)) {
-            this.view = new JEuclidView(this.document, this.parameters, g2d);
-        } else {
+        if ((this.document == null) || (g2d == null)) {
             this.view = null;
+        } else {
+            this.view = new JEuclidView(this.document, this.parameters, g2d);
         }
         this.repaint();
     }

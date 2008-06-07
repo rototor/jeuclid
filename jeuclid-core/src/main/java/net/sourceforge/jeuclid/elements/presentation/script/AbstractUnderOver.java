@@ -40,8 +40,8 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
 /**
  * Implementation and helper methods for munder, mover, and munderover.
  * 
- * @todo some operators should "default" to being an accent, but currently
- *       they don't
+ * @todo some operators should "default" to being an accent, but currently they
+ *       don't
  * @version $Revision$
  */
 public abstract class AbstractUnderOver extends AbstractJEuclidElement
@@ -91,8 +91,9 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
     private boolean limitsAreMoved(final LayoutContext now) {
         return (!this.getAccentAsBoolean())
                 && (this.getBase() instanceof MathMLOperatorElement)
-                && Boolean.parseBoolean(((MathMLOperatorElement) this
-                        .getBase()).getMovablelimits())
+                && Boolean
+                        .parseBoolean(((MathMLOperatorElement) this.getBase())
+                                .getMovablelimits())
                 && (Display.INLINE.equals(now
                         .getParameter(LayoutContext.Parameter.DISPLAY)));
     }
@@ -156,8 +157,7 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
     @Override
     public boolean hasChildPostscripts(final JEuclidElement child,
             final LayoutContext context) {
-        return this.limitsAreMoved(context)
-                && child.isSameNode(this.getBase());
+        return this.limitsAreMoved(context) && child.isSameNode(this.getBase());
     }
 
     /** {@inheritDoc} */
@@ -167,17 +167,15 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
             final LayoutContext context) {
         final LayoutContext now = this.applyLocalAttributesToContext(context);
         if (this.limitsAreMoved(now)) {
-            ScriptSupport.layout(view, info, stage, now, this,
-                    this.getBase(), this.getUnderscript(), this
-                            .getOverscript(), null, null);
+            ScriptSupport.layout(view, info, stage, now, this, this.getBase(),
+                    this.getUnderscript(), this.getOverscript(), null, null);
         } else {
             this.layoutUnderOver(view, info, stage, now);
         }
     }
 
-    private void layoutUnderOver(final LayoutView view,
-            final LayoutInfo info, final LayoutStage stage,
-            final LayoutContext now) {
+    private void layoutUnderOver(final LayoutView view, final LayoutInfo info,
+            final LayoutStage stage, final LayoutContext now) {
 
         final JEuclidElement base = this.getBase();
         final JEuclidElement under = this.getUnderscript();
@@ -192,27 +190,25 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         final float extraShift = AttributesHelper.convertSizeToPt(
                 AbstractUnderOver.UNDER_OVER_SPACE, now, AttributesHelper.PT);
 
-        if (under != null) {
+        if (under == null) {
+            underInfo = null;
+        } else {
             underInfo = view.getInfo(under);
             width = Math.max(width, underInfo.getWidth(stage));
-        } else {
-            underInfo = null;
         }
-        if (over != null) {
+        if (over == null) {
+            overInfo = null;
+        } else {
             overInfo = view.getInfo(over);
             width = Math.max(width, overInfo.getWidth(stage));
-        } else {
-            overInfo = null;
         }
         final float middle = width / 2.0f;
 
-        baseInfo.moveTo(middle - baseInfo.getHorizontalCenterOffset(stage),
-                0, stage);
+        baseInfo.moveTo(middle - baseInfo.getHorizontalCenterOffset(stage), 0,
+                stage);
 
         if (under != null) {
-            this
-                    .positionUnder(stage, baseInfo, underInfo, extraShift,
-                            middle);
+            this.positionUnder(stage, baseInfo, underInfo, extraShift, middle);
         }
         if (over != null) {
             this.positionOver(stage, baseInfo, overInfo, extraShift, middle);
@@ -251,7 +247,7 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         }
         final float y = baseInfo.getAscentHeight(stage)
                 + overInfo.getDescentHeight(stage) + overextra;
-        overInfo.moveTo(middle - overInfo.getHorizontalCenterOffset(stage),
-                -y, stage);
+        overInfo.moveTo(middle - overInfo.getHorizontalCenterOffset(stage), -y,
+                stage);
     }
 }

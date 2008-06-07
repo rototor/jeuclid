@@ -24,7 +24,6 @@ import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
 
 import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
@@ -217,8 +216,8 @@ public final class Mtable extends AbstractTableElement implements
 
         static final String VALUE_AXIS = "axis";
 
-        static final VAlign BASELINE_ALIGN = new VAlign(
-                Mtable.VAlign.BASELINE, 0);
+        static final VAlign BASELINE_ALIGN = new VAlign(Mtable.VAlign.BASELINE,
+                0);
 
         private static final String INVALID_VERTICAL_ALIGNMENT_VALUE = "Invalid vertical alignment value: ";
 
@@ -257,8 +256,7 @@ public final class Mtable extends AbstractTableElement implements
                 s3 = s2.substring(Mtable.VAlign.VALUE_CENTER.length()).trim();
             } else if (s2.startsWith(Mtable.VAlign.VALUE_BASELINE)) {
                 align = Mtable.VAlign.BASELINE;
-                s3 = s2.substring(Mtable.VAlign.VALUE_BASELINE.length())
-                        .trim();
+                s3 = s2.substring(Mtable.VAlign.VALUE_BASELINE.length()).trim();
             } else if (s2.startsWith(Mtable.VAlign.VALUE_AXIS)) {
                 align = Mtable.VAlign.AXIS;
                 s3 = s2.substring(Mtable.VAlign.VALUE_AXIS.length()).trim();
@@ -302,26 +300,27 @@ public final class Mtable extends AbstractTableElement implements
         this.setDefaultMathAttribute(Mtable.ATTR_COLUMNALIGN,
                 HAlign.ALIGN_CENTER);
         this.setDefaultMathAttribute(Mtable.ATTR_GROUPALIGN, "{left}");
-        this.setDefaultMathAttribute(Mtable.ATTR_ALIGNMENTSCOPE,
-                Constants.TRUE);
-        this.setDefaultMathAttribute(Mtable.ATTR_COLUMNWIDTH,
-                Mtable.VALUE_AUTO);
+        this
+                .setDefaultMathAttribute(Mtable.ATTR_ALIGNMENTSCOPE,
+                        Constants.TRUE);
+        this
+                .setDefaultMathAttribute(Mtable.ATTR_COLUMNWIDTH,
+                        Mtable.VALUE_AUTO);
         this.setDefaultMathAttribute(Mtable.ATTR_WIDTH, Mtable.VALUE_AUTO);
         this.setDefaultMathAttribute(Mtable.ATTR_ROWSPACING,
                 Mtable.DEFAULT_ROWSPACING);
         this.setDefaultMathAttribute(Mtable.ATTR_COLUMNSPACING,
                 Mtable.DEFAULT_COLUMNSPACING);
         this.setDefaultMathAttribute(Mtable.ATTR_ROWLINES, Mtable.VALUE_NONE);
-        this.setDefaultMathAttribute(Mtable.ATTR_COLUMNLINES,
-                Mtable.VALUE_NONE);
+        this
+                .setDefaultMathAttribute(Mtable.ATTR_COLUMNLINES,
+                        Mtable.VALUE_NONE);
         this.setDefaultMathAttribute(Mtable.ATTR_FRAME, Mtable.VALUE_NONE);
         this.setDefaultMathAttribute(Mtable.ATTR_FRAMESPACING,
                 Mtable.DEFAULT_FRAMESPACING);
         this.setDefaultMathAttribute(Mtable.ATTR_EQUALROWS, Constants.FALSE);
-        this.setDefaultMathAttribute(Mtable.ATTR_EQUALCOLUMNS,
-                Constants.FALSE);
-        this.setDefaultMathAttribute(Mtable.ATTR_DISPLAYSTYLE,
-                Constants.FALSE);
+        this.setDefaultMathAttribute(Mtable.ATTR_EQUALCOLUMNS, Constants.FALSE);
+        this.setDefaultMathAttribute(Mtable.ATTR_DISPLAYSTYLE, Constants.FALSE);
         this.setDefaultMathAttribute(Mtable.ATTR_SIDE, HAlign.ALIGN_RIGHT);
         this.setDefaultMathAttribute(Mtable.ATTR_MINLABELSPACING,
                 Mtable.DEFAULT_COLUMNSPACING);
@@ -345,8 +344,8 @@ public final class Mtable extends AbstractTableElement implements
         if (Mtable.LineType.NONE.equals(this.getFrameAsLineType())) {
             return 0;
         }
-        final String spacing = this.getSpaceArrayEntry(
-                this.getFramespacing(), 0);
+        final String spacing = this.getSpaceArrayEntry(this.getFramespacing(),
+                0);
         return AttributesHelper.convertSizeToPt(spacing, now,
                 AttributesHelper.PT);
     }
@@ -355,8 +354,8 @@ public final class Mtable extends AbstractTableElement implements
         if (Mtable.LineType.NONE.equals(this.getFrameAsLineType())) {
             return 0;
         }
-        final String spacing = this.getSpaceArrayEntry(
-                this.getFramespacing(), 1);
+        final String spacing = this.getSpaceArrayEntry(this.getFramespacing(),
+                1);
         return AttributesHelper.convertSizeToPt(spacing, now,
                 AttributesHelper.PT);
     }
@@ -400,8 +399,8 @@ public final class Mtable extends AbstractTableElement implements
      * <p>
      * If the entry requested is beyond the index, the last entry is returned.
      * 
-     * @todo This method is probably useful for other attribute values.
-     *       Examine, and move to a more common place. (like AttrHelper)
+     * @todo This method is probably useful for other attribute values. Examine,
+     *       and move to a more common place. (like AttrHelper)
      * @param string
      *            the string in which to look.
      * @param index
@@ -680,8 +679,8 @@ public final class Mtable extends AbstractTableElement implements
             mtrInfo.moveTo(0, y, stage);
             y += mtrInfo.getDescentHeight(stage);
             height = y;
-            y += AttributesHelper.convertSizeToPt(this.getSpaceArrayEntry(
-                    this.getRowspacing(), rows), now, AttributesHelper.PT);
+            y += AttributesHelper.convertSizeToPt(this.getSpaceArrayEntry(this
+                    .getRowspacing(), rows), now, AttributesHelper.PT);
         }
         height += vFrameSpacing;
 
@@ -738,8 +737,8 @@ public final class Mtable extends AbstractTableElement implements
                     color, dashed));
             go.add(new LineObject(left, top, left, bottom, lineWidth, color,
                     dashed));
-            go.add(new LineObject(right, top, right, bottom, lineWidth,
-                    color, dashed));
+            go.add(new LineObject(right, top, right, bottom, lineWidth, color,
+                    dashed));
         }
     }
 
@@ -793,8 +792,7 @@ public final class Mtable extends AbstractTableElement implements
 
     private void stretchAndAlignMtds(final LayoutView view,
             final List<LayoutableNode>[] mtdChildren,
-            final LayoutInfo[] rowInfos, final int rows,
-            final LayoutStage stage) {
+            final LayoutInfo[] rowInfos, final int rows, final LayoutStage stage) {
         for (int i = 0; i < rows; i++) {
             final float rowAscent = rowInfos[i].getAscentHeight(stage);
             final float rowDescent = rowInfos[i].getDescentHeight(stage);
@@ -804,8 +802,7 @@ public final class Mtable extends AbstractTableElement implements
                 final VAlign valign = this.getVAlign((JEuclidElement) n, i);
                 final float verticalShift;
                 if (valign.getAlign() == Mtable.VAlign.TOP) {
-                    verticalShift = -rowAscent
-                            + mtdInfo.getAscentHeight(stage);
+                    verticalShift = -rowAscent + mtdInfo.getAscentHeight(stage);
                 } else if (valign.getAlign() == Mtable.VAlign.BOTTOM) {
                     verticalShift = rowDescent
                             - mtdInfo.getDescentHeight(stage);
@@ -865,7 +862,7 @@ public final class Mtable extends AbstractTableElement implements
     private List<Float> calculateBasicColumnWidth(final LayoutView view,
             final LayoutStage stage, final int rows,
             final List<LayoutableNode>[] mtdChildren) {
-        final List<Float> columnwidth = new Vector<Float>();
+        final List<Float> columnwidth = new ArrayList<Float>();
         for (int i = 0; i < rows; i++) {
             int missing = mtdChildren[i].size() - columnwidth.size();
             while (missing > 0) {
@@ -898,8 +895,7 @@ public final class Mtable extends AbstractTableElement implements
     }
 
     private void setRowWidth(final LayoutStage stage,
-            final LayoutInfo[] rowInfos, final int rows,
-            final float totalWidth) {
+            final LayoutInfo[] rowInfos, final int rows, final float totalWidth) {
         for (int i = 0; i < rows; i++) {
             rowInfos[i].setWidth(totalWidth, stage);
         }
@@ -918,8 +914,7 @@ public final class Mtable extends AbstractTableElement implements
                 final LayoutInfo mtdInfo = view.getInfo(n);
                 final HAlign halign = this.getHAlign((JEuclidElement) n, col);
                 final float colwi = columnwidth.get(col);
-                final float xo = halign
-                        .getHAlignOffset(stage, mtdInfo, colwi);
+                final float xo = halign.getHAlignOffset(stage, mtdInfo, colwi);
                 mtdInfo.moveTo(x + xo, mtdInfo.getPosY(stage), stage);
                 // mtdInfo.setWidth(colwi, stage);
                 mtdInfo.setStretchWidth(colwi);
@@ -955,8 +950,8 @@ public final class Mtable extends AbstractTableElement implements
             final MathMLTableRowElement rowE = (MathMLTableRowElement) n;
             final String alignArray = rowE.getColumnalign();
             if ((alignArray != null) && (alignArray.length() > 0)) {
-                retVal = HAlign.parseString(this.getSpaceArrayEntry(
-                        alignArray, col), HAlign.CENTER);
+                retVal = HAlign.parseString(this.getSpaceArrayEntry(alignArray,
+                        col), HAlign.CENTER);
             } else {
                 retVal = this.getHAlign(n.getParent(), col);
             }
@@ -964,8 +959,8 @@ public final class Mtable extends AbstractTableElement implements
             final MathMLTableElement table = (MathMLTableElement) n;
             final String alignArray = table.getColumnalign();
             if ((alignArray != null) && (alignArray.length() > 0)) {
-                retVal = HAlign.parseString(this.getSpaceArrayEntry(
-                        alignArray, col), HAlign.CENTER);
+                retVal = HAlign.parseString(this.getSpaceArrayEntry(alignArray,
+                        col), HAlign.CENTER);
             } else {
                 retVal = HAlign.CENTER;
             }
@@ -981,8 +976,7 @@ public final class Mtable extends AbstractTableElement implements
         if (n instanceof MathMLTableCellElement) {
             final MathMLTableCellElement cell = (MathMLTableCellElement) n;
             final String alignString = cell.getRowalign();
-            final Mtable.VAlign valign = Mtable.VAlign
-                    .parseString(alignString);
+            final Mtable.VAlign valign = Mtable.VAlign.parseString(alignString);
             if (valign == null) {
                 retVal = this.getVAlign(n.getParent(), row);
             } else {
@@ -991,8 +985,7 @@ public final class Mtable extends AbstractTableElement implements
         } else if (n instanceof MathMLTableRowElement) {
             final MathMLTableRowElement rowE = (MathMLTableRowElement) n;
             final String alignString = rowE.getRowalign();
-            final Mtable.VAlign valign = Mtable.VAlign
-                    .parseString(alignString);
+            final Mtable.VAlign valign = Mtable.VAlign.parseString(alignString);
             if (valign == null) {
                 retVal = this.getVAlign(n.getParent(), row);
             } else {

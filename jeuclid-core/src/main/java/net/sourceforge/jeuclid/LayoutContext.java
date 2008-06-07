@@ -34,6 +34,7 @@ import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
  * @version $Revision$
  */
 public interface LayoutContext {
+
     /**
      * Possible parameters for the LayoutContext.
      */
@@ -62,8 +63,8 @@ public interface LayoutContext {
                 "scriptSizeMult", "script size multiplier"),
 
         /** Script level (Integer), defaults to 0. */
-        SCRIPTLEVEL(new NumberTypeWrapper(Integer.class), false,
-                "scriptLevel", "script level"),
+        SCRIPTLEVEL(new NumberTypeWrapper(Integer.class), false, "scriptLevel",
+                "script level"),
 
         /**
          * Minimum font size for which anti-alias is turned on. Defaults to
@@ -144,13 +145,12 @@ public interface LayoutContext {
          * @see Parameter
          */
         FONTS_DOUBLESTRUCK(new TLIListTypeWrapper(), false,
-                "fontsDoublestruck",
-                "list of font families for Double-Struck"),
+                "fontsDoublestruck", "list of font families for Double-Struck"),
 
         /**
          * If true, &lt;mfrac&gt; element will NEVER increase children's
-         * scriptlevel (in violation of the spec); otherwise it will behave
-         * with accordance to the spec.
+         * scriptlevel (in violation of the spec); otherwise it will behave with
+         * accordance to the spec.
          */
         MFRAC_KEEP_SCRIPTLEVEL(
                 new BooleanTypeWrapper(),
@@ -158,6 +158,8 @@ public interface LayoutContext {
                 "mfracKeepScriptLevel",
                 "if true, <mfrac> element will NEVER increase children's scriptlevel (in violation of the spec)");
 
+        private static final String FAILED_TO_CONVERT = "Failed to convert <";
+        private static final String TO = "> to ";
         private final TypeWrapper typeWrapper;
 
         private final boolean nullAllowed;
@@ -233,8 +235,8 @@ public interface LayoutContext {
 
         /**
          * Encapsulates information about a parameter's value type and how
-         * values should be converted between strings and the appropriate
-         * object instances.
+         * values should be converted between strings and the appropriate object
+         * instances.
          * <p>
          * This allows elimination of an additional "evil" if-elseif...else"
          * pattern.
@@ -255,8 +257,8 @@ public interface LayoutContext {
             boolean valid(Object o);
 
             /**
-             * Attempts to convert a parameter value expressed as string into
-             * an instance of the appropriate (for this parameter) type.
+             * Attempts to convert a parameter value expressed as string into an
+             * instance of the appropriate (for this parameter) type.
              * 
              * @param value
              *            parameter value as string
@@ -278,8 +280,8 @@ public interface LayoutContext {
 
         /**
          * Basic (and simple) implementation of TypeWrapper. Maintains an
-         * instance of type being wrapped as well as provides reasonable
-         * default implementations for all the operations.
+         * instance of type being wrapped as well as provides reasonable default
+         * implementations for all the operations.
          */
         public static class SimpleTypeWrapper implements
                 LayoutContext.Parameter.TypeWrapper {
@@ -315,8 +317,8 @@ public interface LayoutContext {
                     return null;
                 }
                 throw new IllegalArgumentException(
-                        "Don't know how to convert <" + value + "> to "
-                                + this.valueType);
+                        LayoutContext.Parameter.FAILED_TO_CONVERT + value
+                                + LayoutContext.Parameter.TO + this.valueType);
             }
 
             /** {@inheritDoc} */
@@ -359,8 +361,7 @@ public interface LayoutContext {
         }
 
         /**
-         * Converting String to Numbers and vice versa is also
-         * straightforward.
+         * Converting String to Numbers and vice versa is also straightforward.
          */
         public static class NumberTypeWrapper extends
                 LayoutContext.Parameter.SimpleTypeWrapper {
@@ -389,16 +390,32 @@ public interface LayoutContext {
                     return this.getValueType().getConstructor(
                             new Class[] { String.class }).newInstance(
                             new Object[] { value });
-                } catch (final Exception e) {
-                    throw new IllegalArgumentException("Failed to convert <"
-                            + value + "> to " + this.getValueType(), e);
+                } catch (final NoSuchMethodException e) {
+                    throw new IllegalArgumentException(
+                            LayoutContext.Parameter.FAILED_TO_CONVERT + value
+                                    + LayoutContext.Parameter.TO
+                                    + this.getValueType(), e);
+                } catch (final IllegalAccessException e) {
+                    throw new IllegalArgumentException(
+                            LayoutContext.Parameter.FAILED_TO_CONVERT + value
+                                    + LayoutContext.Parameter.TO
+                                    + this.getValueType(), e);
+                } catch (final InstantiationException e) {
+                    throw new IllegalArgumentException(
+                            LayoutContext.Parameter.FAILED_TO_CONVERT + value
+                                    + LayoutContext.Parameter.TO
+                                    + this.getValueType(), e);
+                } catch (final InvocationTargetException e) {
+                    throw new IllegalArgumentException(
+                            LayoutContext.Parameter.FAILED_TO_CONVERT + value
+                                    + LayoutContext.Parameter.TO
+                                    + this.getValueType(), e);
                 }
             }
         }
 
         /**
-         * Converting String to Boolean and vice versa is also
-         * straightforward.
+         * Converting String to Boolean and vice versa is also straightforward.
          */
         public static class BooleanTypeWrapper extends
                 LayoutContext.Parameter.SimpleTypeWrapper {
@@ -442,13 +459,12 @@ public interface LayoutContext {
             /** {@inheritDoc} */
             @Override
             public Object fromString(final String value) {
-                final Color color = AttributesHelper.stringToColor(value,
-                        null);
-                if (color != null) {
-                    return color;
-                } else {
+                final Color color = AttributesHelper.stringToColor(value, null);
+                if (color == null) {
                     throw new IllegalArgumentException('<' + value
                             + "> is not a valid color representation");
+                } else {
+                    return color;
                 }
             }
 
@@ -465,8 +481,8 @@ public interface LayoutContext {
                     for (final Field field : Color.class.getFields()) {
                         if (Modifier.isStatic(field.getModifiers())
                                 && field.get(null) == value) {
-                            retVal = field.getName().toLowerCase(
-                                    Locale.ENGLISH);
+                            retVal = field.getName()
+                                    .toLowerCase(Locale.ENGLISH);
                             break;
                         }
                     }
@@ -474,8 +490,7 @@ public interface LayoutContext {
                     retVal = null;
                 }
                 if (retVal == null) {
-                    retVal = AttributesHelper
-                            .colorTOsRGBString((Color) value);
+                    retVal = AttributesHelper.colorTOsRGBString((Color) value);
                 }
                 return retVal;
             }
@@ -491,8 +506,7 @@ public interface LayoutContext {
                 LayoutContext.Parameter.SimpleTypeWrapper {
 
             /**
-             * separator to be used when converting to string or parsing
-             * string.
+             * separator to be used when converting to string or parsing string.
              */
             public static final String SEPARATOR = ",";
 
@@ -597,15 +611,15 @@ public interface LayoutContext {
                 } catch (final InvocationTargetException e) {
                     throw new RuntimeException(
                             LayoutContext.Parameter.EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
-                                    + this.getValueType());
+                                    + this.getValueType(), e);
                 } catch (final IllegalAccessException e) {
                     throw new RuntimeException(
                             LayoutContext.Parameter.EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
-                                    + this.getValueType());
+                                    + this.getValueType(), e);
                 } catch (final NoSuchMethodException e) {
                     throw new RuntimeException(
                             LayoutContext.Parameter.EnumTypeWrapper.FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS
-                                    + this.getValueType());
+                                    + this.getValueType(), e);
                 }
             }
         }

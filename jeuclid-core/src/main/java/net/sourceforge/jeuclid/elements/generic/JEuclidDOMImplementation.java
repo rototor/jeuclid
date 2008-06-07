@@ -31,7 +31,7 @@ public final class JEuclidDOMImplementation extends AbstractDOMImplementation {
     private static final long serialVersionUID = 1L;
 
     private static final class SingletonHolder {
-        private static JEuclidDOMImplementation instance = new JEuclidDOMImplementation();
+        private static final JEuclidDOMImplementation INSTANCE = new JEuclidDOMImplementation();
 
         private SingletonHolder() {
         }
@@ -40,7 +40,7 @@ public final class JEuclidDOMImplementation extends AbstractDOMImplementation {
     /**
      * Default Constructor.
      */
-    private JEuclidDOMImplementation() {
+    protected JEuclidDOMImplementation() {
         super();
     }
 
@@ -48,8 +48,7 @@ public final class JEuclidDOMImplementation extends AbstractDOMImplementation {
     public Document createDocument(final String namespaceURI,
             final String qualifiedName, final DocumentType doctype) {
         final Document result = new DocumentElement(doctype);
-        result.appendChild(result
-                .createElementNS(namespaceURI, qualifiedName));
+        result.appendChild(result.createElementNS(namespaceURI, qualifiedName));
         return result;
     }
 
@@ -65,6 +64,6 @@ public final class JEuclidDOMImplementation extends AbstractDOMImplementation {
      * @return a {@link DOMImplementation} implementing MathML DOM.
      */
     public static DOMImplementation getInstance() {
-        return JEuclidDOMImplementation.SingletonHolder.instance;
+        return JEuclidDOMImplementation.SingletonHolder.INSTANCE;
     }
 }

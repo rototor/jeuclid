@@ -26,7 +26,7 @@ package net.sourceforge.jeuclid.elements.support;
 public final class ClassLoaderSupport {
 
     private static final class SingletonHolder {
-        private static ClassLoaderSupport instance = new ClassLoaderSupport();
+        private static final ClassLoaderSupport INSTANCE = new ClassLoaderSupport();
 
         private SingletonHolder() {
         }
@@ -35,7 +35,8 @@ public final class ClassLoaderSupport {
     /**
      * Default Constructor.
      */
-    private ClassLoaderSupport() {
+    protected ClassLoaderSupport() {
+        // Empty on purporse.
     }
 
     /**
@@ -44,7 +45,7 @@ public final class ClassLoaderSupport {
      * @return an instance of this class.
      */
     public static ClassLoaderSupport getInstance() {
-        return ClassLoaderSupport.SingletonHolder.instance;
+        return ClassLoaderSupport.SingletonHolder.INSTANCE;
     }
 
     /**
@@ -61,8 +62,8 @@ public final class ClassLoaderSupport {
             throws ClassNotFoundException {
         Class<?> retVal;
         try {
-            retVal = Thread.currentThread().getContextClassLoader()
-                    .loadClass(className);
+            retVal = Thread.currentThread().getContextClassLoader().loadClass(
+                    className);
         } catch (final ClassNotFoundException e) {
             retVal = ClassLoaderSupport.class.getClassLoader().loadClass(
                     className);

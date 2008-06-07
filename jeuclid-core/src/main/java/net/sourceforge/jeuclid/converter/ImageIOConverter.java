@@ -56,20 +56,18 @@ public class ImageIOConverter implements ConverterPlugin {
     }
 
     /** {@inheritDoc} */
-    public synchronized Dimension convert(final Node doc,
-            final LayoutContext context, final OutputStream outStream)
-            throws IOException {
+    public Dimension convert(final Node doc, final LayoutContext context,
+            final OutputStream outStream) throws IOException {
         final ImageOutputStream ios = new MemoryCacheImageOutputStream(
                 outStream);
-        this.writer.setOutput(ios);
-        final BufferedImage image = Converter.getInstance().render(doc,
-                context);
+        BufferedImage image = Converter.getInstance().render(doc, context);
         if (this.removeAlpha && image.getColorModel().hasAlpha()) {
-            this.writer.write(this.removeAlpha(image));
-        } else {
+            image = this.removeAlpha(image);
+        }
+        synchronized (this.writer) {
+            this.writer.setOutput(ios);
             this.writer.write(image);
         }
-
         ios.close();
         return new Dimension(image.getWidth(), image.getHeight());
     }

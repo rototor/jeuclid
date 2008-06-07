@@ -35,8 +35,11 @@ public class UnknownAttributeException extends Exception {
      * 
      * @param wrongAttributeName
      *            name of attribute
+     * @param cause
+     *            original Exception
      */
-    public UnknownAttributeException(final String wrongAttributeName) {
-        super("Unknown attribute name: " + wrongAttributeName);
+    public UnknownAttributeException(final String wrongAttributeName,
+            final Exception cause) {
+        super("Unknown attribute name: " + wrongAttributeName, cause);
     }
 }
