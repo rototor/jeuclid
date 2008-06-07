@@ -47,7 +47,7 @@ public final class DOMBuilder {
     private static final Log LOGGER = LogFactory.getLog(DOMBuilder.class);
 
     private static final class SingletonHolder {
-        private static DOMBuilder instance = new DOMBuilder();
+        private static final DOMBuilder INSTANCE = new DOMBuilder();
 
         private SingletonHolder() {
         }
@@ -57,7 +57,10 @@ public final class DOMBuilder {
 
     private final Transformer identityTransformer;
 
-    private DOMBuilder() {
+    /**
+     * Default constructor.
+     */
+    protected DOMBuilder() {
         this.identityTransformer = this.createIdentityTransformer();
         this.contentTransformer = this
                 .createContentTransformer(this.identityTransformer);
@@ -93,7 +96,7 @@ public final class DOMBuilder {
      * @return the singleton instance of the DOMBuilder
      */
     public static DOMBuilder getInstance() {
-        return DOMBuilder.SingletonHolder.instance;
+        return DOMBuilder.SingletonHolder.INSTANCE;
     }
 
     /**
@@ -150,10 +153,8 @@ public final class DOMBuilder {
             }
             documentElement = child;
         } else {
-            throw new IllegalArgumentException(
-                    "Unsupported node: "
-                            + node
-                            + ". Expected either Document, Element or DocumentFragment");
+            throw new IllegalArgumentException("Unsupported node: " + node
+                    + ". Expected either Document, Element or DocumentFragment");
         }
 
         // TODO: This could be enabled / disabled with a switch?

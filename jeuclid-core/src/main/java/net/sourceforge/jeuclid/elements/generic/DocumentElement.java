@@ -106,17 +106,13 @@ public final class DocumentElement extends GenericDocument implements
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public List<LayoutableNode> getChildrenToLayout() {
-        final List l = ElementListSupport.createListOfLayoutChildren(this);
-        return l;
+        return ElementListSupport.createListOfLayoutChildren(this);
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public List<LayoutableNode> getChildrenToDraw() {
-        final List l = ElementListSupport.createListOfLayoutChildren(this);
-        return l;
+        return ElementListSupport.createListOfLayoutChildren(this);
     }
 
     /** {@inheritDoc} */
@@ -170,7 +166,7 @@ public final class DocumentElement extends GenericDocument implements
             return this.createElement(qualifiedName.intern());
         } else {
             String tagname = qualifiedName;
-            final int posSeparator = tagname.indexOf(":");
+            final int posSeparator = tagname.indexOf(':');
             if (posSeparator >= 0) {
                 tagname = tagname.substring(posSeparator + 1);
             }

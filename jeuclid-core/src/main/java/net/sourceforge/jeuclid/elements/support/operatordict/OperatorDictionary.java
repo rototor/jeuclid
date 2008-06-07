@@ -97,8 +97,8 @@ public final class OperatorDictionary implements Serializable {
     public static final String FORM_POSTFIX = "postfix";
 
     /**
-     * This value is returned, when default value of operator attribute
-     * doesn't exist in this dictionary so far.
+     * This value is returned, when default value of operator attribute doesn't
+     * exist in this dictionary so far.
      */
     public static final String VALUE_UNKNOWN = "NULL";
 
@@ -230,8 +230,7 @@ public final class OperatorDictionary implements Serializable {
         if (opForAttr == null) {
             return attribute.getDefaultValue();
         }
-        final Map<OperatorForm, String> valuesPerForm = opForAttr
-                .get(operator);
+        final Map<OperatorForm, String> valuesPerForm = opForAttr.get(operator);
         String retVal;
         if (valuesPerForm == null) {
             retVal = attribute.getDefaultValue();
@@ -254,8 +253,8 @@ public final class OperatorDictionary implements Serializable {
     }
 
     /**
-     * The DictionaryReader reads dictionary XML file and initializes
-     * Dictionary fields.
+     * The DictionaryReader reads dictionary XML file and initializes Dictionary
+     * fields.
      */
     private class DictionaryReader extends DefaultHandler {
         private static final String ELEMENT_ELEMENT = "element";
@@ -273,10 +272,12 @@ public final class OperatorDictionary implements Serializable {
 
         @Override
         public void startDocument() throws SAXException {
+            // nothing to do.
         }
 
         @Override
         public void endDocument() throws SAXException {
+            // nothing to do.
         }
 
         @Override
@@ -304,8 +305,7 @@ public final class OperatorDictionary implements Serializable {
                     if (!attName.equals(Mo.ATTR_FORM)) {
                         try {
                             this.currentEntry.put(OperatorAttribute
-                                    .parseOperatorAttribute(attName),
-                                    attValue);
+                                    .parseOperatorAttribute(attName), attValue);
                         } catch (final UnknownAttributeException e) {
                             OperatorDictionary.LOGGER.fatal(e.getMessage());
                         }
@@ -329,8 +329,7 @@ public final class OperatorDictionary implements Serializable {
                             .get(attribute);
                     if (mapForAttr == null) {
                         mapForAttr = new TreeMap<String, Map<OperatorForm, String>>();
-                        OperatorDictionary.this.dict.put(attribute,
-                                mapForAttr);
+                        OperatorDictionary.this.dict.put(attribute, mapForAttr);
                     }
                     Map<OperatorForm, String> valueForForm = mapForAttr
                             .get(this.currentOperator);

@@ -27,9 +27,9 @@ import java.awt.geom.Rectangle2D;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.text.CharacterIterator;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
@@ -58,8 +58,8 @@ public final class StringUtil {
     }
 
     /**
-     * Converts a given String to an attributed string with the proper
-     * variants set.
+     * Converts a given String to an attributed string with the proper variants
+     * set.
      * 
      * @param inputString
      *            the string to convert.
@@ -68,7 +68,7 @@ public final class StringUtil {
      * @param fontSize
      *            size of Font to use.
      * @param context
-     *            Layotu Context to use.
+     *            Layout Context to use.
      * @return an attributed string that has Textattribute.FONT set for all
      *         characters.
      */
@@ -76,7 +76,7 @@ public final class StringUtil {
             final String inputString, final MathVariant baseVariant,
             final float fontSize, final LayoutContext context) {
         final StringBuilder builder = new StringBuilder();
-        final List<Font> fonts = new Vector<Font>();
+        final List<Font> fonts = new ArrayList<Font>();
         final String plainString = CharConverter.convertLate(inputString);
 
         for (int i = 0; i < plainString.length(); i++) {
@@ -179,15 +179,14 @@ public final class StringUtil {
         }
 
         final FontRenderContext realFontRenderContext = new FontRenderContext(
-                suggestedFontRenderContext.getTransform(), antialiasing,
-                false);
+                suggestedFontRenderContext.getTransform(), antialiasing, false);
 
         final TextLayout theLayout;
-        if (!empty) {
-            theLayout = new TextLayout(aString.getIterator(),
+        if (empty) {
+            theLayout = new TextLayout(" ", new Font("", 0, 0),
                     realFontRenderContext);
         } else {
-            theLayout = new TextLayout(" ", new Font("", 0, 0),
+            theLayout = new TextLayout(aString.getIterator(),
                     realFontRenderContext);
         }
         return theLayout;
@@ -238,9 +237,8 @@ public final class StringUtil {
          * @param newWidth
          *            text width.
          */
-        protected TextLayoutInfo(final float newAscent,
-                final float newDescent, final float newOffset,
-                final float newWidth) {
+        protected TextLayoutInfo(final float newAscent, final float newDescent,
+                final float newOffset, final float newWidth) {
             this.ascent = newAscent;
             this.descent = newDescent;
             this.offset = newOffset;
@@ -295,8 +293,8 @@ public final class StringUtil {
      *            Trim to actual content
      * @return a TextLayoutInfo.
      */
-    public static TextLayoutInfo getTextLayoutInfo(
-            final TextLayout textLayout, final boolean trim) {
+    public static TextLayoutInfo getTextLayoutInfo(final TextLayout textLayout,
+            final boolean trim) {
         final Rectangle2D textBounds = textLayout.getBounds();
         final float ascent = (float) (-textBounds.getY());
         final float descent = (float) (textBounds.getY() + textBounds

@@ -41,7 +41,7 @@ public class LayoutContextImpl implements MutableLayoutContext, Serializable {
     private static final long serialVersionUID = 1L;
 
     private static final class SingletonHolder {
-        private static LayoutContextImpl instance = new LayoutContextImpl();
+        private static final LayoutContextImpl INSTANCE = new LayoutContextImpl();
 
         private SingletonHolder() {
         }
@@ -50,7 +50,10 @@ public class LayoutContextImpl implements MutableLayoutContext, Serializable {
     private final Map<Parameter, Object> context;
 
     // CHECKSTYLE:OFF
-    private LayoutContextImpl() {
+    /**
+     * Default constructor.
+     */
+    protected LayoutContextImpl() {
         this.context = new TreeMap<Parameter, Object>();
         this.context.put(Parameter.MATHSIZE, Constants.DEFAULT_FONTSIZE);
         this.context.put(Parameter.SCRIPTMINSIZE, 8f);
@@ -174,7 +177,7 @@ public class LayoutContextImpl implements MutableLayoutContext, Serializable {
      * @return the default layout context.
      */
     public static LayoutContext getDefaultLayoutContext() {
-        return LayoutContextImpl.SingletonHolder.instance;
+        return LayoutContextImpl.SingletonHolder.INSTANCE;
     }
 
     /** {@inheritDoc} */

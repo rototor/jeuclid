@@ -51,8 +51,8 @@ import org.w3c.dom.mathml.MathMLMathElement;
 import org.w3c.dom.mathml.MathMLNodeList;
 
 /**
- * The basic class for all math elements. Every element class inherits from
- * this class. It provides basic functionality for drawing.
+ * The basic class for all math elements. Every element class inherits from this
+ * class. It provides basic functionality for drawing.
  * 
  * @version $Revision$
  */
@@ -135,14 +135,6 @@ public abstract class AbstractJEuclidElement extends
     private final Map<String, String> defaultMathAttributes = new HashMap<String, String>();
 
     /**
-     * Creates a math element.
-     * 
-     */
-
-    public AbstractJEuclidElement() {
-    }
-
-    /**
      * Gets the used font. Everything regardes font, processed by MathBase
      * object.
      * 
@@ -167,18 +159,21 @@ public abstract class AbstractJEuclidElement extends
     /** {@inheritDoc} */
     public MathVariant getMathvariantAsVariant() {
         final String mv = this.getMathvariant();
-        MathVariant variant = null;
-        if (mv != null) {
+        MathVariant variant;
+        if (mv == null) {
+            variant = null;
+        } else {
             variant = MathVariant.stringToMathVariant(mv);
         }
+
         if (variant == null) {
             // TODO: Not all elements inherit MathVariant!
             final JEuclidElement parent = this.getParent();
-            if (parent != null) {
-                variant = parent.getMathvariantAsVariant();
-            } else {
+            if (parent == null) {
                 // TODO: This is NOT ALWAYS the default variant
                 variant = MathVariant.NORMAL;
+            } else {
+                variant = parent.getMathvariantAsVariant();
             }
         }
         return variant;
@@ -408,9 +403,11 @@ public abstract class AbstractJEuclidElement extends
 
     private JEuclidNode getParentAsJEuclidNode() {
         final Node parentNode = this.getParentNode();
-        JEuclidNode theParent = null;
+        final JEuclidNode theParent;
         if (parentNode instanceof JEuclidNode) {
             theParent = (JEuclidNode) parentNode;
+        } else {
+            theParent = null;
         }
         if (theParent == null) {
             return this.fakeParent;
@@ -437,8 +434,7 @@ public abstract class AbstractJEuclidElement extends
      *            Value of mathvariant.
      */
     public void setMathvariant(final String mathvariant) {
-        this.setAttribute(AbstractJEuclidElement.ATTR_MATHVARIANT,
-                mathvariant);
+        this.setAttribute(AbstractJEuclidElement.ATTR_MATHVARIANT, mathvariant);
     }
 
     /**
@@ -518,16 +514,15 @@ public abstract class AbstractJEuclidElement extends
 
     /**
      * Sets default values for math attributes. Default values are returned
-     * through getMathAttribute, but not stored in the actual DOM tree. This
-     * is necessary to support proper serialization.
+     * through getMathAttribute, but not stored in the actual DOM tree. This is
+     * necessary to support proper serialization.
      * 
      * @param key
      *            the attribute to set.
      * @param value
      *            value of the attribute.
      */
-    protected void setDefaultMathAttribute(final String key,
-            final String value) {
+    protected void setDefaultMathAttribute(final String key, final String value) {
         this.defaultMathAttributes.put(key, value);
     }
 
@@ -540,12 +535,14 @@ public abstract class AbstractJEuclidElement extends
      */
     protected String getMathAttribute(final String attrName) {
         String attrValue;
-        attrValue = this.getAttributeNS(AbstractJEuclidElement.URI, attrName);
-        if ((attrValue == null) || (attrValue.trim().length() == 0)) {
-            attrValue = this.getAttribute(attrName);
-        }
-        if ((attrValue == null) || (attrValue.trim().length() == 0)) {
-            attrValue = this.defaultMathAttributes.get(attrName);
+        attrValue = this.getAttributeNS(AbstractJEuclidElement.URI, attrName)
+                .trim();
+        // TODO: Replace with .isEmpty when JEuclid moves to 1.6
+        if (attrValue.length() == 0) {
+            attrValue = this.getAttribute(attrName).trim();
+            if (attrValue.length() == 0) {
+                attrValue = this.defaultMathAttributes.get(attrName);
+            }
         }
         return attrValue;
     }
@@ -586,8 +583,7 @@ public abstract class AbstractJEuclidElement extends
      * @param g
      *            Graphics2D context to use.
      */
-    public float getMiddleShift(final Graphics2D g,
-            final LayoutContext context) {
+    public float getMiddleShift(final Graphics2D g, final LayoutContext context) {
         return this.getFontMetrics(g, context).getAscent()
                 * AbstractJEuclidElement.MIDDLE_SHIFT;
     }
@@ -609,9 +605,7 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public void setMathElementStyle(final String mathElementStyle) {
-        this
-                .setAttribute(AbstractJEuclidElement.ATTR_STYLE,
-                        mathElementStyle);
+        this.setAttribute(AbstractJEuclidElement.ATTR_STYLE, mathElementStyle);
     }
 
     /** {@inheritDoc} */
@@ -703,8 +697,8 @@ public abstract class AbstractJEuclidElement extends
      * 
      * @param applyTo
      *            the context to apply to
-     * @return a context which has the style attributes changed accordingly.
-     *         May be the original context if nothing has changed.
+     * @return a context which has the style attributes changed accordingly. May
+     *         be the original context if nothing has changed.
      */
     private LayoutContext applyStyleAttributes(final LayoutContext applyTo) {
         LayoutContext retVal = applyTo;
@@ -713,9 +707,11 @@ public abstract class AbstractJEuclidElement extends
 
         final String msize = this.getMathsize();
 
-        Color foreground = null;
+        final Color foreground;
         final String colorString = this.getMathcolor();
-        if (colorString != null) {
+        if (colorString == null) {
+            foreground = null;
+        } else {
             foreground = AttributesHelper.stringToColor(colorString,
                     Color.BLACK);
         }
@@ -724,8 +720,7 @@ public abstract class AbstractJEuclidElement extends
         // context.
 
         if ((msize != null) || (foreground != null)) {
-            retVal = new StyleAttributeLayoutContext(applyTo, msize,
-                    foreground);
+            retVal = new StyleAttributeLayoutContext(applyTo, msize, foreground);
         }
 
         return retVal;
@@ -797,7 +792,7 @@ public abstract class AbstractJEuclidElement extends
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 
-    {
+    static {
         AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
                 .add(AbstractJEuclidElement.ATTR_DEPRECATED_COLOR);
         AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
@@ -811,8 +806,7 @@ public abstract class AbstractJEuclidElement extends
         AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
                 .add(AbstractJEuclidElement.ATTR_DEPRECATED_FONTFAMILY);
 
-        AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
-                .add(Mo.ATTR_MOVEABLEWRONG);
+        AbstractJEuclidElement.DEPRECATED_ATTRIBUTES.add(Mo.ATTR_MOVEABLEWRONG);
     }
 
     /**

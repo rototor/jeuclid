@@ -62,7 +62,7 @@ public final class Converter {
     private static final String UNSUPPORTED_OUTPUT_TYPE = "Unsupported output type: ";
 
     private static final class SingletonHolder {
-        private static Converter instance = new Converter();
+        private static final Converter INSTANCE = new Converter();
 
         private SingletonHolder() {
         }
@@ -73,8 +73,11 @@ public final class Converter {
      */
     private static final Log LOGGER = LogFactory.getLog(Converter.class);
 
-    private Converter() {
-
+    /**
+     * Default constructor.
+     */
+    protected Converter() {
+        // Empty on purpose.
     }
 
     /**
@@ -83,7 +86,7 @@ public final class Converter {
      * @return a Converter object.
      */
     public static Converter getInstance() {
-        return Converter.SingletonHolder.instance;
+        return Converter.SingletonHolder.INSTANCE;
     }
 
     /**
@@ -144,8 +147,8 @@ public final class Converter {
     }
 
     /**
-     * Converts an existing document from MathML to the given type and store
-     * it in a file.
+     * Converts an existing document from MathML to the given type and store it
+     * in a file.
      * 
      * @param doc
      *            input document. See
@@ -169,24 +172,24 @@ public final class Converter {
                 new FileOutputStream(outFile));
         final Dimension result = this.convert(doc, outStream, outFileType,
                 params);
-        if (result != null) {
+        if (result == null) {
+            if (!outFile.delete()) {
+                Converter.LOGGER.debug("Could not delete " + outFile);
+            }
+        } else {
             // should be closed by wrapper image streams, but just in case...
             try {
                 outStream.close();
             } catch (final IOException e) {
                 Converter.LOGGER.debug(e);
             }
-        } else {
-            if (!outFile.delete()) {
-                Converter.LOGGER.debug("Could not delete " + outFile);
-            }
         }
         return result;
     }
 
     /**
-     * Converts an existing document from MathML to the given XML based type
-     * and store it in a DOM document.
+     * Converts an existing document from MathML to the given XML based type and
+     * store it in a DOM document.
      * 
      * @param doc
      *            input document. See
@@ -197,8 +200,8 @@ public final class Converter {
      * @param params
      *            parameter set to use for conversion.
      * @return an instance of Document, or the appropriate subtype for this
-     *         format (e.g. SVGDocument). If conversion is not supported to
-     *         this type, it may return null.
+     *         format (e.g. SVGDocument). If conversion is not supported to this
+     *         type, it may return null.
      */
     public DocumentWithDimension convert(final Node doc,
             final String outFileType, final LayoutContext params) {
@@ -238,16 +241,16 @@ public final class Converter {
         final ConverterPlugin plugin = ConverterRegistry.getInstance()
                 .getConverter(outFileType);
         Dimension result = null;
-        if (plugin != null) {
+        if (plugin == null) {
+            Converter.LOGGER.fatal(Converter.UNSUPPORTED_OUTPUT_TYPE
+                    + outFileType);
+        } else {
             try {
                 result = plugin.convert(doc, params, outStream);
             } catch (final IOException ex) {
-                Converter.LOGGER.fatal("Failed to process: "
-                        + ex.getMessage(), ex);
+                Converter.LOGGER.fatal("Failed to process: " + ex.getMessage(),
+                        ex);
             }
-        } else {
-            Converter.LOGGER.fatal(Converter.UNSUPPORTED_OUTPUT_TYPE
-                    + outFileType);
         }
         return result;
     }

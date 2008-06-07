@@ -28,6 +28,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +36,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.Vector;
 
 import net.sourceforge.jeuclid.elements.support.attributes.FontFamily;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
@@ -69,8 +69,7 @@ public final class CharacterMapping implements Serializable {
     /**
      * Logger for this class.
      */
-    private static final Log LOGGER = LogFactory
-            .getLog(CharacterMapping.class);
+    private static final Log LOGGER = LogFactory.getLog(CharacterMapping.class);
 
     private final Map<Integer, CodePointAndVariant> extractAttrs;
 
@@ -198,8 +197,7 @@ public final class CharacterMapping implements Serializable {
             fam = FontFamily.DOUBLE_STRUCK;
         } else if (descr.contains("SCRIPT")) {
             fam = FontFamily.SCRIPT;
-        } else if (descr.contains("BLACK-LETTER")
-                || descr.contains("FRAKTUR")) {
+        } else if (descr.contains("BLACK-LETTER") || descr.contains("FRAKTUR")) {
             fam = FontFamily.FRAKTUR;
         } else if (descr.contains("SANS-SERIF")) {
             fam = FontFamily.SANSSERIF;
@@ -299,8 +297,7 @@ public final class CharacterMapping implements Serializable {
      * @return A {@link CodePointAndVariant} representing the same character
      *         with explicit variant.
      */
-    public CodePointAndVariant extractUnicodeAttr(
-            final CodePointAndVariant test) {
+    public CodePointAndVariant extractUnicodeAttr(final CodePointAndVariant test) {
         final CodePointAndVariant mapsTo = this.extractAttrs.get(test
                 .getCodePoint());
         if (mapsTo == null) {
@@ -315,9 +312,9 @@ public final class CharacterMapping implements Serializable {
             retVal = mapsTo;
         } else {
             final MathVariant mapsToVariant = mapsTo.getVariant();
-            retVal = new CodePointAndVariant(mapsToCodepoint,
-                    new MathVariant(testStyle | mapsToVariant.getAwtStyle(),
-                            mapsToVariant.getFontFamily()));
+            retVal = new CodePointAndVariant(mapsToCodepoint, new MathVariant(
+                    testStyle | mapsToVariant.getAwtStyle(), mapsToVariant
+                            .getFontFamily()));
         }
         return retVal;
     }
@@ -348,8 +345,8 @@ public final class CharacterMapping implements Serializable {
 
     private List<CodePointAndVariant> reallyGetAllAternatives(
             final CodePointAndVariant cpav, final boolean useGlyphMapping) {
-        final List<CodePointAndVariant> list = new Vector<CodePointAndVariant>(
-                3, 1);
+        final List<CodePointAndVariant> list = new ArrayList<CodePointAndVariant>(
+                3);
 
         final CodePointAndVariant cpav2 = this.extractUnicodeAttr(cpav);
         // High Plane is broken on OS X!
@@ -386,8 +383,8 @@ public final class CharacterMapping implements Serializable {
                 final int altcp = Glyphs.getUnicodeSequenceForGlyphName(
                         altGlyph).codePointAt(0);
                 final List<CodePointAndVariant> alternateList = this
-                        .reallyGetAllAternatives(new CodePointAndVariant(
-                                altcp, cpav.getVariant()), false);
+                        .reallyGetAllAternatives(new CodePointAndVariant(altcp,
+                                cpav.getVariant()), false);
                 for (final CodePointAndVariant alternateCpav : alternateList) {
                     if (!list.contains(alternateCpav)) {
                         list.add(alternateCpav);

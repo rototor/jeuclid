@@ -318,9 +318,7 @@ public class MathMLConverter extends MatchingTask {
      *            Size of multiplier.
      */
     public void setScriptSizeMult(final float multSize) {
-        this
-                .setOption(LayoutContext.Parameter.SCRIPTSIZEMULTIPLIER,
-                        multSize);
+        this.setOption(LayoutContext.Parameter.SCRIPTSIZEMULTIPLIER, multSize);
     }
 
     /**
@@ -420,15 +418,14 @@ public class MathMLConverter extends MatchingTask {
                         .substring(0, dotPos)
                         + suffix);
             } else {
-                outFile = this.fileUtils.resolveFile(destDir, xmlFile
-                        + suffix);
+                outFile = this.fileUtils.resolveFile(destDir, xmlFile + suffix);
             }
             this.log("Input file: " + inFile, Project.MSG_DEBUG);
             this.log("Output file: " + outFile, Project.MSG_DEBUG);
             if (this.mforce || !this.fileUtils.isUpToDate(inFile, outFile)) {
                 this.fileUtils.createNewFile(outFile, true);
-                Converter.getInstance().convert(inFile, outFile,
-                        this.moutType, this.context);
+                Converter.getInstance().convert(inFile, outFile, this.moutType,
+                        this.context);
             }
         } catch (final IOException ex) {
             // If failed to process document, must delete target document,
@@ -491,18 +488,18 @@ public class MathMLConverter extends MatchingTask {
      * @return Converted string.
      */
     private String convertArrayToString(final Object[] array) {
-        final StringBuffer sb = new StringBuffer();
-        sb.append("{");
+        final StringBuilder sb = new StringBuilder();
+        sb.append('{');
         boolean first = false;
         for (final Object o : array) {
-            if (!first) {
-                first = true;
-            } else {
+            if (first) {
                 sb.append(", ");
+            } else {
+                first = true;
             }
             sb.append(o);
         }
-        sb.append("}");
+        sb.append('}');
 
         return sb.toString();
     }

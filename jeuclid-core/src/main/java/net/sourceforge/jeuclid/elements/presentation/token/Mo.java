@@ -85,7 +85,7 @@ public final class Mo extends AbstractJEuclidElement implements
     /** Wrong attribute name for movable limits. */
     public static final String ATTR_MOVEABLEWRONG = "moveablelimits";
 
-    /** Attribute for moveable limits. */
+    /** Attribute for movable limits. */
     public static final String ATTR_MOVABLELIMITS = "movablelimits";
 
     /** Attribute for accent. */
@@ -140,9 +140,9 @@ public final class Mo extends AbstractJEuclidElement implements
             + /* OverBar */"\u00AF" + /* UnderBar */"\u0332" + "\u0333"
             + "\u033F" + "\u2190" + "\u2192" + "\u2194"
             + /* OverBracket */"\u23B4" + /* UnderBracket */"\u23B5"
-            + /* OverParenthesis */"\uFE35"
-            + /* UnderParenthesis */"\uFE36" + /* OverBrace */"\uFE37"
-            + /* UnderBrace */"\uFE38" + /* Frown */"\u2322";
+            + /* OverParenthesis */"\uFE35" + /* UnderParenthesis */"\uFE36"
+            + /* OverBrace */"\uFE37" + /* UnderBrace */"\uFE38"
+            + /* Frown */"\u2322";
 
     /**
      * Vertical delimiters.
@@ -183,8 +183,9 @@ public final class Mo extends AbstractJEuclidElement implements
                 AttributesHelper.THICKMATHSPACE);
         this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_SYMMETRIC, Constants.TRUE);
-        this.setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
-                AttributesHelper.INFINITY);
+        this
+                .setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
+                        AttributesHelper.INFINITY);
         this.setDefaultMathAttribute(Mo.ATTR_MINSIZE, "1");
         this.setDefaultMathAttribute(Mo.ATTR_LARGEOP, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, Constants.FALSE);
@@ -295,7 +296,7 @@ public final class Mo extends AbstractJEuclidElement implements
 
     private TextLayout produceUnstrechtedLayout(final Graphics2D g,
             final LayoutContext now) {
-        assert g!=null : "Graphics2d is null in produceUnstrechtedLayout";
+        assert g != null : "Graphics2d is null in produceUnstrechtedLayout";
         float fontSizeInPoint = GraphicsSupport.getFontsizeInPoint(now);
         if (Boolean.parseBoolean(this.getLargeop())) {
             fontSizeInPoint *= this.getLargeOpCorrector(now);
@@ -317,13 +318,9 @@ public final class Mo extends AbstractJEuclidElement implements
         if (!this.inChangeHook) {
             this.inChangeHook = true;
             this.detectFormParameter();
-            this
-                    .loadAttributeFromDictionary(Mo.ATTR_LARGEOP,
-                            Constants.FALSE);
-            this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC,
-                    Constants.TRUE);
-            this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY,
-                    Constants.FALSE);
+            this.loadAttributeFromDictionary(Mo.ATTR_LARGEOP, Constants.FALSE);
+            this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC, Constants.TRUE);
+            this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY, Constants.FALSE);
             this.loadAttributeFromDictionary(Mo.ATTR_FENCE, Constants.FALSE);
             this.loadAttributeFromDictionary(Mo.ATTR_LSPACE,
                     AttributesHelper.THICKMATHSPACE);
@@ -347,9 +344,7 @@ public final class Mo extends AbstractJEuclidElement implements
             }
 
             if (this.isFence()) {
-                this
-                        .setDefaultMathAttribute(Mo.ATTR_STRETCHY,
-                                Constants.TRUE);
+                this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, Constants.TRUE);
             }
             final CustomEvent evt = new DOMCustomEvent();
             evt.initCustomEventNS(null, Mo.MOEVENT, true, false, null);
@@ -409,10 +404,10 @@ public final class Mo extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     public String getMovablelimits() {
         final String wrongAttr = this.getMathAttribute(Mo.ATTR_MOVEABLEWRONG);
-        if (wrongAttr != null) {
-            return wrongAttr;
-        } else {
+        if (wrongAttr == null) {
             return this.getMathAttribute(Mo.ATTR_MOVABLELIMITS);
+        } else {
+            return wrongAttr;
         }
     }
 
@@ -538,9 +533,8 @@ public final class Mo extends AbstractJEuclidElement implements
         if (Boolean.parseBoolean(this.getStretchy())) {
             info.setLayoutStage(LayoutStage.STAGE1);
         } else {
-            info.setGraphicsObject(new TextObject(t,
-                    lspace + tli.getOffset(), 0, null, (Color) now
-                            .getParameter(Parameter.MATHCOLOR)));
+            info.setGraphicsObject(new TextObject(t, lspace + tli.getOffset(),
+                    0, null, (Color) now.getParameter(Parameter.MATHCOLOR)));
             info.setLayoutStage(LayoutStage.STAGE2);
         }
     }
@@ -638,9 +632,7 @@ public final class Mo extends AbstractJEuclidElement implements
         calcBaselineShift = targetDescent - realDescentScaled;
 
         info.setDescentHeight(targetDescent, LayoutStage.STAGE2);
-        info
-                .setAscentHeight(targetHeight - targetDescent,
-                        LayoutStage.STAGE2);
+        info.setAscentHeight(targetHeight - targetDescent, LayoutStage.STAGE2);
         return new float[] { calcScaleY, calcBaselineShift };
     }
 

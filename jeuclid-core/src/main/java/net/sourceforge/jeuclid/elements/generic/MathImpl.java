@@ -86,18 +86,16 @@ public final class MathImpl extends AbstractContainer implements
      */
     public String getDisplay() {
         final String retVal;
-        final String attrDisplay = this
-                .getMathAttribute(MathImpl.ATTR_DISPLAY);
-        if (attrDisplay != null) {
-            if (MathImpl.DISPLAY_BLOCK.equalsIgnoreCase(attrDisplay)) {
+        final String attrDisplay = this.getMathAttribute(MathImpl.ATTR_DISPLAY);
+        if (attrDisplay == null) {
+            if (MathImpl.DEPRECATED_BLOCK_VALUE_FOR_MODE.equalsIgnoreCase(this
+                    .getMathAttribute(MathImpl.ATTR_MODE))) {
                 retVal = MathImpl.DISPLAY_BLOCK;
             } else {
                 retVal = MathImpl.DISPLAY_INLINE;
             }
         } else {
-            if (MathImpl.DEPRECATED_BLOCK_VALUE_FOR_MODE
-                    .equalsIgnoreCase(this
-                            .getMathAttribute(MathImpl.ATTR_MODE))) {
+            if (MathImpl.DISPLAY_BLOCK.equalsIgnoreCase(attrDisplay)) {
                 retVal = MathImpl.DISPLAY_BLOCK;
             } else {
                 retVal = MathImpl.DISPLAY_INLINE;

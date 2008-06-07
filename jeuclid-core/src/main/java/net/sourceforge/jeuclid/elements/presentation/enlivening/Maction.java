@@ -18,8 +18,8 @@
 
 package net.sourceforge.jeuclid.elements.presentation.enlivening;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Vector;
 
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
@@ -91,11 +91,12 @@ public final class Maction extends AbstractElementWithDelegates implements
         } catch (final NumberFormatException nfe) {
             selectedElement = null;
         }
-        final List<LayoutableNode> list = new Vector<LayoutableNode>(1);
-        if (selectedElement != null) {
-            list.add(selectedElement);
+
+        if (selectedElement == null) {
+            return Collections.emptyList();
+        } else {
+            return Collections.singletonList(selectedElement);
         }
-        return list;
     }
 
 }

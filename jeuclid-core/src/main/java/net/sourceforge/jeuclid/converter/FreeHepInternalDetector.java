@@ -66,8 +66,8 @@ public final class FreeHepInternalDetector {
                 final ExportFileType fileType = (ExportFileType) infoClass
                         .getConstructor().newInstance();
 
-                final Class<?> graphicsClass = ClassLoaderSupport
-                        .getInstance().loadClass(e.getValue());
+                final Class<?> graphicsClass = ClassLoaderSupport.getInstance()
+                        .loadClass(e.getValue());
                 FreeHepInternalDetector.actuallyRegister(registry, fileType,
                         graphicsClass);
             } catch (final NoSuchMethodException ex) {
@@ -91,12 +91,13 @@ public final class FreeHepInternalDetector {
     private static void actuallyRegister(final ConverterRegistry registry,
             final ExportFileType fileType, final Class<?> graphicsClass)
             throws NoSuchMethodException {
+        final ConverterPlugin freeHepConverter = new FreeHepConverter(
+                graphicsClass);
         for (final String mimeType : fileType.getMIMETypes()) {
             for (final String suffix : fileType.getExtensions()) {
                 registry.registerMimeTypeAndSuffix(mimeType, suffix, false);
             }
-            registry.registerConverter(mimeType, new FreeHepConverter(
-                    graphicsClass), false);
+            registry.registerConverter(mimeType, freeHepConverter, false);
         }
     }
 

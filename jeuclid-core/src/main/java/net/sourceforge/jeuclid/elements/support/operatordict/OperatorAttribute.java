@@ -82,7 +82,7 @@ public enum OperatorAttribute {
         try {
             return OperatorAttribute.valueOf(attr.toUpperCase(Locale.US));
         } catch (final IllegalArgumentException iae) {
-            throw new UnknownAttributeException(attr);
+            throw new UnknownAttributeException(attr, iae);
         }
     }
 

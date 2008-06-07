@@ -55,8 +55,7 @@ public class MathComponentUI extends ComponentUI implements
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory
-            .getLog(MathComponentUI.class);
+    private static final Log LOGGER = LogFactory.getLog(MathComponentUI.class);
 
     private JMathComponent mathComponent;
 
@@ -69,14 +68,6 @@ public class MathComponentUI extends ComponentUI implements
     private Node document;
 
     private Dimension preferredSize;
-
-    /**
-     * Creates a new UI.
-     * 
-     */
-    public MathComponentUI() {
-        // nothing to do
-    }
 
     /** {@inheritDoc} */
     @Override
@@ -125,8 +116,7 @@ public class MathComponentUI extends ComponentUI implements
             yo = (dim.height + this.jEuclidView.getAscentHeight() - this.jEuclidView
                     .getDescentHeight()) / 2.0f;
         }
-        final Point2D alignOffset = new Point2D.Float(xo, yo);
-        return alignOffset;
+        return new Point2D.Float(xo, yo);
     }
 
     private void paintBackground(final Graphics g, final Dimension dim,
@@ -138,8 +128,7 @@ public class MathComponentUI extends ComponentUI implements
         }
     }
 
-    private Point getStartPointWithBordersAndAdjustDimension(
-            final Dimension dim) {
+    private Point getStartPointWithBordersAndAdjustDimension(final Dimension dim) {
         Point start = new Point(0, 0);
         final Border border = this.mathComponent.getBorder();
         if (border != null) {
@@ -195,7 +184,7 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     public void propertyChange(final PropertyChangeEvent evt) {
         final String name = evt.getPropertyName();
-        if (name.equals("document") || name.equals("property")) {
+        if ("document".equals(name) || "property".equals(name)) {
             final JMathComponent jc = (JMathComponent) evt.getSource();
             this.document = (Node) evt.getNewValue();
             this.redo(jc.getParameters(), (Graphics2D) jc.getGraphics());
@@ -212,10 +201,10 @@ public class MathComponentUI extends ComponentUI implements
 
     private void redo(final MutableLayoutContext parameters,
             final Graphics2D g2d) {
-        if ((this.document != null) && (g2d != null)) {
-            this.jEuclidView = new JEuclidView(this.document, parameters, g2d);
-        } else {
+        if ((this.document == null) || (g2d == null)) {
             this.jEuclidView = null;
+        } else {
+            this.jEuclidView = new JEuclidView(this.document, parameters, g2d);
         }
     }
 
@@ -238,9 +227,6 @@ public class MathComponentUI extends ComponentUI implements
             if (this.jEuclidView == null || c.getGraphics() == null) {
                 return super.getPreferredSize(c);
             }
-
-            final Graphics2D g2d = (Graphics2D) c.getGraphics();
-            assert g2d!=null : "Graphics2D is null in getMathComponentSize";
             this.calculatePreferredSize(c);
         }
         return this.preferredSize;

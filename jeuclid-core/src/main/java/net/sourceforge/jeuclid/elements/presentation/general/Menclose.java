@@ -22,12 +22,12 @@ import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
-import java.util.Vector;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
@@ -88,8 +88,7 @@ public final class Menclose extends AbstractElementWithDelegates implements
             }
             ElementListSupport.fillInfoFromChildren(view, info, this, stage,
                     borderLeftTop, this.getBorderRightBottom(now));
-            this.enclHook(info, stage, this
-                    .applyLocalAttributesToContext(now));
+            this.enclHook(info, stage, this.applyLocalAttributesToContext(now));
         }
 
         /**
@@ -124,9 +123,8 @@ public final class Menclose extends AbstractElementWithDelegates implements
          * @param now
          *            current Layout Context
          */
-        protected void enclHook(final LayoutInfo info,
-                final LayoutStage stage, final LayoutContext now) {
-        }
+        protected abstract void enclHook(final LayoutInfo info,
+                final LayoutStage stage, final LayoutContext now);
     }
 
     /**
@@ -134,8 +132,7 @@ public final class Menclose extends AbstractElementWithDelegates implements
      * "longdiv".
      * 
      */
-    private static final class Longdiv extends
-            Menclose.AbstractRowLikeNotation {
+    private static final class Longdiv extends Menclose.AbstractRowLikeNotation {
         private static final long serialVersionUID = 1L;
 
         /**
@@ -161,16 +158,16 @@ public final class Menclose extends AbstractElementWithDelegates implements
 
         /** {@inheritDoc} */
         @Override
-        protected void enclHook(final LayoutInfo info,
-                final LayoutStage stage, final LayoutContext now) {
+        protected void enclHook(final LayoutInfo info, final LayoutStage stage,
+                final LayoutContext now) {
             final List<GraphicsObject> graphicObjects = info
                     .getGraphicObjects();
             graphicObjects.clear();
             final float lineWidth = GraphicsSupport.lineWidth(now);
             final float top = info.getAscentHeight(stage) + lineWidth;
             final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
-            graphicObjects.add(new LineObject(lineWidth, -top, lineWidth,
-                    info.getDescentHeight(stage), lineWidth, color));
+            graphicObjects.add(new LineObject(lineWidth, -top, lineWidth, info
+                    .getDescentHeight(stage), lineWidth, color));
             graphicObjects.add(new LineObject(lineWidth, -top, info
                     .getWidth(stage), -top, lineWidth, color));
         }
@@ -199,8 +196,8 @@ public final class Menclose extends AbstractElementWithDelegates implements
 
         /** {@inheritDoc} */
         @Override
-        protected void enclHook(final LayoutInfo info,
-                final LayoutStage stage, final LayoutContext now) {
+        protected void enclHook(final LayoutInfo info, final LayoutStage stage,
+                final LayoutContext now) {
 
             final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
             final float lineWidth = GraphicsSupport.lineWidth(now);
@@ -234,8 +231,8 @@ public final class Menclose extends AbstractElementWithDelegates implements
 
         /** {@inheritDoc} */
         @Override
-        protected void enclHook(final LayoutInfo info,
-                final LayoutStage stage, final LayoutContext now) {
+        protected void enclHook(final LayoutInfo info, final LayoutStage stage,
+                final LayoutContext now) {
 
             final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
             final float lineWidth = GraphicsSupport.lineWidth(now);
@@ -274,8 +271,8 @@ public final class Menclose extends AbstractElementWithDelegates implements
 
         /** {@inheritDoc} */
         @Override
-        protected void enclHook(final LayoutInfo info,
-                final LayoutStage stage, final LayoutContext now) {
+        protected void enclHook(final LayoutInfo info, final LayoutStage stage,
+                final LayoutContext now) {
             final List<GraphicsObject> graphicObjects = info
                     .getGraphicObjects();
             graphicObjects.clear();
@@ -284,9 +281,9 @@ public final class Menclose extends AbstractElementWithDelegates implements
             final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
             graphicObjects.add(new LineObject(0, -top, info.getWidth(stage)
                     - lineWidth, -top, lineWidth, color));
-            graphicObjects.add(new LineObject(info.getWidth(stage)
-                    - lineWidth, -top, info.getWidth(stage) - lineWidth, info
-                    .getDescentHeight(stage), lineWidth, color));
+            graphicObjects.add(new LineObject(info.getWidth(stage) - lineWidth,
+                    -top, info.getWidth(stage) - lineWidth, info
+                            .getDescentHeight(stage), lineWidth, color));
         }
 
     }
@@ -342,31 +339,16 @@ public final class Menclose extends AbstractElementWithDelegates implements
     /** {@inheritDoc} */
     @Override
     protected List<LayoutableNode> createDelegates() {
-        final String[] notations = this.getNotation().split(" ");
-        final Stack<Constructor<?>> notationImpls = new Stack<Constructor<?>>();
-        for (final String curNotation : notations) {
-            final Constructor<?> con = Menclose.IMPL_CLASSES.get(curNotation
-                    .toLowerCase(Locale.ENGLISH));
-            if (con != null) {
-                notationImpls.push(con);
-            } else if (curNotation.length() > 0) {
-                Menclose.LOGGER.info("Unsupported notation for menclose: "
-                        + curNotation);
-            }
-        }
-        // This is just to make sure that there is at least one delegate, and
-        // that each of the standard delegates has exactly one child.
-        JEuclidElement lastChild;
-        if (this.getMathElementCount() != 1) {
-            lastChild = (JEuclidElement) this.ownerDocument
-                    .createElement(Mrow.ELEMENT);
-            for (final Node child : ElementListSupport
-                    .createListOfChildren(this)) {
-                lastChild.appendChild(child);
-            }
-        } else {
-            lastChild = this.getMathElement(0);
-        }
+        final Stack<Constructor<?>> notationImpls = this.parseNotations();
+        JEuclidElement lastChild = this.ensureSingleChild();
+        lastChild = this.createStackOfDelegates(notationImpls, lastChild);
+        return Collections.singletonList((LayoutableNode) lastChild);
+    }
+
+    private JEuclidElement createStackOfDelegates(
+            final Stack<Constructor<?>> notationImpls,
+            final JEuclidElement oldChild) {
+        JEuclidElement lastChild = oldChild;
         while (!notationImpls.isEmpty()) {
             final Constructor<?> con = notationImpls.pop();
             try {
@@ -383,15 +365,49 @@ public final class Menclose extends AbstractElementWithDelegates implements
                 Menclose.LOGGER.warn(e);
             }
         }
-        final List<LayoutableNode> delegates = new Vector<LayoutableNode>(1);
-        delegates.add(lastChild);
-        return delegates;
+        return lastChild;
+    }
+
+    /**
+     * This is just to make sure that there is at least one delegate, and that
+     * each of the standard delegates has exactly one child.
+     * 
+     * @return a single JEuclidElement.
+     */
+    private JEuclidElement ensureSingleChild() {
+        final JEuclidElement lastChild;
+        if (this.getMathElementCount() == 1) {
+            lastChild = this.getMathElement(0);
+        } else {
+            lastChild = (JEuclidElement) this.ownerDocument
+                    .createElement(Mrow.ELEMENT);
+            for (final Node child : ElementListSupport
+                    .createListOfChildren(this)) {
+                lastChild.appendChild(child);
+            }
+        }
+        return lastChild;
+    }
+
+    private Stack<Constructor<?>> parseNotations() {
+        final String[] notations = this.getNotation().split(" ");
+        final Stack<Constructor<?>> notationImpls = new Stack<Constructor<?>>();
+        for (final String curNotation : notations) {
+            final Constructor<?> con = Menclose.IMPL_CLASSES.get(curNotation
+                    .toLowerCase(Locale.ENGLISH));
+            if (con != null) {
+                notationImpls.push(con);
+            } else if (curNotation.length() > 0) {
+                Menclose.LOGGER.info("Unsupported notation for menclose: "
+                        + curNotation);
+            }
+        }
+        return notationImpls;
     }
 
     static {
         try {
-            Menclose.IMPL_CLASSES
-                    .put("radical", Msqrt.class.getConstructor());
+            Menclose.IMPL_CLASSES.put("radical", Msqrt.class.getConstructor());
             Menclose.IMPL_CLASSES.put("longdiv", Menclose.Longdiv.class
                     .getConstructor());
             Menclose.IMPL_CLASSES.put("updiagonalstrike",

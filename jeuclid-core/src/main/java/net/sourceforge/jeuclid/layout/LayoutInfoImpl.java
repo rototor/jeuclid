@@ -18,8 +18,8 @@
 
 package net.sourceforge.jeuclid.layout;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * @version $Revision$
@@ -65,7 +65,7 @@ public class LayoutInfoImpl implements LayoutInfo {
      */
     public LayoutInfoImpl() {
         this.layoutStage = LayoutStage.NONE;
-        this.graphicObjects = new Vector<GraphicsObject>();
+        this.graphicObjects = new ArrayList<GraphicsObject>();
     }
 
     /** {@inheritDoc} */

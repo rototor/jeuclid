@@ -82,7 +82,9 @@ public abstract class AbstractRoot extends AbstractJEuclidElement implements
 
         // Draw Index
         float indexAscent;
-        if (index != null) {
+        if (index == null) {
+            indexAscent = 0.0f;
+        } else {
             final LayoutInfo indexInfo = view.getInfo(index);
             final float indexPos = middleShift + linethickness / 2.0f
                     + extraSpace + indexInfo.getDescentHeight(stage);
@@ -91,8 +93,6 @@ public abstract class AbstractRoot extends AbstractJEuclidElement implements
             graphicObjects.add(new LineObject(linethickness, -middleShift,
                     xPos, -middleShift, linethickness, color));
             indexAscent = indexPos + indexInfo.getAscentHeight(stage);
-        } else {
-            indexAscent = 0.0f;
         }
 
         // Skip Root Space
@@ -100,16 +100,16 @@ public abstract class AbstractRoot extends AbstractJEuclidElement implements
 
         // Draw Content below Root
         final float contentStartX = xPos;
-        final FontMetrics metrics = this.getFontMetrics(view.getGraphics(),
-                now);
+        final FontMetrics metrics = this
+                .getFontMetrics(view.getGraphics(), now);
         float maxAscent = metrics.getAscent();
         float maxDescent = metrics.getDescent();
         for (final LayoutableNode child : this.getContent()) {
             final LayoutInfo childInfo = view.getInfo(child);
             childInfo.moveTo(xPos, 0, stage);
             maxAscent = Math.max(maxAscent, childInfo.getAscentHeight(stage));
-            maxDescent = Math.max(maxDescent, childInfo
-                    .getDescentHeight(stage));
+            maxDescent = Math
+                    .max(maxDescent, childInfo.getDescentHeight(stage));
             xPos += childInfo.getWidth(stage);
         }
         xPos += 2 * extraSpace;
@@ -129,10 +129,8 @@ public abstract class AbstractRoot extends AbstractJEuclidElement implements
         graphicObjects.add(new LineObject(contentStartX - rootwidth,
                 -middleShift, contentStartX - rootwidth / 2.0f, maxDescent,
                 linethickness, color));
-        graphicObjects
-                .add(new LineObject(contentStartX - rootwidth / 2.0f,
-                        maxDescent, contentStartX, -topLinePos,
-                        linethickness, color));
+        graphicObjects.add(new LineObject(contentStartX - rootwidth / 2.0f,
+                maxDescent, contentStartX, -topLinePos, linethickness, color));
         graphicObjects.add(new LineObject(contentStartX, -topLinePos, xPos,
                 -topLinePos, linethickness, color));
     }

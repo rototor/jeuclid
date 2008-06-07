@@ -84,10 +84,10 @@ public final class Semantics extends AbstractContainer implements
             }
         } else {
             final MathMLElement oldChild = this.getAnnotation(index);
-            if (oldChild != null) {
-                this.insertBefore(newAnnotation, oldChild);
-            } else {
+            if (oldChild == null) {
                 this.setAnnotation(newAnnotation, index);
+            } else {
+                this.insertBefore(newAnnotation, oldChild);
             }
         }
         return newAnnotation;
