@@ -63,7 +63,6 @@ build the real release packages:
 mvn package
 
 build source packages:
-mvn ant:ant
 mvn assembly:assembly -Ddescriptor=src/assemble/source.xml 
 (TODO: Maybe also in support/ )
 
