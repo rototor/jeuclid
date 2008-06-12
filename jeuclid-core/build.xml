@@ -27,7 +27,6 @@
       </not>
     </condition>
     <echo message="${ant.message}"/>
-  </target>
 
     <available property="batik.present" classname="org.apache.batik.dom.AbstractNode" classpathref="libs-build-classpath"/>
     <condition property="batik.message" value="Batik Support PRESENT">
@@ -94,6 +93,7 @@
       </not>
     </condition>
     <echo message="${xmlgraphics.message}"/>
+  </target>
 
 
   <target name="compile" depends="init" description="Compile the code">
