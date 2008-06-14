@@ -210,8 +210,8 @@ public final class AttributesHelper {
             }
         } catch (final NumberFormatException nfe) {
             retVal = relativeTo;
-            AttributesHelper.LOGGER.warn(AttributesHelper.ERROR_PARSING_NUMBER
-                    + sizeString);
+            AttributesHelper.LOGGER
+                    .warn(AttributesHelper.ERROR_PARSING_NUMBER + sizeString);
         }
         return retVal;
     }
@@ -226,7 +226,8 @@ public final class AttributesHelper {
      *            context of the parent or the element itself.
      * @param defaultUnit
      *            default Unit to use in this context. May be px, pt, em, etc.
-     * @return Translated value of the size attribute into Point (=Java Pixels).
+     * @return Translated value of the size attribute into Point (=Java
+     *         Pixels).
      */
     public static float convertSizeToPt(final String sizeString,
             final LayoutContext context, final String defaultUnit) {
@@ -268,9 +269,10 @@ public final class AttributesHelper {
             }
         } catch (final NumberFormatException nfe) {
             retVal = 1.0f;
-            AttributesHelper.LOGGER.warn(AttributesHelper.ERROR_PARSING_NUMBER
-                    + sizeString + " falling back to " + retVal
-                    + AttributesHelper.PT);
+            AttributesHelper.LOGGER
+                    .warn(AttributesHelper.ERROR_PARSING_NUMBER + sizeString
+                            + " falling back to " + retVal
+                            + AttributesHelper.PT);
         }
         return retVal;
     }
@@ -321,8 +323,10 @@ public final class AttributesHelper {
         final String lowVal = value.toLowerCase(Locale.ENGLISH);
         Color parsedColor = null;
 
-        if (!AttributesHelper.COLOR_MAPPINGS.containsKey(lowVal)) {
-            if (value.startsWith("#")) {
+        if (AttributesHelper.COLOR_MAPPINGS.containsKey(lowVal)) {
+            parsedColor = AttributesHelper.COLOR_MAPPINGS.get(lowVal);
+        } else {
+            if (value.charAt(0) == '#') {
                 parsedColor = AttributesHelper.parseWithHash(value);
             } else if (value.startsWith("rgb(")) {
                 parsedColor = AttributesHelper.parseAsRGB(value);
@@ -337,8 +341,6 @@ public final class AttributesHelper {
             if (parsedColor != null) {
                 AttributesHelper.COLOR_MAPPINGS.put(value, parsedColor);
             }
-        } else {
-            parsedColor = AttributesHelper.COLOR_MAPPINGS.get(lowVal);
         }
         return parsedColor;
     }
@@ -418,7 +420,8 @@ public final class AttributesHelper {
             value = Float.parseFloat(str.substring(0, str.length() - 1))
                     / AttributesHelper.MAX_PERCENT_AS_FLOAT;
         } else {
-            value = Float.parseFloat(str) / AttributesHelper.MAX_BYTE_AS_FLOAT;
+            value = Float.parseFloat(str)
+                    / AttributesHelper.MAX_BYTE_AS_FLOAT;
         }
         if ((value < 0.0f) || (value > 1.0f)) {
             throw new NumberFormatException(str + " is out of Range");
@@ -491,8 +494,9 @@ public final class AttributesHelper {
     /**
      * Creates a re-parsable string representation of the given color.
      * <p>
-     * First, the color will be converted into the sRGB colorspace. It will then
-     * be printed as #rrggbb, or as #rrrggbbaa if an alpha value is present.
+     * First, the color will be converted into the sRGB colorspace. It will
+     * then be printed as #rrggbb, or as #rrrggbbaa if an alpha value is
+     * present.
      * 
      * @param color
      *            the color to represent.
@@ -555,8 +559,8 @@ public final class AttributesHelper {
         AttributesHelper.SIZETRANSLATIONS.put(
                 OperatorDictionary.NAME_VERYVERYTHICKMATHSPACE,
                 AttributesHelper.VERYVERYTHICKMATHSPACE);
-        AttributesHelper.SIZETRANSLATIONS.put(OperatorDictionary.NAME_INFINITY,
-                AttributesHelper.INFINITY);
+        AttributesHelper.SIZETRANSLATIONS.put(
+                OperatorDictionary.NAME_INFINITY, AttributesHelper.INFINITY);
         AttributesHelper.SIZETRANSLATIONS.put("small", "68%");
         AttributesHelper.SIZETRANSLATIONS.put("normal", "100%");
         AttributesHelper.SIZETRANSLATIONS.put("big", "147%");
@@ -585,7 +589,8 @@ public final class AttributesHelper {
         AttributesHelper.COLOR_MAPPINGS.put("aqua", new Color(0, 255, 255));
         AttributesHelper.COLOR_MAPPINGS.put("black", Color.BLACK);
         AttributesHelper.COLOR_MAPPINGS.put("blue", Color.BLUE);
-        AttributesHelper.COLOR_MAPPINGS.put("fuchsia", new Color(255, 0, 255));
+        AttributesHelper.COLOR_MAPPINGS
+                .put("fuchsia", new Color(255, 0, 255));
         AttributesHelper.COLOR_MAPPINGS.put("gray", Color.GRAY);
         AttributesHelper.COLOR_MAPPINGS.put("green", Color.GREEN);
         AttributesHelper.COLOR_MAPPINGS.put("lime", new Color(0, 255, 0));
@@ -594,14 +599,15 @@ public final class AttributesHelper {
         AttributesHelper.COLOR_MAPPINGS.put("olive", new Color(128, 128, 0));
         AttributesHelper.COLOR_MAPPINGS.put("purple", new Color(128, 0, 128));
         AttributesHelper.COLOR_MAPPINGS.put("red", Color.RED);
-        AttributesHelper.COLOR_MAPPINGS.put("silver", new Color(192, 192, 192));
+        AttributesHelper.COLOR_MAPPINGS.put("silver",
+                new Color(192, 192, 192));
         AttributesHelper.COLOR_MAPPINGS.put("teal", new Color(0, 128, 128));
         AttributesHelper.COLOR_MAPPINGS.put("white", Color.WHITE);
         AttributesHelper.COLOR_MAPPINGS.put("yellow", Color.YELLOW);
 
         // Additional colors
-        AttributesHelper.COLOR_MAPPINGS.put(AttributesHelper.COLOR_TRANSPARENT,
-                null);
+        AttributesHelper.COLOR_MAPPINGS.put(
+                AttributesHelper.COLOR_TRANSPARENT, null);
         AttributesHelper.COLOR_MAPPINGS.put("null", null);
         AttributesHelper.COLOR_MAPPINGS.put("", null);
     }
