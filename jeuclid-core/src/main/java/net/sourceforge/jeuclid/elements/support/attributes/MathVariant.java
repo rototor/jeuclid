@@ -21,9 +21,11 @@ package net.sourceforge.jeuclid.elements.support.attributes;
 import java.awt.Font;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.LayoutContext.Parameter;
@@ -139,6 +141,8 @@ public final class MathVariant implements Serializable {
     private static final Log LOGGER = LogFactory
             .getLog(CharacterMapping.class);
 
+    private static final Set<Integer> WARNED = new HashSet<Integer>();
+
     private final int awtStyle;
 
     private final FontFamily fontFamily;
@@ -218,8 +222,18 @@ public final class MathVariant implements Serializable {
                 (List<String>) context.getParameter(theParam), codepoint,
                 this.awtStyle, (int) size);
         if (force && font == null) {
-            MathVariant.LOGGER.info("No font available to display &#x"
-                    + Integer.toHexString(codepoint));
+            if (!MathVariant.WARNED.contains(codepoint)) {
+                MathVariant.WARNED.add(codepoint);
+                final String hexString = Integer.toHexString(codepoint);
+                MathVariant.LOGGER
+                        .warn("No font available to display character "
+                                + hexString);
+                MathVariant.LOGGER
+                        .info("Find a font at  http://www.fileformat.info/info/unicode/char/"
+                                + hexString
+                                + "/fontsupport.htm or "
+                                + "http://www.alanwood.net/unicode/search.html");
+            }
             return FontFactory.getInstance().getFont(FontFactory.SANSSERIF,
                     this.awtStyle, (int) size);
         }
