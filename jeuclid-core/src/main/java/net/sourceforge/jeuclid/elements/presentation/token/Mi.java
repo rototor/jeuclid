@@ -23,7 +23,7 @@ import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import org.w3c.dom.Node;
 
 /**
- * This class presents a mathematical idenifier, like "x".
+ * This class presents a mathematical identifier, like "x".
  * 
  * @version $Revision$
  */
