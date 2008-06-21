@@ -24,8 +24,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import net.sourceforge.jeuclid.MutableLayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.w3c.dom.Document;

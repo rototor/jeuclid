@@ -18,6 +18,8 @@
 
 package net.sourceforge.jeuclid;
 
+import net.sourceforge.jeuclid.context.Parameter;
+
 
 /**
  * @version $Revision$

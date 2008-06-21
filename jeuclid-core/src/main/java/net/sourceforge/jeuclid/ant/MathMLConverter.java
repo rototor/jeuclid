@@ -21,9 +21,9 @@ package net.sourceforge.jeuclid.ant;
 import java.io.File;
 import java.io.IOException;
 
-import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
 
@@ -141,7 +141,7 @@ public class MathMLConverter extends MatchingTask {
      *            Flag for support anti alias.
      */
     public void setAntiAlias(final boolean antiAlias) {
-        this.setOption(LayoutContext.Parameter.ANTIALIAS, antiAlias);
+        this.setOption(Parameter.ANTIALIAS, antiAlias);
     }
 
     /**
@@ -151,7 +151,7 @@ public class MathMLConverter extends MatchingTask {
      *            Minimal size in float number.
      */
     public void setAntiAliasMinSize(final float antiAliasMinSize) {
-        this.setOption(LayoutContext.Parameter.ANTIALIAS_MINSIZE,
+        this.setOption(Parameter.ANTIALIAS_MINSIZE,
                 antiAliasMinSize);
     }
 
@@ -166,7 +166,7 @@ public class MathMLConverter extends MatchingTask {
             this.log("Attribute \"backgroundcolor\" is empty, not used",
                     Project.MSG_WARN);
         } else {
-            this.setOption(LayoutContext.Parameter.MATHBACKGROUND, color);
+            this.setOption(Parameter.MATHBACKGROUND, color);
         }
     }
 
@@ -177,7 +177,7 @@ public class MathMLConverter extends MatchingTask {
      *            Flag for support debug.
      */
     public void setDebug(final boolean debug) {
-        this.setOption(LayoutContext.Parameter.DEBUG, debug);
+        this.setOption(Parameter.DEBUG, debug);
     }
 
     /**
@@ -189,7 +189,7 @@ public class MathMLConverter extends MatchingTask {
      * @see net.sourceforge.jeuclid.context.Display
      */
     public void setDisplay(final String display) {
-        this.setOption(LayoutContext.Parameter.DISPLAY, display);
+        this.setOption(Parameter.DISPLAY, display);
     }
 
     /**
@@ -199,7 +199,7 @@ public class MathMLConverter extends MatchingTask {
      *            List separated by comma.
      */
     public void setFontsDoublestruck(final String fonts) {
-        this.setOption(LayoutContext.Parameter.FONTS_DOUBLESTRUCK, fonts);
+        this.setOption(Parameter.FONTS_DOUBLESTRUCK, fonts);
     }
 
     /**
@@ -209,7 +209,7 @@ public class MathMLConverter extends MatchingTask {
      *            List separated by comma.
      */
     public void setFontsFraktur(final String fonts) {
-        this.setOption(LayoutContext.Parameter.FONTS_FRAKTUR, fonts);
+        this.setOption(Parameter.FONTS_FRAKTUR, fonts);
     }
 
     /**
@@ -219,7 +219,7 @@ public class MathMLConverter extends MatchingTask {
      *            Font size as float value.
      */
     public void setFontSize(final float fontSize) {
-        this.setOption(LayoutContext.Parameter.MATHSIZE, fontSize);
+        this.setOption(Parameter.MATHSIZE, fontSize);
     }
 
     /**
@@ -229,7 +229,7 @@ public class MathMLConverter extends MatchingTask {
      *            List separated by comma.
      */
     public void setFontsMonospaced(final String fonts) {
-        this.setOption(LayoutContext.Parameter.FONTS_MONOSPACED, fonts);
+        this.setOption(Parameter.FONTS_MONOSPACED, fonts);
     }
 
     /**
@@ -239,7 +239,7 @@ public class MathMLConverter extends MatchingTask {
      *            List separated by comma.
      */
     public void setFontsSansSerif(final String fonts) {
-        this.setOption(LayoutContext.Parameter.FONTS_SANSSERIF, fonts);
+        this.setOption(Parameter.FONTS_SANSSERIF, fonts);
     }
 
     /**
@@ -249,7 +249,7 @@ public class MathMLConverter extends MatchingTask {
      *            List separated by comma.
      */
     public void setFontsScript(final String fonts) {
-        this.setOption(LayoutContext.Parameter.FONTS_SCRIPT, fonts);
+        this.setOption(Parameter.FONTS_SCRIPT, fonts);
     }
 
     /**
@@ -259,7 +259,7 @@ public class MathMLConverter extends MatchingTask {
      *            List separated by comma.
      */
     public void setFontsSerif(final String fonts) {
-        this.setOption(LayoutContext.Parameter.FONTS_SERIF, fonts);
+        this.setOption(Parameter.FONTS_SERIF, fonts);
     }
 
     /**
@@ -275,7 +275,7 @@ public class MathMLConverter extends MatchingTask {
                             "Attribute \"foregroundcolor\" is empty, use default color",
                             Project.MSG_WARN);
         } else {
-            this.setOption(LayoutContext.Parameter.MATHCOLOR, color);
+            this.setOption(Parameter.MATHCOLOR, color);
         }
     }
 
@@ -287,7 +287,7 @@ public class MathMLConverter extends MatchingTask {
      *            (in violation of the spec).
      */
     public void setMfracKeepScriptLevel(final boolean keepScriptLevel) {
-        this.setOption(LayoutContext.Parameter.MFRAC_KEEP_SCRIPTLEVEL,
+        this.setOption(Parameter.MFRAC_KEEP_SCRIPTLEVEL,
                 keepScriptLevel);
     }
 
@@ -298,7 +298,7 @@ public class MathMLConverter extends MatchingTask {
      *            Script level.
      */
     public void setScriptLevel(final int level) {
-        this.setOption(LayoutContext.Parameter.SCRIPTLEVEL, level);
+        this.setOption(Parameter.SCRIPTLEVEL, level);
     }
 
     /**
@@ -308,7 +308,7 @@ public class MathMLConverter extends MatchingTask {
      *            Size of font.
      */
     public void setScriptMinSize(final float minSize) {
-        this.setOption(LayoutContext.Parameter.SCRIPTMINSIZE, minSize);
+        this.setOption(Parameter.SCRIPTMINSIZE, minSize);
     }
 
     /**
@@ -318,7 +318,7 @@ public class MathMLConverter extends MatchingTask {
      *            Size of multiplier.
      */
     public void setScriptSizeMult(final float multSize) {
-        this.setOption(LayoutContext.Parameter.SCRIPTSIZEMULTIPLIER, multSize);
+        this.setOption(Parameter.SCRIPTSIZEMULTIPLIER, multSize);
     }
 
     /**
@@ -445,7 +445,7 @@ public class MathMLConverter extends MatchingTask {
      * @param value
      *            String value of parameter.
      */
-    private void setOption(final LayoutContext.Parameter param,
+    private void setOption(final Parameter param,
             final String value) {
         this.setOption(param, param.fromString(value));
     }
@@ -458,7 +458,7 @@ public class MathMLConverter extends MatchingTask {
      * @param value
      *            Object with value of parameter.
      */
-    private void setOption(final LayoutContext.Parameter param,
+    private void setOption(final Parameter param,
             final Object value) {
         this.logProperty(param.getOptionName(), value);
         this.context.setParameter(param, value);

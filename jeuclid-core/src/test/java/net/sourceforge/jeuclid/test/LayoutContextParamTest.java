@@ -22,14 +22,14 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.Collections;
 
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.Display;
+import net.sourceforge.jeuclid.context.Parameter;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * Test for {@link net.sourceforge.jeuclid.LayoutContext.Parameter} enum.
+ * Test for {@link net.sourceforge.jeuclid.context.Parameter} enum.
  * 
  * @version $Revision$
  */

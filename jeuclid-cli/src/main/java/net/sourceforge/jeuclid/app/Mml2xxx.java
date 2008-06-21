@@ -23,10 +23,10 @@ import java.io.IOException;
 import java.util.Locale;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
-import net.sourceforge.jeuclid.LayoutContext.Parameter.EnumTypeWrapper;
-import net.sourceforge.jeuclid.LayoutContext.Parameter.TypeWrapper;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.context.typewrapper.EnumTypeWrapper;
+import net.sourceforge.jeuclid.context.typewrapper.TypeWrapper;
 import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
 

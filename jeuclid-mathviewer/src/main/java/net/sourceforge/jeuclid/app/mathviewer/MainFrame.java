@@ -43,8 +43,8 @@ import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
 import net.sourceforge.jeuclid.MathMLSerializer;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 
 import org.w3c.dom.Document;

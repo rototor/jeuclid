@@ -33,8 +33,8 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sourceforge.jeuclid.MutableLayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.converter.Processor;
 
 /**

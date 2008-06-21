@@ -24,7 +24,7 @@ import java.awt.Graphics2D;
 import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;

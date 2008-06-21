@@ -183,16 +183,16 @@ public class LayoutContextImpl implements MutableLayoutContext, Serializable {
     /** {@inheritDoc} */
     public LayoutContext setParameter(final Parameter which,
             final Object newValue) {
-        if (!which.valid(newValue)) {
-            throw new IllegalArgumentException("Illegal value for " + which
-                    + ": " + newValue);
+        if (which.valid(newValue)) {
+            this.context.put(which, newValue);
+        } else {
+            this.context.put(which, which.fromString(newValue.toString()));
         }
-        this.context.put(which, newValue);
         return this;
     }
 
     /** {@inheritDoc} */
-    public Object getParameter(final LayoutContext.Parameter which) {
+    public Object getParameter(final Parameter which) {
         return this.context.get(which);
     }
 
@@ -202,7 +202,7 @@ public class LayoutContextImpl implements MutableLayoutContext, Serializable {
      * 
      * @return all Parameters in this context.
      */
-    private Map<LayoutContext.Parameter, Object> getParameters() {
+    private Map<Parameter, Object> getParameters() {
         return this.context;
     }
 }
