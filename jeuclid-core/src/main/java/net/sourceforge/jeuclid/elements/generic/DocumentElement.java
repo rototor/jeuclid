@@ -26,6 +26,7 @@ import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
@@ -122,7 +123,7 @@ public final class DocumentElement extends GenericDocument implements
                 .getChildrenToLayout(), LayoutStage.STAGE1);
         info.setLayoutStage(childMinStage);
         // TODO: This should be done in a better way.
-        if (context.getParameter(LayoutContext.Parameter.MATHBACKGROUND) == null) {
+        if (context.getParameter(Parameter.MATHBACKGROUND) == null) {
             info.setLayoutStage(childMinStage);
         } else {
             info.setLayoutStage(LayoutStage.STAGE1);
@@ -135,7 +136,7 @@ public final class DocumentElement extends GenericDocument implements
         ElementListSupport.layoutSequential(view, info, this
                 .getChildrenToLayout(), LayoutStage.STAGE2);
         ElementListSupport.addBackground((Color) context
-                .getParameter(LayoutContext.Parameter.MATHBACKGROUND), info);
+                .getParameter(Parameter.MATHBACKGROUND), info);
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 

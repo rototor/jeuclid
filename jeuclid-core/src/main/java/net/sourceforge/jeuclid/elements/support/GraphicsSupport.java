@@ -20,7 +20,7 @@ package net.sourceforge.jeuclid.elements.support;
 
 import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.Parameter;
 
 /**
  * This class contains helper functions for graphical calculations.

@@ -28,9 +28,9 @@ import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 import net.sourceforge.jeuclid.xmlgraphics.PreloaderMathML;
@@ -69,7 +69,7 @@ public class JEuclidXMLHandler implements XMLHandler {
                 LayoutContextImpl.getDefaultLayoutContext());
 
         final Element e = document.getDocumentElement();
-        for (final LayoutContext.Parameter p : LayoutContext.Parameter
+        for (final Parameter p : Parameter
                 .values()) {
             final String s = e.getAttributeNS(JEuclidXMLHandler.FOPEXT_NS, p
                     .toString());

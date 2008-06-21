@@ -23,6 +23,7 @@ import java.awt.geom.Dimension2D;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.context.InlineLayoutContext;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.context.RelativeScriptlevelLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
@@ -95,7 +96,7 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
                         .parseBoolean(((MathMLOperatorElement) this.getBase())
                                 .getMovablelimits())
                 && (Display.INLINE.equals(now
-                        .getParameter(LayoutContext.Parameter.DISPLAY)));
+                        .getParameter(Parameter.DISPLAY)));
     }
 
     /** {@inheritDoc} */

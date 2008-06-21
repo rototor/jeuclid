@@ -43,12 +43,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
-import net.sourceforge.jeuclid.LayoutContext.Parameter.BooleanTypeWrapper;
-import net.sourceforge.jeuclid.LayoutContext.Parameter.ColorTypeWrapper;
-import net.sourceforge.jeuclid.LayoutContext.Parameter.EnumTypeWrapper;
-import net.sourceforge.jeuclid.LayoutContext.Parameter.NumberTypeWrapper;
-import net.sourceforge.jeuclid.LayoutContext.Parameter.TypeWrapper;
+import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.context.typewrapper.BooleanTypeWrapper;
+import net.sourceforge.jeuclid.context.typewrapper.ColorTypeWrapper;
+import net.sourceforge.jeuclid.context.typewrapper.EnumTypeWrapper;
+import net.sourceforge.jeuclid.context.typewrapper.NumberTypeWrapper;
+import net.sourceforge.jeuclid.context.typewrapper.TypeWrapper;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 
 /**

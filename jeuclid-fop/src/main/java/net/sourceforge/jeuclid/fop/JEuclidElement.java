@@ -33,9 +33,9 @@ import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 import net.sourceforge.jeuclid.xmlgraphics.PreloaderMathML;
 
@@ -84,7 +84,7 @@ public class JEuclidElement extends JEuclidObj {
         super.processNode(elementName, locator, attlist, propertyList);
         final Document d = this.createBasicDocument();
         final Element e = d.getDocumentElement();
-        for (final LayoutContext.Parameter p : LayoutContext.Parameter
+        for (final Parameter p : Parameter
                 .values()) {
             e.setAttributeNS(JEuclidXMLHandler.FOPEXT_NS, "jeuclid:"
                     + p.toString(), p.toString(this.layoutContext
@@ -133,12 +133,12 @@ public class JEuclidElement extends JEuclidObj {
         final Color bcolor = pList.get(Constants.PR_BACKGROUND_COLOR)
                 .getColor(this.getUserAgent());
 
-        this.layoutContext.setParameter(LayoutContext.Parameter.MATHSIZE,
+        this.layoutContext.setParameter(Parameter.MATHSIZE,
                 msize);
-        this.layoutContext.setParameter(LayoutContext.Parameter.MATHCOLOR,
+        this.layoutContext.setParameter(Parameter.MATHCOLOR,
                 color);
         this.layoutContext.setParameter(
-                LayoutContext.Parameter.MATHBACKGROUND, bcolor);
+                Parameter.MATHBACKGROUND, bcolor);
         return super.createPropertyList(pList, foEventHandler);
     }
 

@@ -32,7 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
 
 /**

@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
