@@ -168,34 +168,36 @@ public final class MathVariant implements Serializable {
      * @return a mathVariant object
      */
     public static MathVariant stringToMathVariant(final String variant) {
-        // Needs to be initialized late due to chicken-egg problem.
-        if (MathVariant.ATTRIBUTEMAP.isEmpty()) {
-            MathVariant.ATTRIBUTEMAP.put("normal", MathVariant.NORMAL);
-            MathVariant.ATTRIBUTEMAP.put("bold", MathVariant.BOLD);
-            MathVariant.ATTRIBUTEMAP.put("italic", MathVariant.ITALIC);
-            MathVariant.ATTRIBUTEMAP.put("bold-italic",
-                    MathVariant.BOLD_ITALIC);
-            MathVariant.ATTRIBUTEMAP.put("double-struck",
-                    MathVariant.DOUBLE_STRUCK);
-            MathVariant.ATTRIBUTEMAP.put("bold-fraktur",
-                    MathVariant.BOLD_FRAKTUR);
-            MathVariant.ATTRIBUTEMAP.put("script", MathVariant.SCRIPT);
-            MathVariant.ATTRIBUTEMAP.put("bold-script",
-                    MathVariant.BOLD_SCRIPT);
-            MathVariant.ATTRIBUTEMAP.put("fraktur", MathVariant.FRAKTUR);
-            MathVariant.ATTRIBUTEMAP
-                    .put("sans-serif", MathVariant.SANS_SERIF);
-            MathVariant.ATTRIBUTEMAP.put("bold-sans-serif",
-                    MathVariant.BOLD_SANS_SERIF);
-            MathVariant.ATTRIBUTEMAP.put("sans-serif-italic",
-                    MathVariant.SANS_SERIF_ITALIC);
-            MathVariant.ATTRIBUTEMAP.put("sans-serif-bold-italic",
-                    MathVariant.SANS_SERIF_BOLD_ITALIC);
-            MathVariant.ATTRIBUTEMAP.put("monospace", MathVariant.MONOSPACE);
+        synchronized (MathVariant.ATTRIBUTEMAP) {
+            // Needs to be initialized late due to chicken-egg problem.
+            if (MathVariant.ATTRIBUTEMAP.isEmpty()) {
+                MathVariant.ATTRIBUTEMAP.put("normal", MathVariant.NORMAL);
+                MathVariant.ATTRIBUTEMAP.put("bold", MathVariant.BOLD);
+                MathVariant.ATTRIBUTEMAP.put("italic", MathVariant.ITALIC);
+                MathVariant.ATTRIBUTEMAP.put("bold-italic",
+                        MathVariant.BOLD_ITALIC);
+                MathVariant.ATTRIBUTEMAP.put("double-struck",
+                        MathVariant.DOUBLE_STRUCK);
+                MathVariant.ATTRIBUTEMAP.put("bold-fraktur",
+                        MathVariant.BOLD_FRAKTUR);
+                MathVariant.ATTRIBUTEMAP.put("script", MathVariant.SCRIPT);
+                MathVariant.ATTRIBUTEMAP.put("bold-script",
+                        MathVariant.BOLD_SCRIPT);
+                MathVariant.ATTRIBUTEMAP.put("fraktur", MathVariant.FRAKTUR);
+                MathVariant.ATTRIBUTEMAP.put("sans-serif",
+                        MathVariant.SANS_SERIF);
+                MathVariant.ATTRIBUTEMAP.put("bold-sans-serif",
+                        MathVariant.BOLD_SANS_SERIF);
+                MathVariant.ATTRIBUTEMAP.put("sans-serif-italic",
+                        MathVariant.SANS_SERIF_ITALIC);
+                MathVariant.ATTRIBUTEMAP.put("sans-serif-bold-italic",
+                        MathVariant.SANS_SERIF_BOLD_ITALIC);
+                MathVariant.ATTRIBUTEMAP.put("monospace",
+                        MathVariant.MONOSPACE);
+            }
+            return MathVariant.ATTRIBUTEMAP.get(variant
+                    .toLowerCase(Locale.ENGLISH));
         }
-
-        return MathVariant.ATTRIBUTEMAP.get(variant
-                .toLowerCase(Locale.ENGLISH));
     }
 
     /**
@@ -272,11 +274,13 @@ public final class MathVariant implements Serializable {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result;
+        if (this.fontFamily == null) {
+            result = 0;
+        } else {
+            result = this.fontFamily.hashCode();
+        }
         result = prime * result + this.awtStyle;
-        result = prime
-                * result
-                + ((this.fontFamily == null) ? 0 : this.fontFamily.hashCode());
         return result;
     }
 
