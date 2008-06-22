@@ -55,6 +55,22 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo.groovy</groupId>
+        <artifactId>groovy-maven-plugin</artifactId>
+        <version>1.0-beta-3</version>
+        <executions>
+          <execution>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <source>${pom.basedir}/src/main/script/copyreadme.groovy</source>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <dependencies>

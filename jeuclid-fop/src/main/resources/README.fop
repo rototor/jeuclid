@@ -1,21 +1,65 @@
-Installation of the fop-plugin
+                              -------------------
+                              JEuclid FOP plug-in
+                              -------------------
+            
+Installation
 
-Make sure you have Fop 0.95beta or newer installed.
+* Pre-requesites
 
-copy the these files into your fop's lib/ directory
+  The JEuclid FOP plug-in is tightly integrated with FOP development, it will
+  therefore only work with specific versions of FOP. For this version you need:
+  
+  * FOP 0.95beta or 0.95
 
-jeuclid-core-x.x.x.jar 
-jeuclid-fop-x.x.x.jar
+* Actual installation
 
-They may be hidden in a subdirectory of repo/net/sourceforge/jeuclid
+  Copy the these files into your fop's lib/ directory
 
-That's it! Enjoy MathML support in FOP.
+  * jeuclid-core-x.x.x.jar 
+  
+  * jeuclid-fop-x.x.x.jar
+  
+  []
 
-Supported are:
-<fo:instream-foreign-object>
-<fo:external-graphic>
+  If you have downloaded the full distribution, these files can be found in the 
+  repo/ sub-directory.
 
-If your MathML document is an XML document (internal or external), it 
-MUST have the "http://www.w3.org/1998/Math/MathML" namespace.
+  That's it! Enjoy MathML support in FOP.
 
-Openoffice Formula (.odf) files are supported as external graphics.
+Usage
+
+* External MathML Documents
+
+  External Documents may be referenced using <fo:external-graphic>. Both ODF and
+  plain MathML formulas are supported.
+  
+  There is (per design choice) no support for the .fo context when a MathML
+  document is referenced as an external graphic.
+  
+* Inline MathML Documents
+
+  Inline MathML is supported through the <fo:instream-foreign-object> tag. The
+  actual math content must use the "http://www.w3.org/1998/Math/MathML" name
+  space.
+  
+  MathML specified inline will take the following attributes from the
+  surrounding .fo context:
+  
+  * Font size
+  
+  * Font color
+  
+  * Background color
+  
+  * Name of the fonts used. 
+  
+    Please note: The names of the fonts from the context are used to display the
+    "normal" mathvariant. In the case of FOPs default, this uses a sans-serif
+    font, whereas the MathML specification suggests to use a serif font. If you 
+    wish to override this behavior, please specify a sans-serif font in the
+    font-family for you instream-foreign-object.
+
+Example Document
+
+  An example document is available (in the JEuclid-fop distribution) in the 
+  example/ sub-directory.
