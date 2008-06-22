@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.generic;
 
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.context.Parameter;
@@ -87,10 +88,12 @@ public final class MathImpl extends AbstractContainer implements
      */
     public String getDisplay() {
         final String retVal;
-        final String attrDisplay = this.getMathAttribute(MathImpl.ATTR_DISPLAY);
+        final String attrDisplay = this
+                .getMathAttribute(MathImpl.ATTR_DISPLAY);
         if (attrDisplay == null) {
-            if (MathImpl.DEPRECATED_BLOCK_VALUE_FOR_MODE.equalsIgnoreCase(this
-                    .getMathAttribute(MathImpl.ATTR_MODE))) {
+            if (MathImpl.DEPRECATED_BLOCK_VALUE_FOR_MODE
+                    .equalsIgnoreCase(this
+                            .getMathAttribute(MathImpl.ATTR_MODE))) {
                 retVal = MathImpl.DISPLAY_BLOCK;
             } else {
                 retVal = MathImpl.DISPLAY_INLINE;
@@ -112,7 +115,7 @@ public final class MathImpl extends AbstractContainer implements
         return new LayoutContext() {
 
             public Object getParameter(final Parameter which) {
-                final Object retVal;
+                Object retVal;
                 if (Parameter.DISPLAY.equals(which)) {
                     if (MathImpl.DISPLAY_BLOCK.equals(MathImpl.this
                             .getDisplay())) {
@@ -124,6 +127,13 @@ public final class MathImpl extends AbstractContainer implements
                     retVal = MathImpl.this.applyLocalAttributesToContext(
                             context).getParameter(which);
                 }
+
+                final String s = MathImpl.this.getAttributeNS(
+                        Constants.NS_CONTEXT, which.toString());
+                if ((s != null) && (s.length() > 0)) {
+                    retVal = which.fromString(s);
+                }
+
                 return retVal;
             }
         };
