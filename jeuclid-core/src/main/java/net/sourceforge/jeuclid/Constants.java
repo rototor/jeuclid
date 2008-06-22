@@ -19,6 +19,8 @@
 package net.sourceforge.jeuclid;
 
 /**
+ * Constants which are shared in multiple classes.
+ * 
  * @version $Revision$
  */
 public final class Constants {
@@ -31,7 +33,7 @@ public final class Constants {
     /** String constant for false. */
     public static final String FALSE = "false";
 
-    /** Default fontsize (no scaling). */
+    /** Default font-size (no scaling). */
     public static final float DEFAULT_FONTSIZE = 12.0f;
 
     /** Default ScriptSize multiplier. */
@@ -39,6 +41,11 @@ public final class Constants {
 
     /** Default MIME Type for MathML documents. */
     public static final String MATHML_MIMETYPE = "application/mathml+xml";
+
+    /**
+     * Name space for JEuclid specific context extension.
+     */
+    public static final String NS_CONTEXT = "http://jeuclid.sf.net/ns/context";
 
     /**
      * Default Constructor.

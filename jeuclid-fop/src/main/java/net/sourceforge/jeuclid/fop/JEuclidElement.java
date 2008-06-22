@@ -35,6 +35,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
@@ -43,7 +44,6 @@ import net.sourceforge.jeuclid.xmlgraphics.PreloaderMathML;
 
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.datatypes.Length;
-import org.apache.fop.fo.Constants;
 import org.apache.fop.fo.FOEventHandler;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.PropertyList;
@@ -90,9 +90,14 @@ public class JEuclidElement extends JEuclidObj {
         final Document d = this.createBasicDocument();
         final Element e = d.getDocumentElement();
         for (final Parameter p : Parameter.values()) {
-            e.setAttributeNS(JEuclidXMLHandler.FOPEXT_NS, "jeuclid:"
-                    + p.toString(), p.toString(this.layoutContext
-                    .getParameter(p)));
+            final String localName = p.toString();
+            final String attrName = "jeuclid:" + localName;
+            final String isSet = e.getAttributeNS(Constants.NS_CONTEXT,
+                    localName);
+            if ((isSet == null) || (isSet.length() == 0)) {
+                e.setAttributeNS(Constants.NS_CONTEXT, attrName, p
+                        .toString(this.layoutContext.getParameter(p)));
+            }
         }
     }
 
@@ -133,10 +138,11 @@ public class JEuclidElement extends JEuclidObj {
             final FOEventHandler foEventHandler) throws FOPException {
         final CommonFont commonFont = pList.getFontProps();
         final float msize = (float) (commonFont.fontSize.getNumericValue() / PreloaderMathML.MPT_FACTOR);
-        final Color color = pList.get(Constants.PR_COLOR).getColor(
-                this.getUserAgent());
-        final Color bcolor = pList.get(Constants.PR_BACKGROUND_COLOR)
+        final Color color = pList.get(org.apache.fop.fo.Constants.PR_COLOR)
                 .getColor(this.getUserAgent());
+        final Color bcolor = pList.get(
+                org.apache.fop.fo.Constants.PR_BACKGROUND_COLOR).getColor(
+                this.getUserAgent());
         final FontInfo fi = this.getFOEventHandler().getFontInfo();
         final FontTriplet[] fontkeys = commonFont.getFontState(fi);
 
