@@ -203,6 +203,6 @@ public class LayoutContextImpl implements MutableLayoutContext, Serializable {
      * @return all Parameters in this context.
      */
     private Map<Parameter, Object> getParameters() {
-        return this.context;
+        return Collections.unmodifiableMap(this.context);
     }
 }
