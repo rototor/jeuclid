@@ -10,7 +10,7 @@
     <para>You may download JEuclid from the <ulink
     url="http://sourceforge.net/project/showfiles.php?group_id=44862">sourceforge
     project site for JEuclid</ulink> as a binary package or from <ulink
-    url="./source.html">source</ulink>. Please note: There are serveral binary
+    url="./source.html">source</ulink>. Please note: There are several binary
     packages:</para>
 
     <variablelist>
@@ -283,16 +283,10 @@
   </section>
 
   <section>
-    <title>As FOP plugin</title>
+    <title>As FOP plug-in</title>
 
-    <para>To use the MathML support within fop, copy the files
-    <filename>jeculid-core-xxx.jar</filename> and
-    <filename>jeuclid-fop-xxx.jar</filename> to the <filename>lib</filename>
-    directory of your fop installation. You may now use MathML as
-    <computeroutput>external-graphic</computeroutput> or as
-    <computeroutput>instream-foreign-object</computeroutput>. Please note that
-    your MathML content must be in the proper MathML namespace:
-    <computeroutput>"http://www.w3.org/1998/Math/MathML"</computeroutput>.</para>
+    <para>Documentation is available on the <ulink
+    url="./jeuclid-fop/">JEuclid FOP plug-in</ulink> site.</para>
   </section>
 
   <section>
