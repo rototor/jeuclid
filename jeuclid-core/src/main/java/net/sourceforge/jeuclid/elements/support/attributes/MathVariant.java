@@ -165,7 +165,7 @@ public final class MathVariant implements Serializable {
      * 
      * @param variant
      *            the string representation of the attribute value
-     * @return a mathVariant object
+     * @return a mathVariant object or null if none is found.
      */
     public static MathVariant stringToMathVariant(final String variant) {
         synchronized (MathVariant.ATTRIBUTEMAP) {
