@@ -32,6 +32,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
@@ -45,7 +47,10 @@ import org.apache.fop.fo.Constants;
 import org.apache.fop.fo.FOEventHandler;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.PropertyList;
+import org.apache.fop.fo.properties.CommonFont;
 import org.apache.fop.fo.properties.FixedLength;
+import org.apache.fop.fonts.FontInfo;
+import org.apache.fop.fonts.FontTriplet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.Attributes;
@@ -84,8 +89,7 @@ public class JEuclidElement extends JEuclidObj {
         super.processNode(elementName, locator, attlist, propertyList);
         final Document d = this.createBasicDocument();
         final Element e = d.getDocumentElement();
-        for (final Parameter p : Parameter
-                .values()) {
+        for (final Parameter p : Parameter.values()) {
             e.setAttributeNS(JEuclidXMLHandler.FOPEXT_NS, "jeuclid:"
                     + p.toString(), p.toString(this.layoutContext
                     .getParameter(p)));
@@ -123,23 +127,31 @@ public class JEuclidElement extends JEuclidObj {
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     @Override
     protected PropertyList createPropertyList(final PropertyList pList,
             final FOEventHandler foEventHandler) throws FOPException {
-        final float msize = (float) (pList.getFontProps().fontSize
-                .getNumericValue() / PreloaderMathML.MPT_FACTOR);
+        final CommonFont commonFont = pList.getFontProps();
+        final float msize = (float) (commonFont.fontSize.getNumericValue() / PreloaderMathML.MPT_FACTOR);
         final Color color = pList.get(Constants.PR_COLOR).getColor(
                 this.getUserAgent());
         final Color bcolor = pList.get(Constants.PR_BACKGROUND_COLOR)
                 .getColor(this.getUserAgent());
+        final FontInfo fi = this.getFOEventHandler().getFontInfo();
+        final FontTriplet[] fontkeys = commonFont.getFontState(fi);
 
-        this.layoutContext.setParameter(Parameter.MATHSIZE,
-                msize);
-        this.layoutContext.setParameter(Parameter.MATHCOLOR,
-                color);
-        this.layoutContext.setParameter(
-                Parameter.MATHBACKGROUND, bcolor);
+        this.layoutContext.setParameter(Parameter.MATHSIZE, msize);
+        this.layoutContext.setParameter(Parameter.MATHCOLOR, color);
+        this.layoutContext.setParameter(Parameter.MATHBACKGROUND, bcolor);
+        final List<String> defaultFonts = (List<String>) this.layoutContext
+                .getParameter(Parameter.FONTS_SERIF);
+        final List<String> newFonts = new ArrayList<String>(fontkeys.length
+                + defaultFonts.size());
+        for (final FontTriplet t : fontkeys) {
+            newFonts.add(t.getName());
+        }
+        newFonts.addAll(defaultFonts);
+        this.layoutContext.setParameter(Parameter.FONTS_SERIF, newFonts);
         return super.createPropertyList(pList, foEventHandler);
     }
-
 }
