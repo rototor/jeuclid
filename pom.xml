@@ -402,6 +402,7 @@
         <configuration>
           <linkXref>true</linkXref>
           <targetJdk>1.5</targetJdk>
+          <sourceEncoding>utf-8</sourceEncoding>
           <excludes>
             <exclude>org/**/*.java</exclude>
           </excludes>
