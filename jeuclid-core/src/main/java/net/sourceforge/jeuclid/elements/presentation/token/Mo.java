@@ -140,9 +140,9 @@ public final class Mo extends AbstractJEuclidElement implements
             + /* OverBar */"\u00AF" + /* UnderBar */"\u0332" + "\u0333"
             + "\u033F" + "\u2190" + "\u2192" + "\u2194"
             + /* OverBracket */"\u23B4" + /* UnderBracket */"\u23B5"
-            + /* OverParenthesis */"\uFE35" + /* UnderParenthesis */"\uFE36"
-            + /* OverBrace */"\uFE37" + /* UnderBrace */"\uFE38"
-            + /* Frown */"\u2322";
+            + /* OverParenthesis */"\uFE35"
+            + /* UnderParenthesis */"\uFE36" + /* OverBrace */"\uFE37"
+            + /* UnderBrace */"\uFE38" + /* Frown */"\u2322";
 
     /**
      * Vertical delimiters.
@@ -183,9 +183,8 @@ public final class Mo extends AbstractJEuclidElement implements
                 AttributesHelper.THICKMATHSPACE);
         this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_SYMMETRIC, Constants.TRUE);
-        this
-                .setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
-                        AttributesHelper.INFINITY);
+        this.setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
+                AttributesHelper.INFINITY);
         this.setDefaultMathAttribute(Mo.ATTR_MINSIZE, "1");
         this.setDefaultMathAttribute(Mo.ATTR_LARGEOP, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, Constants.FALSE);
@@ -318,9 +317,13 @@ public final class Mo extends AbstractJEuclidElement implements
         if (!this.inChangeHook) {
             this.inChangeHook = true;
             this.detectFormParameter();
-            this.loadAttributeFromDictionary(Mo.ATTR_LARGEOP, Constants.FALSE);
-            this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC, Constants.TRUE);
-            this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY, Constants.FALSE);
+            this
+                    .loadAttributeFromDictionary(Mo.ATTR_LARGEOP,
+                            Constants.FALSE);
+            this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC,
+                    Constants.TRUE);
+            this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY,
+                    Constants.FALSE);
             this.loadAttributeFromDictionary(Mo.ATTR_FENCE, Constants.FALSE);
             this.loadAttributeFromDictionary(Mo.ATTR_LSPACE,
                     AttributesHelper.THICKMATHSPACE);
@@ -344,7 +347,9 @@ public final class Mo extends AbstractJEuclidElement implements
             }
 
             if (this.isFence()) {
-                this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, Constants.TRUE);
+                this
+                        .setDefaultMathAttribute(Mo.ATTR_STRETCHY,
+                                Constants.TRUE);
             }
             final CustomEvent evt = new DOMCustomEvent();
             evt.initCustomEventNS(null, Mo.MOEVENT, true, false, null);
@@ -500,7 +505,6 @@ public final class Mo extends AbstractJEuclidElement implements
     @Override
     public void layoutStage1(final LayoutView view, final LayoutInfo info,
             final LayoutStage childMinStage, final LayoutContext context) {
-        // TODO: This is far incomplete
         final LayoutContext now = this.applyLocalAttributesToContext(context);
         final Graphics2D g = view.getGraphics();
         final TextLayout t = this.produceUnstrechtedLayout(g, now);
@@ -530,11 +534,13 @@ public final class Mo extends AbstractJEuclidElement implements
         info.setHorizontalCenterOffset(lspace + contentWidth / 2.0f,
                 LayoutStage.STAGE1);
         info.setWidth(lspace + contentWidth + rspace, LayoutStage.STAGE1);
-        if (Boolean.parseBoolean(this.getStretchy())) {
+        if (Boolean.parseBoolean(this.getStretchy())
+                || this.isVerticalDelimeter() || this.isHorizontalDelimeter()) {
             info.setLayoutStage(LayoutStage.STAGE1);
         } else {
-            info.setGraphicsObject(new TextObject(t, lspace + tli.getOffset(),
-                    0, null, (Color) now.getParameter(Parameter.MATHCOLOR)));
+            info.setGraphicsObject(new TextObject(t,
+                    lspace + tli.getOffset(), 0, null, (Color) now
+                            .getParameter(Parameter.MATHCOLOR)));
             info.setLayoutStage(LayoutStage.STAGE2);
         }
     }
@@ -543,7 +549,6 @@ public final class Mo extends AbstractJEuclidElement implements
     @Override
     public void layoutStage2(final LayoutView view, final LayoutInfo info,
             final LayoutContext context) {
-        // TODO: This is far incomplete
         final LayoutContext now = this.applyLocalAttributesToContext(context);
 
         final Graphics2D g = view.getGraphics();
@@ -632,7 +637,9 @@ public final class Mo extends AbstractJEuclidElement implements
         calcBaselineShift = targetDescent - realDescentScaled;
 
         info.setDescentHeight(targetDescent, LayoutStage.STAGE2);
-        info.setAscentHeight(targetHeight - targetDescent, LayoutStage.STAGE2);
+        info
+                .setAscentHeight(targetHeight - targetDescent,
+                        LayoutStage.STAGE2);
         return new float[] { calcScaleY, calcBaselineShift };
     }
 
