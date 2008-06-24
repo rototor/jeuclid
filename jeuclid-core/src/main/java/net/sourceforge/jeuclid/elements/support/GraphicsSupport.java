@@ -29,6 +29,9 @@ import net.sourceforge.jeuclid.context.Parameter;
  */
 public final class GraphicsSupport {
 
+    /** Minimum line width. */
+    public static final float MIN_LINEWIDTH = 1.0f;
+
     private GraphicsSupport() {
         // Empty on purpose.
     }
@@ -59,15 +62,14 @@ public final class GraphicsSupport {
      * 
      * @param context
      *            Layout context to use.
-     * @return linewidth as float
+     * @return line width as float, at least {@link #MIN_LINEWIDTH}
      */
     public static float lineWidth(final LayoutContext context) {
-        final float lineSize = GraphicsSupport.getFontsizeInPoint(context)
+        float lineSize = GraphicsSupport.getFontsizeInPoint(context)
                 / Constants.DEFAULT_FONTSIZE;
-        // Maybe enable this... probably not.
-        // if (lineSize < 1.0f) {
-        // lineSize = 1.0f;
-        // }
+        if (lineSize < GraphicsSupport.MIN_LINEWIDTH) {
+            lineSize = GraphicsSupport.MIN_LINEWIDTH;
+        }
         return lineSize;
     }
 

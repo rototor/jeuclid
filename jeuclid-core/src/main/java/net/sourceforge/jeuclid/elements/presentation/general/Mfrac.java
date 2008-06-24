@@ -79,6 +79,11 @@ public final class Mfrac extends AbstractJEuclidElement implements
     private static final long serialVersionUID = 1L;
 
     /**
+     * Lines thinner than this are ignored.
+     */
+    private static final float NOLINE_THRESHHOLD = 0.001f;
+
+    /**
      * Creates a math element.
      */
     public Mfrac() {
@@ -137,6 +142,10 @@ public final class Mfrac extends AbstractJEuclidElement implements
             thickness = AttributesHelper.convertSizeToPt(sThickness, this
                     .applyLocalAttributesToContext(context),
                     AttributesHelper.PT);
+            if ((thickness < GraphicsSupport.MIN_LINEWIDTH)
+                    && (thickness >= Mfrac.NOLINE_THRESHHOLD)) {
+                thickness = GraphicsSupport.MIN_LINEWIDTH;
+            }
         }
         return thickness;
     }
@@ -263,11 +272,14 @@ public final class Mfrac extends AbstractJEuclidElement implements
                 + linethickness / 2.0f + extraSpace
                 + denominator.getAscentHeight(stage), stage);
 
-        final GraphicsObject line = new LineObject(extraSpace, -middleShift,
-                extraSpace + width, -middleShift, linethickness, (Color) this
-                        .applyLocalAttributesToContext(context).getParameter(
-                                Parameter.MATHCOLOR));
-        info.setGraphicsObject(line);
+        if (linethickness > Mfrac.NOLINE_THRESHHOLD) {
+            final GraphicsObject line = new LineObject(extraSpace,
+                    -middleShift, extraSpace + width, -middleShift,
+                    linethickness, (Color) this
+                            .applyLocalAttributesToContext(context)
+                            .getParameter(Parameter.MATHCOLOR));
+            info.setGraphicsObject(line);
+        }
     }
 
     // CHECKSTYLE:OFF
@@ -295,11 +307,14 @@ public final class Mfrac extends AbstractJEuclidElement implements
 
         numerator.moveTo(extraSpace, numPosY, stage);
         float posX = numerator.getWidth(stage) + extraSpace;
-        final GraphicsObject line = new LineObject(posX, totalDescent,
-                lineWidth + posX, totalDescent - totalHeight, linethickness,
-                (Color) this.applyLocalAttributesToContext(context)
-                        .getParameter(Parameter.MATHCOLOR));
-        info.setGraphicsObject(line);
+        if (linethickness > Mfrac.NOLINE_THRESHHOLD) {
+            final GraphicsObject line = new LineObject(posX, totalDescent,
+                    lineWidth + posX, totalDescent - totalHeight,
+                    linethickness, (Color) this
+                            .applyLocalAttributesToContext(context)
+                            .getParameter(Parameter.MATHCOLOR));
+            info.setGraphicsObject(line);
+        }
         posX += lineWidth;
         denominator.moveTo(posX, denPosY, stage);
     }
