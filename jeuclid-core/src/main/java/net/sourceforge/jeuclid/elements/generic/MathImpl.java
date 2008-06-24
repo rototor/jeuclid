@@ -35,6 +35,36 @@ import org.w3c.dom.mathml.MathMLMathElement;
 public final class MathImpl extends AbstractContainer implements
         MathMLMathElement {
 
+    private final class ChildContext implements LayoutContext {
+        private final LayoutContext context;
+
+        private ChildContext(final LayoutContext myContext) {
+            this.context = myContext;
+        }
+
+        public Object getParameter(final Parameter which) {
+            Object retVal;
+            if (Parameter.DISPLAY.equals(which)) {
+                if (MathImpl.DISPLAY_BLOCK.equals(MathImpl.this.getDisplay())) {
+                    retVal = Display.BLOCK;
+                } else {
+                    retVal = Display.INLINE;
+                }
+            } else {
+                retVal = MathImpl.this.applyLocalAttributesToContext(
+                        this.context).getParameter(which);
+            }
+
+            final String s = MathImpl.this.getAttributeNS(
+                    Constants.NS_CONTEXT, which.toString());
+            if ((s != null) && (s.length() > 0)) {
+                retVal = which.fromString(s);
+            }
+
+            return retVal;
+        }
+    }
+
     /** attribute for display. */
     public static final String ATTR_DISPLAY = "display";
 
@@ -112,31 +142,7 @@ public final class MathImpl extends AbstractContainer implements
     @Override
     public LayoutContext getChildLayoutContext(final int childNum,
             final LayoutContext context) {
-        return new LayoutContext() {
-
-            public Object getParameter(final Parameter which) {
-                Object retVal;
-                if (Parameter.DISPLAY.equals(which)) {
-                    if (MathImpl.DISPLAY_BLOCK.equals(MathImpl.this
-                            .getDisplay())) {
-                        retVal = Display.BLOCK;
-                    } else {
-                        retVal = Display.INLINE;
-                    }
-                } else {
-                    retVal = MathImpl.this.applyLocalAttributesToContext(
-                            context).getParameter(which);
-                }
-
-                final String s = MathImpl.this.getAttributeNS(
-                        Constants.NS_CONTEXT, which.toString());
-                if ((s != null) && (s.length() > 0)) {
-                    retVal = which.fromString(s);
-                }
-
-                return retVal;
-            }
-        };
+        return new ChildContext(context);
     }
 
     /** {@inheritDoc} */
