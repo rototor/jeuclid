@@ -136,7 +136,7 @@ public final class DocumentElement extends GenericDocument implements
         ElementListSupport.layoutSequential(view, info, this
                 .getChildrenToLayout(), LayoutStage.STAGE2);
         ElementListSupport.addBackground((Color) context
-                .getParameter(Parameter.MATHBACKGROUND), info);
+                .getParameter(Parameter.MATHBACKGROUND), info, true);
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 

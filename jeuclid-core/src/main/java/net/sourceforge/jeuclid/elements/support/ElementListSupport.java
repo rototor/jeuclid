@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.jeuclid.layout.FillRectObject;
+import net.sourceforge.jeuclid.layout.GraphicsObject;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -167,16 +168,29 @@ public final class ElementListSupport {
      * @param info
      *            LayoutInfo object to add to. Must already be completely
      *            rendered (stage 2)
+     * @param useCeil
+     *            if true, the {@link Math#ceil(double)} will be used to avoid
+     *            anti-aliasing artifacts.
      */
     public static void addBackground(final Color backgroundColor,
-            final LayoutInfo info) {
+            final LayoutInfo info, final boolean useCeil) {
         if (backgroundColor != null) {
-            info.getGraphicObjects().add(
-                    0,
-                    new FillRectObject(backgroundColor, info
-                            .getAscentHeight(LayoutStage.STAGE2), info
-                            .getDescentHeight(LayoutStage.STAGE2), info
-                            .getWidth(LayoutStage.STAGE2)));
+            final GraphicsObject fillObject;
+            if (useCeil) {
+                fillObject = new FillRectObject(backgroundColor, (float) Math
+                        .ceil(info.getAscentHeight(LayoutStage.STAGE2)),
+                        (float) Math.ceil(info
+                                .getDescentHeight(LayoutStage.STAGE2)),
+                        (float) Math.ceil(info.getWidth(LayoutStage.STAGE2)));
+            } else {
+                fillObject = new FillRectObject(backgroundColor, info
+                        .getAscentHeight(LayoutStage.STAGE2), info
+                        .getDescentHeight(LayoutStage.STAGE2), info
+                        .getWidth(LayoutStage.STAGE2));
+
+            }
+
+            info.getGraphicObjects().add(0, fillObject);
         }
 
     }

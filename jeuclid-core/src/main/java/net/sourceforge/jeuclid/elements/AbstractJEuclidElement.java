@@ -826,7 +826,7 @@ public abstract class AbstractJEuclidElement extends
         final String background = this.getMathbackground();
         final Color backgroundColor = AttributesHelper.stringToColor(
                 background, null);
-        ElementListSupport.addBackground(backgroundColor, info);
+        ElementListSupport.addBackground(backgroundColor, info, false);
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 
