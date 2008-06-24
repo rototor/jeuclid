@@ -66,7 +66,7 @@ build source packages:
 mvn assembly:assembly -Ddescriptor=src/assemble/source.xml 
 (TODO: Maybe also in support/ )
 
-upload to sf: (todo: also upload source package)
+upload to sf:
 
 VERSION=3.1.2  #replace with version
 USER=maxberger   #replace with your sf id
@@ -77,7 +77,9 @@ cd ../../jeuclid-minimal/target
 rsync -avP -e ssh  jeuclid-minimal-$VERSION-distribution.zip ${USER}@frs.sourceforge.net:uploads/
 cd ../../jeuclid-fop/target
 rsync -avP -e ssh jeuclid-fop-$VERSION-distribution.zip ${USER}@frs.sourceforge.net:uploads/
-cd ../..
+cd ../../target/
+rsync -avP -e ssh jeuclid-parent-$VERSION-src.zip ${USER}@frs.sourceforge.net:uploads/
+cd ..
 
 Log into SF website and use files. ( release )
 
