@@ -6,12 +6,13 @@
   </properties>
   <body>
     <release version="3.1.2" date="in SVN" description="TBD">
-   </release>
-    <release version="3.1.1" date="2008-06-01" description="Second Alpha">
-      <action dev="maxberger" type="add">Fraction lines are no longer drawn when linewith="0"</action>
+      <action dev="maxberger" type="update" issue="1998865">Background is now painted fully on all pixels to remove artifacts with png / ie</action>
+      <action dev="maxberger" type="add" issue="1999381">Fraction lines are no longer drawn when linewith="0"</action>
       <action dev="maxberger" type="add">Added extension to math element to set LayoutContext attributes</action>
       <action dev="maxberger" type="add">FOP plugin: support for font-family from context</action>
       <action dev="maxberger" type="update">mathvariant is now inherited</action>
+    </release>
+    <release version="3.1.1" date="2008-06-01" description="Second Alpha">
       <action dev="maxberger" type="update">Background color from context was ignored</action>
       <action dev="maxberger" type="add">JEuclid is now thread safe!</action>
       <action dev="maxberger" type="update">changed order of font prefernece for a more consistent output.</action>
