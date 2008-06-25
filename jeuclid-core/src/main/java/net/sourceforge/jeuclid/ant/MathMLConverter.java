@@ -20,6 +20,8 @@ package net.sourceforge.jeuclid.ant;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
@@ -42,7 +44,7 @@ public class MathMLConverter extends MatchingTask {
 
     private static final String CURRENT_DIR = "./";
 
-    private static final String EXTENSION_SEP = ".";
+    private static final char EXTENSION_SEP = '.';
 
     /**
      * 
@@ -116,21 +118,17 @@ public class MathMLConverter extends MatchingTask {
 
         // Process all the files marked for styling
         list = scanner.getIncludedFiles();
-        this.log("Included files: " + this.convertArrayToString(list),
+        this.log("Included files: " + Arrays.toString(list),
                 Project.MSG_VERBOSE);
-        for (final String aList : list) {
-            this.process(this.mbaseDir, aList, this.mdestDir);
-        }
+        this.process(this.mbaseDir, Arrays.asList(list), this.mdestDir);
 
         // Process all the directories marked for styling
         dirs = scanner.getIncludedDirectories();
-        this.log("Included directories: " + this.convertArrayToString(dirs),
+        this.log("Included directories: " + Arrays.toString(dirs),
                 Project.MSG_VERBOSE);
         for (final String dir : dirs) {
             list = this.fileUtils.resolveFile(this.mbaseDir, dir).list();
-            for (final String file : list) {
-                this.process(this.mbaseDir, file, this.mdestDir);
-            }
+            this.process(this.mbaseDir, Arrays.asList(list), this.mdestDir);
         }
     }
 
@@ -151,8 +149,7 @@ public class MathMLConverter extends MatchingTask {
      *            Minimal size in float number.
      */
     public void setAntiAliasMinSize(final float antiAliasMinSize) {
-        this.setOption(Parameter.ANTIALIAS_MINSIZE,
-                antiAliasMinSize);
+        this.setOption(Parameter.ANTIALIAS_MINSIZE, antiAliasMinSize);
     }
 
     /**
@@ -287,8 +284,7 @@ public class MathMLConverter extends MatchingTask {
      *            (in violation of the spec).
      */
     public void setMfracKeepScriptLevel(final boolean keepScriptLevel) {
-        this.setOption(Parameter.MFRAC_KEEP_SCRIPTLEVEL,
-                keepScriptLevel);
+        this.setOption(Parameter.MFRAC_KEEP_SCRIPTLEVEL, keepScriptLevel);
     }
 
     /**
@@ -394,46 +390,49 @@ public class MathMLConverter extends MatchingTask {
      * 
      * @param baseDir
      *            Base directory
-     * @param xmlFile
+     * @param xmlFiles
      *            Source file
      * @param destDir
      *            Destination directory
      */
-    private void process(final File baseDir, final String xmlFile,
+    private void process(final File baseDir, final List<String> xmlFiles,
             final File destDir) {
+        for (final String xmlFile : xmlFiles) {
+            File outFile = null;
+            File inFile = null;
+            final String suffix = MathMLConverter.EXTENSION_SEP
+                    + ConverterRegistry.getInstance().getSuffixForMimeType(
+                            this.moutType);
+            this.log("Found extension: " + suffix, Project.MSG_DEBUG);
+            try {
+                inFile = this.fileUtils.resolveFile(baseDir, xmlFile);
+                final int dotPos = xmlFile
+                        .lastIndexOf(MathMLConverter.EXTENSION_SEP);
 
-        File outFile = null;
-        File inFile = null;
-        final String suffix = MathMLConverter.EXTENSION_SEP
-                + ConverterRegistry.getInstance().getSuffixForMimeType(
-                        this.moutType);
-        this.log("Founded extension: " + suffix, Project.MSG_DEBUG);
+                if (dotPos > 0) {
+                    outFile = this.fileUtils.resolveFile(destDir, xmlFile
+                            .substring(0, dotPos)
+                            + suffix);
+                } else {
+                    outFile = this.fileUtils.resolveFile(destDir, xmlFile
+                            + suffix);
+                }
+                this.log("Input file: " + inFile, Project.MSG_DEBUG);
+                this.log("Output file: " + outFile, Project.MSG_DEBUG);
+                if (this.mforce
+                        || !this.fileUtils.isUpToDate(inFile, outFile)) {
+                    this.fileUtils.createNewFile(outFile, true);
+                    Converter.getInstance().convert(inFile, outFile,
+                            this.moutType, this.context);
+                }
+            } catch (final IOException ex) {
+                // If failed to process document, must delete target document,
+                // or it will not attempt to process it the second time
+                this.log("Failed to process " + inFile, Project.MSG_ERR);
+                FileUtils.delete(outFile);
 
-        try {
-            inFile = this.fileUtils.resolveFile(baseDir, xmlFile);
-            final int dotPos = xmlFile.lastIndexOf('.');
-
-            if (dotPos > 0) {
-                outFile = this.fileUtils.resolveFile(destDir, xmlFile
-                        .substring(0, dotPos)
-                        + suffix);
-            } else {
-                outFile = this.fileUtils.resolveFile(destDir, xmlFile + suffix);
+                throw new BuildException(ex);
             }
-            this.log("Input file: " + inFile, Project.MSG_DEBUG);
-            this.log("Output file: " + outFile, Project.MSG_DEBUG);
-            if (this.mforce || !this.fileUtils.isUpToDate(inFile, outFile)) {
-                this.fileUtils.createNewFile(outFile, true);
-                Converter.getInstance().convert(inFile, outFile, this.moutType,
-                        this.context);
-            }
-        } catch (final IOException ex) {
-            // If failed to process document, must delete target document,
-            // or it will not attempt to process it the second time
-            this.log("Failed to process " + inFile, Project.MSG_ERR);
-            FileUtils.delete(outFile);
-
-            throw new BuildException(ex);
         }
     }
 
@@ -445,8 +444,7 @@ public class MathMLConverter extends MatchingTask {
      * @param value
      *            String value of parameter.
      */
-    private void setOption(final Parameter param,
-            final String value) {
+    private void setOption(final Parameter param, final String value) {
         this.setOption(param, param.fromString(value));
     }
 
@@ -458,8 +456,7 @@ public class MathMLConverter extends MatchingTask {
      * @param value
      *            Object with value of parameter.
      */
-    private void setOption(final Parameter param,
-            final Object value) {
+    private void setOption(final Parameter param, final Object value) {
         this.logProperty(param.getOptionName(), value);
         this.context.setParameter(param, value);
     }
@@ -476,32 +473,6 @@ public class MathMLConverter extends MatchingTask {
     private boolean isNullOrEmpty(final String s) {
         // TODO: use .isEmpty() when JEuclid moves to 1.6
         return s == null || s.length() == 0;
-    }
-
-    /**
-     * Convert array of objects to string in format "{&lt;object&gt;,
-     * &lt;object&gt;, ...}"
-     * 
-     * @param array
-     *            Array with objects.
-     * 
-     * @return Converted string.
-     */
-    private String convertArrayToString(final Object[] array) {
-        final StringBuilder sb = new StringBuilder();
-        sb.append('{');
-        boolean first = false;
-        for (final Object o : array) {
-            if (first) {
-                sb.append(", ");
-            } else {
-                first = true;
-            }
-            sb.append(o);
-        }
-        sb.append('}');
-
-        return sb.toString();
     }
 
     /**
