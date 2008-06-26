@@ -65,8 +65,11 @@ public final class Mfrac extends AbstractJEuclidElement implements
      */
     public static final String ATTR_LINETHICKNESS = "linethickness";
 
-    /** The bevelled attribute. */
-    public static final String ATTR_BEVELLED = "bevelled";
+    /** The wrong beveled attribute. */
+    public static final String ATTR_BEVELLED_WRONG = "bevelled";
+
+    /** The real beveled attribute. */
+    public static final String ATTR_BEVELED = "beveled";
 
     /** The numalign attribute. */
     public static final String ATTR_NUMALIGN = "numalign";
@@ -89,7 +92,7 @@ public final class Mfrac extends AbstractJEuclidElement implements
     public Mfrac() {
         super();
         this.setDefaultMathAttribute(Mfrac.ATTR_LINETHICKNESS, "1");
-        this.setDefaultMathAttribute(Mfrac.ATTR_BEVELLED, Boolean.FALSE
+        this.setDefaultMathAttribute(Mfrac.ATTR_BEVELED, Boolean.FALSE
                 .toString());
         this
                 .setDefaultMathAttribute(Mfrac.ATTR_NUMALIGN,
@@ -151,20 +154,26 @@ public final class Mfrac extends AbstractJEuclidElement implements
     }
 
     /**
-     * Set value of the bevelled attribute.
+     * Set value of the beveled attribute.
      * 
      * @param bevelled
      *            Value
      */
     public void setBevelled(final String bevelled) {
-        this.setAttribute(Mfrac.ATTR_BEVELLED, bevelled);
+        this.setAttribute(Mfrac.ATTR_BEVELED, bevelled);
     }
 
     /**
-     * @return Value of bevelled attribute
+     * @return Value of beveled attribute
      */
     public String getBevelled() {
-        return this.getMathAttribute(Mfrac.ATTR_BEVELLED);
+        final String wrongAttr = this.getMathAttribute(
+                Mfrac.ATTR_BEVELLED_WRONG, false);
+        if (wrongAttr == null) {
+            return this.getMathAttribute(Mfrac.ATTR_BEVELED);
+        } else {
+            return wrongAttr;
+        }
     }
 
     /** {@inheritDoc} */
