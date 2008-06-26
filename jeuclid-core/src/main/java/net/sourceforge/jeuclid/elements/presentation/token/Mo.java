@@ -150,8 +150,11 @@ public final class Mo extends AbstractJEuclidElement implements
      * @todo Add others (?)
      */
     public static final String VER_DELIMITERS = "[{()}]|"
-            + /* Up Arrow */"\u2191" + /* Down Arrow */"\u2193"
-            + /* Up Arrow Down Arrow */"\u21C5"
+            + /* Up Arrow */"\u2191" + /* Down Arrow */"\u2193" + /*
+                                                                   * Up Arrow
+                                                                   * Down
+                                                                   * Arrow
+                                                                   */"\u21C5"
             + /* Up Arrow Up Arrow */"\u21C8"
             + /* Down Down Arrows */"\u21CA"
             + /* Down Arrow Up Arrow */"\u21F5" + "\u2223\u2225\u2329\u232A";
@@ -408,7 +411,8 @@ public final class Mo extends AbstractJEuclidElement implements
 
     /** {@inheritDoc} */
     public String getMovablelimits() {
-        final String wrongAttr = this.getMathAttribute(Mo.ATTR_MOVEABLEWRONG);
+        final String wrongAttr = this.getMathAttribute(Mo.ATTR_MOVEABLEWRONG,
+                false);
         if (wrongAttr == null) {
             return this.getMathAttribute(Mo.ATTR_MOVABLELIMITS);
         } else {
