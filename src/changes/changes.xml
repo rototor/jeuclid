@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.2" date="in SVN" description="TBD">
+      <action dev="maxberger" type="add">Mml2xx: support multi-file conversion</action>
       <action dev="maxberger" type="add">Now supports "beveled" and "bevelled"</action>
       <action dev="maxberger" type="update" issue="1981322">Mo needs 2 stages when it is a delimiter</action>
       <action dev="maxberger" type="update" issue="1998865">Background is now painted fully on all pixels to remove artifacts with png / ie</action>
