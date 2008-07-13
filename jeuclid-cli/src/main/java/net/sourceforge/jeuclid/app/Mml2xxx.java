@@ -20,9 +20,13 @@ package net.sourceforge.jeuclid.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.context.typewrapper.EnumTypeWrapper;
@@ -43,9 +47,15 @@ import org.apache.commons.lang.StringUtils;
  * 
  * @version $Revision$
  */
+// CHECKSTYLE:OFF
+// Data abstraction coupling is too high. But it makes no sense to split up
+// this class.
 public final class Mml2xxx {
+    // CHECKSTYLE:ON
 
     private static final String OUT_FILE_TYPE = "outFileType";
+
+    private static final String DEFAULT_TYPE = "image/png";
 
     private Mml2xxx() {
         // Empty on purpose
@@ -75,12 +85,8 @@ public final class Mml2xxx {
             String argName = param.getTypeWrapper().getValueType()
                     .getSimpleName().toLowerCase(Locale.ENGLISH);
             if (typeWrapper instanceof EnumTypeWrapper) {
-                try {
-                    argName = StringUtils.join(
-                            ((EnumTypeWrapper) typeWrapper).values(), '|');
-                } catch (final RuntimeException e) {
-                    // do nothing, not a big issue
-                }
+                argName = StringUtils.join(((EnumTypeWrapper) typeWrapper)
+                        .values(), '|');
             }
             o.setArgName(argName);
             options.addOption(o);
@@ -99,62 +105,34 @@ public final class Mml2xxx {
         CommandLine cmdLine = null;
         try {
             cmdLine = new GnuParser().parse(options, args);
-            final String[] files = cmdLine.getArgs();
-            switch (files.length) {
-            case 0:
-                throw new ParseException("No source given");
-            case 1:
-                throw new ParseException("No target given");
-            case 2:
-                break;
-            default:
-                throw new ParseException("Too many non-option arguments");
-            }
-            final File source = new File(files[0]);
-            if (!source.isFile() || !source.canRead()) {
-                throw new ParseException(
-                        "Source is not a file or not readable");
-            }
 
-            String outFileType = cmdLine
-                    .getOptionValue(Mml2xxx.OUT_FILE_TYPE);
-            final String isNotSupported = " is not supported";
-            if (outFileType == null) {
-                final String fileName = files[1];
-                final int dot = fileName.lastIndexOf('.');
-                if (dot == -1 || dot == fileName.length() - 1) {
-                    throw new ParseException(
-                            "no -"
-                                    + Mml2xxx.OUT_FILE_TYPE
-                                    + " option is given and target file has no extension");
-                }
-                final String extension = fileName.substring(dot + 1);
-                outFileType = ConverterRegistry.getInstance()
-                        .getMimeTypeForSuffix(extension);
-                if (outFileType == null) {
-                    throw new IllegalArgumentException("File extension "
-                            + extension + isNotSupported);
-                }
+            final List<String> files = Arrays.asList(cmdLine.getArgs());
+            if (files.size() < 2) {
+                throw new ParseException("Not enough arguments!");
+            }
+            int count = files.size();
+            final File lastFile = new File(files.get(count - 1));
+            final boolean multi = lastFile.isDirectory();
+            if (multi) {
+                count--;
+            }
+            final List<File> sources = Mml2xxx.createListOfSourceFiles(files,
+                    count);
+
+            final MutableLayoutContext ctx = Mml2xxx
+                    .createLayoutContext(cmdLine);
+            if (multi) {
+                Mml2xxx.convertMultipleFiles(cmdLine, lastFile, sources);
             } else {
-                if (!ConverterRegistry.getInstance()
-                        .getAvailableOutfileTypes().contains(outFileType)) {
-                    throw new IllegalArgumentException("Output type "
-                            + outFileType + isNotSupported);
+                if (sources.size() != 1) {
+                    throw new ParseException(
+                            "Too many file arguments. Did you want to add a target directory?");
                 }
+                final String outFileType = Mml2xxx.findOutfileType(cmdLine,
+                        lastFile.getName());
+                Converter.getInstance().convert(sources.get(0), lastFile,
+                        outFileType, ctx);
             }
-            final LayoutContextImpl ctx = new LayoutContextImpl(
-                    LayoutContextImpl.getDefaultLayoutContext());
-            for (final Parameter param : Parameter.values()) {
-                final String value = cmdLine.getOptionValue(param
-                        .getOptionName());
-                if (value != null) {
-                    ctx.setParameter(param, param.fromString(value));
-                }
-            }
-
-            Converter.getInstance().convert(source, new File(files[1]),
-                    outFileType, ctx);
-
         } catch (final ParseException pe) {
             System.err.println(pe);
             Mml2xxx.showUsage(options);
@@ -170,13 +148,94 @@ public final class Mml2xxx {
         }
     }
 
+    private static void convertMultipleFiles(final CommandLine cmdLine,
+            final File lastFile, final List<File> sources)
+            throws ParseException, IOException {
+        final String outFileType = Mml2xxx.findOutfileType(cmdLine, null);
+        for (final File source : sources) {
+            final String fileName = source.getName();
+            final int dotpos = fileName.lastIndexOf('.');
+            final String baseName;
+            if (dotpos >= 0) {
+                baseName = fileName.substring(0, dotpos);
+            } else {
+                baseName = fileName;
+            }
+            final File target = new File(lastFile, baseName
+                    + '.'
+                    + ConverterRegistry.getInstance().getSuffixForMimeType(
+                            outFileType));
+            Converter.getInstance().convert(source, target, outFileType);
+        }
+    }
+
+    private static List<File> createListOfSourceFiles(
+            final List<String> files, final int count) throws ParseException {
+        final List<File> sources = new ArrayList<File>(count);
+        for (int i = 0; i < count; i++) {
+            final String current = files.get(i);
+            final File source = new File(current);
+            if (!source.isFile() || !source.canRead()) {
+                throw new ParseException(current
+                        + " is not a file or not readable");
+            }
+            sources.add(source);
+        }
+        return sources;
+    }
+
+    private static String findOutfileType(final CommandLine cmdLine,
+            final String fileName) throws ParseException {
+        String outFileType = cmdLine.getOptionValue(Mml2xxx.OUT_FILE_TYPE);
+        final String isNotSupported = " is not supported";
+        if ((outFileType == null) && (fileName != null)) {
+            final int dot = fileName.lastIndexOf('.');
+            if (dot != -1 && dot != fileName.length() - 1) {
+                final String extension = fileName.substring(dot + 1);
+                outFileType = ConverterRegistry.getInstance()
+                        .getMimeTypeForSuffix(extension);
+            }
+        }
+        if (outFileType == null) {
+            System.out.println("No ouput type could be detected, assuming "
+                    + Mml2xxx.DEFAULT_TYPE);
+            outFileType = Mml2xxx.DEFAULT_TYPE;
+        } else {
+            if (!ConverterRegistry.getInstance().getAvailableOutfileTypes()
+                    .contains(outFileType)) {
+                throw new IllegalArgumentException("Output type "
+                        + outFileType + isNotSupported);
+            }
+        }
+        return outFileType;
+    }
+
+    private static MutableLayoutContext createLayoutContext(
+            final CommandLine cmdLine) {
+        final MutableLayoutContext ctx = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
+        for (final Parameter param : Parameter.values()) {
+            final String value = cmdLine
+                    .getOptionValue(param.getOptionName());
+            if (value != null) {
+                ctx.setParameter(param, param.fromString(value));
+            }
+        }
+        return ctx;
+    }
+
     private static void showUsage(final Options options) {
-        new HelpFormatter().printHelp(
-                "mml2xxx <source file> <target file> [options]",
-                "source is the path to the source file (MathML or ODF format)"
-                        + System.getProperty("line.separator")
-                        + "target is the path to the target file", options,
-                "Example: mml2xxx a.mml a.png -backgroundColor white");
+        final String lineSep = System.getProperty("line.separator");
+        new HelpFormatter()
+                .printHelp(
+                        "mml2xxx <source file(s)> <target file/directory> [options]",
+                        "source is the path to the source file (MathML or ODF format)"
+                                + lineSep
+                                + "target is the path to the target file / directory"
+                                + lineSep
+                                + "If multiple source files are given, target must be a directory",
+                        options,
+                        "Example: mml2xxx a.mml a.png -backgroundColor white");
     }
 
 }
