@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.2" date="in SVN" description="TBD">
+      <action dev="maxberger" type="fix">jeuclid-fop: fixed null-pointer exception when color is unset</action>
       <action dev="maxberger" type="add">Mml2xx: support multi-file conversion</action>
       <action dev="maxberger" type="add">Now supports "beveled" and "bevelled"</action>
       <action dev="maxberger" type="update" issue="1981322">Mo needs 2 stages when it is a delimiter</action>
