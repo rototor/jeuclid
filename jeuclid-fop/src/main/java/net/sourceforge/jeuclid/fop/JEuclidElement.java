@@ -43,12 +43,14 @@ import net.sourceforge.jeuclid.layout.JEuclidView;
 import net.sourceforge.jeuclid.xmlgraphics.PreloaderMathML;
 
 import org.apache.fop.apps.FOPException;
+import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.datatypes.Length;
 import org.apache.fop.fo.FOEventHandler;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.PropertyList;
 import org.apache.fop.fo.properties.CommonFont;
 import org.apache.fop.fo.properties.FixedLength;
+import org.apache.fop.fo.properties.Property;
 import org.apache.fop.fonts.FontInfo;
 import org.apache.fop.fonts.FontTriplet;
 import org.w3c.dom.Document;
@@ -105,8 +107,8 @@ public class JEuclidElement extends JEuclidObj {
         final Image tempimage = new BufferedImage(1, 1,
                 BufferedImage.TYPE_INT_ARGB);
         final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-        final JEuclidView view = new JEuclidView(this.doc,
-                this.layoutContext, tempg);
+        final JEuclidView view = new JEuclidView(this.doc, this.layoutContext,
+                tempg);
         final float descent = view.getDescentHeight();
         this.size = new Point2D.Float(view.getWidth(), view.getAscentHeight()
                 + descent);
@@ -136,19 +138,25 @@ public class JEuclidElement extends JEuclidObj {
     @Override
     protected PropertyList createPropertyList(final PropertyList pList,
             final FOEventHandler foEventHandler) throws FOPException {
+        final FOUserAgent userAgent = this.getUserAgent();
         final CommonFont commonFont = pList.getFontProps();
         final float msize = (float) (commonFont.fontSize.getNumericValue() / PreloaderMathML.MPT_FACTOR);
-        final Color color = pList.get(org.apache.fop.fo.Constants.PR_COLOR)
-                .getColor(this.getUserAgent());
-        final Color bcolor = pList.get(
-                org.apache.fop.fo.Constants.PR_BACKGROUND_COLOR).getColor(
-                this.getUserAgent());
+        final Property colorProp = pList
+                .get(org.apache.fop.fo.Constants.PR_COLOR);
+        if (colorProp != null) {
+            final Color color = colorProp.getColor(userAgent);
+            this.layoutContext.setParameter(Parameter.MATHCOLOR, color);
+        }
+        final Property bcolorProp = pList
+                .get(org.apache.fop.fo.Constants.PR_BACKGROUND_COLOR);
+        if (bcolorProp != null) {
+            final Color bcolor = bcolorProp.getColor(userAgent);
+            this.layoutContext.setParameter(Parameter.MATHBACKGROUND, bcolor);
+        }
         final FontInfo fi = this.getFOEventHandler().getFontInfo();
         final FontTriplet[] fontkeys = commonFont.getFontState(fi);
 
         this.layoutContext.setParameter(Parameter.MATHSIZE, msize);
-        this.layoutContext.setParameter(Parameter.MATHCOLOR, color);
-        this.layoutContext.setParameter(Parameter.MATHBACKGROUND, bcolor);
         final List<String> defaultFonts = (List<String>) this.layoutContext
                 .getParameter(Parameter.FONTS_SERIF);
         final List<String> newFonts = new ArrayList<String>(fontkeys.length
