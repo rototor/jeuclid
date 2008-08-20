@@ -57,7 +57,7 @@ Usage
     "normal" mathvariant. In the case of FOPs default, this uses a sans-serif
     font, whereas the MathML specification suggests to use a serif font. If you 
     wish to override this behavior, please specify a sans-serif font in the
-    font-family for you instream-foreign-object.
+    font-family for the instream-foreign-object.
 
 Example Document
 
