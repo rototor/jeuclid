@@ -30,7 +30,7 @@ Usage
 
 * External MathML Documents
 
-  External Documents may be referenced using <fo:external-graphic>. Both ODF and
+  External Documents may be referenced using \<fo:external-graphic\>. Both ODF and
   plain MathML formulas are supported.
   
   There is (per design choice) no support for the .fo context when a MathML
@@ -38,7 +38,7 @@ Usage
   
 * Inline MathML Documents
 
-  Inline MathML is supported through the <fo:instream-foreign-object> tag. The
+  Inline MathML is supported through the \<fo:instream-foreign-object\> tag. The
   actual math content must use the "http://www.w3.org/1998/Math/MathML" name
   space.
   
