@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -110,14 +110,11 @@ public final class Mml2xxx {
             if (files.size() < 2) {
                 throw new ParseException("Not enough arguments!");
             }
-            int count = files.size();
-            final File lastFile = new File(files.get(count - 1));
+            final int sourceCount = files.size() - 1;
+            final File lastFile = new File(files.get(sourceCount));
             final boolean multi = lastFile.isDirectory();
-            if (multi) {
-                count--;
-            }
             final List<File> sources = Mml2xxx.createListOfSourceFiles(files,
-                    count);
+                    sourceCount);
 
             final MutableLayoutContext ctx = Mml2xxx
                     .createLayoutContext(cmdLine);
