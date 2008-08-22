@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.3" date="in SVN" description="TBD">
+      <action dev="maxberger" type="fix" issue="2049821">jeuclid-cli: LayoutContext in file-to-dir conversion was ignored.</action>
       <action dev="maxberger" type="fix" issue="2049821">jeuclid-cli: file to file conversion was broken</action>
     </release>
     <release version="3.1.2" date="2008-07-30" description="Bugfix Release">

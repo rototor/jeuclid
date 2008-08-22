@@ -119,7 +119,7 @@ public final class Mml2xxx {
             final MutableLayoutContext ctx = Mml2xxx
                     .createLayoutContext(cmdLine);
             if (multi) {
-                Mml2xxx.convertMultipleFiles(cmdLine, lastFile, sources);
+                Mml2xxx.convertMultipleFiles(cmdLine, lastFile, sources, ctx);
             } else {
                 if (sources.size() != 1) {
                     throw new ParseException(
@@ -146,8 +146,9 @@ public final class Mml2xxx {
     }
 
     private static void convertMultipleFiles(final CommandLine cmdLine,
-            final File lastFile, final List<File> sources)
-            throws ParseException, IOException {
+            final File lastFile, final List<File> sources,
+            final MutableLayoutContext layoutContext) throws ParseException,
+            IOException {
         final String outFileType = Mml2xxx.findOutfileType(cmdLine, null);
         for (final File source : sources) {
             final String fileName = source.getName();
@@ -162,7 +163,8 @@ public final class Mml2xxx {
                     + '.'
                     + ConverterRegistry.getInstance().getSuffixForMimeType(
                             outFileType));
-            Converter.getInstance().convert(source, target, outFileType);
+            Converter.getInstance().convert(source, target, outFileType,
+                    layoutContext);
         }
     }
 
