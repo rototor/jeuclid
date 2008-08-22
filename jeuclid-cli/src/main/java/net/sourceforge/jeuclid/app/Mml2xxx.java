@@ -224,8 +224,9 @@ public final class Mml2xxx {
     }
 
     private static void showUsage(final Options options) {
-        final String lineSep = System.getProperty("line.separator");
-        new HelpFormatter()
+        final HelpFormatter hf = new HelpFormatter();
+        final String lineSep = hf.getNewLine();
+        hf
                 .printHelp(
                         "mml2xxx <source file(s)> <target file/directory> [options]",
                         "source is the path to the source file (MathML or ODF format)"
