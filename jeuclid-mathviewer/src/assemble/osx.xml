@@ -6,7 +6,7 @@
   </formats>
   <fileSets>
     <fileSet>
-      <directory>target/jeuclid-${version}.app</directory>
+      <directory>target/jeuclid-mathviewer-${version}.app</directory>
       <outputDirectory>JEuclid MathViewer.app</outputDirectory>
       <includes>
         <include>Contents/MacOS/JavaApplicationStub</include>
@@ -14,7 +14,7 @@
       <fileMode>0755</fileMode>
     </fileSet>
     <fileSet>
-      <directory>target/jeuclid-${version}.app</directory>
+      <directory>target/jeuclid-mathviewer-${version}.app</directory>
       <outputDirectory>JEuclid MathViewer.app</outputDirectory>
       <excludes>
         <exclude>Contents/MacOS/JavaApplicationStub</exclude>

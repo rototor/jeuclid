@@ -48,33 +48,11 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>osxappbundle-maven-plugin</artifactId>
-        <version>1.0-alpha-2</version>
-        <configuration>
-          <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
-          <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
-          <iconFile>${basedir}/src/main/app-resources/jeuclid.icns</iconFile>
-          <jvmVersion>1.5+</jvmVersion>
-          <bundleName>JEuclid MathViewer</bundleName>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>bundle</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <version>2.2-beta-2</version>
         <configuration>
           <descriptors>
             <descriptor>src/assemble/distribution.xml</descriptor>
-            <descriptor>src/assemble/osx.xml</descriptor>
-<!--            <descriptor>src/assemble/source.xml</descriptor> -->
           </descriptors>
           <attach>false</attach>
         </configuration>
