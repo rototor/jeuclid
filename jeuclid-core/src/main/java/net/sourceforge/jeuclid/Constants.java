@@ -18,11 +18,14 @@
 
 package net.sourceforge.jeuclid;
 
+import net.jcip.annotations.Immutable;
+
 /**
  * Constants which are shared in multiple classes.
  * 
  * @version $Revision$
  */
+@Immutable
 public final class Constants {
     /** String for numeric zero. */
     public static final String ZERO = "0";

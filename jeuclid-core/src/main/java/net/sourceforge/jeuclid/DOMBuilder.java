@@ -25,6 +25,8 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
 import org.apache.commons.logging.Log;
@@ -40,6 +42,7 @@ import org.w3c.dom.Node;
  * 
  * @version $Revision$
  */
+@ThreadSafe
 public final class DOMBuilder {
     /**
      * Logger for this class
@@ -53,8 +56,10 @@ public final class DOMBuilder {
         }
     }
 
+    @GuardedBy("itself")
     private final Transformer contentTransformer;
 
+    @GuardedBy("itself")
     private final Transformer identityTransformer;
 
     /**
@@ -153,8 +158,10 @@ public final class DOMBuilder {
             }
             documentElement = child;
         } else {
-            throw new IllegalArgumentException("Unsupported node: " + node
-                    + ". Expected either Document, Element or DocumentFragment");
+            throw new IllegalArgumentException(
+                    "Unsupported node: "
+                            + node
+                            + ". Expected either Document, Element or DocumentFragment");
         }
 
         // TODO: This could be enabled / disabled with a switch?
