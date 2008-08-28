@@ -12,6 +12,7 @@
         <include>bin/mathviewer</include>
         <include>bin/mml2xxx</include>
         <include>bin/foprep</include>
+        <include>bin/listfonts</include>
       </includes>
       <fileMode>0755</fileMode>
     </fileSet>
@@ -22,6 +23,7 @@
         <exclude>bin/mathviewer</exclude>
         <exclude>bin/mml2xxx</exclude>
         <exclude>bin/foprep</exclude>
+        <exclude>bin/listfonts</exclude>
       </excludes>
       <fileMode>0644</fileMode>
     </fileSet>
