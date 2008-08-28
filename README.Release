@@ -72,7 +72,8 @@ VERSION=3.1.2  #replace with version
 USER=maxberger   #replace with your sf id
 cd jeuclid/target
 rsync -avP -e ssh jeuclid-$VERSION-distribution.zip ${USER}@frs.sourceforge.net:uploads/
-rsync -avP -e ssh jeuclid-$VERSION-osx.zip ${USER}@frs.sourceforge.net:uploads/
+cd ../../jeuclid-mathviewer/target
+rsync -avP -e ssh jeuclid-mathviewer-$VERSION-osx.zip ${USER}@frs.sourceforge.net:uploads/
 cd ../../jeuclid-minimal/target
 rsync -avP -e ssh  jeuclid-minimal-$VERSION-distribution.zip ${USER}@frs.sourceforge.net:uploads/
 cd ../../jeuclid-fop/target
