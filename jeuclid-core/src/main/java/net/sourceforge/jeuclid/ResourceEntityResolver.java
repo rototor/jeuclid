@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -38,6 +40,7 @@ import org.xml.sax.InputSource;
  * 
  * @version $Revision$
  */
+@ThreadSafe
 public class ResourceEntityResolver implements EntityResolver {
 
     /**
@@ -109,11 +112,13 @@ public class ResourceEntityResolver implements EntityResolver {
                 "-//OpenOffice.org//DTD Modified W3C MathML 1.01//EN",
                 "/openoffice.mathml.1.0.1/math.dtd");
 
-        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(MML2_PUBLICID,
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
+                ResourceEntityResolver.MML2_PUBLICID,
                 "/mathml.2.0/mathml2.dtd");
 
-        ResourceEntityResolver.PUBLIC_ID_TO_SYSYEM.put(MML2_PUBLICID,
-                MML2_SYSTEMID);
+        ResourceEntityResolver.PUBLIC_ID_TO_SYSYEM.put(
+                ResourceEntityResolver.MML2_PUBLICID,
+                ResourceEntityResolver.MML2_SYSTEMID);
 
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES MathML 2.0 Qualified Names 1.0//EN",

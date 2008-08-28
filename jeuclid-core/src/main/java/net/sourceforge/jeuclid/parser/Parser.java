@@ -41,6 +41,7 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
+import net.jcip.annotations.ThreadSafe;
 import net.sourceforge.jeuclid.ResourceEntityResolver;
 
 import org.apache.commons.logging.Log;
@@ -60,6 +61,7 @@ import org.xml.sax.SAXParseException;
  */
 // CHECKSTYLE:OFF
 // This class is too complex.
+@ThreadSafe
 public final class Parser {
     // CHECKSTYLE:ON
 
@@ -84,7 +86,8 @@ public final class Parser {
         }
     }
 
-    private static final class UnclosableInputStream extends FilterInputStream {
+    private static final class UnclosableInputStream extends
+            FilterInputStream {
         protected UnclosableInputStream(final InputStream in) {
             super(in);
         }
@@ -145,7 +148,8 @@ public final class Parser {
             documentBuilder.setEntityResolver(new ResourceEntityResolver());
             documentBuilder.setErrorHandler(new LoggerErrorHandler());
         } catch (final ParserConfigurationException pce2) {
-            Parser.LOGGER.warn("Could not create Parser: " + pce2.getMessage());
+            Parser.LOGGER.warn("Could not create Parser: "
+                    + pce2.getMessage());
             assert false : "Could not create Parser";
             documentBuilder = null;
         }
@@ -320,7 +324,7 @@ public final class Parser {
      * Please note:
      * <ul>
      * <li>There is one instance of the builder per thread.</li>
-     * <li>The builder instance is not thread safe, so it may not be parsed
+     * <li>The builder instance is not thread safe, so it may not be passed
      * among threads.</li>
      * <li>Multiple Threads may call getDocumentBuilder concurrently</li>
      * </ul>
@@ -347,8 +351,8 @@ public final class Parser {
      * Extract the top Node from a given Source.
      * 
      * @param source
-     *            the Source to use. Currently supported are {@link DOMSource},
-     *            {@link StreamSource}
+     *            the Source to use. Currently supported are {@link DOMSource}
+     *            , {@link StreamSource}
      * @return the top NODE.
      * @throws SAXException
      *             if a parse error occurred.
@@ -361,8 +365,8 @@ public final class Parser {
             final StreamSource streamSource = (StreamSource) source;
             retVal = this.parseStreamSource(streamSource);
         } else if (source instanceof ImageSource) {
-            final ImageSource imageSoruce = (ImageSource) source;
-            final StreamSource streamSource = new StreamSource(imageSoruce
+            final ImageSource imageSource = (ImageSource) source;
+            final StreamSource streamSource = new StreamSource(imageSource
                     .getInputStream());
             retVal = this.parseStreamSource(streamSource);
         } else if (source instanceof DOMSource) {
@@ -377,8 +381,8 @@ public final class Parser {
                 retVal = r.getNode();
             } catch (final TransformerException e) {
                 Parser.LOGGER.warn(e.getMessage());
-                throw new IllegalArgumentException(Parser.CANNOT_HANDLE_SOURCE
-                        + source, e);
+                throw new IllegalArgumentException(
+                        Parser.CANNOT_HANDLE_SOURCE + source, e);
             }
         }
         return retVal;
