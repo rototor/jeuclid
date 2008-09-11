@@ -391,6 +391,7 @@
           <threshold>Low</threshold>
           <effort>Max</effort>
           <omitVisitors>FindDeadLocalStores</omitVisitors>
+          <xmlOutput>true</xmlOutput> <!-- Required by Dashboard -->
         </configuration>
       </plugin>
       <plugin>
