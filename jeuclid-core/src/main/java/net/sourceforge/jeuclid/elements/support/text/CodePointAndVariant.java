@@ -45,6 +45,7 @@ public class CodePointAndVariant implements Serializable {
      */
     public CodePointAndVariant(final int icodePoint,
             final MathVariant ivariant) {
+        assert ivariant != null;
         this.codePoint = icodePoint;
         this.variant = ivariant;
     }
@@ -69,8 +70,7 @@ public class CodePointAndVariant implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + this.codePoint;
-        result = prime * result
-                + ((this.variant == null) ? 0 : this.variant.hashCode());
+        result = prime * result + this.variant.hashCode();
         return result;
     }
 
