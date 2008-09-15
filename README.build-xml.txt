@@ -20,6 +20,7 @@ Dependencies list:
    - Ant (ant.jar)
    - Batik (batik-all.jar)
    - commons-logging (commons-logging.jar)
+   - jcip-annotations (jcip-annotations.jar)
    - FreeHep Util [optional - see notes]
    - FreeHep Graphics2D [see notes]
    - xml-commons-external (xml-apis.jar)
