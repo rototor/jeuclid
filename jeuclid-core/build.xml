@@ -39,6 +39,17 @@
     </condition>
     <echo message="${batik.message}"/>
 
+    <available property="jcip.present" classname="net.jcip.annotations.ThreadSafe" classpathref="libs-build-classpath"/>
+    <condition property="jcip.message" value="jcip-annotations Support PRESENT">
+      <equals arg1="${jcip.present}" arg2="true"/>
+    </condition>
+    <condition property="jcip.message" value="jcip-annotations Support NOT Present">
+      <not>
+        <equals arg1="${jcip.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${jcip.message}"/>
+
     <available property="logging.present" classname="org.apache.commons.logging.LogFactory" classpathref="libs-build-classpath"/>
     <condition property="logging.message" value="commons-logging Support PRESENT">
       <equals arg1="${logging.present}" arg2="true"/>
