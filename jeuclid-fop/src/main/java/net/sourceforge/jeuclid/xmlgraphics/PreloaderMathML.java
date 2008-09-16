@@ -111,7 +111,7 @@ public class PreloaderMathML extends AbstractImagePreloader {
     }
 
     private Document parseSource(final Source src) {
-        Document n;
+        Document n = null;
         InputStream in = null;
         try {
             in = new UnclosableInputStream(ImageUtil.needInputStream(src));
@@ -131,9 +131,10 @@ public class PreloaderMathML extends AbstractImagePreloader {
         } catch (final IllegalArgumentException e) {
             n = null;
         }
-
         try {
-            in.reset();
+            if (in != null) {
+                in.reset();
+            }
         } catch (final IOException ioe) {
             PreloaderMathML.LOGGER.warn("Should never happen: "
                     + ioe.getMessage());
