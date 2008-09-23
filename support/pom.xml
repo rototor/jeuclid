@@ -4,7 +4,7 @@
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-support</artifactId>
   <name>JEuclid Support</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>pom</packaging>
   <modules>
     <module>build-tools</module>
@@ -39,19 +39,19 @@
   </scm>
   <distributionManagement>
     <repository>
-      <id>sourceforge</id>
+      <id>sourceforgejeuclid</id>
       <name>SourceForge Final Repository</name>
-      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-release</url>
+      <url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-release</url>
     </repository>
     <snapshotRepository>
-      <id>sourceforge</id>
+      <id>sourceforgejeuclid</id>
       <name>SourceForge Snapshot Repository</name>
-      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-snap</url>
+      <url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-snap</url>
     </snapshotRepository>
     <site>
-      <id>sourceforge</id>
+      <id>sourceforgejeuclid</id>
       <name>Website for JEuclid on SourceForge</name>
-      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/trunk/support</url>
+      <url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/trunk/support</url>
     </site>
   </distributionManagement>
 </project>
