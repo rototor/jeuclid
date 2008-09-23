@@ -202,8 +202,8 @@
                       http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
   &lt;servers&gt;
     &lt;server&gt;
-      &lt;id&gt;sourceforge&lt;/id&gt;
-      &lt;username&gt;YOUR_SF_ID&lt;/username&gt;
+      &lt;id&gt;sourceforgejeuclid&lt;/id&gt;
+      &lt;username&gt;YOUR_SF_ID,jeuclid&lt;/username&gt;
       &lt;privateKey&gt;/path/to/ssh/id_dsa&lt;/privateKey&gt;
       &lt;filePermissions&gt;664&lt;/filePermissions&gt;
       &lt;directoryPermissions&gt;775&lt;/directoryPermissions&gt;

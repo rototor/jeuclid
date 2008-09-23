@@ -1,4 +1,4 @@
-By now the fop bundles are in the JEuclid repository. Should this break, or need an update, these are the instructions:
+By now the fop bundles are in the Main Apache (and therefore the main maven) repository. Should this break, or need an update, these are the instructions:
 
 Please downlaod:
 
@@ -21,28 +21,12 @@ mvn install:install-file -Dfile=xmlgraphics-commons-1.1.jar -DartifactId=xmlgrap
 
 To deploy REMOTELY:
 
-ensure the following settings in your settings.xml:
-
-<?xml version="1.0" encoding="UTF-8"?>
-<settings xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                        http://maven.apache.org/xsd/settings-1.0.0.xsd">
-  <interactiveMode>false</interactiveMode>
-  <servers>
-   <server>
-      <id>sourceforge</id>
-      <username>YOURUSERNAME</username>
-      <privateKey>/YOURHOME/.ssh/id_dsa</privateKey>
-      <filePermissions>664</filePermissions>
-      <directoryPermissions>775</directoryPermissions>
-      <configuration></configuration>
-    </server>
-  </servers>
-</settings>
-
+Set the settings for sourceforgejeuclid as describe on the "source" webpage
 
 (for fop)
 
-mvn deploy:deploy-file -DpomFile=pom.xml -Dfile=fop-0.93.jar -DrepositoryId=sourceforge -Durl=sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2
+mvn deploy:deploy-file -DpomFile=pom.xml -Dfile=fop-0.93.jar -DrepositoryId=sourceforgejeuclid -Durl=sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2
 
 (for xmlgraphics)
 
-mvn deploy:deploy-file -DpomFile=pom.xml -Dfile=xmlgraphics-commons-1.1.jar -DrepositoryId=sourceforge -Durl=sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2
+mvn deploy:deploy-file -DpomFile=pom.xml -Dfile=xmlgraphics-commons-1.1.jar -DrepositoryId=sourceforgejeuclid -Durl=sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2
