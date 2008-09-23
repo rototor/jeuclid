@@ -13,7 +13,7 @@
     <module>ams-fonts</module>
   </modules>
   <description>
-    JEuclid support module. This module contains all the dependencies of JEuclid which are released on a scedule independet of the main JEuclid releases.
+    JEuclid support module. This module contains all the dependencies of JEuclid which are released on a schedule independet of the main JEuclid releases.
   </description>
   <url>http://jeuclid.sourceforge.net/</url>
   <issueManagement>
