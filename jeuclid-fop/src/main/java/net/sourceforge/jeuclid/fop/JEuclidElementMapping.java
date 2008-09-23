@@ -65,14 +65,22 @@ public class JEuclidElementMapping extends ElementMapping {
         }
     }
 
-    static class MathMLMaker extends ElementMapping.Maker {
+    static final class MathMLMaker extends ElementMapping.Maker {
+
+        private MathMLMaker() {
+        }
+
         @Override
         public FONode make(final FONode parent) {
             return new JEuclidObj(parent);
         }
     }
 
-    static class ME extends ElementMapping.Maker {
+    static final class ME extends ElementMapping.Maker {
+
+        private ME() {
+        }
+
         @Override
         public FONode make(final FONode parent) {
             return new JEuclidElement(parent);
