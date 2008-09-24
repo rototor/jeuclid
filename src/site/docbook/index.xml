@@ -38,6 +38,31 @@
 
     <itemizedlist>
       <listitem>
+        <para>JEuclid 3.1.3 released!</para>
+
+        <para>Yet another bugfix release</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Mml2xxx: Commandline conversion was broken in some cases</para>
+          </listitem>
+
+          <listitem>
+            <para>FOP: Better compatibility with other Plugins</para>
+          </listitem>
+
+          <listitem>
+            <para>Compatibility fix for running JEuclid with SAXON</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>A <ulink url="./changes-report.html">List of changes for
+        JEuclid</ulink> is avaiable.</para>
+      </listitem>
+
+      <listitem>
+        <para>JEuclid 3.1.2 released!</para>
+
         <para>Here is another bugfix release for the current JEuclid trunk
         series. Some of the most notable changes are:</para>
 
