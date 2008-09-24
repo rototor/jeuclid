@@ -45,7 +45,7 @@ mvn install
 
 6. Deploy to m2-release (which is automatically synced to ibiblio)
 
-disable all modules except -mathviewer, -core, -core16 -cli (use only comments, do not delete lines!)
+disable all modules except -mathviewer, -core, -core16 -cli (use only comments, do not delete lines!) currently: swt, fop, jeuclid, minimal, testsuite
 
 (edit pom.xml in target / checkout)
 
@@ -54,9 +54,7 @@ mvn deploy
 7. Re-enable distribution plugins (that where disabled in 1: none)
 Also, re-enable all modules ( still in target / checkout )
 
-edit jeuclid/pom.xml
-edit jeuclid-minimal/pom.xml
-edit pom.xml
+svn revert pom.xml
 
 build the real release packages:
 
