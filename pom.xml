@@ -302,6 +302,11 @@
   </pluginRepositories>
   <repositories>
     <repository>
+      <id>jeuclid-release</id>
+      <name>JEuclid released dependencies</name>
+      <url>http://jeuclid.sf.net/m2-release</url>
+    </repository>
+    <repository>
       <id>jeuclid-deps</id>
       <name>JEuclid dependencies</name>
       <url>http://jeuclid.sf.net/m2</url>
@@ -391,7 +396,8 @@
           <threshold>Low</threshold>
           <effort>Max</effort>
           <omitVisitors>FindDeadLocalStores</omitVisitors>
-          <xmlOutput>true</xmlOutput> <!-- Required by Dashboard -->
+          <xmlOutput>true</xmlOutput>
+<!-- Required by Dashboard -->
         </configuration>
       </plugin>
       <plugin>
@@ -455,6 +461,7 @@
     </site>
   </distributionManagement>
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <runtime.lib>${java.home}/lib/rt.jar</runtime.lib>
     <common.dir>${basedir}/..</common.dir>
   </properties>
