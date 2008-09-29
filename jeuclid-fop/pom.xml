@@ -82,7 +82,7 @@
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>fop</artifactId>
-      <version>0.95beta</version>
+      <version>0.95</version>
       <exclusions>
         <exclusion>
           <groupId>batik</groupId>
