@@ -5,7 +5,10 @@
     <author>Max Berger</author>
   </properties>
   <body>
-    <release version="3.1.3" date="in SVN" description="TBD">
+    <release version="3.1.4" date="TBA" description="TBA">
+      <action dev="maxberger" type="fix">Declared current branch as stable.</action>
+    </release>
+    <release version="3.1.3" date="2008-09-24" description="More bugfixes">
       <action dev="maxberger" type="fix">Compatibility fix to work with Saxon.</action>
       <action dev="maxberger" type="fix">Bug in FOP-Image loader prevented other image loaders to work correctly.</action>
       <action dev="maxberger" type="fix" issue="2049821">jeuclid-cli: LayoutContext in file-to-dir conversion was ignored.</action>
