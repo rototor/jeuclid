@@ -73,9 +73,9 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo.groovy</groupId>
-        <artifactId>groovy-maven-plugin</artifactId>
-        <version>1.0-beta-3</version>
+        <groupId>org.codehaus.groovy.maven</groupId>
+        <artifactId>gmaven-plugin</artifactId>
+        <version>1.0-rc-3</version>
         <executions>
           <execution>
             <phase>site</phase>
