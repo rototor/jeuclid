@@ -232,6 +232,7 @@
 <!-- This is necessary for docbook sites on OS X -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
+        <version>2.0-beta-7</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.maven.doxia</groupId>
@@ -326,14 +327,16 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.4.3</version>
       </plugin>
       <plugin>
         <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.4</version>
+        <version>2.5</version>
         <configuration>
           <linksource>true</linksource>
           <aggregate>true</aggregate>
