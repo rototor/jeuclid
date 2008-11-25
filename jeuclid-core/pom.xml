@@ -34,7 +34,7 @@
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-      <version>1.1</version>
+      <version>1.1.1</version>
       <exclusions>
         <exclusion>
           <groupId>avalon-framework</groupId>
@@ -106,7 +106,7 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-emf</artifactId>
-      <version>2.0</version>
+      <version>2.1.1</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -118,25 +118,25 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-pdf</artifactId>
-      <version>2.0</version>
+      <version>2.1.1</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-ps</artifactId>
-      <version>2.0</version>
+      <version>2.1.1</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-svg</artifactId>
-      <version>2.0</version>
+      <version>2.1.1</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-swf</artifactId>
-      <version>2.0</version>
+      <version>2.1.1</version>
       <optional>true</optional>
     </dependency>
     <dependency>
