@@ -1,8 +1,27 @@
+/*
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* $Id$ */
+
 package net.sourceforge.jeuclid.test;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.elements.presentation.general.Mfrac;
+import net.sourceforge.jeuclid.elements.presentation.script.Mmultiscripts;
 import net.sourceforge.jeuclid.elements.presentation.token.Mi;
 import net.sourceforge.jeuclid.elements.presentation.token.Mn;
 import net.sourceforge.jeuclid.layout.JEuclidView;
@@ -18,6 +37,9 @@ import org.w3c.dom.mathml.MathMLPresentationContainer;
 import org.w3c.dom.mathml.MathMLPresentationToken;
 import org.w3c.dom.views.DocumentView;
 
+/**
+ * @version $Revision$
+ */
 public class LayoutTest {
 
     /**
@@ -26,6 +48,10 @@ public class LayoutTest {
     final public static String TEST1 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
             + "<mrow><mo>(</mo><mn>5</mn></mrow></math>";
 
+    /**
+     * Test if there is something in the view.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testViewNotEmpty() throws Exception {
         final MathMLDocument docElement = DOMBuilder.getInstance()
@@ -38,6 +64,10 @@ public class LayoutTest {
         Assert.assertTrue(view.getDescentHeight() >= 0.0f);
     }
 
+    /**
+     * Tests if view modifies itself when DOM is modified.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testViewMutable() throws Exception {
         final MathMLDocument docElement = DOMBuilder.getInstance()
@@ -85,6 +115,10 @@ public class LayoutTest {
                         + oldmopascent);
     }
 
+    /**
+     * Test whitespace handling.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testWhitespace() throws Exception {
         final MathMLDocument docElement = DOMBuilder

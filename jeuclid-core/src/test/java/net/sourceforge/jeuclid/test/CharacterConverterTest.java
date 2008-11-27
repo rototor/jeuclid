@@ -34,6 +34,10 @@ public class CharacterConverterTest {
         // Empty on purpose
     }
 
+    /**
+     * Tests late character conversion.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testLate() throws Exception {
         Assert.assertEquals(CharConverter.convertLate("abcdef"), "abcdef");
@@ -42,6 +46,10 @@ public class CharacterConverterTest {
         Assert.assertEquals(CharConverter.convertLate("\u0332"), "\u00AF");
     }
 
+    /**
+     * Tests early character conversion.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testEarly() throws Exception {
         Assert.assertEquals(CharConverter.convertEarly("abcdef"), "abcdef");

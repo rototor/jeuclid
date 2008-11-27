@@ -34,6 +34,10 @@ import org.testng.annotations.Test;
  */
 public class MathComponentUI16Test {
 
+    /**
+     * Tests if MathComponentUI16 is available.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testComponentUI16() throws Exception {
         try {

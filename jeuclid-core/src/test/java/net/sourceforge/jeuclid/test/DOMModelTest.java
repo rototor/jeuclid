@@ -641,6 +641,10 @@ public class DOMModelTest {
 
     }
 
+    /**
+     * Misc tests on {@link Mfrac}.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testFrac() throws Exception {
         final Document d = new DocumentElement();
@@ -660,6 +664,10 @@ public class DOMModelTest {
         Assert.assertEquals(mfrac.getChildNodes().getLength(), 2);
     }
 
+    /**
+     * Misc tests on {@link Mmultiscripts}.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testMMultiScripts() throws Exception {
         final Document doc = MathMLParserSupport
@@ -692,6 +700,10 @@ public class DOMModelTest {
         Assert.assertEquals(multi.getChildNodes().getLength(), 8);
     }
 
+    /**
+     * More tests on {@link Mmultiscripts}.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testMMultiScripts2() throws Exception {
         final Document doc = MathMLParserSupport
@@ -728,6 +740,10 @@ public class DOMModelTest {
 
     private int miCount;
 
+    /**
+     * Test DOM Events.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testEvents() throws Exception {
         final Document doc = MathMLParserSupport
@@ -777,6 +793,10 @@ public class DOMModelTest {
                 "Event must be called on Document");
     }
 
+    /**
+     * Test getSup/getSuper on sub, sup, and subsuper.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testBadSupSuper() throws Exception {
         final Document ownerDocument = new DocumentElement();
@@ -811,6 +831,10 @@ public class DOMModelTest {
 
     }
 
+    /**
+     * Test implementation of all presentation elements.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testProperImplementation() throws Exception {
         this.testImpl(MathImpl.class);

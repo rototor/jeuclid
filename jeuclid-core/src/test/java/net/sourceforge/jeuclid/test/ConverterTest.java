@@ -1,3 +1,21 @@
+/*
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* $Id$ */
+
 package net.sourceforge.jeuclid.test;
 
 import java.io.File;
@@ -16,6 +34,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
 
+/**
+ * @version $Revision$
+ */
 public class ConverterTest {
 
     /**
@@ -25,6 +46,10 @@ public class ConverterTest {
             + "<mrow><munderover><mo>&#x0222B;</mo><mn>1</mn><mi>x</mi></munderover>"
             + "<mfrac><mi>dt</mi><mi>t</mi></mfrac></mrow></math>";
 
+    /**
+     * Tests if PNG converter is available.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testConverterPNG() throws Exception {
         final Document doc = MathMLParserSupport
@@ -39,6 +64,10 @@ public class ConverterTest {
         Assert.assertTrue(outFile.length() > 0);
     }
 
+    /**
+     * Tests if SVG converter is available and creates an output file.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testConverterSVG() throws Exception {
         final Document doc = MathMLParserSupport
@@ -53,6 +82,10 @@ public class ConverterTest {
         Assert.assertTrue(outFile.length() > 0, "SVG file is empty");
     }
 
+    /**
+     * Tests if SVG converter is available and creates an output DOM.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testConverterSVGtoDOM() throws Exception {
         final Document doc = MathMLParserSupport
@@ -77,6 +110,10 @@ public class ConverterTest {
         Assert.assertTrue(svgdocdim.getDimension().width > 1);
     }
 
+    /**
+     * Create and return temp directory.
+     * @return temp directory.
+     */
     public File getOutDir() {
         final File outDir = new File("temp");
         if (!outDir.isDirectory()) {
@@ -110,7 +147,11 @@ public class ConverterTest {
         }
     }
 
-    @Test
+    /**
+     * Tests if some mime-types are registered properly.
+     * @throws Exception if the test fails.
+     */
+   @Test
     public void testConverterMimeTypes() throws Exception {
         Assert
                 .assertTrue(net.sourceforge.jeuclid.converter.Converter.TYPE_SVG

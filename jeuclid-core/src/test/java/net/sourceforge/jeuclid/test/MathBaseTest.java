@@ -46,6 +46,14 @@ public class MathBaseTest {
      */
     private static final Log LOGGER = LogFactory.getLog(MathBaseTest.class);
 
+    /**
+     * Helper class to load included examples.
+     * @param name Name of the example
+     * @return the loaded Document
+     * @throws ParserConfigurationException if anything goes wrong.
+     * @throws SAXException if anything goes wrong.
+     * @throws IOException if anything goes wrong.
+     */
     public static Document loadDocument(final String name)
             throws ParserConfigurationException, SAXException, IOException {
         final DocumentBuilder parser = MathMLParserSupport
