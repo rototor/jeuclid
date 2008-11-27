@@ -8,7 +8,6 @@
     </fileset>
     <filter name="FilesFromPackage" enabled="true">
         <filter-data value="jeuclid-core/src/main/java/org"/>
-        <filter-data value="jeuclid-core/src/test/java"/>
     </filter>
     <filter name="NonSrcDirs" enabled="true"/>
     <filter name="FilesInSync2" enabled="true"/>
