@@ -37,6 +37,10 @@ public class OperatorDictTest {
         // Empty on purpose
     }
 
+    /**
+     * Test various operators for correct default values.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testAttrs() throws Exception {
         final OperatorDictionary opDict = OperatorDictionary.getInstance();

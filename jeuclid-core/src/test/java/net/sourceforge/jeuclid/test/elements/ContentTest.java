@@ -38,7 +38,7 @@ import org.w3c.dom.mathml.MathMLSemanticsElement;
 public class ContentTest {
 
     /**
-     * Tests is the Annotation element
+     * Tests is the Annotation element.
      * 
      * @throws Exception
      *             if anything goes wrong.

@@ -47,6 +47,10 @@ public class MathComponentTest {
             + "<mrow><munderover><mo>&#x0222B;</mo><mn>1</mn><mi>x</mi></munderover>"
             + "<mfrac><mi>dt</mi><mi>t</mi></mfrac></mrow></math>";
 
+    /**
+     * Tests if AWT component starts up.
+     * @throws Exception if the test fails.
+     */    
     @Test
     public void testAWTComponent() throws Exception {
         Document document;

@@ -40,6 +40,10 @@ public class CharacterMappingTest {
         // Empty on purpose
     }
 
+    /**
+     * Tests some standard code mappings.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testMappings() throws Exception {
         final CharacterMapping cMap = CharacterMapping.getInstance();
@@ -74,6 +78,10 @@ public class CharacterMappingTest {
                 new MathVariant(Font.BOLD, FontFamily.DOUBLE_STRUCK)));
     }
 
+    /**
+     * Tests code mapping alternatives.
+     * @throws Exception if the test fails.
+     */
     @Test
     public void testAlternatives() throws Exception {
         final CharacterMapping cMap = CharacterMapping.getInstance();
