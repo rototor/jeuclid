@@ -75,7 +75,7 @@ public final class Mglyph extends AbstractTokenWithTextLayout implements
         final AttributedString retVal;
         final String fontFamily = this.getFontfamily().trim();
         final Font font = FontFactory.getInstance().getFont(fontFamily,
-                Font.PLAIN, (int) GraphicsSupport.getFontsizeInPoint(now));
+                Font.PLAIN, GraphicsSupport.getFontsizeInPoint(now));
         final int codePoint = this.getIndex();
         if ((font.getFamily().equalsIgnoreCase(fontFamily))
                 && (font.canDisplay(codePoint))) {

@@ -222,7 +222,7 @@ public final class MathVariant implements Serializable {
                 .get(this.fontFamily);
         final Font font = FontFactory.getInstance().getFont(
                 (List<String>) context.getParameter(theParam), codepoint,
-                this.awtStyle, (int) size);
+                this.awtStyle, size);
         if (force && font == null) {
             if (!MathVariant.WARNED.contains(codepoint)) {
                 MathVariant.WARNED.add(codepoint);
@@ -237,7 +237,7 @@ public final class MathVariant implements Serializable {
                                 + "http://www.alanwood.net/unicode/search.html");
             }
             return FontFactory.getInstance().getFont(FontFactory.SANSSERIF,
-                    this.awtStyle, (int) size);
+                    this.awtStyle, size);
         }
         return font;
     }

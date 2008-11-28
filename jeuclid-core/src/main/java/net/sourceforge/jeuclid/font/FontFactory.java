@@ -70,7 +70,7 @@ public abstract class FontFactory {
      * @see java.awt.Font#Font(String, int, int)
      */
     public abstract Font getFont(final String name, final int style,
-            final int size);
+            final float size);
 
     /**
      * Create a font object which is able to display the requested code point.
@@ -88,7 +88,7 @@ public abstract class FontFactory {
      * @return a valid Font instance or null if no font could be found.
      */
     public abstract Font getFont(final List<String> preferredFonts,
-            final int codepoint, final int style, final int size);
+            final int codepoint, final int style, final float size);
 
     /**
      * Load an external font from a file and 'register' (aka 'cache') it for

@@ -27,10 +27,13 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import net.jcip.annotations.ThreadSafe;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,7 +45,12 @@ import org.apache.xmlgraphics.util.ClasspathResource;
  * 
  * @version $Revision$
  */
+@ThreadSafe
 public class DefaultFontFactory extends FontFactory {
+
+    private static final int CACHE_FONT_SIZE = 12;
+
+    private static final int NUM_STYLES = 4;
 
     /**
      * Logger for this class
@@ -50,10 +58,9 @@ public class DefaultFontFactory extends FontFactory {
     private static final Log LOGGER = LogFactory
             .getLog(DefaultFontFactory.class);
 
-    private final Map<String, Font> fontCache;
+    private final Map<String, Font[]> fontCache = new HashMap<String, Font[]>();
 
     DefaultFontFactory() {
-        this.fontCache = new HashMap<String, Font>();
         this.autoloadFontsFromAWT();
         this.autoloadFontsFromClasspath();
     }
@@ -62,8 +69,11 @@ public class DefaultFontFactory extends FontFactory {
         final String[] fam = GraphicsEnvironment
                 .getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         for (final String element : fam) {
-            final Font f = new Font(element, 0, 12);
-            this.cacheFont(f);
+            for (int i = 0; i < DefaultFontFactory.NUM_STYLES; i++) {
+                final Font f = new Font(element, i,
+                        DefaultFontFactory.CACHE_FONT_SIZE);
+                this.cacheFont(f);
+            }
         }
     }
 
@@ -105,12 +115,25 @@ public class DefaultFontFactory extends FontFactory {
      * @see java.awt.Font#Font(String, int, int)
      */
     @Override
-    public Font getFont(final String name, final int style, final int size) {
-        Font font = this.fontCache.get(name.toLowerCase(Locale.ENGLISH));
-        if (font == null) {
-            font = new Font(name, style, size);
-        } else {
-            font = font.deriveFont(style, size);
+    public Font getFont(final String name, final int style, final float size) {
+        Font font;
+        synchronized (this.fontCache) {
+            final Font[] fonts = this.fontCache.get(name
+                    .toLowerCase(Locale.ENGLISH));
+            if (fonts == null) {
+                font = this.cacheFont(
+                        new Font(name, Font.PLAIN,
+                                DefaultFontFactory.CACHE_FONT_SIZE))
+                        .deriveFont(style, size);
+            } else {
+                font = fonts[style];
+                if (font == null) {
+                    font = fonts[0].deriveFont(style, size);
+                    fonts[style] = font;
+                } else {
+                    font = font.deriveFont(size);
+                }
+            }
         }
         return font;
     }
@@ -118,7 +141,7 @@ public class DefaultFontFactory extends FontFactory {
     /** {@inheritDoc} */
     @Override
     public Font getFont(final List<String> preferredFonts,
-            final int codepoint, final int style, final int size) {
+            final int codepoint, final int style, final float size) {
         Font font = this.searchFontList(preferredFonts, codepoint, style,
                 size);
         if (font == null) {
@@ -129,7 +152,7 @@ public class DefaultFontFactory extends FontFactory {
     }
 
     private Font searchFontList(final Collection<String> fontList,
-            final int codepoint, final int style, final int size) {
+            final int codepoint, final int style, final float size) {
         for (final String fontName : fontList) {
             final Font font = this.getFont(fontName, style, size);
             final String desiredFont = fontName.trim();
@@ -199,20 +222,28 @@ public class DefaultFontFactory extends FontFactory {
      * @return the font instance that was cached
      */
     private Font cacheFont(final Font font) {
-        this.fontCache.put(font.getFontName().trim().toLowerCase(
-                Locale.ENGLISH).intern(), font);
         final String family = font.getFamily().trim().toLowerCase(
-                Locale.ENGLISH).intern();
-        // This is a safeguard. On Linux for DejaVu Sans Oblique we get:
-        // Name: DejaVu Sans Oblique
-        // Family: DejaVu Sans
-        // For DejaVu Sans we get:
-        // Name: DejaVu Sans
-        // Family: DejaVu Sans
-        // And of course we don't want the oblique font to override the
-        // regular font...
-        if (!this.fontCache.containsKey(family)) {
-            this.fontCache.put(family, font);
+                Locale.ENGLISH);
+        final String fontname = font.getName().trim().toLowerCase(
+                Locale.ENGLISH);
+        int style = font.getStyle();
+        if (fontname.contains("italic")) {
+            style |= Font.ITALIC;
+        }
+        if (fontname.contains("oblique")) {
+            style |= Font.ITALIC;
+        }
+        if (fontname.contains("bold")) {
+            style |= Font.BOLD;
+        }
+        synchronized (this.fontCache) {
+            Font[] fonts = this.fontCache.get(family);
+            if (fonts == null) {
+                fonts = new Font[DefaultFontFactory.NUM_STYLES];
+                this.fontCache.put(family, fonts);
+                fonts[0] = font;
+            }
+            fonts[style] = font;
         }
         return font;
     }
@@ -220,7 +251,10 @@ public class DefaultFontFactory extends FontFactory {
     /** {@inheritDoc} */
     @Override
     public Set<String> listFontNames() {
-        return this.fontCache.keySet();
+        final Set<String> retVal;
+        synchronized (this.fontCache) {
+            retVal = new HashSet<String>(this.fontCache.keySet());
+        }
+        return retVal;
     }
-
 }
