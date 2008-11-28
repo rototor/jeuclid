@@ -104,7 +104,22 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
  * 
  * @version $Revision$
  */
+// CHECKSTYLE:OFF
 public class DOMModelTest {
+    // CHECKSTYLE:ON
+
+    private int docCount;
+
+    private int mathCount;
+
+    private int miCount;
+
+    /**
+     * Default constructor.
+     */
+    public DOMModelTest() {
+        // Empty on purpose.
+    }
 
     /**
      * Tests is the "id" attribute works.
@@ -643,7 +658,9 @@ public class DOMModelTest {
 
     /**
      * Misc tests on {@link Mfrac}.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testFrac() throws Exception {
@@ -666,7 +683,9 @@ public class DOMModelTest {
 
     /**
      * Misc tests on {@link Mmultiscripts}.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testMMultiScripts() throws Exception {
@@ -702,7 +721,9 @@ public class DOMModelTest {
 
     /**
      * More tests on {@link Mmultiscripts}.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testMMultiScripts2() throws Exception {
@@ -734,15 +755,11 @@ public class DOMModelTest {
         Assert.assertNull(multi.getSuperScript(20));
     }
 
-    private int docCount;
-
-    private int mathCount;
-
-    private int miCount;
-
     /**
      * Test DOM Events.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testEvents() throws Exception {
@@ -795,7 +812,9 @@ public class DOMModelTest {
 
     /**
      * Test getSup/getSuper on sub, sup, and subsuper.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testBadSupSuper() throws Exception {
@@ -833,7 +852,9 @@ public class DOMModelTest {
 
     /**
      * Test implementation of all presentation elements.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testProperImplementation() throws Exception {
