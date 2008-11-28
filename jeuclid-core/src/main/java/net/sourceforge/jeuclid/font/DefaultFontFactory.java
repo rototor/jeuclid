@@ -106,7 +106,7 @@ public class DefaultFontFactory extends FontFactory {
      */
     @Override
     public Font getFont(final String name, final int style, final int size) {
-        Font font = this.fontCache.get(name);
+        Font font = this.fontCache.get(name.toLowerCase(Locale.ENGLISH));
         if (font == null) {
             font = new Font(name, style, size);
         } else {
