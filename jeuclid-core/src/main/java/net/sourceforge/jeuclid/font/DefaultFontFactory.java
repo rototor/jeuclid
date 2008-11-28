@@ -28,6 +28,7 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,8 +37,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlgraphics.util.ClasspathResource;
 
 /**
- * Concrete FontFactory implementation that does simple caching of Fonts loaded
- * via {@link Font#createFont(int, File)} APIs.
+ * Concrete FontFactory implementation that does simple caching of Fonts
+ * loaded via {@link Font#createFont(int, File)} APIs.
  * 
  * @version $Revision$
  */
@@ -58,8 +59,8 @@ public class DefaultFontFactory extends FontFactory {
     }
 
     private void autoloadFontsFromAWT() {
-        final String[] fam = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getAvailableFontFamilyNames();
+        final String[] fam = GraphicsEnvironment
+                .getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         for (final String element : fam) {
             final Font f = new Font(element, 0, 12);
             this.cacheFont(f);
@@ -116,9 +117,10 @@ public class DefaultFontFactory extends FontFactory {
 
     /** {@inheritDoc} */
     @Override
-    public Font getFont(final List<String> preferredFonts, final int codepoint,
-            final int style, final int size) {
-        Font font = this.searchFontList(preferredFonts, codepoint, style, size);
+    public Font getFont(final List<String> preferredFonts,
+            final int codepoint, final int style, final int size) {
+        Font font = this.searchFontList(preferredFonts, codepoint, style,
+                size);
         if (font == null) {
             font = this.searchFontList(this.fontCache.keySet(), codepoint,
                     style, size);
@@ -197,8 +199,10 @@ public class DefaultFontFactory extends FontFactory {
      * @return the font instance that was cached
      */
     private Font cacheFont(final Font font) {
-        this.fontCache.put(font.getFontName(), font);
-        final String family = font.getFamily();
+        this.fontCache.put(font.getFontName().trim().toLowerCase(
+                Locale.ENGLISH).intern(), font);
+        final String family = font.getFamily().trim().toLowerCase(
+                Locale.ENGLISH).intern();
         // This is a safeguard. On Linux for DejaVu Sans Oblique we get:
         // Name: DejaVu Sans Oblique
         // Family: DejaVu Sans
