@@ -76,6 +76,7 @@ public class LayoutContextImpl implements MutableLayoutContext, Serializable {
         fontsSanserif.add("Lucida Sans");
         fontsSanserif.add("Lucida Grande");
         fontsSanserif.add("DejaVu Sans");
+        fontsSanserif.add("DejaVuSans");
         fontsSanserif.add("Bitstream Vera Sans");
         fontsSanserif.add("Luxi Sans");
         fontsSanserif.add("FreeSans");
@@ -90,6 +91,7 @@ public class LayoutContextImpl implements MutableLayoutContext, Serializable {
         fontsSerif.add("Times New Roman");
         fontsSerif.add("Lucida Bright");
         fontsSerif.add("DejaVu Serif");
+        fontsSerif.add("DejaVuSerif");
         fontsSerif.add("Bitstream Vera Serif");
         fontsSerif.add("Luxi Serif");
         fontsSerif.add("FreeSerif");
@@ -104,6 +106,7 @@ public class LayoutContextImpl implements MutableLayoutContext, Serializable {
         fontsMonospaced.add("Courier New");
         fontsMonospaced.add("Lucida Sans Typewriter");
         fontsMonospaced.add("DejaVu Sans Mono");
+        fontsMonospaced.add("DejaVuSansMono");
         fontsMonospaced.add("Bitstream Vera Sans Mono");
         fontsMonospaced.add("Luxi Mono");
         fontsMonospaced.add("FreeMono");
