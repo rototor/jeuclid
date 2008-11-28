@@ -212,7 +212,7 @@ public class DefaultFontFactory extends FontFactory {
         // And of course we don't want the oblique font to override the
         // regular font...
         if (!this.fontCache.containsKey(family)) {
-            this.fontCache.put(font.getFamily(), font);
+            this.fontCache.put(family, font);
         }
         return font;
     }
