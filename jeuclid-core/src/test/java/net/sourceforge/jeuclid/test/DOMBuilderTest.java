@@ -53,13 +53,14 @@ public class DOMBuilderTest {
 
     /**
      * Tests if DOM can be constructed manually.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testConstructor() throws Exception {
         final Document doc = this.parse("<math><mn>1</mn></math>");
-        final Document jdoc = DOMBuilder.getInstance()
-                .createJeuclidDom(doc);
+        final Document jdoc = DOMBuilder.getInstance().createJeuclidDom(doc);
         final Node firstChild = jdoc.getFirstChild();
         Assert.assertEquals(firstChild.getNodeName(), "math");
         Assert.assertEquals(firstChild.getFirstChild().getNodeName(), "mn");
