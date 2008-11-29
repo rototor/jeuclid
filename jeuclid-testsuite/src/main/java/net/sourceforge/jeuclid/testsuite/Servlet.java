@@ -68,7 +68,7 @@ public class Servlet extends HttpServlet {
             IOException {
         final String file = req.getPathInfo();
         final InputStream stream = Thread.currentThread()
-                .getContextClassLoader().getResourceAsStream(file);
+                .getContextClassLoader().getResourceAsStream("mml2-testsuite/"+file);
         // final InputStream stream = ClassLoader
         // .getSystemResourceAsStream(file);
         if (stream == null) {

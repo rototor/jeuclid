@@ -10,7 +10,7 @@ import net.sourceforge.jeuclid.converter.Processor;
 log.info("Converting testsuite...");
 
 scanner = ant.fileScanner {
-  fileset(dir:"${project.basedir}/src/main/resources") {
+  fileset(dir:"${project.basedir}/src/main/resources/mml2-testsuite") {
     include(name:"**/*")
   }
 }
@@ -21,7 +21,7 @@ Processor p = Processor.getInstance();
 MutableLayoutContext l = LayoutContextImpl.getDefaultLayoutContext()
 l.setParameter(Parameter.MATHSIZE, 16)
 for (f in scanner) {
-  f2 = new File(f.getPath().replace("src/main/resources","target/site/svg"))
+  f2 = new File(f.getPath().replace("src/main/resources/mml2-testsuite","target/site/svg"))
   ant.mkdir(dir: f2.getParent())
 
   def processed = false;
