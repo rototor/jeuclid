@@ -73,7 +73,13 @@ public final class Mglyph extends AbstractTokenWithTextLayout implements
     protected AttributedString textContentAsAttributedString(
             final LayoutContext now) {
         final AttributedString retVal;
-        final String fontFamily = this.getFontfamily().trim();
+        final String ffamily = this.getFontfamily();
+        final String fontFamily;
+        if (ffamily == null) {
+            fontFamily = "serif";
+        } else {
+            fontFamily = ffamily.trim();
+        }
         final Font font = FontFactory.getInstance().getFont(fontFamily,
                 Font.PLAIN, GraphicsSupport.getFontsizeInPoint(now));
         final int codePoint = this.getIndex();
