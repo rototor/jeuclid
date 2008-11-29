@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.4" date="TBA" description="TBA">
+      <action dev="maxberger" type="fix">Removed possible NPE in MGlyph handling.</action>
       <action dev="maxberger" type="fix">Better support for font styles.</action>
       <action dev="maxberger" type="fix">Added support for float sized fonts.</action>
       <action dev="maxberger" type="fix">Font-Caching and loading is now all done using lower case.</action>

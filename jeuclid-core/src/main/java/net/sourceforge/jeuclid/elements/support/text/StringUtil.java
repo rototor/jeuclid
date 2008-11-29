@@ -58,8 +58,8 @@ public final class StringUtil {
     }
 
     /**
-     * Converts a given String to an attributed string with the proper variants
-     * set.
+     * Converts a given String to an attributed string with the proper
+     * variants set.
      * 
      * @param inputString
      *            the string to convert.
@@ -75,6 +75,9 @@ public final class StringUtil {
     public static AttributedString convertStringtoAttributedString(
             final String inputString, final MathVariant baseVariant,
             final float fontSize, final LayoutContext context) {
+        if (inputString == null) {
+            return new AttributedString("");
+        }
         final StringBuilder builder = new StringBuilder();
         final List<Font> fonts = new ArrayList<Font>();
         final String plainString = CharConverter.convertLate(inputString);
@@ -179,7 +182,8 @@ public final class StringUtil {
         }
 
         final FontRenderContext realFontRenderContext = new FontRenderContext(
-                suggestedFontRenderContext.getTransform(), antialiasing, false);
+                suggestedFontRenderContext.getTransform(), antialiasing,
+                false);
 
         final TextLayout theLayout;
         if (empty) {
@@ -237,8 +241,9 @@ public final class StringUtil {
          * @param newWidth
          *            text width.
          */
-        protected TextLayoutInfo(final float newAscent, final float newDescent,
-                final float newOffset, final float newWidth) {
+        protected TextLayoutInfo(final float newAscent,
+                final float newDescent, final float newOffset,
+                final float newWidth) {
             this.ascent = newAscent;
             this.descent = newDescent;
             this.offset = newOffset;
@@ -293,8 +298,8 @@ public final class StringUtil {
      *            Trim to actual content
      * @return a TextLayoutInfo.
      */
-    public static TextLayoutInfo getTextLayoutInfo(final TextLayout textLayout,
-            final boolean trim) {
+    public static TextLayoutInfo getTextLayoutInfo(
+            final TextLayout textLayout, final boolean trim) {
         final Rectangle2D textBounds = textLayout.getBounds();
         final float ascent = (float) (-textBounds.getY());
         final float descent = (float) (textBounds.getY() + textBounds
