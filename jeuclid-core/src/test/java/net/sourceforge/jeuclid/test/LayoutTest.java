@@ -59,9 +59,9 @@ public class LayoutTest {
                         MathMLParserSupport.parseString(LayoutTest.TEST1));
         final JEuclidView view = (JEuclidView) (((DocumentView) docElement)
                 .getDefaultView());
-        Assert.assertTrue(view.getAscentHeight() > 1.0f);
-        Assert.assertTrue(view.getWidth() > 1.0f);
-        Assert.assertTrue(view.getDescentHeight() >= 0.0f);
+        Assert.assertTrue(view.getAscentHeight() > 1.0f, "View has not enough ascent: " + view.getAscentHeight());
+        Assert.assertTrue(view.getWidth() > 1.0f, "View has not enoguh width: " + view.getWidth());
+        Assert.assertTrue(view.getDescentHeight() >= 0.0f, "Descent Height < 0: " + view.getDescentHeight());
     }
 
     /**
