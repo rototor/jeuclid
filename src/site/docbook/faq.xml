@@ -52,6 +52,9 @@
 
         <para>Stretched operators are rendered in a position which is too
         high</para>
+
+        <para>This bug is fixed in some distributions of b12 (such as Fedora 
+        10), and probably in all distributions of b13.</para>
       </listitem>
     </itemizedlist>
   </section>
