@@ -765,7 +765,6 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public List<LayoutableNode> getChildrenToLayout() {
         final List<LayoutableNode> l = ElementListSupport
                 .createListOfLayoutChildren(this);

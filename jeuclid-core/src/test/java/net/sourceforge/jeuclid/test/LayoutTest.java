@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.test;
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.elements.presentation.general.Mfrac;
-import net.sourceforge.jeuclid.elements.presentation.script.Mmultiscripts;
 import net.sourceforge.jeuclid.elements.presentation.token.Mi;
 import net.sourceforge.jeuclid.elements.presentation.token.Mn;
 import net.sourceforge.jeuclid.layout.JEuclidView;
@@ -50,7 +49,9 @@ public class LayoutTest {
 
     /**
      * Test if there is something in the view.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testViewNotEmpty() throws Exception {
@@ -59,14 +60,19 @@ public class LayoutTest {
                         MathMLParserSupport.parseString(LayoutTest.TEST1));
         final JEuclidView view = (JEuclidView) (((DocumentView) docElement)
                 .getDefaultView());
-        Assert.assertTrue(view.getAscentHeight() > 1.0f, "View has not enough ascent: " + view.getAscentHeight());
-        Assert.assertTrue(view.getWidth() > 1.0f, "View has not enoguh width: " + view.getWidth());
-        Assert.assertTrue(view.getDescentHeight() >= 0.0f, "Descent Height < 0: " + view.getDescentHeight());
+        Assert.assertTrue(view.getAscentHeight() > 1.0f,
+                "View has not enough ascent: " + view.getAscentHeight());
+        Assert.assertTrue(view.getWidth() > 1.0f,
+                "View has not enoguh width: " + view.getWidth());
+        Assert.assertTrue(view.getDescentHeight() >= 0.0f,
+                "Descent Height < 0: " + view.getDescentHeight());
     }
 
     /**
      * Tests if view modifies itself when DOM is modified.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testViewMutable() throws Exception {
@@ -117,7 +123,9 @@ public class LayoutTest {
 
     /**
      * Test whitespace handling.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testWhitespace() throws Exception {
