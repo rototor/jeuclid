@@ -7,7 +7,9 @@
   <section>
     <title>Obtaining JEuclid</title>
 
-    <para>You may download JEuclid from the <ulink
+    <para>You may <ulink
+    url="http://sourceforge.net/project/showfiles.php?group_id=44862">download
+    JEuclid</ulink> from the <ulink
     url="http://sourceforge.net/project/showfiles.php?group_id=44862">sourceforge
     project site for JEuclid</ulink> as a binary package or from <ulink
     url="./source.html">source</ulink>. Please note: There are several binary
