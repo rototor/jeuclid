@@ -277,6 +277,25 @@
           <proguardInclude>${common.dir}/proguard.lib.conf</proguardInclude>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <id>validate-changes</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>changes-validate</goal>
+            </goals>
+            <configuration>
+<!-- if set to true the build will fail if the changes file is invalid,
+                   if set to false warnings will be logged. -->
+              <failOnError>true</failOnError>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
