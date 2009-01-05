@@ -46,8 +46,15 @@
 
     <itemizedlist>
       <listitem>
+        <para>JEuclid 3.1.4 released!</para>
+
+        <para>Please see the <ulink url="./changes-report.html">list of
+        changes for JEuclid</ulink>.</para>
+      </listitem>
+
+      <listitem>
         <para>JEuclid 3.1.x has seen no significant bugs in the last 2 month
-        and has therefore been declared stable.</para>
+        and has therefore been declared stable</para>
       </listitem>
 
       <listitem>
@@ -70,8 +77,7 @@
           </listitem>
         </itemizedlist>
 
-        <para>A <ulink url="./changes-report.html">List of changes for
-        JEuclid</ulink> is avaiable.</para>
+        <para>A is avaiable.</para>
       </listitem>
 
       <listitem>
