@@ -29,6 +29,10 @@ mvn release:prepare
 
 4. Perform the release
 
+Ensure that you have a shell at sourceforge:
+/usr/bin/ssh -T maxberger,jeuclid@shell.sourceforge.net create
+(use your user name)
+
 mvn release:perform -DgenerateReleasePoms=true
 (checks out the project into target/checkout)
 
