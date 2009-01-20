@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.5" date="TBD" description="TBD">
+      <action dev="maxberger" type="fix">jeuclid-fop: Workaround for NPE if an image does not exist.</action>
     </release>
     <release version="3.1.4" date="2009-01-05" description="Font bugfixes">
       <action dev="maxberger" type="add">Added Regression tests for testsuite.</action>

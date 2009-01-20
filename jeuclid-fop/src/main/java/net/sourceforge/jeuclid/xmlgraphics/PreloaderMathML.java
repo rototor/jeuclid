@@ -130,6 +130,10 @@ public class PreloaderMathML extends AbstractImagePreloader {
             n = null;
         } catch (final IllegalArgumentException e) {
             n = null;
+        } catch (final NullPointerException e) {
+            // Due to a bug in xmlgraphics-commons 1.3.1 which sometimes
+            // creates wrapper around null streams if files do not exist.
+            n = null;
         }
         try {
             if (in != null) {
@@ -138,6 +142,10 @@ public class PreloaderMathML extends AbstractImagePreloader {
         } catch (final IOException ioe) {
             PreloaderMathML.LOGGER.warn("Should never happen: "
                     + ioe.getMessage());
+        } catch (final NullPointerException e) {
+            // Due to a bug in xmlgraphics-commons 1.3.1 which sometimes
+            // creates wrapper around null streams if files do not exist.
+            n = null;
         }
         return n;
     }
