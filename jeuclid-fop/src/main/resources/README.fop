@@ -26,6 +26,22 @@ Installation
 
   That's it! Enjoy MathML support in FOP.
 
+** Installation in Debian / Ubuntu
+
+  If you use the prepacked version of fop from debian / ubuntu, the following 
+  procedure is known to work:
+
+  * copy jeuclids jars to <<</usr/share/java>>>
+
+  * create links from jeuclid-fop-x.x.x.jar to jeuclid-fop.jar, same for -core.
+
+  * add the line <<<find_jars jeuclid-core jeuclid-fop>>> to /usr/bin/fop
+
+  []
+
+  This method requires modification of directories which are in the care of
+  your distribution. If you know a better method, please let us know!
+
 Usage
 
 * External MathML Documents
