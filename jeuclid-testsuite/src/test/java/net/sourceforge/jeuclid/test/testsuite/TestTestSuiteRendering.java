@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 - 2008 JEuclid, http://jeuclid.sf.net
+ * Copyright 2008 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id$ */
+/* $Id: JEuclidView.java 795 2008-06-21 10:53:35Z maxberger $ */
 
 package net.sourceforge.jeuclid.test.testsuite;
 
@@ -58,7 +58,7 @@ import org.w3c.dom.Document;
  * Compares Rendering of the testsuite to previous renderings to catch
  * regression bugs.
  * 
- * @version $Revision$
+ * @version $Revision: 123 $
  */
 public class TestTestSuiteRendering {
 
