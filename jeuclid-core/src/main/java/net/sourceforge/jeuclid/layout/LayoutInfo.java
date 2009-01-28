@@ -21,12 +21,39 @@ package net.sourceforge.jeuclid.layout;
 import java.util.List;
 
 /**
+ * Represented Information about a layouted object.
+ * <p>
+ * 
+ * The completeness of this information depends on the objects
+ * {@link LayoutStage}.
+ * <p>
+ * Each object is described with:
+ * <ul>
+ * <li>Origin: {@link #getPosX(LayoutStage)}, {@link #getPosY(LayoutStage)})
+ * <li>Horizontal Size: {@link #getWidth(LayoutStage)})
+ * <li>Vertical Size: {@link #getAscentHeight(LayoutStage)},
+ * {@link #getDescentHeight(LayoutStage)}
+ * </ul>
+ * <p>
+ * Coordinates are given relative to the baseline. If the object has no
+ * descent, this means the origin of the object is the lower left corner.
+ * <p>
+ * The actual Graphical representation can be retrieved with
+ * {@link #getGraphicObjects()}.
+ * <p>
+ * The stretch information ( {@link #getStretchAscent()},
+ * {@link #getStretchDescent()}, {@link #getStretchWidth()}) is set during the
+ * parents layout and defines the size to which stretchable operators are
+ * scaled to.
+ * 
  * @version $Revision$
  */
 public interface LayoutInfo {
 
     /**
-     * The LayoutStage this element represents.
+     * The {@link LayoutStage} this element represents. The information will
+     * not be complete until the final LayoutStage ({@link LayoutStage#STAGE2}
+     * ) has been reached.
      * 
      * @return current layout stage.
      */
@@ -44,8 +71,8 @@ public interface LayoutInfo {
      * 
      * @return Height of the upper part
      * @param stage
-     *            layoutStage to get this information for (either STAGE1 or
-     *            STAGE2)
+     *            {@link LayoutStage} to get this information for (either
+     *            {@link LayoutStage#STAGE1} or {@link LayoutStage#STAGE2})
      */
     float getAscentHeight(LayoutStage stage);
 
@@ -55,8 +82,8 @@ public interface LayoutInfo {
      * 
      * @return Height of the lower part.
      * @param stage
-     *            layoutStage to get this information for (either STAGE1 or
-     *            STAGE2)
+     *            {@link LayoutStage} to get this information for (either
+     *            {@link LayoutStage#STAGE1} or {@link LayoutStage#STAGE2})
      */
     float getDescentHeight(LayoutStage stage);
 
@@ -65,8 +92,8 @@ public interface LayoutInfo {
      * 
      * @return Width of this element.
      * @param stage
-     *            layoutStage to get this information for (either STAGE1 or
-     *            STAGE2)
+     *            {@link LayoutStage} to get this information for (either
+     *            {@link LayoutStage#STAGE1} or {@link LayoutStage#STAGE2})
      */
     float getWidth(LayoutStage stage);
 
@@ -78,8 +105,8 @@ public interface LayoutInfo {
      * 
      * @return X-position of the center of the content
      * @param stage
-     *            layoutStage to get this information for (either STAGE1 or
-     *            STAGE2)
+     *            {@link LayoutStage} to get this information for (either
+     *            {@link LayoutStage#STAGE1} or {@link LayoutStage#STAGE2})
      */
     float getHorizontalCenterOffset(LayoutStage stage);
 
@@ -87,8 +114,8 @@ public interface LayoutInfo {
      * @param newOffset
      *            new horizontal offset.
      * @param stage
-     *            layoutStage to get this information for (either STAGE1 or
-     *            STAGE2)
+     *            {@link LayoutStage} to get this information for (either
+     *            {@link LayoutStage#STAGE1} or {@link LayoutStage#STAGE2})
      */
     void setHorizontalCenterOffset(float newOffset, LayoutStage stage);
 
@@ -97,8 +124,8 @@ public interface LayoutInfo {
      * 
      * @return X position
      * @param stage
-     *            layoutStage to get this information for (either STAGE1 or
-     *            STAGE2)
+     *            {@link LayoutStage} to get this information for (either
+     *            {@link LayoutStage#STAGE1} or {@link LayoutStage#STAGE2})
      */
     float getPosX(LayoutStage stage);
 
@@ -107,8 +134,8 @@ public interface LayoutInfo {
      * 
      * @return Y position
      * @param stage
-     *            layoutStage to get this information for (either STAGE1 or
-     *            STAGE2)
+     *            {@link LayoutStage} to get this information for (either
+     *            {@link LayoutStage#STAGE1} or {@link LayoutStage#STAGE2})
      */
     float getPosY(LayoutStage stage);
 
@@ -120,8 +147,8 @@ public interface LayoutInfo {
      * @param y
      *            new Y position
      * @param stage
-     *            layoutStage to get this information for (either STAGE1 or
-     *            STAGE2)
+     *            {@link LayoutStage} to get this information for (either
+     *            {@link LayoutStage#STAGE1} or {@link LayoutStage#STAGE2})
      */
     void moveTo(float x, float y, LayoutStage stage);
 
@@ -139,8 +166,8 @@ public interface LayoutInfo {
      * @param ascentHeight
      *            new ascentHeight.
      * @param stage
-     *            layoutStage to get this information for (either STAGE1 or
-     *            STAGE2)
+     *            {@link LayoutStage} to get this information for (either
+     *            {@link LayoutStage#STAGE1} or {@link LayoutStage#STAGE2})
      */
     void setAscentHeight(float ascentHeight, LayoutStage stage);
 
@@ -148,8 +175,8 @@ public interface LayoutInfo {
      * @param descentHeight
      *            new descentHeight.
      * @param stage
-     *            layoutStage to get this information for (either STAGE1 or
-     *            STAGE2)
+     *            {@link LayoutStage} to get this information for (either
+     *            {@link LayoutStage#STAGE1} or {@link LayoutStage#STAGE2})
      */
     void setDescentHeight(float descentHeight, LayoutStage stage);
 
@@ -157,8 +184,8 @@ public interface LayoutInfo {
      * @param width
      *            new width.
      * @param stage
-     *            layoutStage to get this information for (either STAGE1 or
-     *            STAGE2)
+     *            {@link LayoutStage} to get this information for (either
+     *            {@link LayoutStage#STAGE1} or {@link LayoutStage#STAGE2})
      */
     void setWidth(float width, LayoutStage stage);
 
