@@ -60,8 +60,12 @@ import org.w3c.dom.Document;
  * 
  * @version $Revision: 123 $
  */
+// CHECKSTYLE:OFF
+// This is a test class.
 public class TestTestSuiteRendering {
+    private static final float LARGE_FONT_SIZE = 48.0f;
 
+    // CHECKSTYLE:ON
     /**
      * Logger for this class.
      */
@@ -78,7 +82,7 @@ public class TestTestSuiteRendering {
 
     private final String vendor;
 
-    File tempDir;
+    private final File tempDir;
 
     /**
      * Default Constructor.
@@ -88,7 +92,8 @@ public class TestTestSuiteRendering {
         final MutableLayoutContext mlc = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
         mlc.setParameter(Parameter.ANTIALIAS, true);
-        mlc.setParameter(Parameter.MATHSIZE, 48.0f);
+        mlc.setParameter(Parameter.MATHSIZE,
+                TestTestSuiteRendering.LARGE_FONT_SIZE);
         mlc.setParameter(Parameter.FONTS_SANSSERIF, "DejaVu Sans");
         mlc.setParameter(Parameter.FONTS_SERIF, "DejaVu Serif");
         this.layoutContext = mlc;
@@ -198,7 +203,7 @@ public class TestTestSuiteRendering {
         }
     }
 
-    private final List<RenderInfo> render(final String line) throws Exception {
+    private List<RenderInfo> render(final String line) throws Exception {
         final List<RenderInfo> currentList = new LinkedList<RenderInfo>();
         try {
             final InputStream i = ClassLoader.getSystemResourceAsStream(line);

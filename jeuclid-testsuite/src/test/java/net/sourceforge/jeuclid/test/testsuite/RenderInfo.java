@@ -48,33 +48,32 @@ public class RenderInfo implements Serializable {
     /**
      * Default constructor.
      * 
-     * @param elementName
+     * @param element
      *            Name of the element
-     * @param ascent
+     * @param asc
      *            Ascent height
-     * @param descent
+     * @param desc
      *            Descent height
-     * @param width
+     * @param wid
      *            Width
-     * @param posx
+     * @param x
      *            X-Position
-     * @param posy
+     * @param y
      *            Y-Position.
      */
-    public RenderInfo(final String elementName, final float ascent,
-            final float descent, final float width, final float posx,
-            final float posy) {
+    public RenderInfo(final String element, final float asc,
+            final float desc, final float wid, final float x, final float y) {
         super();
-        if (elementName == null) {
+        if (element == null) {
             this.elementName = "";
         } else {
-            this.elementName = elementName;
+            this.elementName = element;
         }
-        this.ascent = ascent;
-        this.descent = descent;
-        this.width = width;
-        this.posx = posx;
-        this.posy = posy;
+        this.ascent = asc;
+        this.descent = desc;
+        this.width = wid;
+        this.posx = x;
+        this.posy = y;
     }
 
     /**
@@ -87,19 +86,19 @@ public class RenderInfo implements Serializable {
      */
     public boolean isSimilar(final RenderInfo other) {
         boolean isSim = true;
-        isSim &= (this.elementName.equals(other.elementName));
-        isSim &= (this.isClose(this.ascent, other.ascent));
-        isSim &= (this.isClose(this.descent, other.descent));
-        isSim &= (this.isClose(this.width, other.width));
-        isSim &= (this.isClose(this.posx, other.posx));
-        isSim &= (this.isClose(this.posy, other.posy));
+        isSim &= this.elementName.equals(other.elementName);
+        isSim &= this.isClose(this.ascent, other.ascent);
+        isSim &= this.isClose(this.descent, other.descent);
+        isSim &= this.isClose(this.width, other.width);
+        isSim &= this.isClose(this.posx, other.posx);
+        isSim &= this.isClose(this.posy, other.posy);
         return isSim;
     }
 
     private boolean isClose(final float should, final float is) {
         final float maxdelta = Math.max(Math.abs(should
                 * RenderInfo.FUZZYNESS), 0.1f);
-        return Math.abs(should - is) <= (maxdelta);
+        return Math.abs(should - is) <= maxdelta;
     }
 
     /**
