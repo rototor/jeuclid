@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: JEuclidView.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.test.testsuite;
 
@@ -23,7 +23,7 @@ import java.io.Serializable;
 /**
  * Storable Render Information, to compare layout.
  * 
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public class RenderInfo implements Serializable {
     private static final float FUZZYNESS = 0.1f;
