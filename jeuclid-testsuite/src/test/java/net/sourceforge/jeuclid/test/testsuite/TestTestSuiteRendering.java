@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: JEuclidView.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.test.testsuite;
 
@@ -58,7 +58,7 @@ import org.w3c.dom.Document;
  * Compares Rendering of the testsuite to previous renderings to catch
  * regression bugs.
  * 
- * @version $Revision: 123 $
+ * @version $Revision$
  */
 // CHECKSTYLE:OFF
 // This is a test class.
