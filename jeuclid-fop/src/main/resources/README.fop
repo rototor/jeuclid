@@ -21,14 +21,14 @@ Installation
   
   []
 
-  If you have downloaded the full distribution, these files can be found in the 
+  If you have downloaded the full JEuclid distribution, these files can be found in the 
   repo/ sub-directory.
 
   That's it! Enjoy MathML support in FOP.
 
-** Installation in Debian / Ubuntu
+** Installation in Ubuntu
 
-  If you use the prepacked version of fop from debian / ubuntu, the following 
+  If you use the prepacked version of fop from Ubuntu, the following 
   procedure is known to work:
 
   * copy jeuclids jars to <<</usr/share/java>>>
@@ -41,6 +41,11 @@ Installation
 
   This method requires modification of directories which are in the care of
   your distribution. If you know a better method, please let us know!
+
+** Other Distributions
+
+  Other distributions may provide the fop jars in a different fashion. If you
+  have detailed installation instructions, please let us know.
 
 Usage
 
