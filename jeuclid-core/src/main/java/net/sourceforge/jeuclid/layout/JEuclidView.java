@@ -20,9 +20,13 @@ package net.sourceforge.jeuclid.layout;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.jeuclid.DOMBuilder;
@@ -31,6 +35,7 @@ import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -227,6 +232,107 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
             final LayoutableNode lorigin = (LayoutableNode) origin;
             final LayoutInfo info = this.getInfo(lorigin);
             info.setLayoutStage(LayoutStage.NONE);
+        }
+    }
+
+    /**
+     * Data structure for storing a {@link Node} along with its rendering
+     * boundary ({@link Rectangle2D.Float}).
+     */
+    public static final class NodeRect {
+        private final Node node;
+
+        private final Rectangle2D.Float rect;
+
+        private NodeRect(final Node n, final Rectangle2D.Float r) {
+            this.node = n;
+            this.rect = r;
+        }
+
+        /**
+         * @return The Node this rectangle refers to.
+         */
+        public Node getNode() {
+            return this.node;
+        }
+
+        /**
+         * @return The renderering boundary.
+         */
+        public Rectangle2D.Float getRect() {
+            return this.rect;
+        }
+
+    }
+
+    /**
+     * Get the node and rendering information from a mouse position.
+     * 
+     * @param x
+     *            x-coord
+     * @param y
+     *            y-coord
+     * @param offsetX
+     *            starting x position offset
+     * @param offsetY
+     *            starting y position offset
+     * @return list of nodes with rendering information
+     */
+    public List<JEuclidView.NodeRect> getNodesAt(final float x,
+            final float y, final float offsetX, final float offsetY) {
+        final List<JEuclidView.NodeRect> nodes = new LinkedList<JEuclidView.NodeRect>();
+        this.getNodesAtRec(x, y, offsetX, offsetY, this.document, nodes);
+        return nodes;
+    }
+
+    /**
+     * Check whether the given mouse position (with given offset) is in the
+     * rendering area of the given node - if so, append it to the nodes list
+     * 
+     * @param x
+     *            x-coord
+     * @param y
+     *            y-coord
+     * @param offsetX
+     *            x position offset to node
+     * @param offsetY
+     *            y position offset to node
+     * @param node
+     *            node to check
+     * @param nodesSoFar
+     *            vector of nodes so far
+     */
+    private void getNodesAtRec(final float x, final float y,
+            final float offsetX, final float offsetY, final Node node,
+            final List<JEuclidView.NodeRect> nodesSoFar) {
+        if (node instanceof LayoutableNode) {
+            final LayoutInfo info = this.layoutMap.get(node);
+
+            // this will be STAGE2
+            final LayoutStage stage = info.getLayoutStage();
+
+            // find top-left corner of rendering area for this node
+            final float infoX = info.getPosX(stage) + offsetX;
+            final float infoY = info.getPosY(stage) + offsetY
+                    - info.getAscentHeight(stage);
+
+            // create rectangle of rendered node area
+            final Rectangle2D.Float rect = new Rectangle.Float(infoX, infoY,
+                    info.getWidth(stage), info.getAscentHeight(stage)
+                            + info.getDescentHeight(stage));
+
+            // record node and rectangle if it contains the mouse position
+            if (rect.contains(x, y)) {
+                nodesSoFar.add(new NodeRect(node, rect));
+
+                // recurse on child nodes
+                final NodeList nodeList = node.getChildNodes();
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    this.getNodesAtRec(x, y, infoX, infoY
+                            + info.getAscentHeight(stage), nodeList.item(i),
+                            nodesSoFar);
+                }
+            }
         }
     }
 

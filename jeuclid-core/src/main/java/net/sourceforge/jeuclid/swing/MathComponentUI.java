@@ -27,6 +27,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.LookAndFeel;
@@ -42,9 +43,8 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
 
 /**
- * See
- * http://today.java.net/pub/a/today/2007/02/22/how-to-write-custom-swing-component.html
- * for details.
+ * See http://today.java.net/pub/a/today/2007/02/22/how-to-write-custom-swing-
+ * component.html for details.
  * 
  * @version $Revision$
  * 
@@ -55,7 +55,8 @@ public class MathComponentUI extends ComponentUI implements
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory.getLog(MathComponentUI.class);
+    private static final Log LOGGER = LogFactory
+            .getLog(MathComponentUI.class);
 
     private JMathComponent mathComponent;
 
@@ -68,6 +69,14 @@ public class MathComponentUI extends ComponentUI implements
     private Node document;
 
     private Dimension preferredSize;
+
+    /**
+     * Default constructor.
+     */
+    public MathComponentUI() {
+        super();
+        // nothing to do.
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -128,7 +137,8 @@ public class MathComponentUI extends ComponentUI implements
         }
     }
 
-    private Point getStartPointWithBordersAndAdjustDimension(final Dimension dim) {
+    private Point getStartPointWithBordersAndAdjustDimension(
+            final Dimension dim) {
         Point start = new Point(0, 0);
         final Border border = this.mathComponent.getBorder();
         if (border != null) {
@@ -258,6 +268,23 @@ public class MathComponentUI extends ComponentUI implements
     @Override
     public Dimension getMinimumSize(final JComponent c) {
         return this.getMathComponentSize(c);
+    }
+
+    /**
+     * Get vector of {@link JEuclidView.NodeRect} at a particular mouse
+     * position.
+     * 
+     * @param x
+     *            x-coord
+     * @param y
+     *            y-coord
+     * @return list of nodes with rendering information
+     */
+    public List<JEuclidView.NodeRect> getNodesAt(final float x, final float y) {
+        final Point2D point = this
+                .calculateAlignmentOffset(this.mathComponent.getSize());
+        return this.jEuclidView.getNodesAt(x, y, (float) point.getX(),
+                (float) point.getY());
     }
 
 }
