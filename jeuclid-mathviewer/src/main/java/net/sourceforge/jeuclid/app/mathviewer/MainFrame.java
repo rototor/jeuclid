@@ -39,6 +39,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
@@ -97,7 +99,13 @@ public class MainFrame extends JFrame {
 
     private JDialog aboutDialog;
 
+    private JSplitPane splitPane;
+
     private JScrollPane scrollPane;
+
+    private JScrollPane scrollPane2;
+
+    private JTextArea textArea;
 
     private JMathComponent mathComponent;
 
@@ -143,7 +151,7 @@ public class MainFrame extends JFrame {
         if (this.jContentPane == null) {
             this.jContentPane = new JPanel();
             this.jContentPane.setLayout(new BorderLayout());
-            this.jContentPane.add(this.getScrollPane(), BorderLayout.CENTER);
+            this.jContentPane.add(this.getSplitPane(), BorderLayout.CENTER);
         }
         return this.jContentPane;
     }
@@ -383,6 +391,8 @@ public class MainFrame extends JFrame {
         final Document doc = MainFrame.FILEIO.loadFile(this, f);
         if (doc != null) {
             this.getMathComponent().setDocument(doc);
+            this.getTextArea().setText(
+                    MathMLSerializer.serializeDocument(doc, false, false));
         }
 
     }
@@ -393,6 +403,34 @@ public class MainFrame extends JFrame {
     protected void openFile() {
         final File file = MainFrame.FILEIO.selectFileToOpen(this);
         this.loadFile(file);
+    }
+
+    /**
+     * This method initializes splitPane
+     * 
+     * @return {@link JSplitPane}
+     */
+    private JSplitPane getSplitPane() {
+        if (this.splitPane == null) {
+            this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, this
+                    .getScrollPane(), this.getScrollPane2());
+            this.splitPane.setOneTouchExpandable(true);
+            this.splitPane.setResizeWeight(1.0);
+        }
+        return this.splitPane;
+    }
+
+    /**
+     * This method initializes textArea
+     * 
+     * @return {@link JTextArea}
+     */
+    private JTextArea getTextArea() {
+        if (this.textArea == null) {
+            this.textArea = new JTextArea();
+            this.textArea.setEditable(false);
+        }
+        return this.textArea;
     }
 
     /**
@@ -413,6 +451,26 @@ public class MainFrame extends JFrame {
             }
         }
         return this.scrollPane;
+    }
+
+    /**
+     * This method initializes scrollPane2
+     * 
+     * @return javax.swing.JScrollPane
+     */
+    private JScrollPane getScrollPane2() {
+        if (this.scrollPane2 == null) {
+            this.scrollPane2 = new JScrollPane();
+            this.scrollPane2.setViewportView(this.getTextArea());
+
+            if (MathViewer.OSX) {
+                this.scrollPane2
+                        .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                this.scrollPane2
+                        .setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+            }
+        }
+        return this.scrollPane2;
     }
 
     /**
@@ -625,8 +683,10 @@ public class MainFrame extends JFrame {
         if (content != null
                 && content.isDataFlavorSupported(DataFlavor.stringFlavor)) {
             try {
-                this.mathComponent.setContent((String) content
-                        .getTransferData(DataFlavor.stringFlavor));
+                final String newContent = (String) content
+                        .getTransferData(DataFlavor.stringFlavor);
+                this.mathComponent.setContent(newContent);
+                this.textArea.setText(newContent);
                 // CHECKSTYLE:OFF
                 // in this case, we want to explicitly provide catch-all error
                 // handling.
