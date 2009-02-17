@@ -627,7 +627,11 @@ public class MainFrame extends JFrame {
             try {
                 this.mathComponent.setContent((String) content
                         .getTransferData(DataFlavor.stringFlavor));
+                // CHECKSTYLE:OFF
+                // in this case, we want to explicitly provide catch-all error
+                // handling.
             } catch (final Exception e) {
+                // CHECKSTYLE:ON
                 JOptionPane.showMessageDialog(this, new String[] {
                         Messages.getString("MathViewer.pasteFailure"),
                         e.toString(), }, Messages
