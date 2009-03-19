@@ -236,16 +236,22 @@ public class DefaultFontFactory extends FontFactory {
         if (fontname.contains("bold")) {
             style |= Font.BOLD;
         }
+        this.cacheFontWithStyle(font, family, style);
+        this.cacheFontWithStyle(font, fontname, style);
+        return font;
+    }
+
+    private void cacheFontWithStyle(final Font font, final String cacheName,
+            final int style) {
         synchronized (this.fontCache) {
-            Font[] fonts = this.fontCache.get(family);
+            Font[] fonts = this.fontCache.get(cacheName);
             if (fonts == null) {
                 fonts = new Font[DefaultFontFactory.NUM_STYLES];
-                this.fontCache.put(family, fonts);
+                this.fontCache.put(cacheName, fonts);
                 fonts[0] = font;
             }
             fonts[style] = font;
         }
-        return font;
     }
 
     /** {@inheritDoc} */
