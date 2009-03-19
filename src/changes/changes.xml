@@ -5,7 +5,8 @@
     <author>Max Berger</author>
   </properties>
   <body>
-    <release version="3.1.5" date="TBD" description="TBD">
+    <release version="3.1.5" date="2009-03-19" description="Towards interaction">
+      <action dev="maxberger" type="fix">Font-Cache: repaired support for euler fonts.</action>
       <action dev="maxberger" type="add">MathViewer: Add source view.</action>
       <action dev="maxberger" due-to="NeilChittenden" issue="2600058" type="add">jeuclid-core: Mouse position detection (presentation mathml).</action>
       <action dev="maxberger" type="fix">jeuclid-fop: Workaround for NPE if an image does not exist.</action>
