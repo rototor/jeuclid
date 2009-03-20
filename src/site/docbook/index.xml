@@ -46,6 +46,29 @@
 
     <itemizedlist>
       <listitem>
+        <para>JEuclid 3.1.5 Released!</para>
+
+        <para>This Release contains:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>More Bug Fixes</para>
+          </listitem>
+
+          <listitem>
+            <para>Get MathML element from Mouse Position</para>
+          </listitem>
+
+          <listitem>
+            <para>Source View in MathViewer</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Please see the <ulink url="./changes-report.html">list of
+        changes for JEuclid</ulink>.</para>
+      </listitem>
+
+      <listitem>
         <para>JEuclid 3.1.4 released!</para>
 
         <para>Please see the <ulink url="./changes-report.html">list of
