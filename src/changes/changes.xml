@@ -5,6 +5,9 @@
     <author>Max Berger</author>
   </properties>
   <body>
+    <release version="3.1.6" date="TDA" description="TBD">
+      <action dev="maxberger" type="add">FOP: Added support for ImageConverter needed by newer fop.</action>
+    </release>
     <release version="3.1.5" date="2009-03-20" description="Towards interaction">
       <action dev="maxberger" type="fix" issue="2689811">Fixed NPE if mo has no parent.</action>
       <action dev="maxberger" type="fix">Font-Cache: repaired support for euler fonts.</action>

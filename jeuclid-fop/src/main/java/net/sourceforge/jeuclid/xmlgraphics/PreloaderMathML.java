@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sourceforge.jeuclid.Constants;
@@ -114,10 +115,16 @@ public class PreloaderMathML extends AbstractImagePreloader {
         Document n = null;
         InputStream in = null;
         try {
-            in = new UnclosableInputStream(ImageUtil.needInputStream(src));
-            final int length = in.available();
-            in.mark(length + 1);
-            n = Parser.getInstance().parseStreamSource(new StreamSource(in));
+            if (src instanceof DOMSource) {
+                final DOMSource domSrc = (DOMSource) src;
+                n = (Document) domSrc.getNode();
+            } else {
+                in = new UnclosableInputStream(ImageUtil.needInputStream(src));
+                final int length = in.available();
+                in.mark(length + 1);
+                n = Parser.getInstance().parseStreamSource(
+                        new StreamSource(in));
+            }
             final Element rootNode = n.getDocumentElement();
             if (!(AbstractJEuclidElement.URI.equals(rootNode
                     .getNamespaceURI()) || MathImpl.ELEMENT.equals(rootNode

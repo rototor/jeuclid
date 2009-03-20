@@ -22,17 +22,8 @@
  */
 package net.sourceforge.jeuclid.fop;
 
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-
-import net.sourceforge.jeuclid.MutableLayoutContext;
-import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
-import net.sourceforge.jeuclid.layout.JEuclidView;
-import net.sourceforge.jeuclid.xmlgraphics.PreloaderMathML;
+import net.sourceforge.jeuclid.xmlgraphics.Graphics2DImagePainterMathML;
 
 import org.apache.fop.render.Graphics2DAdapter;
 import org.apache.fop.render.Renderer;
@@ -58,31 +49,9 @@ public class JEuclidXMLHandler implements XMLHandler {
         final Graphics2DAdapter g2dAdapter = rendererContext.getRenderer()
                 .getGraphics2DAdapter();
 
-        final MutableLayoutContext layoutContext = new LayoutContextImpl(
-                LayoutContextImpl.getDefaultLayoutContext());
-
         if (g2dAdapter != null) {
-            final Image tempimage = new BufferedImage(1, 1,
-                    BufferedImage.TYPE_INT_ARGB);
-            final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-            final JEuclidView view = new JEuclidView(document, layoutContext,
-                    tempg);
-            final int w = (int) Math.ceil(view.getWidth()
-                    * PreloaderMathML.MPT_FACTOR);
-            final float ascent = view.getAscentHeight();
-            final int h = (int) Math.ceil((ascent + view.getDescentHeight())
-                    * PreloaderMathML.MPT_FACTOR);
-            final Graphics2DImagePainter painter = new Graphics2DImagePainter() {
-
-                public void paint(final Graphics2D g2d, final Rectangle2D area) {
-                    view.draw(g2d, 0, ascent);
-                }
-
-                public Dimension getImageSize() {
-                    return new Dimension(w, h);
-                }
-
-            };
+            final Graphics2DImagePainter painter = Graphics2DImagePainterMathML
+                    .createGraphics2DImagePainter(document);
             g2dAdapter.paintImage(painter, rendererContext,
                     ((Integer) rendererContext.getProperty("xpos"))
                             .intValue(), ((Integer) rendererContext
