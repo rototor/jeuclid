@@ -158,4 +158,23 @@ public class LayoutTest {
 
     }
 
+    /**
+     * Test MO without parent.
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testMoWithoutParent() throws Exception {
+        final MathMLDocument docElement = DOMBuilder
+                .getInstance()
+                .createJeuclidDom(
+                        MathMLParserSupport
+                                .parseString("<mrow><mo>&#x2211;</mo></mrow>"));
+        final JEuclidView view = (JEuclidView) (((DocumentView) docElement)
+                .getDefaultView());
+
+        // To trigger layout
+        view.getWidth();
+    }
 }

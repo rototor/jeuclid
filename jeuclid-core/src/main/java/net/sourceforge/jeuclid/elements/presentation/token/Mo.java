@@ -563,8 +563,9 @@ public final class Mo extends AbstractJEuclidElement implements
         final float calcBaselineShift;
         final boolean stretchVertically = this.isVerticalDelimeter();
         JEuclidElement parent = this.getParent();
-        while (((parent instanceof MathMLUnderOverElement) && stretchVertically)
-                || ((parent instanceof Mrow) && (parent.getMathElementCount() == 1))) {
+        while ((((parent instanceof MathMLUnderOverElement) && stretchVertically) || ((parent instanceof Mrow) && (parent
+                .getMathElementCount() == 1)))
+                && (parent.getParent() != null)) {
             parent = parent.getParent();
         }
         final LayoutInfo parentInfo = view.getInfo(parent);
