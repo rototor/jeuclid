@@ -25,7 +25,11 @@ mvn release:prepare
 
 fails half-way through due to missing dependencies, fix with
 mvn install
-mvn release:prepare
+mvn release:prepare -Dresume
+
+if you get a strange svn error, run
+svn update
+mvn release:prepare -Dresume
 
 4. Perform the release
 
