@@ -22,8 +22,13 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.Collections;
 
+import net.sourceforge.jeuclid.Constants;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
+import net.sourceforge.jeuclid.elements.generic.MathImpl;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -117,5 +122,27 @@ public class LayoutContextParamTest {
                 "0.5");
         Assert.assertEquals(Parameter.SCRIPTLEVEL
                 .toString(Integer.valueOf(2)), "2");
+    }
+
+    /**
+     * Test parameter passing from String.
+     */
+    @Test
+    public void testParamFromNSProgrammatically() {
+        final MathImpl mi = new MathImpl();
+        mi.setOwnerDocument(new DocumentElement());
+        final LayoutContext defaultContext = LayoutContextImpl
+                .getDefaultLayoutContext();
+        final LayoutContext testContext1 = mi.getChildLayoutContext(0,
+                defaultContext);
+        Assert.assertEquals(testContext1.getParameter(Parameter.MATHSIZE),
+                12.0f);
+        mi.setAttributeNS(Constants.NS_CONTEXT, "jeuclid:fontSize", "13");
+        Assert.assertEquals(testContext1.getParameter(Parameter.MATHSIZE),
+                13.0f);
+        // Case sensitive!
+        mi.setAttributeNS(Constants.NS_CONTEXT, "jeuclid:fontsize", "14");
+        Assert.assertEquals(testContext1.getParameter(Parameter.MATHSIZE),
+                13.0f);
     }
 }

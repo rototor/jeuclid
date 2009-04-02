@@ -101,7 +101,7 @@ public class ParametersDialog extends JDialog {
         gbc.ipadx = ParametersDialog.PADDING;
         // gbc.fill = GridBagConstraints.HORIZONTAL;
         for (final Parameter param : Parameter.values()) {
-            final JLabel label = new JLabel(param.name());
+            final JLabel label = new JLabel(param.getOptionName());
             label.setToolTipText(param.getOptionDesc());
             gbc.gridx = 0;
             gbc.anchor = GridBagConstraints.EAST;

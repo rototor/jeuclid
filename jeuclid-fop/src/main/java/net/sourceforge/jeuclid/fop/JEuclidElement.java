@@ -92,7 +92,7 @@ public class JEuclidElement extends JEuclidObj {
         final Document d = this.createBasicDocument();
         final Element e = d.getDocumentElement();
         for (final Parameter p : Parameter.values()) {
-            final String localName = p.toString();
+            final String localName = p.getOptionName();
             final String attrName = "jeuclid:" + localName;
             final String isSet = e.getAttributeNS(Constants.NS_CONTEXT,
                     localName);
@@ -107,8 +107,8 @@ public class JEuclidElement extends JEuclidObj {
         final Image tempimage = new BufferedImage(1, 1,
                 BufferedImage.TYPE_INT_ARGB);
         final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-        final JEuclidView view = new JEuclidView(this.doc, this.layoutContext,
-                tempg);
+        final JEuclidView view = new JEuclidView(this.doc,
+                this.layoutContext, tempg);
         final float descent = view.getDescentHeight();
         this.size = new Point2D.Float(view.getWidth(), view.getAscentHeight()
                 + descent);

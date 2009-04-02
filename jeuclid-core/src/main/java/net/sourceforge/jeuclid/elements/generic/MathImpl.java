@@ -56,11 +56,17 @@ public final class MathImpl extends AbstractContainer implements
             }
 
             final String s = MathImpl.this.getAttributeNS(
-                    Constants.NS_CONTEXT, which.toString());
+                    Constants.NS_CONTEXT, which.getOptionName());
             if ((s != null) && (s.length() > 0)) {
                 retVal = which.fromString(s);
+            } else {
+                // Support deprecated attributes
+                final String s2 = MathImpl.this.getAttributeNS(
+                        Constants.NS_CONTEXT, which.toString());
+                if ((s2 != null) && (s2.length() > 0)) {
+                    retVal = which.fromString(s2);
+                }
             }
-
             return retVal;
         }
     }
