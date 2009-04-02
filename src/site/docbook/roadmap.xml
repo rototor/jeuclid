@@ -1,10 +1,79 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
 "http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
 <article>
-  <title/>
-<section><title>Roadmap</title><itemizedlist><listitem><para>Support W3C DOM model for all existing elements. (done)</para></listitem><listitem><para>Make sure the most important checkstlye issues are addressed,
-such as full JavaDoc documentation. (done)</para></listitem><listitem><para>Refactor to provide a more future-compatible API (done)</para></listitem><listitem><para>Modify layout code to use "float" instead of "int" coordinates
-(done)</para></listitem></itemizedlist><itemizedlist><listitem><para>support content markup</para></listitem><listitem><para>use axsl-font-r for automatic font selection.</para></listitem><listitem><para>provide support for CSS, maybe through <ulink url="http://xmlgraphics.apache.org/batik">batik-css</ulink>.</para></listitem><listitem><para>support <ulink url="http://www.w3.org/TR/MathML3">MathML 3</ulink>.</para></listitem><listitem><para>Implement a linebreaking algorithm</para></listitem></itemizedlist><itemizedlist><listitem><para>Adress the Issues from the <ulink url="./issue-tracking.html">issue
-tracking system</ulink>.</para></listitem><listitem><para>Resolve the <ulink url="./taglist.html">TODO items</ulink> from the code.</para></listitem><listitem><para>Clean up <ulink url="./checkstyle.html">Checkstlye</ulink> issues.</para></listitem></itemizedlist></section>
+  <title></title>
+
+  <section>
+    <title>Roadmap</title>
+
+    <para>Done:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Support W3C DOM model for all existing elements. (done)</para>
+      </listitem>
+
+      <listitem>
+        <para>Make sure the most important checkstlye issues are addressed,
+        such as full JavaDoc documentation. (done)</para>
+      </listitem>
+
+      <listitem>
+        <para>Refactor to provide a more future-compatible API (done)</para>
+      </listitem>
+
+      <listitem>
+        <para>Modify layout code to use "float" instead of "int" coordinates
+        (done)</para>
+      </listitem>
+
+      <listitem>
+        <para>support content markup (done)</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Future ideas (currently there is no active work on these going
+    on):</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>use axsl-font-r for automatic font selection (delayed
+        indefinetly)</para>
+      </listitem>
+
+      <listitem>
+        <para>provide support for CSS, maybe through <ulink
+        url="http://xmlgraphics.apache.org/batik">batik-css</ulink>.</para>
+      </listitem>
+
+      <listitem>
+        <para>support <ulink url="http://www.w3.org/TR/MathML3">MathML
+        3</ulink>.</para>
+      </listitem>
+
+      <listitem>
+        <para>Implement a linebreaking algorithm</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>General issues:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Address the Issues from the <ulink
+        url="./issue-tracking.html">issue tracking system</ulink>.</para>
+      </listitem>
+
+      <listitem>
+        <para>Resolve the <ulink url="./taglist.html">TODO items</ulink> from
+        the code.</para>
+      </listitem>
+
+      <listitem>
+        <para>Clean up <ulink url="./checkstyle.html">Checkstlye</ulink>
+        issues.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
 </article>
