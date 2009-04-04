@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.6" date="TDA" description="TBD">
+      <action dev="maxberger" type="add">MathViewer: Add simple editor.</action>
       <action dev="maxberger" type="update">MathViewer: PropertyPage: use optionName rather than toString for consistency with command line App.</action>
       <action dev="maxberger" type="update">Changed internal JEuclid attributes to use optionName rather than toString for consistency with command line App.</action>
       <action dev="maxberger" type="add">FOP: Added support for ImageConverter needed by newer fop.</action>
