@@ -19,6 +19,7 @@
 package net.sourceforge.jeuclid.app.mathviewer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
@@ -43,6 +44,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
@@ -428,9 +431,38 @@ public class MainFrame extends JFrame {
     private JTextArea getTextArea() {
         if (this.textArea == null) {
             this.textArea = new JTextArea();
-            this.textArea.setEditable(false);
+            this.textArea.setText("<math></math>");
+            this.textArea.setEditable(true);
+            this.textArea.getDocument().addDocumentListener(
+                    new DocumentListener() {
+
+                        public void changedUpdate(
+                                final DocumentEvent documentevent) {
+                            MainFrame.this.updateFromTextArea();
+                        }
+
+                        public void insertUpdate(
+                                final DocumentEvent documentevent) {
+                            MainFrame.this.updateFromTextArea();
+                        }
+
+                        public void removeUpdate(
+                                final DocumentEvent documentevent) {
+                            MainFrame.this.updateFromTextArea();
+                        }
+                    });
+            this.textArea.setBackground(Color.WHITE);
         }
         return this.textArea;
+    }
+
+    private void updateFromTextArea() {
+        try {
+            this.getMathComponent().setContent(this.getTextArea().getText());
+            this.textArea.setForeground(Color.BLACK);
+        } catch (final RuntimeException e) {
+            this.textArea.setForeground(Color.RED);
+        }
     }
 
     /**
@@ -484,6 +516,7 @@ public class MainFrame extends JFrame {
             this.mathComponent
                     .setContent("<math><mtext>" //$NON-NLS-1$
                             + Messages.getString("MathViewer.noFileLoaded") + "</mtext></math>"); //$NON-NLS-1$ //$NON-NLS-2$
+            this.mathComponent.setFocusable(true);
         }
         return this.mathComponent;
     }
