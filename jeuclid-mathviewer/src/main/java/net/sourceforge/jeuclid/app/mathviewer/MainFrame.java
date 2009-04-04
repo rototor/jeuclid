@@ -685,8 +685,8 @@ public class MainFrame extends JFrame {
             try {
                 final String newContent = (String) content
                         .getTransferData(DataFlavor.stringFlavor);
-                this.mathComponent.setContent(newContent);
-                this.textArea.setText(newContent);
+                this.getMathComponent().setContent(newContent);
+                this.getTextArea().setText(newContent);
                 // CHECKSTYLE:OFF
                 // in this case, we want to explicitly provide catch-all error
                 // handling.
