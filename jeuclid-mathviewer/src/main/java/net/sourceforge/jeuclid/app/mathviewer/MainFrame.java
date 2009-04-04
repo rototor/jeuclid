@@ -431,7 +431,9 @@ public class MainFrame extends JFrame {
     private JTextArea getTextArea() {
         if (this.textArea == null) {
             this.textArea = new JTextArea();
-            this.textArea.setText("<math></math>");
+            this.textArea.setText("<?xml version='1.0'?>\n"
+                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n"
+                    + "</math>");
             this.textArea.setEditable(true);
             this.textArea.getDocument().addDocumentListener(
                     new DocumentListener() {
@@ -460,7 +462,11 @@ public class MainFrame extends JFrame {
         try {
             this.getMathComponent().setContent(this.getTextArea().getText());
             this.textArea.setForeground(Color.BLACK);
+            // CHECKSTYLE:OFF
+            // in this case, we want to explicitly provide catch-all error
+            // handling.
         } catch (final RuntimeException e) {
+            // CHECKSTYLE:ON
             this.textArea.setForeground(Color.RED);
         }
     }
