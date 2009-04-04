@@ -227,6 +227,7 @@
         <version>1.0.3</version>
       </extension>
     </extensions>
+    <defaultGoal>install</defaultGoal>
     <plugins>
       <plugin>
 <!-- This is necessary for docbook sites on OS X -->
