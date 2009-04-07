@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mo-dictionary>
+    <element fence="true" form="prefix" lspace="0em" rspace="0em" stretchy="true">&#x00028;</element>
+    <element fence="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x00029;</element>
+    <element fence="true" form="prefix" lspace="0em" rspace="0em" stretchy="true">&#x0005b;</element>
+    <element fence="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x0005d;</element>
+    <element fence="true" form="prefix" lspace="0em" rspace="0em" stretchy="true">&#x0007b;</element>
+    <element fence="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x0007d;</element>
+    <element fence="true" form="postfix" lspace="0em" rspace="0em">&#x0201d;</element>
+    <element fence="true" form="postfix" lspace="0em" rspace="0em">&#x02019;</element>
+    <element fence="true" form="prefix" lspace="0em" rspace="0em" stretchy="true">&#x02329;</element>
+    <element fence="true" form="prefix" lspace="0em" rspace="0em" stretchy="true">&#x02308;</element>
+    <element fence="true" form="prefix" lspace="0em" rspace="0em" stretchy="true">&#x0301a;</element>
+    <element fence="true" form="prefix" lspace="0em" rspace="0em" stretchy="true">&#x0230a;</element>
+    <element fence="true" form="prefix" lspace="0em" rspace="0em">&#x0201c;</element>
+    <element fence="true" form="prefix" lspace="0em" rspace="0em">&#x02018;</element>
+    <element fence="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x0232a;</element>
+    <element fence="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x02309;</element>
+    <element fence="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x0301b;</element>
+    <element fence="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x0230b;</element>
+    <element form="infix" lspace="0em" rspace="0em" separator="true">&#x02063;</element>
+    <element form="infix" lspace="0em" rspace="verythickmathspace" separator="true">&#x0002c;</element>
+    <element form="infix" lspace="0em" minsize="0" rspace="0em" stretchy="true">&#x02500;</element>
+    <element form="infix" lspace="0em" minsize="0" rspace="0em" stretchy="true">&#x0007c;</element>
+    <element form="infix" lspace="0em" rspace="thickmathspace" separator="true">&#x0003b;</element>
+    <element form="postfix" lspace="0em" rspace="0em" separator="true">&#x0003b;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0003a;&#x0003d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02254;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02235;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02234;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02758;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0002f;&#x0002f;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02237;</element>
+    <element form="prefix" lspace="0em" rspace="thickmathspace">&#x00026;</element>
+    <element form="postfix" lspace="thickmathspace" rspace="0em">&#x00026;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0002a;&#x0003d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0002d;&#x0003d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0002b;&#x0003d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0002f;&#x0003d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0002d;&#x0003e;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0003a;</element>
+    <element form="postfix" lspace="mediummathspace" rspace="0em">&#x0002e;&#x0002e;</element>
+    <element form="postfix" lspace="mediummathspace" rspace="0em">&#x0002e;&#x0002e;&#x0002e;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0220b;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02ae4;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022a8;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022a4;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022a3;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022a2;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021d2;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02970;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace">&#x0007c;&#x0007c;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace" stretchy="true">&#x02a54;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x00026;&#x00026;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace" stretchy="true">&#x02a53;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x00026;</element>
+    <element form="prefix" lspace="0em" rspace="thickmathspace">&#x00021;</element>
+    <element form="prefix" lspace="0em" rspace="thickmathspace">&#x02aec;</element>
+    <element form="prefix" lspace="0em" rspace="thickmathspace">&#x02203;</element>
+    <element form="prefix" lspace="0em" rspace="thickmathspace">&#x02200;</element>
+    <element form="prefix" lspace="0em" rspace="thickmathspace">&#x02204;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02208;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02209;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0220c;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0228f;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022e2;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02290;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022e3;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02282;&#x020d2;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02288;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02283;&#x020d2;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02289;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0228f;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02291;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02290;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02292;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022d0;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02286;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02283;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02287;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021d0;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021d4;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02950;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x0295e;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021bd;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02956;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x0295f;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021c1;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02957;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02190;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021e4;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021c6;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02194;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x0294e;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021a4;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x0295a;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021bc;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02952;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02199;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02198;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02192;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021e5;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021c4;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021a6;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x0295b;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021c0;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02953;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02196;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x02197;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0003d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0003c;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0003e;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x00021;&#x0003d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0003d;&#x0003d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0003c;&#x0003d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0003e;&#x0003d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02261;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0224d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02250;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02225;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02a75;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02242;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021cc;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02265;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022db;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02267;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02aa2;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02277;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02a7e;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02273;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0224e;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0224f;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022b2;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x029cf;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022b4;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02264;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022da;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02266;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02276;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02aa1;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02a7d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02272;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0226b;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0226a;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02262;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0226d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02226;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02260;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02242;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0226f;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02271;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02266;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0226b;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02279;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02a7e;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02275;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0224e;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0224f;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022ea;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x029cf;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022ec;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0226e;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02270;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02278;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0226a;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02a7d;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02274;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02aa2;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02aa1;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02280;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02aaf;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022e0;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022eb;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x029d0;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022ed;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02281;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02ab0;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022e1;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0227f;&#x00338;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02241;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02244;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02247;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02249;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02224;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0227a;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02aaf;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0227c;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0227e;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0221d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace" stretchy="true">&#x021cb;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022b3;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x029d0;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022b5;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0227b;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02ab0;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0227d;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0227f;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x0223c;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02243;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02245;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02248;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x022a5;</element>
+    <element form="infix" lspace="thickmathspace" rspace="thickmathspace">&#x02223;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace" stretchy="true">&#x02294;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace" stretchy="true">&#x022c3;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace" stretchy="true">&#x0228e;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace">&#x0002d;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace">&#x0002b;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace" stretchy="true">&#x022c2;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace">&#x02213;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace">&#x000b1;</element>
+    <element form="infix" lspace="mediummathspace" rspace="mediummathspace" stretchy="true">&#x02293;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace" stretchy="true">&#x022c1;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace">&#x02296;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace">&#x02295;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace" stretchy="true">&#x02211;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace" stretchy="true">&#x022c3;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace" stretchy="true">&#x0228e;</element>
+    <element form="prefix" lspace="0em" movablelimits="true" rspace="thinmathspace">&#x0006c;&#x00069;&#x0006d;</element>
+    <element form="prefix" lspace="0em" movablelimits="true" rspace="thinmathspace">&#x0006d;&#x00061;&#x00078;</element>
+    <element form="prefix" lspace="0em" movablelimits="true" rspace="thinmathspace">&#x0006d;&#x00069;&#x0006e;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x02296;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x02295;</element>
+    <element form="prefix" largeop="true" lspace="0em" rspace="0em" stretchy="true">&#x02232;</element>
+    <element form="prefix" largeop="true" lspace="0em" rspace="0em" stretchy="true">&#x0222e;</element>
+    <element form="prefix" largeop="true" lspace="0em" rspace="0em" stretchy="true">&#x02233;</element>
+    <element form="prefix" largeop="true" lspace="0em" rspace="0em" stretchy="true">&#x0222f;</element>
+    <element form="prefix" largeop="true" lspace="0em" rspace="0em" stretchy="true">&#x0222b;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x022d3;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x022d2;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x02240;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace" stretchy="true">&#x022c0;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace">&#x02297;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace" stretchy="true">&#x02210;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace" stretchy="true">&#x0220f;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace" stretchy="true">&#x022c2;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x02210;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x022c6;</element>
+    <element form="prefix" largeop="true" lspace="0em" movablelimits="true" rspace="thinmathspace">&#x02299;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x0002a;</element>
+    <element form="infix" lspace="0em" rspace="0em">&#x02062;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x000b7;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x02297;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x022c1;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x022c0;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace">&#x022c4;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace" stretchy="true">&#x02216;</element>
+    <element form="infix" lspace="thinmathspace" rspace="thinmathspace" stretchy="true">&#x0002f;</element>
+    <element form="prefix" lspace="0em" rspace="veryverythinmathspace">&#x0002d;</element>
+    <element form="prefix" lspace="0em" rspace="veryverythinmathspace">&#x0002b;</element>
+    <element form="prefix" lspace="0em" rspace="veryverythinmathspace">&#x02213;</element>
+    <element form="prefix" lspace="0em" rspace="veryverythinmathspace">&#x000b1;</element>
+    <element form="infix" lspace="0em" rspace="0em">&#x0002e;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace">&#x02a2f;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace">&#x0002a;&#x0002a;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace">&#x02299;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace">&#x02218;</element>
+    <element form="prefix" lspace="0em" rspace="verythinmathspace">&#x025a1;</element>
+    <element form="prefix" lspace="0em" rspace="verythinmathspace">&#x02207;</element>
+    <element form="prefix" lspace="0em" rspace="verythinmathspace">&#x02202;</element>
+    <element form="prefix" lspace="0em" rspace="verythinmathspace">&#x02145;</element>
+    <element form="prefix" lspace="0em" rspace="verythinmathspace">&#x02146;</element>
+    <element form="prefix" lspace="0em" rspace="verythinmathspace" stretchy="true">&#x0221a;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x021d3;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x027f8;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x027fa;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x027f9;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x021d1;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x021d5;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x02193;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x02913;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x021f5;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x021a7;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x02961;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x021c3;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x02959;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x02951;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x02960;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x021bf;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x02958;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x027f5;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x027f7;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x027f6;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x0296f;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x0295d;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x021c2;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x02955;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x0294f;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x0295c;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x021be;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x02954;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace">&#x02191;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x02912;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x021c5;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x02195;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x0296e;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace" stretchy="true">&#x021a5;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace">&#x0005e;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace">&#x0003c;&#x0003e;</element>
+    <element form="postfix" lspace="verythinmathspace" rspace="0em">&#x00027;</element>
+    <element form="postfix" lspace="verythinmathspace" rspace="0em">&#x00021;</element>
+    <element form="postfix" lspace="verythinmathspace" rspace="0em">&#x00021;&#x00021;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace">&#x0007e;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace">&#x00040;</element>
+    <element form="postfix" lspace="verythinmathspace" rspace="0em">&#x0002d;</element>
+    <element form="postfix" lspace="verythinmathspace" rspace="0em">&#x0002b;&#x0002b;</element>
+    <element form="prefix" lspace="0em" rspace="verythinmathspace">&#x0002b;&#x0002b;</element>
+    <element form="infix" lspace="0em" rspace="0em">&#x02061;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace">&#x0003f;</element>
+    <element form="infix" lspace="verythinmathspace" rspace="verythinmathspace">&#x0005f;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em">&#x002d8;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em">&#x000b8;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em">&#x00060;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em">&#x002d9;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em">&#x002dd;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x02190;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x02194;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x0294e;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x021bc;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em">&#x000b4;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x02192;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x021c0;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x002dc;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em">&#x000a8;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em">&#x00311;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x002c7;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x0005e;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x000af;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x0fe37;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x023b4;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x0fe35;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em">&#x020db;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x00332;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x0fe38;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x023b5;</element>
+    <element accent="true" form="postfix" lspace="0em" rspace="0em" stretchy="true">&#x0fe36;</element>
+</mo-dictionary>
