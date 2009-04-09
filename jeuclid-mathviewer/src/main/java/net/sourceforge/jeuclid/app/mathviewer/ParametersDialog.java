@@ -62,6 +62,8 @@ import net.sourceforge.jeuclid.swing.JMathComponent;
 public class ParametersDialog extends JDialog {
     // CHECKSTYLE:ON
 
+    private static final int NUMBER_OF_COLUMNS = 5;
+
     /**
      * 
      */
@@ -246,7 +248,9 @@ public class ParametersDialog extends JDialog {
         text.setMinimumSize(text.getPreferredSize());
         final Box box = Box.createHorizontalBox();
         box.add(text);
-        box.add(Box.createHorizontalStrut(5));
+        box
+                .add(Box
+                        .createHorizontalStrut(ParametersDialog.NUMBER_OF_COLUMNS));
         final JButton btn = new JButton(Messages
                 .getString("MathViewer.ParametersDialog.showFontSelection"));
         box.add(btn);
