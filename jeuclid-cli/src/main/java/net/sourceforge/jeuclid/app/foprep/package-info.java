@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,9 @@
  *Please look at
  *<ul>
  *<li>{@link Main} for command line use.</li>
- *<li>{@link Processor} for use in your own apps.</li>
+ *<li>{@link net.sourceforge.jeuclid.converter.Processor} for use in your own apps.</li>
  *</ul>
  *</p>
  */
 package net.sourceforge.jeuclid.app.foprep;
-
-import net.sourceforge.jeuclid.converter.Processor;
 
