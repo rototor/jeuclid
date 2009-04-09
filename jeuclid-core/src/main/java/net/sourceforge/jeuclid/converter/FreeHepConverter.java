@@ -23,7 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
-import java.util.Properties;
+import java.lang.reflect.InvocationTargetException;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.layout.JEuclidView;
@@ -51,8 +51,6 @@ public class FreeHepConverter implements ConverterPlugin {
     /** {@inheritDoc} */
     public Dimension convert(final Node doc, final LayoutContext context,
             final OutputStream outStream) throws IOException {
-        final Properties p = new Properties();
-        p.setProperty("PageSize", "A5");
         final VectorGraphics tempg = this.createGraphics(
                 new ByteArrayOutputStream(), new Dimension(1, 1));
         final JEuclidView view = new JEuclidView(doc, context, tempg);
@@ -64,7 +62,6 @@ public class FreeHepConverter implements ConverterPlugin {
 
         final VectorGraphics g = this.createGraphics(outStream, size);
         g.setCreator("JEuclid (from MathML)");
-        // g.setProperties(p);
         g.startExport();
         view.draw(g, 0, ascent);
         g.endExport();
@@ -79,13 +76,17 @@ public class FreeHepConverter implements ConverterPlugin {
     }
 
     private VectorGraphics createGraphics(final OutputStream os,
-            final Dimension d) {
+            final Dimension d) throws IOException {
         try {
             return this.streamConst.newInstance(os, d);
-        } catch (final Exception e) {
-            throw new RuntimeException(
-                    "Unexpected - failed to create a FreeHep VectorGraphics instance",
-                    e);
+        } catch (final InvocationTargetException e) {
+            throw new IOException(e.toString());
+        } catch (final IllegalArgumentException e) {
+            throw new IOException(e.toString());
+        } catch (final InstantiationException e) {
+            throw new IOException(e.toString());
+        } catch (final IllegalAccessException e) {
+            throw new IOException(e.toString());
         }
     }
 }
