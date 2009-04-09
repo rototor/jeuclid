@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: JEuclidDOMImplementation.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.generic;
 
@@ -24,7 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 
 /**
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public final class JEuclidDOMImplementation extends AbstractDOMImplementation {
 

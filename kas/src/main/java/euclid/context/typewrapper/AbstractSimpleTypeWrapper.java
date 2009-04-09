@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractSimpleTypeWrapper.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.context.typewrapper;
 
@@ -23,7 +23,7 @@ package euclid.context.typewrapper;
  * type being wrapped as well as provides reasonable default implementations
  * for all the operations.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public abstract class AbstractSimpleTypeWrapper implements TypeWrapper {
     /**

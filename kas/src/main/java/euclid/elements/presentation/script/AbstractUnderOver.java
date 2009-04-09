@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractUnderOver.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.script;
 
@@ -44,7 +44,7 @@ import euclid.layout.LayoutView;
  * 
  * @todo some operators should "default" to being an accent, but currently they
  *       don't
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public abstract class AbstractUnderOver extends AbstractJEuclidElement
         implements MathMLUnderOverElement {

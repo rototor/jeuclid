@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: GraphicsSupport.java 804 2008-06-24 08:01:00Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support;
 
@@ -25,7 +25,7 @@ import euclid.LayoutContext;
 /**
  * This class contains helper functions for graphical calculations.
  * 
- * @version $Revision: 804 $
+ * @version $Revision$
  */
 public final class GraphicsSupport {
 

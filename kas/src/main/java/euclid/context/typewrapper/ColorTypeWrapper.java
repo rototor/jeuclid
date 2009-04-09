@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ColorTypeWrapper.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.context.typewrapper;
 
@@ -30,7 +30,7 @@ import euclid.elements.support.attributes.AttributesHelper;
  * Color is converted to String and back by using existing APIs in
  * {@link AttributesHelper}.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public final class ColorTypeWrapper extends AbstractSimpleTypeWrapper {
     /**

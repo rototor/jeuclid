@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Ms.java 718 2008-04-28 18:46:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.token;
 
@@ -31,7 +31,7 @@ import euclid.elements.support.text.StringUtil;
 /**
  * This class represents string in a equation.
  * 
- * @version $Revision: 718 $
+ * @version $Revision$
  */
 public final class Ms extends AbstractTokenWithTextLayout implements
         MathMLStringLitElement {

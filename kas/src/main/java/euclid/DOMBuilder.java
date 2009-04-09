@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DOMBuilder.java 827 2008-08-28 12:30:05Z maxberger $ */
+/* $Id$ */
 
 package euclid;
 
@@ -36,7 +36,7 @@ import euclid.elements.generic.DocumentElement;
 /**
  * Builds a MathML tree from a given DOM tree.
  * 
- * @version $Revision: 827 $
+ * @version $Revision$
  */
 public final class DOMBuilder {
 

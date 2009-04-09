@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mglyph.java 867 2008-11-29 12:37:42Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.token;
 
@@ -38,7 +38,7 @@ import euclid.font.FontFactory;
  *       design.
  * @todo other attributes (such as italic, bold, etc.) may be inherited from
  *       the context.
- * @version $Revision: 867 $
+ * @version $Revision$
  */
 public final class Mglyph extends AbstractTokenWithTextLayout implements
         MathMLGlyphElement {

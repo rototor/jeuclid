@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mfenced.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.general;
 
@@ -35,7 +35,7 @@ import euclid.layout.LayoutableNode;
 /**
  * The class represents the mfenced element.
  * 
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public final class Mfenced extends AbstractElementWithDelegates implements
         MathMLFencedElement {

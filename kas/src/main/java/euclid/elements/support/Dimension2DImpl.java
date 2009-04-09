@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: Dimension2DImpl.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support;
 
 import java.awt.geom.Dimension2D;
 
 /**
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public class Dimension2DImpl extends Dimension2D {
     private float width;

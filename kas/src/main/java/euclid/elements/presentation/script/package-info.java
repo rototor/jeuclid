@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: package-info.java 368 2007-07-01 10:45:52Z maxberger $ */
+/* $Id$ */
 
 /**
  Script and Limit Schemata presentation element support (3.4).

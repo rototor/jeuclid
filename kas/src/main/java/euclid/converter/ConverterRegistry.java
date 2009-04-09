@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ConverterRegistry.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.converter;
 
@@ -27,7 +27,7 @@ import java.util.Set;
 /**
  * A registry for image converters.
  * 
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public final class ConverterRegistry {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: FontFactory.java 863 2008-11-28 15:02:26Z maxberger $ */
+/* $Id$ */
 
 package euclid.font;
 
@@ -38,7 +38,7 @@ import java.util.Set;
  * How a concrete subclass of FontFactory is identified is subject to change
  * in the future versions.
  * 
- * @version $Revision: 863 $
+ * @version $Revision$
  */
 public abstract class FontFactory {
 

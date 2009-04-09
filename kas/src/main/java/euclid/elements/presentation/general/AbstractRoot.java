@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractRoot.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.general;
 
@@ -41,7 +41,7 @@ import euclid.layout.LineObject;
 /**
  * common superclass for root like elements (root, sqrt).
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public abstract class AbstractRoot extends AbstractJEuclidElement implements
         MathMLRadicalElement {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: package-info.java 678 2008-04-11 14:18:51Z maxberger $ */
+/* $Id$ */
 
 /**
  Semantic Mapping Elements (4.11).

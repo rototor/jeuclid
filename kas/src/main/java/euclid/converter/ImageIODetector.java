@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ImageIODetector.java 592 2008-01-11 12:14:00Z maxberger $ */
+/* $Id$ */
 
 package euclid.converter;
 
@@ -28,7 +28,7 @@ import javax.imageio.ImageWriter;
 /**
  * Detects and registers the Converters from ImageIO.
  * 
- * @version $Revision: 592 $
+ * @version $Revision$
  */
 public final class ImageIODetector {
 

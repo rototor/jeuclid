@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Merror.java 752 2008-05-19 12:40:13Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.general;
 
@@ -30,7 +30,7 @@ import euclid.elements.presentation.AbstractContainer;
 /**
  * Represents an merror element.
  * 
- * @version $Revision: 752 $
+ * @version $Revision$
  */
 public final class Merror extends AbstractContainer {
 

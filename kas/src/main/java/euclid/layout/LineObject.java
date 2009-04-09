@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: LineObject.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.layout;
 
@@ -25,7 +25,7 @@ import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
 /**
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public class LineObject implements GraphicsObject {
 

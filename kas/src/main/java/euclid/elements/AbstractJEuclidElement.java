@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractJEuclidElement.java 872 2008-12-25 21:43:24Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements;
 
@@ -55,7 +55,7 @@ import euclid.layout.LayoutableNode;
  * The basic class for all math elements. Every element class inherits from
  * this class. It provides basic functionality for drawing.
  * 
- * @version $Revision: 872 $
+ * @version $Revision$
  */
 // CHECKSTYLE:OFF
 public abstract class AbstractJEuclidElement extends

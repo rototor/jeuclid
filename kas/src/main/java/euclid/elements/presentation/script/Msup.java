@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Msup.java 750 2008-05-18 22:22:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.script;
 
@@ -28,7 +28,7 @@ import euclid.elements.JEuclidElement;
 /**
  * This class arranges an element lower to an other element.
  * 
- * @version $Revision: 750 $
+ * @version $Revision$
  */
 public final class Msup extends AbstractSubSuper {
 

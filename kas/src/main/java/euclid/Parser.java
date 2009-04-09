@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Parser.java 827 2008-08-28 12:30:05Z maxberger $ */
+/* $Id$ */
 /* angepasst von EKuenzel für eigenen Gebrauch */
 
 package euclid;
@@ -51,7 +51,7 @@ import org.xml.sax.SAXParseException;
 /**
  * A JAXP compatible approach to MathML Parsing.
  * 
- * @version $Revision: 827 $
+ * @version $Revision$
  */
 // CHECKSTYLE:OFF
 // This class is too complex.

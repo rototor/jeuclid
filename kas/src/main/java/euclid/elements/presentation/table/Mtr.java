@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mtr.java 718 2008-04-28 18:46:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.table;
 
@@ -23,7 +23,7 @@ import org.w3c.dom.Node;
 /**
  * This class presents a row in MathTable.
  * 
- * @version $Revision: 718 $
+ * @version $Revision$
  */
 public final class Mtr extends AbstractTableRow {
 

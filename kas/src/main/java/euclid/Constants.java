@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: Constants.java 827 2008-08-28 12:30:05Z maxberger $ */
+/* $Id$ */
 
 package euclid;
 
 /**
  * Constants which are shared in multiple classes.
  * 
- * @version $Revision: 827 $
+ * @version $Revision$
  */
 
 public final class Constants {

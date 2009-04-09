@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: HAlign.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support.attributes;
 
@@ -22,7 +22,7 @@ import euclid.layout.LayoutInfo;
 import euclid.layout.LayoutStage;
 
 /**
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public enum HAlign {
     /** Left align. */

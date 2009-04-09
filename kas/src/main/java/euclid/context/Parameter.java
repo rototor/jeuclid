@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Parameter.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.context;
 
@@ -28,7 +28,7 @@ import euclid.context.typewrapper.TypeWrapper;
 /**
  * Possible parameters for the LayoutContext.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public enum Parameter {
     /**

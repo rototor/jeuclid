@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: StringTypeWrapper.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.context.typewrapper;
 
 /**
  * Converting String to String is trivial...
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public final class StringTypeWrapper extends AbstractSimpleTypeWrapper {
 

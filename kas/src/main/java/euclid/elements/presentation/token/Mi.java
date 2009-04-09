@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mi.java 794 2008-06-21 10:12:03Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.token;
 
@@ -26,7 +26,7 @@ import euclid.elements.AbstractJEuclidElement;
 /**
  * This class presents a mathematical identifier, like "x".
  * 
- * @version $Revision: 794 $
+ * @version $Revision$
  */
 public final class Mi extends AbstractTokenWithStandardLayout {
     /**

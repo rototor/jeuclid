@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: TypeWrapper.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.context.typewrapper;
 
@@ -26,7 +26,7 @@ import java.io.Serializable;
  * <p>
  * This allows elimination of an additional "evil" if-elseif...else" pattern.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public interface TypeWrapper extends Serializable {
 

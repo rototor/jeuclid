@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: LayoutInfo.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package euclid.layout;
 
 import java.util.List;
 
 /**
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public interface LayoutInfo {
 

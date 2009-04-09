@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mtable.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.table;
 
@@ -55,7 +55,7 @@ import euclid.layout.LineObject;
 /**
  * This class presents a table.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 // CHECKSTYLE:OFF
 // Data abstraction coupling is "to high". but this is necessary for proper

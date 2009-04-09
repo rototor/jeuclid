@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathMLSerializer.java 827 2008-08-28 12:30:05Z maxberger $ */
+/* $Id$ */
 
 package euclid;
 
@@ -34,7 +34,7 @@ import org.w3c.dom.Node;
 /**
  * Utility class to serialize DOM documents back into Strings.
  * 
- * @version $Revision: 827 $
+ * @version $Revision$
  */
 public final class MathMLSerializer {
 

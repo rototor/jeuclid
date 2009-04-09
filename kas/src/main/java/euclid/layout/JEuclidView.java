@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: JEuclidView.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.layout;
 
@@ -36,7 +36,7 @@ import euclid.context.Parameter;
 import euclid.elements.presentation.token.Mo;
 
 /**
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public class JEuclidView implements AbstractView, LayoutView, EventListener {
 

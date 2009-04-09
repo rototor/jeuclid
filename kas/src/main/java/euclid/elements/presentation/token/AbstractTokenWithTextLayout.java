@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractTokenWithTextLayout.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.token;
 
@@ -38,7 +38,7 @@ import euclid.layout.TextObject;
 /**
  * Common functionality for all tokens based on a text layout.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public abstract class AbstractTokenWithTextLayout extends
         AbstractJEuclidElement implements MathMLPresentationToken {

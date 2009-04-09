@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: FillRectObject.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package euclid.layout;
 
@@ -25,7 +25,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * Zeichnet ein Rechteck mit der Farbe ab Position (x, y) 
  * der Breite w, das unter y noch d und über um a reichts
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public class FillRectObject implements GraphicsObject {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ConverterPlugin.java 615 2008-02-18 19:42:05Z maxberger $ */
+/* $Id$ */
 
 package euclid.converter;
 
@@ -30,7 +30,7 @@ import org.w3c.dom.Node;
 /**
  * Describes an Image converter.
  * 
- * @version $Revision: 615 $
+ * @version $Revision$
  */
 public interface ConverterPlugin {
     /**

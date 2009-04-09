@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Annotation.java 718 2008-04-28 18:46:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.content.semantic;
 
@@ -26,7 +26,7 @@ import euclid.elements.AbstractInvisibleJEuclidElement;
 /**
  * This class represents a annotation element.
  * 
- * @version $Revision: 718 $
+ * @version $Revision$
  */
 public final class Annotation extends AbstractInvisibleJEuclidElement
         implements MathMLAnnotationElement {

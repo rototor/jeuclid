@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: None.java 718 2008-04-28 18:46:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.script;
 
@@ -26,7 +26,7 @@ import euclid.elements.AbstractInvisibleJEuclidElement;
 /**
  * This class represent the empty elements none.
  * 
- * @version $Revision: 718 $
+ * @version $Revision$
  */
 public final class None extends AbstractInvisibleJEuclidElement {
 

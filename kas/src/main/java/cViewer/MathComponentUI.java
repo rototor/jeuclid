@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-/* $Id: MathComponentUI.java 783 2008-06-07 14:12:27Z maxberger $ */
-/* $Id: MathComponentUI.java 783 angepasst ekuenzel $ */
+/* $Id$ */
+/* $Id$ */
 
 package cViewer;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: EnumTypeWrapper.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.context.typewrapper;
 
@@ -23,7 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Converting String to Enum and vice versa is easy with help of Enum class.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public final class EnumTypeWrapper extends AbstractSimpleTypeWrapper {
     private static final String FAILED_TO_RETRIEVE_VALUES_OF_ENUM_CLASS = "Failed to retrieve values of enum class ";

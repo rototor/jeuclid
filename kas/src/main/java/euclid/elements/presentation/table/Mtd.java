@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mtd.java 752 2008-05-19 12:40:13Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.table;
 
@@ -24,7 +24,7 @@ import org.w3c.dom.mathml.MathMLTableCellElement;
 /**
  * This class presents a cell of a table.
  * 
- * @version $Revision: 752 $
+ * @version $Revision$
  */
 public final class Mtd extends AbstractTableElement implements
         MathMLTableCellElement {

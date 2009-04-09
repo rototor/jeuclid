@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ImageIOConverter.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.converter;
 
@@ -36,7 +36,7 @@ import org.w3c.dom.Node;
 /**
  * supports conversion to standard Raster formats through ImageIO.
  * 
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public class ImageIOConverter implements ConverterPlugin {
 

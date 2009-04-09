@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: InlineLayoutContext.java 523 2007-09-14 13:49:37Z maxberger $ */
+/* $Id$ */
 
 package euclid.context;
 
 import euclid.LayoutContext;
 
 /**
- * @version $Revision: 523 $
+ * @version $Revision$
  */
 public class InlineLayoutContext implements LayoutContext {
 

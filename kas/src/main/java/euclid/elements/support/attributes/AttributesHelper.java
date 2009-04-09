@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AttributesHelper.java 792 2008-06-14 16:14:40Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support.attributes;
 
@@ -37,7 +37,7 @@ import euclid.elements.support.operatordict.OperatorDictionary;
 /**
  * Class contains utility methods for working with elements attributes.
  * 
- * @version $Revision: 792 $
+ * @version $Revision$
  */
 public final class AttributesHelper {
 

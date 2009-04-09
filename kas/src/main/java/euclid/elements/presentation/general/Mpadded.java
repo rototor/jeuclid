@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mpadded.java 752 2008-05-19 12:40:13Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.general;
 
@@ -28,7 +28,7 @@ import euclid.elements.presentation.AbstractContainer;
  * This class implemented the mpadded element.
  * 
  * @todo none of the attributes are actually implemented yet.
- * @version $Revision: 752 $
+ * @version $Revision$
  */
 public final class Mpadded extends AbstractContainer implements
         MathMLPaddedElement {

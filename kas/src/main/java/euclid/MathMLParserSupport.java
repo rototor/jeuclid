@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathMLParserSupport.java 827 2008-08-28 12:30:05Z maxberger $ */
+/* $Id$ */
 
 package euclid;
 
@@ -37,7 +37,7 @@ import org.xml.sax.SAXException;
  * Utility class for the support parsing MathML.
  * It also supports parsing MathML from a given text string.
  * 
- * @version $Revision: 827 $
+ * @version $Revision$
  */
 public final class MathMLParserSupport {
 

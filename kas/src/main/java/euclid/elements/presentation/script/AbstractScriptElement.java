@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractScriptElement.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.script;
 
@@ -27,7 +27,7 @@ import euclid.LayoutContext;
 /**
  * Base class for msub, msup, msubsup, and mmultiscripts.
  * 
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public abstract class AbstractScriptElement extends AbstractJEuclidElement {
 

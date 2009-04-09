@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: TextObject.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package euclid.layout;
 
@@ -24,7 +24,7 @@ import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 
 /**
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public class TextObject implements GraphicsObject {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Menclose.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.general;
 
@@ -55,7 +55,7 @@ import euclid.layout.LineObject;
 /**
  * Class for supporting "menclose" elements.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public final class Menclose extends AbstractElementWithDelegates implements
         MathMLEncloseElement {

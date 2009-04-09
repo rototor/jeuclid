@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractInvisibleJEuclidElement.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements;
 
@@ -27,7 +27,7 @@ import euclid.layout.LayoutableNode;
 /**
  * Represents a MathElement with no content.
  * 
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public abstract class AbstractInvisibleJEuclidElement extends
         AbstractJEuclidElement {
