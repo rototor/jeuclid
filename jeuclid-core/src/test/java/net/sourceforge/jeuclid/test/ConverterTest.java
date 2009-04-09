@@ -48,7 +48,9 @@ public class ConverterTest {
 
     /**
      * Tests if PNG converter is available.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testConverterPNG() throws Exception {
@@ -66,7 +68,9 @@ public class ConverterTest {
 
     /**
      * Tests if SVG converter is available and creates an output file.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testConverterSVG() throws Exception {
@@ -80,11 +84,35 @@ public class ConverterTest {
                 net.sourceforge.jeuclid.converter.Converter.TYPE_SVG, params);
         Assert.assertTrue(outFile.exists(), "SVG file was not created");
         Assert.assertTrue(outFile.length() > 0, "SVG file is empty");
+        Assert.assertTrue(outFile.length() > 2048, "SVG file is too small");
+    }
+
+    /**
+     * Tests if PDF converter is available and creates an output file.
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testConverterPDF() throws Exception {
+        final Document doc = MathMLParserSupport
+                .parseString(ConverterTest.TEST1);
+        final File outFile = new File(this.getOutDir(), "test1.pdf");
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
+        params.setParameter(Parameter.MATHSIZE, 25f);
+        Converter.getInstance().convert(doc, outFile, "application/pdf",
+                params);
+        Assert.assertTrue(outFile.exists(), "PDF file was not created");
+        Assert.assertTrue(outFile.length() > 0, "PDF file is empty");
+        Assert.assertTrue(outFile.length() > 2048, "PDF file is too small");
     }
 
     /**
      * Tests if SVG converter is available and creates an output DOM.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
     @Test
     public void testConverterSVGtoDOM() throws Exception {
@@ -112,6 +140,7 @@ public class ConverterTest {
 
     /**
      * Create and return temp directory.
+     * 
      * @return temp directory.
      */
     public File getOutDir() {
@@ -149,9 +178,11 @@ public class ConverterTest {
 
     /**
      * Tests if some mime-types are registered properly.
-     * @throws Exception if the test fails.
+     * 
+     * @throws Exception
+     *             if the test fails.
      */
-   @Test
+    @Test
     public void testConverterMimeTypes() throws Exception {
         Assert
                 .assertTrue(net.sourceforge.jeuclid.converter.Converter.TYPE_SVG

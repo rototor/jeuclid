@@ -28,14 +28,17 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @version $Revision$
  */
-public final class FreeHepDetector {
+public final class FreeHepDetector implements ConverterDetector {
     /**
      * Logger for this class
      */
     private static final Log LOGGER = LogFactory
             .getLog(FreeHepDetector.class);
 
-    private FreeHepDetector() {
+    /**
+     * Default constructor.
+     */
+    public FreeHepDetector() {
         // Empty on purpose
     }
 
@@ -45,8 +48,7 @@ public final class FreeHepDetector {
      * @param registry
      *            ConverterRegisty to register with.
      */
-    public static void detectConversionPlugins(
-            final ConverterRegistry registry) {
+    public void detectConversionPlugins(final ConverterRegistry registry) {
 
         try {
             ClassLoaderSupport.getInstance().loadClass(
