@@ -33,13 +33,16 @@ import org.w3c.dom.DOMImplementation;
  * 
  * @version $Revision$
  */
-public final class BatikDetector {
+public final class BatikDetector implements ConverterDetector {
     /**
      * Logger for this class
      */
     private static final Log LOGGER = LogFactory.getLog(BatikDetector.class);
 
-    private BatikDetector() {
+    /**
+     * Default constructor.
+     */
+    public BatikDetector() {
         // Empty on purpose
     }
 
@@ -53,7 +56,11 @@ public final class BatikDetector {
                     "getDOMImplementation", new Class<?>[] {});
             impl = (DOMImplementation) getDOMimpl.invoke(null,
                     (Object[]) null);
+            // CHECKSTYLE:OFF
+            // In this case, ANY runtime exception must be caught, since batik
+            // may not be available.
         } catch (final RuntimeException e) {
+            // CHECKSYTLE:ON
             impl = null;
         } catch (final LinkageError e) {
             impl = null;
@@ -78,8 +85,7 @@ public final class BatikDetector {
      * @param registry
      *            ConverterRegisty to register with.
      */
-    public static void detectConversionPlugins(
-            final ConverterRegistry registry) {
+    public void detectConversionPlugins(final ConverterRegistry registry) {
         try {
             ClassLoaderSupport.getInstance().loadClass(
                     "org.apache.batik.svggen.SVGGraphics2D");

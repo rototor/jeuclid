@@ -20,9 +20,12 @@ package net.sourceforge.jeuclid.converter;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.xmlgraphics.util.Service;
 
 /**
  * A registry for image converters.
@@ -47,10 +50,14 @@ public final class ConverterRegistry {
     /**
      * Default constructor.
      */
+    @SuppressWarnings("unchecked")
     protected ConverterRegistry() {
-        ImageIODetector.detectConversionPlugins(this);
-        BatikDetector.detectConversionPlugins(this);
-        FreeHepDetector.detectConversionPlugins(this);
+        final Iterator<ConverterDetector> it = Service
+                .providers(ConverterDetector.class);
+        while (it.hasNext()) {
+            final ConverterDetector det = it.next();
+            det.detectConversionPlugins(this);
+        }
     }
 
     /**
@@ -104,8 +111,8 @@ public final class ConverterRegistry {
      * This function is not fully implemented yet
      * 
      * @param mimeType
-     *            a mimetype, as returned by {@link #getAvailableOutfileTypes()},
-     *            or null if unknown.
+     *            a mimetype, as returned by
+     *            {@link #getAvailableOutfileTypes()}, or null if unknown.
      * @return the three letter suffix common for this type.
      */
     public String getSuffixForMimeType(final String mimeType) {
@@ -175,7 +182,7 @@ public final class ConverterRegistry {
      * @return a Converter instance
      */
     public ConverterPlugin getConverter(final String mimeType) {
-        return this.mimetype2converter
-                .get(mimeType.toLowerCase(Locale.ENGLISH));
+        return this.mimetype2converter.get(mimeType
+                .toLowerCase(Locale.ENGLISH));
     }
 }

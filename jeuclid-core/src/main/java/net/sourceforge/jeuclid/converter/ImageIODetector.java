@@ -30,9 +30,12 @@ import javax.imageio.ImageWriter;
  * 
  * @version $Revision$
  */
-public final class ImageIODetector {
+public final class ImageIODetector implements ConverterDetector {
 
-    private ImageIODetector() {
+    /**
+     * Default constructor.
+     */
+    public ImageIODetector() {
         // Empty on purpose
     }
 
@@ -42,7 +45,7 @@ public final class ImageIODetector {
      * @param registry
      *            ConverterRegistry to use.
      */
-    public static void detectConversionPlugins(final ConverterRegistry registry) {
+    public void detectConversionPlugins(final ConverterRegistry registry) {
 
         final String[] mimeTypes = ImageIO.getWriterMIMETypes();
 
@@ -64,8 +67,9 @@ public final class ImageIODetector {
                                     suffix, false);
                         }
                     }
-                    registry.registerConverter(mimeType, new ImageIOConverter(
-                            iw, noAlphaMimeTypes.contains(mimeType)), false);
+                    registry.registerConverter(mimeType,
+                            new ImageIOConverter(iw, noAlphaMimeTypes
+                                    .contains(mimeType)), false);
                 }
 
             }
