@@ -19,13 +19,19 @@ package cViewer;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+
 import javax.swing.*;
+
 import org.w3c.dom.Element;
 import cTree.*;
+import cTree.cAlter.AlterHandler;
+import cViewer.JMathComponent;
 
 public class JMathMouseListener implements MouseListener{
 	private JMathComponent mathComponent; 
 	private int x0;
+	private int y0;
 	private JTextField jTextField;
 	public JMathMouseListener(JMathComponent jm, JTextField s){
 		mathComponent = jm;
@@ -34,7 +40,7 @@ public class JMathMouseListener implements MouseListener{
 	
     public void mousePressed(MouseEvent e) {
     	x0=e.getX();
-//    	y0=e.getY();
+    	y0=e.getY();
     }
     public void mouseMoved(MouseEvent e) {
     }
@@ -59,8 +65,28 @@ public class JMathMouseListener implements MouseListener{
     		} else {
     			mathComponent.getActionByName("BewegeLinks").actionPerformed(null);
     		}
+    	// nach unten ziehen aendern
+    	} else if (e.getY()>y0+10){
+    		mathComponent.getActionByName("Selection+").actionPerformed(null);
+    	} else if (e.getY()<y0-10){
+    		mathComponent.getActionByName("Selection-").actionPerformed(null);
     	}
     }
+    
+	public void showMenu(MouseEvent evt) {
+		ArrayList<String> strings = AlterHandler.getInstance().getOptions(mathComponent.getCActive());
+		JPopupMenu menu = new JPopupMenu();
+		JMenuItem item = new JMenuItem(mathComponent.getActionByName("Aendern"));
+		item.setText("Umwandlungen:");
+		item.setEnabled(false);
+		menu.add(item);
+		for (String s : strings) {
+			item = new JMenuItem(mathComponent.getActionByName("Aendern"));
+			item.setText(s);
+			menu.add(item);
+		}
+		menu.show(mathComponent, evt.getX(), evt.getY());
+	}
     
     public void mouseEntered(MouseEvent e) {
     	mathComponent.requestFocusInWindow();
@@ -74,9 +100,9 @@ public class JMathMouseListener implements MouseListener{
     
     public void mouseClicked(MouseEvent e) { 
     	CElement cAct = mathComponent.getCActive();
-    	// Rechtsklick: Zur Auswahl hinzufügen
+    	// Rechtsklick: Aendern
     	if ((e.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK){
-    		mathComponent.getActionByName("Selection+").actionPerformed(null);
+    		showMenu(e);
     	// Herauszoomen
     	} else if ((e.getModifiers() & InputEvent.SHIFT_MASK) == InputEvent.SHIFT_MASK){
     		mathComponent.getActionByName("ZoomOut").actionPerformed(null);
