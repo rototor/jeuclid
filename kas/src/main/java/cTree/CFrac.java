@@ -20,30 +20,41 @@ import org.w3c.dom.Element;
 
 public class CFrac extends CElement {
 
-	public CFrac(Element element){
-		this.element = element;
-	}
-	
-	public CType getCType() {
-		return CType.FRAC;
-	}
-	
-	public CElement getZaehler(){
-		return getFirstChild();
-	}
-	
-	public CElement getNenner(){
-		return getFirstChild().getNextSibling();
-	}
-	
-	public static CFrac createFraction(CElement zaehler, CElement nenner){
-		CFrac fraction = (CFrac) CElementHelper.createAll(zaehler.getElement(), "mfrac", "mfrac", CRolle.UNKNOWN, null);
-		fraction.appendPraefixAndChild(zaehler);
-		fraction.appendPraefixAndChild(nenner);
-		zaehler.setCRolle(CRolle.ZAEHLER);
-		nenner.setCRolle(CRolle.NENNER);
-		return fraction;
-	}
-	
-	public void normalize(){};		
+    public CFrac(final Element element) {
+        this.element = element;
+    }
+
+    @Override
+    public CType getCType() {
+        return CType.FRAC;
+    }
+
+    public CElement getZaehler() {
+        return this.getFirstChild();
+    }
+
+    public CElement getNenner() {
+        return this.getFirstChild().getNextSibling();
+    }
+
+    public void correctInternalRolles() {
+        this.getZaehler().setCRolle(CRolle.ZAEHLER);
+        this.getNenner().setCRolle(CRolle.NENNER);
+    }
+
+    public static CFrac createFraction(final CElement zaehler,
+            final CElement nenner) {
+        final CFrac fraction = (CFrac) CElementHelper.createAll(zaehler
+                .getElement(), "mfrac", "mfrac", CRolle.UNKNOWN, null);
+        fraction.appendPraefixAndChild(zaehler);
+        fraction.appendPraefixAndChild(nenner);
+        zaehler.setCRolle(CRolle.ZAEHLER);
+        nenner.setCRolle(CRolle.NENNER);
+        return fraction;
+    }
+
+    @Override
+    public void normalize() {
+    };
+
 }
