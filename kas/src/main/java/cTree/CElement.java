@@ -16,113 +16,135 @@
 
 package cTree;
 
-import java.util.*;
-import org.w3c.dom.*;
+import java.util.ArrayList;
 
-import cTree.adapter.*; 
+import org.w3c.dom.Element;
+
+import cTree.adapter.DOMElementMap;
+import cTree.adapter.ElementAdapter;
+import cTree.adapter.PraefixAdapter;
+import cTree.adapter.RolleAdapter;
+import cTree.cAlter.AlterHandler;
 import cTree.cCombine.CombineHandler;
 import cTree.cDefence.DefenceHandler;
 import cTree.cSplit.SplitHandler;
 
-public abstract class CElement extends RolleAdapter{
+public abstract class CElement extends RolleAdapter {
 
-	public CType getCType() {
-		return CType.UNKNOWN;
-	}
-	
-	// --- boolesche Tester default Verhalten ----------------------------
-	public boolean hatGleichenBetrag(CElement cE2){
-		return false;
-	}
-		
-	public boolean is0(){
-    	return false;
+    public CType getCType() {
+        return CType.UNKNOWN;
     }
-    public boolean istGleichartigesMonom(CElement e2){
-    	return false;
+
+    // --- boolesche Tester default Verhalten ----------------------------
+    public boolean hatGleichenBetrag(final CElement cE2) {
+        return false;
     }
-    
+
+    public boolean is0() {
+        return false;
+    }
+
+    public boolean istGleichartigesMonom(final CElement e2) {
+        return false;
+    }
+
     // --- Support für das Verbinden, Extrahieren und Aufspalten in dem CTree
-    public CElement combineRight(CElement active){
-    	CElement erstesElement = active; 
-    	if (erstesElement.hasNextC()){
-    		CElement zweitesElement = erstesElement.getNextSibling();
-    		return CombineHandler.getInstance().combine(this, erstesElement, zweitesElement);
-    	} else {
-    		return active;
-    	}
+    public CElement combineRight(final CElement active) {
+        final CElement erstesElement = active;
+        if (erstesElement.hasNextC()) {
+            final CElement zweitesElement = erstesElement.getNextSibling();
+            return CombineHandler.getInstance().combine(this, erstesElement,
+                    zweitesElement);
+        } else {
+            return active;
+        }
     }
 
-    public CElement extract(ArrayList<CElement> active){
-    	return cTree.cExtract.ExtractHandler.getInstance().extract(this, active, active.get(0).getFirstChild());
-    }; 
-    
-	public CElement split(CElement zuZerlegen, String s){
-		return SplitHandler.getInstance().split(this, zuZerlegen, s);
-	}
-    
-	// --- Support für die Klammern in dem CTree
-	// --- wird von der CPlusRow und der CTimesRow überschrieben
-    public CElement fence(ArrayList<CElement> active){
-    	if (active.size()==1) {   		
-    		return standardFencing(active.get(0));
-    	} else 
-    		return active.get(0);
+    public CElement extract(final ArrayList<CElement> active) {
+        return cTree.cExtract.ExtractHandler.getInstance().extract(this,
+                active, active.get(0).getFirstChild());
+    };
+
+    public CElement change(final String actionCommand) {
+        System.out.println(this.getCType());
+        return AlterHandler.getInstance().change(this, actionCommand);
     }
-    
-    public CElement standardFencing(CElement active){
-    	System.out.println("CElement fencing");
-    	active.removeCActiveProperty();
-    	CElement activeNeu = simpleFenced(active);
-    	activeNeu.setCRolle(active.getCRolle());
-		activeNeu.setExtPraefix(active.getExtPraefix());	
-    	active.setCRolle(CRolle.GEKLAMMERT);
-    	active.setExtPraefix(null);
-    	activeNeu.setCActiveProperty();
-    	return activeNeu;
+
+    public CElement split(final CElement zuZerlegen, final String s) {
+        return SplitHandler.getInstance().split(this, zuZerlegen, s);
     }
-    
-    public CElement simpleFenced(CElement any){
-    	Element fences = getElement().getOwnerDocument().createElement("mfenced");
-    	getElement().insertBefore(fences, any.getElement());
-    	fences.appendChild(any.getElement());
-    	CFences cFences = new CFences(fences);
-    	DOMElementMap.getInstance().getCElement.put(fences, cFences);
-		return cFences;
+
+    // --- Support für die Klammern in dem CTree
+    // --- wird von der CPlusRow und der CTimesRow überschrieben
+    public CElement fence(final ArrayList<CElement> active) {
+        if (active.size() == 1) {
+            return this.standardFencing(active.get(0));
+        } else {
+            return active.get(0);
+        }
     }
-    
-    public final CElement defence(CElement aFencePair){
-    	if (aFencePair instanceof CFences && aFencePair.hasChildC()) {
-    		return DefenceHandler.getInstance().defence(this, aFencePair, aFencePair.getFirstChild());
-    	}
-    	return aFencePair;
+
+    public CElement standardFencing(final CElement active) {
+        System.out.println("CElement fencing");
+        active.removeCActiveProperty();
+        final CElement activeNeu = this.simpleFenced(active);
+        activeNeu.setCRolle(active.getCRolle());
+        activeNeu.setExtPraefix(active.getExtPraefix());
+        active.setCRolle(CRolle.GEKLAMMERT);
+        active.setExtPraefix(null);
+        activeNeu.setCActiveProperty();
+        return activeNeu;
     }
-    	
-	// --- Ausgaben ---------------------------------------
-	public void show(){
-		showElement(element); 
-		if (praefix!=null) {
-			System.out.print("Vorzeichen: ");
-			showPraefix(praefix); 
-		} else {
-			System.out.println("kein extVZ");
-		}
-		System.out.println("cType: " + getCType());
-		System.out.println("cRolle: " + cRolle);
-		if (hasChildC()){getFirstChild().showWithSiblings();}
-	}
-	
-	private void showWithSiblings(){
-		showElement(element); 
-		if (praefix!=null) {
-			System.out.print("Vorzeichen: ");
-			showPraefix(praefix); 
-		} else {
-			System.out.println("kein intVZ");
-		}
-		System.out.println("cType: " + getCType());
-		System.out.println("cRolle: " + cRolle);
-		if (hasChildC()){getFirstChild().showWithSiblings();}
-		if (hasNextC()){getNextSibling().showWithSiblings();}
-	}
+
+    public CElement simpleFenced(final CElement any) {
+        final Element fences = this.getElement().getOwnerDocument()
+                .createElement("mfenced");
+        this.getElement().insertBefore(fences, any.getElement());
+        fences.appendChild(any.getElement());
+        final CFences cFences = new CFences(fences);
+        DOMElementMap.getInstance().getCElement.put(fences, cFences);
+        return cFences;
+    }
+
+    public final CElement defence(final CElement aFencePair) {
+        if (aFencePair instanceof CFences && aFencePair.hasChildC()) {
+            return DefenceHandler.getInstance().defence(this, aFencePair,
+                    aFencePair.getFirstChild());
+        }
+        return aFencePair;
+    }
+
+    // --- Ausgaben ---------------------------------------
+    public void show() {
+        ElementAdapter.showElement(this.element);
+        if (this.praefix != null) {
+            System.out.print("Vorzeichen: ");
+            PraefixAdapter.showPraefix(this.praefix);
+        } else {
+            System.out.println("kein extVZ");
+        }
+        System.out.println("cType: " + this.getCType());
+        System.out.println("cRolle: " + this.cRolle);
+        if (this.hasChildC()) {
+            this.getFirstChild().showWithSiblings();
+        }
+    }
+
+    private void showWithSiblings() {
+        ElementAdapter.showElement(this.element);
+        if (this.praefix != null) {
+            System.out.print("Vorzeichen: ");
+            PraefixAdapter.showPraefix(this.praefix);
+        } else {
+            System.out.println("kein intVZ");
+        }
+        System.out.println("cType: " + this.getCType());
+        System.out.println("cRolle: " + this.cRolle);
+        if (this.hasChildC()) {
+            this.getFirstChild().showWithSiblings();
+        }
+        if (this.hasNextC()) {
+            this.getNextSibling().showWithSiblings();
+        }
+    }
 }
