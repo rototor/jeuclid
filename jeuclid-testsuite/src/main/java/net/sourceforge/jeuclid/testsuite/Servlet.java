@@ -38,6 +38,8 @@ import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.converter.Processor;
 
 /**
+ * Serve the W3C MathML Testsuite, rendering all formulas with JEuclid to SVG.
+ * 
  * @version $Revision$
  */
 public class Servlet extends HttpServlet {
@@ -68,7 +70,8 @@ public class Servlet extends HttpServlet {
             IOException {
         final String file = req.getPathInfo();
         final InputStream stream = Thread.currentThread()
-                .getContextClassLoader().getResourceAsStream("mml2-testsuite/"+file);
+                .getContextClassLoader().getResourceAsStream(
+                        "mml2-testsuite/" + file);
         // final InputStream stream = ClassLoader
         // .getSystemResourceAsStream(file);
         if (stream == null) {
