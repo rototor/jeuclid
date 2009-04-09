@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ElementListSupport.java 807 2008-06-24 20:33:18Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support;
 
@@ -39,7 +39,7 @@ import euclid.layout.LayoutableNode;
  * This class can be used by all elements that have some kind of a list of
  * children that they need to handle in a row-like manner.
  * 
- * @version $Revision: 807 $
+ * @version $Revision$
  */
 public final class ElementListSupport {
 

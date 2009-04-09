@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: LayoutContextImpl.java 859 2008-11-28 13:39:06Z maxberger $ */
+/* $Id$ */
 
 package euclid.context;
 
@@ -31,7 +31,7 @@ import euclid.LayoutContext;
 import euclid.MutableLayoutContext;
 
 /**
- * @version $Revision: 859 $
+ * @version $Revision$
  */
 public class LayoutContextImpl implements MutableLayoutContext, Serializable {
 

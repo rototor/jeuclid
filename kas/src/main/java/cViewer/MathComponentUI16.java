@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathComponentUI16.java 616 2008-02-18 19:45:38Z maxberger $ */
+/* $Id$ */
 
 package cViewer;
 

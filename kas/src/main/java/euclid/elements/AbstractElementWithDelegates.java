@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractElementWithDelegates.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements;
 
@@ -31,7 +31,7 @@ import euclid.layout.LayoutableNode;
  * To use this class, overwrite {@link #createDelegates()} to create the
  * delegate objects.
  * 
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public abstract class AbstractElementWithDelegates extends AbstractContainer {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractTableRow.java 752 2008-05-19 12:40:13Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.table;
 
@@ -25,7 +25,7 @@ import org.w3c.dom.mathml.MathMLTableRowElement;
 /**
  * Abstract class for table rows with and without label.
  * 
- * @version $Revision: 752 $
+ * @version $Revision$
  */
 public abstract class AbstractTableRow extends AbstractTableElement implements
         MathMLTableRowElement {

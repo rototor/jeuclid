@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: OperatorDictionary.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support.operatordict;
 
@@ -44,7 +44,7 @@ import euclid.elements.presentation.token.Mo;
 /**
  * Read default values of operators from xml file.
  * 
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public final class OperatorDictionary implements Serializable {
 

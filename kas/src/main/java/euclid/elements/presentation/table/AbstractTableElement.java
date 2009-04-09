@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractTableElement.java 752 2008-05-19 12:40:13Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.table;
 
@@ -24,7 +24,7 @@ import euclid.elements.presentation.AbstractContainer;
  * Common functionality for all Table elements. This class contains support
  * for setting and getting alignment attributes.
  * 
- * @version $Revision: 752 $
+ * @version $Revision$
  */
 public abstract class AbstractTableElement extends AbstractContainer {
     /**

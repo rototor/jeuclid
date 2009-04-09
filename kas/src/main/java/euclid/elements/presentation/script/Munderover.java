@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Munderover.java 718 2008-04-28 18:46:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.script;
 
@@ -27,7 +27,7 @@ import euclid.elements.JEuclidElement;
 /**
  * This class arranges an element under, and an other element over an element.
  * 
- * @version $Revision: 718 $
+ * @version $Revision$
  */
 public final class Munderover extends AbstractUnderOver {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: package-info.java 355 2007-06-28 18:02:11Z maxberger $ */
+/* $Id$ */
 
 /**
 Standard MathML DOM Model.

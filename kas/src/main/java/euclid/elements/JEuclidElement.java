@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: JEuclidElement.java 763 2008-05-23 10:30:28Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements;
 
@@ -28,7 +28,7 @@ import euclid.layout.LayoutableNode;
 /**
  * Interface for all MathElements within JEuclid.
  * 
- * @version $Revision: 763 $
+ * @version $Revision$
  */
 public interface JEuclidElement extends MathMLElement, JEuclidNode,
         LayoutableNode {

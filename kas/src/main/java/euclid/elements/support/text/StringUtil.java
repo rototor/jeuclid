@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: StringUtil.java 867 2008-11-29 12:37:42Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support.text;
 
@@ -39,7 +39,7 @@ import euclid.LayoutContext;
 /**
  * Utilities for String handling.
  * 
- * @version $Revision: 867 $
+ * @version $Revision$
  */
 // CHECKSTYLE:OFF
 // Data Abstraction Coupling is too high. Hover, String handling is not

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: ClassLoaderSupport.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support;
 
 /**
  * Support utilities for classloading.
  * 
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public final class ClassLoaderSupport {
 

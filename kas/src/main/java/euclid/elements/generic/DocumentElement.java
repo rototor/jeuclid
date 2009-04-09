@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DocumentElement.java 835 2008-09-23 09:48:54Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.generic;
 
@@ -49,7 +49,7 @@ import euclid.layout.LayoutableNode;
 /**
  * Class for MathML Document Nodes.
  * 
- * @version $Revision: 835 $
+ * @version $Revision$
  */
 public final class DocumentElement extends GenericDocument implements
         MathMLDocument, JEuclidNode, DocumentView, LayoutableDocument {

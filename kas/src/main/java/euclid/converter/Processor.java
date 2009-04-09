@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Processor.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.converter;
 
@@ -54,7 +54,7 @@ import euclid.Parser;
  * equivalent SVG code. It will also add a baseline-shift attribute so that the
  * formula is in line with the rest of the text.
  * 
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public final class Processor {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mfrac.java 811 2008-06-26 07:26:41Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.general;
 
@@ -46,7 +46,7 @@ import euclid.layout.LineObject;
 /**
  * This math element presents a mathematical fraction.
  * 
- * @version $Revision: 811 $
+ * @version $Revision$
  */
 public final class Mfrac extends AbstractJEuclidElement implements
         MathMLFractionElement {

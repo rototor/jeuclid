@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractContainer.java 521 2007-09-14 10:15:00Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation;
 
@@ -30,7 +30,7 @@ import euclid.elements.AbstractJEuclidElement;
  * Abstract implementation for all classes that provide support for the DOM
  * MathMLContainer interface.
  * 
- * @version $Revision: 521 $
+ * @version $Revision$
  */
 public abstract class AbstractContainer extends AbstractJEuclidElement
         implements MathMLPresentationContainer {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Msqrt.java 750 2008-05-18 22:22:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.general;
 
@@ -30,7 +30,7 @@ import euclid.layout.LayoutableNode;
 /**
  * This class presents a mathematical square root.
  * 
- * @version $Revision: 750 $
+ * @version $Revision$
  */
 public final class Msqrt extends AbstractRoot {
 

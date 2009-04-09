@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathImpl.java 806 2008-06-24 20:21:55Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.generic;
 
@@ -31,7 +31,7 @@ import euclid.elements.presentation.AbstractContainer;
 /**
  * The root element for creating a MathElement tree.
  * 
- * @version $Revision: 806 $
+ * @version $Revision$
  */
 public final class MathImpl extends AbstractContainer implements
         MathMLMathElement {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: NumberTypeWrapper.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.context.typewrapper;
 
@@ -23,7 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Converting String to Numbers and vice versa is also straightforward.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public final class NumberTypeWrapper extends AbstractSimpleTypeWrapper {
     /**

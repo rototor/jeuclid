@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Semantics.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.content.semantic;
 
@@ -28,7 +28,7 @@ import euclid.elements.presentation.AbstractContainer;
 /**
  * This class represents a semantics element.
  * 
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public final class Semantics extends AbstractContainer implements
         MathMLSemanticsElement {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: CodePointAndVariant.java 830 2008-09-11 14:08:48Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support.text;
 
@@ -24,7 +24,7 @@ import euclid.elements.support.attributes.MathVariant;
 
 
 /**
- * @version $Revision: 830 $
+ * @version $Revision$
  */
 public class CodePointAndVariant implements Serializable {
     /**

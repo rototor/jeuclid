@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mstyle.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.general;
 
@@ -33,7 +33,7 @@ import euclid.elements.support.attributes.AttributesHelper;
 /**
  * This class arrange an element lower to an other element.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public final class Mstyle extends AbstractContainer implements
         MathMLStyleElement {

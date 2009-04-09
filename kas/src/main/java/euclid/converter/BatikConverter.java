@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: BatikConverter.java 615 2008-02-18 19:42:05Z maxberger $ */
+/* $Id$ */
 
 package euclid.converter;
 
@@ -43,7 +43,7 @@ import euclid.layout.JEuclidView;
 /**
  * supports conversion to SVG output through Batik.
  * 
- * @version $Revision: 615 $
+ * @version $Revision$
  */
 public class BatikConverter implements ConverterPlugin {
 

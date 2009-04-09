@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: LayoutInfoImpl.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.layout;
 
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public class LayoutInfoImpl implements LayoutInfo {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: JEuclidNode.java 698 2008-04-20 13:32:02Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements;
 
@@ -23,7 +23,7 @@ import euclid.LayoutContext;
 /**
  * Generic interface for all MathNodes, including document Element.
  * 
- * @version $Revision: 698 $
+ * @version $Revision$
  */
 public interface JEuclidNode {
 

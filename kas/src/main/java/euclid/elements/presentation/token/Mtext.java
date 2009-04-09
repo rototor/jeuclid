@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mtext.java 750 2008-05-18 22:22:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.token;
 
@@ -23,7 +23,7 @@ import org.w3c.dom.Node;
 /**
  * This class presents text in a equation and contains some utility methods.
  * 
- * @version $Revision: 750 $
+ * @version $Revision$
  */
 public final class Mtext extends AbstractTokenWithStandardLayout {
     /**

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ResourceEntityResolver.java 827 2008-08-28 12:30:05Z maxberger $ */
+/* $Id$ */
 
 package euclid;
 
@@ -37,7 +37,7 @@ import org.xml.sax.InputSource;
  * <li>MathML 2.0</li>
  * </ul>
  * 
- * @version $Revision: 827 $
+ * @version $Revision$
  */
 public class ResourceEntityResolver implements EntityResolver {
 

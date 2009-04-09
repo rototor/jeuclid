@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-/* $Id: LayoutStage.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package euclid.layout;
 
 /**
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public enum LayoutStage {
     /** No layout done yet. */

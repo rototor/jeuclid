@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: BatikDetector.java 712 2008-04-27 02:45:31Z maxberger $ */
+/* $Id$ */
 /* reduziert von Kuenzel */
 
 package euclid.converter;
@@ -30,7 +30,7 @@ import euclid.elements.support.ClassLoaderSupport;
 /**
  * Detects if Batik is in the class path and registers it if its available.
  * 
- * @version $Revision: 712 $
+ * @version $Revision$
  */
 public final class BatikDetector {
     /**

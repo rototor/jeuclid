@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: CharacterMapping.java 866 2008-11-29 11:03:23Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support.text;
 
@@ -45,7 +45,7 @@ import euclid.elements.support.attributes.FontFamily;
 import euclid.elements.support.attributes.MathVariant;
 
 /**
- * @version $Revision: 866 $
+ * @version $Revision$
  */
 public final class CharacterMapping implements Serializable {
 

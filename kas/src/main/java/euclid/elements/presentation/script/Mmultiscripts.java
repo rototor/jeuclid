@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mmultiscripts.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.script;
 
@@ -40,7 +40,7 @@ import euclid.layout.LayoutView;
 /**
  * Prescripts and Tensor Indices.
  * 
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 
 public final class Mmultiscripts extends AbstractScriptElement implements

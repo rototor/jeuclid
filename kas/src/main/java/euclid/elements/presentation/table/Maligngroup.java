@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Maligngroup.java 718 2008-04-28 18:46:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.table;
 
@@ -27,7 +27,7 @@ import euclid.elements.AbstractInvisibleJEuclidElement;
 /**
  * This class represents the maligngroup tag.
  * 
- * @version $Revision: 718 $
+ * @version $Revision$
  */
 
 public final class Maligngroup extends AbstractInvisibleJEuclidElement

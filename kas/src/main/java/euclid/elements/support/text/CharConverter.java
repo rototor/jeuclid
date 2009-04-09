@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: CharConverter.java 748 2008-05-15 16:59:47Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support.text;
 
@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * class for char converting.
  * 
- * @version $Revision: 748 $
+ * @version $Revision$
  */
 public final class CharConverter {
 

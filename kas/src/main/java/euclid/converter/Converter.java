@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Converter.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.converter;
 
@@ -46,7 +46,7 @@ import euclid.layout.JEuclidView;
 /**
  * Generic converter which uses the registry to do its conversions.
  * 
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public final class Converter {
 

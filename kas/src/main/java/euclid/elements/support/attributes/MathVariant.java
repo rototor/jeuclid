@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MathVariant.java 863 2008-11-28 15:02:26Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support.attributes;
 
@@ -39,7 +39,7 @@ import euclid.font.FontFactory;
 /**
  * Class to represent and use MathVariants.
  * 
- * @version $Revision: 863 $
+ * @version $Revision$
  */
 public final class MathVariant implements Serializable {
 

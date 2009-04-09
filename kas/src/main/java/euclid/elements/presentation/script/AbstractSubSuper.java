@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: AbstractSubSuper.java 520 2007-09-14 10:07:17Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.script;
 
@@ -33,7 +33,7 @@ import euclid.layout.LayoutView;
  * <p>
  * Supported elements: msub, msup, msubsup.
  * 
- * @version $Revision: 520 $
+ * @version $Revision$
  */
 public abstract class AbstractSubSuper extends AbstractScriptElement
         implements MathMLScriptElement {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mo.java 810 2008-06-26 06:54:16Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.token;
 
@@ -55,7 +55,7 @@ import euclid.layout.TextObject;
 /**
  * This class presents a math operator, like "(" or "*".
  * 
- * @version $Revision: 810 $
+ * @version $Revision$
  */
 
 // CHECKSTYLE:OFF

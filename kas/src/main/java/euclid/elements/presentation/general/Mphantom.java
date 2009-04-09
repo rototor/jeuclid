@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mphantom.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.general;
 
@@ -30,7 +30,7 @@ import euclid.layout.LayoutableNode;
 /**
  * This class represents a phantom of a math element. This is used as spacer.
  * 
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public final class Mphantom extends AbstractContainer {
 

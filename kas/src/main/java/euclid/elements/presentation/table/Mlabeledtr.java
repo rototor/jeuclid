@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mlabeledtr.java 718 2008-04-28 18:46:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.table;
 
@@ -26,7 +26,7 @@ import org.w3c.dom.mathml.MathMLLabeledRowElement;
  * This class represents the mlabeledtr tag.
  * 
  * @todo add proper support for labels. They are currently silently ignored.
- * @version $Revision: 718 $
+ * @version $Revision$
  */
 public final class Mlabeledtr extends AbstractTableRow implements
         MathMLLabeledRowElement {

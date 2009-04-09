@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: OperatorAttribute.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support.operatordict;
 
@@ -23,10 +23,10 @@ import java.util.Locale;
 import euclid.Constants;
 
 /**
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 /**
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public enum OperatorAttribute {
 

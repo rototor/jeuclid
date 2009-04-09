@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mn.java 718 2008-04-28 18:46:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.token;
 
@@ -23,7 +23,7 @@ import org.w3c.dom.Node;
 /**
  * This class presents numbers in a equation.
  * 
- * @version $Revision: 718 $
+ * @version $Revision$
  */
 public final class Mn extends AbstractTokenWithStandardLayout {
 

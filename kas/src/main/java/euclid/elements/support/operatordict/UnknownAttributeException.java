@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: UnknownAttributeException.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.support.operatordict;
 
 /**
  * This is just a marker class.
  * 
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public class UnknownAttributeException extends Exception {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mrow.java 752 2008-05-19 12:40:13Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.general;
 
@@ -25,7 +25,7 @@ import euclid.elements.presentation.AbstractContainer;
 /**
  * This class presents a row.
  * 
- * @version $Revision: 752 $
+ * @version $Revision$
  */
 public final class Mrow extends AbstractContainer {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Maction.java 783 2008-06-07 14:12:27Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.enlivening;
 
@@ -32,7 +32,7 @@ import euclid.layout.LayoutableNode;
  * Represents an maction element.
  * 
  * @todo This element does not actually implement any action.
- * @version $Revision: 783 $
+ * @version $Revision$
  */
 public final class Maction extends AbstractElementWithDelegates implements
         MathMLActionElement {

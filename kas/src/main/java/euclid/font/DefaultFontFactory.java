@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DefaultFontFactory.java 863 2008-11-28 15:02:26Z maxberger $ */
+/* $Id$ */
 
 package euclid.font;
 
@@ -41,7 +41,7 @@ import org.apache.xmlgraphics.util.ClasspathResource;
  * Concrete FontFactory implementation that does simple caching of Fonts
  * loaded via {@link Font#createFont(int, File)} APIs.
  * 
- * @version $Revision: 863 $
+ * @version $Revision$
  */
 public class DefaultFontFactory extends FontFactory {
 

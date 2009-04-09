@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: package-info.java 368 2007-07-01 10:45:52Z maxberger $ */
+/* $Id$ */
 
 /**
  Tables and Matrices presentation element support (3.5).

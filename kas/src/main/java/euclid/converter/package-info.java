@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: package-info.java 435 2007-08-20 12:09:31Z maxberger $ */
+/* $Id$ */
 
 /**
  An API for conversion from MathML to different output formats.

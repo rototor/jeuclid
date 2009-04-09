@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mroot.java 750 2008-05-18 22:22:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.general;
 
@@ -33,7 +33,7 @@ import euclid.layout.LayoutableNode;
 /**
  * This class presents a mathematical root.
  * 
- * @version $Revision: 750 $
+ * @version $Revision$
  */
 public final class Mroot extends AbstractRoot {
 

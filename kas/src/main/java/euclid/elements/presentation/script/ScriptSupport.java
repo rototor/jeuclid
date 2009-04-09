@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ScriptSupport.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.script;
 
@@ -35,7 +35,7 @@ import euclid.LayoutContext;
  * 
  * @see AbstractSubSuper
  * @see AbstractUnderOver
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public final class ScriptSupport {
     /** Default Constructor. */
@@ -46,7 +46,7 @@ public final class ScriptSupport {
     /**
      * Info for baseline shifts.
      * 
-     * @version $Revision: 518 $
+     * @version $Revision$
      */
     static class ShiftInfo {
         private float superShift;

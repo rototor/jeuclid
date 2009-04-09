@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: JEuclidElementFactory.java 763 2008-05-23 10:30:28Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements;
 
@@ -71,7 +71,7 @@ import euclid.elements.presentation.token.Mtext;
 /**
  * Creates MathElements from given element strings.
  * 
- * @version $Revision: 763 $
+ * @version $Revision$
  */
 public final class JEuclidElementFactory {
 

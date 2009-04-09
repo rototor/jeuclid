@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: ImageIODetector.java 592 2008-01-11 12:14:00Z maxberger $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.converter;
 
 /**
  * Interface for all Image Conversion Detectors.
  * 
- * @version $Revision: 592 $
+ * @version $Revision$
  */
 public interface ConverterDetector {
 

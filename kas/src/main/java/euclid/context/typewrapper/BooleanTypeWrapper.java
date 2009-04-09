@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: BooleanTypeWrapper.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.context.typewrapper;
 
 /**
  * Converting String to Boolean and vice versa is also straightforward.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public final class BooleanTypeWrapper extends AbstractSimpleTypeWrapper {
     /**

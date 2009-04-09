@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: LayoutContext.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid;
 
@@ -23,7 +23,7 @@ import euclid.context.Parameter;
 
 
 /**
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public interface LayoutContext {
 

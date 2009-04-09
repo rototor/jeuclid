@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: LayoutableDocument.java 518 2007-09-14 08:29:58Z maxberger $ */
+/* $Id$ */
 
 package euclid.layout;
 
 import org.w3c.dom.views.DocumentView;
 
 /**
- * @version $Revision: 518 $
+ * @version $Revision$
  */
 public interface LayoutableDocument extends DocumentView, LayoutableNode {
 

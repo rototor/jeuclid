@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: Mspace.java 718 2008-04-28 18:46:38Z maxberger $ */
+/* $Id$ */
 
 package euclid.elements.presentation.token;
 
@@ -34,7 +34,7 @@ import euclid.layout.LayoutView;
  * This class presents a mspace.
  * 
  * @todo linebreak is unimplemented
- * @version $Revision: 718 $
+ * @version $Revision$
  */
 public final class Mspace extends AbstractJEuclidElement implements
         MathMLSpaceElement {

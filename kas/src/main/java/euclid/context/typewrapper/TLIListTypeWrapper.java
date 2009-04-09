@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: TLIListTypeWrapper.java 795 2008-06-21 10:53:35Z maxberger $ */
+/* $Id$ */
 
 package euclid.context.typewrapper;
 
@@ -28,7 +28,7 @@ import java.util.Locale;
  * 
  * Strings are Stored Trimmed, Lower-cased, Interned.
  * 
- * @version $Revision: 795 $
+ * @version $Revision$
  */
 public final class TLIListTypeWrapper extends AbstractSimpleTypeWrapper {
 
