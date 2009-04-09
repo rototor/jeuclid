@@ -35,6 +35,12 @@ import org.xml.sax.SAXException;
 import cTree.*;
 import cTree.adapter.DOMElementMap;
 import cTree.adapter.EElementHelper;
+import cViewer.JMathComponent;
+import cViewer.JMathComponentHelper;
+import cViewer.JMathElementHandler;
+import cViewer.MathComponentUI;
+import cViewer.MathComponentUI16;
+import cViewer.JMathComponent.ZerlegeAction;
 
 import euclid.MathMLParserSupport;
 import euclid.MathMLSerializer;
@@ -220,6 +226,18 @@ public final class JMathComponent extends JComponent implements SwingConstants, 
     		}
         };
         actions.put(myAction.getValue(Action.NAME),  myAction); 
+        myAction = new AbstractAction("Aendern"){
+        	private static final long serialVersionUID = 20090406L;
+    		public void actionPerformed(ActionEvent ae) {	
+    			CElement cAct = getCActive();
+    			saveForUndo();
+    			clearCButFirst();
+    			cAct.show();
+    			setCActive(cAct.change(ae.getActionCommand()));
+    			modifyDocument();
+    		}
+        };
+        actions.put(myAction.getValue(Action.NAME),  myAction); 
         myAction = new AbstractAction("Verbinden"){
         	private static final long serialVersionUID = 20081230L;
     		public void actionPerformed(ActionEvent ae) {	
@@ -303,6 +321,7 @@ public final class JMathComponent extends JComponent implements SwingConstants, 
         actions.put(myAction.getValue(Action.NAME),  myAction); 
 	return actions;
     }
+
 	
     public Action getActionByName(String name) {
     	return actions.get(name);

@@ -29,20 +29,23 @@ public class JMathKeyListener implements KeyListener{
 		myInputMap = new HashMap<String, String>();
 		myInputMap.put("z", "Zerlegen");
     	myInputMap.put("y", "ZoomIn");
-    	myInputMap.put("Y", "Entklammere");
+    	myInputMap.put("K", "Entklammere");
     	myInputMap.put("w", "ZoomOut");
-    	myInputMap.put("W", "Klammere");
+    	myInputMap.put("k", "Klammere");
     	myInputMap.put("a", "GeheLinks");
     	myInputMap.put("A", "BewegeLinks");
     	myInputMap.put("s", "GeheRechts");
     	myInputMap.put("S", "BewegeRechts");
+    	myInputMap.put("c", "Aendern");
     	myInputMap.put("v", "Verbinden");
     	myInputMap.put("V", "Rausziehen");
+    	myInputMap.put("t", "Zerlegen");
     	myInputMap.put("+", "Vergrößern");
     	myInputMap.put("-", "Verkleinern");
     	myInputMap.put("n", "Selection-");
     	myInputMap.put("m", "Selection+");
-    	myInputMap.put(" ", "Undo");
+    	myInputMap.put("z", "Undo");
+    	myInputMap.put("u", "Undo");
 	}
     
     public void keyTyped(KeyEvent e) {
