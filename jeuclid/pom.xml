@@ -4,6 +4,7 @@
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid</artifactId>
   <name>JEuclid Distribution</name>
+  <packaging>pom</packaging>
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
@@ -11,6 +12,7 @@
   </parent>
   <description>This class handles the creation of the JEuclid distribution files.</description>
   <build>
+    <defaultGoal>package</defaultGoal>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
