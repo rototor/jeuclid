@@ -20,6 +20,7 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +35,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -63,9 +65,19 @@ public class MathFrame extends JFrame {
 
     private JMenu fileMenu;
 
+    private JMenu helpMenu;
+
     private JMenuItem openMenuItem;
 
     private JMenuItem exportMenuItem;
+
+    private JMenuItem aboutMenuItem;
+
+    private JMenuItem howToMenuItem;
+
+    private AboutDialog aboutDialog;
+
+    private HowToDialog howToDialog;
 
     private JScrollPane scrollPane;
 
@@ -94,8 +106,77 @@ public class MathFrame extends JFrame {
         if (this.jMenuBar == null) {
             this.jMenuBar = new JMenuBar();
             this.jMenuBar.add(this.getFileMenu());
+            this.jMenuBar.add(this.getHelpMenu());
         }
         return this.jMenuBar;
+    }
+
+    private JMenu getHelpMenu() {
+        if (this.helpMenu == null) {
+            this.helpMenu = new JMenu();
+            this.helpMenu.setText("Hilfe");
+            this.helpMenu.add(this.getHowToItem());
+            this.helpMenu.add(this.getAboutMenuItem());
+        }
+        return this.helpMenu;
+    }
+
+    private JMenuItem getHowToItem() {
+        if (this.howToMenuItem == null) {
+            this.howToMenuItem = new JMenuItem();
+            this.howToMenuItem.setText("Tastatur und Maussteuerung");
+            this.howToMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    MathFrame.this.displayHowTo();
+                }
+            });
+        }
+        return this.howToMenuItem;
+    }
+
+    public void displayHowTo() {
+        final JDialog aDialog = this.getHowToDialog();
+        aDialog.pack();
+        final Point loc = this.getLocation();
+        loc.translate((this.getWidth() - aDialog.getWidth()) / 2, 0);
+        aDialog.setLocation(loc);
+        aDialog.setVisible(true);
+    }
+
+    private JDialog getHowToDialog() {
+        if (this.howToDialog == null) {
+            this.howToDialog = new HowToDialog(this);
+        }
+        return this.howToDialog;
+    }
+
+    private JMenuItem getAboutMenuItem() {
+        if (this.aboutMenuItem == null) {
+            this.aboutMenuItem = new JMenuItem();
+            this.aboutMenuItem.setText("About KAS"); //$NON-NLS-1$
+            this.aboutMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    MathFrame.this.displayAbout();
+                }
+            });
+        }
+        return this.aboutMenuItem;
+    }
+
+    public void displayAbout() {
+        final JDialog aDialog = this.getAboutDialog();
+        aDialog.pack();
+        final Point loc = this.getLocation();
+        loc.translate((this.getWidth() - aDialog.getWidth()) / 2, 0);
+        aDialog.setLocation(loc);
+        aDialog.setVisible(true);
+    }
+
+    private JDialog getAboutDialog() {
+        if (this.aboutDialog == null) {
+            this.aboutDialog = new AboutDialog(this);
+        }
+        return this.aboutDialog;
     }
 
     private JMenu getFileMenu() {
