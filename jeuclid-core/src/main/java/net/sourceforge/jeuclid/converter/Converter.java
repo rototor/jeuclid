@@ -134,7 +134,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final File inFile, final File outFile,
-            final String outFileType, final MutableLayoutContext params)
+            final String outFileType, final LayoutContext params)
             throws IOException {
         Document doc;
         try {
@@ -147,8 +147,8 @@ public final class Converter {
     }
 
     /**
-     * Converts an existing document from MathML to the given type and store it
-     * in a file.
+     * Converts an existing document from MathML to the given type and store
+     * it in a file.
      * 
      * @param doc
      *            input document. See
@@ -165,7 +165,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final Node doc, final File outFile,
-            final String outFileType, final MutableLayoutContext params)
+            final String outFileType, final LayoutContext params)
             throws IOException {
 
         final OutputStream outStream = new BufferedOutputStream(
@@ -188,8 +188,8 @@ public final class Converter {
     }
 
     /**
-     * Converts an existing document from MathML to the given XML based type and
-     * store it in a DOM document.
+     * Converts an existing document from MathML to the given XML based type
+     * and store it in a DOM document.
      * 
      * @param doc
      *            input document. See
@@ -200,8 +200,8 @@ public final class Converter {
      * @param params
      *            parameter set to use for conversion.
      * @return an instance of Document, or the appropriate subtype for this
-     *         format (e.g. SVGDocument). If conversion is not supported to this
-     *         type, it may return null.
+     *         format (e.g. SVGDocument). If conversion is not supported to
+     *         this type, it may return null.
      */
     public DocumentWithDimension convert(final Node doc,
             final String outFileType, final LayoutContext params) {
@@ -236,7 +236,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final Node doc, final OutputStream outStream,
-            final String outFileType, final MutableLayoutContext params)
+            final String outFileType, final LayoutContext params)
             throws IOException {
         final ConverterPlugin plugin = ConverterRegistry.getInstance()
                 .getConverter(outFileType);
@@ -248,8 +248,8 @@ public final class Converter {
             try {
                 result = plugin.convert(doc, params, outStream);
             } catch (final IOException ex) {
-                Converter.LOGGER.fatal("Failed to process: " + ex.getMessage(),
-                        ex);
+                Converter.LOGGER.fatal("Failed to process: "
+                        + ex.getMessage(), ex);
             }
         }
         return result;
