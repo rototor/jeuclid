@@ -16,204 +16,266 @@
 
 package cViewer;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
+import net.sourceforge.jeuclid.MathMLSerializer;
 import cViewer.JMathComponent.ZerlegeAction;
-import euclid.MathMLSerializer;
 
-public class MathFrame extends JFrame{
-    
+public class MathFrame extends JFrame {
+
     private static final int DEFAULT_HEIGHT = 250;
+
     private static final int DEFAULT_WIDTH = 800;
-    private static final long serialVersionUID= 20090301L;
+
+    private static final long serialVersionUID = 20090301L;
+
     private File lastPath;
+
     private JPanel jContentPane;
+
     private JMenuBar jMenuBar;
+
     private JMenu fileMenu;
+
     private JMenuItem openMenuItem;
+
     private JMenuItem exportMenuItem;
+
     private JScrollPane scrollPane;
+
     private JMathComponent mathComponent;
+
     private JTextField textField;
 
     /**
      * This is the default constructor.
      */
     public MathFrame() {
-    	setTitle("KAS - Kein Algebrasystem A");
-    	setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    	setJMenuBar(getJMenuBar());       
-        setContentPane(getJContentPane()); 
-    	addWindowFocusListener(new WindowAdapter() {
-    	    public void windowGainedFocus(WindowEvent e) {
-    	        mathComponent.requestFocusInWindow();
-    	    }
-    	});
+        this.setTitle("KAS - Kein Algebrasystem A");
+        this.setSize(MathFrame.DEFAULT_WIDTH, MathFrame.DEFAULT_HEIGHT);
+        this.setJMenuBar(this.getJMenuBar());
+        this.setContentPane(this.getJContentPane());
+        this.addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowGainedFocus(final WindowEvent e) {
+                MathFrame.this.mathComponent.requestFocusInWindow();
+            }
+        });
     }
-    
+
+    @Override
     public JMenuBar getJMenuBar() {
-    	if (jMenuBar == null) {
-            jMenuBar = new JMenuBar();
-            jMenuBar.add(getFileMenu());
+        if (this.jMenuBar == null) {
+            this.jMenuBar = new JMenuBar();
+            this.jMenuBar.add(this.getFileMenu());
         }
-        return jMenuBar;
+        return this.jMenuBar;
     }
 
     private JMenu getFileMenu() {
-        if (fileMenu == null) {
-            fileMenu = new JMenu();
-            fileMenu.setText("Datei");
-            fileMenu.add(getOpenMenuItem());
-            fileMenu.add(getExportMenuItem());
+        if (this.fileMenu == null) {
+            this.fileMenu = new JMenu();
+            this.fileMenu.setText("Datei");
+            this.fileMenu.add(this.getOpenMenuItem());
+            this.fileMenu.add(this.getExportMenuItem());
         }
-        return fileMenu;
+        return this.fileMenu;
     }
 
     // Die FileMenuItems
     private JMenuItem getOpenMenuItem() {
-        if (openMenuItem == null) {
-            openMenuItem = new JMenuItem();
-            openMenuItem.setText("Datei öffnen ..."); 
-            openMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-               KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-            openMenuItem.addActionListener(new ActionListener() {
-            	public void actionPerformed(ActionEvent e) {
-            		openFile();
-            	}
+        if (this.openMenuItem == null) {
+            this.openMenuItem = new JMenuItem();
+            this.openMenuItem.setText("Datei öffnen ...");
+            this.openMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_O, Toolkit.getDefaultToolkit()
+                            .getMenuShortcutKeyMask(), true));
+            this.openMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    MathFrame.this.openFile();
+                }
             });
         }
-        return openMenuItem;
-    }
-    
-    private void openFile() {
-        File file = selectFileToOpen(this);
-        BufferedReader r;
-    	String result ="";
-    	String line; 
-    	try { 
-    		r = new BufferedReader( new FileReader(file));
-    		while ((line = r.readLine()) != null) {
-    			result = result+line;
-    		}
-    		r.close();
-    	} catch (IOException e) {
-  	      	System.out.println("Fehler beim Lesen der Datei");
-	    }
-    	getMathComponent().setContent(result);
-    	getMathComponent().requestFocusInWindow();
+        return this.openMenuItem;
     }
 
-    private File selectFileToOpen(Frame parent) {
+    private void openFile() {
+        final File file = this.selectFileToOpen(this);
+        BufferedReader r;
+        String result = "";
+        String line;
+        try {
+            r = new BufferedReader(new FileReader(file));
+            while ((line = r.readLine()) != null) {
+                result = result + line;
+            }
+            r.close();
+        } catch (final IOException e) {
+            System.out.println("Fehler beim Lesen der Datei");
+        }
+        this.getMathComponent().setContent(result);
+        this.getMathComponent().requestFocusInWindow();
+    }
+
+    private File selectFileToOpen(final Frame parent) {
         File selectedFile;
-        JFileChooser fChooser = new JFileChooser(lastPath);
+        final JFileChooser fChooser = new JFileChooser(this.lastPath);
         if (fChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
             selectedFile = fChooser.getSelectedFile();
         } else {
             selectedFile = null;
         }
         if (selectedFile != null) {
-            lastPath = selectedFile.getParentFile();
+            this.lastPath = selectedFile.getParentFile();
         }
         return selectedFile;
     }
-    
+
     private JMenuItem getExportMenuItem() {
-        if (exportMenuItem == null) {
-            exportMenuItem = new JMenuItem();
-            exportMenuItem.setText("Exportieren");
-            exportMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-               KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-            exportMenuItem.addActionListener(new ActionListener() {
-               public void actionPerformed(ActionEvent e) {
-            	   exportFile();
-               }
+        if (this.exportMenuItem == null) {
+            this.exportMenuItem = new JMenuItem();
+            this.exportMenuItem.setText("Exportieren");
+            this.exportMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_S, Toolkit.getDefaultToolkit()
+                            .getMenuShortcutKeyMask(), true));
+            this.exportMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    MathFrame.this.exportFile();
+                }
             });
         }
-        return exportMenuItem;
+        return this.exportMenuItem;
     }
 
-    private void exportFile() {       
-        JFileChooser fChooser = new JFileChooser(lastPath);
+    private void exportFile() {
+        final JFileChooser fChooser = new JFileChooser(this.lastPath);
         if (fChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fChooser.getSelectedFile();
+            final File selectedFile = fChooser.getSelectedFile();
             if (selectedFile != null) {
-            	String fileName = selectedFile.getAbsolutePath();
-            	JMathElementHandler.removeCalcTyp(getMathComponent().getDocument());
-                String s = MathMLSerializer.serializeDocument(getMathComponent().getDocument(), false, false);
-                try{
-                	BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
-                	bw.write(s); 
-                	bw.close();
-                } catch (IOException e) {
-                	e.printStackTrace();
+                final String fileName = selectedFile.getAbsolutePath();
+                JMathElementHandler.removeCalcTyp(this.getMathComponent()
+                        .getDocument());
+                final String s = MathMLSerializer.serializeDocument(this
+                        .getMathComponent().getDocument(), false, false);
+                try {
+                    final BufferedWriter bw = new BufferedWriter(
+                            new FileWriter(fileName));
+                    bw.write(s);
+                    bw.close();
+                } catch (final IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
-        JMathElementHandler.parseDom(getMathComponent().getDocument());	
+        JMathElementHandler.parseDom(this.getMathComponent().getDocument());
     }
 
     public JPanel getJContentPane() {
-        if (jContentPane == null) {
-            jContentPane = new JPanel();
-            jContentPane.setLayout(new BorderLayout());
-            jContentPane.add(getScrollPane(), BorderLayout.CENTER);
-            jContentPane.add(getButtonPanel(), BorderLayout.WEST);
-            getMathComponent().addKeyListener(new JMathKeyListener(getMathComponent()));
-            getMathComponent().addMouseListener(new JMathMouseListener(getMathComponent(), getTextField()));
+        if (this.jContentPane == null) {
+            this.jContentPane = new JPanel();
+            this.jContentPane.setLayout(new BorderLayout());
+            this.jContentPane.add(this.getScrollPane(), BorderLayout.CENTER);
+            this.jContentPane.add(this.getButtonPanel(), BorderLayout.WEST);
+            this.getMathComponent().addKeyListener(
+                    new JMathKeyListener(this.getMathComponent()));
+            this.getMathComponent().addMouseListener(
+                    new JMathMouseListener(this.getMathComponent(), this
+                            .getTextField()));
         }
         return this.jContentPane;
     }
-    
+
     private JScrollPane getScrollPane() {
-        if (scrollPane == null) {
-            scrollPane = new JScrollPane();
-            scrollPane.setViewportView(getMathComponent());
+        if (this.scrollPane == null) {
+            this.scrollPane = new JScrollPane();
+            this.scrollPane.setViewportView(this.getMathComponent());
         }
-        return scrollPane;
+        return this.scrollPane;
     }
-    
+
     public JMathComponent getMathComponent() {
-        if (mathComponent == null) {
-            mathComponent = new JMathComponent();
+        if (this.mathComponent == null) {
+            this.mathComponent = new JMathComponent();
         }
-        return mathComponent;
+        return this.mathComponent;
     }
-    
+
     public JPanel getButtonPanel() {
-    	JPanel result = new JPanel(); 
-    	result.setLayout(new GridLayout(9,2));
-    	// Tree Walker
-    	result.add(new JButton(getMathComponent().getActionByName("ZoomOut")));
-    	result.add(new JButton(getMathComponent().getActionByName("ZoomIn")));
-    	result.add(new JButton(getMathComponent().getActionByName("GeheLinks")));
-    	result.add(new JButton(getMathComponent().getActionByName("GeheRechts")));
-    	result.add(new JButton(getMathComponent().getActionByName("Selection+")));
-    	result.add(new JButton(getMathComponent().getActionByName("Selection-")));
-    	// Einfache Änderungen
-    	result.add(new JButton(getMathComponent().getActionByName("BewegeLinks")));
-    	result.add(new JButton(getMathComponent().getActionByName("BewegeRechts")));
-    	result.add(new JButton(getMathComponent().getActionByName("Klammere")));
-    	result.add(new JButton(getMathComponent().getActionByName("Entklammere")));
-    	// Komplexere Änderungen
-    	result.add(new JButton(getMathComponent().getActionByName("Rausziehen")));
-    	result.add(new JButton(getMathComponent().getActionByName("Verbinden")));
-    	ZerlegeAction z = (ZerlegeAction) getMathComponent().getActionByName("Zerlegen");
-    	result.add(getTextField()); z.textField = getTextField();	
-    	result.add(new JButton(getMathComponent().getActionByName("Zerlegen")));
-    	// Undo and Redo (simple)
-    	result.add(new JButton(getMathComponent().getActionByName("Meins")));
-    	result.add(new JButton(getMathComponent().getActionByName("Undo")));  
-    	return result;
+        final JPanel result = new JPanel();
+        result.setLayout(new GridLayout(9, 2));
+        // Tree Walker
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "ZoomOut")));
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "ZoomIn")));
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "GeheLinks")));
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "GeheRechts")));
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "Selection+")));
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "Selection-")));
+        // Einfache Änderungen
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "BewegeLinks")));
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "BewegeRechts")));
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "Klammere")));
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "Entklammere")));
+        // Komplexere Änderungen
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "Rausziehen")));
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "Verbinden")));
+        final ZerlegeAction z = (ZerlegeAction) this.getMathComponent()
+                .getActionByName("Zerlegen");
+        result.add(this.getTextField());
+        z.textField = this.getTextField();
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "Zerlegen")));
+        // Undo and Redo (simple)
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "Meins")));
+        result.add(new JButton(this.getMathComponent()
+                .getActionByName("Undo")));
+        return result;
     }
-    public JTextField getTextField(){
-    	if (textField==null){
-        	textField = new JTextField(6); 
-        	Font f = new Font("DialogInput",1, 18);
-        	textField.setFont(f);
-    	}
-    	return textField;	
+
+    public JTextField getTextField() {
+        if (this.textField == null) {
+            this.textField = new JTextField(6);
+            final Font f = new Font("DialogInput", 1, 18);
+            this.textField.setFont(f);
+        }
+        return this.textField;
     }
 }

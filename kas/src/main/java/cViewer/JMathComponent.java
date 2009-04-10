@@ -21,374 +21,452 @@ package cViewer;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.accessibility.Accessible;
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.*;
+import net.sourceforge.jeuclid.DOMBuilder;
+import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.MathMLSerializer;
+import net.sourceforge.jeuclid.MutableLayoutContext;
+import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.context.Parameter;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CElementHelper;
+import cTree.CPlusRow;
+import cTree.CRolle;
+import cTree.CTimesRow;
 import cTree.adapter.DOMElementMap;
 import cTree.adapter.EElementHelper;
-import cViewer.JMathComponent;
-import cViewer.JMathComponentHelper;
-import cViewer.JMathElementHandler;
-import cViewer.MathComponentUI;
-import cViewer.MathComponentUI16;
-import cViewer.JMathComponent.ZerlegeAction;
-
-import euclid.MathMLParserSupport;
-import euclid.MathMLSerializer;
-import euclid.MutableLayoutContext;
-import euclid.context.LayoutContextImpl;
-import euclid.context.Parameter;
 
 /**
  * Displays MathML content in a Swing Component.
  */
-public final class JMathComponent extends JComponent implements SwingConstants, FocusListener, Accessible {
+public final class JMathComponent extends JComponent implements
+        SwingConstants, FocusListener, Accessible {
 
-	private static final long serialVersionUID = 20081230L;
-    private static String uiClassId ="MathComponentUI16";
-    private int horizontalAlignment = SwingConstants.LEFT;	// SwingConstants.CENTER;
-    private int verticalAlignment = SwingConstants.TOP;   	// SwingConstants.CENTER;     
-    protected Document document;							// Das "wohlgeformte" orgw3c.dom-Dokument
-    protected ArrayList<CElement> activeC; 					// Einige aufeinanderfolgende CElemente mit gleichem Parent
-    private String undoSave;								// Der MathML_String als Speicher für den letzten Zustand
-    private final MutableLayoutContext parameters; 
-    public HashMap<Object, Action> actions;					// Actions die mit Maus Tastatur oder Buttons ausgelöst werden können
-    
+    private static final long serialVersionUID = 20081230L;
+
+    private static String uiClassId = "MathComponentUI16";
+
+    private int horizontalAlignment = SwingConstants.CENTER;
+
+    // SwingConstants.CENTER;
+    private int verticalAlignment = SwingConstants.CENTER;
+
+    // SwingConstants.CENTER;
+    protected Document document;
+
+    // Das "wohlgeformte" orgw3c.dom-Dokument
+    protected ArrayList<CElement> activeC;
+
+    // Einige aufeinanderfolgende CElemente mit gleichem Parent
+    private String undoSave;
+
+    // Der MathML_String als Speicher für den letzten Zustand
+    private final MutableLayoutContext parameters;
+
+    public HashMap<Object, Action> actions;
+
+    // Actions die mit Maus Tastatur oder Buttons ausgelöst werden können
+
     public JMathComponent() {
-    	parameters = new LayoutContextImpl(LayoutContextImpl.getDefaultLayoutContext());
-    	activeC = new ArrayList<CElement>();
-    	setUI(new MathComponentUI16()); 
-        setContent("<math><mrow><mi>x</mi><mo>=</mo>" +
-        		 "<mfrac><mrow>" +
-        		   "<mrow><mo>-</mo><mi>b</mi></mrow>" +
-        		   "<mo>+</mo>" + 
-        		   "<msqrt>" +
-        		    "<mrow>" +
-        		     "<msup><mi>b</mi><mn>2</mn></msup>" +
-        		     "<mo>-</mo>" +
-        		     "<mrow><mn>4</mn><mo><mchar name=\"InvisibleTimes\"/></mo><mi>a</mi><mo><mchar name=\"InvisibleTimes\"/></mo><mi>c</mi></mrow>" +
-        		    "</mrow>" +
-        		   "</msqrt>" +
-        		  "</mrow>" +
-        		  "<mrow>" +
-        		   "<mn>2</mn>" +
-        		   "<mo><mchar name=\"InvisibleTimes\"/></mo>" +
-        		   "<mi>a</mi>" +
-        		  "</mrow></mfrac>" +
-        		"</mrow></math>");
+        this.parameters = new LayoutContextImpl(LayoutContextImpl
+                .getDefaultLayoutContext());
+        this.setParameter(Parameter.MATHSIZE, 48f);
+        this.activeC = new ArrayList<CElement>();
+        this.setUI(new MathComponentUI16());
+        this
+                .setContent("<math><mrow><mi>x</mi><mo>=</mo>"
+                        + "<mfrac><mrow>"
+                        + "<mrow><mo>-</mo><mi>b</mi></mrow>"
+                        + "<mo>+</mo>"
+                        + "<msqrt>"
+                        + "<mrow>"
+                        + "<msup><mi>b</mi><mn>2</mn></msup>"
+                        + "<mo>-</mo>"
+                        + "<mrow><mn>4</mn><mo><mchar name=\"InvisibleTimes\"/></mo><mi>a</mi><mo><mchar name=\"InvisibleTimes\"/></mo><mi>c</mi></mrow>"
+                        + "</mrow>" + "</msqrt>" + "</mrow>" + "<mrow>"
+                        + "<mn>2</mn>"
+                        + "<mo><mchar name=\"InvisibleTimes\"/></mo>"
+                        + "<mi>a</mi>" + "</mrow></mfrac>" + "</mrow></math>");
         // für die Bedienung über die Tastur wichtig
-        setFocusable(true);
-        setFocusTraversalKeysEnabled(false);
-        actions = createActionTable(); 
-        requestFocusInWindow();
-    }
-    
-    public CElement getCActive(){
-    	return activeC.isEmpty() ? null : activeC.get(0);
-    }
-    
-    public void setCActive(CElement cElement){
-    	activeC.set(0, cElement);
-    }
-    
-    public void clearCButFirst(){
-    	CElement first = activeC.get(0);
-    	activeC.remove(first);
-    	for (CElement el : activeC){
-    		el.removeCLastProperty();
-    	}
-    	activeC.clear();
-    	activeC.add(first);    	
-    }
-    
-    public class ZerlegeAction extends AbstractAction{
-    	private static final long serialVersionUID = 20081230L;
-    	public JTextField textField;
-    	public ZerlegeAction(String string){
-    		super(string);
-    	}
-    	public void actionPerformed(ActionEvent ae) {	
-    		saveForUndo();
-    		clearCButFirst();
-			String cleaned = textField.getText().replace(" ", "");
-			CElement newAct = getCActive().getParent().split(getCActive(), cleaned);
-			JMathComponentHelper.getDocInfo(newAct, false);
-	    	setCActive(newAct);
-	    	requestFocusInWindow();
-			modifyDocument();
-		}
-    }
-    
-	private HashMap<Object, Action> createActionTable() {
-        //Legt die Actions der Komponente in einem HashMap ab
-    	HashMap<Object, Action> actions = new HashMap<Object, Action>();
-        
-    	AbstractAction myAction = new ZerlegeAction("Zerlegen");
-        actions.put(myAction.getValue(Action.NAME),  myAction);  
-        myAction = new AbstractAction("ZoomIn"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			saveForUndo();
-    			clearCButFirst();
-    			setCActive(getCActive().tryToSelectFirstChild());
-    			modifyDocument();
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("ZoomOut"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			saveForUndo();
-    			clearCButFirst();
-    			setCActive(getCActive().tryToSelectParent());
-    			modifyDocument();
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("GeheRechts"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			saveForUndo();
-    			clearCButFirst();
-    			setCActive(getCActive().tryToSelectRight());
-    			modifyDocument();
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("Selection+"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			CElement lastC = activeC.get(activeC.size()-1);
-        		if (lastC.hasNextC() && lastC.hasParent() && (
-        		  (lastC.getParent() instanceof CTimesRow)|| (lastC.getParent() instanceof CPlusRow))){
-        			CElement nextC = lastC.getNextSibling();
-        			nextC.setCLastProperty();
-        			activeC.add(nextC);
-        			modifyDocument();
-        		}
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("Selection-"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			CElement lastC = activeC.get(activeC.size()-1);
-    			if (activeC.size()>1){
-    	        	lastC.removeCLastProperty();
-    	        	activeC.remove(lastC);
-    	        	modifyDocument();
-    	        }
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("GeheLinks"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			saveForUndo();
-    			clearCButFirst();
-    			setCActive(getCActive().tryToSelectLeft());
-    			modifyDocument();
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("BewegeRechts"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			CElement cAct = getCActive();
-    			saveForUndo();
-    			clearCButFirst();
-    			cAct.removeCActiveProperty();
-    			setCActive(cAct.getParent().moveRight(cAct));
-    			getCActive().setCActiveProperty();
-    			modifyDocument();
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("BewegeLinks"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			CElement cAct = getCActive();
-    			saveForUndo();
-    			clearCButFirst();
-    			cAct.removeCActiveProperty();
-    			setCActive(cAct.getParent().moveLeft(cAct));
-    			getCActive().setCActiveProperty();
-    			modifyDocument();
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("Aendern"){
-        	private static final long serialVersionUID = 20090406L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			CElement cAct = getCActive();
-    			saveForUndo();
-    			clearCButFirst();
-    			cAct.show();
-    			setCActive(cAct.change(ae.getActionCommand()));
-    			modifyDocument();
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("Verbinden"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			CElement cAct = getCActive();
-    			saveForUndo();
-    			clearCButFirst();
-    			setCActive(cAct.getParent().combineRight(cAct));
-    			modifyDocument();
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("Rausziehen"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			CElement cAct = getCActive();
-    			if (cAct.getParent()!=null)	{
-    				saveForUndo();
-    				setCActive(getCActive().getParent().extract(activeC));
-    				modifyDocument();
-    			}
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("Klammere"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			saveForUndo();
-    			setCActive(getCActive().getParent().fence(activeC));		
-    			modifyDocument();
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("Entklammere"){							
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			CElement cAct = getCActive();
-    			saveForUndo();
-    			clearCButFirst();
-    			System.out.println("JMathComponent typ" + cAct.getParent().getCType());
-    			setCActive(cAct.getParent().defence(cAct));
-    			modifyDocument();
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("Meins"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {
-    			CElement cAct = getCActive();
-//    			cAct.normalizeAll();
-    			JMathComponentHelper.getDocInfo(cAct, false);
-    			CElementHelper.controlMath((Element) cAct.getElement().getOwnerDocument().getFirstChild());
-//    			JMathComponentHelper.control(cAct.getElement().getOwnerDocument().getFirstChild());
-//    			modifyDocument();
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("Undo"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {
-    			String redo = MathMLSerializer.serializeDocument(getDocument(), false, false);
-    	        redo = JMathComponentHelper.cleanString(redo);
-    			setContent(undoSave);
-    			modifyDocument();
-    			undoSave = redo;
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("Vergrößern"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			setParameter(Parameter.MATHSIZE, getFontSize()*1.25f);
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-        myAction = new AbstractAction("Verkleinern"){
-        	private static final long serialVersionUID = 20081230L;
-    		public void actionPerformed(ActionEvent ae) {	
-    			setParameter(Parameter.MATHSIZE, getFontSize()*0.8f);
-    		}
-        };
-        actions.put(myAction.getValue(Action.NAME),  myAction); 
-	return actions;
+        this.setFocusable(true);
+        this.setFocusTraversalKeysEnabled(false);
+        this.actions = this.createActionTable();
+        this.requestFocusInWindow();
     }
 
-	
-    public Action getActionByName(String name) {
-    	return actions.get(name);
+    public CElement getCActive() {
+        return this.activeC.isEmpty() ? null : this.activeC.get(0);
     }
-    
-    private void saveForUndo(){
-    	undoSave = MathMLSerializer.serializeDocument(getDocument(), false, false);
-        undoSave = JMathComponentHelper.cleanString(undoSave);
-    }
-    
 
-    public void setDocument(final Document doc) {    
-    	DOMElementMap.getInstance().getCElement.clear();      		// Zuordnung zwischen Element und CElement löschen 
-    	document = doc;
-        JMathElementHandler.parseDom(document.getFirstChild()); 	// org.w3c.dom-Doc mit Anmerkungen über den RowTyp versehen
-        EElementHelper.setDots(document.getFirstChild());        	// invisible und visible Dots richtig setzen in org.w3c.dom
-        CElementHelper.buildCFromEPraefixAdjust(document.getFirstChild(), CRolle.DOCUMENTCHILD, false); // CTree aufbauen und activeC setzen
-        activeC.clear();
-        activeC.add(DOMElementMap.getInstance().getCElement.get(document.getFirstChild()));
-    	firePropertyChange("documentNew", null, doc); 				// rearrangiere EuclidVisuals
-    	reval();													// revalidate, repaint
+    public void setCActive(final CElement cElement) {
+        this.activeC.set(0, cElement);
     }
-      
-    public void modifyDocument() { 	
-    	JMathElementHandler.parseDom(document.getFirstChild()); 	// anpassen der DOM-Attribute calcType
-    	EElementHelper.setDots(document.getFirstChild());
-        firePropertyChange("documentChange", null, document);  		// gibt der MathComponentUI Chance die Views anzupassen
-    	reval();													// revalidate, repaint
-        
+
+    public void clearCButFirst() {
+        final CElement first = this.activeC.get(0);
+        this.activeC.remove(first);
+        for (final CElement el : this.activeC) {
+            el.removeCLastProperty();
+        }
+        this.activeC.clear();
+        this.activeC.add(first);
     }
-   
-	
+
+    public class ZerlegeAction extends AbstractAction {
+        private static final long serialVersionUID = 20081230L;
+
+        public JTextField textField;
+
+        public ZerlegeAction(final String string) {
+            super(string);
+        }
+
+        public void actionPerformed(final ActionEvent ae) {
+            JMathComponent.this.saveForUndo();
+            JMathComponent.this.clearCButFirst();
+            final String cleaned = this.textField.getText().replace(" ", "");
+            final CElement newAct = JMathComponent.this.getCActive()
+                    .getParent().split(JMathComponent.this.getCActive(),
+                            cleaned);
+            JMathComponentHelper.getDocInfo(newAct, false);
+            JMathComponent.this.setCActive(newAct);
+            JMathComponent.this.requestFocusInWindow();
+            JMathComponent.this.modifyDocument();
+        }
+    }
+
+    private HashMap<Object, Action> createActionTable() {
+        // Legt die Actions der Komponente in einem HashMap ab
+        final HashMap<Object, Action> actions = new HashMap<Object, Action>();
+
+        AbstractAction myAction = new ZerlegeAction("Zerlegen");
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("ZoomIn") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                JMathComponent.this.saveForUndo();
+                JMathComponent.this.clearCButFirst();
+                JMathComponent.this.setCActive(JMathComponent.this
+                        .getCActive().tryToSelectFirstChild());
+                JMathComponent.this.modifyDocument();
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("ZoomOut") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                JMathComponent.this.saveForUndo();
+                JMathComponent.this.clearCButFirst();
+                JMathComponent.this.setCActive(JMathComponent.this
+                        .getCActive().tryToSelectParent());
+                JMathComponent.this.modifyDocument();
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("GeheRechts") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                JMathComponent.this.saveForUndo();
+                JMathComponent.this.clearCButFirst();
+                JMathComponent.this.setCActive(JMathComponent.this
+                        .getCActive().tryToSelectRight());
+                JMathComponent.this.modifyDocument();
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("Selection+") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                final CElement lastC = JMathComponent.this.activeC
+                        .get(JMathComponent.this.activeC.size() - 1);
+                if (lastC.hasNextC()
+                        && lastC.hasParent()
+                        && ((lastC.getParent() instanceof CTimesRow) || (lastC
+                                .getParent() instanceof CPlusRow))) {
+                    final CElement nextC = lastC.getNextSibling();
+                    nextC.setCLastProperty();
+                    JMathComponent.this.activeC.add(nextC);
+                    JMathComponent.this.modifyDocument();
+                }
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("Selection-") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                final CElement lastC = JMathComponent.this.activeC
+                        .get(JMathComponent.this.activeC.size() - 1);
+                if (JMathComponent.this.activeC.size() > 1) {
+                    lastC.removeCLastProperty();
+                    JMathComponent.this.activeC.remove(lastC);
+                    JMathComponent.this.modifyDocument();
+                }
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("GeheLinks") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                JMathComponent.this.saveForUndo();
+                JMathComponent.this.clearCButFirst();
+                JMathComponent.this.setCActive(JMathComponent.this
+                        .getCActive().tryToSelectLeft());
+                JMathComponent.this.modifyDocument();
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("BewegeRechts") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                final CElement cAct = JMathComponent.this.getCActive();
+                JMathComponent.this.saveForUndo();
+                JMathComponent.this.clearCButFirst();
+                cAct.removeCActiveProperty();
+                JMathComponent.this.setCActive(cAct.getParent().moveRight(
+                        cAct));
+                JMathComponent.this.getCActive().setCActiveProperty();
+                JMathComponent.this.modifyDocument();
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("BewegeLinks") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                final CElement cAct = JMathComponent.this.getCActive();
+                JMathComponent.this.saveForUndo();
+                JMathComponent.this.clearCButFirst();
+                cAct.removeCActiveProperty();
+                JMathComponent.this.setCActive(cAct.getParent()
+                        .moveLeft(cAct));
+                JMathComponent.this.getCActive().setCActiveProperty();
+                JMathComponent.this.modifyDocument();
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("Aendern") {
+            private static final long serialVersionUID = 20090406L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                final CElement cAct = JMathComponent.this.getCActive();
+                JMathComponent.this.saveForUndo();
+                JMathComponent.this.clearCButFirst();
+                cAct.show();
+                JMathComponent.this.setCActive(cAct.change(ae
+                        .getActionCommand()));
+                JMathComponent.this.modifyDocument();
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("Verbinden") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                final CElement cAct = JMathComponent.this.getCActive();
+                JMathComponent.this.saveForUndo();
+                JMathComponent.this.clearCButFirst();
+                JMathComponent.this.setCActive(cAct.getParent().combineRight(
+                        cAct));
+                JMathComponent.this.modifyDocument();
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("Rausziehen") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                final CElement cAct = JMathComponent.this.getCActive();
+                if (cAct.getParent() != null) {
+                    JMathComponent.this.saveForUndo();
+                    JMathComponent.this.setCActive(JMathComponent.this
+                            .getCActive().getParent().extract(
+                                    JMathComponent.this.activeC));
+                    JMathComponent.this.modifyDocument();
+                }
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("Klammere") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                JMathComponent.this.saveForUndo();
+                JMathComponent.this.setCActive(JMathComponent.this
+                        .getCActive().getParent().fence(
+                                JMathComponent.this.activeC));
+                JMathComponent.this.modifyDocument();
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("Entklammere") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                final CElement cAct = JMathComponent.this.getCActive();
+                JMathComponent.this.saveForUndo();
+                JMathComponent.this.clearCButFirst();
+                System.out.println("JMathComponent typ"
+                        + cAct.getParent().getCType());
+                JMathComponent.this
+                        .setCActive(cAct.getParent().defence(cAct));
+                JMathComponent.this.modifyDocument();
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("Meins") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                final CElement cAct = JMathComponent.this.getCActive();
+                // cAct.normalizeAll();
+                JMathComponentHelper.getDocInfo(cAct, false);
+                CElementHelper.controlMath((Element) cAct.getElement()
+                        .getOwnerDocument().getFirstChild());
+                // JMathComponentHelper.control(cAct.getElement().getOwnerDocument().getFirstChild());
+                // modifyDocument();
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("Undo") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                String redo = MathMLSerializer.serializeDocument(
+                        JMathComponent.this.getDocument(), false, false);
+                redo = JMathComponentHelper.cleanString(redo);
+                JMathComponent.this.setContent(JMathComponent.this.undoSave);
+                JMathComponent.this.modifyDocument();
+                JMathComponent.this.undoSave = redo;
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("Vergrößern") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                JMathComponent.this.setParameter(Parameter.MATHSIZE,
+                        JMathComponent.this.getFontSize() * 1.25f);
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        myAction = new AbstractAction("Verkleinern") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                JMathComponent.this.setParameter(Parameter.MATHSIZE,
+                        JMathComponent.this.getFontSize() * 0.8f);
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+        return actions;
+    }
+
+    public Action getActionByName(final String name) {
+        return this.actions.get(name);
+    }
+
+    private void saveForUndo() {
+        this.undoSave = MathMLSerializer.serializeDocument(
+                this.getDocument(), false, false);
+        this.undoSave = JMathComponentHelper.cleanString(this.undoSave);
+    }
+
+    public void setDocument(final Document doc) {
+        DOMElementMap.getInstance().getCElement.clear();
+        // Zuordnung zwischen Element und CElement löschen
+        this.document = doc;
+        JMathElementHandler.parseDom(this.document.getFirstChild());
+        // org.w3c.dom-Doc mit Anmerkungen über den RowTyp versehen
+        EElementHelper.setDots(this.document.getFirstChild());
+        // invisible und visible Dots richtig setzen in org.w3c.dom
+        CElementHelper.buildCFromEPraefixAdjust(
+                this.document.getFirstChild(), CRolle.DOCUMENTCHILD, false);
+        // CTree aufbauen und activeC setzen
+        this.activeC.clear();
+        this.activeC.add(DOMElementMap.getInstance().getCElement
+                .get(this.document.getFirstChild()));
+        this.firePropertyChange("documentNew", null, doc);
+        // rearrangiere EuclidVisuals
+        this.reval();
+        // revalidate, repaint
+    }
+
+    public void modifyDocument() {
+        JMathElementHandler.parseDom(this.document.getFirstChild());
+        EElementHelper.setDots(this.document.getFirstChild());
+        this.firePropertyChange("documentChange", null, this.document);
+        this.reval(); // revalidate, repaint
+
+    }
+
     // org.w3c.dom.Node -> String
     public String getContent() {
-        return MathMLSerializer.serializeDocument(this.getDocument(), false,false);
+        return MathMLSerializer.serializeDocument(this.getDocument(), false,
+                false);
     }
 
     // getter des org.w3c.dom.Node und weitere getter
     public Node getDocument() {
-        return document;
+        return this.document;
     }
 
     public MutableLayoutContext getParameters() {
         return this.parameters;
     }
 
+    @Override
     public Color getForeground() {
         return (Color) this.parameters.getParameter(Parameter.MATHCOLOR);
     }
-    
+
     public float getFontSize() {
         return (Float) this.parameters.getParameter(Parameter.MATHSIZE);
     }
-    
+
     public int getHorizontalAlignment() {
         return this.horizontalAlignment;
     }
 
+    @Override
     public Dimension getPreferredSize() {
-    	Dimension m = this.getMinimumSize(); 
-    	return new Dimension(m.width+200, m.height+200);
+        final Dimension m = this.getMinimumSize();
+        return new Dimension(m.width + 200, m.height + 200);
     }
 
     public MathComponentUI getUI() {
         return (MathComponentUI) this.ui;
     }
 
+    @Override
     public String getUIClassID() {
         return JMathComponent.uiClassId;
     }
@@ -397,6 +475,7 @@ public final class JMathComponent extends JComponent implements SwingConstants, 
         return this.verticalAlignment;
     }
 
+    @Override
     public void setBackground(final Color c) {
         super.setBackground(c);
         this.reval();
@@ -405,9 +484,12 @@ public final class JMathComponent extends JComponent implements SwingConstants, 
     // wird vom MathFrame aufgerufen
     public void setContent(final String contentString) {
         try {
-        	String s = JMathElementHandler.testMathMLString(contentString);
-        	// erzeugt das org.w3c.dom-Document und übergibt es
-            setDocument(MathMLParserSupport.parseString(s));
+            final String s = JMathElementHandler
+                    .testMathMLString(contentString);
+            // erzeugt das org.w3c.dom-Document und übergibt es
+            final Document document = DOMBuilder.getInstance()
+                    .createJeuclidDom(MathMLParserSupport.parseString(s));
+            this.setDocument(document);
         } catch (final SAXException e) {
             throw new RuntimeException(e);
         } catch (final ParserConfigurationException e) {
@@ -437,6 +519,7 @@ public final class JMathComponent extends JComponent implements SwingConstants, 
         this.setParameter(Parameter.MATHSIZE, fontSize);
     }
 
+    @Override
     public void setForeground(final Color fg) {
         super.setForeground(fg);
         this.setParameter(Parameter.MATHCOLOR, fg);
@@ -446,6 +529,7 @@ public final class JMathComponent extends JComponent implements SwingConstants, 
         this.horizontalAlignment = hAlignment;
     }
 
+    @Override
     public void setOpaque(final boolean opaque) {
         super.setOpaque(opaque);
         this.reval();
@@ -455,20 +539,21 @@ public final class JMathComponent extends JComponent implements SwingConstants, 
         this.verticalAlignment = vAlignment;
     }
 
+    @Override
     public void setSize(final int width, final int height) {
         super.setSize(width, height);
     }
-    
+
     // Private Utilities
     public void reval() {
-    	revalidate();
-    	repaint();
-    	requestFocusInWindow();
-    }	
-    
-    public void focusGained(FocusEvent e) {
+        this.revalidate();
+        this.repaint();
+        this.requestFocusInWindow();
     }
 
-    public void focusLost(FocusEvent e) {
+    public void focusGained(final FocusEvent e) {
+    }
+
+    public void focusLost(final FocusEvent e) {
     }
 }
