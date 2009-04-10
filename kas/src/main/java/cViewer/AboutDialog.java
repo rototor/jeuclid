@@ -18,7 +18,6 @@ package cViewer;
 
 /* maxberger; angepasst an KAS Erhard Kuenzel */
 
-
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Frame;
@@ -33,7 +32,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-
 /**
  * About Dialog for MathViewer.
  * 
@@ -42,12 +40,19 @@ import javax.swing.SwingConstants;
 public final class AboutDialog extends JDialog {
 
     private static final int LARGE_FONT = 14;
+
     private static final int SMALL_FONT = 12;
+
     private static final String ABOUT_FONT = "SansSerif";
+
     private static final long serialVersionUID = 1L;
+
     private JPanel jContentPane;
+
     private JLabel iconLabel;
+
     private JLabel jeuclidLabel;
+
     private JLabel wwwLabel;
 
     public AboutDialog(final Frame owner) {
@@ -64,12 +69,13 @@ public final class AboutDialog extends JDialog {
         this.setModal(true);
         this.setResizable(false);
         this.setContentPane(this.getJContentPane());
-        this.setTitle("KAS - Editorial"); 
+        this.setTitle("KAS - Editorial");
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(final KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_V && e.isAltDown()) {
-                    JOptionPane.showMessageDialog(AboutDialog.this, "Version: 0.1");
+                    JOptionPane.showMessageDialog(AboutDialog.this,
+                            "Version: 0.1");
                 }
             }
         });
@@ -94,7 +100,8 @@ public final class AboutDialog extends JDialog {
                     Font.BOLD, AboutDialog.LARGE_FONT));
             this.iconLabel = new JLabel();
             this.iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            URL url = this.getClass().getResource("images/jeuclid_128x128.png");
+            final URL url = this.getClass().getResource(
+                    "/jeuclid_128x128.png");
             this.iconLabel.setIcon(new ImageIcon(url));
             this.jContentPane = new JPanel();
             this.jContentPane.setLayout(new BorderLayout());
@@ -106,4 +113,3 @@ public final class AboutDialog extends JDialog {
     }
 
 }
-
