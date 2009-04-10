@@ -140,9 +140,9 @@ public final class Mo extends AbstractJEuclidElement implements
             + /* OverBar */"\u00AF" + /* UnderBar */"\u0332" + "\u0333"
             + "\u033F" + "\u2190" + "\u2192" + "\u2194"
             + /* OverBracket */"\u23B4" + /* UnderBracket */"\u23B5"
-            + /* OverParenthesis */"\uFE35"
-            + /* UnderParenthesis */"\uFE36" + /* OverBrace */"\uFE37"
-            + /* UnderBrace */"\uFE38" + /* Frown */"\u2322";
+            + /* OverParenthesis */"\uFE35" + /* UnderParenthesis */"\uFE36"
+            + /* OverBrace */"\uFE37" + /* UnderBrace */"\uFE38"
+            + /* Frown */"\u2322";
 
     /**
      * Vertical delimiters.
@@ -571,17 +571,23 @@ public final class Mo extends AbstractJEuclidElement implements
         final LayoutInfo parentInfo = view.getInfo(parent);
         final TextLayoutInfo textLayoutInfo = StringUtil.getTextLayoutInfo(t,
                 true);
-        if (stretchVertically) {
-            final float[] yf = this.calcYScaleFactorAndBaselineShift(info,
-                    parentInfo, textLayoutInfo, now);
-            calcScaleY = yf[0];
-            calcBaselineShift = yf[1];
-        } else {
+        if (parentInfo == null) {
+            calcScaleX = 1.0f;
             calcScaleY = 1.0f;
             calcBaselineShift = 0.0f;
+        } else {
+            if (stretchVertically) {
+                final float[] yf = this.calcYScaleFactorAndBaselineShift(
+                        info, parentInfo, textLayoutInfo, now);
+                calcScaleY = yf[0];
+                calcBaselineShift = yf[1];
+            } else {
+                calcScaleY = 1.0f;
+                calcBaselineShift = 0.0f;
+            }
+            calcScaleX = this.calcXScaleFactor(info, parentInfo,
+                    textLayoutInfo);
         }
-        calcScaleX = this.calcXScaleFactor(info, parentInfo, textLayoutInfo);
-
         info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(now)
                 + textLayoutInfo.getOffset() * calcScaleX, calcBaselineShift,
                 AffineTransform.getScaleInstance(calcScaleX, calcScaleY),
