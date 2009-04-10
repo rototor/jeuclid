@@ -147,7 +147,10 @@ public class ConverterTest {
         final File outDir = new File("temp");
         if (!outDir.isDirectory()) {
             final boolean success = outDir.mkdirs();
-            assert success;
+            Assert
+                    .assertTrue(
+                            success,
+                            "Failed to create temp directory. Please delete all files / directories named temp");
         }
         return outDir;
     }
