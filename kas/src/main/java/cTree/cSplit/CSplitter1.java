@@ -16,14 +16,14 @@
 
 package cTree.cSplit;
 
-import cTree.*;
+import cTree.CElement;
 
 public class CSplitter1 {
-	
-	public CElement split(CElement parent, CElement cE1, String s){
-		System.out.println("Do the Default split");
-		return cE1;
-	}
-	
+
+    public CElement split(final CElement parent, final CElement cE1,
+            final String operator) {
+        System.out.println("Do the Default split");
+        return cE1;
+    }
 
 }

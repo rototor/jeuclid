@@ -17,38 +17,54 @@
 package cTree.cSplit;
 
 import java.util.HashMap;
-import cTree.*;
+
+import cTree.CElement;
+import cTree.CFences;
 import cTree.adapter.DOMElementMap;
+import cTree.cDefence.DefenceHandler;
 
 public class SplitHandler {
-	private volatile static SplitHandler uniqueInstance; 
-	public HashMap<CType, CSplitterTyp> getTypSplitter;
-	
-	private SplitHandler(){
-		getTypSplitter = new HashMap<CType, CSplitterTyp>();
-		CSplitterTyp default1 = new CSplitterTyp();
-		for (CType cType : CType.values()){
-			getTypSplitter.put(cType, default1);
-		}
-		getTypSplitter.put(CType.PLUSROW, new CSplitterTStrich());
-		getTypSplitter.put(CType.TIMESROW, new CSplitterTPunkt());
-		getTypSplitter.put(CType.POT, new CSplitterTPot());
-	}
-	
-	public static SplitHandler getInstance(){
-		if (uniqueInstance == null) {
-			synchronized (DOMElementMap.class){
-				if (uniqueInstance == null){
-					uniqueInstance = new SplitHandler();
-				}
-			}
-		}
-		return uniqueInstance;
-	}
-	
-	public CElement split(CElement parent, CElement cE1, String s){
-		System.out.println("Split");
-		return getTypSplitter.get(parent.getCType()).split(parent, cE1, s);
-	}
-	
+    private volatile static SplitHandler uniqueInstance;
+
+    public HashMap<String, CSplitter1> getSplitter;
+
+    private SplitHandler() {
+        this.getSplitter = new HashMap<String, CSplitter1>();
+        this.getSplitter.put("*", new CSplitterTimes());
+        this.getSplitter.put(":", new CSplitterDiv());
+        this.getSplitter.put("+", new CSplitterPlus());
+        this.getSplitter.put("-", new CSplitterMin());
+        this.getSplitter.put("^", new CSplitterPot());
+    }
+
+    public static SplitHandler getInstance() {
+        if (SplitHandler.uniqueInstance == null) {
+            synchronized (DOMElementMap.class) {
+                if (SplitHandler.uniqueInstance == null) {
+                    SplitHandler.uniqueInstance = new SplitHandler();
+                }
+            }
+        }
+        return SplitHandler.uniqueInstance;
+    }
+
+    public CElement split(final CElement parent, final CElement cE1,
+            final String s) {
+        System.out.println("Split " + parent.getText() + " " + cE1.getText());
+        final String operation = s.substring(0, 1);
+        final String operator = s.substring(1);
+        if (this.getSplitter.containsKey(operation)) {
+            cE1.removeCActiveProperty();
+            final CFences cF = CFences.createFenced(this.getSplitter.get(
+                    operation).split(parent, cE1, operator));
+            parent.replaceChild(cF, cE1, true, true);
+            cF.setCActiveProperty();
+            // return cF;
+            return DefenceHandler.getInstance().defence(parent, cF,
+                    cF.getInnen());
+        } else {
+            return cE1;
+        }
+    }
+
 }
