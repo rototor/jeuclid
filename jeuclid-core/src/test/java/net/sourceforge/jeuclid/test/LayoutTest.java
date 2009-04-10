@@ -18,6 +18,8 @@
 
 package net.sourceforge.jeuclid.test;
 
+import java.util.List;
+
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.elements.presentation.general.Mfrac;
@@ -29,6 +31,7 @@ import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLDocument;
 import org.w3c.dom.mathml.MathMLFractionElement;
 import org.w3c.dom.mathml.MathMLMathElement;
@@ -45,7 +48,7 @@ public class LayoutTest {
      * Test string with xml header.
      */
     final static public String TEST1 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
-            + "<mrow><mo>(</mo><mn>5</mn></mrow></math>";
+            + "<mrow><mo>(</mo><mn>555</mn></mrow></math>";
 
     /**
      * Test if there is something in the view.
@@ -196,4 +199,26 @@ public class LayoutTest {
         view.getWidth();
     }
 
+    /**
+     * Test if getNodesAt() works.
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testGetNodesAt() throws Exception {
+        final MathMLDocument docElement = DOMBuilder.getInstance()
+                .createJeuclidDom(
+                        MathMLParserSupport.parseString(LayoutTest.TEST1));
+        final JEuclidView view = (JEuclidView) (((DocumentView) docElement)
+                .getDefaultView());
+        final List<JEuclidView.NodeRect> rlist = view.getNodesAt(15, 0, 0, 0);
+        Assert.assertSame(rlist.get(0).getNode(), docElement);
+        final Node math = docElement.getFirstChild();
+        Assert.assertSame(rlist.get(1).getNode(), math);
+        final Node mrow = math.getFirstChild();
+        Assert.assertSame(rlist.get(2).getNode(), mrow);
+        final Node five = mrow.getFirstChild().getNextSibling();
+        Assert.assertSame(rlist.get(3).getNode(), five);
+    }
 }
