@@ -20,8 +20,6 @@ package euclid;
 
 import euclid.context.Parameter;
 
-
-
 /**
  * @version $Revision$
  */

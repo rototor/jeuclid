@@ -101,7 +101,7 @@ public final class CharacterMapping implements Serializable {
 
     private void loadUnicodeData() {
         final InputStream is = CharacterMapping.class
-                .getResourceAsStream("/UnicodeData.txt");
+                .getResourceAsStream("UnicodeData.txt");
         try {
             final BufferedReader r = new BufferedReader(
                     new InputStreamReader(is));
@@ -228,9 +228,9 @@ public final class CharacterMapping implements Serializable {
         if (CharacterMapping.instance == null) {
             CharacterMapping m;
             try {
-            	final InputStream is = CharacterMapping.class
-                        .getResourceAsStream("/charmap.ser");
-
+                final InputStream is = CharacterMapping.class
+                        .getResourceAsStream("/charma2.ser"); // "/charmap.ser"
+                System.out.println("Charmap gefunden");
                 final ObjectInput oi = new ObjectInputStream(is);
 
                 m = (CharacterMapping) oi.readObject();
@@ -241,17 +241,17 @@ public final class CharacterMapping implements Serializable {
                 m = null;
             } catch (final IllegalArgumentException e) {
 
-            	m = null;
+                m = null;
             } catch (final IOException e) {
 
-            	m = null;
+                m = null;
             } catch (final NullPointerException e) {
 
-            	m = null;
+                m = null;
             }
             if (m == null) {
-
-            	CharacterMapping.instance = new CharacterMapping();
+                System.out.println("Charmap neu");
+                CharacterMapping.instance = new CharacterMapping();
             } else {
 
                 CharacterMapping.instance = m;
@@ -394,22 +394,22 @@ public final class CharacterMapping implements Serializable {
         final int codePoint = cpav.getCodePoint();
         final String charAsString = new String(new int[] { codePoint }, 0, 1);
         final String glyphName = Glyphs.stringToGlyph(charAsString);
-//        final String[] alternateGlyphNames = Glyphs
-//                .getCharNameAlternativesFor(glyphName);
-//        if (alternateGlyphNames != null) {
-//            for (final String altGlyph : alternateGlyphNames) {
-//                final int altcp = Glyphs.getUnicodeSequenceForGlyphName(
-//                        altGlyph).codePointAt(0);
-//                final List<CodePointAndVariant> alternateList = this
-//                        .reallyGetAllAternatives(new CodePointAndVariant(
-//                                altcp, cpav.getVariant()), false);
-//                for (final CodePointAndVariant alternateCpav : alternateList) {
-//                    if (!list.contains(alternateCpav)) {
-//                        list.add(alternateCpav);
-//                    }
-//                }
-//            }
-//        }
+        // final String[] alternateGlyphNames = Glyphs
+        // .getCharNameAlternativesFor(glyphName);
+        // if (alternateGlyphNames != null) {
+        // for (final String altGlyph : alternateGlyphNames) {
+        // final int altcp = Glyphs.getUnicodeSequenceForGlyphName(
+        // altGlyph).codePointAt(0);
+        // final List<CodePointAndVariant> alternateList = this
+        // .reallyGetAllAternatives(new CodePointAndVariant(
+        // altcp, cpav.getVariant()), false);
+        // for (final CodePointAndVariant alternateCpav : alternateList) {
+        // if (!list.contains(alternateCpav)) {
+        // list.add(alternateCpav);
+        // }
+        // }
+        // }
+        // }
     }
 
 }

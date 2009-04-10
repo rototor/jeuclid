@@ -77,10 +77,10 @@ public final class DOMBuilder {
         try {
             t = TransformerFactory.newInstance().newTemplates(
                     new StreamSource(DOMBuilder.class
-                            .getResourceAsStream("/mathmlc2p.xsl")))
+                            .getResourceAsStream("/content/mathmlc2p.xsl")))
                     .newTransformer();
         } catch (final TransformerException e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             t = fallback;
         }
         return t;
@@ -136,14 +136,14 @@ public final class DOMBuilder {
             final boolean supportContent) {
         Node documentElement;
         if (node instanceof Document) {
-//            System.out.println("DombuilderCreateJeuclidDomFormDocument");
-        	documentElement = ((Document) node).getDocumentElement();
+            // System.out.println("DombuilderCreateJeuclidDomFormDocument");
+            documentElement = ((Document) node).getDocumentElement();
         } else if (node instanceof Element) {
-//        	System.out.println("createJeuclidDomFormElement");
-        	documentElement = node;
+            // System.out.println("createJeuclidDomFormElement");
+            documentElement = node;
         } else if (node instanceof DocumentFragment) {
-//        	System.out.println("createJeuclidDomFormFragment");
-        	final Node child = node.getFirstChild();
+            // System.out.println("createJeuclidDomFormFragment");
+            final Node child = node.getFirstChild();
             if (!(child instanceof Element)) {
                 throw new IllegalArgumentException(
                         "Expected DocumentFragment with Element child");
