@@ -237,14 +237,14 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
 
     /**
      * Data structure for storing a {@link Node} along with its rendering
-     * boundary ({@link Rectangle2D.Float}).
+     * boundary ({@link Rectangle2D}).
      */
     public static final class NodeRect {
         private final Node node;
 
-        private final Rectangle2D.Float rect;
+        private final Rectangle2D rect;
 
-        private NodeRect(final Node n, final Rectangle2D.Float r) {
+        private NodeRect(final Node n, final Rectangle2D r) {
             this.node = n;
             this.rect = r;
         }
@@ -257,10 +257,18 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
         }
 
         /**
-         * @return The renderering boundary.
+         * @return The rendering boundary.
          */
-        public Rectangle2D.Float getRect() {
+        public Rectangle2D getRect() {
             return this.rect;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String toString() {
+            final StringBuilder b = new StringBuilder();
+            b.append(this.node).append('/').append(this.rect);
+            return b.toString();
         }
 
     }
@@ -280,6 +288,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      */
     public List<JEuclidView.NodeRect> getNodesAt(final float x,
             final float y, final float offsetX, final float offsetY) {
+        this.layout(this.document, LayoutStage.STAGE2, this.context);
         final List<JEuclidView.NodeRect> nodes = new LinkedList<JEuclidView.NodeRect>();
         this.getNodesAtRec(x, y, offsetX, offsetY, this.document, nodes);
         return nodes;
