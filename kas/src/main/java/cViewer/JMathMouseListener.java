@@ -21,98 +21,121 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
 
-import org.w3c.dom.Element;
-import cTree.*;
+import cTree.CElement;
 import cTree.cAlter.AlterHandler;
-import cViewer.JMathComponent;
 
-public class JMathMouseListener implements MouseListener{
-	private JMathComponent mathComponent; 
-	private int x0;
-	private int y0;
-	private JTextField jTextField;
-	public JMathMouseListener(JMathComponent jm, JTextField s){
-		mathComponent = jm;
-		jTextField = s;
-	}
-	
-    public void mousePressed(MouseEvent e) {
-    	x0=e.getX();
-    	y0=e.getY();
+public class JMathMouseListener implements MouseListener {
+    private final JMathComponent mathComponent;
+
+    private int x0;
+
+    private int y0;
+
+    private final JTextField jTextField;
+
+    public JMathMouseListener(final JMathComponent jm, final JTextField s) {
+        this.mathComponent = jm;
+        this.jTextField = s;
     }
-    public void mouseMoved(MouseEvent e) {
+
+    public void mousePressed(final MouseEvent e) {
+        this.x0 = e.getX();
+        this.y0 = e.getY();
     }
-    
-    public void mouseReleased(MouseEvent e) {
-    	// nach rechts ziehen: Zusammenfassen
-    	if (e.getX()>x0+10) {
-    		if ((e.getModifiers() & InputEvent.SHIFT_MASK) == InputEvent.SHIFT_MASK){
-    			mathComponent.getActionByName("Verbinden").actionPerformed(null);
-    		} else {
-    			mathComponent.getActionByName("BewegeRechts").actionPerformed(null);
-    		}	
-//    		x0=e.getX();
-    	// nach links ziehen: Aufspalten oder Extrahieren
-    	} else if (e.getX()<x0-10) {
-    		if ((e.getModifiers() & InputEvent.SHIFT_MASK) == InputEvent.SHIFT_MASK){
-    			if (jTextField.getText()==null || "".equals(jTextField.getText())) {
-    				mathComponent.getActionByName("Rausziehen").actionPerformed(null);
-    			} else {
-    				mathComponent.getActionByName("Zerlegen").actionPerformed(null);
-    			}
-    		} else {
-    			mathComponent.getActionByName("BewegeLinks").actionPerformed(null);
-    		}
-    	// nach unten ziehen aendern
-    	} else if (e.getY()>y0+10){
-    		mathComponent.getActionByName("Selection+").actionPerformed(null);
-    	} else if (e.getY()<y0-10){
-    		mathComponent.getActionByName("Selection-").actionPerformed(null);
-    	}
+
+    public void mouseMoved(final MouseEvent e) {
     }
-    
-	public void showMenu(MouseEvent evt) {
-		ArrayList<String> strings = AlterHandler.getInstance().getOptions(mathComponent.getCActive());
-		JPopupMenu menu = new JPopupMenu();
-		JMenuItem item = new JMenuItem(mathComponent.getActionByName("Aendern"));
-		item.setText("Umwandlungen:");
-		item.setEnabled(false);
-		menu.add(item);
-		for (String s : strings) {
-			item = new JMenuItem(mathComponent.getActionByName("Aendern"));
-			item.setText(s);
-			menu.add(item);
-		}
-		menu.show(mathComponent, evt.getX(), evt.getY());
-	}
-    
-    public void mouseEntered(MouseEvent e) {
-    	mathComponent.requestFocusInWindow();
+
+    public void mouseReleased(final MouseEvent e) {
+        // nach rechts ziehen: Zusammenfassen
+        if (e.getX() > this.x0 + 10) {
+            if ((e.getModifiers() & InputEvent.SHIFT_MASK) == InputEvent.SHIFT_MASK) {
+                this.mathComponent.getActionByName("Verbinden")
+                        .actionPerformed(null);
+            } else {
+                this.mathComponent.getActionByName("BewegeRechts")
+                        .actionPerformed(null);
+            }
+            // x0=e.getX();
+            // nach links ziehen: Aufspalten oder Extrahieren
+        } else if (e.getX() < this.x0 - 10) {
+            if ((e.getModifiers() & InputEvent.SHIFT_MASK) == InputEvent.SHIFT_MASK) {
+                if (this.jTextField.getText() == null
+                        || "".equals(this.jTextField.getText())) {
+                    this.mathComponent.getActionByName("Rausziehen")
+                            .actionPerformed(null);
+                } else {
+                    this.mathComponent.getActionByName("Zerlegen")
+                            .actionPerformed(null);
+                }
+            } else {
+                this.mathComponent.getActionByName("BewegeLinks")
+                        .actionPerformed(null);
+            }
+            // nach unten ziehen aendern
+        } else if (e.getY() > this.y0 + 10) {
+            this.mathComponent.getActionByName("Selection+").actionPerformed(
+                    null);
+        } else if (e.getY() < this.y0 - 10) {
+            this.mathComponent.getActionByName("Selection-").actionPerformed(
+                    null);
+        }
     }
-    
-    public void mouseExited(MouseEvent e) { 
+
+    public void showMenu(final MouseEvent evt) {
+        final ArrayList<String> strings = AlterHandler.getInstance()
+                .getOptions(this.mathComponent.getCActive());
+        final JPopupMenu menu = new JPopupMenu();
+        JMenuItem item = new JMenuItem(this.mathComponent
+                .getActionByName("Aendern"));
+        item.setText("Umwandlungen:");
+        item.setEnabled(false);
+        menu.add(item);
+        for (final String s : strings) {
+            item = new JMenuItem(this.mathComponent
+                    .getActionByName("Aendern"));
+            item.setText(s);
+            menu.add(item);
+        }
+        menu.show(this.mathComponent, evt.getX(), evt.getY());
     }
-    
-    public void mouseDragged(MouseEvent e) {
+
+    public void mouseEntered(final MouseEvent e) {
+        this.mathComponent.requestFocusInWindow();
     }
-    
-    public void mouseClicked(MouseEvent e) { 
-    	CElement cAct = mathComponent.getCActive();
-    	// Rechtsklick: Aendern
-    	if ((e.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK){
-    		showMenu(e);
-    	// Herauszoomen
-    	} else if ((e.getModifiers() & InputEvent.SHIFT_MASK) == InputEvent.SHIFT_MASK){
-    		mathComponent.getActionByName("ZoomOut").actionPerformed(null);
-    	// Auswählen
-    	} else {
-    		CElement newE = cTree.adapter.DOMElementMap.getInstance().getCElement.get(
-    				(Element) mathComponent.getUI().getNodeFromView(e.getX(), e.getY()));
-    		mathComponent.setCActive(cTree.CNavHelper.chooseElement(cAct, newE));
-    		mathComponent.clearCButFirst();
-    		mathComponent.modifyDocument();
-    	} 
+
+    public void mouseExited(final MouseEvent e) {
+    }
+
+    public void mouseDragged(final MouseEvent e) {
+    }
+
+    public void mouseClicked(final MouseEvent e) {
+        final CElement cAct = this.mathComponent.getCActive();
+        // Rechtsklick: Aendern
+        if ((e.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK) {
+            this.showMenu(e);
+            // Herauszoomen
+        } else if ((e.getModifiers() & InputEvent.SHIFT_MASK) == InputEvent.SHIFT_MASK) {
+            this.mathComponent.getActionByName("ZoomOut").actionPerformed(
+                    null);
+            // Auswählen
+        } else {
+            final CElement newE = cTree.adapter.DOMElementMap.getInstance().getCElement
+                    .get(this.mathComponent.getUI().getNodeFromView(e.getX(),
+                            e.getY()));
+            // final CElement newE =
+            // cTree.adapter.DOMElementMap.getInstance().getCElement
+            // .get(this.mathComponent.getUI().oldGetNodeFromView(
+            // e.getX(), e.getY()));
+            this.mathComponent.setCActive(cTree.CNavHelper.chooseElement(
+                    cAct, newE));
+            this.mathComponent.clearCButFirst();
+            this.mathComponent.modifyDocument();
+        }
     }
 }
