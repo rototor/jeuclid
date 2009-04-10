@@ -44,7 +44,7 @@ public class LayoutTest {
     /**
      * Test string with xml header.
      */
-    final public static String TEST1 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+    final static public String TEST1 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
             + "<mrow><mo>(</mo><mn>5</mn></mrow></math>";
 
     /**
@@ -159,7 +159,7 @@ public class LayoutTest {
     }
 
     /**
-     * Test MO without parent.
+     * Test MO without math parent.
      * 
      * @throws Exception
      *             if the test fails.
@@ -177,4 +177,23 @@ public class LayoutTest {
         // To trigger layout
         view.getWidth();
     }
+
+    /**
+     * Test MO without any parent.
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testMoWithoutParent2() throws Exception {
+        final MathMLDocument docElement = DOMBuilder.getInstance()
+                .createJeuclidDom(
+                        MathMLParserSupport.parseString("<mo>&#x2211;</mo>"));
+        final JEuclidView view = (JEuclidView) (((DocumentView) docElement)
+                .getDefaultView());
+
+        // To trigger layout
+        view.getWidth();
+    }
+
 }
