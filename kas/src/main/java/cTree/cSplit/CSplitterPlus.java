@@ -25,6 +25,19 @@ import cTree.CRolle;
 public class CSplitterPlus extends CSplitter1 {
 
     @Override
+    public boolean check(final CElement cE1, final String operator) {
+        if (cE1 instanceof CNum && (cE1.getCRolle() != CRolle.NACHVZMINUS)) {
+            try {
+                Integer.parseInt(operator);
+                return true;
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public CElement split(final CElement parent, CElement cE1,
             final String operator) {
         System.out.println("Do the Plus Num split");

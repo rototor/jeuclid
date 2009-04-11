@@ -54,14 +54,17 @@ public class SplitHandler {
         final String operation = s.substring(0, 1);
         final String operator = s.substring(1);
         if (this.getSplitter.containsKey(operation)) {
-            cE1.removeCActiveProperty();
-            final CFences cF = CFences.createFenced(this.getSplitter.get(
-                    operation).split(parent, cE1, operator));
-            parent.replaceChild(cF, cE1, true, true);
-            cF.setCActiveProperty();
-            // return cF;
-            return DefenceHandler.getInstance().defence(parent, cF,
-                    cF.getInnen());
+            if (this.getSplitter.get(operation).check(cE1, operator)) {
+                cE1.removeCActiveProperty();
+                final CFences cF = CFences.createFenced(this.getSplitter.get(
+                        operation).split(parent, cE1, operator));
+                parent.replaceChild(cF, cE1, true, true);
+                cF.setCActiveProperty();
+                return DefenceHandler.getInstance().defence(parent, cF,
+                        cF.getInnen());
+            } else {
+                return cE1;
+            }
         } else {
             return cE1;
         }
