@@ -26,6 +26,9 @@ public class CSplitter1 {
         return cE1;
     }
 
+    public void init(final CElement cE1, final String operator) {
+    }
+
     public boolean check(final CElement cE1, final String operator) {
         return false;
     }
