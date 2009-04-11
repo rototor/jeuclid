@@ -54,7 +54,9 @@ public class SplitHandler {
         final String operation = s.substring(0, 1);
         final String operator = s.substring(1);
         if (this.getSplitter.containsKey(operation)) {
+            System.out.println("SplitKey found");
             if (this.getSplitter.get(operation).check(cE1, operator)) {
+                System.out.println("Split check erfolgreich");
                 cE1.removeCActiveProperty();
                 final CFences cF = CFences.createFenced(this.getSplitter.get(
                         operation).split(parent, cE1, operator));

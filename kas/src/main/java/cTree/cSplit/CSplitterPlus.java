@@ -56,7 +56,7 @@ public class CSplitterPlus extends CSplitter1 {
                         .zerlegeStrich(cZahl, zahl, zuZerlegenHatMinus, cEl);
             }
         } catch (final NumberFormatException e) {
-            System.out.println("Ich kann das nicht");
+            System.out.println("Ich kann das split num plus nicht");
         }
         return cE1;
     }
