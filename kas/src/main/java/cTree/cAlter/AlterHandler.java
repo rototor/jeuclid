@@ -16,49 +16,53 @@
 
 package cTree.cAlter;
 
-import java.util.*;
-import cTree.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import cTree.CElement;
 import cTree.adapter.DOMElementMap;
 
 public class AlterHandler {
-	private volatile static AlterHandler uniqueInstance; 
-	public HashMap<String, CAlter> getAlters;
-	
-	private AlterHandler(){
-		getAlters = new HashMap<String, CAlter>();
-		new CA_Minrow().register(getAlters);
-		new CA_DivA_Frac().register(getAlters);
-		new CA_DivA_Pot().register(getAlters);
-	}
-	
-	public static AlterHandler getInstance(){
-		if (uniqueInstance == null) {
-			synchronized (DOMElementMap.class){
-				if (uniqueInstance == null){
-					uniqueInstance = new AlterHandler();
-				}
-			}
-		}
-		return uniqueInstance;
-	}
-	
-	public ArrayList<String> getOptions(CElement el){
-		ArrayList<String> options = new ArrayList<String>();
-		for (CAlter ca : getAlters.values()){
-			if (ca.check(el)){
-				options.add(ca.getText());
-			}
-		}
-		return options;
-	}
-	
-	public CElement change(CElement el, String actionCommand){
-		System.out.println("Change " +el.getCType());
-		if (getAlters.containsKey(actionCommand)) {
-			return getAlters.get(actionCommand).change(el);
-		} else {
-			return el;
-		}
-	}
-	
+    private volatile static AlterHandler uniqueInstance;
+
+    public HashMap<String, CAlter> getAlters;
+
+    private AlterHandler() {
+        this.getAlters = new HashMap<String, CAlter>();
+        new CA_Minrow().register(this.getAlters);
+        new CA_DivA_Frac().register(this.getAlters);
+        new CA_DivA_Pot().register(this.getAlters);
+        new CA_Primfaktorzerlegung().register(this.getAlters);
+    }
+
+    public static AlterHandler getInstance() {
+        if (AlterHandler.uniqueInstance == null) {
+            synchronized (DOMElementMap.class) {
+                if (AlterHandler.uniqueInstance == null) {
+                    AlterHandler.uniqueInstance = new AlterHandler();
+                }
+            }
+        }
+        return AlterHandler.uniqueInstance;
+    }
+
+    public ArrayList<String> getOptions(final CElement el) {
+        final ArrayList<String> options = new ArrayList<String>();
+        for (final CAlter ca : this.getAlters.values()) {
+            if (ca.check(el)) {
+                options.add(ca.getText());
+            }
+        }
+        return options;
+    }
+
+    public CElement change(final CElement el, final String actionCommand) {
+        System.out.println("Change " + el.getCType());
+        if (this.getAlters.containsKey(actionCommand)) {
+            return this.getAlters.get(actionCommand).change(el);
+        } else {
+            return el;
+        }
+    }
+
 }

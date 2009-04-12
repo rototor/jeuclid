@@ -280,7 +280,6 @@ public final class JMathComponent extends JComponent implements
                 final CElement cAct = JMathComponent.this.getCActive();
                 JMathComponent.this.saveForUndo();
                 JMathComponent.this.clearCButFirst();
-                cAct.show();
                 JMathComponent.this.setCActive(cAct.change(ae
                         .getActionCommand()));
                 JMathComponent.this.modifyDocument();
@@ -334,8 +333,6 @@ public final class JMathComponent extends JComponent implements
                 final CElement cAct = JMathComponent.this.getCActive();
                 JMathComponent.this.saveForUndo();
                 JMathComponent.this.clearCButFirst();
-                System.out.println("JMathComponent typ"
-                        + cAct.getParent().getCType());
                 JMathComponent.this
                         .setCActive(cAct.getParent().defence(cAct));
                 JMathComponent.this.modifyDocument();
