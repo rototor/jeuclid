@@ -18,48 +18,56 @@ package cTree.cDefence;
 
 import java.util.ArrayList;
 
-import cTree.*;
+import org.w3c.dom.Element;
 
-import org.w3c.dom.*;
+import cTree.CElement;
+import cTree.CTimesRow;
 
-public class CD_1PunktPunkt extends CD_1{
-	
-	public CElement defence(CElement parent, CElement fences, CElement content){
-		System.out.println("Do the defence work punkt punkt");
-		fences.removeCActiveProperty();
-		boolean aussenDiv = (fences.hasExtDiv());
-		Element op = (fences.getExtPraefix()!=null) ? (Element) fences.getExtPraefix().cloneNode(true): null;
-		
-		// Drei Rows bis zur Klammer, Klammerinneres, nach der Klammer
-		ArrayList<CElement> rows = new ArrayList<CElement>();
-		rows.addAll(((CTimesRow) parent).startTo(fences));
-		rows.addAll(((CTimesRow) createInsertion(fences, content, aussenDiv, op)).getMemberList());
-		rows.addAll(((CTimesRow) parent).endFrom(fences));
-		
-		// Verschmelzen der Rows zu einer
-		CTimesRow newParent = CTimesRow.createRow(rows);
-		newParent.correctInternalPraefixesAndRolle();
-		
-		// Das Parent wird eingefügt
-		parent.getParent().replaceChild(newParent, parent, true, true);
-		newParent.getFirstChild().setCActiveProperty();
-		return newParent.getFirstChild();
-	}
-	
-	protected CElement createInsertion(CElement fences, CElement content, boolean aussenDiv, Element op){
-		System.out.println("Defence punkt punkt");
-		CElement newChild = content.cloneCElement(true);
-		if (aussenDiv){
-			System.out.println("div vor Row!!!");
-			((CTimesRow) newChild).toggleAllVZButFirst(false);
-		}
-		if (op!=null){
-			newChild.getFirstChild().setExtPraefix(op);
-		}
-		return newChild;
-	}
-	
-	protected boolean replaceP(CElement parent, CElement fences){
-		return true;
-	}
+public class CD_1PunktPunkt extends CD_1 {
+
+    @Override
+    public CElement defence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("Do the defence work punkt punkt");
+        fences.removeCActiveProperty();
+        final boolean aussenDiv = (fences.hasExtDiv());
+        final Element op = (fences.getExtPraefix() != null) ? (Element) fences
+                .getExtPraefix().cloneNode(true)
+                : null;
+
+        // Drei Rows bis zur Klammer, Klammerinneres, nach der Klammer
+        final ArrayList<CElement> rows = new ArrayList<CElement>();
+        rows.addAll(((CTimesRow) parent).startTo(fences));
+        rows.addAll(((CTimesRow) this.createInsertion(fences, content,
+                aussenDiv, op)).getMemberList());
+        rows.addAll(((CTimesRow) parent).endFrom(fences));
+
+        // Verschmelzen der Rows zu einer
+        final CTimesRow newParent = CTimesRow.createRow(rows);
+        newParent.correctInternalPraefixesAndRolle();
+
+        // Das Parent wird eingefügt
+        parent.getParent().replaceChild(newParent, parent, true, true);
+        newParent.getFirstChild().setCActiveProperty();
+        return newParent.getFirstChild();
+    }
+
+    protected CElement createInsertion(final CElement fences,
+            final CElement content, final boolean aussenDiv, final Element op) {
+        System.out.println("Defence punkt punkt");
+        final CElement newChild = content.cloneCElement(true);
+        if (aussenDiv) {
+            System.out.println("div vor Row!!!");
+            ((CTimesRow) newChild).toggleAllVZButFirst(false);
+        }
+        if (op != null) {
+            newChild.getFirstChild().setExtPraefix(op);
+        }
+        return newChild;
+    }
+
+    @Override
+    protected boolean replaceP(final CElement parent, final CElement fences) {
+        return true;
+    }
 }
