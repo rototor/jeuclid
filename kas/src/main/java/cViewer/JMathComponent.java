@@ -456,7 +456,7 @@ public final class JMathComponent extends JComponent implements
     @Override
     public Dimension getPreferredSize() {
         final Dimension m = this.getMinimumSize();
-        return new Dimension(m.width + 200, m.height + 200);
+        return new Dimension(m.width + 100, m.height + 100);
     }
 
     public MathComponentUI getUI() {

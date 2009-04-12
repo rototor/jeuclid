@@ -43,6 +43,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
@@ -78,6 +79,8 @@ public class MathFrame extends JFrame {
     private AboutDialog aboutDialog;
 
     private HowToDialog howToDialog;
+
+    private JSplitPane splitPane;
 
     private JScrollPane scrollPane1;
 
@@ -286,9 +289,8 @@ public class MathFrame extends JFrame {
         if (this.jContentPane == null) {
             this.jContentPane = new JPanel();
             this.jContentPane.setLayout(new BorderLayout());
-            this.jContentPane.add(this.getScrollPane1(), BorderLayout.NORTH);
-            this.jContentPane.add(this.getScrollPane(), BorderLayout.CENTER);
             this.jContentPane.add(this.getButtonPanel(), BorderLayout.WEST);
+            this.jContentPane.add(this.getSplitPane(), BorderLayout.CENTER);
             this.getMathComponent().addKeyListener(
                     new JMathKeyListener(this.getMathComponent()));
             this.getMathComponent().addMouseListener(
@@ -296,6 +298,16 @@ public class MathFrame extends JFrame {
                             .getTextField()));
         }
         return this.jContentPane;
+    }
+
+    private JSplitPane getSplitPane() {
+        if (this.splitPane == null) {
+            this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, this
+                    .getScrollPane1(), this.getScrollPane());
+            this.splitPane.setOneTouchExpandable(true);
+            this.splitPane.setResizeWeight(0.1);
+        }
+        return this.splitPane;
     }
 
     private JScrollPane getScrollPane() {
