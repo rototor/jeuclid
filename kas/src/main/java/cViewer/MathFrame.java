@@ -79,9 +79,13 @@ public class MathFrame extends JFrame {
 
     private HowToDialog howToDialog;
 
+    private JScrollPane scrollPane1;
+
     private JScrollPane scrollPane;
 
     private JMathComponent mathComponent;
+
+    private JMathViewer viewComponent;
 
     private JTextField textField;
 
@@ -96,7 +100,7 @@ public class MathFrame extends JFrame {
         this.addWindowFocusListener(new WindowAdapter() {
             @Override
             public void windowGainedFocus(final WindowEvent e) {
-                MathFrame.this.mathComponent.requestFocusInWindow();
+                MathFrame.this.getMathComponent().requestFocusInWindow();
             }
         });
     }
@@ -153,7 +157,7 @@ public class MathFrame extends JFrame {
     private JMenuItem getAboutMenuItem() {
         if (this.aboutMenuItem == null) {
             this.aboutMenuItem = new JMenuItem();
-            this.aboutMenuItem.setText("About KAS"); //$NON-NLS-1$
+            this.aboutMenuItem.setText("About KAS");
             this.aboutMenuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
                     MathFrame.this.displayAbout();
@@ -221,6 +225,7 @@ public class MathFrame extends JFrame {
             System.out.println("Fehler beim Lesen der Datei");
         }
         this.getMathComponent().setContent(result);
+        this.getViewComponent().setContent(result);
         this.getMathComponent().requestFocusInWindow();
     }
 
@@ -281,6 +286,7 @@ public class MathFrame extends JFrame {
         if (this.jContentPane == null) {
             this.jContentPane = new JPanel();
             this.jContentPane.setLayout(new BorderLayout());
+            this.jContentPane.add(this.getScrollPane1(), BorderLayout.NORTH);
             this.jContentPane.add(this.getScrollPane(), BorderLayout.CENTER);
             this.jContentPane.add(this.getButtonPanel(), BorderLayout.WEST);
             this.getMathComponent().addKeyListener(
@@ -298,6 +304,21 @@ public class MathFrame extends JFrame {
             this.scrollPane.setViewportView(this.getMathComponent());
         }
         return this.scrollPane;
+    }
+
+    private JScrollPane getScrollPane1() {
+        if (this.scrollPane1 == null) {
+            this.scrollPane1 = new JScrollPane();
+            this.scrollPane1.setViewportView(this.getViewComponent());
+        }
+        return this.scrollPane1;
+    }
+
+    public JMathViewer getViewComponent() {
+        if (this.viewComponent == null) {
+            this.viewComponent = new JMathViewer();
+        }
+        return this.viewComponent;
     }
 
     public JMathComponent getMathComponent() {
@@ -332,6 +353,11 @@ public class MathFrame extends JFrame {
                 "Klammere")));
         result.add(new JButton(this.getMathComponent().getActionByName(
                 "Entklammere")));
+        // Änderungen an einem Element
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "Aendern")));
+        result.add(new JButton(this.getMathComponent().getActionByName(
+                "Meins")));
         // Komplexere Änderungen
         result.add(new JButton(this.getMathComponent().getActionByName(
                 "Rausziehen")));
@@ -344,8 +370,8 @@ public class MathFrame extends JFrame {
         result.add(new JButton(this.getMathComponent().getActionByName(
                 "Zerlegen")));
         // Undo and Redo (simple)
-        result.add(new JButton(this.getMathComponent().getActionByName(
-                "Meins")));
+        result.add(new JButton(this.getMathComponent()
+                .getActionByName("Redo")));
         result.add(new JButton(this.getMathComponent()
                 .getActionByName("Undo")));
         return result;
