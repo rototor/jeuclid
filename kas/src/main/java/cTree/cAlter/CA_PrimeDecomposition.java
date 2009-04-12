@@ -11,12 +11,7 @@ import cTree.CPot;
 import cTree.CTimesRow;
 import cTree.cDefence.DefenceHandler;
 
-// ich verstehe noch nicht, warum keine Klammer in einer Klammer geht. Vielleicht hat das was mit dem 
-// replace und insert zu tun?? Jedenfalls geht es in einer Wurzel 
-// wurzel192 geht Primfaktorzerlegung (192) geht auch, wird aber nicht im Fenster gezeigt, erst wenn man irgendwo 
-// anders eine Defence macht.
-
-public class CA_Primfaktorzerlegung extends CAlter {
+public class CA_PrimeDecomposition extends CAlter {
 
     private class PairOfInt {
         public int base;
@@ -36,10 +31,10 @@ public class CA_Primfaktorzerlegung extends CAlter {
         try {
             int n = ((CNum) old).getValue();
             final List<PairOfInt> list = new ArrayList<PairOfInt>();
-            int i = 2; // Kandidat fuer Primzahl
+            int i = 2; // iterates candidates for prime factors
             while (i <= n) {
-                if (n % i == 0) { // kandidat gefunden
-                    int exp = 0;
+                if (n % i == 0) { // prime factor found
+                    int exp = 0; // counts the amount of this factor
                     while (n % i == 0) {
                         exp++;
                         n = n / i;
@@ -71,9 +66,8 @@ public class CA_Primfaktorzerlegung extends CAlter {
                 old = cF;
             } else {
                 parent.replaceChild(cF, old, true, true);
-                old = cF;
-                DefenceHandler.getInstance().defence(cF.getParent(), cF,
-                        cF.getInnen());
+                old = DefenceHandler.getInstance().defence(cF.getParent(),
+                        cF, cF.getInnen());
             }
 
         } catch (final NumberFormatException e) {

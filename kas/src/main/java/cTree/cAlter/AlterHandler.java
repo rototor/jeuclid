@@ -32,7 +32,7 @@ public class AlterHandler {
         new CA_Minrow().register(this.getAlters);
         new CA_DivA_Frac().register(this.getAlters);
         new CA_DivA_Pot().register(this.getAlters);
-        new CA_Primfaktorzerlegung().register(this.getAlters);
+        new CA_PrimeDecomposition().register(this.getAlters);
     }
 
     public static AlterHandler getInstance() {
