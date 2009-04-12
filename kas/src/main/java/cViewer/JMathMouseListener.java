@@ -87,6 +87,7 @@ public class JMathMouseListener implements MouseListener {
     }
 
     public void showMenu(final MouseEvent evt) {
+        System.out.println("Showing Menu");
         final ArrayList<String> strings = AlterHandler.getInstance()
                 .getOptions(this.mathComponent.getCActive());
         final JPopupMenu menu = new JPopupMenu();
