@@ -34,7 +34,7 @@ public class CA_PrimeDecomposition extends CAlter {
             int i = 2; // iterates candidates for prime factors
             while (i <= n) {
                 if (n % i == 0) { // prime factor found
-                    int exp = 0; // counts the amount of this factor
+                    int exp = 0; // counts the instances of the factor
                     while (n % i == 0) {
                         exp++;
                         n = n / i;
@@ -84,7 +84,7 @@ public class CA_PrimeDecomposition extends CAlter {
 
     @Override
     public boolean check(final CElement el) {
-        return (el instanceof CNum);
+        return (el instanceof CNum) && (((CNum) el).getValue() > 1);
     }
 
     @Override

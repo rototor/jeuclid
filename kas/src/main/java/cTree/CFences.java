@@ -18,48 +18,73 @@ package cTree;
 
 import org.w3c.dom.Element;
 
-public class CFences extends CElement{
+public class CFences extends CElement {
 
-	public CFences(Element element){
-		this.element = element;
-	}
-	
-	public CType getCType() {
-		return CType.FENCES;
-	}
-	
-	public static CFences createFenced(CElement inhalt){
-		CFences fences = (CFences) CElementHelper.createAll(inhalt.getElement(), "mfenced", "mfenced", CRolle.UNKNOWN, null);
-		fences.appendPraefixAndChild(inhalt);
-		inhalt.setCRolle(CRolle.GEKLAMMERT);
-		return fences;
-	}
-	
-	public CElement getInnen(){
-		return getFirstChild();
-	}
-	
-	public boolean hatGleichenBetrag(CElement cE2){
-		if (cE2 instanceof CFences){
-			return getInnen().hatGleichenBetrag(((CFences) cE2).getInnen());
-		} else if (cE2 instanceof CMinTerm){
-			return hatGleichenBetrag(((CMinTerm) cE2).getValue());
-		}
-		return false;
-	}
-	
-	public void normalize(){
-		if (hasChildC()){
-			// falls das Child eine +Row ist, das als einziges
-			// eine Malrow enthält kann die Plusrow verschwinden
-			CElement firstRow = getFirstChild();
-			if ((firstRow instanceof CPlusRow) && (firstRow.getExtPraefix()==null) && firstRow.hasChildC()){
-				CElement secondRow = firstRow.getFirstChild();
-				if ((secondRow instanceof CTimesRow) && !secondRow.hasNextC()){
-					this.replaceChild(secondRow, firstRow, true, false);
-				}
-			}
-			firstRow.normalizeTreeAndSiblings();
-		}
-	};
+    public CFences(final Element element) {
+        this.element = element;
+    }
+
+    @Override
+    public CType getCType() {
+        return CType.FENCES;
+    }
+
+    public static CFences createFenced(final CElement inhalt) {
+        final CFences fences = (CFences) CElementHelper.createAll(inhalt
+                .getElement(), "mfenced", "mfenced", CRolle.UNKNOWN, null);
+        fences.appendPraefixAndChild(inhalt);
+        inhalt.setCRolle(CRolle.GEKLAMMERT);
+        return fences;
+    }
+
+    public CElement getInnen() {
+        return this.getFirstChild();
+    }
+
+    public boolean isFencedMin1() {
+        if (this.getInnen() != null && (this.getInnen() instanceof CMinTerm)) {
+            final CMinTerm innen = (CMinTerm) this.getInnen();
+            if (innen.getValue() != null && innen.getValue() instanceof CNum) {
+                final CNum wert = (CNum) innen.getValue();
+                if (wert.getValue() == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean hatGleichenBetrag(final CElement cE2) {
+        if (cE2 instanceof CFences) {
+            return this.getInnen().hatGleichenBetrag(
+                    ((CFences) cE2).getInnen());
+        } else if (cE2 instanceof CMinTerm) {
+            return this.hatGleichenBetrag(((CMinTerm) cE2).getValue());
+        }
+        return false;
+    }
+
+    @Override
+    public void normalize() {
+        if (this.hasChildC()) {
+            // falls das Child eine +Row ist, das als einziges
+            // eine Malrow enthält kann die Plusrow verschwinden
+            final CElement firstRow = this.getFirstChild();
+            if ((firstRow instanceof CPlusRow)
+                    && (firstRow.getExtPraefix() == null)
+                    && firstRow.hasChildC()) {
+                final CElement secondRow = firstRow.getFirstChild();
+                if ((secondRow instanceof CTimesRow) && !secondRow.hasNextC()) {
+                    this.replaceChild(secondRow, firstRow, true, false);
+                }
+            }
+            firstRow.normalizeTreeAndSiblings();
+        }
+    };
 }

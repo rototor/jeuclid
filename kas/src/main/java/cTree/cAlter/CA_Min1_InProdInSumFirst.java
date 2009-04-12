@@ -1,0 +1,74 @@
+/*
+ * Copyright 2009 Erhard Kuenzel
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cTree.cAlter;
+
+import java.util.HashMap;
+
+import cTree.CElement;
+import cTree.CFences;
+import cTree.CMinTerm;
+import cTree.CRolle;
+import cTree.CTimesRow;
+
+public class CA_Min1_InProdInSumFirst extends CAlter {
+
+    @Override
+    public CElement change(final CElement old) {
+        System.out.println("Changer (-1)a to -a");
+        old.removeCActiveProperty();
+        final CTimesRow oldTimesRow = (CTimesRow) old.getParent();
+        final CElement newInnen = CTimesRow.foldOne((CTimesRow) oldTimesRow
+                .cloneCElement(false));
+        final CMinTerm newChild = CMinTerm.createMinTerm(newInnen);
+        oldTimesRow.getParent().replaceChild(newChild, oldTimesRow, true,
+                true);
+        newChild.setCActiveProperty();
+        return newChild;
+    }
+
+    @Override
+    public String getText() {
+        return "(-1) auflösen und VZ ändern 1";
+    }
+
+    @Override
+    public boolean check(final CElement el) {
+        System.out.println("Check CA");
+        if (el instanceof CFences) {
+            System.out.println("Check CA 1");
+            final CFences elF = (CFences) el;
+            if (elF.isFencedMin1() && elF.getCRolle().equals(CRolle.FAKTOR1)) {
+                System.out.println("Check CA 2");
+                if (el.hasParent() && el.getParent() instanceof CTimesRow) {
+                    System.out.println("Check CA 3");
+                    final CElement elP = el.getParent();
+                    if (elP.hasParent()
+                            && elP.getCRolle().equals(CRolle.SUMMAND1)) {
+                        System.out.println("Check CA 4");
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void register(final HashMap<String, CAlter> hashMap) {
+        hashMap.put(this.getText(), this);
+    }
+}

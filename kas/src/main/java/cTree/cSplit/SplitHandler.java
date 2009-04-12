@@ -26,6 +26,10 @@ import cTree.cDefence.DefenceHandler;
 public class SplitHandler {
     private volatile static SplitHandler uniqueInstance;
 
+    private String operation;
+
+    private String operator;
+
     public HashMap<String, CSplitter1> getSplitter;
 
     private SplitHandler() {
@@ -48,28 +52,35 @@ public class SplitHandler {
         return SplitHandler.uniqueInstance;
     }
 
+    private boolean canSplit(final CElement parent, final CElement cE1,
+            final String s) {
+        if (s.length() < 2) { // kein Operator oder Operant
+            return false;
+        } else {
+            this.operation = s.substring(0, 1);
+            this.operator = s.substring(1);
+            if (!this.getSplitter.containsKey(this.operation)) {
+                return false;
+            } else {
+                return this.getSplitter.get(this.operation).check(cE1,
+                        this.operator);
+            }
+        }
+
+    }
+
     public CElement split(final CElement parent, final CElement cE1,
             final String s) {
-        System.out.println("Split " + parent.getText() + " " + cE1.getText());
-        final String operation = s.substring(0, 1);
-        final String operator = s.substring(1);
-        if (this.getSplitter.containsKey(operation)) {
-            System.out.println("SplitKey found");
-            if (this.getSplitter.get(operation).check(cE1, operator)) {
-                System.out.println("Split check erfolgreich");
-                cE1.removeCActiveProperty();
-                final CFences cF = CFences.createFenced(this.getSplitter.get(
-                        operation).split(parent, cE1, operator));
-                parent.replaceChild(cF, cE1, true, true);
-                cF.setCActiveProperty();
-                return DefenceHandler.getInstance().defence(parent, cF,
-                        cF.getInnen());
-            } else {
-                return cE1;
-            }
+        if (this.canSplit(parent, cE1, s)) {
+            cE1.removeCActiveProperty();
+            final CFences cF = CFences.createFenced(this.getSplitter.get(
+                    this.operation).split(parent, cE1, this.operator));
+            parent.replaceChild(cF, cE1, true, true);
+            cF.setCActiveProperty();
+            return DefenceHandler.getInstance().defence(parent, cF,
+                    cF.getInnen());
         } else {
             return cE1;
         }
     }
-
 }

@@ -22,23 +22,23 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CNum;
+import cTree.CRolle;
 import cTree.CTimesRow;
-import cTree.CType;
 
-public class CA_Minrow extends CAlter {
+public class CA_MinA_PlusMin1Mal extends CAlter {
 
     @Override
     public CElement change(final CElement old) {
-        System.out.println("Changer Minrow to TR (-1)");
+        System.out.println("Changer -a to plus TR (-1)a");
         old.removeCActiveProperty();
         final CElement newOne = CNum.createNum(old.getElement(), "1");
         final CElement newFirst = CFences.createFenced(CMinTerm
                 .createMinTerm(newOne));
-        final CElement newSecond = ((CMinTerm) old).getValue().cloneCElement(
-                false);
+        final CElement newSecond = old.cloneCElement(false);
         final CTimesRow newChild = CTimesRow.createRow(CTimesRow.createList(
                 newFirst, newSecond));
         newChild.correctInternalPraefixesAndRolle();
+        old.togglePlusMinus(false);
         old.getParent().replaceChild(newChild, old, true, true);
         newChild.setCActiveProperty();
         return newChild;
@@ -46,12 +46,12 @@ public class CA_Minrow extends CAlter {
 
     @Override
     public String getText() {
-        return "-a in Produkt mit (-1)*a";
+        return "-a in Produkt mit (-1)*a 1";
     }
 
     @Override
     public boolean check(final CElement el) {
-        return el.getCType().equals(CType.MINROW);
+        return el.hasExtMinus() && el.getCRolle().equals(CRolle.SUMMANDN1);
     }
 
     @Override
