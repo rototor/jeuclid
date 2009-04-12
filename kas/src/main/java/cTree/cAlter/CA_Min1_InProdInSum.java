@@ -20,38 +20,47 @@ import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMinTerm;
-import cTree.CNum;
+import cTree.CRolle;
 import cTree.CTimesRow;
-import cTree.CType;
 
-public class CA_Minrow extends CAlter {
+public class CA_Min1_InProdInSum extends CAlter {
 
     @Override
     public CElement change(final CElement old) {
-        System.out.println("Changer Minrow to TR (-1)");
+        System.out.println("Changer -a to plus TR (-1)a");
         old.removeCActiveProperty();
-        final CElement newOne = CNum.createNum(old.getElement(), "1");
-        final CElement newFirst = CFences.createFenced(CMinTerm
-                .createMinTerm(newOne));
-        final CElement newSecond = ((CMinTerm) old).getValue().cloneCElement(
-                false);
-        final CTimesRow newChild = CTimesRow.createRow(CTimesRow.createList(
-                newFirst, newSecond));
-        newChild.correctInternalPraefixesAndRolle();
-        old.getParent().replaceChild(newChild, old, true, true);
+        final CTimesRow oldTimesRow = (CTimesRow) old.getParent();
+        final CElement newChild = CTimesRow.foldOne((CTimesRow) oldTimesRow
+                .cloneCElement(false));
+        oldTimesRow.togglePlusMinus(false);
+        oldTimesRow.getParent().replaceChild(newChild, oldTimesRow, true,
+                true);
         newChild.setCActiveProperty();
         return newChild;
     }
 
     @Override
     public String getText() {
-        return "-a in Produkt mit (-1)*a";
+        return "(-1) auflösen und VZ ändern N";
     }
 
     @Override
     public boolean check(final CElement el) {
-        return el.getCType().equals(CType.MINROW);
+        System.out.println("Check CA");
+        if (el instanceof CFences) {
+            final CFences elF = (CFences) el;
+            if (elF.isFencedMin1() && elF.getCRolle().equals(CRolle.FAKTOR1)
+            /* && !elF.getNextSibling().hasExtDiv() */) {
+                if (el.hasParent() && el.getParent() instanceof CTimesRow) {
+                    final CElement elP = el.getParent();
+                    if (elP.hasParent()
+                            && elP.getCRolle().equals(CRolle.SUMMANDN1)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     @Override

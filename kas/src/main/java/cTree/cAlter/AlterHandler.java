@@ -33,6 +33,10 @@ public class AlterHandler {
         new CA_DivA_Frac().register(this.getAlters);
         new CA_DivA_Pot().register(this.getAlters);
         new CA_PrimeDecomposition().register(this.getAlters);
+        new CA_MinA_PlusMin1Mal().register(this.getAlters);
+        new CA_Min1_InProdInSum().register(this.getAlters);
+        new CA_Min1_InProdInSumFirst().register(this.getAlters);
+        new CA_Min1_InProdInMinTerm().register(this.getAlters);
     }
 
     public static AlterHandler getInstance() {
@@ -48,6 +52,7 @@ public class AlterHandler {
 
     public ArrayList<String> getOptions(final CElement el) {
         final ArrayList<String> options = new ArrayList<String>();
+        System.out.println("Checknr " + this.getAlters.values().size());
         for (final CAlter ca : this.getAlters.values()) {
             if (ca.check(el)) {
                 options.add(ca.getText());
