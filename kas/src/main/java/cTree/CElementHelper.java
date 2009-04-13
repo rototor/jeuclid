@@ -217,6 +217,9 @@ public class CElementHelper {
         if (cRolle == CRolle.SUMMAND1 || cRolle == CRolle.SUMMANDN1) {
             return CRolle.SUMMANDN1;
         }
+        // if (cRolle == CRolle.GEKLAMMERT) {
+        // return CRolle.GEKLAMMERT;
+        // }
         return CRolle.UNKNOWN;
     }
 

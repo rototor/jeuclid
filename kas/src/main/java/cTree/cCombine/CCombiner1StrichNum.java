@@ -16,11 +16,19 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CType;
 
 public class CCombiner1StrichNum extends CCombiner1 {
-	public CCombiner1StrichNum(){
-		super(); 
-		op2Combiner.put(CType.NUM, new CC_StrichNumNum());
-	}
+    public CCombiner1StrichNum() {
+        super();
+        this.op2Combiner.put(CType.NUM, new CC_StrichNumNum());
+    }
+
+    @Override
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Add Num");
+        return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
+    }
 }

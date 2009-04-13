@@ -18,9 +18,6 @@ package cTree;
 
 import java.util.ArrayList;
 
-import org.w3c.dom.Element;
-
-import cTree.adapter.DOMElementMap;
 import cTree.adapter.ElementAdapter;
 import cTree.adapter.PraefixAdapter;
 import cTree.adapter.RolleAdapter;
@@ -53,8 +50,10 @@ public abstract class CElement extends RolleAdapter {
         final CElement erstesElement = active;
         if (erstesElement.hasNextC()) {
             final CElement zweitesElement = erstesElement.getNextSibling();
-            return CombineHandler.getInstance().combine(this, erstesElement,
-                    zweitesElement);
+            final CElement cEl = CombineHandler.getInstance().combine(this,
+                    erstesElement, zweitesElement);
+            System.out.println("Have combined" + cEl.getParent().getText());
+            return cEl;
         } else {
             return active;
         }
@@ -87,23 +86,11 @@ public abstract class CElement extends RolleAdapter {
     public CElement standardFencing(final CElement active) {
         System.out.println("CElement fencing");
         active.removeCActiveProperty();
-        final CElement activeNeu = this.simpleFenced(active);
-        activeNeu.setCRolle(active.getCRolle());
-        activeNeu.setExtPraefix(active.getExtPraefix());
-        active.setCRolle(CRolle.GEKLAMMERT);
-        active.setExtPraefix(null);
-        activeNeu.setCActiveProperty();
-        return activeNeu;
-    }
-
-    public CElement simpleFenced(final CElement any) {
-        final Element fences = this.getElement().getOwnerDocument()
-                .createElement("mfenced");
-        this.getElement().insertBefore(fences, any.getElement());
-        fences.appendChild(any.getElement());
-        final CFences cFences = new CFences(fences);
-        DOMElementMap.getInstance().getCElement.put(fences, cFences);
-        return cFences;
+        final CElement fences = CFences.createFenced(active
+                .cloneCElement(false));
+        this.replaceChild(fences, active, true, true);
+        fences.setCActiveProperty();
+        return fences;
     }
 
     public final CElement defence(final CElement aFencePair) {

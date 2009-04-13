@@ -56,7 +56,8 @@ public class CA_Min1_InProdInMinTerm extends CAlter {
         System.out.println("Check CA");
         if (el instanceof CFences) {
             final CFences elF = (CFences) el;
-            if (elF.isFencedMin1() && elF.getCRolle().equals(CRolle.FAKTOR1)) {
+            if (elF.isFencedMin1() && elF.getCRolle().equals(CRolle.FAKTOR1)
+                    && elF.getNextSibling().hasExtTimes()) {
                 if (el.hasParent() && el.getParent() instanceof CTimesRow) {
                     this.oldTimesRow = (CTimesRow) el.getParent();
                     if (this.oldTimesRow.hasParent()

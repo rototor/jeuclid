@@ -17,61 +17,85 @@
 package cTree.cCombine;
 
 import java.util.HashMap;
-import cTree.*;
+
+import cTree.CElement;
+import cTree.CFences;
+import cTree.CType;
 
 public class CombineHandler {
-	
-	private volatile static CombineHandler uniqueInstance; 
-	public HashMap<CType, CCombinerTyp> getTypCombiner;
-	
-	/* 
-	 * Je nach Operatortyp wird gemaess einer HashMap verzweigt
-	 */
-	private CombineHandler(){
-		getTypCombiner = new HashMap<CType, CCombinerTyp>();
-		CCombinerTyp default1 = new CCombinerTyp();
-		for (CType cType : CType.values()){
-			getTypCombiner.put(cType, default1);
-		}
-		getTypCombiner.put(CType.PLUSROW, new CCombinerTStrich());
-		getTypCombiner.put(CType.TIMESROW, new CCombinerTPunkt());
-		getTypCombiner.put(CType.POT, new CCombinerTPot());
-		getTypCombiner.put(CType.FRAC, new CCombinerTFrac());
-	}
-	
-	public static CombineHandler getInstance(){
-		if (uniqueInstance == null) {
-			synchronized (CombineHandler.class){
-				if (uniqueInstance == null){
-					uniqueInstance = new CombineHandler();
-				}
-			}
-		}
-		return uniqueInstance;
-	}
-	
-	public CElement combine(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("CombineHandler");
-		return getTypCombiner.get(parent.getCType()).combine(parent, cE1, cE2);
-	}
-	
-	// -------------------------------------------------------------------------------
-	
-	public boolean justTwo(CElement first, CElement second){
-		return !(first.hasPrevC() || second.hasNextC());
-	}
-	/*
-	 * Je nach replace wird entweder paren oder repC ersetzt. remC wird entfernt.
-	 */
-	public void insertOrReplace(CElement parent, CElement newC, CElement repC, CElement remC, boolean replace){
-		if (replace){
-			System.out.println("// replace");
-			parent.getParent().replaceChild(newC, parent, true, true);
-		} else {
-			System.out.println("// insert");
-			parent.replaceChild(newC, repC, true, true);
-			parent.removeChild(remC, true, true, false);
-		}
-	}
-	
+
+    private volatile static CombineHandler uniqueInstance;
+
+    public HashMap<CType, CCombinerTyp> getTypCombiner;
+
+    /*
+     * Je nach Operatortyp wird gemaess einer HashMap verzweigt
+     */
+    private CombineHandler() {
+        this.getTypCombiner = new HashMap<CType, CCombinerTyp>();
+        final CCombinerTyp default1 = new CCombinerTyp();
+        for (final CType cType : CType.values()) {
+            this.getTypCombiner.put(cType, default1);
+        }
+        this.getTypCombiner.put(CType.PLUSROW, new CCombinerTStrich());
+        this.getTypCombiner.put(CType.TIMESROW, new CCombinerTPunkt());
+        this.getTypCombiner.put(CType.POT, new CCombinerTPot());
+        this.getTypCombiner.put(CType.FRAC, new CCombinerTFrac());
+    }
+
+    public static CombineHandler getInstance() {
+        if (CombineHandler.uniqueInstance == null) {
+            synchronized (CombineHandler.class) {
+                if (CombineHandler.uniqueInstance == null) {
+                    CombineHandler.uniqueInstance = new CombineHandler();
+                }
+            }
+        }
+        return CombineHandler.uniqueInstance;
+    }
+
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("CombineHandler");
+        return this.getTypCombiner.get(parent.getCType()).combine(parent,
+                cE1, cE2);
+    }
+
+    // -------------------------------------------------------------------------------
+
+    public boolean justTwo(final CElement first, final CElement second) {
+        return !(first.hasPrevC() || second.hasNextC());
+    }
+
+    /*
+     * Je nach replace wird entweder paren oder repC ersetzt. remC wird
+     * entfernt.
+     */
+    public void insertOrReplace(final CElement parent, final CElement newC,
+            final CElement repC, final CElement remC, final boolean replace) {
+        if (replace) {
+            System.out.println("// replace");
+            final CElement gparent = parent.getParent();
+            // Das erste funktioniert nicht
+            // if (gparent instanceof CFences) {
+            // gparent.removeChild(parent, true, true, false);
+            // gparent.appendPraefixAndChild(newC);
+            // newC.setCRolle(CRolle.GEKLAMMERT);
+            // } else {
+            // parent.getParent().replaceChild(newC, parent, true, true);
+            // }
+            // so wie unten gehts, aber lieber wäre mir nur
+            // gparent.replaceChild(newC, parent, true, true);
+            if (gparent instanceof CFences) {
+                gparent.getParent().replaceChild(newC, gparent, true, true);
+            } else {
+                parent.getParent().replaceChild(newC, parent, true, true);
+            }
+        } else {
+            System.out.println("// insert");
+            parent.replaceChild(newC, repC, true, true);
+            parent.removeChild(remC, true, true, false);
+        }
+    }
+
 }

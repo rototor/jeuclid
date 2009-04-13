@@ -257,8 +257,7 @@ public class CTimesRow extends CRow {
         return result;
     }
 
-    // Support für die Klammern in dem CTree nicht auf Vorzeichen geachtet
-    // kommt später
+    // Support für die Klammern in dem CTree
     @Override
     public CElement fence(final ArrayList<CElement> active) {
         for (final CElement el : active) {
@@ -269,39 +268,23 @@ public class CTimesRow extends CRow {
             result = this.standardFencing(active.get(0));
         } else if (active.size() > 1) {
             final CElement first = active.get(0);
-            Element opExt = null;
-            if (first.getCRolle() == CRolle.FAKTOR1) {
-                result = CElementHelper.createAl(this.getElement(),
-                        "mfenced", "mfenced", first.getCRolle(), "");
-            } else {
-                opExt = (Element) active.get(0).getExtPraefix().cloneNode(
-                        true);
-                result = CElementHelper.createAll(this.getElement(),
-                        "mfenced", "mfenced", first.getCRolle(), opExt);
+            final boolean hasDiv = first.hasExtDiv();
+            first.removeCActiveProperty();
+            final CTimesRow innen = CTimesRow.createRow(CRow
+                    .cloneList(active));
+            if (hasDiv) {
+                innen.toggleAllVZ();
             }
-            final CElement innenRow = CElementHelper.createAl(this
-                    .getElement(), "mrow", "*", CRolle.GEKLAMMERT, "");
-            result.appendChild(innenRow);
-            boolean newFirst = true;
-            CElement cNewEl = null;
-            for (final CElement cEl : active) {
-                if (newFirst) {
-                    cNewEl = cEl.getParent().cloneChild(cEl, false);
-                    cNewEl.setCRolle(CRolle.FAKTOR1);
-                    cNewEl.removeCActiveProperty();
-                } else {
-                    cNewEl = cEl.getParent().cloneChild(cEl, true);
-                    if (opExt != null && ":".equals(opExt.getTextContent())) {
-                        cNewEl.toggleTimesDiv(false);
-                    }
-                    cNewEl.removeCLastProperty();
+            innen.getFirstChild().setPraefix("");
+            innen.correctInternalPraefixesAndRolle();
+            result = CFences.createFenced(innen);
+            this.replaceChild(result, first, true, true);
+            boolean butfirst = false;
+            for (final CElement el : active) {
+                if (butfirst) {
+                    this.removeChild(el, true, true, false);
                 }
-                innenRow.appendChild(cNewEl);
-                newFirst = false;
-            }
-            this.insertBefore(result, first);
-            for (final CElement cEl : active) {
-                this.removeChild(cEl, false, true, false);
+                butfirst = true;
             }
             result.setCActiveProperty();
         }
