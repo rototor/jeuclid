@@ -92,6 +92,7 @@ public abstract class CTreeMutator extends CTreeWalker {
     public CElement removeChild(final CElement e,
             final boolean correctNextRolle, final boolean unregister,
             final boolean withNormalParent) {
+        System.out.println("CTreeMutator removeChild");
         // keine allgemeine Korrektur
         // evtl. Praefix aus DOM entfernen
         if (e.getExtPraefix() != null) {
@@ -130,6 +131,7 @@ public abstract class CTreeMutator extends CTreeWalker {
                         newChild.getElement());
             }
         }
+        System.out.println("CTreeMutator has replaced");
         return oldChild;
     }
 

@@ -282,6 +282,7 @@ public final class JMathComponent extends JComponent implements
                 JMathComponent.this.clearCButFirst();
                 JMathComponent.this.setCActive(cAct.change(ae
                         .getActionCommand()));
+                System.out.println("Geändert");
                 JMathComponent.this.modifyDocument();
             }
         };

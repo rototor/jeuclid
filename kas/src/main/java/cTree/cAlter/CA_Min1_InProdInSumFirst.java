@@ -47,18 +47,14 @@ public class CA_Min1_InProdInSumFirst extends CAlter {
 
     @Override
     public boolean check(final CElement el) {
-        System.out.println("Check CA");
         if (el instanceof CFences) {
-            System.out.println("Check CA 1");
             final CFences elF = (CFences) el;
-            if (elF.isFencedMin1() && elF.getCRolle().equals(CRolle.FAKTOR1)) {
-                System.out.println("Check CA 2");
+            if (elF.isFencedMin1() && elF.getCRolle().equals(CRolle.FAKTOR1)
+                    && elF.getNextSibling().hasExtTimes()) {
                 if (el.hasParent() && el.getParent() instanceof CTimesRow) {
-                    System.out.println("Check CA 3");
                     final CElement elP = el.getParent();
                     if (elP.hasParent()
                             && elP.getCRolle().equals(CRolle.SUMMAND1)) {
-                        System.out.println("Check CA 4");
                         return true;
                     }
                 }

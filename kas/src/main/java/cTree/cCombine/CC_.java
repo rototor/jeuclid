@@ -19,29 +19,34 @@ package cTree.cCombine;
 import cTree.CElement;
 
 public class CC_ {
-	
-	public CElement combine(CElement parent, CElement cE1, CElement cE2){
-		if (!canCombine(cE1, cE2)) {
-			System.out.println("Repelled!!");
-			return cE1;
-		}
-		  cE1.removeCActiveProperty();
-		  boolean replace = CombineHandler.getInstance().justTwo(cE1, cE2);
-		  CElement newChild = createCombination(parent, cE1, cE2);
-		  CombineHandler.getInstance().insertOrReplace(parent, newChild, cE1, cE2, replace);
-		  newChild.setCActiveProperty();
-		  return newChild;
-	}
-	
-	protected CElement createCombination(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Cant create combination"); 
-		// Vorsicht! Fehlbedienung möglich. Repeller einsetzen!
-		return cE1;
-	}
-	
-	protected boolean canCombine(CElement cE1, CElement cE2){
-		System.out.println("Repell standard?"); 
-		return false;
-	}
-	
+
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        if (!this.canCombine(cE1, cE2)) {
+            System.out.println("Repelled!!");
+            return cE1;
+        }
+        cE1.removeCActiveProperty();
+        final boolean replace = CombineHandler.getInstance()
+                .justTwo(cE1, cE2);
+        final CElement newChild = this.createCombination(parent, cE1, cE2);
+        CombineHandler.getInstance().insertOrReplace(parent, newChild, cE1,
+                cE2, replace);
+        System.out.println("CC inserted");
+        newChild.setCActiveProperty();
+        return newChild;
+    }
+
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        System.out.println("Cant create combination");
+        // Vorsicht! Fehlbedienung möglich. Repeller einsetzen!
+        return cE1;
+    }
+
+    protected boolean canCombine(final CElement cE1, final CElement cE2) {
+        System.out.println("Repell standard?");
+        return false;
+    }
+
 }

@@ -50,7 +50,7 @@ public class CA_Min1_InProdInSum extends CAlter {
         if (el instanceof CFences) {
             final CFences elF = (CFences) el;
             if (elF.isFencedMin1() && elF.getCRolle().equals(CRolle.FAKTOR1)
-            /* && !elF.getNextSibling().hasExtDiv() */) {
+                    && elF.getNextSibling().hasExtTimes()) {
                 if (el.hasParent() && el.getParent() instanceof CTimesRow) {
                     final CElement elP = el.getParent();
                     if (elP.hasParent()
