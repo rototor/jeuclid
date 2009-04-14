@@ -16,6 +16,7 @@
 
 package cTree.cAlter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
@@ -26,8 +27,9 @@ import cTree.CPot;
 public class CA_DivA_Pot extends CAlter {
 
     @Override
-    public CElement change(final CElement old) {
+    public CElement change(final ArrayList<CElement> els) {
         System.out.println("Changer DivA to Exp");
+        final CElement old = els.get(0);
         old.removeCActiveProperty();
         final CElement newNum = CNum.createNum(old.getElement(), "1");
         final CElement newExp = CMinTerm.createMinTerm(newNum);
@@ -45,8 +47,8 @@ public class CA_DivA_Pot extends CAlter {
     }
 
     @Override
-    public boolean check(final CElement el) {
-        return el.hasExtDiv();
+    public boolean check(final ArrayList<CElement> els) {
+        return els.get(0).hasExtDiv();
     }
 
     @Override

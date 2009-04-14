@@ -22,23 +22,32 @@ import cTree.CElement;
 import cTree.CType;
 
 public class CCombiner1 {
-	
-	public HashMap<CType, CC_> op2Combiner;
-	/*
-	 * Bei bekanntem Operator wird nach dem ersten Operanden gemaess einer HashMap verzweigt.
-	 */
-	public CCombiner1(){
-		op2Combiner = new HashMap<CType, CC_>(); 
-		CC_ default2 = new CC_();
-		for (CType cType : CType.values()){
-			op2Combiner.put(cType, default2);
-		}
-		
-	}
-	
-	public CElement combine(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Default1");
-		return op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
-	}
-	
+
+    public HashMap<CType, CC_> op2Combiner;
+
+    /*
+     * Bei bekanntem Operator wird nach dem ersten Operanden gemaess einer
+     * HashMap verzweigt.
+     */
+    public CCombiner1() {
+        this.op2Combiner = new HashMap<CType, CC_>();
+        final CC_ default2 = new CC_();
+        for (final CType cType : CType.values()) {
+            this.op2Combiner.put(cType, default2);
+        }
+
+    }
+
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Default1");
+        return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
+    }
+
+    public boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        return this.op2Combiner.get(parent.getCType()).canCombine(parent,
+                cE1, cE2);
+    }
+
 }

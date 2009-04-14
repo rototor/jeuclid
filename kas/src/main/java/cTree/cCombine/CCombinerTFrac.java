@@ -16,18 +16,28 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CType;
 
 public class CCombinerTFrac extends CCombinerTyp {
-	public CCombinerTFrac(){
-		super();
-		op1Combiner.put(CType.TIMESROW, new CCombiner1FracTR());
-	}
-	
-	public CElement combine(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Frac");
-		return op1Combiner.get(cE1.getCType()).combine(parent, cE1, cE2);
-	}
-	
-	
+    public CCombinerTFrac() {
+        super();
+        this.op1Combiner.put(CType.TIMESROW, new CCombiner1FracTR());
+    }
+
+    @Override
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Frac");
+        return this.op1Combiner.get(cE1.getCType()).combine(parent, cE1, cE2);
+    }
+
+    @Override
+    public boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("CombinerTyp can combine?");
+        return this.op1Combiner.get(cE1.getCType()).canCombine(parent, cE1,
+                cE2);
+    }
+
 }

@@ -20,24 +20,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
-import cTree.CFences;
+import cTree.cExtract.ExtractHandler;
 
-public class CA_Klammern extends CAlter {
+public class CA_Extract extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        return els.get(0).getParent().fence(els);
+
+        return els.get(0).getParent().extract(els);
     }
 
     @Override
     public String getText() {
-        return "Klammern setzen";
+        return "Extrahieren";
     }
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        return (els.size() > 0 && els.get(0) != null && !(els.size() == 1 && (els
-                .get(0) instanceof CFences)));
+        System.out.println("CA-Extract-check "
+                + ExtractHandler.getInstance().canExtract(els));
+        return ExtractHandler.getInstance().canExtract(els);
     }
 
     @Override

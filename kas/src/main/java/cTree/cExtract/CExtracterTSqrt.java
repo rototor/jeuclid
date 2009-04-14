@@ -16,17 +16,29 @@
 
 package cTree.cExtract;
 
-import cTree.*;
-import java.util.*;
+import java.util.ArrayList;
+
+import cTree.CElement;
+import cTree.CType;
 
 public class CExtracterTSqrt extends CExtracterTyp {
-	public CExtracterTSqrt(){
-		super();
-		this.op1Extracter.put(CType.TIMESROW, new CE_2SqrtPunkt());
-		this.op1Extracter.put(CType.POT, new CE_2SqrtPot());
-	}
-	
-	public CElement extract(CElement parent, ArrayList<CElement> selection, CElement defElement){
-		return op1Extracter.get(selection.get(0).getCType()).extract(parent, selection, defElement);
-	}
+    public CExtracterTSqrt() {
+        super();
+        this.op1Extracter.put(CType.TIMESROW, new CE_2SqrtPunkt());
+        this.op1Extracter.put(CType.POT, new CE_2SqrtPot());
+    }
+
+    @Override
+    public CElement extract(final CElement parent,
+            final ArrayList<CElement> selection, final CElement defElement) {
+        return this.op1Extracter.get(selection.get(0).getCType()).extract(
+                parent, selection, defElement);
+    }
+
+    @Override
+    public boolean canExtract(final CElement parent,
+            final ArrayList<CElement> selection) {
+        return this.op1Extracter.get(selection.get(0).getCType()).canExtract(
+                parent, selection);
+    }
 }

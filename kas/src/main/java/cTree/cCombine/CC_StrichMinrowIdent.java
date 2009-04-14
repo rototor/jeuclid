@@ -16,59 +16,80 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CIdent;
+import cTree.CMinTerm;
+import cTree.CNum;
+import cTree.CRolle;
+import cTree.CTimesRow;
 
 public class CC_StrichMinrowIdent extends CC_ {
-	
-	protected boolean canCombine(CElement minTerm, CElement ident){
-		System.out.println("Repell add Minrow and Ident?"); 
-		CElement minTermArg = ((CMinTerm) minTerm).getValue();
-		if (!(minTermArg instanceof CIdent) && !(minTermArg instanceof CTimesRow)) {
-			return false;
-		} else if (minTermArg instanceof CIdent){
-			// CIdent minArg = (CIdent) minTermArg;
-			if (!minTermArg.istGleichartigesMonom(ident)){return false;}
-		} else {
-			// CTimesRow minArg = (CTimesRow) minTermArg;
-			if (!minTermArg.istGleichartigesMonom(ident)){return false;}
-		}
-		return true;
-	}
-	
-	protected CElement createCombination(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Add Minrow and Ident");
-		CElement minTermArg = ((CMinTerm) cE1).getValue();
-		CElement newChild = null;
-		if (minTermArg instanceof CIdent){
-			if (cE2.hasExtMinus()){ // bilde TimesRow
-				CElement newFirst = CNum.createNum(parent.getElement(), "2");
-				newFirst.setCRolle(CRolle.FAKTOR1);
-				CElement newSecond = CNum.createNum(parent.getElement(), ((CMinTerm) cE1).getValue().getText());
-				newSecond.setCRolle(CRolle.FAKTORN1);
-				newSecond.setPraefix("*");
-				CElement cTR = CTimesRow.createRow(CTimesRow.createList(newFirst, newSecond));
-				newChild = CMinTerm.createMinTerm(cTR, cE1.getCRolle());
-			} else { // bilde 0
-				newChild = CNum.createNum(parent.getElement(), "0");
-				newChild.setCRolle(CRolle.SUMMAND1);
-			}
-		} else { // minTermArg ist eine CTimesRow
-			CTimesRow minArg = (CTimesRow) minTermArg;
-			CNum cNum = minArg.getKoeffAsBetragFromMonom();
-			if (cNum.getValue()==0){
-				if (cE2.hasExtMinus()){
-					minArg.getKoeffAsBetragFromMonom().setText("1");
-					newChild = cE1.cloneCElement(false);
-				} else {
-					newChild = cE2.cloneCElement(false);
-				}
-			} else {
-				int toAdd = cE2.hasExtMinus() ? 1 : -1;
-				newChild = cE1.cloneCElement(true);
-				int koeff = minArg.getKoeffAsBetragFromMonom().getValue();
-				((CTimesRow) ((CMinTerm) newChild).getValue()).getKoeffAsBetragFromMonom().setText(""+(koeff + toAdd));
-			}
-		}
-		return newChild;
-	}
+
+    @Override
+    protected boolean canCombine(final CElement parent,
+            final CElement minTerm, final CElement ident) {
+        System.out.println("Repell add Minrow and Ident?");
+        final CElement minTermArg = ((CMinTerm) minTerm).getValue();
+        if (!(minTermArg instanceof CIdent)
+                && !(minTermArg instanceof CTimesRow)) {
+            return false;
+        } else if (minTermArg instanceof CIdent) {
+            // CIdent minArg = (CIdent) minTermArg;
+            if (!minTermArg.istGleichartigesMonom(ident)) {
+                return false;
+            }
+        } else {
+            // CTimesRow minArg = (CTimesRow) minTermArg;
+            if (!minTermArg.istGleichartigesMonom(ident)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        System.out.println("Add Minrow and Ident");
+        final CElement minTermArg = ((CMinTerm) cE1).getValue();
+        CElement newChild = null;
+        if (minTermArg instanceof CIdent) {
+            if (cE2.hasExtMinus()) { // bilde TimesRow
+                final CElement newFirst = CNum.createNum(parent.getElement(),
+                        "2");
+                newFirst.setCRolle(CRolle.FAKTOR1);
+                final CElement newSecond = CNum.createNum(
+                        parent.getElement(), ((CMinTerm) cE1).getValue()
+                                .getText());
+                newSecond.setCRolle(CRolle.FAKTORN1);
+                newSecond.setPraefix("*");
+                final CElement cTR = CTimesRow.createRow(CTimesRow
+                        .createList(newFirst, newSecond));
+                newChild = CMinTerm.createMinTerm(cTR, cE1.getCRolle());
+            } else { // bilde 0
+                newChild = CNum.createNum(parent.getElement(), "0");
+                newChild.setCRolle(CRolle.SUMMAND1);
+            }
+        } else { // minTermArg ist eine CTimesRow
+            final CTimesRow minArg = (CTimesRow) minTermArg;
+            final CNum cNum = minArg.getKoeffAsBetragFromMonom();
+            if (cNum.getValue() == 0) {
+                if (cE2.hasExtMinus()) {
+                    minArg.getKoeffAsBetragFromMonom().setText("1");
+                    newChild = cE1.cloneCElement(false);
+                } else {
+                    newChild = cE2.cloneCElement(false);
+                }
+            } else {
+                final int toAdd = cE2.hasExtMinus() ? 1 : -1;
+                newChild = cE1.cloneCElement(true);
+                final int koeff = minArg.getKoeffAsBetragFromMonom()
+                        .getValue();
+                ((CTimesRow) ((CMinTerm) newChild).getValue())
+                        .getKoeffAsBetragFromMonom().setText(
+                                "" + (koeff + toAdd));
+            }
+        }
+        return newChild;
+    }
 }

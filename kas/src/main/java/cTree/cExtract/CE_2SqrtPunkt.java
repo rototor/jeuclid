@@ -16,70 +16,90 @@
 
 package cTree.cExtract;
 
-import cTree.*;
+import java.util.ArrayList;
+
+import org.w3c.dom.Element;
+
+import cTree.CElement;
+import cTree.CFences;
+import cTree.CRolle;
+import cTree.CSqrt;
+import cTree.CTimesRow;
+import cTree.CType;
 import cTree.cDefence.DefenceHandler;
 
-import java.util.*;
+public class CE_2SqrtPunkt extends CE_1 {
 
-import org.w3c.dom.*;
+    @Override
+    public CElement extract(final CElement parent,
+            final ArrayList<CElement> selection, final CElement cE2) {
+        // selection.get(0) ist das Produkt, Parent die Wurzel
+        System.out.println("Lazy extracting");
+        if (!this.canExtract(parent, selection)) {
+            return selection.get(0);
+        }
+        selection.get(0).removeCActiveProperty();
 
-public class CE_2SqrtPunkt extends CE_1{
-	
-	public CElement extract(CElement parent, ArrayList<CElement>selection, CElement cE2){
-		// selection.get(0) ist das Produkt, Parent die Wurzel
-		System.out.println("Lazy extracting");
-		if (!canExtract(selection)) {return selection.get(0);}
-		  selection.get(0).removeCActiveProperty();
+        // Praefix sichern
+        final CRolle rolle = parent.getCRolle();
+        final CTimesRow newArg = this
+                .createExtraction(parent, selection, cE2);
+        newArg.correctInternalPraefixesAndRolle();
+        final CFences newChild = CFences.createFenced(newArg);
+        newArg.setCRolle(CRolle.GEKLAMMERT);
+        ExtractHandler.getInstance().insertOrReplace(parent, newChild,
+                selection, true);
+        newChild.setCRolle(rolle);
+        newChild.setCActiveProperty();
+        return DefenceHandler.getInstance().defence(newChild.getParent(),
+                newChild, newChild.getFirstChild());
+    }
 
-		  // Praefix sichern
-		  CRolle rolle = parent.getCRolle();
-		  CTimesRow newArg = createExtraction(parent, selection, cE2);
-		  newArg.correctInternalPraefixesAndRolle();
-		  CFences newChild = CFences.createFenced(newArg);
-		  newArg.setCRolle(CRolle.GEKLAMMERT);
-		  ExtractHandler.getInstance().insertOrReplace(parent, newChild, selection, true);
-		  newChild.setCRolle(rolle);
-		  newChild.setCActiveProperty();
-		  return DefenceHandler.getInstance().defence(newChild.getParent(), newChild, newChild.getFirstChild()); 
-	}
-	
-	protected CTimesRow createExtraction(CElement parent, ArrayList<CElement> selection, CElement defElement){
-		System.out.println("Extract sqrt punkt ");
-		// Analyse des bisherigen Produkts
-		CTimesRow oldProduct = (CTimesRow) selection.get(0);
-		CElement oldFirst = selection.get(0).getFirstChild();
-		CElement newFirst = oldFirst.cloneCElement(false);
-		CSqrt firstSqrt = CSqrt.createSqrt(newFirst);
-		newFirst.setCRolle(CRolle.RADIKANT);
-		boolean hasDiv = oldFirst.getNextSibling().hasExtDiv();
-		Element newOp = (Element) oldFirst.getNextSibling().getExtPraefix().cloneNode(true);
-		boolean timesRowAgain = (oldFirst.getNextSibling().hasNextC());
-		CElement newSecond = null;
-		if (timesRowAgain){
-			ArrayList<CElement> factorList = ((CTimesRow) oldProduct.cloneCElement(false)).getMemberList();
-			factorList.remove(0);
-			newSecond = CTimesRow.createRow(factorList);
-			((CTimesRow) newSecond).correctInternalPraefixesAndRolle();
-			if (hasDiv){
-				((CTimesRow) newSecond).toggleAllVZButFirst(false);
-			}
-		} else {
-			newSecond = oldFirst.getNextSibling().cloneCElement(false);
-		}
-		CSqrt secSqrt = CSqrt.createSqrt(newSecond);
-		newSecond.setCRolle(CRolle.RADIKANT);
-		secSqrt.setExtPraefix(newOp);
-		CTimesRow newChild = CTimesRow.createRow(CTimesRow.createList(firstSqrt, secSqrt));
-		newChild.correctInternalPraefixesAndRolle();
-		return newChild;
-	}
-	
-	protected boolean canExtract(ArrayList<CElement> selection){
-		// Man kann nur die ganz linken Elemente extrahieren
-		if (selection.size()!=1 || !selection.get(0).getCType().equals(CType.TIMESROW)){
-			System.out.println("Wir extrahieren nur aus einem Produkt");
-			return false;
-		} 
-		return true;
-	}
+    @Override
+    protected CTimesRow createExtraction(final CElement parent,
+            final ArrayList<CElement> selection, final CElement defElement) {
+        System.out.println("Extract sqrt punkt ");
+        // Analyse des bisherigen Produkts
+        final CTimesRow oldProduct = (CTimesRow) selection.get(0);
+        final CElement oldFirst = selection.get(0).getFirstChild();
+        final CElement newFirst = oldFirst.cloneCElement(false);
+        final CSqrt firstSqrt = CSqrt.createSqrt(newFirst);
+        newFirst.setCRolle(CRolle.RADIKANT);
+        final boolean hasDiv = oldFirst.getNextSibling().hasExtDiv();
+        final Element newOp = (Element) oldFirst.getNextSibling()
+                .getExtPraefix().cloneNode(true);
+        final boolean timesRowAgain = (oldFirst.getNextSibling().hasNextC());
+        CElement newSecond = null;
+        if (timesRowAgain) {
+            final ArrayList<CElement> factorList = ((CTimesRow) oldProduct
+                    .cloneCElement(false)).getMemberList();
+            factorList.remove(0);
+            newSecond = CTimesRow.createRow(factorList);
+            ((CTimesRow) newSecond).correctInternalPraefixesAndRolle();
+            if (hasDiv) {
+                ((CTimesRow) newSecond).toggleAllVZButFirst(false);
+            }
+        } else {
+            newSecond = oldFirst.getNextSibling().cloneCElement(false);
+        }
+        final CSqrt secSqrt = CSqrt.createSqrt(newSecond);
+        newSecond.setCRolle(CRolle.RADIKANT);
+        secSqrt.setExtPraefix(newOp);
+        final CTimesRow newChild = CTimesRow.createRow(CTimesRow.createList(
+                firstSqrt, secSqrt));
+        newChild.correctInternalPraefixesAndRolle();
+        return newChild;
+    }
+
+    @Override
+    protected boolean canExtract(final CElement parent,
+            final ArrayList<CElement> selection) {
+        // Man kann nur die ganz linken Elemente extrahieren
+        if (selection.size() != 1
+                || !selection.get(0).getCType().equals(CType.TIMESROW)) {
+            System.out.println("Wir extrahieren nur aus einem Produkt");
+            return false;
+        }
+        return true;
+    }
 }

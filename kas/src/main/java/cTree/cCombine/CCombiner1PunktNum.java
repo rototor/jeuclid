@@ -16,19 +16,30 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CType;
 
 public class CCombiner1PunktNum extends CCombiner1 {
-	public CCombiner1PunktNum(){
-		super(); 
-		op2Combiner.put(CType.NUM, new CC_PunktNumNum());
-		op2Combiner.put(CType.FENCES, new CC_PunktNumFences());
-		op2Combiner.put(CType.TIMESROW, new CC_PunktNumTR());
-	}
-	
-	public CElement combine(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Mult Num " +cE2.getCType() + " "+ cE2.hasExtDiv() + " " + cE2.hasExtPraefix());
-		
-		return op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
-	}
+    public CCombiner1PunktNum() {
+        super();
+        this.op2Combiner.put(CType.NUM, new CC_PunktNumNum());
+        this.op2Combiner.put(CType.FENCES, new CC_PunktNumFences());
+        this.op2Combiner.put(CType.TIMESROW, new CC_PunktNumTR());
+    }
+
+    @Override
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Mult Num " + cE2.getCType() + " "
+                + cE2.hasExtDiv() + " " + cE2.hasExtPraefix());
+        return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
+    }
+
+    @Override
+    public boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("CombinerTypPN can combine?");
+        return this.op2Combiner.get(cE2.getCType()).canCombine(parent, cE1,
+                cE2);
+    }
 }

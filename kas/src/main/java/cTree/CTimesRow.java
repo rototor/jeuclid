@@ -439,8 +439,8 @@ public class CTimesRow extends CRow {
     }
 
     @Override
-    protected CElement tauscheMitVorzeichen(final CElement el1,
-            final CElement el2, final boolean nachRechts) {
+    protected CElement tauscheMitVorzeichen(final CElement el1, CElement el2,
+            final boolean nachRechts) {
         if (el1.getCRolle() == CRolle.FAKTORN1) {
             this.insertBefore(el2, el1);
         } else if (!el2.hasExtDiv()) {
@@ -451,10 +451,12 @@ public class CTimesRow extends CRow {
             el1.setPraefix("*");
             el1.setCRolle(CRolle.FAKTORN1);
             el1.getParent().removeChild(el2, false, true, false);
+            el2 = el2neu;
         }
         if (nachRechts) {
             return el1;
         } else {
+            el2.setCActiveProperty();
             return el2;
         }
     }

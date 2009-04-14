@@ -54,9 +54,16 @@ public class CombineHandler {
         return CombineHandler.uniqueInstance;
     }
 
+    public boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("CombineHandler can combine?");
+        return this.getTypCombiner.get(parent.getCType()).canCombine(parent,
+                cE1, cE2);
+    }
+
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("CombineHandler");
+        System.out.println("CombineHandler combine");
         return this.getTypCombiner.get(parent.getCType()).combine(parent,
                 cE1, cE2);
     }

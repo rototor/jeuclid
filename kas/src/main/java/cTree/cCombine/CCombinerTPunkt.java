@@ -16,31 +16,53 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CNum;
+import cTree.CType;
 
 public class CCombinerTPunkt extends CCombinerTyp {
-	public CCombinerTPunkt(){
-		super();
-		op1Combiner.put(CType.NUM, new CCombiner1PunktNum());
-		op1Combiner.put(CType.IDENT, new CCombiner1PunktIdent());
-		op1Combiner.put(CType.POT, new CCombiner1PunktPot());
-		op1Combiner.put(CType.FENCES, new CCombiner1PunktFences());
-		op1Combiner.put(CType.SQRT, new CCombiner1PunktSqrt());
-	}
-	
-	public CElement combine(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Multi");
-		if (cE1.is0() && !cE2.hasExtDiv()){
-			return (new CC_Punkt0Any()).combine(parent, cE1, cE2);
-		} else if (cE2.is0()&& !cE2.hasExtDiv()){
-			return (new CC_PunktAny0()).combine(parent, cE1, cE2);
-		} else if ((cE1 instanceof CNum) && ((CNum) cE1).is1()&& !cE2.hasExtDiv()){
-			return (new CC_Punkt1Any()).combine(parent, cE1, cE2);
-		} else if ((cE2 instanceof CNum) && ((CNum) cE2).is1()){
-			return (new CC_PunktAny1()).combine(parent, cE1, cE2);
-		}
-		return op1Combiner.get(cE1.getCType()).combine(parent, cE1, cE2);
-	}
-	
-	
+    public CCombinerTPunkt() {
+        super();
+        this.op1Combiner.put(CType.NUM, new CCombiner1PunktNum());
+        this.op1Combiner.put(CType.IDENT, new CCombiner1PunktIdent());
+        this.op1Combiner.put(CType.POT, new CCombiner1PunktPot());
+        this.op1Combiner.put(CType.FENCES, new CCombiner1PunktFences());
+        this.op1Combiner.put(CType.SQRT, new CCombiner1PunktSqrt());
+    }
+
+    @Override
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Multi");
+        if (cE1.is0() && !cE2.hasExtDiv()) {
+            return (new CC_Punkt0Any()).combine(parent, cE1, cE2);
+        } else if (cE2.is0() && !cE2.hasExtDiv()) {
+            return (new CC_PunktAny0()).combine(parent, cE1, cE2);
+        } else if ((cE1 instanceof CNum) && ((CNum) cE1).is1()
+                && !cE2.hasExtDiv()) {
+            return (new CC_Punkt1Any()).combine(parent, cE1, cE2);
+        } else if ((cE2 instanceof CNum) && ((CNum) cE2).is1()) {
+            return (new CC_PunktAny1()).combine(parent, cE1, cE2);
+        }
+        return this.op1Combiner.get(cE1.getCType()).combine(parent, cE1, cE2);
+    }
+
+    @Override
+    public boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("CombinerTyp* can combine?");
+        if (cE1.is0() && !cE2.hasExtDiv()) {
+            return (new CC_Punkt0Any()).canCombine(parent, cE1, cE2);
+        } else if (cE2.is0() && !cE2.hasExtDiv()) {
+            return (new CC_PunktAny0()).canCombine(parent, cE1, cE2);
+        } else if ((cE1 instanceof CNum) && ((CNum) cE1).is1()
+                && !cE2.hasExtDiv()) {
+            return (new CC_Punkt1Any()).canCombine(parent, cE1, cE2);
+        } else if ((cE2 instanceof CNum) && ((CNum) cE2).is1()) {
+            return (new CC_PunktAny1()).canCombine(parent, cE1, cE2);
+        }
+        return this.op1Combiner.get(cE1.getCType()).canCombine(parent, cE1,
+                cE2);
+    }
+
 }

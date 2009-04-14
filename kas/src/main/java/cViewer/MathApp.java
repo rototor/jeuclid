@@ -21,31 +21,32 @@ import javax.swing.*;
 public final class MathApp {
 
     private static void createAndShowGUI() {
-        //Erzeugt das Fenster und garniert den Fensterrahmen
-    	final MathFrame frame = new MathFrame();
+        // Erzeugt das Fenster und garniert den Fensterrahmen
+        final MathFrame frame = new MathFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
-    
+
     public static void main(final String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 // Wähle ein LookAndFeel
-            	try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                    // UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+                try {
+                    // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    UIManager
+                            .setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
                     // UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-                } catch (ClassNotFoundException e) {
-                    System.out.println("ClassNotFound"); 
-                } catch (InstantiationException e) {
-                    System.out.println("InstantiationException"); 
-                } catch (IllegalAccessException e) {
-                    System.out.println("IllegalAccess"); 
-                } catch (UnsupportedLookAndFeelException e) {
-                    System.out.println("StrangeLookAndFeel"); 
-                } 
-            	createAndShowGUI();
+                } catch (final ClassNotFoundException e) {
+                    System.out.println("ClassNotFound");
+                } catch (final InstantiationException e) {
+                    System.out.println("InstantiationException");
+                } catch (final IllegalAccessException e) {
+                    System.out.println("IllegalAccess");
+                } catch (final UnsupportedLookAndFeelException e) {
+                    System.out.println("StrangeLookAndFeel");
+                }
+                MathApp.createAndShowGUI();
             }
         });
     }

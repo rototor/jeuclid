@@ -16,30 +16,40 @@
 
 package cTree.cCombine;
 
-import java.util.*;
-import cTree.*;
+import java.util.ArrayList;
+
+import cTree.CElement;
+import cTree.CRow;
+import cTree.CTimesRow;
 
 public class CC_PunktIdentTR extends CC_ {
-	
-	// noch alt
-	
-	protected CElement createCombination(CElement parent, CElement cE1, CElement cE2){
-    	System.out.println("Multipliziere Ident TR");
-    	//  a*|b*c| -> |a*b*c| und +-*a*|b*c| -> +-*|a*b*c| aber nicht :a*|b*c|
-    	CElement faktor1 = cE1.cloneCElement(false);  // parent.cloneChild(cE1, false);
-    	ArrayList<CElement> first = CRow.makeSingleElementList(faktor1);
-    	ArrayList<CElement> second = ((CTimesRow) cE2).getMemberList();
-    	second.get(0).setPraefix("*");
-    	CRow.merge(first, second);
-    	CTimesRow newChild = (CTimesRow) CTimesRow.createRow(first);
-    	newChild.correctInternalCRolles();
-    	newChild.setCRolleAndPraefixFrom(cE1);
-		return newChild;
-	}
-	
-	protected boolean canCombine(CElement cE1, CElement cE2){ 
-		if (cE1.hasExtDiv() || cE2.hasExtDiv()) {return false;}
-		return true;
-	}	
+
+    // noch alt
+
+    @Override
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        System.out.println("Multipliziere Ident TR");
+        // a*|b*c| -> |a*b*c| und +-*a*|b*c| -> +-*|a*b*c| aber nicht :a*|b*c|
+        final CElement faktor1 = cE1.cloneCElement(false); // parent.cloneChild(cE1,
+        // false);
+        final ArrayList<CElement> first = CRow.makeSingleElementList(faktor1);
+        final ArrayList<CElement> second = ((CTimesRow) cE2).getMemberList();
+        second.get(0).setPraefix("*");
+        CRow.merge(first, second);
+        final CTimesRow newChild = CTimesRow.createRow(first);
+        newChild.correctInternalCRolles();
+        newChild.setCRolle(cE1.getCRolle());
+        return newChild;
+    }
+
+    @Override
+    protected boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        if (cE1.hasExtDiv() || cE2.hasExtDiv()) {
+            return false;
+        }
+        return true;
+    }
 
 }

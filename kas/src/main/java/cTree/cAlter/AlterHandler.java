@@ -38,9 +38,10 @@ public class AlterHandler {
         new CA_Min1_InProdInSumFirst().register(this.getAlters);
         new CA_Min1_InProdInMinTerm().register(this.getAlters);
         new CA_MinVorziehenSumFencedSum().register(this.getAlters);
-        // new CA_Klammern().register(this.getAlters);
+        new CA_Klammern().register(this.getAlters);
         new CA_Entklammern().register(this.getAlters);
         new CA_Verbinden().register(this.getAlters);
+        new CA_Extract().register(this.getAlters);
     }
 
     public static AlterHandler getInstance() {
@@ -54,23 +55,23 @@ public class AlterHandler {
         return AlterHandler.uniqueInstance;
     }
 
-    public ArrayList<String> getOptions(final CElement el) {
+    public ArrayList<String> getOptions(final ArrayList<CElement> els) {
         final ArrayList<String> options = new ArrayList<String>();
         System.out.println("Checknr " + this.getAlters.values().size());
         for (final CAlter ca : this.getAlters.values()) {
-            if (ca.check(el)) {
+            if (ca.check(els)) {
                 options.add(ca.getText());
             }
         }
         return options;
     }
 
-    public CElement change(final CElement el, final String actionCommand) {
-        System.out.println("Change " + el.getCType());
+    public CElement change(final ArrayList<CElement> els,
+            final String actionCommand) {
         if (this.getAlters.containsKey(actionCommand)) {
-            return this.getAlters.get(actionCommand).change(el);
+            return this.getAlters.get(actionCommand).change(els);
         } else {
-            return el;
+            return els.get(0);
         }
     }
 

@@ -16,33 +16,46 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CMinTerm;
+import cTree.CNum;
+import cTree.CRolle;
 
 public class CC_StrichMinrowNum extends CC_ {
-	
-	protected boolean canCombine(CElement cE1, CElement cE2){
-		System.out.println(" Repell Add Minrow and Num?");
-		if (!(((CMinTerm) cE1).getValue() instanceof CNum)) { return false;}
-		return true;
-	}
-	
-	protected CElement createCombination(CElement parent, CElement cE1, CElement cE2){
-		int wertE = Integer.parseInt(((CNum) ((CMinTerm) cE1).getValue()).getText()); 
-		int wertZ = Integer.parseInt(cE2.getText()); 
-		CElement newChild = null;
-		System.out.println("// Minterm in Summe muss erster Summand sein");
-		if (!cE2.hasExtMinus() && (wertE<=wertZ)){ //So entsteht eine Zahl
-			newChild = CNum.createNum(parent.getElement(), ""+(wertZ-wertE));
-			newChild.setCRolle(CRolle.SUMMAND1);
-		} else {  // So bleibt minrow
-			System.out.println("// Minterm in Summe muss erster Summand sein");
-			newChild = cE1.cloneCElement(false); //parent.cloneChild(cE1, false);
-			int value = wertE-wertZ;
-			if (cE2.hasExtMinus()){
-				value = wertE+wertZ;
-			}
-			((CMinTerm) newChild).getValue().setText(""+value);
-		}
-		return newChild;
-	}
+
+    @Override
+    protected boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println(" Repell Add Minrow and Num?");
+        if (!(((CMinTerm) cE1).getValue() instanceof CNum)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        final int wertE = Integer.parseInt(((CNum) ((CMinTerm) cE1)
+                .getValue()).getText());
+        final int wertZ = Integer.parseInt(cE2.getText());
+        CElement newChild = null;
+        System.out.println("// Minterm in Summe muss erster Summand sein");
+        if (!cE2.hasExtMinus() && (wertE <= wertZ)) { // So entsteht eine Zahl
+            newChild = CNum.createNum(parent.getElement(), ""
+                    + (wertZ - wertE));
+            newChild.setCRolle(CRolle.SUMMAND1);
+        } else { // So bleibt minrow
+            System.out
+                    .println("// Minterm in Summe muss erster Summand sein");
+            newChild = cE1.cloneCElement(false); // parent.cloneChild(cE1,
+                                                 // false);
+            int value = wertE - wertZ;
+            if (cE2.hasExtMinus()) {
+                value = wertE + wertZ;
+            }
+            ((CMinTerm) newChild).getValue().setText("" + value);
+        }
+        return newChild;
+    }
 }

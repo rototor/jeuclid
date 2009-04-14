@@ -16,27 +16,40 @@
 
 package cTree.cCombine;
 
-import cTree.*;
-import java.util.*;
+import java.util.ArrayList;
+
+import cTree.CElement;
+import cTree.CRolle;
+import cTree.CSqrt;
+import cTree.CTimesRow;
 
 public class CC_PunktSqrtSqrt extends CC_ {
-	
-	protected CElement createCombination(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Multipliziere Sqrts");
-		if (cE1.hasExtDiv()){ 
-			System.out.println("// es geht mit : los, darf nicht sein! Repeller verwenden");
-		} 
-		ArrayList<CElement> radList = CSqrt.getRadikandList(CSqrt.createRootList(cE1, cE2));
-		CElement newChild = CSqrt.createSqrt(CTimesRow.createRow(radList));
-    	if (cE1.getCRolle()!=CRolle.FAKTOR1){
-    		newChild.setCRolle(CRolle.FAKTORN1);			
-		}
-		return newChild;
-	}
-	
-	protected boolean canCombine(CElement cE1, CElement cE2){
-		System.out.println("Repell sqrt times sqrt: only faktor1"); 
-		if (cE1.hasExtDiv()) {return false;}
-		return true;
-	}
+
+    @Override
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        System.out.println("Multipliziere Sqrts");
+        if (cE1.hasExtDiv()) {
+            System.out
+                    .println("// es geht mit : los, darf nicht sein! Repeller verwenden");
+        }
+        final ArrayList<CElement> radList = CSqrt.getRadikandList(CSqrt
+                .createRootList(cE1, cE2));
+        final CElement newChild = CSqrt.createSqrt(CTimesRow
+                .createRow(radList));
+        if (cE1.getCRolle() != CRolle.FAKTOR1) {
+            newChild.setCRolle(CRolle.FAKTORN1);
+        }
+        return newChild;
+    }
+
+    @Override
+    protected boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Repell sqrt times sqrt: only faktor1");
+        if (cE1.hasExtDiv()) {
+            return false;
+        }
+        return true;
+    }
 }

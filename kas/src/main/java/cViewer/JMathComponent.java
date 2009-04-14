@@ -57,6 +57,7 @@ import cTree.CRolle;
 import cTree.CTimesRow;
 import cTree.adapter.DOMElementMap;
 import cTree.adapter.EElementHelper;
+import cTree.cAlter.AlterHandler;
 
 /**
  * Displays MathML content in a Swing Component.
@@ -277,11 +278,10 @@ public final class JMathComponent extends JComponent implements
             private static final long serialVersionUID = 20090406L;
 
             public void actionPerformed(final ActionEvent ae) {
-                final CElement cAct = JMathComponent.this.getCActive();
                 JMathComponent.this.saveForUndo();
-                JMathComponent.this.clearCButFirst();
-                JMathComponent.this.setCActive(cAct.change(ae
-                        .getActionCommand()));
+                JMathComponent.this.setCActive(AlterHandler.getInstance()
+                        .change(JMathComponent.this.activeC,
+                                ae.getActionCommand()));
                 System.out.println("Geändert");
                 JMathComponent.this.modifyDocument();
             }

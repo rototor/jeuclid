@@ -16,26 +16,31 @@
 
 package cTree.cCombine;
 
-import java.util.*;
-import cTree.*;
+import java.util.HashMap;
+
+import cTree.CElement;
+import cTree.CType;
 
 public class CCombinerTyp {
-	public HashMap<CType, CCombiner1> op1Combiner;
-	
-	public CCombinerTyp(){
-		op1Combiner = new HashMap<CType, CCombiner1>(); 
-		for (CType cType : CType.values()){
-			op1Combiner.put(cType, new CCombiner1());
-		}
-	}
-	
-	public CElement combine(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("DefaultOp");
-		return op1Combiner.get(cE1.getCType()).combine(parent, cE1, cE2);
-	}
-	
-//	public CElement create(CElement producer, CElement first, CElement second){
-//		System.out.println("Default"); 
-//		return  op1Combiner.get(first.getCType()).create(producer, first, second);
-//	}
+    public HashMap<CType, CCombiner1> op1Combiner;
+
+    public CCombinerTyp() {
+        this.op1Combiner = new HashMap<CType, CCombiner1>();
+        for (final CType cType : CType.values()) {
+            this.op1Combiner.put(cType, new CCombiner1());
+        }
+    }
+
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("DefaultOp");
+        return this.op1Combiner.get(cE1.getCType()).combine(parent, cE1, cE2);
+    }
+
+    public boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("CombinerTyp can combine?");
+        return this.op1Combiner.get(cE1.getCType()).canCombine(parent, cE1,
+                cE2);
+    }
 }
