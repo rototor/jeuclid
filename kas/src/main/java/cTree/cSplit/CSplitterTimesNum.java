@@ -18,9 +18,9 @@ package cTree.cSplit;
 
 import cTree.CElement;
 import cTree.CNum;
-import cTree.CPot;
+import cTree.CTimesRow;
 
-public class CSplitterPot extends CSplitter1 {
+public class CSplitterTimesNum extends CSplitter1 {
 
     private int nr1;
 
@@ -28,63 +28,79 @@ public class CSplitterPot extends CSplitter1 {
 
     private int result;
 
-    private boolean canSplit;
+    private enum SplitTyp {
+        M15M3, D, NO
+    };
 
-    public CSplitterPot() {
+    private SplitTyp splitTyp;
+
+    public CSplitterTimesNum() {
         this.nr1 = 1;
         this.nr2 = 1;
         this.result = 0;
-        this.canSplit = false;
+        this.splitTyp = SplitTyp.NO;
     }
 
     private void init(final CElement cE1, final String operator) {
+        System.out.println("Init the M Num split");
         if (cE1 instanceof CNum) {
             try {
                 this.nr2 = Integer.parseInt(operator);
-                if (this.nr2 <= 1) {
-                    this.canSplit = false;
+                if (this.nr2 == 0) {
+                    this.splitTyp = SplitTyp.NO;
                 } else {
                     this.nr1 = ((CNum) cE1).getValue();
-                    final double root = Math.pow(this.nr1,
-                            1 / ((double) this.nr2));
-                    this.result = (int) root;
-                    System.out.println("Result " + this.result);
-                    if (Math.abs(root - this.result) > 0.0001) { // naja
-                        this.canSplit = false;
+                    if (cE1.hasExtDiv()) {
+                        this.result = this.nr1 * this.nr2;
+                        this.splitTyp = SplitTyp.D;
                     } else {
-                        this.canSplit = true;
+                        if (this.nr1 % this.nr2 == 0) {
+                            // geht: 15 -> (15:3)*3 -> 5:3
+                            this.result = this.nr1 / this.nr2;
+                            this.splitTyp = SplitTyp.M15M3;
+                        } else {
+                            // geht nie:
+                            this.splitTyp = SplitTyp.NO;
+                        }
                     }
                 }
             } catch (final NumberFormatException e) {
                 // geht nicht, operator muss Zahl sein
-                this.canSplit = false;
+                this.splitTyp = SplitTyp.NO;
             }
         } else {
             this.nr1 = 1;
             this.nr2 = 1;
             this.result = 0;
             // split bisher nur für Zahlen
-            this.canSplit = false;
+            this.splitTyp = SplitTyp.NO;
         }
     }
 
     @Override
     public boolean check(final CElement cE1, final String operator) {
-        System.out.println("Check the Pot Num split");
+        System.out.println("Check the Mult Num split");
         this.init(cE1, operator);
-        return this.canSplit;
+        return this.splitTyp != SplitTyp.NO;
     }
 
     @Override
     public CElement split(final CElement parent, final CElement cE1,
             final String operator) {
 
-        System.out.println("Do the Pot Num split");
+        System.out.println("Do the Mult Num split");
         final CNum first = CNum.createNum(parent.getElement(), ""
                 + this.result);
         final CNum second = CNum.createNum(cE1.getElement(), "" + this.nr2);
-        final CPot newPot = CPot.createPot(first, second);
-        return newPot;
+        if (this.splitTyp == SplitTyp.M15M3) {
+            second.setPraefix("*");
+        } else {
+            second.setPraefix(":");
+        }
+        final CTimesRow newRow = CTimesRow.createRow(CTimesRow.createList(
+                first, second));
+        newRow.correctInternalPraefixesAndRolle();
+        return newRow;
     }
 
 }

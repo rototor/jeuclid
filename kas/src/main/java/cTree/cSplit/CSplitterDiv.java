@@ -41,8 +41,7 @@ public class CSplitterDiv extends CSplitter1 {
         this.splitTyp = SplitTyp.NO;
     }
 
-    @Override
-    public void init(final CElement cE1, final String operator) {
+    private void init(final CElement cE1, final String operator) {
         System.out.println("Init the Div Num split");
         if (cE1 instanceof CNum) {
             try {
