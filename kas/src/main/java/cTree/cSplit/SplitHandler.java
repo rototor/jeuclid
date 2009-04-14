@@ -66,7 +66,6 @@ public class SplitHandler {
                         this.operator);
             }
         }
-
     }
 
     public CElement split(final CElement parent, final CElement cE1,
