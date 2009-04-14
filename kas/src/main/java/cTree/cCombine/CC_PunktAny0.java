@@ -16,17 +16,21 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
 
 public class CC_PunktAny0 extends CC_ {
-	
-	protected boolean canCombine(CElement minTerm, CElement tRow){
-		System.out.println("Repell mult Any 0"); 
-		return true;
-	}
-	
-	protected CElement createCombination(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Mult Any 0"); 
-		return cE2.cloneCElement(false); //   parent.cloneChild(cE2, false);
-	}
+
+    @Override
+    protected boolean canCombine(final CElement parent,
+            final CElement minTerm, final CElement tRow) {
+        System.out.println("Repell mult Any 0");
+        return true;
+    }
+
+    @Override
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        System.out.println("Mult Any 0");
+        return cE2.cloneCElement(false); // parent.cloneChild(cE2, false);
+    }
 }

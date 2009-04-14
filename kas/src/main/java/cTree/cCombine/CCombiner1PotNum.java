@@ -16,12 +16,21 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CType;
 
 public class CCombiner1PotNum extends CCombiner1 {
-	public CCombiner1PotNum(){
-		super(); 
-		op2Combiner.put(CType.NUM, new CC_PotNumNum());
-	}
-	
+    public CCombiner1PotNum() {
+        super();
+        this.op2Combiner.put(CType.NUM, new CC_PotNumNum());
+    }
+
+    @Override
+    public boolean canCombine(final CElement potenz, final CElement basis,
+            final CElement exp) {
+        System.out.println("CombinerTyp2^ can combine?");
+        return this.op2Combiner.get(exp.getCType()).canCombine(potenz, basis,
+                exp);
+    }
+
 }

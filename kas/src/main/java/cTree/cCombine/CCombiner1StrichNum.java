@@ -31,4 +31,11 @@ public class CCombiner1StrichNum extends CCombiner1 {
         System.out.println("Add Num");
         return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
     }
+
+    @Override
+    public boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        return this.op2Combiner.get(cE2.getCType()).canCombine(parent, cE1,
+                cE2);
+    }
 }

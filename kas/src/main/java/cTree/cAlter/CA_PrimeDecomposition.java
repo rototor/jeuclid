@@ -25,8 +25,9 @@ public class CA_PrimeDecomposition extends CAlter {
     }
 
     @Override
-    public CElement change(CElement old) {
+    public CElement change(final ArrayList<CElement> els) {
         System.out.println("Primfaktorzerlegung");
+        CElement old = els.get(0);
         old.removeCActiveProperty();
         try {
             int n = ((CNum) old).getValue();
@@ -83,7 +84,8 @@ public class CA_PrimeDecomposition extends CAlter {
     }
 
     @Override
-    public boolean check(final CElement el) {
+    public boolean check(final ArrayList<CElement> els) {
+        final CElement el = els.get(0);
         return (el instanceof CNum) && (((CNum) el).getValue() > 1);
     }
 

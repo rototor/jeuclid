@@ -16,24 +16,45 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CMinTerm;
+import cTree.CNum;
+import cTree.CType;
 
 public class CCombiner1StrichMinrow extends CCombiner1 {
-	public CCombiner1StrichMinrow(){
-		super(); 
-		op2Combiner.put(CType.NUM, new CC_StrichMinrowNum());
-		op2Combiner.put(CType.IDENT, new CC_StrichMinrowIdent());
-		op2Combiner.put(CType.TIMESROW, new CC_StrichMinrowTR());
-	}
-	
-	public CElement combine(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Add Minrow");
-		if (((CMinTerm) cE1).getValue().istGleichartigesMonom(cE2)){
-			System.out.println("Gleichartig");
-			return op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
-		} else if (((CMinTerm) cE1).getValue() instanceof CNum){
-			return op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
-		}
-		return cE1;
-	}
+    public CCombiner1StrichMinrow() {
+        super();
+        this.op2Combiner.put(CType.NUM, new CC_StrichMinrowNum());
+        this.op2Combiner.put(CType.IDENT, new CC_StrichMinrowIdent());
+        this.op2Combiner.put(CType.TIMESROW, new CC_StrichMinrowTR());
+    }
+
+    @Override
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Add Minrow");
+        if (((CMinTerm) cE1).getValue().istGleichartigesMonom(cE2)) {
+            System.out.println("Gleichartig");
+            return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1,
+                    cE2);
+        } else if (((CMinTerm) cE1).getValue() instanceof CNum) {
+            return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1,
+                    cE2);
+        }
+        return cE1;
+    }
+
+    @Override
+    public boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        if (((CMinTerm) cE1).getValue().istGleichartigesMonom(cE2)) {
+            System.out.println("Gleichartig");
+            return this.op2Combiner.get(cE2.getCType()).canCombine(parent,
+                    cE1, cE2);
+        } else if (((CMinTerm) cE1).getValue() instanceof CNum) {
+            return this.op2Combiner.get(cE2.getCType()).canCombine(parent,
+                    cE1, cE2);
+        }
+        return false;
+    }
 }

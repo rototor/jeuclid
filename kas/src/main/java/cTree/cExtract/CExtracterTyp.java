@@ -16,21 +16,32 @@
 
 package cTree.cExtract;
 
-import java.util.*;
-import cTree.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import cTree.CElement;
+import cTree.CType;
 
 public class CExtracterTyp {
-	public HashMap<CType, CE_1> op1Extracter;
-	
-	public CExtracterTyp(){
-		op1Extracter = new HashMap<CType, CE_1>(); 
-		for (CType cType : CType.values()){
-			op1Extracter.put(cType, new CE_1());
-		}
-	}
-	
-	public CElement extract(CElement parent, ArrayList<CElement> selection, CElement defElement){
-		System.out.println("Extract simple");
-		return op1Extracter.get(parent.getCType()).extract(parent, selection, defElement);
-	}
+    public HashMap<CType, CE_1> op1Extracter;
+
+    public CExtracterTyp() {
+        this.op1Extracter = new HashMap<CType, CE_1>();
+        for (final CType cType : CType.values()) {
+            this.op1Extracter.put(cType, new CE_1());
+        }
+    }
+
+    public CElement extract(final CElement parent,
+            final ArrayList<CElement> selection, final CElement defElement) {
+        System.out.println("Extract simple");
+        return this.op1Extracter.get(parent.getCType()).extract(parent,
+                selection, defElement);
+    }
+
+    public boolean canExtract(final CElement parent,
+            final ArrayList<CElement> selection) {
+        return this.op1Extracter.get(selection.get(0).getCType()).canExtract(
+                parent, selection);
+    }
 }

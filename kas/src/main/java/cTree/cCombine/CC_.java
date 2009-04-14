@@ -22,7 +22,7 @@ public class CC_ {
 
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        if (!this.canCombine(cE1, cE2)) {
+        if (!this.canCombine(parent, cE1, cE2)) {
             System.out.println("Repelled!!");
             return cE1;
         }
@@ -44,7 +44,8 @@ public class CC_ {
         return cE1;
     }
 
-    protected boolean canCombine(final CElement cE1, final CElement cE2) {
+    protected boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Repell standard?");
         return false;
     }

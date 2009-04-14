@@ -16,52 +16,62 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CNum;
+import cTree.CRolle;
+import cTree.CTimesRow;
 
 public class CC_StrichIdentIdent extends CC_ {
 
-	
-	protected boolean canCombine(CElement cE1, CElement cE2){
-		System.out.println("Repell add ident ident"); 
-		return true;
-	}
-	
-	private boolean gleicheMin(CElement el1, CElement el2){
-		boolean result1 = (el1.hasExtMinus() && el2.hasExtMinus());
-		boolean result2 = (!el1.hasExtMinus() && !el2.hasExtMinus());
-		return result1 || result2;
-	}
-	
-	protected CElement createCombination(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Add Ident and Ident"); 
-		CElement newChild = null;
-		if (cE1.getCRolle()==CRolle.SUMMAND1){
-			if (cE2.hasExtMinus()){ // bilde Zahl 0
-				newChild = CNum.createNum(parent.getElement(), "0");
-				newChild.setCRolle(cE1.getCRolle());
-			} else { // bilde TimesRow				
-				CElement newFirst = CNum.createNum(parent.getElement(), "2");
-				newFirst.setCRolle(CRolle.FAKTOR1);
-				CElement newSecond = cE1.cloneCElement(false);
-				newSecond.setCRolle(CRolle.FAKTORN1);
-				newSecond.setPraefix("*");
-				newChild = CTimesRow.createRow(CTimesRow.createList(newFirst, newSecond));
-				newChild.setCRolle(cE1.getCRolle());
-			}
-		} else {
-			if (gleicheMin(cE1, cE2)){ // bilde TimesRow
-				CElement newFirst = CNum.createNum(parent.getElement(), "2");
-				newFirst.setCRolle(CRolle.FAKTOR1);
-				CElement newSecond = cE1.cloneCElement(false);
-				newSecond.setCRolle(CRolle.FAKTORN1);
-				newSecond.setPraefix("*");
-				newChild = CTimesRow.createRow(CTimesRow.createList(newFirst, newSecond));
-				newChild.setCRolle(cE1.getCRolle());
-			} else { // bilde 0
-				newChild = CNum.createNum(parent.getElement(), "0");
-				newChild.setCRolle(cE1.getCRolle());
-			}
-		}
-		return newChild;
-	}	
+    @Override
+    protected boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Repell add ident ident");
+        return true;
+    }
+
+    private boolean gleicheMin(final CElement el1, final CElement el2) {
+        final boolean result1 = (el1.hasExtMinus() && el2.hasExtMinus());
+        final boolean result2 = (!el1.hasExtMinus() && !el2.hasExtMinus());
+        return result1 || result2;
+    }
+
+    @Override
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        System.out.println("Add Ident and Ident");
+        CElement newChild = null;
+        if (cE1.getCRolle() == CRolle.SUMMAND1) {
+            if (cE2.hasExtMinus()) { // bilde Zahl 0
+                newChild = CNum.createNum(parent.getElement(), "0");
+                newChild.setCRolle(cE1.getCRolle());
+            } else { // bilde TimesRow
+                final CElement newFirst = CNum.createNum(parent.getElement(),
+                        "2");
+                newFirst.setCRolle(CRolle.FAKTOR1);
+                final CElement newSecond = cE1.cloneCElement(false);
+                newSecond.setCRolle(CRolle.FAKTORN1);
+                newSecond.setPraefix("*");
+                newChild = CTimesRow.createRow(CTimesRow.createList(newFirst,
+                        newSecond));
+                newChild.setCRolle(cE1.getCRolle());
+            }
+        } else {
+            if (this.gleicheMin(cE1, cE2)) { // bilde TimesRow
+                final CElement newFirst = CNum.createNum(parent.getElement(),
+                        "2");
+                newFirst.setCRolle(CRolle.FAKTOR1);
+                final CElement newSecond = cE1.cloneCElement(false);
+                newSecond.setCRolle(CRolle.FAKTORN1);
+                newSecond.setPraefix("*");
+                newChild = CTimesRow.createRow(CTimesRow.createList(newFirst,
+                        newSecond));
+                newChild.setCRolle(cE1.getCRolle());
+            } else { // bilde 0
+                newChild = CNum.createNum(parent.getElement(), "0");
+                newChild.setCRolle(cE1.getCRolle());
+            }
+        }
+        return newChild;
+    }
 }

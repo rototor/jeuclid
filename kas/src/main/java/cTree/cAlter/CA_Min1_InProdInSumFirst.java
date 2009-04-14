@@ -16,6 +16,7 @@
 
 package cTree.cAlter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
@@ -27,8 +28,9 @@ import cTree.CTimesRow;
 public class CA_Min1_InProdInSumFirst extends CAlter {
 
     @Override
-    public CElement change(final CElement old) {
+    public CElement change(final ArrayList<CElement> els) {
         System.out.println("Changer (-1)a to -a");
+        final CElement old = els.get(0);
         old.removeCActiveProperty();
         final CTimesRow oldTimesRow = (CTimesRow) old.getParent();
         final CElement newInnen = CTimesRow.foldOne((CTimesRow) oldTimesRow
@@ -46,7 +48,8 @@ public class CA_Min1_InProdInSumFirst extends CAlter {
     }
 
     @Override
-    public boolean check(final CElement el) {
+    public boolean check(final ArrayList<CElement> els) {
+        final CElement el = els.get(0);
         if (el instanceof CFences) {
             final CFences elF = (CFences) el;
             if (elF.isFencedMin1() && elF.getCRolle().equals(CRolle.FAKTOR1)

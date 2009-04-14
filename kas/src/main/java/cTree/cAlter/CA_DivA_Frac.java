@@ -16,6 +16,7 @@
 
 package cTree.cAlter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
@@ -25,8 +26,9 @@ import cTree.CNum;
 public class CA_DivA_Frac extends CAlter {
 
     @Override
-    public CElement change(final CElement old) {
+    public CElement change(final ArrayList<CElement> els) {
         System.out.println("Changer DivA to TimesFracA");
+        final CElement old = els.get(0);
         old.removeCActiveProperty();
         final CElement newNum = CNum.createNum(old.getElement(), "1");
         final CElement newDen = old.cloneCElement(false);
@@ -44,8 +46,8 @@ public class CA_DivA_Frac extends CAlter {
     }
 
     @Override
-    public boolean check(final CElement el) {
-        return el.hasExtDiv();
+    public boolean check(final ArrayList<CElement> els) {
+        return els.get(0).hasExtDiv();
     }
 
     @Override

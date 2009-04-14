@@ -16,35 +16,41 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CNum;
 
 public class CC_PotNumNum extends CC_ {
 
-	// parent basis und exponent können zusammengeholt sein, parent ist nur producer
-	
-	protected boolean canCombine(CElement basis, CElement expo){
-		System.out.println("Repell pot num num?"); 
-		try {
-    		int basisZahl = ((CNum) basis).getValue();
-    		int expZahl = ((CNum) expo).getValue();
-    		if (basisZahl!=0 || expZahl!=0){
-    			return true;
-    		} else {
-    			return false;
-    		}
-		} catch (NumberFormatException e){
-			return false;
-		}
-	}
-	
-	protected CElement createCombination(CElement potenz, CElement basis, CElement expo){
-		System.out.println("Potenziere Zahlen");
-		int basisZahl = ((CNum) basis).getValue();
-		int expZahl = ((CNum) expo).getValue();
-		int newNr = (int) Math.pow(basisZahl, expZahl);
-		CElement newChild = CNum.createNum(potenz.getElement(), ""+newNr);
-		newChild.setCRolleAndPraefixFrom(potenz);
-		return newChild;
-	}
-	
+    // parent basis und exponent können zusammengeholt sein, parent ist nur
+    // producer
+
+    @Override
+    protected boolean canCombine(final CElement parent, final CElement basis,
+            final CElement expo) {
+        System.out.println("Repell pot num num?");
+        try {
+            final int basisZahl = ((CNum) basis).getValue();
+            final int expZahl = ((CNum) expo).getValue();
+            if (basisZahl != 0 || expZahl != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (final NumberFormatException e) {
+            return false;
+        }
+    }
+
+    @Override
+    protected CElement createCombination(final CElement potenz,
+            final CElement basis, final CElement expo) {
+        System.out.println("Potenziere Zahlen");
+        final int basisZahl = ((CNum) basis).getValue();
+        final int expZahl = ((CNum) expo).getValue();
+        final int newNr = (int) Math.pow(basisZahl, expZahl);
+        final CNum newChild = CNum.createNum(potenz.getElement(), "" + newNr);
+        newChild.setCRolle(potenz.getCRolle());
+        return newChild;
+    }
+
 }

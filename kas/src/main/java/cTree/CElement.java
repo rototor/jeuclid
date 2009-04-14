@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import cTree.adapter.ElementAdapter;
 import cTree.adapter.PraefixAdapter;
 import cTree.adapter.RolleAdapter;
-import cTree.cAlter.AlterHandler;
 import cTree.cCombine.CombineHandler;
 import cTree.cDefence.DefenceHandler;
 import cTree.cSplit.SplitHandler;
@@ -63,11 +62,6 @@ public abstract class CElement extends RolleAdapter {
         return cTree.cExtract.ExtractHandler.getInstance().extract(this,
                 active, active.get(0).getFirstChild());
     };
-
-    public CElement change(final String actionCommand) {
-        System.out.println(this.getCType());
-        return AlterHandler.getInstance().change(this, actionCommand);
-    }
 
     public CElement split(final CElement zuZerlegen, final String s) {
         return SplitHandler.getInstance().split(this, zuZerlegen, s);

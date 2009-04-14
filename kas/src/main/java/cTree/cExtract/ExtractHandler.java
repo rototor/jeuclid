@@ -16,55 +16,71 @@
 
 package cTree.cExtract;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CType;
 import cTree.adapter.DOMElementMap;
 
 public class ExtractHandler {
-	private volatile static ExtractHandler uniqueInstance; 
-	public HashMap<CType, CExtracterTyp> getTypExtracter;
-	
-	private ExtractHandler(){
-		getTypExtracter = new HashMap<CType, CExtracterTyp>();
-		CExtracterTyp default1 = new CExtracterTyp();
-		for (CType cType : CType.values()){
-			getTypExtracter.put(cType, default1);
-		}
-		getTypExtracter.put(CType.PLUSROW, new CExtracterTStrich());
-		getTypExtracter.put(CType.SQRT, new CExtracterTSqrt());
-	}
-	
-	public static ExtractHandler getInstance(){
-		if (uniqueInstance == null) {
-			synchronized (DOMElementMap.class){
-				if (uniqueInstance == null){
-					uniqueInstance = new ExtractHandler();
-				}
-			}
-		}
-		return uniqueInstance;
-	}
-	
-	public CElement extract(CElement parent, ArrayList<CElement>selection, CElement defaultElement){
-		System.out.println("Extract from " + parent.getCType());
-		return getTypExtracter.get(parent.getCType()).extract(parent, selection, defaultElement);
-	}
-	
-	public boolean justAll(ArrayList<CElement> selection){
-		return !(selection.get(0).hasPrevC() || selection.get(selection.size()-1).hasNextC());
-	}
-	
-	public void insertOrReplace(CElement parent, CElement newC, ArrayList<CElement> selection,  boolean replace){
-		if (replace){
-			System.out.println("// replace");
-			parent.getParent().replaceChild(newC, parent, true, true);
-		} else {
-			System.out.println("// insert");
-			parent.replaceChild(newC, selection.get(0), true, true);		
-			for (int i =1; i<selection.size();i++){
-				parent.removeChild(selection.get(i), true, true, false);
-			}
-		}
-	}
+    private volatile static ExtractHandler uniqueInstance;
+
+    public HashMap<CType, CExtracterTyp> getTypExtracter;
+
+    private ExtractHandler() {
+        this.getTypExtracter = new HashMap<CType, CExtracterTyp>();
+        final CExtracterTyp default1 = new CExtracterTyp();
+        for (final CType cType : CType.values()) {
+            this.getTypExtracter.put(cType, default1);
+        }
+        this.getTypExtracter.put(CType.PLUSROW, new CExtracterTStrich());
+        this.getTypExtracter.put(CType.SQRT, new CExtracterTSqrt());
+    }
+
+    public static ExtractHandler getInstance() {
+        if (ExtractHandler.uniqueInstance == null) {
+            synchronized (DOMElementMap.class) {
+                if (ExtractHandler.uniqueInstance == null) {
+                    ExtractHandler.uniqueInstance = new ExtractHandler();
+                }
+            }
+        }
+        return ExtractHandler.uniqueInstance;
+    }
+
+    public CElement extract(final CElement parent,
+            final ArrayList<CElement> selection, final CElement defaultElement) {
+        System.out.println("Extract from " + parent.getCType());
+        return this.getTypExtracter.get(parent.getCType()).extract(parent,
+                selection, defaultElement);
+    }
+
+    public boolean canExtract(final ArrayList<CElement> selection) {
+        if (selection.size() > 0) {
+            final CElement parent = selection.get(0).getParent();
+            return this.getTypExtracter.get(parent.getCType()).canExtract(
+                    parent, selection);
+        }
+        return false;
+    }
+
+    public boolean justAll(final ArrayList<CElement> selection) {
+        return !(selection.get(0).hasPrevC() || selection.get(
+                selection.size() - 1).hasNextC());
+    }
+
+    public void insertOrReplace(final CElement parent, final CElement newC,
+            final ArrayList<CElement> selection, final boolean replace) {
+        if (replace) {
+            System.out.println("// replace");
+            parent.getParent().replaceChild(newC, parent, true, true);
+        } else {
+            System.out.println("// insert");
+            parent.replaceChild(newC, selection.get(0), true, true);
+            for (int i = 1; i < selection.size(); i++) {
+                parent.removeChild(selection.get(i), true, true, false);
+            }
+        }
+    }
 }

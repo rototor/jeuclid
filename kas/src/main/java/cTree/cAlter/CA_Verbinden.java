@@ -16,6 +16,7 @@
 
 package cTree.cAlter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
@@ -24,7 +25,8 @@ import cTree.cCombine.CombineHandler;
 public class CA_Verbinden extends CAlter {
 
     @Override
-    public CElement change(final CElement first) {
+    public CElement change(final ArrayList<CElement> els) {
+        final CElement first = els.get(0);
         System.out.println("Verbinde " + first.getText());
         return CombineHandler.getInstance().combine(first.getParent(), first,
                 first.getNextSibling());
@@ -36,8 +38,12 @@ public class CA_Verbinden extends CAlter {
     }
 
     @Override
-    public boolean check(final CElement el) {
-        return el.hasNextC() && el.hasParent();
+    public boolean check(final ArrayList<CElement> els) {
+        final CElement first = els.get(0);
+        return first.hasNextC()
+                && first.hasParent()
+                && CombineHandler.getInstance().canCombine(first.getParent(),
+                        first, first.getNextSibling());
     }
 
     @Override

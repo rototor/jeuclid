@@ -17,26 +17,42 @@
 package cTree.cCombine;
 
 import java.util.ArrayList;
-import cTree.*;
 
+import cTree.CElement;
+import cTree.CFences;
+import cTree.CPlusRow;
+import cTree.CTimesRow;
 
 public class CC_PunktFencesFences extends CC_ {
-	
-	// a*(b+c+d) -> (a*b+a*c+a*d)
-	// geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe steht
-	
-	protected CElement createCombination(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Multipliziere Klammer mit Klammer, die Summe enthält");
-		ArrayList<CElement> oldAddendList = ((CPlusRow) cE2.getFirstChild()).getMemberList();
-		ArrayList<CElement> newAddendList = CTimesRow.map(cE1, oldAddendList);
-		CElement newChild = CFences.createFenced(CPlusRow.createRow(newAddendList));
-		return newChild;
-	}
-	
-	protected boolean canCombine(CElement cE1, CElement cE2){
-		System.out.println("Repell fenced mult fenced"); 
-		if (cE1.hasExtDiv() || cE2.hasExtDiv()) {return false;}
-		if (!cE2.hasChildC() || !(cE2.getFirstChild() instanceof CPlusRow)) {return false;} 
-		return true;
-	}
+
+    // a*(b+c+d) -> (a*b+a*c+a*d)
+    // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
+    // steht
+
+    @Override
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        System.out
+                .println("Multipliziere Klammer mit Klammer, die Summe enthält");
+        final ArrayList<CElement> oldAddendList = ((CPlusRow) cE2
+                .getFirstChild()).getMemberList();
+        final ArrayList<CElement> newAddendList = CTimesRow.map(cE1,
+                oldAddendList);
+        final CElement newChild = CFences.createFenced(CPlusRow
+                .createRow(newAddendList));
+        return newChild;
+    }
+
+    @Override
+    protected boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Repell fenced mult fenced");
+        if (cE1.hasExtDiv() || cE2.hasExtDiv()) {
+            return false;
+        }
+        if (!cE2.hasChildC() || !(cE2.getFirstChild() instanceof CPlusRow)) {
+            return false;
+        }
+        return true;
+    }
 }

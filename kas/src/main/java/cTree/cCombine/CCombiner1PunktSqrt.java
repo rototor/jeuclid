@@ -16,20 +16,30 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CType;
 
 public class CCombiner1PunktSqrt extends CCombiner1 {
-	public CCombiner1PunktSqrt(){
-		super(); 
-		op2Combiner.put(CType.SQRT, new CC_PunktSqrtSqrt());
-		op2Combiner.put(CType.IDENT, new CC_PunktSqrtIdent());
-		op2Combiner.put(CType.NUM, new CC_PunktSqrtIdent());
-		op2Combiner.put(CType.FENCES, new CC_PunktSqrtIdent());
-		op2Combiner.put(CType.POT, new CC_PunktSqrtPot());
-	}
-	
-	public CElement combine(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Mult Sqrt");
-		return op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
-	}
+    public CCombiner1PunktSqrt() {
+        super();
+        this.op2Combiner.put(CType.SQRT, new CC_PunktSqrtSqrt());
+        this.op2Combiner.put(CType.IDENT, new CC_PunktSqrtIdent());
+        this.op2Combiner.put(CType.NUM, new CC_PunktSqrtIdent());
+        this.op2Combiner.put(CType.FENCES, new CC_PunktSqrtIdent());
+        this.op2Combiner.put(CType.POT, new CC_PunktSqrtPot());
+    }
+
+    @Override
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Mult Sqrt");
+        return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
+    }
+
+    @Override
+    public boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        return this.op2Combiner.get(cE2.getCType()).canCombine(parent, cE1,
+                cE2);
+    }
 }

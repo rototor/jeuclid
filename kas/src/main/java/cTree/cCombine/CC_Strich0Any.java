@@ -16,27 +16,37 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CMinTerm;
+import cTree.CRolle;
 
 public class CC_Strich0Any extends CC_ {
-	
-	protected boolean canCombine(CElement minTerm, CElement tRow){
-		System.out.println("Repell 0 Any?"); 
-		return true;
-	}
-	
-	protected CElement createCombination(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Add 0 Any"); 
-		CElement newChild = null;
-		if (cE2.hasExtMinus() && cE1.getCRolle()==CRolle.SUMMAND1){ // bilde TimesRow	
-			CElement newArg = cE2.cloneCElement(false); //parent.cloneChild(cE2, false);
-			newChild = CMinTerm.createMinTerm(newArg, cE1.getCRolle());
-		} else { // nimm cE2
-			if ((cE1.hasExtMinus() && cE2.hasExtPlus()) || cE1.hasExtEmptyOrPlus() && cE2.hasExtMinus()){
-				cE1.togglePlusMinus(false);
-			}
-			newChild = cE2.cloneCElement(false);  // parent.cloneChild(cE2, false);
-		}
-		return newChild;
-	}
+
+    @Override
+    protected boolean canCombine(final CElement parent,
+            final CElement minTerm, final CElement tRow) {
+        System.out.println("Repell 0 Any?");
+        return true;
+    }
+
+    @Override
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        System.out.println("Add 0 Any");
+        CElement newChild = null;
+        if (cE2.hasExtMinus() && cE1.getCRolle() == CRolle.SUMMAND1) { // bilde
+                                                                       // TimesRow
+            final CElement newArg = cE2.cloneCElement(false); // parent.cloneChild(cE2,
+                                                              // false);
+            newChild = CMinTerm.createMinTerm(newArg, cE1.getCRolle());
+        } else { // nimm cE2
+            if ((cE1.hasExtMinus() && cE2.hasExtPlus())
+                    || cE1.hasExtEmptyOrPlus() && cE2.hasExtMinus()) {
+                cE1.togglePlusMinus(false);
+            }
+            newChild = cE2.cloneCElement(false); // parent.cloneChild(cE2,
+                                                 // false);
+        }
+        return newChild;
+    }
 }

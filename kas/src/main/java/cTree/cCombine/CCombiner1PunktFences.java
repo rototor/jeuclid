@@ -16,19 +16,29 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CType;
 
 public class CCombiner1PunktFences extends CCombiner1 {
-	public CCombiner1PunktFences(){
-		super(); 
-		op2Combiner.put(CType.IDENT, new CC_PunktFencesIdent());
-		op2Combiner.put(CType.NUM, new CC_PunktFencesNum());
-		op2Combiner.put(CType.POT, new CC_PunktFencesPot());
-		op2Combiner.put(CType.FENCES, new CC_PunktFencesFences());
-	}
-	
-	public CElement combine(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Mult Fences");
-		return op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
-	}
+    public CCombiner1PunktFences() {
+        super();
+        this.op2Combiner.put(CType.IDENT, new CC_PunktFencesIdent());
+        this.op2Combiner.put(CType.NUM, new CC_PunktFencesNum());
+        this.op2Combiner.put(CType.POT, new CC_PunktFencesPot());
+        this.op2Combiner.put(CType.FENCES, new CC_PunktFencesFences());
+    }
+
+    @Override
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Mult Fences");
+        return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
+    }
+
+    @Override
+    public boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        return this.op2Combiner.get(cE2.getCType()).canCombine(parent, cE1,
+                cE2);
+    }
 }

@@ -16,21 +16,36 @@
 
 package cTree.cCombine;
 
-import cTree.*;
+import cTree.CElement;
+import cTree.CType;
 
 public class CCombiner1PunktPot extends CCombiner1 {
-	public CCombiner1PunktPot(){
-		super(); 
-		op2Combiner.put(CType.IDENT, new CC_PunktPotIdent());
-		op2Combiner.put(CType.POT, new CC_PunktPotPot());
-	}
-	
-	public CElement combine(CElement parent, CElement cE1, CElement cE2){
-		System.out.println("Mult Pot");
-		if (cE1.istGleichartigesMonom(cE2)){
-			System.out.println("Gleichartig");
-			return op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
-		} 
-		return cE1;
-	}
+    public CCombiner1PunktPot() {
+        super();
+        this.op2Combiner.put(CType.IDENT, new CC_PunktPotIdent());
+        this.op2Combiner.put(CType.POT, new CC_PunktPotPot());
+    }
+
+    @Override
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Mult Pot");
+        if (cE1.istGleichartigesMonom(cE2)) {
+            System.out.println("Gleichartig");
+            return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1,
+                    cE2);
+        }
+        return cE1;
+    }
+
+    @Override
+    public boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        if (cE1.istGleichartigesMonom(cE2)) {
+            System.out.println("Gleichartig");
+            return this.op2Combiner.get(cE2.getCType()).canCombine(parent,
+                    cE1, cE2);
+        }
+        return false;
+    }
 }

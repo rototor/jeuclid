@@ -53,6 +53,8 @@ public abstract class CTreeMutator extends CTreeWalker {
         }
         CTreeMutator.removeSupport_RollenanpassungNext(newChild);
         if (newChild.getExtPraefix() != null) {
+            System.out
+                    .println("CTreeMutator: " + newChild.getExtPraefix() == null);
             this.getElement().insertBefore(newChild.getExtPraefix(),
                     refElement);
         }
