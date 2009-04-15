@@ -16,19 +16,28 @@
 
 package cTree.cDefence;
 
+import cTree.CElement;
 import cTree.CType;
 
 public class CDefenceTPunkt extends CDefenceTyp {
-	public CDefenceTPunkt(){
-		for (CType cType : CType.values()){
-			op1Defencer.put(cType, new CD_1PunktDefault());
-		}
-		op1Defencer.put(CType.FENCES, new CD_1PunktEasy());
-		op1Defencer.put(CType.FRAC, new CD_1PunktEasy());
-		op1Defencer.put(CType.IDENT, new CD_1PunktEasy());
-		op1Defencer.put(CType.NUM, new CD_1PunktEasy());
-		op1Defencer.put(CType.POT, new CD_1PunktEasy());
-		op1Defencer.put(CType.SQRT, new CD_1PunktEasy());
-		op1Defencer.put(CType.TIMESROW, new CD_1PunktPunkt());
-	}
+    public CDefenceTPunkt() {
+        for (final CType cType : CType.values()) {
+            this.op1Defencer.put(cType, new CD_1PunktDefault());
+        }
+        this.op1Defencer.put(CType.FENCES, new CD_1PunktEasy());
+        this.op1Defencer.put(CType.FRAC, new CD_1PunktEasy());
+        this.op1Defencer.put(CType.IDENT, new CD_1PunktEasy());
+        this.op1Defencer.put(CType.NUM, new CD_1PunktEasy());
+        this.op1Defencer.put(CType.POT, new CD_1PunktEasy());
+        this.op1Defencer.put(CType.SQRT, new CD_1PunktEasy());
+        this.op1Defencer.put(CType.TIMESROW, new CD_1PunktPunkt());
+    }
+
+    @Override
+    public boolean canDefence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("DefenceTyp* can Defence?");
+        return this.op1Defencer.get(content.getCType()).canDefence(parent,
+                fences, content);
+    }
 }

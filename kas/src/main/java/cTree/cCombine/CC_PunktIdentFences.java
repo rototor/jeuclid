@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import cTree.CElement;
 import cTree.CFences;
+import cTree.CMinTerm;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
 
@@ -32,15 +33,32 @@ public class CC_PunktIdentFences extends CC_ {
     @Override
     protected CElement createCombination(final CElement parent,
             final CElement cE1, final CElement cE2) {
-        System.out
-                .println("Multipliziere Ident mit Klammer, die Summe enthält");
-        final ArrayList<CElement> oldAddendList = ((CPlusRow) cE2
-                .getFirstChild()).getMemberList();
-        final ArrayList<CElement> newAddendList = CTimesRow.map(cE1,
-                oldAddendList);
-        final CElement newChild = CFences.createFenced(CPlusRow
-                .createRow(newAddendList));
-        return newChild;
+        if (cE2.getFirstChild() instanceof CPlusRow) {
+            System.out
+                    .println("Multipliziere Ident mit Klammer, die Summe enthält");
+            final ArrayList<CElement> oldAddendList = ((CPlusRow) cE2
+                    .getFirstChild()).getMemberList();
+            final ArrayList<CElement> newAddendList = CTimesRow.map(cE1,
+                    oldAddendList);
+            final CFences newChild = CFences.createFenced(CPlusRow
+                    .createRow(newAddendList));
+            ((CPlusRow) newChild.getInnen())
+                    .correctInternalPraefixesAndRolle();
+            return newChild;
+        } else {
+            System.out
+                    .println("Multipliziere Ident mit Klammer, die MinTerm enthält");
+            final CElement newFirstFactor = cE1.cloneCElement(false);
+            final CElement newSecondFactor = ((CMinTerm) cE2.getFirstChild())
+                    .getValue().cloneCElement(false);
+            newSecondFactor.setPraefix("*");
+            final CTimesRow newTR = CTimesRow.createRow(CTimesRow.createList(
+                    newFirstFactor, newSecondFactor));
+            final CMinTerm newMinTerm = CMinTerm.createMinTerm(newTR);
+            final CFences newFences = CFences.createFenced(newMinTerm);
+            return newFences;
+        }
+
     }
 
     @Override
@@ -50,9 +68,7 @@ public class CC_PunktIdentFences extends CC_ {
         if (cE1.hasExtDiv() || cE2.hasExtDiv()) {
             return false;
         }
-        if (!cE2.hasChildC() || !(cE2.getFirstChild() instanceof CPlusRow)) {
-            return false;
-        }
-        return true;
+        return (cE2.hasChildC() && ((cE2.getFirstChild() instanceof CPlusRow) || (cE2
+                .getFirstChild() instanceof CMinTerm)));
     }
 }

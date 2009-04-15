@@ -19,7 +19,6 @@ package cTree.cCombine;
 import java.util.HashMap;
 
 import cTree.CElement;
-import cTree.CFences;
 import cTree.CType;
 
 public class CombineHandler {
@@ -93,11 +92,11 @@ public class CombineHandler {
             // }
             // so wie unten gehts, aber lieber wäre mir nur
             // gparent.replaceChild(newC, parent, true, true);
-            if (gparent instanceof CFences) {
-                gparent.getParent().replaceChild(newC, gparent, true, true);
-            } else {
-                parent.getParent().replaceChild(newC, parent, true, true);
-            }
+            // if (gparent instanceof CFences) {
+            // gparent.getParent().replaceChild(newC, gparent, true, true);
+            // } else {
+            parent.getParent().replaceChild(newC, parent, true, true);
+            // }
         } else {
             System.out.println("// insert");
             parent.replaceChild(newC, repC, true, true);

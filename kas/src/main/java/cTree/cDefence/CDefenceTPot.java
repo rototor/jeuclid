@@ -16,14 +16,23 @@
 
 package cTree.cDefence;
 
+import cTree.CElement;
 import cTree.CType;
 
 public class CDefenceTPot extends CDefenceTyp {
-	public CDefenceTPot(){
-		for (CType cType : CType.values()){
-			op1Defencer.put(cType, new CD_1PotDefault());
-			
-		}
-	}
-	
+    public CDefenceTPot() {
+        for (final CType cType : CType.values()) {
+            this.op1Defencer.put(cType, new CD_1PotDefault());
+
+        }
+    }
+
+    @Override
+    public boolean canDefence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("DefenceTyp^ can Defence?");
+        return this.op1Defencer.get(content.getCType()).canDefence(parent,
+                fences, content);
+    }
+
 }
