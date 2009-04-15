@@ -38,7 +38,7 @@ public class CCombiner1PunktNum extends CCombiner1 {
     @Override
     public boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("CombinerTypPN can combine?");
+        System.out.println("CombinerTyp*N can combine?");
         return this.op2Combiner.get(cE2.getCType()).canCombine(parent, cE1,
                 cE2);
     }

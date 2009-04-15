@@ -16,26 +16,35 @@
 
 package cTree.cDefence;
 
-import cTree.*;
+import cTree.CElement;
 
 public class CD_1 {
-	
-	public CElement defence(CElement parent, CElement fences, CElement content){
-		System.out.println("Do the defence work");
-		fences.removeCActiveProperty();
-		boolean replace = replaceP(parent, fences);
-		CElement insertion = createInsertion(fences, content);
-		DefenceHandler.getInstance().replaceFoP(parent, insertion, fences, replace);
-		insertion.setCActiveProperty();
-		return insertion;
-	}
-	
-	protected CElement createInsertion(CElement fences, CElement content){
-		System.out.println("Dont touch fences");
-		return content.cloneCElement(false);
-	}
-	
-	protected boolean replaceP(CElement parent, CElement fences){
-		return false;
-	}
+
+    public CElement defence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("Do the defence work");
+        fences.removeCActiveProperty();
+        final boolean replace = this.replaceP(parent, fences);
+        final CElement insertion = this.createInsertion(fences, content);
+        DefenceHandler.getInstance().replaceFoP(parent, insertion, fences,
+                replace);
+        insertion.setCActiveProperty();
+        return insertion;
+    }
+
+    protected CElement createInsertion(final CElement fences,
+            final CElement content) {
+        System.out.println("Dont touch fences");
+        return content.cloneCElement(false);
+    }
+
+    protected boolean replaceP(final CElement parent, final CElement fences) {
+        return false;
+    }
+
+    public boolean canDefence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("DefencerCD1 can Defence?");
+        return true;
+    }
 }
