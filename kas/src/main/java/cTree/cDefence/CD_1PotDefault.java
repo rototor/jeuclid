@@ -18,10 +18,20 @@ package cTree.cDefence;
 
 import cTree.CElement;
 
-public class CD_1PotDefault extends CD_1{
-	
-	public CElement defence(CElement parent, CElement fences, CElement content){
-		System.out.println("Dont defence pot this");
-		return fences;
-	}
+public class CD_1PotDefault extends CD_1 {
+
+    @Override
+    public CElement defence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("Dont defence pot this");
+        return fences;
+    }
+
+    @Override
+    public boolean canDefence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("DefencerCDPotD can Defence?");
+        return false;
+    }
+
 }

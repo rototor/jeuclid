@@ -40,7 +40,14 @@ public class CA_Entklammern extends CAlter {
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        return els.get(0) instanceof CFences;
+        if (els.get(0) instanceof CFences) {
+            final CFences cF = (CFences) els.get(0);
+            if (cF.hasParent() && cF.getInnen() != null) {
+                return DefenceHandler.getInstance().canDefence(
+                        cF.getParent(), cF, cF.getInnen());
+            }
+        }
+        return false;
     }
 
     @Override

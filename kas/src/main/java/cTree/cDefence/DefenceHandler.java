@@ -17,57 +17,74 @@
 package cTree.cDefence;
 
 import java.util.HashMap;
-import cTree.*;
+
+import cTree.CElement;
+import cTree.CFences;
+import cTree.CMath;
+import cTree.CType;
 import cTree.adapter.DOMElementMap;
 
 public class DefenceHandler {
-	private volatile static DefenceHandler uniqueInstance; 
-	public HashMap<CType, CDefenceTyp> getTypDefencer;
-	
-	private DefenceHandler(){
-		getTypDefencer = new HashMap<CType, CDefenceTyp>();
-		CDefenceTyp default1 = new CDefenceTyp();
-		for (CType cType : CType.values()){
-			getTypDefencer.put(cType, default1);
-		}
-		getTypDefencer.put(CType.MINROW, new CDefenceTMin());
-		getTypDefencer.put(CType.PLUSROW, new CDefenceTStrich());
-		getTypDefencer.put(CType.TIMESROW, new CDefenceTPunkt());
-		getTypDefencer.put(CType.POT, new CDefenceTPot());
-	}
-	
-	public static DefenceHandler getInstance(){
-		if (uniqueInstance == null) {
-			synchronized (DOMElementMap.class){
-				if (uniqueInstance == null){
-					uniqueInstance = new DefenceHandler();
-				}
-			}
-		}
-		return uniqueInstance;
-	}
-	/*
-	 * Es wird ein CDefenceTyp nach dem Parent gewählt, dieser entscheidet nach dem Content
-	 */
-	public CElement defence(CElement parent, CElement fences, CElement content){
-		System.out.println("DefenceHandler call " + parent.getCType());
-		return getTypDefencer.get(parent.getCType()).defence(parent, fences, content);
-	}
-	
-	public void replaceFoP(CElement parent, CElement newC, CElement repC, boolean replace){
-		if (replace){
-			System.out.println("// replace Parent of Fences");
-			CElement grandParent = parent.getParent();
-			if (grandParent instanceof CMath && newC instanceof CFences){
-				grandParent.replaceChild(newC.getFirstChild(), parent, true, true);
-			} else {
-				parent.getParent().replaceChild(newC, parent, true, true);
-			}
-		} else {
-			System.out.println("// replace Fences");
-			parent.replaceChild(newC, repC, true, true);
-		}
-	}
-	
-	
+    private volatile static DefenceHandler uniqueInstance;
+
+    public HashMap<CType, CDefenceTyp> getTypDefencer;
+
+    private DefenceHandler() {
+        this.getTypDefencer = new HashMap<CType, CDefenceTyp>();
+        final CDefenceTyp default1 = new CDefenceTyp();
+        for (final CType cType : CType.values()) {
+            this.getTypDefencer.put(cType, default1);
+        }
+        this.getTypDefencer.put(CType.MINROW, new CDefenceTMin());
+        this.getTypDefencer.put(CType.PLUSROW, new CDefenceTStrich());
+        this.getTypDefencer.put(CType.TIMESROW, new CDefenceTPunkt());
+        this.getTypDefencer.put(CType.POT, new CDefenceTPot());
+    }
+
+    public static DefenceHandler getInstance() {
+        if (DefenceHandler.uniqueInstance == null) {
+            synchronized (DOMElementMap.class) {
+                if (DefenceHandler.uniqueInstance == null) {
+                    DefenceHandler.uniqueInstance = new DefenceHandler();
+                }
+            }
+        }
+        return DefenceHandler.uniqueInstance;
+    }
+
+    public boolean canDefence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("DefenceHandler can Defence?");
+        return this.getTypDefencer.get(parent.getCType()).canDefence(parent,
+                fences, content);
+    }
+
+    /*
+     * Es wird ein CDefenceTyp nach dem Parent gewählt, dieser entscheidet
+     * nach dem Content
+     */
+    public CElement defence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("DefenceHandler call " + parent.getCType());
+        return this.getTypDefencer.get(parent.getCType()).defence(parent,
+                fences, content);
+    }
+
+    public void replaceFoP(final CElement parent, final CElement newC,
+            final CElement repC, final boolean replace) {
+        if (replace) {
+            System.out.println("// replace Parent of Fences");
+            final CElement grandParent = parent.getParent();
+            if (grandParent instanceof CMath && newC instanceof CFences) {
+                grandParent.replaceChild(newC.getFirstChild(), parent, true,
+                        true);
+            } else {
+                parent.getParent().replaceChild(newC, parent, true, true);
+            }
+        } else {
+            System.out.println("// replace Fences");
+            parent.replaceChild(newC, repC, true, true);
+        }
+    }
+
 }

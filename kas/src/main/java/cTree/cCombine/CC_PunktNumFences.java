@@ -36,8 +36,10 @@ public class CC_PunktNumFences extends CC_ {
                     .getFirstChild()).getMemberList();
             final ArrayList<CElement> newAddendList = CTimesRow.map(cE1,
                     oldAddendList);
-            final CElement newChild = CFences.createFenced(CPlusRow
+            final CFences newChild = CFences.createFenced(CPlusRow
                     .createRow(newAddendList));
+            ((CPlusRow) newChild.getInnen())
+                    .correctInternalPraefixesAndRolle();
             return newChild;
         } else { // only for MinTerm
             System.out

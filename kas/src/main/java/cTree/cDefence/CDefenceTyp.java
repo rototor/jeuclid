@@ -16,21 +16,32 @@
 
 package cTree.cDefence;
 
-import java.util.*;
-import cTree.*;
+import java.util.HashMap;
+
+import cTree.CElement;
+import cTree.CType;
 
 public class CDefenceTyp {
-	public HashMap<CType, CD_1> op1Defencer;
-	
-	public CDefenceTyp(){
-		op1Defencer = new HashMap<CType, CD_1>(); 
-		for (CType cType : CType.values()){
-			op1Defencer.put(cType, new CD_1());
-		}
-	}
-	
-	public CElement defence(CElement parent, CElement fences, CElement content){
-		System.out.println("Defence");
-		return op1Defencer.get(content.getCType()).defence(parent, fences, content);
-	}
+    public HashMap<CType, CD_1> op1Defencer;
+
+    public CDefenceTyp() {
+        this.op1Defencer = new HashMap<CType, CD_1>();
+        for (final CType cType : CType.values()) {
+            this.op1Defencer.put(cType, new CD_1());
+        }
+    }
+
+    public boolean canDefence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("DefenceTyp can Defence?");
+        return this.op1Defencer.get(parent.getCType()).canDefence(parent,
+                fences, content);
+    }
+
+    public CElement defence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("Defence");
+        return this.op1Defencer.get(content.getCType()).defence(parent,
+                fences, content);
+    }
 }

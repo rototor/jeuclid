@@ -21,67 +21,84 @@ import cTree.CElementHelper;
 import cTree.CRolle;
 
 public abstract class RolleAdapter extends CTreeMutator {
-	
-	protected CRolle cRolle;
-	
-	public CRolle getCRolle(){
-		return cRolle;
-	}
-	// --- Setter die von der Rolle abhängen --------------
-	public void setCRolle(CRolle c){
-		cRolle = c;
-	}
-	public void setCRolleAndPraefixFrom(RolleAdapter c){
-		cRolle = c.getCRolle();
-		setExtPraefix(c.getExtPraefix());
-	}
-	public void setPraefixEmptyOrPlus(){ // ... - 3 -> ... + 3
-		if (cRolle == CRolle.SUMMANDN1){  
-			setPraefix("+");
-		} else if ((praefix!=null) && cRolle == CRolle.SUMMAND1){
-			removePraefix();
-		}
-	}
-	public void toggleToPraefixEmptyOrPlus(){ // ... - 3 -> ... + 3
-		if ("-".equals(praefix.getTextContent()) && cRolle == CRolle.SUMMANDN1){  
-			setPraefix("+");
-		} else if ("-".equals(praefix.getTextContent()) && cRolle == CRolle.SUMMAND1){
-			removePraefix();
-		}
-	}
-	public void toggleToTimesOrEmpty(){ // ... : 3 -> ... * 3
-		if (":".equals(praefix.getTextContent()) && cRolle == CRolle.FAKTORN1){  
-			setPraefix("·");  // : 3 -> 3
-		} else if (":".equals(praefix.getTextContent()) && cRolle == CRolle.FAKTOR1){
-			removePraefix();
-		}
-	}
-	public void togglePlusMinus(boolean checkAllowed){
-		if (checkAllowed && !CElementHelper.canHaveMinus(cRolle)) { return;}
-		if (hasExtEmptyOrPlus()){
-			setPraefix("-");
-		} else {
-			toggleToPraefixEmptyOrPlus();
-		}
-	}
-	public void toggleTimesDiv(boolean checkAllowed){
-		if (checkAllowed && !CElementHelper.canHaveDiv(cRolle)) { return;}
-		if (hasExtEmptyOrTimes()){
-			setPraefix(":");
-		} else {
-			toggleToTimesOrEmpty();
-		}
-	}
-	// --- Mutatoren ---------------------------------------
+
+    protected CRolle cRolle;
+
+    public CRolle getCRolle() {
+        return this.cRolle;
+    }
+
+    // --- Setter die von der Rolle abhängen --------------
+    public void setCRolle(final CRolle c) {
+        this.cRolle = c;
+    }
+
+    public void setCRolleAndPraefixFrom(final RolleAdapter c) {
+        this.cRolle = c.getCRolle();
+        this.setExtPraefix(c.getExtPraefix());
+    }
+
+    public void setPraefixEmptyOrPlus() { // ... - 3 -> ... + 3
+        if (this.cRolle == CRolle.SUMMANDN1) {
+            this.setPraefix("+");
+        } else if ((this.praefix != null) && this.cRolle == CRolle.SUMMAND1) {
+            this.removePraefix();
+        }
+    }
+
+    public void toggleToPraefixEmptyOrPlus() { // ... - 3 -> ... + 3
+        if ("-".equals(this.praefix.getTextContent())
+                && this.cRolle == CRolle.SUMMANDN1) {
+            this.setPraefix("+");
+        } else if ("-".equals(this.praefix.getTextContent())
+                && this.cRolle == CRolle.SUMMAND1) {
+            this.removePraefix();
+        }
+    }
+
+    public void toggleToTimesOrEmpty() { // ... : 3 -> ... * 3
+        if (":".equals(this.praefix.getTextContent())
+                && this.cRolle == CRolle.FAKTORN1) {
+            this.setPraefix("·"); // : 3 -> 3
+        } else if (":".equals(this.praefix.getTextContent())
+                && this.cRolle == CRolle.FAKTOR1) {
+            this.removePraefix();
+        }
+    }
+
+    public void togglePlusMinus(final boolean checkAllowed) {
+        if (checkAllowed && !CElementHelper.canHaveMinus(this.cRolle)) {
+            return;
+        }
+        if (this.hasExtEmptyOrPlus()) {
+            this.setPraefix("-");
+        } else {
+            this.toggleToPraefixEmptyOrPlus();
+        }
+    }
+
+    public void toggleTimesDiv(final boolean checkAllowed) {
+        if (checkAllowed && !CElementHelper.canHaveDiv(this.cRolle)) {
+            return;
+        }
+        if (this.hasExtEmptyOrTimes()) {
+            this.setPraefix(":");
+        } else {
+            this.toggleToTimesOrEmpty();
+        }
+    }
+
+    // --- Mutatoren ---------------------------------------
     // der erste sollte bald entfernt werden
-	public CElement cloneChild(CElement cEl, boolean withPraefix){
-		CElement cE2 = cEl.cloneCElement(withPraefix);
-		return cE2;
-	}
-	
-	public CElement cloneCElement(boolean withPraefix){
-		CElement cE2 = super.cloneCElement(withPraefix);
-		cE2.setCRolle(getCRolle());
-		return cE2;
-	}
+    public CElement cloneChild(final CElement cEl, final boolean withPraefix) {
+        final CElement cE2 = cEl.cloneCElement(withPraefix);
+        return cE2;
+    }
+
+    @Override
+    public CElement cloneCElement(final boolean withPraefix) {
+        final CElement cE2 = super.cloneCElement(withPraefix);
+        cE2.setCRolle(this.getCRolle());
+        return cE2;
+    }
 }
