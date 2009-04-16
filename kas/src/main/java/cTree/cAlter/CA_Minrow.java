@@ -32,7 +32,6 @@ public class CA_Minrow extends CAlter {
     public CElement change(final ArrayList<CElement> els) {
         System.out.println("Changer Minrow to TR (-1)");
         final CElement old = els.get(0);
-        old.removeCActiveProperty();
         final CElement newOne = CNum.createNum(old.getElement(), "1");
         final CElement newFirst = CFences.createFenced(CMinTerm
                 .createMinTerm(newOne));
@@ -42,7 +41,6 @@ public class CA_Minrow extends CAlter {
                 newFirst, newSecond));
         newChild.correctInternalPraefixesAndRolle();
         old.getParent().replaceChild(newChild, old, true, true);
-        newChild.setCActiveProperty();
         return newChild;
     }
 

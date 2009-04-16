@@ -35,7 +35,6 @@ public class CA_Min1_InProdInMinTerm extends CAlter {
     public CElement change(final ArrayList<CElement> els) {
         System.out.println("Changer -(-1)a to a");
         final CElement old = els.get(0);
-        old.removeCActiveProperty();
         final CElement newChild = CTimesRow
                 .foldOne((CTimesRow) this.oldTimesRow.cloneCElement(false));
         if (newChild instanceof CTimesRow
@@ -44,7 +43,6 @@ public class CA_Min1_InProdInMinTerm extends CAlter {
         }
         this.oldMinTerm.getParent().replaceChild(newChild, this.oldMinTerm,
                 true, true);
-        newChild.setCActiveProperty();
         return newChild;
     }
 

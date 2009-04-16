@@ -17,6 +17,7 @@
 package cTree.cCombine;
 
 import cTree.CElement;
+import cTree.cDefence.DefenceHandler;
 
 public class CC_ {
 
@@ -26,7 +27,6 @@ public class CC_ {
             System.out.println("Repelled!!");
             return cE1;
         }
-        cE1.removeCActiveProperty();
         final boolean replace = CombineHandler.getInstance()
                 .justTwo(cE1, cE2);
         final CElement newChild = this.createCombination(parent, cE1, cE2);
@@ -34,7 +34,6 @@ public class CC_ {
                 cE2, replace);
         System.out.println("CC inserted");
         this.clean();
-        newChild.setCActiveProperty();
         return newChild;
     }
 
@@ -53,5 +52,14 @@ public class CC_ {
 
     protected void clean() {
 
+    }
+
+    protected void condCleanOne(final CElement el, final boolean doIt) {
+        if (doIt
+                && DefenceHandler.getInstance().canDefence(el.getParent(),
+                        el, el.getFirstChild())) {
+            DefenceHandler.getInstance().defence(el.getParent(), el,
+                    el.getFirstChild());
+        }
     }
 }

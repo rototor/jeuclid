@@ -32,7 +32,6 @@ public class CA_MinA_PlusMin1Mal extends CAlter {
     public CElement change(final ArrayList<CElement> els) {
         System.out.println("Changer -a to plus TR (-1)a");
         final CElement old = els.get(0);
-        old.removeCActiveProperty();
         final CElement newOne = CNum.createNum(old.getElement(), "1");
         final CElement newFirst = CFences.createFenced(CMinTerm
                 .createMinTerm(newOne));
@@ -42,7 +41,6 @@ public class CA_MinA_PlusMin1Mal extends CAlter {
         newChild.correctInternalPraefixesAndRolle();
         old.togglePlusMinus(false);
         old.getParent().replaceChild(newChild, old, true, true);
-        newChild.setCActiveProperty();
         return newChild;
     }
 

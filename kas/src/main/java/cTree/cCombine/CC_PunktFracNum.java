@@ -20,17 +20,24 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
 import cTree.CTimesRow;
-import cTree.cDefence.DefenceHandler;
 
 public class CC_PunktFracNum extends CC_ {
 
-    private CFences z1;
+    private CElement z1;
 
-    private CFences n1;
+    private CElement n1;
 
-    private CFences z2;
+    private CElement z2;
 
-    private CFences n2;
+    private CElement n2;
+
+    private final boolean z1_TryDefence = false;
+
+    private final boolean z2_TryDefence = false;
+
+    private final boolean n1_TryDefence = false;
+
+    private final boolean n2_TryDefence = false;
 
     private boolean gleicheDiv;
 
@@ -53,22 +60,25 @@ public class CC_PunktFracNum extends CC_ {
         final CElement zaehlerAlt = bruch1.getZaehler();
         final CElement nennerAlt = bruch1.getNenner();
         if (this.gleicheDiv) {
-            this.z1 = CFences.createFenced(zaehlerAlt.cloneCElement(false));
-            this.z2 = CFences.createFenced(cE2.cloneCElement(false));
+            this.z1 = CFences.condCreateFenced(zaehlerAlt
+                    .cloneCElement(false), this.z1_TryDefence);
+            this.z2 = CFences.condCreateFenced(cE2.cloneCElement(false),
+                    this.z2_TryDefence);
             final CTimesRow zaehlerNeu = CTimesRow.createRow(CTimesRow
                     .createList(this.z1, this.z2));
-            this.z1 = (CFences) zaehlerNeu.getFirstChild();
-            this.z2 = (CFences) this.z1.getNextSibling();
+            this.z1 = zaehlerNeu.getFirstChild();
+            this.z2 = this.z1.getNextSibling();
             zaehlerNeu.correctInternalPraefixesAndRolle();
             this.newChild = CFrac.createFraction(zaehlerNeu, nennerAlt);
         } else {
-            final CFences n1 = CFences.createFenced(nennerAlt
-                    .cloneCElement(false));
-            final CFences n2 = CFences.createFenced(cE2.cloneCElement(false));
+            this.n1 = CFences.condCreateFenced(
+                    nennerAlt.cloneCElement(false), this.n1_TryDefence);
+            this.n2 = CFences.condCreateFenced(cE2.cloneCElement(false),
+                    this.n2_TryDefence);
             final CTimesRow nennerNeu = CTimesRow.createRow(CTimesRow
-                    .createList(n1, n2));
-            this.n1 = (CFences) nennerNeu.getFirstChild();
-            this.n2 = (CFences) this.n1.getNextSibling();
+                    .createList(this.n1, this.n2));
+            this.n1 = nennerNeu.getFirstChild();
+            this.n2 = this.n1.getNextSibling();
             nennerNeu.correctInternalPraefixesAndRolle();
             this.newChild = CFrac.createFraction(zaehlerAlt, nennerNeu);
         }
@@ -78,30 +88,12 @@ public class CC_PunktFracNum extends CC_ {
     @Override
     protected void clean() {
         if (this.gleicheDiv) {
-            System.out.println("---"
-                    + this.z1.equals(this.newChild.getFirstChild()
-                            .getFirstChild()));
-            if (DefenceHandler.getInstance().canDefence(this.z1.getParent(),
-                    this.z1, this.z1.getFirstChild())) {
-                DefenceHandler.getInstance().defence(this.z1.getParent(),
-                        this.z1, this.z1.getFirstChild());
-            }
-            if (DefenceHandler.getInstance().canDefence(this.z2.getParent(),
-                    this.z2, this.z2.getFirstChild())) {
-                DefenceHandler.getInstance().defence(this.z2.getParent(),
-                        this.z2, this.z2.getFirstChild());
-            }
+            this.condCleanOne(this.z1, this.z1_TryDefence);
+            this.condCleanOne(this.z2, this.z2_TryDefence);
         } else {
-            if (DefenceHandler.getInstance().canDefence(this.n1.getParent(),
-                    this.n1, this.n1.getFirstChild())) {
-                DefenceHandler.getInstance().defence(this.n1.getParent(),
-                        this.n1, this.n1.getFirstChild());
-            }
-            if (DefenceHandler.getInstance().canDefence(this.n2.getParent(),
-                    this.n2, this.n2.getFirstChild())) {
-                DefenceHandler.getInstance().defence(this.n2.getParent(),
-                        this.n2, this.n2.getFirstChild());
-            }
+            this.condCleanOne(this.n1, this.n1_TryDefence);
+            this.condCleanOne(this.n2, this.n2_TryDefence);
         }
     }
+
 }

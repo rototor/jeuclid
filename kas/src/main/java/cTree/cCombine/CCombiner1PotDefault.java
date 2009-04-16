@@ -31,7 +31,6 @@ public class CCombiner1PotDefault extends CCombiner1 {
             final CElement newChild = basis.cloneCElement(false); // potenz.cloneChild(basis,
             // false);
             potenz.getParent().replaceChild(newChild, potenz, true, true);
-            newChild.setCActiveProperty();
             return newChild;
         } else if (((CPot) potenz).isHoch0()) {
             System.out.println("Pot hoch 0");
@@ -39,7 +38,6 @@ public class CCombiner1PotDefault extends CCombiner1 {
                     "" + 1);
             newChild.setCRolleAndPraefixFrom(potenz);
             potenz.getParent().replaceChild(newChild, potenz, true, true);
-            newChild.setCActiveProperty();
             return newChild;
         }
         return potenz;

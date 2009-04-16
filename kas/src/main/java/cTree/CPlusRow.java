@@ -287,7 +287,6 @@ public class CPlusRow extends CRow {
             result = this.standardFencing(active.get(0));
         } else if (active.size() > 1) {
             final CElement first = active.get(0);
-            first.removeCActiveProperty();
             final CPlusRow innen = CPlusRow.createRow(CRow.cloneList(active));
             innen.correctInternalPraefixesAndRolle();
             result = CFences.createFenced(innen);

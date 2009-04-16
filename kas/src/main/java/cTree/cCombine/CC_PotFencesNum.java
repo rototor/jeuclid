@@ -41,7 +41,6 @@ public class CC_PotFencesNum extends CC_ {
         }
         System.out.println("PotFences - Can combine");
         // parent ist die Potenz, cE1 die Basis /Klammer cE2 der Exponent
-        cE1.removeCActiveProperty();
         final CElement newArg = this.createCombination(parent.getParent(),
                 ((CFences) cE1).getInnen(), cE2);
         final CFences newChild = CFences.createFenced(newArg);
@@ -49,7 +48,6 @@ public class CC_PotFencesNum extends CC_ {
         parent.getParent().replaceChild(newChild, parent, true, true);
         // CombineHandler.getInstance().insertOrReplace(parent, newChild, cE1,
         // cE2, replace);
-        newChild.setCActiveProperty();
         return newChild;
     }
 

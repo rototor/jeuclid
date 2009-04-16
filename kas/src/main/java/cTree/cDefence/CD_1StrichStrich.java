@@ -16,48 +16,59 @@
 
 package cTree.cDefence;
 
-import cTree.*;
-import org.w3c.dom.*;
-import java.util.*;
+import java.util.ArrayList;
 
-public class CD_1StrichStrich extends CD_1{
-	
-	public CElement defence(CElement parent, CElement fences, CElement content){
-		System.out.println("Do the defence work strich strich");
-		fences.removeCActiveProperty();
-		boolean aussenMinus = (fences.hasExtMinus());
-		Element op = (fences.getExtPraefix()!=null) ? (Element) fences.getExtPraefix().cloneNode(true): null;
-		
-		// Wir bilden drei Rows, bis zur Klammer, das Innere und nach der Klammer
-		ArrayList<CElement> rows = new ArrayList<CElement>();
-		rows.addAll(((CPlusRow) parent).startTo(fences));							// clone der ersten Summanden
-		rows.addAll(((CPlusRow) createInsertion(fences, content, aussenMinus, op)).getMemberList());						
-		rows.addAll(((CPlusRow) parent).endFrom(fences));							// clone der letzten Summanden
-		System.out.println("--- Anzahl der Member " + rows.size());
-		for (CElement el : rows){
-			System.out.println("--- " + el.getCType());
-		}
-		// Die drei Rows werden zu einer verschmolzen
-		CPlusRow newParent = CPlusRow.createRow(rows);
-		newParent.correctInternalPraefixesAndRolle();
-		
-		// Das Parent wird eingefügt
-		parent.getParent().replaceChild(newParent, parent, true, true);
-		newParent.getFirstChild().setCActiveProperty();
-		return newParent.getFirstChild();
-	}
-	
-	protected CElement createInsertion(CElement fences, CElement content, boolean aussenMinus, Element op){
-		System.out.println("Creating insertion strich strich");
-		CElement newChild = content.cloneCElement(true);
-		if (aussenMinus){
-			System.out.println("min vor Row!!!");
-			((CPlusRow) newChild).toggleAllVZButFirst(false);
-		}
-		if (op!=null){
-			newChild.getFirstChild().setExtPraefix(op);
-		}
-		return newChild;
-	}
-	
+import org.w3c.dom.Element;
+
+import cTree.CElement;
+import cTree.CPlusRow;
+
+public class CD_1StrichStrich extends CD_1 {
+
+    @Override
+    public CElement defence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("Do the defence work strich strich");
+        final boolean aussenMinus = (fences.hasExtMinus());
+        final Element op = (fences.getExtPraefix() != null) ? (Element) fences
+                .getExtPraefix().cloneNode(true)
+                : null;
+
+        // Wir bilden drei Rows, bis zur Klammer, das Innere und nach der
+        // Klammer
+        final ArrayList<CElement> rows = new ArrayList<CElement>();
+        rows.addAll(((CPlusRow) parent).startTo(fences)); // clone der ersten
+        // Summanden
+        rows.addAll(((CPlusRow) this.createInsertion(fences, content,
+                aussenMinus, op)).getMemberList());
+        rows.addAll(((CPlusRow) parent).endFrom(fences)); // clone der letzten
+        // Summanden
+        System.out.println("--- Anzahl der Member " + rows.size());
+        for (final CElement el : rows) {
+            System.out.println("--- " + el.getCType());
+        }
+        // Die drei Rows werden zu einer verschmolzen
+        final CPlusRow newParent = CPlusRow.createRow(rows);
+        newParent.correctInternalPraefixesAndRolle();
+
+        // Das Parent wird eingefügt
+        parent.getParent().replaceChild(newParent, parent, true, true);
+        return newParent.getFirstChild();
+    }
+
+    protected CElement createInsertion(final CElement fences,
+            final CElement content, final boolean aussenMinus,
+            final Element op) {
+        System.out.println("Creating insertion strich strich");
+        final CElement newChild = content.cloneCElement(true);
+        if (aussenMinus) {
+            System.out.println("min vor Row!!!");
+            ((CPlusRow) newChild).toggleAllVZButFirst(false);
+        }
+        if (op != null) {
+            newChild.getFirstChild().setExtPraefix(op);
+        }
+        return newChild;
+    }
+
 }

@@ -37,6 +37,23 @@ public class CFences extends CElement {
         return fences;
     }
 
+    public static CElement condCreateFenced(final CElement inhalt,
+            boolean didIt) {
+        if (inhalt instanceof CFences || inhalt instanceof CNum
+                || inhalt instanceof CIdent) {
+            didIt = false;
+            return inhalt;
+        } else {
+            final CFences fences = (CFences) CElementHelper
+                    .createAll(inhalt.getElement(), "mfenced", "mfenced",
+                            CRolle.UNKNOWN, null);
+            fences.appendPraefixAndChild(inhalt);
+            inhalt.setCRolle(CRolle.GEKLAMMERT);
+            didIt = true;
+            return fences;
+        }
+    }
+
     public CElement getInnen() {
         return this.getFirstChild();
     }

@@ -35,18 +35,17 @@ public class CE_2SqrtPot extends CE_1 {
             return selection.get(0);
         }
         System.out.println("SqrtPot - Can extract");
-        selection.get(0).removeCActiveProperty();
         // Praefix sichern
         final CRolle rolle = parent.getCRolle();
         final CElement newArg = this.createExtraction(parent, selection, cE2);
-        final CFences newChild = CFences.createFenced(newArg);
+        final boolean didIt = false;
+        final CElement newChild = CFences.condCreateFenced(newArg, didIt);
         newArg.setCRolle(CRolle.GEKLAMMERT);
         ExtractHandler.getInstance().insertOrReplace(parent, newChild,
                 selection, true);
         newChild.setCRolle(rolle);
-        newChild.getFirstChild().setCActiveProperty();
-        return DefenceHandler.getInstance().defence(newChild.getParent(),
-                newChild, newChild.getFirstChild());
+        return DefenceHandler.getInstance().conDefence(newChild.getParent(),
+                newChild, newChild.getFirstChild(), didIt);
     }
 
     @Override

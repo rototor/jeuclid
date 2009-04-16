@@ -70,6 +70,20 @@ public class DefenceHandler {
                 fences, content);
     }
 
+    /*
+     * Es wird ein CDefenceTyp nach dem Parent gewählt, dieser entscheidet
+     * nach dem Content
+     */
+    public CElement conDefence(final CElement parent, final CElement fences,
+            final CElement content, final boolean doIt) {
+        System.out.println("DefenceHandler call " + parent.getCType());
+        if (doIt && this.canDefence(parent, fences, content)) {
+            return this.defence(parent, fences, content);
+        } else {
+            return fences;
+        }
+    }
+
     public void replaceFoP(final CElement parent, final CElement newC,
             final CElement repC, final boolean replace) {
         if (replace) {

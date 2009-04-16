@@ -69,7 +69,10 @@ public class AlterHandler {
     public CElement change(final ArrayList<CElement> els,
             final String actionCommand) {
         if (this.getAlters.containsKey(actionCommand)) {
-            return this.getAlters.get(actionCommand).change(els);
+            els.get(0).removeCActiveProperty();
+            final CElement el = this.getAlters.get(actionCommand).change(els);
+            el.setCActiveProperty();
+            return el;
         } else {
             return els.get(0);
         }

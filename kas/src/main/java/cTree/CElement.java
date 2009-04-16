@@ -79,11 +79,9 @@ public abstract class CElement extends RolleAdapter {
 
     public CElement standardFencing(final CElement active) {
         System.out.println("CElement fencing");
-        active.removeCActiveProperty();
         final CElement fences = CFences.createFenced(active
                 .cloneCElement(false));
         this.replaceChild(fences, active, true, true);
-        fences.setCActiveProperty();
         return fences;
     }
 
