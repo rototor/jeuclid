@@ -23,6 +23,7 @@ import cTree.CType;
 public class CCombinerTPunkt extends CCombinerTyp {
     public CCombinerTPunkt() {
         super();
+        this.op1Combiner.put(CType.FRAC, new CCombiner1PunktFrac());
         this.op1Combiner.put(CType.NUM, new CCombiner1PunktNum());
         this.op1Combiner.put(CType.IDENT, new CCombiner1PunktIdent());
         this.op1Combiner.put(CType.POT, new CCombiner1PunktPot());

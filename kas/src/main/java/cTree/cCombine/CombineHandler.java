@@ -81,7 +81,7 @@ public class CombineHandler {
             final CElement repC, final CElement remC, final boolean replace) {
         if (replace) {
             System.out.println("// replace");
-            final CElement gparent = parent.getParent();
+            // final CElement gparent = parent.getParent();
             // Das erste funktioniert nicht
             // if (gparent instanceof CFences) {
             // gparent.removeChild(parent, true, true, false);

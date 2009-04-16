@@ -33,6 +33,7 @@ public class CC_ {
         CombineHandler.getInstance().insertOrReplace(parent, newChild, cE1,
                 cE2, replace);
         System.out.println("CC inserted");
+        this.clean();
         newChild.setCActiveProperty();
         return newChild;
     }
@@ -50,4 +51,7 @@ public class CC_ {
         return false;
     }
 
+    protected void clean() {
+
+    }
 }
