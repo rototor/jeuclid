@@ -58,12 +58,11 @@ public class CC_FracTRTR extends CC_ {
         if (!this.canCombine(parent, cE1, cE2)) {
             return cE1;
         }
-        cE1.removeCActiveProperty();
         final CFrac newChild = this.createCombination(parent, cE1, cE2);
         parent.getParent().replaceChild(newChild, parent, true, true); // false
         // als
         // Praefix?
-        newChild.getZaehler().setCActiveProperty();
+        // newChild.getZaehler().setCActiveProperty();
         return newChild.getZaehler();
     }
 }

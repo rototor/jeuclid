@@ -19,27 +19,32 @@ package cTree.cDefence;
 import cTree.CElement;
 import cTree.CRolle;
 
-public class CD_1StrichMinrow extends CD_1{
-	
-	public CElement defence(CElement parent, CElement fences, CElement content){
-		System.out.println("Do the defence work");
-		fences.removeCActiveProperty();
-		boolean first = (fences.getCRolle()==CRolle.SUMMAND1);
-		CElement insertion = createInsertion(fences, content);
-		DefenceHandler.getInstance().replaceFoP(parent, insertion, fences, false);
-		if (!first){ insertion.togglePlusMinus(false);}
-		insertion.setCActiveProperty();
-		return insertion;
-	}
-	
-	protected CElement createInsertion(CElement fences, CElement content){
-		System.out.println("Defence strich minrow");
-		CElement newChild = null;
-		if (fences.getCRolle()==CRolle.SUMMAND1){
-			newChild = content.cloneCElement(false);
-		} else {
-			newChild = content.getFirstChild().cloneCElement(false);
-		}
-		return newChild;
-	}
+public class CD_1StrichMinrow extends CD_1 {
+
+    @Override
+    public CElement defence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("Do the defence work");
+        final boolean first = (fences.getCRolle() == CRolle.SUMMAND1);
+        final CElement insertion = this.createInsertion(fences, content);
+        DefenceHandler.getInstance().replaceFoP(parent, insertion, fences,
+                false);
+        if (!first) {
+            insertion.togglePlusMinus(false);
+        }
+        return insertion;
+    }
+
+    @Override
+    protected CElement createInsertion(final CElement fences,
+            final CElement content) {
+        System.out.println("Defence strich minrow");
+        CElement newChild = null;
+        if (fences.getCRolle() == CRolle.SUMMAND1) {
+            newChild = content.cloneCElement(false);
+        } else {
+            newChild = content.getFirstChild().cloneCElement(false);
+        }
+        return newChild;
+    }
 }

@@ -38,21 +38,20 @@ public class CE_2SqrtPunkt extends CE_1 {
         if (!this.canExtract(parent, selection)) {
             return selection.get(0);
         }
-        selection.get(0).removeCActiveProperty();
 
         // Praefix sichern
         final CRolle rolle = parent.getCRolle();
         final CTimesRow newArg = this
                 .createExtraction(parent, selection, cE2);
         newArg.correctInternalPraefixesAndRolle();
-        final CFences newChild = CFences.createFenced(newArg);
+        final boolean didIt = false;
+        final CElement newChild = CFences.condCreateFenced(newArg, didIt);
         newArg.setCRolle(CRolle.GEKLAMMERT);
         ExtractHandler.getInstance().insertOrReplace(parent, newChild,
                 selection, true);
         newChild.setCRolle(rolle);
-        newChild.setCActiveProperty();
-        return DefenceHandler.getInstance().defence(newChild.getParent(),
-                newChild, newChild.getFirstChild());
+        return DefenceHandler.getInstance().conDefence(newChild.getParent(),
+                newChild, newChild.getFirstChild(), didIt);
     }
 
     @Override

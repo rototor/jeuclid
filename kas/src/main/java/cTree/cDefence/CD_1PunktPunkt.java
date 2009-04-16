@@ -29,7 +29,6 @@ public class CD_1PunktPunkt extends CD_1 {
     public CElement defence(final CElement parent, final CElement fences,
             final CElement content) {
         System.out.println("Do the defence work punkt punkt");
-        fences.removeCActiveProperty();
         final boolean aussenDiv = (fences.hasExtDiv());
         final Element op = (fences.getExtPraefix() != null) ? (Element) fences
                 .getExtPraefix().cloneNode(true)
@@ -48,7 +47,6 @@ public class CD_1PunktPunkt extends CD_1 {
 
         // Das Parent wird eingefügt
         parent.getParent().replaceChild(newParent, parent, true, true);
-        newParent.getFirstChild().setCActiveProperty();
         return newParent.getFirstChild();
     }
 

@@ -62,7 +62,6 @@ public class CC_PunktPotPot extends CC_ {
         if (firstPot.getCRolle() == CRolle.FAKTOR1) {
             if (secondPot.hasExtDiv() && (exp2 > exp1)) {
                 System.out.println("Should not happen");
-                firstPot.setCActiveProperty();
                 return firstPot;
             } else {
                 final CPot newPot = (CPot) firstPot.cloneCElement(true); // parent.cloneChild(firstPot,
@@ -111,7 +110,6 @@ public class CC_PunktPotPot extends CC_ {
         if (!this.canCombine(parent, cE1, cE2)) {
             return cE1;
         }
-        cE1.removeCActiveProperty();
         final boolean replace = CombineHandler.getInstance()
                 .justTwo(cE1, cE2);
         // evtl muss man das Zeichen vor cE1 ändern
@@ -127,7 +125,6 @@ public class CC_PunktPotPot extends CC_ {
         if (toggle) {
             newChild.toggleTimesDiv(false);
         }
-        newChild.setCActiveProperty();
         return newChild;
     }
 }

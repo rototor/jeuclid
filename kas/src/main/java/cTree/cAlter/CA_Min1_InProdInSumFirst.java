@@ -31,14 +31,12 @@ public class CA_Min1_InProdInSumFirst extends CAlter {
     public CElement change(final ArrayList<CElement> els) {
         System.out.println("Changer (-1)a to -a");
         final CElement old = els.get(0);
-        old.removeCActiveProperty();
         final CTimesRow oldTimesRow = (CTimesRow) old.getParent();
         final CElement newInnen = CTimesRow.foldOne((CTimesRow) oldTimesRow
                 .cloneCElement(false));
         final CMinTerm newChild = CMinTerm.createMinTerm(newInnen);
         oldTimesRow.getParent().replaceChild(newChild, oldTimesRow, true,
                 true);
-        newChild.setCActiveProperty();
         return newChild;
     }
 

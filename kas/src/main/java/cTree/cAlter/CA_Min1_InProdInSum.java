@@ -30,14 +30,12 @@ public class CA_Min1_InProdInSum extends CAlter {
     public CElement change(final ArrayList<CElement> els) {
         System.out.println("Changer -a to plus TR (-1)a");
         final CElement old = els.get(0);
-        old.removeCActiveProperty();
         final CTimesRow oldTimesRow = (CTimesRow) old.getParent();
         final CElement newChild = CTimesRow.foldOne((CTimesRow) oldTimesRow
                 .cloneCElement(false));
         oldTimesRow.togglePlusMinus(false);
         oldTimesRow.getParent().replaceChild(newChild, oldTimesRow, true,
                 true);
-        newChild.setCActiveProperty();
         return newChild;
     }
 

@@ -23,12 +23,10 @@ public class CD_1 {
     public CElement defence(final CElement parent, final CElement fences,
             final CElement content) {
         System.out.println("Do the defence work");
-        fences.removeCActiveProperty();
         final boolean replace = this.replaceP(parent, fences);
         final CElement insertion = this.createInsertion(fences, content);
         DefenceHandler.getInstance().replaceFoP(parent, insertion, fences,
                 replace);
-        insertion.setCActiveProperty();
         return insertion;
     }
 

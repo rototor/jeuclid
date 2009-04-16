@@ -18,14 +18,14 @@ package cTree.cDefence;
 
 import cTree.CElement;
 
-public class CD_1PunktEasy extends CD_1{
-	
-	public CElement defence(CElement parent, CElement fences, CElement content){
-		System.out.println("Defence punkt easy");
-		fences.removeCActiveProperty();
-		CElement newChild = content.cloneCElement(false);
-		parent.replaceChild(newChild, fences, true, true);
-		newChild.setCActiveProperty();
-		return newChild; 
-	}
+public class CD_1PunktEasy extends CD_1 {
+
+    @Override
+    public CElement defence(final CElement parent, final CElement fences,
+            final CElement content) {
+        System.out.println("Defence punkt easy");
+        final CElement newChild = content.cloneCElement(false);
+        parent.replaceChild(newChild, fences, true, true);
+        return newChild;
+    }
 }

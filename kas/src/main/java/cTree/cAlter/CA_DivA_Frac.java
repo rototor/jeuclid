@@ -29,14 +29,12 @@ public class CA_DivA_Frac extends CAlter {
     public CElement change(final ArrayList<CElement> els) {
         System.out.println("Changer DivA to TimesFracA");
         final CElement old = els.get(0);
-        old.removeCActiveProperty();
         final CElement newNum = CNum.createNum(old.getElement(), "1");
         final CElement newDen = old.cloneCElement(false);
         final CFrac newFrac = CFrac.createFraction(newNum, newDen);
         newFrac.correctInternalRolles();
         old.toggleTimesDiv(false);
         old.getParent().replaceChild(newFrac, old, true, true);
-        newFrac.setCActiveProperty();
         return newFrac;
     }
 

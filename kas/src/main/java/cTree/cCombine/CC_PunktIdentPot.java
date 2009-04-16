@@ -55,14 +55,12 @@ public class CC_PunktIdentPot extends CC_ {
     public CElement combine(final CElement parent, final CElement ident,
             final CElement oldPot) {
         System.out.println("Multipliziere Ident and Pot");
-        ident.removeCActiveProperty();
         final boolean replace = this.justTwo(ident, oldPot);
         CElement newChild = null;
         boolean toggle = false;
         // erster Faktor
         if (ident.getCRolle() == CRolle.FAKTOR1) {
             if (oldPot.hasExtDiv()) {
-                ident.setCActiveProperty();
                 return ident;
             } else {
                 final int iExp = ((CNum) ((CPot) oldPot).getExponent())
@@ -99,7 +97,6 @@ public class CC_PunktIdentPot extends CC_ {
                     newChild = CPot.createPot(newBase, newExp);
                     newChild.setCRolle(ident.getCRolle());
                 } else {
-                    ident.setCActiveProperty();
                     return ident;
                 }
             }
@@ -116,7 +113,6 @@ public class CC_PunktIdentPot extends CC_ {
             parent.replaceChild(newChild, ident, true, true);
             parent.removeChild(oldPot, true, true, false);
         }
-        newChild.setCActiveProperty();
         return newChild;
     }
 }

@@ -269,7 +269,6 @@ public class CTimesRow extends CRow {
         } else if (active.size() > 1) {
             final CElement first = active.get(0);
             final boolean hasDiv = first.hasExtDiv();
-            first.removeCActiveProperty();
             final CTimesRow innen = CTimesRow.createRow(CRow
                     .cloneList(active));
             if (hasDiv) {

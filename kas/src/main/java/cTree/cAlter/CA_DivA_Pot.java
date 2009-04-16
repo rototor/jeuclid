@@ -30,14 +30,12 @@ public class CA_DivA_Pot extends CAlter {
     public CElement change(final ArrayList<CElement> els) {
         System.out.println("Changer DivA to Exp");
         final CElement old = els.get(0);
-        old.removeCActiveProperty();
         final CElement newNum = CNum.createNum(old.getElement(), "1");
         final CElement newExp = CMinTerm.createMinTerm(newNum);
         final CElement newBase = old.cloneCElement(false);
         final CPot newPot = CPot.createPot(newBase, newExp);
         old.toggleTimesDiv(false);
         old.getParent().replaceChild(newPot, old, true, true);
-        newPot.setCActiveProperty();
         return newPot;
     }
 

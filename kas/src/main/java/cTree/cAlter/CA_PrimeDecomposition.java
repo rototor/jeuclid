@@ -28,7 +28,6 @@ public class CA_PrimeDecomposition extends CAlter {
     public CElement change(final ArrayList<CElement> els) {
         System.out.println("Primfaktorzerlegung");
         CElement old = els.get(0);
-        old.removeCActiveProperty();
         try {
             int n = ((CNum) old).getValue();
             final List<PairOfInt> list = new ArrayList<PairOfInt>();
@@ -74,7 +73,6 @@ public class CA_PrimeDecomposition extends CAlter {
         } catch (final NumberFormatException e) {
             System.out.println("CA_Primfaktorzerlegung: ParseFehler");
         }
-        old.setCActiveProperty();
         return old;
     }
 

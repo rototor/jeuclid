@@ -41,7 +41,6 @@ public class CC_PunktPotIdent extends CC_ {
                     newPot.getExponent().setText("" + (iExp - 1));
                     newChild = newPot;
                 } else {
-                    firstPot.setCActiveProperty();
                     return firstPot;
                 }
             } else {
@@ -68,7 +67,6 @@ public class CC_PunktPotIdent extends CC_ {
                     newPot.getExponent().setText("" + (iExp - 1));
                     newChild = newPot;
                 } else {
-                    firstPot.setCActiveProperty();
                     return firstPot;
                 }
             }

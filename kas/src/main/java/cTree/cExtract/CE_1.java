@@ -28,7 +28,6 @@ public class CE_1 {
         if (!this.canExtract(parent, selection)) {
             return selection.get(0);
         }
-        selection.get(0).removeCActiveProperty();
         // weitere Property entfernen
         final boolean replace = ExtractHandler.getInstance().justAll(
                 selection);
@@ -43,7 +42,6 @@ public class CE_1 {
         if (hasMinus) {
             newChild.toggleToPraefixEmptyOrPlus();
         }
-        newChild.setCActiveProperty();
         return newChild;
     }
 
