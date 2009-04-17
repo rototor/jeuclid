@@ -41,6 +41,7 @@ public class CExtracterTyp {
 
     public boolean canExtract(final CElement parent,
             final ArrayList<CElement> selection) {
+        System.out.println("Can Extract simple");
         return this.op1Extracter.get(selection.get(0).getCType()).canExtract(
                 parent, selection);
     }

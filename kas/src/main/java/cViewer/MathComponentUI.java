@@ -266,7 +266,10 @@ public class MathComponentUI extends ComponentUI implements
             // return this.jEuclidView.getNode(x, y);
             return nodeRects.get(nodeRects.size() - 1).getNode();
         } else {
-            return null;
+            System.out.println("Get DocChild "
+                    + this.mathComponent.getDocument().getFirstChild()
+                            .getTextContent());
+            return this.mathComponent.getDocument().getFirstChild();
         }
     }
 }

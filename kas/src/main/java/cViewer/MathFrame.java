@@ -349,9 +349,9 @@ public class MathFrame extends JFrame {
         result.add(new JButton(this.getMathComponent().getActionByName(
                 "ZoomIn")));
         result.add(new JButton(this.getMathComponent().getActionByName(
-                "GeheLinks")));
+                "GeheZurueck")));
         result.add(new JButton(this.getMathComponent().getActionByName(
-                "GeheRechts")));
+                "GeheWeiter")));
         result.add(new JButton(this.getMathComponent().getActionByName(
                 "Selection+")));
         result.add(new JButton(this.getMathComponent().getActionByName(

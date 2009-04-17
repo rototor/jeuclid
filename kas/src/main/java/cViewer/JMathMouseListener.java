@@ -26,6 +26,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 
 import cTree.CElement;
+import cTree.CType;
 import cTree.cAlter.AlterHandler;
 
 public class JMathMouseListener implements MouseListener {
@@ -119,20 +120,24 @@ public class JMathMouseListener implements MouseListener {
         final CElement cAct = this.mathComponent.getCActive();
         // Rechtsklick: Aendern
         if ((e.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK) {
-            this.showMenu(e);
+            if (this.mathComponent.getCActive() != null
+                    && this.mathComponent.getCActive().getCType() != CType.MATH) {
+                System.out.println("Was"
+                        + this.mathComponent.getCActive().getCType());
+                this.showMenu(e);
+            }
             // Herauszoomen
         } else if ((e.getModifiers() & InputEvent.SHIFT_MASK) == InputEvent.SHIFT_MASK) {
-            this.mathComponent.getActionByName("ZoomOut").actionPerformed(
-                    null);
+            if (this.mathComponent.getCActive() != null
+                    && this.mathComponent.getCActive().getCType() != CType.MATH) {
+                this.mathComponent.getActionByName("ZoomOut")
+                        .actionPerformed(null);
+            }
             // Auswählen
         } else {
             final CElement newE = cTree.adapter.DOMElementMap.getInstance().getCElement
                     .get(this.mathComponent.getUI().getNodeFromView(e.getX(),
                             e.getY()));
-            // final CElement newE =
-            // cTree.adapter.DOMElementMap.getInstance().getCElement
-            // .get(this.mathComponent.getUI().oldGetNodeFromView(
-            // e.getX(), e.getY()));
             this.mathComponent.setCActive(cTree.CNavHelper.chooseElement(
                     cAct, newE));
             this.mathComponent.clearCButFirst();

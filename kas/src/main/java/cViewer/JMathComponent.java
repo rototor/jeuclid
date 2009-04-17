@@ -199,7 +199,7 @@ public final class JMathComponent extends JComponent implements
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
-        myAction = new AbstractAction("GeheRechts") {
+        myAction = new AbstractAction("GeheWeiter") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
@@ -244,7 +244,7 @@ public final class JMathComponent extends JComponent implements
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
-        myAction = new AbstractAction("GeheLinks") {
+        myAction = new AbstractAction("GeheZurueck") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
