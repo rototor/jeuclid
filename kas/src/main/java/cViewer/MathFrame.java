@@ -76,9 +76,13 @@ public class MathFrame extends JFrame {
 
     private JMenuItem howToMenuItem;
 
+    private JMenuItem treeViewItem;
+
     private AboutDialog aboutDialog;
 
     private HowToDialog howToDialog;
+
+    private TreeViewDialog treeViewDialog;
 
     private JSplitPane splitPane;
 
@@ -124,8 +128,38 @@ public class MathFrame extends JFrame {
             this.helpMenu.setText("Hilfe");
             this.helpMenu.add(this.getHowToItem());
             this.helpMenu.add(this.getAboutMenuItem());
+            this.helpMenu.add(this.getTreeViewItem());
         }
         return this.helpMenu;
+    }
+
+    private JMenuItem getTreeViewItem() {
+        if (this.treeViewItem == null) {
+            this.treeViewItem = new JMenuItem();
+            this.treeViewItem.setText("Ansicht als Baum");
+            this.treeViewItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    MathFrame.this.displayTreeView();
+                }
+            });
+        }
+        return this.treeViewItem;
+    }
+
+    private void displayTreeView() {
+        final JDialog aDialog = this.getTreeViewDialog();
+        aDialog.pack();
+        final Point loc = this.getLocation();
+        loc.translate((this.getWidth() - aDialog.getWidth()) / 2, 0);
+        aDialog.setLocation(loc);
+        aDialog.setVisible(true);
+    }
+
+    public TreeViewDialog getTreeViewDialog() {
+        if (this.treeViewDialog == null) {
+            this.treeViewDialog = new TreeViewDialog(this);
+        }
+        return this.treeViewDialog;
     }
 
     private JMenuItem getHowToItem() {
@@ -141,7 +175,7 @@ public class MathFrame extends JFrame {
         return this.howToMenuItem;
     }
 
-    public void displayHowTo() {
+    private void displayHowTo() {
         final JDialog aDialog = this.getHowToDialog();
         aDialog.pack();
         final Point loc = this.getLocation();
@@ -229,6 +263,7 @@ public class MathFrame extends JFrame {
         }
         this.getMathComponent().setContent(result);
         this.getViewComponent().setContent(result);
+        this.getTreeViewDialog().update();
         this.getMathComponent().requestFocusInWindow();
     }
 
@@ -335,7 +370,7 @@ public class MathFrame extends JFrame {
 
     public JMathComponent getMathComponent() {
         if (this.mathComponent == null) {
-            this.mathComponent = new JMathComponent();
+            this.mathComponent = new JMathComponent(this);
         }
         return this.mathComponent;
     }

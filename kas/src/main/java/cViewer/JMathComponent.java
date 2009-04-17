@@ -34,6 +34,7 @@ import javax.accessibility.Accessible;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -46,7 +47,6 @@ import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -90,7 +90,10 @@ public final class JMathComponent extends JComponent implements
 
     // Actions die mit Maus Tastatur oder Buttons ausgelöst werden können
 
-    public JMathComponent() {
+    public JFrame frame;
+
+    public JMathComponent(final JFrame frame) {
+        this.frame = frame;
         this.parameters = new LayoutContextImpl(LayoutContextImpl
                 .getDefaultLayoutContext());
         this.setParameter(Parameter.MATHSIZE, 48f);
@@ -262,12 +265,13 @@ public final class JMathComponent extends JComponent implements
 
             public void actionPerformed(final ActionEvent ae) {
                 final CElement cAct = JMathComponent.this.getCActive();
-                JMathComponent.this.saveForUndo();
-                JMathComponent.this.removeCActivity();
-                JMathComponent.this.setCActive(cAct.getParent().moveRight(
-                        cAct));
-                JMathComponent.this.getCActive().setCActiveProperty();
-                JMathComponent.this.modifyDocument();
+                final JMathComponent myComp = JMathComponent.this;
+                myComp.saveForUndo();
+                myComp.removeCActivity();
+                myComp.setCActive(cAct.getParent().moveRight(cAct));
+                myComp.getCActive().setCActiveProperty();
+                myComp.modifyDocument();
+
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
@@ -359,11 +363,12 @@ public final class JMathComponent extends JComponent implements
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                final CElement cAct = JMathComponent.this.getCActive();
+
+                // final CElement cAct = JMathComponent.this.getCActive();
                 // cAct.normalizeAll();
-                JMathComponentHelper.getDocInfo(cAct, false);
-                CElementHelper.controlMath((Element) cAct.getElement()
-                        .getOwnerDocument().getFirstChild());
+                // JMathComponentHelper.getDocInfo(cAct, false);
+                // CElementHelper.controlMath((Element) cAct.getElement()
+                // .getOwnerDocument().getFirstChild());
                 // JMathComponentHelper.control(cAct.getElement().getOwnerDocument().getFirstChild());
                 // modifyDocument();
             }
@@ -437,7 +442,12 @@ public final class JMathComponent extends JComponent implements
         JMathElementHandler.parseDom(this.document.getFirstChild());
         EElementHelper.setDots(this.document.getFirstChild());
         this.firePropertyChange("documentChange", null, this.document);
-        this.reval(); // revalidate, repaint
+        this.reval();
+        if (this.frame instanceof MathFrame) {
+            if (((MathFrame) this.frame).getTreeViewDialog() != null) {
+                ((MathFrame) this.frame).getTreeViewDialog().update();
+            }
+        }// revalidate, repaint
 
     }
 
