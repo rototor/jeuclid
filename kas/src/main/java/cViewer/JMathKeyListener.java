@@ -20,45 +20,49 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 
-public class JMathKeyListener implements KeyListener{
-	private JMathComponent mathComponent; 
-    private HashMap<String, String> myInputMap;
+public class JMathKeyListener implements KeyListener {
+    private final JMathComponent mathComponent;
 
-	public JMathKeyListener(JMathComponent jm){
-		mathComponent = jm;
-		myInputMap = new HashMap<String, String>();
-		myInputMap.put("z", "Zerlegen");
-    	myInputMap.put("y", "ZoomIn");
-    	myInputMap.put("K", "Entklammere");
-    	myInputMap.put("w", "ZoomOut");
-    	myInputMap.put("k", "Klammere");
-    	myInputMap.put("a", "GeheLinks");
-    	myInputMap.put("A", "BewegeLinks");
-    	myInputMap.put("s", "GeheRechts");
-    	myInputMap.put("S", "BewegeRechts");
-    	myInputMap.put("c", "Aendern");
-    	myInputMap.put("v", "Verbinden");
-    	myInputMap.put("V", "Rausziehen");
-    	myInputMap.put("t", "Zerlegen");
-    	myInputMap.put("+", "Vergrößern");
-    	myInputMap.put("-", "Verkleinern");
-    	myInputMap.put("n", "Selection-");
-    	myInputMap.put("m", "Selection+");
-    	myInputMap.put("z", "Undo");
-    	myInputMap.put("u", "Undo");
-	}
-    
-    public void keyTyped(KeyEvent e) {
-    	mathComponent.requestFocusInWindow();
-    	String actionName = myInputMap.get(String.valueOf(e.getKeyChar()));
-    	if (actionName!=null){
-    		mathComponent.getActionByName(myInputMap.get(String.valueOf(e.getKeyChar()))).actionPerformed(null);
-    	}
+    private final HashMap<String, String> myInputMap;
+
+    public JMathKeyListener(final JMathComponent jm) {
+        this.mathComponent = jm;
+        this.myInputMap = new HashMap<String, String>();
+        this.myInputMap.put("z", "Zerlegen");
+        this.myInputMap.put("y", "ZoomIn");
+        this.myInputMap.put("K", "Entklammere");
+        this.myInputMap.put("w", "ZoomOut");
+        this.myInputMap.put("k", "Klammere");
+        this.myInputMap.put("a", "GeheZurueck");
+        this.myInputMap.put("A", "BewegeLinks");
+        this.myInputMap.put("s", "GeheWeiter");
+        this.myInputMap.put("S", "BewegeRechts");
+        this.myInputMap.put("c", "Aendern");
+        this.myInputMap.put("v", "Verbinden");
+        this.myInputMap.put("V", "Rausziehen");
+        this.myInputMap.put("t", "Zerlegen");
+        this.myInputMap.put("+", "Vergrößern");
+        this.myInputMap.put("-", "Verkleinern");
+        this.myInputMap.put("n", "Selection-");
+        this.myInputMap.put("m", "Selection+");
+        this.myInputMap.put("z", "Undo");
+        this.myInputMap.put("u", "Undo");
     }
-    
-    public void keyPressed(KeyEvent e) {
+
+    public void keyTyped(final KeyEvent e) {
+        this.mathComponent.requestFocusInWindow();
+        final String actionName = this.myInputMap.get(String.valueOf(e
+                .getKeyChar()));
+        if (actionName != null) {
+            this.mathComponent.getActionByName(
+                    this.myInputMap.get(String.valueOf(e.getKeyChar())))
+                    .actionPerformed(null);
+        }
     }
-    
-    public void keyReleased(KeyEvent e) {
+
+    public void keyPressed(final KeyEvent e) {
+    }
+
+    public void keyReleased(final KeyEvent e) {
     }
 }

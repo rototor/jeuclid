@@ -57,8 +57,10 @@ public class ExtractHandler {
     }
 
     public boolean canExtract(final ArrayList<CElement> selection) {
+        System.out.println("Extract from " + selection.get(0).getCType());
         if (selection.size() > 0) {
             final CElement parent = selection.get(0).getParent();
+            System.out.println("Extract from " + parent.getCType());
             return this.getTypExtracter.get(parent.getCType()).canExtract(
                     parent, selection);
         }
