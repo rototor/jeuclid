@@ -147,10 +147,10 @@ public class MathFrame extends JFrame {
     }
 
     private void displayTreeView() {
-        final JDialog aDialog = this.getTreeViewDialog();
+        final JFrame aDialog = this.getTreeViewDialog();
         aDialog.pack();
         final Point loc = this.getLocation();
-        loc.translate((this.getWidth() - aDialog.getWidth()) / 2, 0);
+        loc.translate(this.getWidth(), 0);
         aDialog.setLocation(loc);
         aDialog.setVisible(true);
     }
