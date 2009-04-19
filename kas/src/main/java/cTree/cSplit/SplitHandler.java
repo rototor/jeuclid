@@ -39,6 +39,7 @@ public class SplitHandler {
         this.getSplitter.put("+", new CSplitterPlus());
         this.getSplitter.put("-", new CSplitterMin());
         this.getSplitter.put("^", new CSplitterPot());
+        this.getSplitter.put("e", new CSplitterErweitern());
     }
 
     public static SplitHandler getInstance() {
