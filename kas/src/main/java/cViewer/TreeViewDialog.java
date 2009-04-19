@@ -74,6 +74,8 @@ public final class TreeViewDialog extends JFrame {
 
     private SimpleAttributeSet highlighted;
 
+    private SimpleAttributeSet addition;
+
     public TreeViewDialog(final Frame owner) {
         super("Eine Baumdarstellung");
         this.setSize(500, 300);
@@ -103,6 +105,8 @@ public final class TreeViewDialog extends JFrame {
         StyleConstants.setForeground(this.standard, Color.BLACK);
         this.highlighted = new SimpleAttributeSet();
         StyleConstants.setForeground(this.highlighted, Color.RED);
+        this.addition = new SimpleAttributeSet();
+        StyleConstants.setForeground(this.addition, Color.decode("#007777"));
     }
 
     private JPanel getJContentPane() {
@@ -130,6 +134,7 @@ public final class TreeViewDialog extends JFrame {
                     return false;
                 }
             };
+            this.textPane.setEditable(false);
             this.textPane.setCaretPosition(0);
             this.textPane.setMargin(new Insets(5, 5, 5, 5));
             this.textPane.setFont(new Font("Monospaced", Font.PLAIN, 16));
@@ -161,12 +166,17 @@ public final class TreeViewDialog extends JFrame {
                             string.content + this.newline, this.standard);
                     // mit ActiveC
                 } else {
+                    System.out.println("Printing" + string.start + " "
+                            + string.mid + " " + string.end);
                     this.doc.insertString(this.doc.getLength(),
                             string.content.substring(0, string.start + 1),
                             this.standard);
                     this.doc.insertString(this.doc.getLength(),
                             string.content.substring(string.start + 1,
-                                    string.end + 1), this.highlighted);
+                                    string.mid + 1), this.highlighted);
+                    this.doc.insertString(this.doc.getLength(),
+                            string.content.substring(string.mid + 1,
+                                    string.end + 1), this.addition);
                     this.doc.insertString(this.doc.getLength(),
                             string.content.substring(string.end + 1)
                                     + this.newline, this.standard);
@@ -178,6 +188,7 @@ public final class TreeViewDialog extends JFrame {
     }
 
     public void update() {
+        System.out.println("Updating");
         this.setData();
         this.repaint();
     }
@@ -219,8 +230,13 @@ public final class TreeViewDialog extends JFrame {
         // Zu String den aktuellen Eintrag hinzufügen
         if (node.isActiveC()) {
             this.strings[tiefe].start = pbreite;
+            this.strings[tiefe].mid = pbreite + this.text(node).length();
+            this.strings[tiefe].end = this.strings[tiefe].mid;
+        }
+        if (node.isLastC()) {
             this.strings[tiefe].end = pbreite + this.text(node).length();
         }
+
         // evtl Anfang auffuellen
         final String oldString = this.strings[tiefe].content;
         if (pbreite > oldString.length()) {
@@ -263,17 +279,21 @@ public final class TreeViewDialog extends JFrame {
 
         public int start;
 
+        public int mid;
+
         public int end;
 
         public LayoutString() {
             this.content = "";
             this.start = 0;
+            this.mid = 0;
             this.end = 0;
         }
 
         public void resetLS() {
             this.content = "";
             this.start = 0;
+            this.mid = 0;
             this.end = 0;
         }
     }

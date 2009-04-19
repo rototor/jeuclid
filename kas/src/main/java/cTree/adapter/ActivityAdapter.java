@@ -49,7 +49,7 @@ public abstract class ActivityAdapter extends PraefixAdapter {
     }
 
     public boolean isLastC() {
-        return "#007777s".equals(this.getElement().getAttribute("mathcolor"));
+        return "#007777".equals(this.getElement().getAttribute("mathcolor"));
     }
 
 }
