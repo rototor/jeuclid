@@ -55,7 +55,7 @@ public class CC_PunktIdentIdent extends CC_ {
                 // Operation ist mal
             } else {
                 final CElement newBase = cE1.cloneCElement(false); // parent.cloneChild(cE1,
-                                                                   // false);
+                // false);
                 final CElement newExp = CNum.createNum(parent.getElement(),
                         "2");
                 newChild = CPot.createPot(newBase, newExp);
@@ -66,7 +66,7 @@ public class CC_PunktIdentIdent extends CC_ {
             System.out.println("// falls weitere Faktoren");
             if (this.gleicheDiv(cE1.getExtPraefix(), cE2.getExtPraefix())) {
                 final CElement newBase = cE1.cloneCElement(false); // parent.cloneChild(cE1,
-                                                                   // false);
+                // false);
                 final CElement newExp = CNum.createNum(parent.getElement(),
                         "2");
                 newChild = CPot.createPot(newBase, newExp);

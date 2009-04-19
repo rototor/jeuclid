@@ -19,6 +19,7 @@ package cTree.cCombine;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
+import cTree.CMessage;
 import cTree.CTimesRow;
 
 public class CC_PunktFracFrac extends CC_ {
@@ -31,13 +32,13 @@ public class CC_PunktFracFrac extends CC_ {
 
     private CElement n2;
 
-    private final boolean z1_TryDefence = false;
+    private final CMessage z1_TryDefence = new CMessage(false);
 
-    private final boolean z2_TryDefence = false;
+    private final CMessage z2_TryDefence = new CMessage(false);
 
-    private final boolean n1_TryDefence = false;
+    private final CMessage n1_TryDefence = new CMessage(false);
 
-    private final boolean n2_TryDefence = false;
+    private final CMessage n2_TryDefence = new CMessage(false);
 
     private boolean gleicheDiv;
 
@@ -92,11 +93,11 @@ public class CC_PunktFracFrac extends CC_ {
 
     @Override
     protected void clean() {
-        this.condCleanOne(this.z2, this.z2_TryDefence);
+        this.condCleanOne(this.z2, this.z2_TryDefence.isMessage());
         this.z1 = this.newChild.getZaehler().getFirstChild();
-        this.condCleanOne(this.z1, this.z1_TryDefence);
-        this.condCleanOne(this.n2, this.n2_TryDefence);
+        this.condCleanOne(this.z1, this.z1_TryDefence.isMessage());
+        this.condCleanOne(this.n2, this.n2_TryDefence.isMessage());
         this.n1 = this.newChild.getNenner().getFirstChild();
-        this.condCleanOne(this.n1, this.n1_TryDefence);
+        this.condCleanOne(this.n1, this.n1_TryDefence.isMessage());
     }
 }
