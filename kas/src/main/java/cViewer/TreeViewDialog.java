@@ -66,10 +66,6 @@ public final class TreeViewDialog extends JFrame {
 
     private final int maxLineNr;
 
-    // private final int lineLength;
-
-    // private final JTextLabel[] labels;
-
     private HashMap<CType, String> getText;
 
     private final String newline = "\n";
@@ -82,7 +78,6 @@ public final class TreeViewDialog extends JFrame {
         super("Eine Baumdarstellung");
         this.setSize(500, 300);
         this.maxLineNr = 18;
-        // this.lineLength = 80;
         this.owner = (MathFrame) owner;
         this.init();
         this.setContentPane(this.getJContentPane());
@@ -236,14 +231,12 @@ public final class TreeViewDialog extends JFrame {
         this.strings[tiefe].content = this.strings[tiefe].content + "|"
                 + this.text(node);
         int neuesEnde = this.strings[tiefe].content.length();
-        System.out.println("Länge in " + tiefe + " " + neuesEnde);
         // nach unten arbeiten
         int breiteVonUnten = neuesEnde;
         if (node.hasChildC()) {
             breiteVonUnten = this.fill(tiefe + 1, pbreite, neuesEnde, node
                     .getFirstChild());
         }
-        System.out.println("von unten " + breiteVonUnten);
         if (breiteVonUnten > neuesEnde - 1) {
             this.strings[tiefe].content = TreeViewDialog.fillString(
                     this.strings[tiefe].content, breiteVonUnten - 1);
@@ -255,14 +248,11 @@ public final class TreeViewDialog extends JFrame {
             neuesEnde = this.fill(tiefe, neuesEnde + 1, parentende, node
                     .getNextSibling());
         } else {
-            System.out.println("nS ParentEnde " + parentende);
-            System.out.println("nS naechsteBreite " + neuesEnde);
             if (parentende > neuesEnde - 1) {
                 this.strings[tiefe].content = TreeViewDialog.fillString(
                         this.strings[tiefe].content, parentende);
             }
             neuesEnde = this.strings[tiefe].content.length();
-            System.out.println("nS naechsteBreite " + neuesEnde);
             this.strings[tiefe].content = this.strings[tiefe].content + "#";
         }
         return this.strings[tiefe].content.length();

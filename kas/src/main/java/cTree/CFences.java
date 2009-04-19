@@ -38,10 +38,10 @@ public class CFences extends CElement {
     }
 
     public static CElement condCreateFenced(final CElement inhalt,
-            boolean didIt) {
+            final CMessage didIt) {
         if (inhalt instanceof CFences || inhalt instanceof CNum
                 || inhalt instanceof CIdent) {
-            didIt = false;
+            didIt.setMessage(false);
             return inhalt;
         } else {
             final CFences fences = (CFences) CElementHelper
@@ -49,7 +49,7 @@ public class CFences extends CElement {
                             CRolle.UNKNOWN, null);
             fences.appendPraefixAndChild(inhalt);
             inhalt.setCRolle(CRolle.GEKLAMMERT);
-            didIt = true;
+            didIt.setMessage(true);
             return fences;
         }
     }
@@ -103,5 +103,5 @@ public class CFences extends CElement {
             }
             firstRow.normalizeTreeAndSiblings();
         }
-    };
+    }
 }

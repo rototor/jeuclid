@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import cTree.CElement;
 import cTree.CFences;
+import cTree.CMessage;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CRolle;
@@ -38,14 +39,14 @@ public class CE_2SqrtPot extends CE_1 {
         // Praefix sichern
         final CRolle rolle = parent.getCRolle();
         final CElement newArg = this.createExtraction(parent, selection, cE2);
-        final boolean didIt = false;
+        final CMessage didIt = new CMessage(false);
         final CElement newChild = CFences.condCreateFenced(newArg, didIt);
         newArg.setCRolle(CRolle.GEKLAMMERT);
         ExtractHandler.getInstance().insertOrReplace(parent, newChild,
                 selection, true);
         newChild.setCRolle(rolle);
         return DefenceHandler.getInstance().conDefence(newChild.getParent(),
-                newChild, newChild.getFirstChild(), didIt);
+                newChild, newChild.getFirstChild(), didIt.isMessage());
     }
 
     @Override

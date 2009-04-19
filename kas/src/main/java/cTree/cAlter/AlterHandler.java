@@ -32,6 +32,8 @@ public class AlterHandler {
         new CA_Minrow().register(this.getAlters);
         new CA_DivA_Frac().register(this.getAlters);
         new CA_DivA_Pot().register(this.getAlters);
+        new CA_PotA_Times().register(this.getAlters);
+        new CA_Times_PotA().register(this.getAlters);
         new CA_PrimeDecomposition().register(this.getAlters);
         new CA_MinA_PlusMin1Mal().register(this.getAlters);
         new CA_Min1_InProdInSum().register(this.getAlters);

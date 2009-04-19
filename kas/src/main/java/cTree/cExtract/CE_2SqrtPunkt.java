@@ -22,6 +22,7 @@ import org.w3c.dom.Element;
 
 import cTree.CElement;
 import cTree.CFences;
+import cTree.CMessage;
 import cTree.CRolle;
 import cTree.CSqrt;
 import cTree.CTimesRow;
@@ -44,14 +45,14 @@ public class CE_2SqrtPunkt extends CE_1 {
         final CTimesRow newArg = this
                 .createExtraction(parent, selection, cE2);
         newArg.correctInternalPraefixesAndRolle();
-        final boolean didIt = false;
+        final CMessage didIt = new CMessage(false);
         final CElement newChild = CFences.condCreateFenced(newArg, didIt);
         newArg.setCRolle(CRolle.GEKLAMMERT);
         ExtractHandler.getInstance().insertOrReplace(parent, newChild,
                 selection, true);
         newChild.setCRolle(rolle);
         return DefenceHandler.getInstance().conDefence(newChild.getParent(),
-                newChild, newChild.getFirstChild(), didIt);
+                newChild, newChild.getFirstChild(), didIt.isMessage());
     }
 
     @Override
