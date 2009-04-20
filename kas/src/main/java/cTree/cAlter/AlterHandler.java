@@ -42,6 +42,7 @@ public class AlterHandler {
         new CA_Frac_Kuerzen().register(this.getAlters);
         new CA_Frac_InInteger().register(this.getAlters);
         new CA_Frac_InSumme().register(this.getAlters);
+        new CA_Frac_Min1Vorziehen().register(this.getAlters);
         new CA_MinVorziehenSumFencedSum().register(this.getAlters);
         new CA_Klammern().register(this.getAlters);
         new CA_Entklammern().register(this.getAlters);

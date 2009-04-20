@@ -168,48 +168,6 @@ public class CPlusRow extends CRow {
         return addendList;
     }
 
-    /*
-     * es wird ohne Test einfach jeweils das erste Element entnommen und die
-     * Vorzeichen umgesetzt aus Minrows werden zB Elemente mit VZ - ! Fold
-     * sollte auf einem Clone arbeiten
-     */
-    // public static ArrayList<CElement> fold(ArrayList<CElement> list){
-    // ArrayList<CElement> newList = new ArrayList<CElement>();
-    // System.out.println("CPlusRow fold count list " + list.size());
-    // for (CElement cEl : list){
-    // CElement newElement;
-    // if (cEl instanceof CTimesRow){
-    // CTimesRow cTR = (CTimesRow) cEl;
-    // System.out.println("Fold a TimesRow");
-    // boolean timesRowAgain = false;
-    // if (cTR.getFirstChild().hasNextC() &&
-    // cTR.getFirstChild().getNextSibling().hasNextC()){
-    // timesRowAgain = true;
-    // }
-    // if (timesRowAgain){
-    // System.out.println("TimesRow found");
-    // ArrayList<CElement> factorList = cTR.getMemberList();
-    // factorList.remove(0);
-    // // factorList.get(0).removePraefix();
-    // System.out.println("factorlistcount " + factorList.size());
-    // CTimesRow newTR = CTimesRow.createRow(factorList);
-    // newTR.correctInternalPraefixesAndRolle();
-    // newTR.setCRolleAndPraefixFrom(cTR);
-    // newElement = newTR;
-    // } else {
-    // // newElement ist das secondSibling evtl. mit dem externen Vorzeichen
-    // System.out.println("Not Done yet");
-    // newElement = cTR.getFirstChild().getNextSibling();
-    // newElement.setCRolleAndPraefixFrom(cTR);
-    // }
-    // } else {
-    // System.out.println("Fold-Fehler in CPlusRow");
-    // newElement = cEl;
-    // }
-    // newList.add(newElement);
-    // }
-    // return newList;
-    // }
     public static CPlusRow createRow(final ArrayList<CElement> list) {
         return (CPlusRow) CRow.createRow(list, "+");
     }
