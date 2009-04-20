@@ -260,7 +260,7 @@ public final class TreeViewDialog extends JFrame {
 
         neuesEnde = this.strings[tiefe].content.length();
         if (node.hasNextC()) {
-            this.strings[tiefe].content = this.strings[tiefe].content + "#";
+            this.strings[tiefe].content = this.strings[tiefe].content + " ";
             neuesEnde = this.fill(tiefe, neuesEnde + 1, parentende, node
                     .getNextSibling());
         } else {
