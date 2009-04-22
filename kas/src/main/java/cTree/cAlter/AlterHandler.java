@@ -16,6 +16,10 @@
 
 package cTree.cAlter;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,27 +31,66 @@ public class AlterHandler {
 
     public HashMap<String, CAlter> getAlters;
 
+    @SuppressWarnings("unchecked")
     private AlterHandler() {
         this.getAlters = new HashMap<String, CAlter>();
-        new CA_Minrow().register(this.getAlters);
-        new CA_DivA_Frac().register(this.getAlters);
-        new CA_DivA_Pot().register(this.getAlters);
-        new CA_PotA_Times().register(this.getAlters);
-        new CA_Times_PotA().register(this.getAlters);
-        new CA_PrimeDecomposition().register(this.getAlters);
-        new CA_MinA_PlusMin1Mal().register(this.getAlters);
-        new CA_Min1_InProdInSum().register(this.getAlters);
-        new CA_Min1_InProdInSumFirst().register(this.getAlters);
-        new CA_Min1_InProdInMinTerm().register(this.getAlters);
-        new CA_Frac_Kuerzen().register(this.getAlters);
-        new CA_Frac_InInteger().register(this.getAlters);
-        new CA_Frac_InSumme().register(this.getAlters);
-        new CA_Frac_Min1Vorziehen().register(this.getAlters);
-        new CA_MinVorziehenSumFencedSum().register(this.getAlters);
-        new CA_Klammern().register(this.getAlters);
-        new CA_Entklammern().register(this.getAlters);
-        new CA_Verbinden().register(this.getAlters);
-        new CA_Extract().register(this.getAlters);
+        // new CA_Minrow().register(this.getAlters);
+        // new CA_PotA_Times().register(this.getAlters);
+        // new CA_Times_PotA().register(this.getAlters);
+        // new CA_PrimeDecomposition().register(this.getAlters);
+        // new CA_MinA_PlusMin1Mal().register(this.getAlters);
+        // new CA_Min1_InProdInSum().register(this.getAlters);
+        // new CA_Min1_InProdInSumFirst().register(this.getAlters);
+        // new CA_Min1_InProdInMinTerm().register(this.getAlters);
+        // new CA_Frac_Kuerzen().register(this.getAlters);
+        // new CA_Frac_InInteger().register(this.getAlters);
+        // new CA_Frac_InSumme().register(this.getAlters);
+        // new CA_Frac_Min1Vorziehen().register(this.getAlters);
+        // new CA_MinVorziehenSumFencedSum().register(this.getAlters);
+        // new CA_Klammern().register(this.getAlters);
+        // // new CA_Entklammern().register(this.getAlters);
+        // // new CA_Verbinden().register(this.getAlters);
+        // new CA_Extract().register(this.getAlters);
+        try {
+            final BufferedReader reader = new BufferedReader(new FileReader(
+                    System.getProperty("user.dir") + "/Changers.txt"));
+            final ArrayList<String> strings = new ArrayList<String>();
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                strings.add(line);
+            }
+            System.out.println(strings.size());
+            reader.close();
+            for (final String s : strings) {
+                final Class c = Class.forName("cTree.cAlter." + s);
+                final CAlter a = (CAlter) c.getConstructor().newInstance();
+                a.register(this.getAlters);
+                System.out.println(s);
+            }
+        } catch (final IOException e) {
+            System.err.println("Error2");
+        } catch (final ClassNotFoundException e) {
+            System.err.println("Error3");
+
+        } catch (final SecurityException e) {
+            System.err.println("Error4");
+
+        } catch (final NoSuchMethodException e) {
+            System.err.println("Error5");
+
+        } catch (final IllegalArgumentException e) {
+            System.err.println("Error6");
+
+        } catch (final InstantiationException e) {
+            System.err.println("Error7");
+
+        } catch (final IllegalAccessException e) {
+            System.err.println("Error8");
+
+        } catch (final InvocationTargetException e) {
+            System.err.println("Error9");
+
+        }
     }
 
     public static AlterHandler getInstance() {

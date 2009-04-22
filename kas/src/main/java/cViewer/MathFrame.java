@@ -94,7 +94,7 @@ public class MathFrame extends JFrame {
 
     private JMathViewer viewComponent;
 
-    private JTextField textField;
+    public JTextField textField;
 
     /**
      * This is the default constructor.
