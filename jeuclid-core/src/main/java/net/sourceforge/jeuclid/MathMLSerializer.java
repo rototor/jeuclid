@@ -65,6 +65,27 @@ public final class MathMLSerializer {
      */
     public static String serializeDocument(final Node doc,
             final boolean addDoctype, final boolean format) {
+        return MathMLSerializer.serializeDocument(doc, addDoctype, format,
+                false);
+    }
+
+    /**
+     * Serialize a document back into a String.
+     * 
+     * @param doc
+     *            a DOM model of a document.
+     * @param addDoctype
+     *            if true, extra attributes such as docType will be set. This
+     *            ensures maximum MathML compatibility
+     * @param format
+     *            if true, result will be nicely formatted.
+     * @param omitXMLDecl
+     *            if true, there will be no XML declaration.
+     * @return the document serialized as a string
+     */
+    public static String serializeDocument(final Node doc,
+            final boolean addDoctype, final boolean format,
+            final boolean omitXMLDecl) {
         final StringWriter writer = new StringWriter();
         try {
             final Transformer transformer = TransformerFactory.newInstance()
@@ -80,15 +101,25 @@ public final class MathMLSerializer {
                 transformer.setOutputProperty(OutputKeys.MEDIA_TYPE,
                         Constants.MATHML_MIMETYPE);
             }
-            if (format) {
-                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            } else {
-                transformer.setOutputProperty(OutputKeys.INDENT, "no");
-            }
+            MathMLSerializer.boolToProperty(format, OutputKeys.INDENT,
+                    transformer);
+            MathMLSerializer.boolToProperty(omitXMLDecl,
+                    OutputKeys.OMIT_XML_DECLARATION, transformer);
             transformer.transform(source, result);
         } catch (final TransformerException e) {
             MathMLSerializer.LOGGER.warn(e);
         }
         return writer.toString();
+
     }
+
+    private static void boolToProperty(final boolean bool, final String key,
+            final Transformer transformer) {
+        if (bool) {
+            transformer.setOutputProperty(key, "yes");
+        } else {
+            transformer.setOutputProperty(key, "no");
+        }
+    }
+
 }
