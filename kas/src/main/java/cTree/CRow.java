@@ -202,7 +202,6 @@ public abstract class CRow extends CElement {
                     CPlusRow.insertMember(newRow, el, isFirst);
                 }
                 isFirst = false;
-                System.out.println("Inserting Member");
             }
             return newRow;
         }

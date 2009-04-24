@@ -18,65 +18,78 @@ package cTree;
 
 import org.w3c.dom.Element;
 
-public class CIdent extends CElement{
+public class CIdent extends CElement {
 
-	public CIdent(Element element){
-		this.element = element;
-	}
-	
-	public CType getCType() {
-		return CType.IDENT;
-	}
-	
-	public static CIdent createIdent(Element producer, String s){
-		CIdent ident = (CIdent) CElementHelper.createAll(producer, "mi", "mi", CRolle.UNKNOWN, null);
-		ident.setText(s); 
-		return ident;
-	}
-	
-	public boolean hatGleichenBetrag(CElement cE2){
-		if (cE2 instanceof CIdent){
-			return this.getText().equals(((CIdent) cE2).getText());
-		} else if (cE2 instanceof CMinTerm){
-			return hatGleichenBetrag(((CMinTerm) cE2).getValue());
-		}
-		return false;
-	}
-	
-	public void normalize(){};
-	
-	public boolean istGleichartigesMonom(CElement el){
-		boolean result = false;
-		if (el.getCType()==CType.IDENT){
-			result = (getElement().getTextContent().equals(el.getElement().getTextContent()));
-		} else if (el.getCType() ==CType.MINROW) {
-			return this.istGleichartigesMonom(((CMinTerm) el).getValue());
-		} else if (el.getCType()==CType.POT){
-			result = (getElement().getTextContent().equals(el.getElement().getFirstChild().getTextContent()));
-		} else if (el.getCType()==CType.TIMESROW) {
-			String s1 = getVar();
-    		String s2 = ((CTimesRow) el).getVarString();
-    		result = !(s1.equals("Fehler") || s2.equals("Fehler"));
-    		result = result && (s1.equals(s2));
-    		return result;
-		}
-		return result; 
-	}
-	
-	public String getVar(){
-		return getElement().getTextContent();
-	}
-	
-	public String getSignatur(){
-		return getVar();
-	}
-	
-	public CPot toPot(){
-		CPot cPot = CPot.createPot(this, 1);
-		cPot.setCRolle(getCRolle());
-		cPot.setExtPraefix(getExtPraefix());
-		setExtPraefix(null);
-		return cPot;
-	}
-	
+    public CIdent(final Element element) {
+        this.element = element;
+    }
+
+    @Override
+    public CType getCType() {
+        return CType.IDENT;
+    }
+
+    public static CIdent createIdent(final Element producer, final String s) {
+        final CIdent ident = (CIdent) CElementHelper.createAll(producer,
+                "mi", "mi", CRolle.UNKNOWN, null);
+        ident.setText(s);
+        return ident;
+    }
+
+    @Override
+    public boolean hatGleichenBetrag(final CElement cE2) {
+        if (cE2 instanceof CIdent) {
+            return this.getText().equals(((CIdent) cE2).getText());
+        } else if (cE2 instanceof CMinTerm) {
+            return this.hatGleichenBetrag(((CMinTerm) cE2).getValue());
+        }
+        return false;
+    }
+
+    @Override
+    public void normalize() {
+    };
+
+    @Override
+    public boolean istGleichartigesMonom(final CElement el) {
+        boolean result = false;
+        if (el.getCType() == CType.IDENT) {
+            result = (this.getElement().getTextContent().equals(el
+                    .getElement().getTextContent()));
+        } else if (el.getCType() == CType.MINROW) {
+            return this.istGleichartigesMonom(((CMinTerm) el).getValue());
+        } else if (el.getCType() == CType.POT) {
+            result = (this.getElement().getTextContent().equals(el
+                    .getElement().getFirstChild().getTextContent()));
+        } else if (el.getCType() == CType.TIMESROW) {
+            final String s1 = this.getVar();
+            final String s2 = ((CTimesRow) el).getVarString();
+            result = !(s1.equals("Fehler") || s2.equals("Fehler"));
+            result = result && (s1.equals(s2));
+            return result;
+        }
+        return result;
+    }
+
+    public String getVar() {
+        return this.getElement().getTextContent();
+    }
+
+    public String getSignatur() {
+        return this.getVar();
+    }
+
+    public CPot toPot() {
+        final CPot cPot = CPot.createPot(this, 1);
+        cPot.setCRolle(this.getCRolle());
+        cPot.setExtPraefix(this.getExtPraefix());
+        this.setExtPraefix(null);
+        return cPot;
+    }
+
+    @Override
+    public int internalCompare(final CElement o) {
+        final CIdent i2 = (CIdent) o;
+        return this.getVar().compareTo(i2.getVar());
+    }
 }

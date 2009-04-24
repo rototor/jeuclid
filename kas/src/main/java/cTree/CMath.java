@@ -20,32 +20,42 @@ import org.w3c.dom.Element;
 
 public class CMath extends CElement {
 
-	public CMath(Element element){
-		this.element = element;
-	}
-	
-	public CType getCType() {
-		return CType.MATH;
-	}
-	
-	public CElement getInnen(){
-		return getFirstChild();
-	}
-	
-	public void normalize(){
-		if (!hasChildC()){
-			System.out.println("Normalize-Fehler: CMath has no Child");
-		} else {
-			CElement child = this.getFirstChild();
-			if (child.hasPrevC() || child.hasNextC()|| child.getCRolle()!=CRolle.MATHCHILD){
-				System.out.println("Normalize-Fehler in CMath");
-			} else {
-				if (child.getParent()!=this){
-					System.out.println("Normalize-Fehler in CMath: Vernetzung falsch");
-				} else {
-					child.normalize();
-				}
-			}
-		}
-	};
+    public CMath(final Element element) {
+        this.element = element;
+    }
+
+    @Override
+    public CType getCType() {
+        return CType.MATH;
+    }
+
+    public CElement getInnen() {
+        return this.getFirstChild();
+    }
+
+    @Override
+    public void normalize() {
+        if (!this.hasChildC()) {
+            System.out.println("Normalize-Fehler: CMath has no Child");
+        } else {
+            final CElement child = this.getFirstChild();
+            if (child.hasPrevC() || child.hasNextC()
+                    || child.getCRolle() != CRolle.MATHCHILD) {
+                System.out.println("Normalize-Fehler in CMath");
+            } else {
+                if (child.getParent() != this) {
+                    System.out
+                            .println("Normalize-Fehler in CMath: Vernetzung falsch");
+                } else {
+                    child.normalize();
+                }
+            }
+        }
+    };
+
+    @Override
+    public int internalCompare(final CElement o) {
+        return 0;
+    }
+
 }

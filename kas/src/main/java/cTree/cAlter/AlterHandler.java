@@ -34,24 +34,8 @@ public class AlterHandler {
     @SuppressWarnings("unchecked")
     private AlterHandler() {
         this.getAlters = new HashMap<String, CAlter>();
-        // new CA_Minrow().register(this.getAlters);
-        // new CA_PotA_Times().register(this.getAlters);
-        // new CA_Times_PotA().register(this.getAlters);
-        // new CA_PrimeDecomposition().register(this.getAlters);
-        // new CA_MinA_PlusMin1Mal().register(this.getAlters);
-        // new CA_Min1_InProdInSum().register(this.getAlters);
-        // new CA_Min1_InProdInSumFirst().register(this.getAlters);
-        // new CA_Min1_InProdInMinTerm().register(this.getAlters);
-        // new CA_Frac_Kuerzen().register(this.getAlters);
-        // new CA_Frac_InInteger().register(this.getAlters);
-        // new CA_Frac_InSumme().register(this.getAlters);
-        // new CA_Frac_Min1Vorziehen().register(this.getAlters);
-        // new CA_MinVorziehenSumFencedSum().register(this.getAlters);
-        // new CA_Klammern().register(this.getAlters);
-        // // new CA_Entklammern().register(this.getAlters);
-        // // new CA_Verbinden().register(this.getAlters);
-        // new CA_Extract().register(this.getAlters);
         try {
+
             final BufferedReader reader = new BufferedReader(new FileReader(
                     System.getProperty("user.dir") + "/Changers.txt"));
             final ArrayList<String> strings = new ArrayList<String>();
@@ -59,7 +43,6 @@ public class AlterHandler {
             while ((line = reader.readLine()) != null) {
                 strings.add(line);
             }
-            System.out.println(strings.size());
             reader.close();
             for (final String s : strings) {
                 final Class c = Class.forName("cTree.cAlter." + s);

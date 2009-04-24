@@ -55,6 +55,26 @@ public class CPlusRow extends CRow {
         return true;
     }
 
+    @Override
+    public int internalCompare(final CElement o) {
+        final CPlusRow r2 = (CPlusRow) o;
+        if (this.getCount() == r2.getCount()) {
+            CElement c1 = this.getFirstChild();
+            CElement c2 = r2.getFirstChild();
+            for (int i = 0; i < this.getCount(); i++) {
+                if (c1.compareTo(c2) != 0) {
+                    return c1.compareTo(c2);
+                } else {
+                    c1 = c1.getNextSibling();
+                    c2 = c2.getNextSibling();
+                }
+            }
+            return 0;
+        } else {
+            return this.getCount() - r2.getCount();
+        }
+    }
+
     // -------- bulk Praefix and Rolle Support
     public void correctInternalCRolles() {
         if (this.hasChildC()) {
@@ -69,7 +89,8 @@ public class CPlusRow extends CRow {
 
     public void correctInternalPraefixesAndRolle() {
         if (this.hasChildC()) {
-            CElement first = this.getFirstChild();
+            final CElement first = this.getFirstChild();
+            CElement nextC = first.getNextSibling();
             if (first.hasExtMinus()) {
                 final CMinTerm newFirst = CMinTerm.createMinTerm(first
                         .cloneCElement(true));
@@ -77,12 +98,12 @@ public class CPlusRow extends CRow {
             } else if (first.hasExtPlus()) {
                 first.removePraefix();
             }
-            while (first.hasNextC()) {
-                first = first.getNextSibling();
-                if (!first.hasExtMinus()
-                        && !"+".equals(first.getExtPraefix())) {
-                    first.setPraefix("+");
+            while (nextC != null) {
+                if (!nextC.hasExtMinus()
+                        && !"+".equals(nextC.getExtPraefix())) {
+                    nextC.setPraefix("+");
                 }
+                nextC = nextC.getNextSibling();
             }
         }
         this.correctInternalCRolles();

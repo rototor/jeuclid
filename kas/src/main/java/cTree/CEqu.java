@@ -19,22 +19,35 @@ package cTree;
 import org.w3c.dom.Element;
 
 public class CEqu extends CElement {
-	
-	public CEqu(Element element){
-		this.element = element;
-	}
-	
-	public CType getCType() {
-		return CType.EQU;
-	}
-	
-	public CElement getLinkeSeite(){
-		return getFirstChild();
-	}
-	
-	public CElement getRechteSeite(){
-		return getFirstChild().getNextSibling();
-	}
-	
-	public void normalize(){};
+
+    public CEqu(final Element element) {
+        this.element = element;
+    }
+
+    @Override
+    public CType getCType() {
+        return CType.EQU;
+    }
+
+    public CElement getLinkeSeite() {
+        return this.getFirstChild();
+    }
+
+    public CElement getRechteSeite() {
+        return this.getFirstChild().getNextSibling();
+    }
+
+    @Override
+    public void normalize() {
+    };
+
+    @Override
+    public int internalCompare(final CElement o) {
+        final CEqu eq2 = (CEqu) o;
+        if (this.getLinkeSeite().compareTo(eq2.getLinkeSeite()) != 0) {
+            return this.getLinkeSeite().compareTo(eq2.getLinkeSeite());
+        } else {
+            return this.getRechteSeite().compareTo(eq2.getRechteSeite());
+        }
+    }
 }

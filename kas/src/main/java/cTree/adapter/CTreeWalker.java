@@ -21,113 +21,132 @@ import org.w3c.dom.Element;
 import cTree.CElement;
 import cTree.CNavHelper;
 
-public abstract class CTreeWalker extends ActivityAdapter{
-	
-	// boolesche Tester für Navigation ---------------------------------------
-	public boolean hasParent(){
-		return element!=null && element.getParentNode()!=null && 
-		   DOMElementMap.getInstance().getCElement.get(element.getParentNode()) !=null;
-	}		
-	
-	public boolean hasChildC(){
-		if (element!=null && element.getFirstChild()!=null && (element.getFirstChild() instanceof Element)) {
-			Element firstTest = (Element) element.getFirstChild();
-			if ("mo".equals(firstTest.getNodeName())){
-				return DOMElementMap.getInstance().getCElement.get(firstTest.getNextSibling())!=null;
-			} else {
-				return DOMElementMap.getInstance().getCElement.get(firstTest)!=null;
-			}
-		} else {
-			return false;
-		}
-	}	
-	public boolean hasNextC(){
-		if (hasParent()) {
-			return CNavHelper.hasNextC(CNavHelper.getNavType(getParent()), element);
-		} else {
-			return false;
-		}
-	}	
-	public boolean hasPrevC(){
-		if (hasParent()) {
-			return CNavHelper.hasPrevC(CNavHelper.getNavType(getParent()), element);
-		} else {
-			return false;
-		}
-	}	
-	
-	// Getter sollten nur nach hasParent hasPrevC ... aufgerufen werden.
-	public CElement getParent() {
-		return DOMElementMap.getInstance().getCElement.get(element.getParentNode());
-	}
-	public CElement getNextSibling() {
-		if(hasNextC()){
-			return CNavHelper.getNextC(CNavHelper.getNavType(getParent()), element);
-		} else {
-			return null;
-		}
-	}
-	public CElement getPrevSibling() {
-		return CNavHelper.getPrevC(CNavHelper.getNavType(getParent()), element);
-	}
-	public CElement getFirstChild() {
-		if (element.getFirstChild()==null || !(element.getFirstChild() instanceof Element) ){
-			return null;
-		} else {
-			Element firstTest = (Element) element.getFirstChild();
-			if ("mo".equals(firstTest.getNodeName())){
-				return DOMElementMap.getInstance().getCElement.get(firstTest.getNextSibling());
-			} else {
-				return DOMElementMap.getInstance().getCElement.get(firstTest);
-			}
-		}	
-	}
-	
-	// Support für die Auswahl im CTree ---------------------------------------
-	public CElement tryToSelectParent(){
-    	if (hasParent()) {
-			CElement bEl = getParent();
-    		removeCActiveProperty();
-			bEl.setCActiveProperty();
-			return bEl;
-		} else {
-			System.out.println("kein activer Node oder Parent oder Element");
-		}
-    	return (CElement) this;
+public abstract class CTreeWalker extends ActivityAdapter {
+
+    // boolesche Tester für Navigation ---------------------------------------
+    @Override
+    public boolean hasParent() {
+        return this.element != null
+                && this.element.getParentNode() != null
+                && DOMElementMap.getInstance().getCElement.get(this.element
+                        .getParentNode()) != null;
     }
-    public CElement tryToSelectFirstChild(){
-    	if (hasChildC() ) {
-    		CElement bEl = getFirstChild();
-    		removeCActiveProperty();
-			bEl.setCActiveProperty();
-			return bEl;
-		} else {
-			System.out.println("kein active Node oder Child oder Element");
-		}
-    	return (CElement)this;
+
+    public boolean hasChildC() {
+        if (this.element != null && this.element.getFirstChild() != null
+                && (this.element.getFirstChild() instanceof Element)) {
+            final Element firstTest = (Element) this.element.getFirstChild();
+            if ("mo".equals(firstTest.getNodeName())) {
+                return DOMElementMap.getInstance().getCElement.get(firstTest
+                        .getNextSibling()) != null;
+            } else {
+                return DOMElementMap.getInstance().getCElement.get(firstTest) != null;
+            }
+        } else {
+            return false;
+        }
     }
-    
-    public CElement tryToSelectLeft(){
-    	if (hasPrevC()) {
-    		CElement bEl = getPrevSibling();
-    		removeCActiveProperty();
-			bEl.setCActiveProperty();
-			return bEl;
-		} else {
-			System.out.println("kein activer Node, left Node or Element");
-		}	
-    	return (CElement)this;
+
+    public boolean hasNextC() {
+        if (this.hasParent()) {
+            return CNavHelper.hasNextC(CNavHelper
+                    .getNavType(this.getParent()), this.element);
+        } else {
+            return false;
+        }
     }
-    
-    public CElement tryToSelectRight(){
-    	if (hasNextC()) {
-    		CElement bEl = getNextSibling();
-    		removeCActiveProperty();
-			bEl.setCActiveProperty();
-			return bEl;
-		} else {
-			System.out.println("kein activer Node, left Node or Element");
-		}	
-    	return (CElement) this;
+
+    public boolean hasPrevC() {
+        if (this.hasParent()) {
+            return CNavHelper.hasPrevC(CNavHelper
+                    .getNavType(this.getParent()), this.element);
+        } else {
+            return false;
+        }
+    }
+
+    // Getter sollten nur nach hasParent hasPrevC ... aufgerufen werden.
+    public CElement getParent() {
+        return DOMElementMap.getInstance().getCElement.get(this.element
+                .getParentNode());
+    }
+
+    public CElement getNextSibling() {
+        if (this.hasNextC()) {
+            return CNavHelper.getNextC(CNavHelper
+                    .getNavType(this.getParent()), this.element);
+        } else {
+            return null;
+        }
+    }
+
+    public CElement getPrevSibling() {
+        return CNavHelper.getPrevC(CNavHelper.getNavType(this.getParent()),
+                this.element);
+    }
+
+    public CElement getFirstChild() {
+        if (this.element.getFirstChild() == null
+                || !(this.element.getFirstChild() instanceof Element)) {
+            return null;
+        } else {
+            final Element firstTest = (Element) this.element.getFirstChild();
+            if ("mo".equals(firstTest.getNodeName())) {
+                return DOMElementMap.getInstance().getCElement.get(firstTest
+                        .getNextSibling());
+            } else {
+                return DOMElementMap.getInstance().getCElement.get(firstTest);
+            }
+        }
+    }
+
+    // Support für die Auswahl im CTree
+    // ---------------------------------------
+    public CElement tryToSelectParent() {
+        if (this.hasParent()) {
+            final CElement bEl = this.getParent();
+            this.removeCActiveProperty();
+            bEl.setCActiveProperty();
+            return bEl;
+        } else {
+            System.out.println("kein activer Node oder Parent oder Element");
+        }
+        return (CElement) this;
+    }
+
+    public CElement tryToSelectFirstChild() {
+        if (this.hasChildC()) {
+            final CElement bEl = this.getFirstChild();
+            this.removeCActiveProperty();
+            bEl.setCActiveProperty();
+            return bEl;
+        } else {
+            System.out.println("kein active Node oder Child oder Element");
+        }
+        return (CElement) this;
+    }
+
+    public CElement tryToSelectLeft() {
+        if (this.hasPrevC()) {
+            final CElement bEl = this.getPrevSibling();
+            this.removeCActiveProperty();
+            bEl.setCActiveProperty();
+            return bEl;
+        } else {
+            System.out.println("kein activer Node, left Node or Element");
+        }
+        return (CElement) this;
+    }
+
+    public CElement tryToSelectRight() {
+        if (this.hasNextC()) {
+            final CElement bEl = this.getNextSibling();
+            this.removeCActiveProperty();
+            bEl.setCActiveProperty();
+            return bEl;
+        } else {
+            System.out.println("kein activer Node, left Node or Element");
+        }
+        return (CElement) this;
     }
 }

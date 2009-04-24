@@ -17,17 +17,5 @@
 package cTree;
 
 public enum CType {
-	MATH, 
-	PLUSROW, 
-	TIMESROW, 
-	POT,
-	FRAC, 
-	SQRT, 
-	MINROW,
-	EQU, 
-	IDENT, 
-	NUM,
-	FENCES, 
-	EMPTY,
-	UNKNOWN
+    NUM, IDENT, MINROW, PLUSROW, TIMESROW, FRAC, POT, SQRT, FENCES, EQU, EMPTY, UNKNOWN, MATH
 }
