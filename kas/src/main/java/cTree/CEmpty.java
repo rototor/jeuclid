@@ -19,14 +19,23 @@ package cTree;
 import org.w3c.dom.Element;
 
 public class CEmpty extends CElement {
-	
-	public CEmpty(Element element){
-		this.element = element;
-	}
-	
-	public CType getCType() {
-		return CType.EMPTY;
-	}
-	
-	public void normalize(){};
+
+    public CEmpty(final Element element) {
+        this.element = element;
+    }
+
+    @Override
+    public CType getCType() {
+        return CType.EMPTY;
+    }
+
+    @Override
+    public void normalize() {
+    }
+
+    @Override
+    public int internalCompare(final CElement o) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }

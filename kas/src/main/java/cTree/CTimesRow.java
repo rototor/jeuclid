@@ -460,4 +460,24 @@ public class CTimesRow extends CRow {
         }
     }
 
+    @Override
+    public int internalCompare(final CElement o) {
+        final CTimesRow r2 = (CTimesRow) o;
+        if (this.getCount() == r2.getCount()) {
+            CElement c1 = this.getFirstChild();
+            CElement c2 = r2.getFirstChild();
+            for (int i = 0; i < this.getCount(); i++) {
+                if (c1.compareTo(c2) != 0) {
+                    return c1.compareTo(c2);
+                } else {
+                    c1 = c1.getNextSibling();
+                    c2 = c2.getNextSibling();
+                }
+            }
+            return 0;
+        } else {
+            return this.getCount() - r2.getCount();
+        }
+    }
+
 }

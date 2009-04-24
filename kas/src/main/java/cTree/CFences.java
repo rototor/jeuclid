@@ -104,4 +104,20 @@ public class CFences extends CElement {
             firstRow.normalizeTreeAndSiblings();
         }
     }
+
+    @Override
+    public boolean hasNumberValue() {
+        return this.getInnen().hasNumberValue();
+    }
+
+    @Override
+    public double getNumberValue() {
+        return this.getInnen().getNumberValue();
+    }
+
+    @Override
+    public int internalCompare(final CElement o) {
+        final CFences f2 = (CFences) o;
+        return this.getInnen().compareTo(f2.getInnen());
+    }
 }

@@ -25,7 +25,8 @@ import cTree.cCombine.CombineHandler;
 import cTree.cDefence.DefenceHandler;
 import cTree.cSplit.SplitHandler;
 
-public abstract class CElement extends RolleAdapter {
+public abstract class CElement extends RolleAdapter implements
+        Comparable<CElement> {
 
     public CType getCType() {
         return CType.UNKNOWN;
@@ -92,6 +93,34 @@ public abstract class CElement extends RolleAdapter {
         }
         return aFencePair;
     }
+
+    // compare
+
+    public boolean hasNumberValue() {
+        return false;
+    }
+
+    public double getNumberValue() {
+        return Double.NaN;
+    }
+
+    public int compareTo(final CElement o) {
+        if (o.hasMinOrDiv()) {
+            return this.hasMinOrDiv() ? this.compareWithoutPraefix(o) : -1;
+        } else {
+            return this.hasMinOrDiv() ? 1 : this.compareWithoutPraefix(o);
+        }
+    }
+
+    private int compareWithoutPraefix(final CElement o) {
+        if (this.getCType() != o.getCType()) {
+            return this.getCType().compareTo(o.getCType());
+        } else {
+            return this.internalCompare(o);
+        }
+    }
+
+    public abstract int internalCompare(final CElement o);
 
     // --- Ausgaben ---------------------------------------
     public void show() {

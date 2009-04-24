@@ -19,59 +19,84 @@ package cTree;
 import org.w3c.dom.Element;
 
 public class CNum extends CElement {
-	
-	public CNum(Element element){
-		this.element = element;
-	}
-	
-	public CType getCType() {
-		return CType.NUM;
-	}
-	
-	public static CNum createNum(Element producer, String s){
-		CNum ident = (CNum) CElementHelper.createAll(producer, "mn", "mn", CRolle.UNKNOWN, null);
-		ident.setText(s); 
-		return ident;
-	}
-	
-	public boolean hatGleichenBetrag(CElement cE2){
-		if (cE2 instanceof CNum){
-			return this.getValue()==((CNum) cE2).getValue();
-		} else if (cE2 instanceof CMinTerm){
-			return hatGleichenBetrag(((CMinTerm) cE2).getValue());
-		}
-		return false;
-	}
-	
-    public boolean istGleichartigesMonom(CElement e2){
-    	if (e2 instanceof CMinTerm){
-    		return this.istGleichartigesMonom(((CMinTerm) e2).getValue());
-    	}
-    	return (e2 instanceof CNum);
+
+    public CNum(final Element element) {
+        this.element = element;
     }
-	public void normalize(){
-		if ("mrow".equals(getElement().getNodeName()) && this.hasChildC()){
-			CElement num = getFirstChild();
-			num.setExtPraefix(getExtPraefix());
-			this.setExtPraefix(null);
-			this.getParent().replaceChild(getFirstChild(), this, true, false);
-			
-		}
-	};
-    
-	public int getValue() throws NumberFormatException{
-		return Integer.parseInt(this.getElement().getTextContent());
-	}
-	
-	public void setValue(int i){
-		getElement().setTextContent(""+i);
-	}
-	
-    public boolean is0(){
-    	return Integer.parseInt(this.getElement().getTextContent())==0;
+
+    @Override
+    public CType getCType() {
+        return CType.NUM;
     }
-    
-    public boolean is1(){
-    	return Integer.parseInt(this.getElement().getTextContent())==1;
+
+    public static CNum createNum(final Element producer, final String s) {
+        final CNum ident = (CNum) CElementHelper.createAll(producer, "mn",
+                "mn", CRolle.UNKNOWN, null);
+        ident.setText(s);
+        return ident;
+    }
+
+    @Override
+    public boolean hatGleichenBetrag(final CElement cE2) {
+        if (cE2 instanceof CNum) {
+            return this.getValue() == ((CNum) cE2).getValue();
+        } else if (cE2 instanceof CMinTerm) {
+            return this.hatGleichenBetrag(((CMinTerm) cE2).getValue());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean istGleichartigesMonom(final CElement e2) {
+        if (e2 instanceof CMinTerm) {
+            return this.istGleichartigesMonom(((CMinTerm) e2).getValue());
+        }
+        return (e2 instanceof CNum);
+    }
+
+    @Override
+    public void normalize() {
+        if ("mrow".equals(this.getElement().getNodeName())
+                && this.hasChildC()) {
+            final CElement num = this.getFirstChild();
+            num.setExtPraefix(this.getExtPraefix());
+            this.setExtPraefix(null);
+            this.getParent().replaceChild(this.getFirstChild(), this, true,
+                    false);
+
+        }
+    };
+
+    public int getValue() throws NumberFormatException {
+        return Integer.parseInt(this.getElement().getTextContent());
+    }
+
+    public void setValue(final int i) {
+        this.getElement().setTextContent("" + i);
+    }
+
+    @Override
+    public boolean is0() {
+        return Integer.parseInt(this.getElement().getTextContent()) == 0;
+    }
+
+    public boolean is1() {
+        return Integer.parseInt(this.getElement().getTextContent()) == 1;
+    }
+
+    @Override
+    public int internalCompare(final CElement o) {
+        final CNum t2 = (CNum) o;
+        return this.getValue() - t2.getValue();
+    }
+
+    @Override
+    public boolean hasNumberValue() {
+        return true;
+    }
+
+    @Override
+    public double getNumberValue() {
+        return this.getValue();
     }
 }

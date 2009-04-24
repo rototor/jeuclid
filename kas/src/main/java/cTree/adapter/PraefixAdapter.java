@@ -209,6 +209,10 @@ public abstract class PraefixAdapter extends ElementAdapter {
                 && ":".equals(this.praefix.getTextContent());
     }
 
+    public boolean hasMinOrDiv() {
+        return this.hasExtMinus() || this.hasExtDiv();
+    }
+
     // -- Ausgabe
     public static void showPraefix(final Element e) {
         System.out.println("*VZ " + e.getNodeName() + " "

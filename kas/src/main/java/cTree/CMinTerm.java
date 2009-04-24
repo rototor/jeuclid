@@ -18,48 +18,69 @@ package cTree;
 
 import org.w3c.dom.Element;
 
-public class CMinTerm extends CElement{
-	
-	public CMinTerm(Element element){
-		this.element = element;
-	}
-	
-	public CType getCType() {
-		return CType.MINROW;
-	}
-	
-	public static CMinTerm createMinTerm(CElement inhalt){
-		return createMinTerm(inhalt, CRolle.UNKNOWN);
-	}
-	
-	public static CMinTerm createMinTerm(CElement inhalt, CRolle cRolle){
-		CMinTerm minTerm = (CMinTerm) CElementHelper.createAll(inhalt.getElement(), "mrow", "vzterm", cRolle, null);
-		minTerm.appendPraefixAndChild(inhalt);
-		if (!inhalt.hasExtMinus()){
-			inhalt.setPraefix("-");
-		} 
-		inhalt.setCRolle(CRolle.NACHVZMINUS);
-		return minTerm;
-	}	
-	
-	public boolean hatGleichenBetrag(CElement cE2){
-		if (cE2 instanceof CMinTerm){
-			return this.getValue().hatGleichenBetrag(((CMinTerm) cE2).getValue());
-		} else {
-			return this.getValue().hatGleichenBetrag(cE2);
-		}
-	}
-	
-    public boolean istGleichartigesMonom(CElement e2){
-    	return this.getValue().istGleichartigesMonom(e2);
-    }
-	
-	public CElement getValue(){
-		return getFirstChild();
-	}
-	
-	public void normalize(){};
-	
+public class CMinTerm extends CElement {
 
-	
+    public CMinTerm(final Element element) {
+        this.element = element;
+    }
+
+    @Override
+    public CType getCType() {
+        return CType.MINROW;
+    }
+
+    public static CMinTerm createMinTerm(final CElement inhalt) {
+        return CMinTerm.createMinTerm(inhalt, CRolle.UNKNOWN);
+    }
+
+    public static CMinTerm createMinTerm(final CElement inhalt,
+            final CRolle cRolle) {
+        final CMinTerm minTerm = (CMinTerm) CElementHelper.createAll(inhalt
+                .getElement(), "mrow", "vzterm", cRolle, null);
+        minTerm.appendPraefixAndChild(inhalt);
+        if (!inhalt.hasExtMinus()) {
+            inhalt.setPraefix("-");
+        }
+        inhalt.setCRolle(CRolle.NACHVZMINUS);
+        return minTerm;
+    }
+
+    @Override
+    public boolean hatGleichenBetrag(final CElement cE2) {
+        if (cE2 instanceof CMinTerm) {
+            return this.getValue().hatGleichenBetrag(
+                    ((CMinTerm) cE2).getValue());
+        } else {
+            return this.getValue().hatGleichenBetrag(cE2);
+        }
+    }
+
+    @Override
+    public boolean istGleichartigesMonom(final CElement e2) {
+        return this.getValue().istGleichartigesMonom(e2);
+    }
+
+    public CElement getValue() {
+        return this.getFirstChild();
+    }
+
+    @Override
+    public void normalize() {
+    };
+
+    @Override
+    public boolean hasNumberValue() {
+        return this.getValue().hasNumberValue();
+    }
+
+    @Override
+    public double getNumberValue() {
+        return (-1) * this.getValue().getNumberValue();
+    }
+
+    @Override
+    public int internalCompare(final CElement o) {
+        final CMinTerm t2 = (CMinTerm) o;
+        return t2.getValue().compareTo(this.getValue());
+    }
 }

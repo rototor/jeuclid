@@ -30,8 +30,6 @@ public class CC_StrichFracFrac extends CC_ {
 
     private CElement z2;
 
-    private CElement n2;
-
     private final CMessage z1_TryDefence = new CMessage(false);
 
     private final CMessage z2_TryDefence = new CMessage(false);

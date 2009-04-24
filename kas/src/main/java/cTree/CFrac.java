@@ -57,4 +57,27 @@ public class CFrac extends CElement {
     public void normalize() {
     };
 
+    @Override
+    public boolean hasNumberValue() {
+        return this.getZaehler().hasNumberValue()
+                && this.getNenner().hasNumberValue()
+                && (Math.abs(this.getZaehler().getNumberValue()) > 0.000001);
+    }
+
+    @Override
+    public double getNumberValue() {
+        return (this.getZaehler().getNumberValue() / this.getNenner()
+                .getNumberValue());
+    }
+
+    @Override
+    public int internalCompare(final CElement o) {
+        final CFrac f2 = (CFrac) o;
+        if (this.getNenner().compareTo(f2.getNenner()) != 0) {
+            return this.getNenner().compareTo(f2.getNenner());
+        } else {
+            return this.getZaehler().compareTo(f2.getZaehler());
+        }
+    }
+
 }
