@@ -66,7 +66,7 @@ public class CTimesRow extends CRow {
             while (first.hasNextC()) {
                 first = first.getNextSibling();
                 if (!first.hasExtDiv() && !first.hasExtTimes()) {
-                    first.setPraefix("*"); // "·"
+                    first.setPraefix("·"); // "·"
                 }
             }
         }

@@ -16,44 +16,65 @@
 
 package cTree.cCombine;
 
-import java.util.ArrayList;
-
 import cTree.CElement;
-import cTree.CFences;
+import cTree.CMinTerm;
 import cTree.CPlusRow;
-import cTree.CTimesRow;
 
 public class CC_PunktFencesFences extends CC_ {
 
-    // a*(b+c+d) -> (a*b+a*c+a*d)
-    // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
-    // steht
+    private CC_PunktFencedMinFencedMin cmm;
+
+    private CC_PunktFencedSumFencedSum css;
 
     @Override
     protected CElement createCombination(final CElement parent,
             final CElement cE1, final CElement cE2) {
-        System.out
-                .println("Multipliziere Klammer mit Klammer, die Summe enthält");
-        final ArrayList<CElement> oldAddendList = ((CPlusRow) cE2
-                .getFirstChild()).getMemberList();
-        final ArrayList<CElement> newAddendList = CTimesRow.map(cE1,
-                oldAddendList);
-        final CFences newChild = CFences.createFenced(CPlusRow
-                .createRow(newAddendList));
-        ((CPlusRow) newChild.getInnen()).correctInternalPraefixesAndRolle();
-        return newChild;
+        if (cE1.getFirstChild() instanceof CMinTerm
+                && cE2.getFirstChild() instanceof CMinTerm) {
+            return this.getCmm().createCombination(parent, cE1, cE2);
+        } else if (cE1.getFirstChild() instanceof CPlusRow
+                && cE2.getFirstChild() instanceof CPlusRow) {
+            return this.getCss().createCombination(parent, cE1, cE2);
+        }
+        return cE1;
     }
 
     @Override
     protected boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("Repell fenced mult fenced");
-        if (cE1.hasExtDiv() || cE2.hasExtDiv()) {
-            return false;
+        System.out.println("Try to combine");
+        if (cE1.getFirstChild() instanceof CMinTerm
+                && cE2.getFirstChild() instanceof CMinTerm) {
+            System.out.println("Found MinTerms");
+            return this.getCmm().canCombine(parent, cE1, cE2);
+        } else if (cE1.getFirstChild() instanceof CPlusRow
+                && cE2.getFirstChild() instanceof CPlusRow) {
+            return this.getCss().canCombine(parent, cE1, cE2);
         }
-        if (!cE2.hasChildC() || !(cE2.getFirstChild() instanceof CPlusRow)) {
-            return false;
+        return false;
+    }
+
+    /**
+     * Getter method for cmm.
+     * 
+     * @return the cmm
+     */
+    protected CC_PunktFencedMinFencedMin getCmm() {
+        if (this.cmm == null) {
+            this.cmm = new CC_PunktFencedMinFencedMin();
         }
-        return true;
+        return this.cmm;
+    }
+
+    /**
+     * Getter method for css.
+     * 
+     * @return the css
+     */
+    protected CC_PunktFencedSumFencedSum getCss() {
+        if (this.css == null) {
+            this.css = new CC_PunktFencedSumFencedSum();
+        }
+        return this.css;
     }
 }
