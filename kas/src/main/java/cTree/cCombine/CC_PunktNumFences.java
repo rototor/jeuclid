@@ -16,52 +16,51 @@
 
 package cTree.cCombine;
 
-import java.util.ArrayList;
-
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
-import cTree.CTimesRow;
 
 public class CC_PunktNumFences extends CC_ {
+
+    private CC_PunktNumFencedSum cns;
+
+    private CC_PunktNumFencedMin cnm;
 
     @Override
     protected CElement createCombination(final CElement oldSumme,
             final CElement cE1, final CElement cE2) {
-        if (cE2.getFirstChild() instanceof CPlusRow) {
-            System.out
-                    .println("Multipliziere Num mit Klammer, die Summe enthält");
-            final ArrayList<CElement> oldAddendList = ((CPlusRow) cE2
-                    .getFirstChild()).getMemberList();
-            final ArrayList<CElement> newAddendList = CTimesRow.map(cE1,
-                    oldAddendList);
-            final CFences newChild = CFences.createFenced(CPlusRow
-                    .createRow(newAddendList));
-            ((CPlusRow) newChild.getInnen())
-                    .correctInternalPraefixesAndRolle();
-            return newChild;
-        } else { // only for MinTerm
-            System.out
-                    .println("Multipliziere Num mit Klammer, die MinTerm enthält");
-            final CElement newFirstFactor = cE1.cloneCElement(false);
-            final CElement newSecondFactor = ((CMinTerm) cE2.getFirstChild())
-                    .getValue().cloneCElement(false);
-            newSecondFactor.setPraefix("*");
-            final CTimesRow newTR = CTimesRow.createRow(CTimesRow.createList(
-                    newFirstFactor, newSecondFactor));
-            final CMinTerm newMinTerm = CMinTerm.createMinTerm(newTR);
-            final CFences newFences = CFences.createFenced(newMinTerm);
-            return newFences;
+        if (((CFences) cE2).getInnen() instanceof CMinTerm) {
+            return this.getCnm().createCombination(oldSumme, cE1, cE2);
+        } else if (((CFences) cE2).getInnen() instanceof CPlusRow) {
+            return this.getCns().createCombination(oldSumme, cE1, cE2);
         }
+        return cE1;
     }
 
     @Override
     protected boolean canCombine(final CElement parent, final CElement el,
             final CElement el2) {
         System.out.println("Can Combine Num times Fences?");
-        return ((!el2.hasExtDiv()) && ((el2.getFirstChild() instanceof CMinTerm) || (el2
-                .getFirstChild() instanceof CPlusRow)));
+        if (((CFences) el2).getInnen() instanceof CMinTerm) {
+            return this.getCnm().canCombine(parent, el, el2);
+        } else if (((CFences) el2).getInnen() instanceof CPlusRow) {
+            return this.getCns().canCombine(parent, el, el2);
+        }
+        return false;
     }
 
+    protected CC_PunktNumFencedMin getCnm() {
+        if (this.cnm == null) {
+            this.cnm = new CC_PunktNumFencedMin();
+        }
+        return this.cnm;
+    }
+
+    protected CC_PunktNumFencedSum getCns() {
+        if (this.cns == null) {
+            this.cns = new CC_PunktNumFencedSum();
+        }
+        return this.cns;
+    }
 }
