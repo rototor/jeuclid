@@ -47,13 +47,30 @@ import cTree.CElement;
 public class MathComponentUI extends ComponentUI implements
         PropertyChangeListener {
 
+    /**
+     * Reference to ViewComponent.
+     */
     private JMathComponent mathComponent;
 
+    /**
+     * Reference to layout tree.
+     */
     private JEuclidView jEuclidView;
 
+    /**
+     * Referen to Document
+     */
     private Node document;
 
     private Dimension preferredSize;
+
+    /**
+     * Default constructor.
+     */
+    public MathComponentUI() {
+        super();
+        // nothing to do.
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -63,7 +80,7 @@ public class MathComponentUI extends ComponentUI implements
         final Dimension dim = this.mathComponent.getSize();
         final Point start = this
                 .getStartPointWithBordersAndAdjustDimension(dim);
-        // this.paintBackground(g, dim, start);
+        // this.paintBackground(g, dim, start); seems necessary to me
         if (this.jEuclidView != null) {
             System.out.println("MCui painting");
             final Point2D alignOffset = this.calculateAlignmentOffset(dim);
@@ -72,7 +89,7 @@ public class MathComponentUI extends ComponentUI implements
         }
     }
 
-    // /** {@inheritDoc} */
+    // /** {@inheritDoc} */ seems necessary to me
     // @Override
     // public void update(final Graphics g, final JComponent c) {
     // System.out.println("MC updating");
@@ -106,14 +123,14 @@ public class MathComponentUI extends ComponentUI implements
         return new Point2D.Float(xo, yo);
     }
 
-    private void paintBackground(final Graphics g, final Dimension dim,
-            final Point start) {
-        final Color back = this.getRealBackgroundColor();
-        if (back != null) {
-            g.setColor(back);
-            g.fillRect(start.x, start.y, dim.width, dim.height);
-        }
-    }
+    // private void paintBackground(final Graphics g, final Dimension dim,
+    // final Point start) {
+    // final Color back = this.getRealBackgroundColor();
+    // if (back != null) {
+    // g.setColor(back);
+    // g.fillRect(start.x, start.y, dim.width, dim.height);
+    // }
+    // }
 
     private Point getStartPointWithBordersAndAdjustDimension(
             final Dimension dim) {
@@ -170,7 +187,6 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     public void propertyChange(final PropertyChangeEvent evt) {
         final String name = evt.getPropertyName();
-
         if ("documentNew".equals(name) || "property".equals(name)) {
             final JMathComponent jc = (JMathComponent) evt.getSource();
             this.document = (Node) evt.getNewValue();
@@ -178,7 +194,6 @@ public class MathComponentUI extends ComponentUI implements
         } else {
             try {
                 final JMathComponent jc = (JMathComponent) evt.getSource();
-                this.document = jc.getDocument();
                 this.redo(jc.getParameters(), (Graphics2D) jc.getGraphics());
             } catch (final ClassCastException ia) {
                 ia.printStackTrace();
@@ -191,8 +206,6 @@ public class MathComponentUI extends ComponentUI implements
         if ((this.document == null) || (g2d == null)) {
             this.jEuclidView = null;
         } else {
-            System.out.println("Redo: new View"
-                    + this.document.getTextContent());
             this.jEuclidView = new JEuclidView(this.document, parameters, g2d);
         }
     }
@@ -269,15 +282,8 @@ public class MathComponentUI extends ComponentUI implements
     public Node getNodeFromView(final int x, final int y) {
         final List<JEuclidView.NodeRect> nodeRects = this.getNodesAt(x, y);
         if (!nodeRects.isEmpty()) {
-            System.out.println(nodeRects.get(nodeRects.size() - 1).getNode()
-                    .getParentNode().getTextContent());
-
-            // return this.jEuclidView.getNode(x, y);
             return nodeRects.get(nodeRects.size() - 1).getNode();
         } else {
-            System.out.println("Get DocChild "
-                    + this.mathComponent.getDocument().getFirstChild()
-                            .getTextContent());
             return this.mathComponent.getDocument().getFirstChild();
         }
     }
@@ -290,11 +296,8 @@ public class MathComponentUI extends ComponentUI implements
                 // Tagname : mi, mo, mrow, mfrac, msqrt ... ebenso localName
                 // ebenso NodeName
                 System.out.println("*Element" + d.getNodeName() + " "
-                        + d.getAttributes().getNamedItem("name")); // +
-                // d.getClass()
-                // +
-                // d.getNodeValue()
-
+                        + d.getAttributes().getNamedItem("name"));
+                // + d.getClass() + d.getNodeValue()
                 if (d.hasAttributes()) {
                     final String result = "Attributes: ";
                     final org.w3c.dom.NamedNodeMap attr = d.getAttributes();

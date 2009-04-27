@@ -137,8 +137,8 @@ public class JMathMouseListener implements MouseListener {
             // Auswählen
         } else {
             final CElement newE = cTree.adapter.DOMElementMap.getInstance().getCElement
-                    .get(this.mathComponent.getUI().getNodeFromView(e.getX(),
-                            e.getY()));
+                    .get(((MathComponentUI) this.mathComponent.getUI())
+                            .getNodeFromView(e.getX(), e.getY()));
             this.mathComponent.setCActive(cTree.CNavHelper.chooseElement(
                     cAct, newE));
             this.mathComponent.clearCButFirst();

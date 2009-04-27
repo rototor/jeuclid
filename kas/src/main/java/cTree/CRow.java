@@ -164,6 +164,21 @@ public abstract class CRow extends CElement {
         return result;
     }
 
+    public ArrayList<CElement> getMemberListFirstWithoutPraefix() {
+        final ArrayList<CElement> result = new ArrayList<CElement>();
+        if (this.hasChildC()) {
+            CElement cElement = this.getFirstChild();
+            CElement newElement = cElement.cloneCElement(false);
+            result.add(newElement);
+            while (cElement.hasNextC()) {
+                cElement = cElement.getNextSibling();
+                newElement = cElement.cloneCElement(true);
+                result.add(newElement);
+            }
+        }
+        return result;
+    }
+
     public static ArrayList<CElement> cloneList(
             final ArrayList<CElement> oldList) {
         final ArrayList<CElement> newList = new ArrayList<CElement>();

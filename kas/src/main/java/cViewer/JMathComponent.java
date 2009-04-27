@@ -37,6 +37,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sourceforge.jeuclid.DOMBuilder;
@@ -71,6 +72,8 @@ public final class JMathComponent extends JComponent implements
 
     private static String uiClassId = "MathComponentUI16";
 
+    private static Class<?> mathComponentUIClass;
+
     private int horizontalAlignment = SwingConstants.CENTER;
 
     // SwingConstants.CENTER;
@@ -95,27 +98,20 @@ public final class JMathComponent extends JComponent implements
     public JFrame frame;
 
     public JMathComponent(final JFrame frame) {
+        this.updateUI();
         this.frame = frame;
         this.parameters = new LayoutContextImpl(LayoutContextImpl
                 .getDefaultLayoutContext());
         this.setParameter(Parameter.MATHSIZE, 48f);
         this.activeC = new ArrayList<CElement>();
-        final MathComponentUI16 ui = new MathComponentUI16();
-        this.setUI(ui);
-        this
-                .setContent("<math><mrow><mi>x</mi><mo>=</mo>"
-                        + "<mfrac><mrow>"
-                        + "<mrow><mo>-</mo><mi>b</mi></mrow>"
-                        + "<mo>+</mo>"
-                        + "<msqrt>"
-                        + "<mrow>"
-                        + "<msup><mi>b</mi><mn>2</mn></msup>"
-                        + "<mo>-</mo>"
-                        + "<mrow><mn>4</mn><mo><mchar name=\"InvisibleTimes\"/></mo><mi>a</mi><mo><mchar name=\"InvisibleTimes\"/></mo><mi>c</mi></mrow>"
-                        + "</mrow>" + "</msqrt>" + "</mrow>" + "<mrow>"
-                        + "<mn>2</mn>"
-                        + "<mo><mchar name=\"InvisibleTimes\"/></mo>"
-                        + "<mi>a</mi>" + "</mrow></mfrac>" + "</mrow></math>");
+        final String initS = "<math><mrow><mi>x</mi><mo>=</mo>"
+                + "<mfrac><mrow><mrow><mo>-</mo><mi>b</mi></mrow>"
+                + "<mo>+</mo><msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup>"
+                + "<mo>-</mo><mrow><mn>4</mn><mo><mchar name=\"InvisibleTimes\"/></mo><mi>a</mi><mo><mchar name=\"InvisibleTimes\"/></mo><mi>c</mi></mrow>"
+                + "</mrow></msqrt></mrow><mrow><mn>2</mn>"
+                + "<mo><mchar name=\"InvisibleTimes\"/></mo>" + "<mi>a</mi>"
+                + "</mrow></mfrac>" + "</mrow></math>";
+        this.setContent(initS);
         // für die Bedienung über die Tastur wichtig
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(false);
@@ -589,5 +585,38 @@ public final class JMathComponent extends JComponent implements
         // JMathComponent.this.setContent(redo);
         // JMathComponent.this.modifyDocument();
         // }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void updateUI() {
+        if (UIManager.get(this.getUIClassID()) == null) {
+            try {
+                this
+                        .setUI((MathComponentUI) JMathComponent.mathComponentUIClass
+                                .newInstance());
+            } catch (final InstantiationException e) {
+                System.out.println(e.getMessage());
+            } catch (final IllegalAccessException e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            this.setUI(UIManager.getUI(this));
+        }
+    }
+
+    static {
+        Class<?> uiClass;
+        String id;
+        try {
+            uiClass = Thread.currentThread().getContextClassLoader()
+                    .loadClass("cViewer.MathComponentUI16");
+            id = "MathComponentUI16";
+        } catch (final ClassNotFoundException t) {
+            uiClass = MathComponentUI.class;
+            id = "MathComponentUI";
+        }
+        JMathComponent.uiClassId = id;
+        JMathComponent.mathComponentUIClass = uiClass;
     }
 }

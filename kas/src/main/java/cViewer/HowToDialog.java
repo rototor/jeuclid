@@ -16,13 +16,14 @@ package cViewer;
  * limitations under the License.
  */
 
-
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.Font;
 import java.awt.Frame;
-import javax.swing.*;
+import java.awt.GridLayout;
 
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * HowToDialog for KAS for JEuclid.
@@ -31,9 +32,13 @@ import javax.swing.*;
 public final class HowToDialog extends JDialog {
 
     private Font textFont;
+
     private Font headFont;
+
     private Font head2Font;
+
     private static final long serialVersionUID = 20090408L;
+
     private JPanel jContentPane;
 
     public HowToDialog(final Frame owner) {
@@ -42,130 +47,143 @@ public final class HowToDialog extends JDialog {
     }
 
     private void initialize() {
-        setModal(false);
-        setResizable(false);
-        textFont = new Font("SansSerif", Font.PLAIN, 11);
-        headFont = new Font("SansSerif", Font.BOLD, 14);
-        headFont = new Font("SansSerif", Font.BOLD, 11);
-        setContentPane(this.getJContentPane());
-        setTitle("KAS - Bedienung"); 
+        this.setModal(false);
+        this.setResizable(false);
+        this.textFont = new Font("SansSerif", Font.PLAIN, 11);
+        this.headFont = new Font("SansSerif", Font.BOLD, 14);
+        this.headFont = new Font("SansSerif", Font.BOLD, 11);
+        this.setContentPane(this.getJContentPane());
+        this.setTitle("KAS - Bedienung");
     }
 
     private JPanel getJContentPane() {
         if (this.jContentPane == null) {
-            jContentPane = new JPanel(); 
-            jContentPane.setLayout(new GridLayout(24,3));
+            this.jContentPane = new JPanel();
+            this.jContentPane.setLayout(new GridLayout(27, 3));
             //
-            jContentPane.add(new JHeaderLabel("Aktion"));
-            jContentPane.add(new JHeaderLabel("Mausbewegung"));
-            jContentPane.add(new JHeaderLabel("Tasten"));
+            this.jContentPane.add(new JHeaderLabel("Aktion"));
+            this.jContentPane.add(new JHeaderLabel("Mausbewegung"));
+            this.jContentPane.add(new JHeaderLabel("Tasten"));
             //
-            jContentPane.add(new JH2Label("Navigation"));
-            jContentPane.add(new JH2Label(" ----------------- "));
-            jContentPane.add(new JH2Label(" ----------------- "));
-            jContentPane.add(new JTextLabel("Endelement auswählen"));
-            jContentPane.add(new JTextLabel("Linksklick"));
-            jContentPane.add(new JTextLabel("-/-"));        
+            this.jContentPane.add(new JH2Label("Navigation"));
+            this.jContentPane.add(new JH2Label(" ----------------- "));
+            this.jContentPane.add(new JH2Label(" ----------------- "));
+            this.jContentPane.add(new JTextLabel("Endelement auswählen"));
+            this.jContentPane.add(new JTextLabel("Linksklick"));
+            this.jContentPane.add(new JTextLabel("-/-"));
             // 
-            jContentPane.add(new JTextLabel("Zoom in"));
-            jContentPane.add(new JTextLabel("-/-"));
-            jContentPane.add(new JTextLabel("y"));
-            jContentPane.add(new JTextLabel("Zoom out"));
-            jContentPane.add(new JTextLabel("Shift Linksklick"));
-            jContentPane.add(new JTextLabel("w"));
+            this.jContentPane.add(new JTextLabel("Zoom in"));
+            this.jContentPane.add(new JTextLabel("-/-"));
+            this.jContentPane.add(new JTextLabel("y"));
+            this.jContentPane.add(new JTextLabel("Zoom out"));
+            this.jContentPane.add(new JTextLabel("Shift Linksklick"));
+            this.jContentPane.add(new JTextLabel("w"));
             //
-            jContentPane.add(new JTextLabel("Gehe nach links"));
-            jContentPane.add(new JTextLabel("Linksklick"));
-            jContentPane.add(new JTextLabel("a"));
-            jContentPane.add(new JTextLabel("Gehe nach rechts"));
-            jContentPane.add(new JTextLabel("Linksklick"));
-            jContentPane.add(new JTextLabel("s"));
+            this.jContentPane.add(new JTextLabel("Gehe nach links"));
+            this.jContentPane.add(new JTextLabel("Linksklick"));
+            this.jContentPane.add(new JTextLabel("a"));
+            this.jContentPane.add(new JTextLabel("Gehe nach rechts"));
+            this.jContentPane.add(new JTextLabel("Linksklick"));
+            this.jContentPane.add(new JTextLabel("s"));
             // 
-            jContentPane.add(new JTextLabel("Selektion vergrößern"));
-            jContentPane.add(new JTextLabel("Drag nach unten"));
-            jContentPane.add(new JTextLabel("m"));
-            jContentPane.add(new JTextLabel("Selektion verkleinern"));
-            jContentPane.add(new JTextLabel("Drag nach oben"));
-            jContentPane.add(new JTextLabel("n"));
+            this.jContentPane.add(new JTextLabel("Selektion vergrößern"));
+            this.jContentPane.add(new JTextLabel("Drag nach unten"));
+            this.jContentPane.add(new JTextLabel("m"));
+            this.jContentPane.add(new JTextLabel("Selektion verkleinern"));
+            this.jContentPane.add(new JTextLabel("Drag nach oben"));
+            this.jContentPane.add(new JTextLabel("n"));
             // 
-            jContentPane.add(new JH2Label("Veränderungen"));
-            jContentPane.add(new JH2Label(" ----------------- "));
-            jContentPane.add(new JH2Label(" ----------------- "));
-            jContentPane.add(new JTextLabel("Element ändern"));
-            jContentPane.add(new JTextLabel("Rechtsklick"));
-            jContentPane.add(new JTextLabel("-/-"));   
-            jContentPane.add(new JTextLabel("Bewege nach links"));
-            jContentPane.add(new JTextLabel("Drag links"));
-            jContentPane.add(new JTextLabel("A"));
-            jContentPane.add(new JTextLabel("Bewege nach rechts"));
-            jContentPane.add(new JTextLabel("Drag rechts"));
-            jContentPane.add(new JTextLabel("S"));
+            this.jContentPane.add(new JH2Label("Veränderungen"));
+            this.jContentPane.add(new JH2Label(" ----------------- "));
+            this.jContentPane.add(new JH2Label(" ----------------- "));
+            this.jContentPane.add(new JTextLabel("Element ändern"));
+            this.jContentPane.add(new JTextLabel("Rechtsklick"));
+            this.jContentPane.add(new JTextLabel("-/-"));
+            this.jContentPane.add(new JTextLabel("Bewege nach links"));
+            this.jContentPane.add(new JTextLabel("Drag links"));
+            this.jContentPane.add(new JTextLabel("A"));
+            this.jContentPane.add(new JTextLabel("Bewege nach rechts"));
+            this.jContentPane.add(new JTextLabel("Drag rechts"));
+            this.jContentPane.add(new JTextLabel("S"));
             // 
-            jContentPane.add(new JTextLabel("Klammern um Auswahl setzen"));
-            jContentPane.add(new JTextLabel("-/-"));
-            jContentPane.add(new JTextLabel("k"));
-            jContentPane.add(new JTextLabel("Klammern entfernen"));
-            jContentPane.add(new JTextLabel("-/-"));
-            jContentPane.add(new JTextLabel("K, bei aktiver Klammer"));
+            this.jContentPane
+                    .add(new JTextLabel("Klammern um Auswahl setzen"));
+            this.jContentPane.add(new JTextLabel("-/-"));
+            this.jContentPane.add(new JTextLabel("k"));
+            this.jContentPane.add(new JTextLabel("Klammern entfernen"));
+            this.jContentPane.add(new JTextLabel("-/-"));
+            this.jContentPane.add(new JTextLabel("K, bei aktiver Klammer"));
             // 
-            jContentPane.add(new JTextLabel("Verbinden nach rechts"));
-            jContentPane.add(new JTextLabel("Shift Drag rechts"));
-            jContentPane.add(new JTextLabel("v"));
-            jContentPane.add(new JTextLabel("Rausziehen"));
-            jContentPane.add(new JTextLabel("Shift Drag links"));
-            jContentPane.add(new JTextLabel("r, Textfeld leer"));
+            this.jContentPane.add(new JTextLabel("Verbinden nach rechts"));
+            this.jContentPane.add(new JTextLabel("Shift Drag rechts"));
+            this.jContentPane.add(new JTextLabel("v"));
+            this.jContentPane.add(new JTextLabel("Rausziehen"));
+            this.jContentPane.add(new JTextLabel("Shift Drag links"));
+            this.jContentPane.add(new JTextLabel("r, Textfeld leer"));
             // 
-            jContentPane.add(new JTextLabel("Teilen"));
-            jContentPane.add(new JTextLabel("Shift Drag links"));
-            jContentPane.add(new JTextLabel("t, bei Textfeld zB +5"));
+            this.jContentPane.add(new JTextLabel("Teilen"));
+            this.jContentPane.add(new JTextLabel("Shift Drag links"));
+            this.jContentPane.add(new JTextLabel("t, bei Textfeld zB +5"));
             // 
-            jContentPane.add(new JTextLabel("Undo"));
-            jContentPane.add(new JTextLabel("-/-"));
-            jContentPane.add(new JTextLabel("z"));
-            jContentPane.add(new JTextLabel("Redo"));
-            jContentPane.add(new JTextLabel("-/-"));
-            jContentPane.add(new JTextLabel("u"));
+            this.jContentPane.add(new JTextLabel("Undo"));
+            this.jContentPane.add(new JTextLabel("-/-"));
+            this.jContentPane.add(new JTextLabel("z"));
+            this.jContentPane.add(new JTextLabel("Redo"));
+            this.jContentPane.add(new JTextLabel("-/-"));
+            this.jContentPane.add(new JTextLabel("u"));
             // 
-            jContentPane.add(new JH2Label("Darstellung"));
-            jContentPane.add(new JH2Label(" ----------------- "));
-            jContentPane.add(new JH2Label(" ----------------- "));
-            jContentPane.add(new JTextLabel("Schrift verkleinern"));
-            jContentPane.add(new JTextLabel("-/-"));
-            jContentPane.add(new JTextLabel("-"));
-            jContentPane.add(new JTextLabel("Schrift verkleinern"));
-            jContentPane.add(new JTextLabel("-/-"));
-            jContentPane.add(new JTextLabel("+"));
-  
+            this.jContentPane.add(new JH2Label("Darstellung"));
+            this.jContentPane.add(new JH2Label(" ----------------- "));
+            this.jContentPane.add(new JH2Label(" ----------------- "));
+            this.jContentPane.add(new JTextLabel("Schrift verkleinern"));
+            this.jContentPane.add(new JTextLabel("-/-"));
+            this.jContentPane.add(new JTextLabel("-"));
+            this.jContentPane.add(new JTextLabel("Schrift verkleinern"));
+            this.jContentPane.add(new JTextLabel("-/-"));
+            this.jContentPane.add(new JTextLabel("+"));
+            // 
+            this.jContentPane.add(new JH2Label("Eingabefeld"));
+            this.jContentPane.add(new JH2Label(" ----------------- "));
+            this.jContentPane.add(new JH2Label(" ----------------- "));
+            this.jContentPane.add(new JTextLabel("9 |+3  -> 6+3"));
+            this.jContentPane.add(new JTextLabel("9 |-3  -> 12-3"));
+            this.jContentPane.add(new JTextLabel("9 |*3  -> 3*3"));
+            this.jContentPane.add(new JTextLabel("9 |:3  -> 27:3"));
+            this.jContentPane.add(new JTextLabel("9 |^2  -> 3^2"));
+            this.jContentPane.add(new JTextLabel("3/2 |e5 -> 15/10"));
+
         }
-        return jContentPane;
+        return this.jContentPane;
     }
-    
-    private class JTextLabel extends JLabel{
-    	private static final long serialVersionUID = 20090408L;
-    	JTextLabel(String s){
-    		super(s);
-    		this.setFont(textFont);
-    		this.setForeground(Color.BLACK);
-    	}
+
+    private class JTextLabel extends JLabel {
+        private static final long serialVersionUID = 20090408L;
+
+        JTextLabel(final String s) {
+            super(s);
+            this.setFont(HowToDialog.this.textFont);
+            this.setForeground(Color.BLACK);
+        }
     }
-    
-    private class JHeaderLabel extends JLabel{
-    	private static final long serialVersionUID = 20090408L;
-    	JHeaderLabel(String s){
-    		super(s);
-    		this.setFont(headFont);
-    		this.setForeground(Color.RED);
-    	}
+
+    private class JHeaderLabel extends JLabel {
+        private static final long serialVersionUID = 20090408L;
+
+        JHeaderLabel(final String s) {
+            super(s);
+            this.setFont(HowToDialog.this.headFont);
+            this.setForeground(Color.RED);
+        }
     }
-    
-    private class JH2Label extends JLabel{
-    	private static final long serialVersionUID = 20090408L;
-    	JH2Label(String s){
-    		super(s);
-    		this.setFont(head2Font);
-    		this.setForeground(Color.RED);
-    	}
+
+    private class JH2Label extends JLabel {
+        private static final long serialVersionUID = 20090408L;
+
+        JH2Label(final String s) {
+            super(s);
+            this.setFont(HowToDialog.this.head2Font);
+            this.setForeground(Color.RED);
+        }
     }
 
 }
-
