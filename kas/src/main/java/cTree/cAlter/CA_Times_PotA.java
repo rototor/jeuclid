@@ -36,7 +36,6 @@ public class CA_Times_PotA extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        System.out.println("Changer Exp to Times");
         final CPot newEl = CPot.createPot(this.first.cloneCElement(false),
                 this.exp);
         this.parent.replaceChild(newEl, this.first, true, true);

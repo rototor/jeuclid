@@ -48,6 +48,8 @@ import net.sourceforge.jeuclid.context.Parameter;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 import org.xml.sax.SAXException;
 
 import cTree.CElement;
@@ -63,7 +65,7 @@ import cTree.cAlter.AlterHandler;
  * Displays MathML content in a Swing Component.
  */
 public final class JMathComponent extends JComponent implements
-        SwingConstants, FocusListener, Accessible {
+        SwingConstants, FocusListener, Accessible, EventListener {
 
     private static final long serialVersionUID = 20081230L;
 
@@ -98,7 +100,8 @@ public final class JMathComponent extends JComponent implements
                 .getDefaultLayoutContext());
         this.setParameter(Parameter.MATHSIZE, 48f);
         this.activeC = new ArrayList<CElement>();
-        this.setUI(new MathComponentUI16());
+        final MathComponentUI16 ui = new MathComponentUI16();
+        this.setUI(ui);
         this
                 .setContent("<math><mrow><mi>x</mi><mo>=</mo>"
                         + "<mfrac><mrow>"
@@ -363,14 +366,11 @@ public final class JMathComponent extends JComponent implements
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-
-                // final CElement cAct = JMathComponent.this.getCActive();
-                // cAct.normalizeAll();
-                // JMathComponentHelper.getDocInfo(cAct, false);
-                // CElementHelper.controlMath((Element) cAct.getElement()
-                // .getOwnerDocument().getFirstChild());
-                // JMathComponentHelper.control(cAct.getElement().getOwnerDocument().getFirstChild());
-                // modifyDocument();
+                String redo = MathMLSerializer.serializeDocument(
+                        JMathComponent.this.getDocument(), false, false);
+                redo = JMathComponentHelper.cleanString(redo);
+                JMathComponent.this.setContent(redo);
+                JMathComponent.this.modifyDocument();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
@@ -439,16 +439,16 @@ public final class JMathComponent extends JComponent implements
     }
 
     public void modifyDocument() {
-        JMathElementHandler.parseDom(this.document.getFirstChild());
-        EElementHelper.setDots(this.document.getFirstChild());
-        this.firePropertyChange("documentChange", null, this.document);
-        this.reval();
+        JMathElementHandler.parseDom(this.getDocument().getFirstChild());
+        EElementHelper.setDots(this.getDocument().getFirstChild());
+        System.out.println("Modifying");
+        this.firePropertyChange("documentChange", null, this.getDocument());
         if (this.frame instanceof MathFrame) {
             if (((MathFrame) this.frame).getTreeViewDialog() != null) {
                 ((MathFrame) this.frame).getTreeViewDialog().update();
             }
-        }// revalidate, repaint
-
+        }
+        this.reval();
     }
 
     // org.w3c.dom.Node -> String
@@ -530,6 +530,7 @@ public final class JMathComponent extends JComponent implements
         for (final Map.Entry<Parameter, Object> entry : newValues.entrySet()) {
             final Parameter key = entry.getKey();
             final Object oldValue = this.parameters.getParameter(key);
+            System.out.println("Parameter in JMathComponent set");
             this.parameters.setParameter(key, entry.getValue());
             this.firePropertyChange(key.name(), oldValue, this.parameters
                     .getParameter(key));
@@ -578,5 +579,15 @@ public final class JMathComponent extends JComponent implements
     }
 
     public void focusLost(final FocusEvent e) {
+    }
+
+    public void handleEvent(final Event ev) {
+        // if (ev.getType().equals(MutationEventImpl.DOM_NODE_INSERTED)) {
+        // String redo = MathMLSerializer.serializeDocument(
+        // JMathComponent.this.getDocument(), false, false);
+        // redo = JMathComponentHelper.cleanString(redo);
+        // JMathComponent.this.setContent(redo);
+        // JMathComponent.this.modifyDocument();
+        // }
     }
 }

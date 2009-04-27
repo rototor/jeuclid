@@ -39,7 +39,6 @@ public class CA_PotA_Times extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        System.out.println("Changer Exp to Times");
         final ArrayList<CElement> list = new ArrayList<CElement>();
         for (int i = 0; i < this.exp; i++) {
             list.add(this.cBase.cloneCElement(false));
@@ -65,7 +64,6 @@ public class CA_PotA_Times extends CAlter {
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        System.out.println("Check Changer Exp to Times");
         if (els.get(0) instanceof CPot) {
             this.cPot = (CPot) els.get(0);
             if (this.cPot.getExponent() instanceof CNum) {

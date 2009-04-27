@@ -48,7 +48,6 @@ public class AlterHandler {
                 final Class c = Class.forName("cTree.cAlter." + s);
                 final CAlter a = (CAlter) c.getConstructor().newInstance();
                 a.register(this.getAlters);
-                System.out.println(s);
             }
         } catch (final IOException e) {
             System.err.println("Error2");
@@ -89,7 +88,6 @@ public class AlterHandler {
 
     public ArrayList<String> getOptions(final ArrayList<CElement> els) {
         final ArrayList<String> options = new ArrayList<String>();
-        System.out.println("Checknr " + this.getAlters.values().size());
         for (final CAlter ca : this.getAlters.values()) {
             if (ca.check(els)) {
                 options.add(ca.getText());

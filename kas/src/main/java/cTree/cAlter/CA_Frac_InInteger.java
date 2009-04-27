@@ -37,7 +37,6 @@ public class CA_Frac_InInteger extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        System.out.println("Changer Frac to Sum");
         final ArrayList<CElement> fracs = new ArrayList<CElement>();
         for (final CElement z : this.zs) {
             final CFrac frac = CFrac.createFraction(z.cloneCElement(false),
@@ -60,7 +59,6 @@ public class CA_Frac_InInteger extends CAlter {
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        System.out.println("CA-Frac_in Summe_check ");
         if (els.size() > 0 && els.get(0) instanceof CFrac) {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();

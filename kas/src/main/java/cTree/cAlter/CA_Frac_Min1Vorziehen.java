@@ -34,7 +34,6 @@ public class CA_Frac_Min1Vorziehen extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        System.out.println("Changer Frac Min1Vor");
         final CElement newNum;
         final CElement newFrac;
         if (this.z instanceof CMinTerm) {
@@ -67,7 +66,6 @@ public class CA_Frac_Min1Vorziehen extends CAlter {
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        System.out.println("CA-Frac_Min1_check ");
         if (els.size() > 0 && els.get(0) instanceof CFrac) {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();

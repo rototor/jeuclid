@@ -53,12 +53,9 @@ public abstract class CTreeMutator extends CTreeWalker {
         }
         CTreeMutator.removeSupport_RollenanpassungNext(newChild);
         if (newChild.getExtPraefix() != null) {
-            System.out
-                    .println("CTreeMutator: " + newChild.getExtPraefix() == null);
             this.getElement().insertBefore(newChild.getExtPraefix(),
                     refElement);
         }
-        System.out.println("CTreeMutator insertBefore " + newChild.getText());
         final Element e = (Element) this.getElement().insertBefore(
                 newChild.getElement(), refElement);
         return DOMElementMap.getInstance().getCElement.get(e);
@@ -94,7 +91,6 @@ public abstract class CTreeMutator extends CTreeWalker {
     public CElement removeChild(final CElement e,
             final boolean correctNextRolle, final boolean unregister,
             final boolean withNormalParent) {
-        System.out.println("CTreeMutator removeChild");
         // keine allgemeine Korrektur
         // evtl. Praefix aus DOM entfernen
         if (e.getExtPraefix() != null) {
@@ -133,8 +129,7 @@ public abstract class CTreeMutator extends CTreeWalker {
                         newChild.getElement());
             }
         }
-        System.out.println("CTreeMutator has replaced");
-        return oldChild;
+        return newChild;
     }
 
     public abstract void normalize();

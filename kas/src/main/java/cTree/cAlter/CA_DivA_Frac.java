@@ -27,7 +27,6 @@ public class CA_DivA_Frac extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        System.out.println("Changer DivA to TimesFracA");
         final CElement old = els.get(0);
         final CElement newNum = CNum.createNum(old.getElement(), "1");
         final CElement newDen = old.cloneCElement(false);

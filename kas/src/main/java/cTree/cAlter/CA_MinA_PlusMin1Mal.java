@@ -30,7 +30,6 @@ public class CA_MinA_PlusMin1Mal extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        System.out.println("Changer -a to plus TR (-1)a");
         final CElement old = els.get(0);
         final CElement newOne = CNum.createNum(old.getElement(), "1");
         final CElement newFirst = CFences.createFenced(CMinTerm
