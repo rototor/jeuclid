@@ -27,7 +27,6 @@ public class CA_MinVorziehenSumFencedSum extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        System.out.println("Change Praefix of Fences");
         final CElement fences = els.get(0);
         fences.togglePlusMinus(false);
         final CFences f = (CFences) fences;

@@ -39,7 +39,10 @@ import javax.swing.plaf.ComponentUI;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import cTree.CElement;
 
 public class MathComponentUI extends ComponentUI implements
         PropertyChangeListener {
@@ -60,23 +63,25 @@ public class MathComponentUI extends ComponentUI implements
         final Dimension dim = this.mathComponent.getSize();
         final Point start = this
                 .getStartPointWithBordersAndAdjustDimension(dim);
-        this.paintBackground(g, dim, start);
+        // this.paintBackground(g, dim, start);
         if (this.jEuclidView != null) {
+            System.out.println("MCui painting");
             final Point2D alignOffset = this.calculateAlignmentOffset(dim);
             this.jEuclidView.draw((Graphics2D) g, (float) alignOffset.getX()
                     + start.x, (float) alignOffset.getY() + start.y);
         }
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void update(final Graphics g, final JComponent c) {
-        if (c.isOpaque()) {
-            g.setColor(c.getBackground());
-            g.fillRect(0, 0, c.getWidth(), c.getHeight());
-        }
-        this.paint(g, c);
-    }
+    // /** {@inheritDoc} */
+    // @Override
+    // public void update(final Graphics g, final JComponent c) {
+    // System.out.println("MC updating");
+    // if (c.isOpaque()) {
+    // g.setColor(c.getBackground());
+    // g.fillRect(0, 0, c.getWidth(), c.getHeight());
+    // }
+    // this.paint(g, c);
+    // }
 
     public Point2D calculateAlignmentOffset(final Dimension dim) {
         final float xo;
@@ -165,6 +170,7 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     public void propertyChange(final PropertyChangeEvent evt) {
         final String name = evt.getPropertyName();
+
         if ("documentNew".equals(name) || "property".equals(name)) {
             final JMathComponent jc = (JMathComponent) evt.getSource();
             this.document = (Node) evt.getNewValue();
@@ -172,6 +178,7 @@ public class MathComponentUI extends ComponentUI implements
         } else {
             try {
                 final JMathComponent jc = (JMathComponent) evt.getSource();
+                this.document = jc.getDocument();
                 this.redo(jc.getParameters(), (Graphics2D) jc.getGraphics());
             } catch (final ClassCastException ia) {
                 ia.printStackTrace();
@@ -184,6 +191,8 @@ public class MathComponentUI extends ComponentUI implements
         if ((this.document == null) || (g2d == null)) {
             this.jEuclidView = null;
         } else {
+            System.out.println("Redo: new View"
+                    + this.document.getTextContent());
             this.jEuclidView = new JEuclidView(this.document, parameters, g2d);
         }
     }
@@ -270,6 +279,67 @@ public class MathComponentUI extends ComponentUI implements
                     + this.mathComponent.getDocument().getFirstChild()
                             .getTextContent());
             return this.mathComponent.getDocument().getFirstChild();
+        }
+    }
+
+    public static void getDocInfo(final Node d) {
+        if (d != null) {
+            if (d instanceof Element) {
+                final Element el = (Element) d;
+                // System.out.println(el.getBaseURI()); null
+                // Tagname : mi, mo, mrow, mfrac, msqrt ... ebenso localName
+                // ebenso NodeName
+                System.out.println("*Element" + d.getNodeName() + " "
+                        + d.getAttributes().getNamedItem("name")); // +
+                // d.getClass()
+                // +
+                // d.getNodeValue()
+
+                if (d.hasAttributes()) {
+                    final String result = "Attributes: ";
+                    final org.w3c.dom.NamedNodeMap attr = d.getAttributes();
+                    for (int i = 0; i < attr.getLength(); i++) {
+                        System.out.println(result + " " + i + " "
+                                + attr.item(i).getNodeName() + " "
+                                + attr.item(i).getNodeValue());
+                    }
+                    System.out.println(result);
+                }
+            } else {
+                System.out.println("*keinElement" + d.getNodeType()
+                        + d.getNodeValue());
+            }
+            if (d.hasChildNodes()) {
+                System.out.println("*runter");
+                MathComponentUI.getDocInfo(d.getFirstChild());
+                System.out.println("*rauf");
+            }
+            MathComponentUI.getDocInfo(d.getNextSibling());
+        }
+    }
+
+    public static void getDocInfo(final CElement d, final boolean withSiblings) {
+        if (d != null) {
+            if (d.getExtPraefix() != null) {
+                System.out.println("C*Element "
+                        + d.getClass().getSimpleName() + " " + d.getCType()
+                        + " " + d.getElement().getNodeName() + " "
+                        + d.getCRolle() + " "
+                        + d.getExtPraefix().getTextContent());
+            } else {
+                System.out.println("C*Element "
+                        + d.getClass().getSimpleName() + " " + d.getCType()
+                        + " " + d.getElement().getNodeName() + " "
+                        + d.getCRolle() + " extVZ null");
+            }
+            if (d.hasChildC()) {
+                System.out.println("*runter");
+                MathComponentUI.getDocInfo(d.getFirstChild(), true);
+                System.out.println("*rauf");
+            }
+            if (d.hasNextC() && withSiblings) {
+                MathComponentUI.getDocInfo(d.getNextSibling(), true);
+            }
         }
     }
 }

@@ -37,7 +37,6 @@ public class CA_Frac_InSumme extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        System.out.println("Changer Frac to Int");
         final CNum cNum = CNum.createNum(this.cFrac.getElement(), ""
                 + (this.zVal / this.nVal));
         this.cFrac.getParent().replaceChild(cNum, this.cFrac, true, true);
@@ -51,7 +50,6 @@ public class CA_Frac_InSumme extends CAlter {
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        System.out.println("CA-Frac_in Int_check ");
         if (els.size() > 0 && els.get(0) instanceof CFrac) {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();

@@ -29,7 +29,6 @@ public class CA_Min1_InProdInSumFirst extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        System.out.println("Changer (-1)a to -a");
         final CElement old = els.get(0);
         final CTimesRow oldTimesRow = (CTimesRow) old.getParent();
         final CElement newInnen = CTimesRow.foldOne((CTimesRow) oldTimesRow

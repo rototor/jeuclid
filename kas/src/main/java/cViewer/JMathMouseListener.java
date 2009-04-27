@@ -125,6 +125,7 @@ public class JMathMouseListener implements MouseListener {
                 System.out.println("Was"
                         + this.mathComponent.getCActive().getCType());
                 this.showMenu(e);
+                this.mathComponent.modifyDocument();
             }
             // Herauszoomen
         } else if ((e.getModifiers() & InputEvent.SHIFT_MASK) == InputEvent.SHIFT_MASK) {

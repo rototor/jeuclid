@@ -77,31 +77,20 @@ public class CombineHandler {
      * Je nach replace wird entweder paren oder repC ersetzt. remC wird
      * entfernt.
      */
-    public void insertOrReplace(final CElement parent, final CElement newC,
-            final CElement repC, final CElement remC, final boolean replace) {
+    public CElement insertOrReplace(final CElement parent,
+            final CElement newC, final CElement repC, final CElement remC,
+            final boolean replace) {
         if (replace) {
             System.out.println("// replace");
-            // final CElement gparent = parent.getParent();
-            // Das erste funktioniert nicht
-            // if (gparent instanceof CFences) {
-            // gparent.removeChild(parent, true, true, false);
-            // gparent.appendPraefixAndChild(newC);
-            // newC.setCRolle(CRolle.GEKLAMMERT);
-            // } else {
-            // parent.getParent().replaceChild(newC, parent, true, true);
-            // }
-            // so wie unten gehts, aber lieber wäre mir nur
-            // gparent.replaceChild(newC, parent, true, true);
-            // if (gparent instanceof CFences) {
-            // gparent.getParent().replaceChild(newC, gparent, true, true);
-            // } else {
-            parent.getParent().replaceChild(newC, parent, true, true);
-            // }
+            parent.removeChild(remC, false, false, false);
+            parent.removeChild(repC, false, false, false);
+            final CElement grandParent = parent.getParent();
+            return grandParent.replaceChild(newC, parent, true, true);
+
         } else {
             System.out.println("// insert");
-            parent.replaceChild(newC, repC, true, true);
             parent.removeChild(remC, true, true, false);
+            return parent.replaceChild(newC, repC, true, true);
         }
     }
-
 }

@@ -37,8 +37,6 @@ public class CA_Extract extends CAlter {
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        System.out.println("CA-Extract-check "
-                + ExtractHandler.getInstance().canExtract(els));
         return ExtractHandler.getInstance().canExtract(els);
     }
 

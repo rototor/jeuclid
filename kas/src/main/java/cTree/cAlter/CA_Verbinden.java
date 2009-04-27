@@ -27,7 +27,6 @@ public class CA_Verbinden extends CAlter {
     @Override
     public CElement change(final ArrayList<CElement> els) {
         final CElement first = els.get(0);
-        System.out.println("Verbinde " + first.getText());
         return CombineHandler.getInstance().combine(first.getParent(), first,
                 first.getNextSibling());
     }

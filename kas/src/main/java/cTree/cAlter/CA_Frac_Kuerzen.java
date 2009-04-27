@@ -44,7 +44,6 @@ public class CA_Frac_Kuerzen extends CAlter {
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        System.out.println("CA-Frac_kuerzen_check ");
         if (els.size() > 0 && els.get(0) instanceof CFrac) {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();

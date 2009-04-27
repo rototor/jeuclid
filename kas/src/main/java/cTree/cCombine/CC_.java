@@ -30,11 +30,9 @@ public class CC_ {
         final boolean replace = CombineHandler.getInstance()
                 .justTwo(cE1, cE2);
         final CElement newChild = this.createCombination(parent, cE1, cE2);
-        CombineHandler.getInstance().insertOrReplace(parent, newChild, cE1,
-                cE2, replace);
         System.out.println("CC inserted");
-        this.clean();
-        return newChild;
+        return CombineHandler.getInstance().insertOrReplace(parent, newChild,
+                cE1, cE2, replace);
     }
 
     protected CElement createCombination(final CElement parent,
