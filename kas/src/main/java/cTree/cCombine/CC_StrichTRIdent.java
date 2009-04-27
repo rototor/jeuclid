@@ -30,12 +30,14 @@ public class CC_StrichTRIdent extends CC_ {
         System.out.println("Add TR and ID ohne 0 und 1");
         final int koeff = ((CTimesRow) cTR).getKoeffAsBetragFromMonom()
                 .getValue();// Vorsicht! Fehlbedienung möglich. Repeller
-                            // einsetzen!
+        // einsetzen!
+        System.out.println("Koeffizient " + koeff);
         CElement newChild = null;
         if (cTR.getCRolle() == CRolle.SUMMAND1) {
             if (cIdent.hasExtMinus()) {
-                newChild = CNum.createNum(parent.getElement(), "0");
-                newChild.setCRolle(CRolle.SUMMAND1);
+                newChild = cTR.cloneCElement(false);
+                (((CTimesRow) newChild).getKoeffAsBetragFromMonom())
+                        .setValue(koeff - 1);
             } else {
                 newChild = cTR.cloneCElement(false);
                 (((CTimesRow) newChild).getKoeffAsBetragFromMonom())
@@ -44,7 +46,7 @@ public class CC_StrichTRIdent extends CC_ {
         } else { // cTR Summandn1
             if (this.gleicheMin(cIdent, cTR)) { // erhöhe Koeff um 1
                 newChild = cTR.cloneCElement(false); // parent.cloneChild(cTR,
-                                                     // false);
+                // false);
                 ((CTimesRow) newChild).getKoeffAsBetragFromMonom().setText(
                         "" + (koeff + 1));
             } else if (koeff == 0) {
@@ -53,7 +55,7 @@ public class CC_StrichTRIdent extends CC_ {
                 newChild = CNum.createNum(parent.getElement(), "0");
             } else {
                 newChild = cTR.cloneCElement(false); // parent.cloneChild(cTR,
-                                                     // false);
+                // false);
                 ((CTimesRow) newChild).getKoeffAsBetragFromMonom().setText(
                         "" + (koeff - 1));
             }

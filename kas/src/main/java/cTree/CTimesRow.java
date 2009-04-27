@@ -217,13 +217,16 @@ public class CTimesRow extends CRow {
             final ArrayList<CElement> args = new ArrayList<CElement>();
             final CElement newFirst = first.cloneCElement(false);
             Element res = null;
+            System.out
+                    .println("erster Praefix " + first.getPraefixAsString());
             if (first.getExtPraefix() != null) {
                 res = (Element) first.getExtPraefix().cloneNode(true);
             }
             args.add(newFirst);
             final CElement newSecond = second.cloneCElement(true);
             args.add(newSecond);
-            final CElement prod = CTimesRow.createRow(args);
+            final CTimesRow prod = CTimesRow.createRow(args);
+            prod.correctInternalPraefixesAndRolle();
             if (res != null) {
                 prod.setExtPraefix(res);
             }

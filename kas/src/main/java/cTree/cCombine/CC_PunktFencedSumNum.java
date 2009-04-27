@@ -34,11 +34,14 @@ public class CC_PunktFencedSumNum extends CC_ {
             final CElement cE1, final CElement cE2) {
         System.out.println("Multipliziere geklammerte Summe mit Num");
         final ArrayList<CElement> oldAddendList = ((CPlusRow) cE1
-                .getFirstChild()).getMemberList();
+                .getFirstChild()).getMemberListFirstWithoutPraefix();
         final ArrayList<CElement> newAddendList = CTimesRow.map(
                 oldAddendList, cE2);
-        final CElement newChild = CFences.createFenced(CPlusRow
-                .createRow(newAddendList));
+        System.out.println("Vorzeichen: "
+                + newAddendList.get(0).getFirstChild().getPraefixAsString());
+        final CPlusRow newSum = CPlusRow.createRow(newAddendList);
+        newSum.correctInternalPraefixesAndRolle();
+        final CElement newChild = CFences.createFenced(newSum);
         return newChild;
     }
 

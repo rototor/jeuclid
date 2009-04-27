@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import cTree.CElement;
 import cTree.CFences;
+import cTree.CMessage;
 import cTree.CNum;
 import cTree.CPlusRow;
 import cTree.CPot;
@@ -87,8 +88,9 @@ public class CC_PotFencesNum extends CC_ {
         final String rz = old2.getPraefixAsString();
 
         final ArrayList<CElement> list = new ArrayList<CElement>();
-        final CElement summand1 = CPot
-                .createPot(old1.cloneCElement(false), 2);
+        final CElement s1 = CFences.condCreateFenced(old1
+                .cloneCElement(false), new CMessage(false));
+        final CElement summand1 = CPot.createPot(s1, 2);
         list.add(summand1);
 
         final ArrayList<CElement> list2 = new ArrayList<CElement>();
@@ -102,8 +104,9 @@ public class CC_PotFencesNum extends CC_ {
         summand2.setPraefix(rz);
         list.add(summand2);
 
-        final CElement summand3 = CPot
-                .createPot(old2.cloneCElement(false), 2);
+        final CElement s3 = CFences.condCreateFenced(old2
+                .cloneCElement(false), new CMessage(false));
+        final CElement summand3 = CPot.createPot(s3, 2);
         summand3.setPraefix("+");
         list.add(summand3);
 
