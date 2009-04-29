@@ -26,9 +26,13 @@ public class CSplitterErweitern extends CSplitter1 {
 
     private CSplitter1 splitter;
 
+    /* nur Splits der Form e(x-45) oder e(y+2) sind möglich! */
+
     public CSplitterErweitern() {
         this.getSplitter = new HashMap<String, CSplitter1>();
-        this.getSplitter.put("e", new CSplitterErweiternCEl());
+        this.getSplitter.put("i", new CSplitterErweiternIdent());
+        this.getSplitter.put("n", new CSplitterErweiternFences());
+        this.getSplitter.put("f", new CSplitterErweiternNum());
     }
 
     @Override
@@ -45,6 +49,8 @@ public class CSplitterErweitern extends CSplitter1 {
     @Override
     public CElement split(final CElement parent, final CElement cE1,
             final String operator) {
+        System.out.println("SplitterErweitern Split "
+                + this.splitter.toString());
         return this.splitter.split(parent, cE1, operator);
     }
 

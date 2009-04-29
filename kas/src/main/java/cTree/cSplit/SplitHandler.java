@@ -72,6 +72,7 @@ public class SplitHandler {
     public CElement split(final CElement parent, final CElement cE1,
             final String s) {
         if (this.canSplit(parent, cE1, s)) {
+            System.out.println("SplitHandler Split " + this.operation);
             final CFences cF = CFences.createFenced(this.getSplitter.get(
                     this.operation).split(parent, cE1, this.operator));
             parent.replaceChild(cF, cE1, true, true);

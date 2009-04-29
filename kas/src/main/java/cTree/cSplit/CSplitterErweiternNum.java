@@ -19,13 +19,12 @@ package cTree.cSplit;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
-import cTree.CIdent;
 import cTree.CMessage;
 import cTree.CNum;
 import cTree.CTimesRow;
 import cTree.cDefence.DefenceHandler;
 
-public class CSplitterErweiternCEl extends CSplitter1 {
+public class CSplitterErweiternNum extends CSplitter1 {
 
     private int nr1;
 
@@ -47,35 +46,34 @@ public class CSplitterErweiternCEl extends CSplitter1 {
 
     private SplitTyp splitTyp;
 
-    public CSplitterErweiternCEl() {
+    public CSplitterErweiternNum() {
         this.nr1 = 1;
         this.splitTyp = SplitTyp.NO;
     }
 
     private void init(final CElement cE1, final String operator) {
-        System.out.println("Init the Erw CEL split");
+        System.out.println("Init the Erw Num split");
 
         if (cE1 instanceof CFrac) {
-            this.oldFrac = (CFrac) cE1;
-
-            this.oldNum = CFences.condCreateFenced(this.oldFrac.getZaehler()
-                    .cloneCElement(false), this.oldNumMes);
-            // evtl falsch ! Vorzeichen!
-            this.oldDen = CFences.condCreateFenced(this.oldFrac.getNenner()
-                    .cloneCElement(false), this.oldDenMes);
-            // evtl falsch ! Vorzeichen!
             try {
                 this.nr1 = Integer.parseInt(operator);
                 if (this.nr1 != 0) {
                     this.newEl = CNum.createNum(cE1.getElement(), ""
                             + this.nr1);
                     this.splitTyp = SplitTyp.E;
+                    this.oldFrac = (CFrac) cE1;
+                    this.oldNum = CFences
+                            .condCreateFenced(this.oldFrac.getZaehler()
+                                    .cloneCElement(true), this.oldNumMes);
+                    // evtl falsch ! Vorzeichen!
+                    this.oldDen = CFences.condCreateFenced(this.oldFrac
+                            .getNenner().cloneCElement(true), this.oldDenMes);
+                    // evtl falsch ! Vorzeichen!
                 } else {
                     this.splitTyp = SplitTyp.NO;
                 }
             } catch (final NumberFormatException e) {
-                this.newEl = CIdent.createIdent(cE1.getElement(), operator
-                        .substring(0, 1));
+                this.splitTyp = SplitTyp.NO;
             }
         } else {
             this.splitTyp = SplitTyp.NO;
