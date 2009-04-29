@@ -76,10 +76,8 @@ public final class JMathComponent extends JComponent implements
 
     private int horizontalAlignment = SwingConstants.CENTER;
 
-    // SwingConstants.CENTER;
     private int verticalAlignment = SwingConstants.CENTER;
 
-    // SwingConstants.CENTER;
     protected Document document;
 
     // Das "wohlgeformte" orgw3c.dom-Dokument
@@ -93,6 +91,8 @@ public final class JMathComponent extends JComponent implements
 
     public HashMap<Object, Action> actions;
 
+    public Counter counter;
+
     // Actions die mit Maus Tastatur oder Buttons ausgelöst werden können
 
     public JFrame frame;
@@ -100,6 +100,11 @@ public final class JMathComponent extends JComponent implements
     public JMathComponent(final JFrame frame) {
         this.updateUI();
         this.frame = frame;
+        if (this.frame instanceof MathFrame) {
+            this.counter = ((MathFrame) this.frame).getCounter();
+        } else {
+            this.counter = new Counter();
+        }
         this.parameters = new LayoutContextImpl(LayoutContextImpl
                 .getDefaultLayoutContext());
         this.setParameter(Parameter.MATHSIZE, 48f);
@@ -165,6 +170,7 @@ public final class JMathComponent extends JComponent implements
             JMathComponentHelper.getDocInfo(newAct, false);
             JMathComponent.this.setCActive(newAct);
             JMathComponent.this.requestFocusInWindow();
+            JMathComponent.this.counter.incCount();
             JMathComponent.this.modifyDocument();
         }
     }
@@ -298,6 +304,7 @@ public final class JMathComponent extends JComponent implements
                                 ae.getActionCommand()));
                 JMathComponent.this.getCActive().setCActiveProperty();
                 JMathComponent.this.modifyDocument();
+                JMathComponent.this.counter.incCount();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
@@ -312,6 +319,7 @@ public final class JMathComponent extends JComponent implements
                         cAct));
                 JMathComponent.this.getCActive().setCActiveProperty();
                 JMathComponent.this.modifyDocument();
+                JMathComponent.this.counter.incCount();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
@@ -327,6 +335,7 @@ public final class JMathComponent extends JComponent implements
                                     JMathComponent.this.activeC));
                     JMathComponent.this.getCActive().setCActiveProperty();
                     JMathComponent.this.modifyDocument();
+                    JMathComponent.this.counter.incCount();
                 }
             }
         };
@@ -341,6 +350,7 @@ public final class JMathComponent extends JComponent implements
                                 JMathComponent.this.activeC));
                 JMathComponent.this.getCActive().setCActiveProperty();
                 JMathComponent.this.modifyDocument();
+                JMathComponent.this.counter.incCount();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
@@ -355,6 +365,7 @@ public final class JMathComponent extends JComponent implements
                         .setCActive(cAct.getParent().defence(cAct));
                 JMathComponent.this.getCActive().setCActiveProperty();
                 JMathComponent.this.modifyDocument();
+                JMathComponent.this.counter.incCount();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
@@ -380,6 +391,7 @@ public final class JMathComponent extends JComponent implements
                 JMathComponent.this.setContent(JMathComponent.this.undoSave);
                 JMathComponent.this.modifyDocument();
                 JMathComponent.this.undoSave = redo;
+                JMathComponent.this.counter.incCount();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);

@@ -17,6 +17,7 @@
 package cViewer;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -33,11 +34,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -46,6 +50,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 
 import net.sourceforge.jeuclid.MathMLSerializer;
 import cViewer.JMathComponent.ZerlegeAction;
@@ -54,7 +59,7 @@ public class MathFrame extends JFrame {
 
     private static final int DEFAULT_HEIGHT = 250;
 
-    private static final int DEFAULT_WIDTH = 800;
+    private static final int DEFAULT_WIDTH = 1000;
 
     private static final long serialVersionUID = 20090301L;
 
@@ -84,7 +89,11 @@ public class MathFrame extends JFrame {
 
     private TreeViewDialog treeViewDialog;
 
-    private JSplitPane splitPane;
+    private JSplitPane splitPaneBP;
+
+    private JSplitPane splitPaneVM;
+
+    private JSplitPane splitPaneCV;
 
     private JScrollPane scrollPane1;
 
@@ -96,11 +105,15 @@ public class MathFrame extends JFrame {
 
     public JTextField textField;
 
+    public CountLabel countLabel;
+
+    public Counter counter;
+
     /**
      * This is the default constructor.
      */
     public MathFrame() {
-        this.setTitle("KAS - Kein Algebrasystem A");
+        this.setTitle("KAS - Kein Algebrasystem");
         this.setSize(MathFrame.DEFAULT_WIDTH, MathFrame.DEFAULT_HEIGHT);
         this.setJMenuBar(this.getJMenuBar());
         this.setContentPane(this.getJContentPane());
@@ -249,6 +262,8 @@ public class MathFrame extends JFrame {
 
     private void openFile() {
         final File file = this.selectFileToOpen(this);
+        this.setTitle("KAS " + file.getName());
+        this.getCounter().reset();
         BufferedReader r;
         String result = "";
         String line;
@@ -265,6 +280,13 @@ public class MathFrame extends JFrame {
         this.getViewComponent().setContent(result);
         this.getTreeViewDialog().update();
         this.getMathComponent().requestFocusInWindow();
+    }
+
+    public Counter getCounter() {
+        if (this.counter == null) {
+            this.counter = new Counter();
+        }
+        return this.counter;
     }
 
     private File selectFileToOpen(final Frame parent) {
@@ -325,24 +347,19 @@ public class MathFrame extends JFrame {
             this.jContentPane = new JPanel();
             this.jContentPane.setLayout(new BorderLayout());
             this.jContentPane.add(this.getButtonPanel(), BorderLayout.WEST);
-            this.jContentPane.add(this.getSplitPane(), BorderLayout.CENTER);
-            this.getMathComponent().addKeyListener(
-                    new JMathKeyListener(this.getMathComponent()));
-            this.getMathComponent().addMouseListener(
-                    new JMathMouseListener(this.getMathComponent(), this
-                            .getTextField()));
+            this.jContentPane.add(this.getSplitPaneVM(), BorderLayout.CENTER);
         }
         return this.jContentPane;
     }
 
-    private JSplitPane getSplitPane() {
-        if (this.splitPane == null) {
-            this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, this
-                    .getScrollPane1(), this.getScrollPane());
-            this.splitPane.setOneTouchExpandable(true);
-            this.splitPane.setResizeWeight(0.1);
+    private JSplitPane getSplitPaneVM() {
+        if (this.splitPaneVM == null) {
+            this.splitPaneVM = new JSplitPane(JSplitPane.VERTICAL_SPLIT, this
+                    .getSplitPaneCountView(), this.getScrollPane());
+            this.splitPaneVM.setOneTouchExpandable(true);
+            this.splitPaneVM.setResizeWeight(0.1);
         }
-        return this.splitPane;
+        return this.splitPaneVM;
     }
 
     private JScrollPane getScrollPane() {
@@ -368,9 +385,45 @@ public class MathFrame extends JFrame {
         return this.viewComponent;
     }
 
+    public JSplitPane getSplitPaneCountView() {
+        if (this.splitPaneCV == null) {
+            this.splitPaneCV = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+                    this.getCountLabel(), this.getScrollPane1());
+            this.splitPaneCV.setOneTouchExpandable(true);
+            this.splitPaneCV.setResizeWeight(0);
+        }
+        return this.splitPaneCV;
+    }
+
+    public JLabel getCountLabel() {
+        if (this.countLabel == null) {
+            this.countLabel = new CountLabel();
+            final Font curFont = this.countLabel.getFont();
+            this.countLabel.setFont(new Font(curFont.getFontName(), curFont
+                    .getStyle(), 20));
+            this.countLabel.setPreferredSize(new Dimension(40, 20));
+            this.countLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            this.countLabel.setText("" + this.getCounter().getCount());
+            this.getCounter().addObserver(this.countLabel);
+        }
+        return this.countLabel;
+    }
+
+    public class CountLabel extends JLabel implements Observer {
+        public static final long serialVersionUID = 20090429;
+
+        public void update(final Observable obs, final Object o) {
+            this.setText("" + ((Counter) obs).getCount());
+        }
+    }
+
     public JMathComponent getMathComponent() {
         if (this.mathComponent == null) {
             this.mathComponent = new JMathComponent(this);
+            this.mathComponent.addKeyListener(new JMathKeyListener(
+                    this.mathComponent));
+            this.mathComponent.addMouseListener(new JMathMouseListener(
+                    this.mathComponent, this.getTextField()));
         }
         return this.mathComponent;
     }
