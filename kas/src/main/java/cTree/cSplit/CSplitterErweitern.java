@@ -26,7 +26,7 @@ public class CSplitterErweitern extends CSplitter1 {
 
     private CSplitter1 splitter;
 
-    /* nur Splits der Form e(x-45) oder e(y+2) sind möglich! */
+    /* nur Splits der Form e(x-45) oder e(y+2) oder e(3x+2) sind möglich! */
 
     public CSplitterErweitern() {
         this.getSplitter = new HashMap<String, CSplitter1>();
