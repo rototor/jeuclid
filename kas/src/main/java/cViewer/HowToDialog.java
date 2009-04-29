@@ -143,8 +143,8 @@ public final class HowToDialog extends JDialog {
             this.jContentPane.add(new JTextLabel("+"));
             // 
             this.jContentPane.add(new JH2Label("Eingabefeld"));
-            this.jContentPane.add(new JH2Label(" ----------------- "));
-            this.jContentPane.add(new JH2Label(" ----------------- "));
+            this.jContentPane.add(new JH2Label(" bei e auch e(x+4) "));
+            this.jContentPane.add(new JH2Label(" bei e auch e(2x-3) "));
             this.jContentPane.add(new JTextLabel("9 |+3  -> 6+3"));
             this.jContentPane.add(new JTextLabel("9 |-3  -> 12-3"));
             this.jContentPane.add(new JTextLabel("9 |*3  -> 3*3"));

@@ -27,13 +27,15 @@ import cTree.CTimesRow;
 import cTree.cDefence.DefenceHandler;
 
 /**
- * nur Splits der Form e(x-45) oder e(x+2) sind möglich!
+ * nur Splits der Form e(x-45) oder e(x+2) oder e(3x+2) sind möglich!
  * 
  * @version $Revision: 000 $
  */
 public class CSplitterErweiternFences extends CSplitter1 {
 
     private int nr1;
+
+    private int nr2;
 
     private CFrac oldFrac;
 
@@ -55,6 +57,7 @@ public class CSplitterErweiternFences extends CSplitter1 {
 
     public CSplitterErweiternFences() {
         this.nr1 = 1;
+        this.nr2 = 1;
         this.splitTyp = SplitTyp.NO;
     }
 
@@ -82,22 +85,56 @@ public class CSplitterErweiternFences extends CSplitter1 {
             final String innen = s.substring(1, s.length() - 1);
             System.out.println("cSS 2 " + innen);
             if (innen.length() > 2) {
-
-                final String var = innen.substring(0, 1);
-                final String op = innen.substring(1, 2);
-                final String num = innen.substring(2);
-                System.out.println("cSS 3" + num);
-                if (var.compareTo("a") >= 0 && var.compareTo("z") <= 0) {
-                    System.out.println("cSS 4");
-                    if (op.equals("+") || op.equals("-")) {
+                final int p = Math
+                        .max(innen.indexOf('+'), innen.indexOf('-'));
+                System.out.println(innen.indexOf('+') + " "
+                        + innen.indexOf('-'));
+                final String num1 = innen.substring(0, p - 1);
+                final String var = innen.substring(p - 1, p);
+                final String op = innen.substring(p, p + 1);
+                final String num2 = innen.substring(p + 1);
+                System.out.println("cSS 3" + num1);
+                if (p >= 2) {
+                    if (var.compareTo("a") >= 0 && var.compareTo("z") <= 0) {
+                        System.out.println("cSS 4");
                         try {
                             System.out.println("cSS 5");
-                            this.nr1 = Integer.parseInt(num);
+                            this.nr1 = Integer.parseInt(num1);
+                            this.nr2 = Integer.parseInt(num2);
+                            final CNum cN1 = CNum.createNum(cE1.getElement(),
+                                    "" + this.nr1);
+                            final CIdent cI = CIdent.createIdent(cE1
+                                    .getElement(), var);
+                            final CTimesRow cT = CTimesRow
+                                    .createRow(CTimesRow.createList(cN1, cI));
+                            cT.correctInternalPraefixesAndRolle();
+                            final CNum cN2 = CNum.createNum(cE1.getElement(),
+                                    "" + this.nr2);
+                            if (op.equals("+")) {
+                                cN2.setPraefix("+");
+                            } else {
+                                cN2.setPraefix("-");
+                            }
+                            final CPlusRow cP = CPlusRow.createRow(CPlusRow
+                                    .createList(cT, cN2));
+                            cP.correctInternalPraefixesAndRolle();
+                            this.newEl = cP;
+                            System.out.println("cSS 7");
+                            return true;
+                        } catch (final NumberFormatException e) {
+                        }
+                    }
+                } else {
+                    if (var.compareTo("a") >= 0 && var.compareTo("z") <= 0) {
+                        System.out.println("cSS 4");
+                        try {
+                            System.out.println("cSS 5");
+                            this.nr2 = Integer.parseInt(num2);
                             System.out.println("cSS 6");
                             final CIdent cI = CIdent.createIdent(cE1
                                     .getElement(), var);
                             final CNum cN = CNum.createNum(cE1.getElement(),
-                                    "" + this.nr1);
+                                    "" + this.nr2);
                             if (op.equals("+")) {
                                 cN.setPraefix("+");
                             } else {

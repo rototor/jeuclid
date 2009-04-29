@@ -167,7 +167,6 @@ public final class JMathComponent extends JComponent implements
                     .getParent().split(JMathComponent.this.getCActive(),
                             cleaned);
             newAct.setCActiveProperty();
-            JMathComponentHelper.getDocInfo(newAct, false);
             JMathComponent.this.setCActive(newAct);
             JMathComponent.this.requestFocusInWindow();
             JMathComponent.this.counter.incCount();
