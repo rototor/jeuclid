@@ -53,5 +53,4 @@ public class CSplitterErweitern extends CSplitter1 {
                 + this.splitter.toString());
         return this.splitter.split(parent, cE1, operator);
     }
-
 }
