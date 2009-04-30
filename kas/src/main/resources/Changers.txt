@@ -15,6 +15,7 @@ CA_Frac_Kuerzen
 CA_Frac_InInteger
 CA_Frac_InSumme
 CA_Frac_Min1Vorziehen
+CA_Frac_Kehrbruch
 CA_MinVorziehenSumFencedSum
 CA_Klammern
 CA_Extract
