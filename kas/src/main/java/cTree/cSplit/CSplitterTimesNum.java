@@ -29,10 +29,14 @@ public class CSplitterTimesNum extends CSplitter1 {
     private int result;
 
     private enum SplitTyp {
-        M15M3, D, NO
+        M15M3, D, E, NO
     };
 
     private SplitTyp splitTyp;
+
+    private CElement first;
+
+    private CElement second;
 
     public CSplitterTimesNum() {
         this.nr1 = 1;
@@ -69,11 +73,20 @@ public class CSplitterTimesNum extends CSplitter1 {
                 this.splitTyp = SplitTyp.NO;
             }
         } else {
-            this.nr1 = 1;
-            this.nr2 = 1;
-            this.result = 0;
-            // split bisher nur für Zahlen
-            this.splitTyp = SplitTyp.NO;
+            try {
+                this.nr2 = Integer.parseInt(operator);
+                if (this.nr2 != 1) {
+                    this.nr1 = 1;
+                    this.nr2 = 1;
+                    this.result = 0;
+                    this.splitTyp = SplitTyp.NO;
+                } else {
+                    this.splitTyp = SplitTyp.E;
+                }
+            } catch (final NumberFormatException e) {
+                // geht nicht, operator muss Zahl sein
+                this.splitTyp = SplitTyp.NO;
+            }
         }
     }
 
@@ -88,19 +101,26 @@ public class CSplitterTimesNum extends CSplitter1 {
     public CElement split(final CElement parent, final CElement cE1,
             final String operator) {
 
-        System.out.println("Do the Mult Num split");
-        final CNum first = CNum.createNum(parent.getElement(), ""
-                + this.result);
-        final CNum second = CNum.createNum(cE1.getElement(), "" + this.nr2);
-        if (this.splitTyp == SplitTyp.M15M3) {
-            second.setPraefix("*");
+        if (this.splitTyp == SplitTyp.E) {
+            System.out.println("Do the Mult 1 split");
+            this.first = cE1.cloneCElement(false);
+            this.second = CNum.createNum(parent.getElement(), "1");
         } else {
-            second.setPraefix(":");
+            System.out.println("Do the Mult Num split");
+            this.first = CNum
+                    .createNum(parent.getElement(), "" + this.result);
+            this.second = CNum.createNum(cE1.getElement(), "" + this.nr2);
+            if (this.splitTyp == SplitTyp.M15M3) {
+                this.second.setPraefix("*");
+            } else {
+                this.second.setPraefix(":");
+            }
         }
         final CTimesRow newRow = CTimesRow.createRow(CTimesRow.createList(
-                first, second));
+                this.first, this.second));
         newRow.correctInternalPraefixesAndRolle();
         return newRow;
+
     }
 
 }

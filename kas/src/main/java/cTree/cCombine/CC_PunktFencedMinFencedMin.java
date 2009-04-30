@@ -37,7 +37,7 @@ public class CC_PunktFencedMinFencedMin extends CC_ {
         final CElement newCE1 = CFences.condCreateFenced(inCE1, new CMessage(
                 false));
         final CElement inCE2 = ((CMinTerm) cE2.getFirstChild()).getValue()
-                .cloneCElement(true);
+                .cloneCElement(false);
         final CElement newCE2 = CFences.condCreateFenced(inCE2, new CMessage(
                 false));
 

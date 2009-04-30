@@ -58,6 +58,7 @@ public class CTimesRow extends CRow {
         if (this.hasChildC()) {
             CElement first = this.getFirstChild();
             if (first.hasExtPraefix()) {
+                System.out.println("CTimesRow correct first");
                 this.getElement().removeChild(first.getExtPraefix());
                 this.setPraefix("");
             } else if (first.hasExtTimes()) {
@@ -129,9 +130,13 @@ public class CTimesRow extends CRow {
             newEl.setPraefix("*");
             list.appendPraefixAndChild(newEl);
             newEl.setCRolle(CRolle.FAKTORN1);
+        } else if (isFirst) {
+            final CElement newEl = toInsertClone.cloneCElement(false);
+            list.appendChild(newEl);
+            newEl.setCRolle(CRolle.FAKTOR1);
         } else {
             final CElement newEl = toInsertClone.cloneCElement(true);
-            if (!isFirst && !newEl.hasExtDiv() && !newEl.hasExtTimes()) {
+            if (!newEl.hasExtDiv() && !newEl.hasExtTimes()) {
                 newEl.setPraefix("*");
             }
             list.appendPraefixAndChild(newEl);
@@ -149,9 +154,6 @@ public class CTimesRow extends CRow {
         final ArrayList<CElement> factorList = new ArrayList<CElement>();
         factorList.add(cE1.cloneCElement(true));
         final CElement newCE2 = cE2.cloneCElement(true);
-        // if (!newCE2.hasExtDiv()){
-        // newCE2.setPraefix("*");
-        // }
         factorList.add(newCE2);
         return factorList;
     }
@@ -186,8 +188,6 @@ public class CTimesRow extends CRow {
             System.out.println("TimesRow found");
             final ArrayList<CElement> factorList = cTR.getMemberList();
             factorList.remove(0);
-            // factorList.get(0).removePraefix();
-            System.out.println("factorlistcount " + factorList.size());
             final CTimesRow newTR = CTimesRow.createRow(factorList);
             newTR.correctInternalPraefixesAndRolle();
             newTR.setCRolleAndPraefixFrom(cTR);
