@@ -20,8 +20,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
+import cTree.CFences;
 import cTree.CFrac;
-import cTree.CNum;
+import cTree.CMessage;
+import cTree.CPlusRow;
 
 public class CA_Frac_InSumme extends CAlter {
 
@@ -29,23 +31,30 @@ public class CA_Frac_InSumme extends CAlter {
 
     private CElement z;
 
-    private int zVal;
-
     private CElement n;
 
-    private int nVal;
+    private ArrayList<CElement> zs = new ArrayList<CElement>();
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        final CNum cNum = CNum.createNum(this.cFrac.getElement(), ""
-                + (this.zVal / this.nVal));
-        this.cFrac.getParent().replaceChild(cNum, this.cFrac, true, true);
-        return cNum;
+        final ArrayList<CElement> fracs = new ArrayList<CElement>();
+        for (final CElement z : this.zs) {
+            final CFrac frac = CFrac.createFraction(z.cloneCElement(false),
+                    this.n.cloneCElement(false));
+            frac.setPraefix(z.getPraefixAsString());
+            fracs.add(frac);
+        }
+        final CPlusRow cPR = CPlusRow.createRow(fracs);
+        cPR.correctInternalPraefixesAndRolle();
+        final CElement cEl = CFences.condCreateFenced(cPR,
+                new CMessage(false));
+        this.cFrac.getParent().replaceChild(cEl, this.cFrac, true, true);
+        return cEl;
     }
 
     @Override
     public String getText() {
-        return "Bruch -> ganze Zahl";
+        return "Bruch -> Summe";
     }
 
     @Override
@@ -54,15 +63,10 @@ public class CA_Frac_InSumme extends CAlter {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();
             this.n = this.cFrac.getNenner();
-            try {
-                if (this.z instanceof CNum && this.n instanceof CNum) {
-                    this.zVal = ((CNum) this.z).getValue();
-                    this.nVal = ((CNum) this.n).getValue();
-                    if (this.nVal != 0 && this.zVal % this.nVal == 0) {
-                        return true;
-                    }
-                }
-            } catch (final NumberFormatException e) {
+            if (this.z instanceof CPlusRow) {
+                final CPlusRow zsumme = (CPlusRow) this.z;
+                this.zs = zsumme.getMemberList();
+                return true;
             }
         }
         return false;

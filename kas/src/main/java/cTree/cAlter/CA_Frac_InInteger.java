@@ -20,10 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
-import cTree.CFences;
 import cTree.CFrac;
-import cTree.CMessage;
-import cTree.CPlusRow;
+import cTree.CNum;
 
 public class CA_Frac_InInteger extends CAlter {
 
@@ -31,30 +29,35 @@ public class CA_Frac_InInteger extends CAlter {
 
     private CElement z;
 
+    private int zVal;
+
     private CElement n;
 
-    private ArrayList<CElement> zs = new ArrayList<CElement>();
+    private int nVal;
+
+    private enum ChangeTyp {
+        Eins, ZweiZahlen
+    };
+
+    private ChangeTyp changeTyp;
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        final ArrayList<CElement> fracs = new ArrayList<CElement>();
-        for (final CElement z : this.zs) {
-            final CFrac frac = CFrac.createFraction(z.cloneCElement(false),
-                    this.n.cloneCElement(false));
-            frac.setPraefix(z.getPraefixAsString());
-            fracs.add(frac);
+        if (this.changeTyp == ChangeTyp.ZweiZahlen) {
+            final CNum cNum = CNum.createNum(this.cFrac.getElement(), ""
+                    + (this.zVal / this.nVal));
+            this.cFrac.getParent().replaceChild(cNum, this.cFrac, true, true);
+            return cNum;
+        } else {
+            this.cFrac.getParent().replaceChild(this.z, this.cFrac, true,
+                    true);
+            return this.z;
         }
-        final CPlusRow cPR = CPlusRow.createRow(fracs);
-        cPR.correctInternalPraefixesAndRolle();
-        final CElement cEl = CFences.condCreateFenced(cPR,
-                new CMessage(false));
-        this.cFrac.getParent().replaceChild(cEl, this.cFrac, true, true);
-        return cEl;
     }
 
     @Override
     public String getText() {
-        return "Bruch -> Summe";
+        return "Bruch -> ganze Zahl";
     }
 
     @Override
@@ -63,10 +66,21 @@ public class CA_Frac_InInteger extends CAlter {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();
             this.n = this.cFrac.getNenner();
-            if (this.z instanceof CPlusRow) {
-                final CPlusRow zsumme = (CPlusRow) this.z;
-                this.zs = zsumme.getMemberList();
-                return true;
+            try {
+                if (this.n instanceof CNum) {
+                    this.nVal = ((CNum) this.n).getValue();
+                    if (this.nVal == 1) {
+                        this.changeTyp = ChangeTyp.Eins;
+                        return true;
+                    } else if (this.z instanceof CNum) {
+                        this.zVal = ((CNum) this.z).getValue();
+                        if (this.nVal != 0 && this.zVal % this.nVal == 0) {
+                            this.changeTyp = ChangeTyp.ZweiZahlen;
+                            return true;
+                        }
+                    }
+                }
+            } catch (final NumberFormatException e) {
             }
         }
         return false;

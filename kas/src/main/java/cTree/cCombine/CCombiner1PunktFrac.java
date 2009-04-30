@@ -17,6 +17,12 @@
 package cTree.cCombine;
 
 import cTree.CElement;
+import cTree.CFences;
+import cTree.CFrac;
+import cTree.CIdent;
+import cTree.CNum;
+import cTree.CPot;
+import cTree.CSqrt;
 import cTree.CType;
 
 public class CCombiner1PunktFrac extends CCombiner1 {
@@ -31,14 +37,19 @@ public class CCombiner1PunktFrac extends CCombiner1 {
             final CElement cE2) {
         System.out.println("Mult Frac" + cE2.getCType() + " "
                 + cE2.hasExtDiv() + " " + cE2.hasExtPraefix());
-        return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
+        if (cE2 instanceof CFrac) {
+            return this.op2Combiner.get(CType.FRAC).combine(parent, cE1, cE2);
+        } else {
+            return this.op2Combiner.get(CType.NUM).combine(parent, cE1, cE2);
+        }
     }
 
     @Override
     public boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
         System.out.println("CombinerTyp*Fr can combine?");
-        return this.op2Combiner.get(cE2.getCType()).canCombine(parent, cE1,
-                cE2);
+        return (cE2 instanceof CFrac) || (cE2 instanceof CNum)
+                || (cE2 instanceof CIdent) || (cE2 instanceof CFences)
+                || (cE2 instanceof CPot) || (cE2 instanceof CSqrt);
     }
 }

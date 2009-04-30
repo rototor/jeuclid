@@ -151,7 +151,6 @@ public final class HowToDialog extends JDialog {
             this.jContentPane.add(new JTextLabel("9 |:3  -> 27:3"));
             this.jContentPane.add(new JTextLabel("9 |^2  -> 3^2"));
             this.jContentPane.add(new JTextLabel("3/2 |e5 -> 15/10"));
-
         }
         return this.jContentPane;
     }
