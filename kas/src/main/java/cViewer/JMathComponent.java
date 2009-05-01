@@ -372,11 +372,13 @@ public final class JMathComponent extends JComponent implements
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                String redo = MathMLSerializer.serializeDocument(
-                        JMathComponent.this.getDocument(), false, false);
-                redo = JMathComponentHelper.cleanString(redo);
-                JMathComponent.this.setContent(redo);
-                JMathComponent.this.modifyDocument();
+                JMathComponentHelper.getDocInfo(JMathComponent.this
+                        .getDocument());
+                // String redo = MathMLSerializer.serializeDocument(
+                // JMathComponent.this.getDocument(), false, false);
+                // redo = JMathComponentHelper.cleanString(redo);
+                // JMathComponent.this.setContent(redo);
+                // JMathComponent.this.modifyDocument();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
@@ -537,7 +539,6 @@ public final class JMathComponent extends JComponent implements
         for (final Map.Entry<Parameter, Object> entry : newValues.entrySet()) {
             final Parameter key = entry.getKey();
             final Object oldValue = this.parameters.getParameter(key);
-            System.out.println("Parameter in JMathComponent set");
             this.parameters.setParameter(key, entry.getValue());
             this.firePropertyChange(key.name(), oldValue, this.parameters
                     .getParameter(key));

@@ -89,7 +89,18 @@ public class CIdent extends CElement {
 
     @Override
     public int internalCompare(final CElement o) {
-        final CIdent i2 = (CIdent) o;
-        return this.getVar().compareTo(i2.getVar());
+        if (o instanceof CIdent) {
+            final CIdent i2 = (CIdent) o;
+            return this.getVar().compareTo(i2.getVar());
+        } else {
+            final CPot cP = (CPot) o;
+            final int result1 = this.compareTo(cP.getBasis());
+            if (result1 != 0) {
+                return result1;
+            } else {
+                return -1;
+            }
+        }
+
     }
 }

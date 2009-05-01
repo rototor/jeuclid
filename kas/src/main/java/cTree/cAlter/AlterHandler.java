@@ -18,8 +18,6 @@ package cTree.cAlter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,44 +32,56 @@ public class AlterHandler {
     @SuppressWarnings("unchecked")
     private AlterHandler() {
         this.getAlters = new HashMap<String, CAlter>();
+        final ArrayList<String> strings = new ArrayList<String>();
         try {
-
             final BufferedReader reader = new BufferedReader(new FileReader(
                     System.getProperty("user.dir") + "/Changers.txt"));
-            final ArrayList<String> strings = new ArrayList<String>();
             String line = "";
             while ((line = reader.readLine()) != null) {
                 strings.add(line);
             }
             reader.close();
-            for (final String s : strings) {
-                final Class c = Class.forName("cTree.cAlter." + s);
+        } catch (final Exception e) {
+            strings.add("CA_DivA_Frac");
+            strings.add("CA_DivA_Pot");
+            strings.add("CA_Entklammern");
+            strings.add("CA_Extract");
+            strings.add("CA_Frac_InInteger");
+            strings.add("CA_Frac_InSumme");
+            strings.add("CA_Frac_InProdukt");
+            strings.add("CA_Frac_InGemZahl");
+            strings.add("CA_Frac_Kehrbruch");
+            strings.add("CA_Frac_MinusKuerzen");
+            strings.add("CA_Frac_Kuerzen");
+            strings.add("CA_Frac_Min1Vorziehen");
+            strings.add("CA_GemZ_InFrac");
+            strings.add("CA_GemZ_InSum");
+            strings.add("CA_GemZ_Norm");
+            strings.add("CA_GemZ_1Raus");
+            strings.add("CA_Klammern");
+            strings.add("CA_Min1_InProdInMinTerm");
+            strings.add("CA_Min1_InProdInSum");
+            strings.add("CA_Min1_InProdInSumFirst");
+            strings.add("CA_MinA_PlusMin1Mal");
+            strings.add("CA_Minrow");
+            strings.add("CA_MinVorziehenSumFencedSum");
+            strings.add("CA_PlusRow_Sort");
+            strings.add("CA_PotA_Times");
+            strings.add("CA_PrimeDecomposition");
+            strings.add("CA_Times_PotA");
+            strings.add("CA_TimesRow_Sort");
+            strings.add("CA_Verbinden");
+
+        }
+        Class c;
+        for (final String s : strings) {
+            try {
+                c = Class.forName("cTree.cAlter." + s);
                 final CAlter a = (CAlter) c.getConstructor().newInstance();
                 a.register(this.getAlters);
+            } catch (final Exception e) {
+                System.err.println("Error3");
             }
-        } catch (final IOException e) {
-            System.err.println("Error2");
-        } catch (final ClassNotFoundException e) {
-            System.err.println("Error3");
-
-        } catch (final SecurityException e) {
-            System.err.println("Error4");
-
-        } catch (final NoSuchMethodException e) {
-            System.err.println("Error5");
-
-        } catch (final IllegalArgumentException e) {
-            System.err.println("Error6");
-
-        } catch (final InstantiationException e) {
-            System.err.println("Error7");
-
-        } catch (final IllegalAccessException e) {
-            System.err.println("Error8");
-
-        } catch (final InvocationTargetException e) {
-            System.err.println("Error9");
-
         }
     }
 

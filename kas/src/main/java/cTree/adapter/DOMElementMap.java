@@ -16,44 +16,48 @@
 
 package cTree.adapter;
 
-import java.util.*;
-import org.w3c.dom.*;
+import java.util.HashMap;
+
+import org.w3c.dom.Element;
 
 import cTree.CElement;
 import cTree.CType;
 
 public class DOMElementMap {
-	
-	private volatile static DOMElementMap uniqueInstance; 
-	public HashMap<Element, CElement> getCElement;
-	public HashMap<String, CType> getType;
-	
-	private DOMElementMap(){
-		getCElement = new HashMap<Element, CElement>();
-		getType = new HashMap<String, CType>(); 
-		getType.put("math", CType.MATH);
-		getType.put("=", CType.EQU);
-		getType.put("mi", CType.IDENT);
-		getType.put("mn", CType.NUM);
-		getType.put("+", CType.PLUSROW);
-		getType.put("*", CType.TIMESROW);
-		getType.put("mfrac", CType.FRAC);
-		getType.put("msup", CType.POT);
-		getType.put("msqrt", CType.SQRT);
-		getType.put("VzTerm", CType.MINROW);
-		getType.put("empty", CType.EMPTY);
-		getType.put("unknown", CType.UNKNOWN);
-		getType.put("mfenced", CType.FENCES);
-	}; 
-	
-	public static DOMElementMap getInstance(){
-		if (uniqueInstance == null) {
-			synchronized (DOMElementMap.class){
-				if (uniqueInstance == null){
-					uniqueInstance = new DOMElementMap();
-				}
-			}
-		}
-		return uniqueInstance;
-	}
+
+    private volatile static DOMElementMap uniqueInstance;
+
+    public HashMap<Element, CElement> getCElement;
+
+    public HashMap<String, CType> getType;
+
+    private DOMElementMap() {
+        this.getCElement = new HashMap<Element, CElement>();
+        this.getType = new HashMap<String, CType>();
+        this.getType.put("math", CType.MATH);
+        this.getType.put("=", CType.EQU);
+        this.getType.put("mi", CType.IDENT);
+        this.getType.put("mn", CType.NUM);
+        this.getType.put("+", CType.PLUSROW);
+        this.getType.put("*", CType.TIMESROW);
+        this.getType.put("mfrac", CType.FRAC);
+        this.getType.put("msup", CType.POT);
+        this.getType.put("msqrt", CType.SQRT);
+        this.getType.put("VzTerm", CType.MINROW);
+        this.getType.put("mmixed", CType.MIXEDN);
+        this.getType.put("empty", CType.EMPTY);
+        this.getType.put("unknown", CType.UNKNOWN);
+        this.getType.put("mfenced", CType.FENCES);
+    };
+
+    public static DOMElementMap getInstance() {
+        if (DOMElementMap.uniqueInstance == null) {
+            synchronized (DOMElementMap.class) {
+                if (DOMElementMap.uniqueInstance == null) {
+                    DOMElementMap.uniqueInstance = new DOMElementMap();
+                }
+            }
+        }
+        return DOMElementMap.uniqueInstance;
+    }
 }
