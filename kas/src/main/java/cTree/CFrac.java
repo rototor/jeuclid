@@ -61,7 +61,7 @@ public class CFrac extends CElement {
     public boolean hasNumberValue() {
         return this.getZaehler().hasNumberValue()
                 && this.getNenner().hasNumberValue()
-                && (Math.abs(this.getZaehler().getNumberValue()) > 0.000001);
+                && (Math.abs(this.getNenner().getNumberValue()) > 0.000001);
     }
 
     @Override

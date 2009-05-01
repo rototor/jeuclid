@@ -92,6 +92,7 @@ public final class TreeViewDialog extends JFrame {
         this.getText.put(CType.FRAC, "Bruch");
         this.getText.put(CType.MATH, "Mathe");
         this.getText.put(CType.MINROW, "MinusTerm");
+        this.getText.put(CType.MIXEDN, "Gem. Zahl");
         this.getText.put(CType.PLUSROW, "Summe");
         this.getText.put(CType.POT, "Potenz");
         this.getText.put(CType.SQRT, "Wurzel");
@@ -126,6 +127,7 @@ public final class TreeViewDialog extends JFrame {
         return this.scrollPane;
     }
 
+    @SuppressWarnings("serial")
     private JTextPane getTextPane() {
         if (this.textPane == null) {
             this.textPane = new JTextPane() {

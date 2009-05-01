@@ -134,6 +134,9 @@ public class CElementHelper {
         if (name.equals("vzterm")) {
             return new CMinTerm(el);
         }
+        if (name.equals("mmixed")) {
+            return new CMixedNumber(el);
+        }
         if (name.equals("mn")) {
             return new CNum(el);
         }
@@ -217,9 +220,9 @@ public class CElementHelper {
         if (cRolle == CRolle.SUMMAND1 || cRolle == CRolle.SUMMANDN1) {
             return CRolle.SUMMANDN1;
         }
-        // if (cRolle == CRolle.GEKLAMMERT) {
-        // return CRolle.GEKLAMMERT;
-        // }
+        if (cRolle == CRolle.WHOLENUMBER) {
+            return CRolle.FRACTION;
+        }
         return CRolle.UNKNOWN;
     }
 
@@ -233,6 +236,9 @@ public class CElementHelper {
         }
         if (cType == CType.FRAC) {
             return CRolle.ZAEHLER;
+        }
+        if (cType == CType.MIXEDN) {
+            return CRolle.WHOLENUMBER;
         }
         if (cType == CType.MATH) {
             return CRolle.MATHCHILD;

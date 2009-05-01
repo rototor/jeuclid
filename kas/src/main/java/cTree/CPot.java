@@ -197,11 +197,17 @@ public class CPot extends CElement {
 
     @Override
     public int internalCompare(final CElement o) {
-        final CPot f2 = (CPot) o;
-        if (this.getBasis().compareTo(f2.getBasis()) != 0) {
-            return this.getBasis().compareTo(f2.getBasis());
+        if (o instanceof CPot) {
+            final CPot f2 = (CPot) o;
+            if (this.getBasis().compareTo(f2.getBasis()) != 0) {
+                return this.getBasis().compareTo(f2.getBasis());
+            } else {
+                return this.getExponentValue() - f2.getExponentValue();
+            }
         } else {
-            return this.getExponentValue() - f2.getExponentValue();
+            final CIdent f2 = (CIdent) o;
+            return -f2.internalCompare(this);
         }
+
     }
 }

@@ -82,7 +82,6 @@ public class MathComponentUI extends ComponentUI implements
                 .getStartPointWithBordersAndAdjustDimension(dim);
         // this.paintBackground(g, dim, start); seems necessary to me
         if (this.jEuclidView != null) {
-            System.out.println("MCui painting");
             final Point2D alignOffset = this.calculateAlignmentOffset(dim);
             this.jEuclidView.draw((Graphics2D) g, (float) alignOffset.getX()
                     + start.x, (float) alignOffset.getY() + start.y);

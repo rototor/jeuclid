@@ -16,6 +16,7 @@
 
 package cTree.adapter;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -23,136 +24,200 @@ import cTree.CElement;
 
 public class EElementHelper {
 
-	//Getter
-	public static String getTyp(Element e){
-		if (e.getAttribute("calcType")!=null) {
-			return e.getAttribute("calcTyp"); 
-		} else {
-			return "nix";
-		}
-	}
-	public static int getNr(Element e) {
-		if (isNr(e)) {
-			return Integer.parseInt(e.getTextContent());
-		} else {
-			return 0;
-		}
-	}
-	public static String getOp(Element e) {
-		if (isOp(e)) {
-			if (e.getFirstChild()!=null && e.getFirstChild().getAttributes()!=null && e.getFirstChild().getAttributes().getNamedItem("name")!=null) {
-				return e.getFirstChild().getAttributes().getNamedItem("name").getNodeValue();
-			} else {
-				return e.getTextContent();
-			}		
-		} else {
-			return "";
-		}
-	}
-	
-	// Erkennen der Operatoren
-	public static boolean isInvTimes(Element e){
-		if (e.getFirstChild()==null || e.getFirstChild().getAttributes()==null ||e.getFirstChild().getAttributes().getNamedItem("name")==null){
-			return false;
-		} else {
-			return "InvisibleTimes".equals(e.getFirstChild().getAttributes().getNamedItem("name").getNodeValue());
-		}
-	}	
-	public static boolean isVisTimes(Element e){
-		return e!=null && "·".equals(e.getTextContent());
-	}
-	public static boolean isTimesOp(Element e){
-		return isVisTimes(e)||isInvTimes(e);
-	}
-	public static boolean isDivOp(Element e){
-		return (e!=null && ":".equals(e.getTextContent()));
-	}
-	
-	public static boolean isOp(Element e) {
-		return (e!=null && "mo".equals(e.getNodeName()));
-	}
-	
-	public static boolean isNr(Element e) {
-		return e!=null && e.getNodeName().equals("mn");
-	}
+    // Getter
+    public static String getTyp(final Element e) {
+        if (e.getAttribute("calcType") != null) {
+            return e.getAttribute("calcTyp");
+        } else {
+            return "nix";
+        }
+    }
 
-	public static boolean isStrichOp(Element e){
-		return e!=null && ("-".equals(e.getTextContent())|| "+".equals(e.getTextContent()));
-	}
-	
-	public static boolean isId(Element e) {
-		return "mi".equals(e.getNodeName());
-	}
+    public static int getNr(final Element e) {
+        if (EElementHelper.isNr(e)) {
+            return Integer.parseInt(e.getTextContent());
+        } else {
+            return 0;
+        }
+    }
 
-	public static boolean isSup(Element e) {
-		return "msup".equals(e.getNodeName());
-	}
+    public static String getOp(final Element e) {
+        if (EElementHelper.isOp(e)) {
+            if (e.getFirstChild() != null
+                    && e.getFirstChild().getAttributes() != null
+                    && e.getFirstChild().getAttributes().getNamedItem("name") != null) {
+                return e.getFirstChild().getAttributes().getNamedItem("name")
+                        .getNodeValue();
+            } else {
+                return e.getTextContent();
+            }
+        } else {
+            return "";
+        }
+    }
 
-	public static boolean isRow(Element e) {
-		return "mrow".equals(e.getNodeName());
-	}
-	
-	public static boolean isFencedPair(Element e){
-		return "mfenced".equals(e.getNodeName());
-	}
-	
-	public static boolean isFrac(Element e){
-		return "mfrac".equals(e.getNodeName());
-	}
-	
-	// erlaubte Typen +*-: null
-	public static Element createOp(Element producer, String typ){
-		Element op = null;
-		if (!"".equals(typ)){
-			op = producer.getOwnerDocument().createElement("mo");
-			op.setTextContent(typ);
-			if ("*".equals(typ)){ 
-				op.setTextContent("·");}
-			op.setAttribute("calcTyp", "mo"); 
-		}
-		return op;
-	}
-	
-    public static void setDots(Node d){
-    	if (d!=null){
-    		if (d instanceof Element && isInvTimes((Element) d) && d.getParentNode()!=null) {
-    			Element n = (Element) d.getNextSibling();
-    			Element p = (Element) d.getPreviousSibling();
-    			Element par = (Element) d.getParentNode();
-    			if (n!=null && p!=null &&(isNr(n)||isRow(n)||isFencedPair(n)||isFencedPair(p)|| isFrac(n)|| isFrac(p))&& d.getParentNode()!=null){
-    				CElement cEl = DOMElementMap.getInstance().getCElement.get(n);	
-    				Node newNode = d.getOwnerDocument().createElement("mo");
-    				newNode.setTextContent("·");
-    				par.insertBefore(newNode, d);
-    				if (cEl!=null && cEl.getExtPraefix().equals(d)){
-    					cEl.setExtPraefix((Element) newNode);
-    				}	
-    				par.removeChild(d);
-    				d=newNode;
-    			}
-    		}
-    		if (d instanceof Element && isVisTimes((Element) d)) {
-    			Element n = (Element) d.getNextSibling();
-    			Element p = (Element) d.getPreviousSibling();
-    			Element par = (Element) d.getParentNode();
-    			if (n!=null && !(isNr(n)||isRow(n)||isFencedPair(n)||isFencedPair(p)|| isFrac(n)|| isFrac(p)) && d.getParentNode()!=null){
-    				CElement cEl = DOMElementMap.getInstance().getCElement.get(n);	
-    				Element newNode = d.getOwnerDocument().createElement("mo");
-    				Element new2 = d.getOwnerDocument().createElement("mchar");
-    				new2.setAttribute("name", "InvisibleTimes");
-    				newNode.appendChild(new2);
-    				par.insertBefore(newNode , d);
-    				if (cEl!=null && cEl.getExtPraefix().equals(d)){
-    					cEl.setExtPraefix((Element) newNode);
-    				}	
-    				par.removeChild(d);
-    				d=newNode;
-    			}	
-    		}
-	    	if (d.hasChildNodes()){
-	    		setDots(d.getFirstChild());
-	    	}
-	    	setDots(d.getNextSibling());
-    	}
-    } 
+    // Erkennen der Operatoren
+    public static boolean isInvTimes(final Element e) {
+        if (e.getFirstChild() == null
+                || e.getFirstChild().getAttributes() == null
+                || e.getFirstChild().getAttributes().getNamedItem("name") == null) {
+            return false;
+        } else {
+            return "InvisibleTimes".equals(e.getFirstChild().getAttributes()
+                    .getNamedItem("name").getNodeValue());
+        }
+    }
+
+    public static boolean isVisTimes(final Element e) {
+        return e != null && "·".equals(e.getTextContent());
+    }
+
+    public static boolean isTimesOp(final Element e) {
+        return EElementHelper.isVisTimes(e) || EElementHelper.isInvTimes(e);
+    }
+
+    public static boolean isDivOp(final Element e) {
+        return (e != null && ":".equals(e.getTextContent()));
+    }
+
+    public static boolean isOp(final Element e) {
+        return (e != null && "mo".equals(e.getNodeName()));
+    }
+
+    public static boolean isNr(final Element e) {
+        return e != null && e.getNodeName().equals("mn");
+    }
+
+    public static boolean isInvPlus(final Element e) {
+        if (e.getFirstChild() == null
+                || e.getFirstChild().getAttributes() == null
+                || e.getFirstChild().getAttributes().getNamedItem("name") == null) {
+            return false;
+        } else {
+            return "InvisiblePlus".equals(e.getFirstChild().getAttributes()
+                    .getNamedItem("name").getNodeValue());
+        }
+    }
+
+    public static boolean isStrichOp(final Element e) {
+        return e != null
+                && ("-".equals(e.getTextContent()) || "+".equals(e
+                        .getTextContent()));
+    }
+
+    public static boolean isId(final Element e) {
+        return "mi".equals(e.getNodeName());
+    }
+
+    public static boolean isSup(final Element e) {
+        return "msup".equals(e.getNodeName());
+    }
+
+    public static boolean isRow(final Element e) {
+        return "mrow".equals(e.getNodeName());
+    }
+
+    public static boolean isFencedPair(final Element e) {
+        return "mfenced".equals(e.getNodeName());
+    }
+
+    public static boolean isFrac(final Element e) {
+        return "mfrac".equals(e.getNodeName());
+    }
+
+    // erlaubte Typen +*-: null
+    public static Element createOp(final Element producer, final String typ) {
+        Element op = null;
+        if (!"".equals(typ)) {
+            final Document doc = producer.getOwnerDocument();
+            if ("ip".equals(typ)) {
+                op = doc.createElement("mo");
+                final Element op2 = doc.createElement("mchar");
+                op2.setAttribute("name", "InvisiblePlus");
+                op.appendChild(op2);
+            } else {
+                op = doc.createElement("mo");
+                op.setTextContent(typ);
+                if ("*".equals(typ)) {
+                    op.setTextContent("·");
+                }
+            }
+            op.setAttribute("calcTyp", "mo");
+        }
+        return op;
+    }
+
+    public static void setDots(Node d) {
+        if (d != null) {
+            if (d instanceof Element
+                    && EElementHelper.isInvTimes((Element) d)
+                    && d.getParentNode() != null) {
+                final Element n = (Element) d.getNextSibling();
+                final Element p = (Element) d.getPreviousSibling();
+                final Element par = (Element) d.getParentNode();
+                if (n != null
+                        && p != null
+                        && (EElementHelper.isNr(n) || EElementHelper.isRow(n)
+                                || EElementHelper.isFencedPair(n)
+                                || EElementHelper.isFencedPair(p)
+                                || EElementHelper.isFrac(n) || EElementHelper
+                                .isFrac(p)) && d.getParentNode() != null) {
+                    final CElement cEl = DOMElementMap.getInstance().getCElement
+                            .get(n);
+                    final Node newNode = d.getOwnerDocument().createElement(
+                            "mo");
+                    newNode.setTextContent("·");
+                    par.insertBefore(newNode, d);
+                    if (cEl != null && cEl.getExtPraefix().equals(d)) {
+                        cEl.setExtPraefix((Element) newNode);
+                    }
+                    par.removeChild(d);
+                    d = newNode;
+                }
+            }
+            if (d instanceof Element
+                    && EElementHelper.isVisTimes((Element) d)) {
+                final Element n = (Element) d.getNextSibling();
+                final Element p = (Element) d.getPreviousSibling();
+                final Element par = (Element) d.getParentNode();
+                if (n != null
+                        && !(EElementHelper.isNr(n)
+                                || EElementHelper.isRow(n)
+                                || EElementHelper.isFencedPair(n)
+                                || EElementHelper.isFencedPair(p)
+                                || EElementHelper.isFrac(n) || EElementHelper
+                                .isFrac(p)) && d.getParentNode() != null) {
+                    final CElement cEl = DOMElementMap.getInstance().getCElement
+                            .get(n);
+                    final Element newNode = d.getOwnerDocument()
+                            .createElement("mo");
+                    final Element new2 = d.getOwnerDocument().createElement(
+                            "mchar");
+                    new2.setAttribute("name", "InvisibleTimes");
+                    newNode.appendChild(new2);
+                    par.insertBefore(newNode, d);
+                    if (cEl != null && cEl.getExtPraefix().equals(d)) {
+                        cEl.setExtPraefix(newNode);
+                    }
+                    par.removeChild(d);
+                    d = newNode;
+                }
+            }
+            if (d.hasChildNodes()) {
+                EElementHelper.setDots(d.getFirstChild());
+            }
+            EElementHelper.setDots(d.getNextSibling());
+        }
+    }
+
+    public static Element createInvPlus(final CElement ownerEl) {
+        final Element nextEl = ownerEl.getElement();
+        final Element newNode = nextEl.getOwnerDocument().createElement("mo");
+        final Element new2 = nextEl.getOwnerDocument().createElement("mchar");
+        new2.setAttribute("name", "InvisiblePlus");
+        newNode.appendChild(new2);
+        // nextEl.getParentNode().insertBefore(newNode, nextEl);
+        // ownerEl.setExtPraefix(newNode);
+        return newNode;
+    }
 }

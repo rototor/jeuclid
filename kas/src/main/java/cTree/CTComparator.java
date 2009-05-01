@@ -19,7 +19,11 @@ public class CTComparator implements Comparator<CElement> {
     }
 
     private int compareWithoutPraefix(final CElement o1, final CElement o2) {
-        if (o1.getCType() != o2.getCType()) {
+        final CType t1 = o1.getCType();
+        final CType t2 = o2.getCType();
+        if (t1 != t2
+                && !(t1 == CType.IDENT && t2 == CType.POT || t2 == CType.IDENT
+                        && t1 == CType.POT)) {
             return o1.getCType().compareTo(o2.getCType());
         } else {
             return o1.internalCompare(o2);

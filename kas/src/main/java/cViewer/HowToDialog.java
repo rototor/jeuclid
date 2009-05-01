@@ -112,7 +112,7 @@ public final class HowToDialog extends JDialog {
             this.jContentPane.add(new JTextLabel("k"));
             this.jContentPane.add(new JTextLabel("Klammern entfernen"));
             this.jContentPane.add(new JTextLabel("-/-"));
-            this.jContentPane.add(new JTextLabel("K, bei aktiver Klammer"));
+            this.jContentPane.add(new JTextLabel("e, bei aktiver Klammer"));
             // 
             this.jContentPane.add(new JTextLabel("Verbinden nach rechts"));
             this.jContentPane.add(new JTextLabel("Shift Drag rechts"));

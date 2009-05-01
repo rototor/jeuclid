@@ -30,7 +30,7 @@ public class JMathKeyListener implements KeyListener {
         this.myInputMap = new HashMap<String, String>();
         this.myInputMap.put("z", "Zerlegen");
         this.myInputMap.put("y", "ZoomIn");
-        this.myInputMap.put("K", "Entklammere");
+        this.myInputMap.put("e", "Entklammere");
         this.myInputMap.put("w", "ZoomOut");
         this.myInputMap.put("k", "Klammere");
         this.myInputMap.put("a", "GeheZurueck");
