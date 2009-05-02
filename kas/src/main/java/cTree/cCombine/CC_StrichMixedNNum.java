@@ -24,7 +24,7 @@ import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.CRolle;
 
-public class CC_StrichNumMixedNum extends CC_ {
+public class CC_StrichMixedNNum extends CC_ {
 
     private CMixedNumber cM;
 
@@ -33,27 +33,27 @@ public class CC_StrichNumMixedNum extends CC_ {
     private CNum cNenner;
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement num,
-            final CElement mixed) {
-
+    protected boolean canCombine(final CElement parent, final CElement mixed,
+            final CElement num) {
         this.cM = (CMixedNumber) mixed;
         this.cF = (CFrac) this.cM.getFraction();
         this.cNenner = (CNum) this.cF.getNenner();
         return this.cNenner.getValue() != 0;
     }
 
+    // evtl einbauen dass auch ein Bruch entstehen kann
     @Override
     protected CElement createCombination(final CElement parent,
             final CElement cE1, final CElement cE2) {
-        System.out.println("Add Num and Mixed");
+        System.out.println("Add Mixed and Num");
 
-        final int numVal = ((CNum) cE1).getValue();
+        final int numVal = ((CNum) cE2).getValue();
         final int gVal = ((CNum) this.cM.getWholeNumber()).getValue();
         final int zVal = ((CNum) this.cF.getZaehler()).getValue();
         final int nVal = ((CNum) this.cF.getNenner()).getValue();
         final int vz1 = cE1.hasExtMinus() ? -1 : 1;
         final int vz2 = cE2.hasExtMinus() ? -1 : 1;
-        final int wertZ = vz1 * numVal * nVal + vz2 * (gVal * nVal + zVal);
+        final int wertZ = vz2 * numVal * nVal + vz1 * (gVal * nVal + zVal);
         final int aWertZ = Math.abs(wertZ);
         System.out.println(aWertZ);
         final int vzWert = (wertZ < 0) ? -1 : 1;
@@ -66,14 +66,14 @@ public class CC_StrichNumMixedNum extends CC_ {
             System.out.println("// falls ein Summand1 dabei ist");
             if (cE2.hasExtMinus() && (wertZ < 0)) { // So entsteht eine
                 // Minrow
-                final CMixedNumber arg = (CMixedNumber) cE2
+                final CMixedNumber arg = (CMixedNumber) cE1
                         .cloneCElement(false);
                 ((CNum) arg.getWholeNumber()).setValue(newGVal);
                 ((CNum) ((CFrac) arg.getFraction()).getZaehler())
                         .setValue(newZVal);
                 newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);
             } else { // So entsteht eine Zahl als Summand1
-                final CMixedNumber arg = (CMixedNumber) cE2
+                final CMixedNumber arg = (CMixedNumber) cE1
                         .cloneCElement(false);
                 ((CNum) arg.getWholeNumber()).setValue(newGVal);
                 ((CNum) ((CFrac) arg.getFraction()).getZaehler())
@@ -82,7 +82,7 @@ public class CC_StrichNumMixedNum extends CC_ {
             }
         } else {
             System.out.println("// falls weitere Summanden");
-            final CMixedNumber arg = (CMixedNumber) cE2.cloneCElement(false);
+            final CMixedNumber arg = (CMixedNumber) cE1.cloneCElement(false);
             ((CNum) arg.getWholeNumber()).setValue(newGVal);
             ((CNum) ((CFrac) arg.getFraction()).getZaehler())
                     .setValue(newZVal);
