@@ -20,7 +20,9 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
 import cTree.CMessage;
+import cTree.CMinTerm;
 import cTree.CPlusRow;
+import cTree.CRolle;
 
 public class CC_StrichFracFrac extends CC_ {
 
@@ -67,22 +69,35 @@ public class CC_StrichFracFrac extends CC_ {
         this.z1 = CFences.condCreateFenced(this.z1, this.z1_TryDefence);
         this.z2 = CFences.condCreateFenced(this.z2, this.z2_TryDefence);
         this.n1 = CFences.condCreateFenced(this.n1, this.n1_TryDefence);
-        if (this.gleicheMin) {
+        if (cE1.getCRolle() == CRolle.NACHVZMINUS) {
+            final CMinTerm cM = CMinTerm.createMinTerm(this.z1);
             final CPlusRow zaehlerNeu = CPlusRow.createRow(CPlusRow
-                    .createList(this.z1, this.z2));
+                    .createList(cM, this.z2));
+            if (dannMin) {
+                zaehlerNeu.getFirstChild().getNextSibling().togglePlusMinus(
+                        false);
+            }
             zaehlerNeu.correctInternalPraefixesAndRolle();
             this.newChild = CFrac.createFraction(zaehlerNeu, this.n1);
         } else {
-            final CPlusRow zaehlerNeu = CPlusRow.createRow(CPlusRow
-                    .createList(this.z1, this.z2));
-            zaehlerNeu.correctInternalPraefixesAndRolle();
-            zaehlerNeu.getFirstChild().getNextSibling()
-                    .togglePlusMinus(false);
-            this.newChild = CFrac.createFraction(zaehlerNeu, this.n1);
+            if (this.gleicheMin) {
+                final CPlusRow zaehlerNeu = CPlusRow.createRow(CPlusRow
+                        .createList(this.z1, this.z2));
+                zaehlerNeu.correctInternalPraefixesAndRolle();
+                this.newChild = CFrac.createFraction(zaehlerNeu, this.n1);
+            } else {
+                final CPlusRow zaehlerNeu = CPlusRow.createRow(CPlusRow
+                        .createList(this.z1, this.z2));
+                zaehlerNeu.correctInternalPraefixesAndRolle();
+                zaehlerNeu.getFirstChild().getNextSibling().togglePlusMinus(
+                        false);
+                this.newChild = CFrac.createFraction(zaehlerNeu, this.n1);
+            }
+            this.z1 = this.newChild.getZaehler().getFirstChild();
+            this.z2 = this.z1.getNextSibling();
+            this.n1 = this.newChild.getNenner().getFirstChild();
         }
-        this.z1 = this.newChild.getZaehler().getFirstChild();
-        this.z2 = this.z1.getNextSibling();
-        this.n1 = this.newChild.getNenner().getFirstChild();
+
         return this.newChild;
     }
 

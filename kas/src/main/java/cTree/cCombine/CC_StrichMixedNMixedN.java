@@ -66,49 +66,28 @@ public class CC_StrichMixedNMixedN extends CC_ {
         final int wertZ = vz1 * (gVal1 * nVal1 + zVal1) * nVal2 + vz2
                 * (gVal2 * nVal2 + zVal2) * nVal1;
         final int aWertZ = Math.abs(wertZ);
-        System.out.println(aWertZ);
         final int newNVal = nVal1 * nVal2;
         final int vzWert = (wertZ < 0) ? -1 : 1;
         final int newGVal = aWertZ / newNVal;
         final int newZVal = aWertZ % newNVal;
-        System.out.println(newZVal);
 
         CElement newChild = null;
+        final CMixedNumber arg = (CMixedNumber) mixed1.cloneCElement(false);
+        ((CNum) arg.getWholeNumber()).setValue(newGVal);
+        ((CNum) ((CFrac) arg.getFraction()).getZaehler()).setValue(newZVal);
+        ((CNum) ((CFrac) arg.getFraction()).getNenner()).setValue(newNVal);
+        newChild = arg;
         if (mixed1.getCRolle() == CRolle.SUMMAND1) {
-            System.out.println("// falls ein Summand1 dabei ist");
-            if (mixed2.hasExtMinus() && (wertZ < 0)) { // So entsteht eine
-                // Minrow
-                final CMixedNumber arg = (CMixedNumber) mixed1
-                        .cloneCElement(false);
-                ((CNum) arg.getWholeNumber()).setValue(newGVal);
-                ((CNum) ((CFrac) arg.getFraction()).getZaehler())
-                        .setValue(newZVal);
-                ((CNum) ((CFrac) arg.getFraction()).getNenner())
-                        .setValue(newNVal);
+            if (mixed2.hasExtMinus() && (wertZ < 0)) {
                 newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);
-            } else { // So entsteht eine Zahl als Summand1
-                final CMixedNumber arg = (CMixedNumber) mixed1
-                        .cloneCElement(false);
-                ((CNum) arg.getWholeNumber()).setValue(newGVal);
-                ((CNum) ((CFrac) arg.getFraction()).getZaehler())
-                        .setValue(newZVal);
-                ((CNum) ((CFrac) arg.getFraction()).getNenner())
-                        .setValue(newNVal);
-                newChild = arg;
+            }
+        } else if (mixed1.getCRolle() == CRolle.NACHVZMINUS) {
+            if (wertZ < 0) {
+                newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);
             }
         } else {
-            System.out.println("// falls weitere Summanden");
-            final CMixedNumber arg = (CMixedNumber) mixed1
-                    .cloneCElement(false);
-            ((CNum) arg.getWholeNumber()).setValue(newGVal);
-            ((CNum) ((CFrac) arg.getFraction()).getZaehler())
-                    .setValue(newZVal);
-            ((CNum) ((CFrac) arg.getFraction()).getNenner())
-                    .setValue(newNVal);
             if (vzWert * vz1 < 0) {
                 newChild = CFences.createFenced(CMinTerm.createMinTerm(arg));
-            } else {
-                newChild = arg;
             }
         }
         return newChild;

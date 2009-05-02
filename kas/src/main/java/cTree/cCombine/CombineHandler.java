@@ -67,6 +67,13 @@ public class CombineHandler {
                 cE1, cE2);
     }
 
+    public CC_ getCombiner(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("CombineHandler getCombiner");
+        return this.getTypCombiner.get(parent.getCType()).getCombiner(parent,
+                cE1, cE2);
+    }
+
     // -------------------------------------------------------------------------------
 
     public boolean justTwo(final CElement first, final CElement second) {

@@ -24,11 +24,11 @@ public class CCombinerTStrich extends CCombinerTyp {
     public CCombinerTStrich() {
         super();
         this.op1Combiner.put(CType.NUM, new CCombiner1StrichNum());
-        this.op1Combiner.put(CType.IDENT, new CCombiner1StrichIdent());
-        this.op1Combiner.put(CType.TIMESROW, new CCombiner1StrichTR());
         this.op1Combiner.put(CType.MINROW, new CCombiner1StrichMinrow());
         this.op1Combiner.put(CType.FRAC, new CCombiner1StrichFrac());
         this.op1Combiner.put(CType.MIXEDN, new CCombiner1StrichMixedN());
+        this.op1Combiner.put(CType.IDENT, new CCombiner1StrichIdent());
+        this.op1Combiner.put(CType.TIMESROW, new CCombiner1StrichTR());
     }
 
     @Override

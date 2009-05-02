@@ -23,6 +23,7 @@ public class CCombiner1StrichNum extends CCombiner1 {
     public CCombiner1StrichNum() {
         super();
         this.op2Combiner.put(CType.NUM, new CC_StrichNumNum());
+        this.op2Combiner.put(CType.FRAC, new CC_StrichNumFrac());
         this.op2Combiner.put(CType.MIXEDN, new CC_StrichNumMixedNum());
     }
 

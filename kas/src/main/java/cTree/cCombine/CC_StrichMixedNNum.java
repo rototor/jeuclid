@@ -80,6 +80,22 @@ public class CC_StrichMixedNNum extends CC_ {
                         .setValue(newZVal);
                 newChild = arg;
             }
+        } else if (cE1.getCRolle() == CRolle.NACHVZMINUS) {
+            if (wertZ < 0) {
+                final CMixedNumber arg = (CMixedNumber) cE1
+                        .cloneCElement(false);
+                ((CNum) arg.getWholeNumber()).setValue(newGVal);
+                ((CNum) ((CFrac) arg.getFraction()).getZaehler())
+                        .setValue(newZVal);
+                newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);
+            } else {
+                final CMixedNumber arg = (CMixedNumber) cE1
+                        .cloneCElement(false);
+                ((CNum) arg.getWholeNumber()).setValue(newGVal);
+                ((CNum) ((CFrac) arg.getFraction()).getZaehler())
+                        .setValue(newZVal);
+                newChild = arg;
+            }
         } else {
             System.out.println("// falls weitere Summanden");
             final CMixedNumber arg = (CMixedNumber) cE1.cloneCElement(false);

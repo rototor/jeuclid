@@ -43,4 +43,11 @@ public class CCombinerTyp {
         return this.op1Combiner.get(cE1.getCType()).canCombine(parent, cE1,
                 cE2);
     }
+
+    public CC_ getCombiner(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("CombineHandler getCombiner");
+        return this.op1Combiner.get(cE1.getCType()).getCombiner(parent, cE1,
+                cE2);
+    }
 }

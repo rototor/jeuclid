@@ -22,6 +22,7 @@ import cTree.CType;
 public class CCombiner1StrichFrac extends CCombiner1 {
     public CCombiner1StrichFrac() {
         super();
+        this.op2Combiner.put(CType.NUM, new CC_StrichFracNum());
         this.op2Combiner.put(CType.FRAC, new CC_StrichFracFrac());
         this.op2Combiner.put(CType.MIXEDN, new CC_StrichFracMixedNum());
     }

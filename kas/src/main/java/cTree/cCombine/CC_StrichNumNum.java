@@ -17,58 +17,46 @@
 package cTree.cCombine;
 
 import cTree.CElement;
+import cTree.CFences;
 import cTree.CMinTerm;
+import cTree.CNum;
 import cTree.CRolle;
 
 public class CC_StrichNumNum extends CC_ {
 
     @Override
-    protected boolean canCombine(final CElement parent,
-            final CElement minTerm, final CElement tRow) {
+    protected boolean canCombine(final CElement parent, final CElement num1,
+            final CElement num2) {
         return true;
     }
 
     @Override
     protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+            final CElement cN1, final CElement cN2) {
         System.out.println("Add Num and Num");
-        final int wertE = Integer.parseInt(cE1.getElement().getTextContent());
-        final int wertZ = Integer.parseInt(cE2.getElement().getTextContent());
+        final int wert1 = ((CNum) cN1).getValue();
+        final int wert2 = ((CNum) cN2).getValue();
+        final int vz1 = cN1.hasExtMinus() ? -1 : 1;
+        final int vz2 = cN2.hasExtMinus() ? -1 : 1;
+        final int wertZ = vz1 * wert1 + vz2 * wert2;
+        final int aWertZ = Math.abs(wertZ);
+        final int vzWert = (wertZ < 0) ? -1 : 1;
         CElement newChild = null;
-        if (cE1.getCRolle() == CRolle.SUMMAND1) {
-            System.out.println("// falls ein Summand1 dabei ist");
-            if (cE2.hasExtMinus() && (wertE < wertZ)) { // So entsteht eine
-                                                        // Minrow
-                final CElement arg = cE1.cloneCElement(false); // parent.cloneChild(cE1,
-                                                               // false);
-                arg.setText("" + (wertZ - wertE));
+        final CNum arg = (CNum) cN1.cloneCElement(false);
+        arg.setValue(aWertZ);
+        newChild = arg;
+        if (cN1.getCRolle() == CRolle.SUMMAND1) {
+            if (cN2.hasExtMinus() && (wertZ < 0)) {
                 newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);
-            } else { // So entsteht eine Zahl als Summand1
-                newChild = cE1.cloneCElement(false); // parent.cloneChild(cE1,
-                                                     // false);
-                int value = wertE + wertZ;
-                if (cE2.hasExtMinus()) {
-                    value = wertE - wertZ;
-                }
-                newChild.setText("" + value);
+            }
+        } else if (cN1.getCRolle() == CRolle.NACHVZMINUS) {
+            if (wertZ < 0) {
+                newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);
             }
         } else {
-            System.out.println("// falls weitere Summanden");
-            int vzE = 1;
-            if (cE1.hasExtMinus()) {
-                vzE = -1;
+            if (vzWert * vz1 < 0) {
+                newChild = CFences.createFenced(CMinTerm.createMinTerm(arg));
             }
-            int vzZ = 1;
-            if (cE2.hasExtMinus()) {
-                vzZ = -1;
-            }
-            final int result = vzE * wertE + vzZ * wertZ;
-            if (result * vzE < 0) {
-                cE1.togglePlusMinus(false);
-            }
-            newChild = cE1.cloneCElement(false); // parent.cloneChild(cE1,
-                                                 // false);
-            newChild.setText("" + Math.abs(result));
         }
         return newChild;
     }
