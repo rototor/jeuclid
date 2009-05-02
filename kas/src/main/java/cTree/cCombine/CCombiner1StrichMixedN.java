@@ -19,17 +19,18 @@ package cTree.cCombine;
 import cTree.CElement;
 import cTree.CType;
 
-public class CCombiner1StrichFrac extends CCombiner1 {
-    public CCombiner1StrichFrac() {
+public class CCombiner1StrichMixedN extends CCombiner1 {
+    public CCombiner1StrichMixedN() {
         super();
-        this.op2Combiner.put(CType.FRAC, new CC_StrichFracFrac());
-        this.op2Combiner.put(CType.MIXEDN, new CC_StrichFracMixedNum());
+        this.op2Combiner.put(CType.FRAC, new CC_StrichMixedNFrac());
+        this.op2Combiner.put(CType.NUM, new CC_StrichMixedNNum());
+        this.op2Combiner.put(CType.MIXEDN, new CC_StrichMixedNMixedN());
     }
 
     @Override
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("Add Frac" + cE2.getCType() + " "
+        System.out.println("Add MixedN " + cE2.getCType() + " "
                 + cE2.hasExtDiv() + " " + cE2.hasExtPraefix());
         return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
     }
@@ -37,7 +38,7 @@ public class CCombiner1StrichFrac extends CCombiner1 {
     @Override
     public boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("CombinerTyp+Fr can combine?");
+        System.out.println("CombinerTyp+Mixed can combine?");
         return this.op2Combiner.get(cE2.getCType()).canCombine(parent, cE1,
                 cE2);
     }

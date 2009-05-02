@@ -28,6 +28,7 @@ public class CCombinerTStrich extends CCombinerTyp {
         this.op1Combiner.put(CType.TIMESROW, new CCombiner1StrichTR());
         this.op1Combiner.put(CType.MINROW, new CCombiner1StrichMinrow());
         this.op1Combiner.put(CType.FRAC, new CCombiner1StrichFrac());
+        this.op1Combiner.put(CType.MIXEDN, new CCombiner1StrichMixedN());
     }
 
     @Override
