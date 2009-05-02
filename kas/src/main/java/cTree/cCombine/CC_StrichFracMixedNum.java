@@ -94,6 +94,26 @@ public class CC_StrichFracMixedNum extends CC_ {
                         .setValue(newNVal);
                 newChild = arg;
             }
+        } else if (cE1.getCRolle() == CRolle.NACHVZMINUS) {
+            if (wertZ < 0) {
+                final CMixedNumber arg = (CMixedNumber) cE2
+                        .cloneCElement(false);
+                ((CNum) arg.getWholeNumber()).setValue(newGVal);
+                ((CNum) ((CFrac) arg.getFraction()).getZaehler())
+                        .setValue(newZVal);
+                ((CNum) ((CFrac) arg.getFraction()).getNenner())
+                        .setValue(newNVal);
+                newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);
+            } else {
+                final CMixedNumber arg = (CMixedNumber) cE2
+                        .cloneCElement(false);
+                ((CNum) arg.getWholeNumber()).setValue(newGVal);
+                ((CNum) ((CFrac) arg.getFraction()).getZaehler())
+                        .setValue(newZVal);
+                ((CNum) ((CFrac) arg.getFraction()).getNenner())
+                        .setValue(newNVal);
+                newChild = arg;
+            }
         } else {
             System.out.println("// falls weitere Summanden");
             final CMixedNumber arg = (CMixedNumber) cE2.cloneCElement(false);

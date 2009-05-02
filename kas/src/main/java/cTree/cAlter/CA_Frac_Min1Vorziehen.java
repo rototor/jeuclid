@@ -23,6 +23,7 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
 import cTree.CMinTerm;
+import cTree.CPlusRow;
 
 public class CA_Frac_Min1Vorziehen extends CAlter {
 
@@ -70,7 +71,8 @@ public class CA_Frac_Min1Vorziehen extends CAlter {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();
             this.n = this.cFrac.getNenner();
-            return true;
+            return !(this.z instanceof CPlusRow);
+
         }
         return false;
     }
