@@ -27,7 +27,7 @@ public class CD_1StrichMinrow extends CD_1 {
         System.out.println("Do the defence work");
         final boolean first = (fences.getCRolle() == CRolle.SUMMAND1);
         final CElement insertion = this.createInsertion(fences, content);
-        DefenceHandler.getInstance().replaceFoP(parent, insertion, fences,
+        DefHandler.getInst().replaceFoP(parent, insertion, fences,
                 false);
         if (!first) {
             insertion.togglePlusMinus(false);

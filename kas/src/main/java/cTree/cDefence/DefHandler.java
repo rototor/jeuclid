@@ -24,12 +24,12 @@ import cTree.CMath;
 import cTree.CType;
 import cTree.adapter.DOMElementMap;
 
-public class DefenceHandler {
-    private volatile static DefenceHandler uniqueInstance;
+public class DefHandler {
+    private volatile static DefHandler uniqueInstance;
 
     public HashMap<CType, CDefenceTyp> getTypDefencer;
 
-    private DefenceHandler() {
+    private DefHandler() {
         this.getTypDefencer = new HashMap<CType, CDefenceTyp>();
         final CDefenceTyp default1 = new CDefenceTyp();
         for (final CType cType : CType.values()) {
@@ -41,15 +41,15 @@ public class DefenceHandler {
         this.getTypDefencer.put(CType.POT, new CDefenceTPot());
     }
 
-    public static DefenceHandler getInstance() {
-        if (DefenceHandler.uniqueInstance == null) {
+    public static DefHandler getInst() {
+        if (DefHandler.uniqueInstance == null) {
             synchronized (DOMElementMap.class) {
-                if (DefenceHandler.uniqueInstance == null) {
-                    DefenceHandler.uniqueInstance = new DefenceHandler();
+                if (DefHandler.uniqueInstance == null) {
+                    DefHandler.uniqueInstance = new DefHandler();
                 }
             }
         }
-        return DefenceHandler.uniqueInstance;
+        return DefHandler.uniqueInstance;
     }
 
     public boolean canDefence(final CElement parent, final CElement fences,

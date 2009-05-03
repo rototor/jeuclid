@@ -110,7 +110,7 @@ public class CC_PunktPotPot extends CC_ {
         if (!this.canCombine(parent, cE1, cE2)) {
             return cE1;
         }
-        final boolean replace = CombineHandler.getInstance()
+        final boolean replace = CombHandler.getInst()
                 .justTwo(cE1, cE2);
         // evtl muss man das Zeichen vor cE1 ändern
         final int exp1 = ((CNum) ((CPot) cE1).getExponent()).getValue();
@@ -120,7 +120,7 @@ public class CC_PunktPotPot extends CC_ {
                 || (!cE1.hasExtDiv() && cE2.hasExtDiv() && (exp2 > exp1));
         System.out.println("Toggle?" + toggle);
         final CElement newChild = this.createCombination(parent, cE1, cE2);
-        CombineHandler.getInstance().insertOrReplace(parent, newChild, cE1,
+        CombHandler.getInst().insertOrReplace(parent, newChild, cE1,
                 cE2, replace);
         if (toggle) {
             newChild.toggleTimesDiv(false);

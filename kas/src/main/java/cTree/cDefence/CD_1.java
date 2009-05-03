@@ -25,7 +25,7 @@ public class CD_1 {
         System.out.println("Do the defence work");
         final boolean replace = this.replaceP(parent, fences);
         final CElement insertion = this.createInsertion(fences, content);
-        DefenceHandler.getInstance().replaceFoP(parent, insertion, fences,
+        DefHandler.getInst().replaceFoP(parent, insertion, fences,
                 replace);
         return insertion;
     }

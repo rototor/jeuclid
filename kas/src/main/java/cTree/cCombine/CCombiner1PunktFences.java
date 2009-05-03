@@ -16,16 +16,27 @@
 
 package cTree.cCombine;
 
+import java.util.HashMap;
+
 import cTree.CElement;
 import cTree.CType;
 
 public class CCombiner1PunktFences extends CCombiner1 {
     public CCombiner1PunktFences() {
         super();
-        this.op2Combiner.put(CType.IDENT, new CC_PunktFencesIdent());
-        this.op2Combiner.put(CType.NUM, new CC_PunktFencesNum());
-        this.op2Combiner.put(CType.POT, new CC_PunktFencesPot());
-        this.op2Combiner.put(CType.FENCES, new CC_PunktFencesFences());
+
+    }
+
+    @Override
+    public HashMap<CType, CC_> getOp2Comb() {
+        if (this.op2Combiner == null) {
+            this.op2Combiner = super.getOp2Comb();
+            this.op2Combiner.put(CType.IDENT, new CC_PunktFencesIdent());
+            this.op2Combiner.put(CType.NUM, new CC_PunktFencesNum());
+            this.op2Combiner.put(CType.POT, new CC_PunktFencesPot());
+            this.op2Combiner.put(CType.FENCES, new CC_PunktFencesFences());
+        }
+        return this.op2Combiner;
     }
 
     @Override
@@ -35,10 +46,10 @@ public class CCombiner1PunktFences extends CCombiner1 {
         if (cE2.getCType() == CType.FENCES || cE2.getCType() == CType.FRAC
                 || cE2.getCType() == CType.IDENT
                 || cE2.getCType() == CType.SQRT) {
-            return this.op2Combiner.get(CType.IDENT)
-                    .combine(parent, cE1, cE2);
+            return this.getOp2Comb().get(CType.IDENT).combine(parent, cE1,
+                    cE2);
         } else {
-            return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1,
+            return this.getOp2Comb().get(cE2.getCType()).combine(parent, cE1,
                     cE2);
         }
     }
@@ -49,10 +60,10 @@ public class CCombiner1PunktFences extends CCombiner1 {
         if (cE2.getCType() == CType.FENCES || cE2.getCType() == CType.FRAC
                 || cE2.getCType() == CType.IDENT
                 || cE2.getCType() == CType.SQRT) {
-            return this.op2Combiner.get(CType.IDENT).canCombine(parent, cE1,
+            return this.getOp2Comb().get(CType.IDENT).canCombine(parent, cE1,
                     cE2);
         } else {
-            return this.op2Combiner.get(cE2.getCType()).canCombine(parent,
+            return this.getOp2Comb().get(cE2.getCType()).canCombine(parent,
                     cE1, cE2);
         }
     }

@@ -16,20 +16,29 @@
 
 package cTree.cCombine;
 
+import java.util.HashMap;
+
 import cTree.CElement;
 import cTree.CType;
 
 public class CCombiner1PotFences extends CCombiner1 {
     public CCombiner1PotFences() {
         super();
-        this.op2Combiner.put(CType.NUM, new CC_PotFencesNum());
+    }
+
+    @Override
+    public HashMap<CType, CC_> getOp2Comb() {
+        if (this.op2Combiner == null) {
+            this.op2Combiner = super.getOp2Comb();
+            this.op2Combiner.put(CType.NUM, new CC_PotFencesNum());
+        }
+        return this.op2Combiner;
     }
 
     @Override
     public boolean canCombine(final CElement potenz, final CElement basis,
             final CElement exp) {
-        System.out.println("CombinerTyp()^ can combine?");
-        return this.op2Combiner.get(exp.getCType()).canCombine(potenz,
+        return this.getOp2Comb().get(exp.getCType()).canCombine(potenz,
                 basis.getFirstChild(), exp);
     }
 }

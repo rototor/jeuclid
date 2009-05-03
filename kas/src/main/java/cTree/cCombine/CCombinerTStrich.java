@@ -16,6 +16,8 @@
 
 package cTree.cCombine;
 
+import java.util.HashMap;
+
 import cTree.CElement;
 import cTree.CType;
 
@@ -23,36 +25,46 @@ public class CCombinerTStrich extends CCombinerTyp {
 
     public CCombinerTStrich() {
         super();
-        this.op1Combiner.put(CType.NUM, new CCombiner1StrichNum());
-        this.op1Combiner.put(CType.MINROW, new CCombiner1StrichMinrow());
-        this.op1Combiner.put(CType.FRAC, new CCombiner1StrichFrac());
-        this.op1Combiner.put(CType.MIXEDN, new CCombiner1StrichMixedN());
-        this.op1Combiner.put(CType.IDENT, new CCombiner1StrichIdent());
-        this.op1Combiner.put(CType.TIMESROW, new CCombiner1StrichTR());
+    }
+
+    @Override
+    public HashMap<CType, CCombiner1> getOp1Comb() {
+        if (this.op1Combiner == null) {
+            this.op1Combiner = new HashMap<CType, CCombiner1>();
+            for (final CType cType : CType.values()) {
+                this.op1Combiner.put(cType, new CCombiner1());
+            }
+            this.op1Combiner.put(CType.NUM, new CCombiner1StrichNum());
+            this.op1Combiner.put(CType.MINROW, new CCombiner1StrichMinrow());
+            this.op1Combiner.put(CType.FRAC, new CCombiner1StrichFrac());
+            this.op1Combiner.put(CType.MIXEDN, new CCombiner1StrichMixedN());
+            this.op1Combiner.put(CType.IDENT, new CCombiner1StrichIdent());
+            this.op1Combiner.put(CType.TIMESROW, new CCombiner1StrichTR());
+        }
+        return this.op1Combiner;
     }
 
     @Override
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("Add*");
         if (cE1.is0()) {
             return (new CC_Strich0Any()).combine(parent, cE1, cE2);
         } else if (cE2.is0()) {
             return (new CC_StrichAny0()).combine(parent, cE1, cE2);
         }
-        return this.op1Combiner.get(cE1.getCType()).combine(parent, cE1, cE2);
+        return this.getOp1Comb().get(cE1.getCType())
+                .combine(parent, cE1, cE2);
     }
 
     @Override
     public boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("CombinerTyp+ can combine?");
         if (cE1.is0()) {
             return (new CC_Strich0Any()).canCombine(parent, cE1, cE2);
         } else if (cE2.is0()) {
             return (new CC_StrichAny0()).canCombine(parent, cE1, cE2);
         }
-        return this.op1Combiner.get(cE1.getCType()).canCombine(parent, cE1,
+        return this.getOp1Comb().get(cE1.getCType()).canCombine(parent, cE1,
                 cE2);
     }
 

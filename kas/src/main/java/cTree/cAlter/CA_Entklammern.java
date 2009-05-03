@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.cDefence.DefenceHandler;
+import cTree.cDefence.DefHandler;
 
 public class CA_Entklammern extends CAlter {
 
@@ -29,7 +29,7 @@ public class CA_Entklammern extends CAlter {
     public CElement change(final ArrayList<CElement> els) {
         final CElement fences = els.get(0);
         System.out.println("Entferne Klammer " + fences.getText());
-        return DefenceHandler.getInstance().defence(fences.getParent(),
+        return DefHandler.getInst().defence(fences.getParent(),
                 fences, ((CFences) fences).getInnen());
     }
 
@@ -43,7 +43,7 @@ public class CA_Entklammern extends CAlter {
         if (els.get(0) instanceof CFences) {
             final CFences cF = (CFences) els.get(0);
             if (cF.hasParent() && cF.getInnen() != null) {
-                return DefenceHandler.getInstance().canDefence(
+                return DefHandler.getInst().canDefence(
                         cF.getParent(), cF, cF.getInnen());
             }
         }

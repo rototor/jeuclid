@@ -16,27 +16,21 @@
 
 package cTree.cCombine;
 
-import cTree.CElement;
+import java.util.HashMap;
+
 import cTree.CType;
 
 public class CCombiner1FracTR extends CCombiner1 {
     public CCombiner1FracTR() {
         super();
-        this.op2Combiner.put(CType.TIMESROW, new CC_FracTRTR());
     }
 
     @Override
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        System.out.println("Frac TR " + cE2.getCType() + " "
-                + cE2.hasExtDiv() + " " + cE2.hasExtPraefix());
-        return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
-    }
-
-    @Override
-    public boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        return this.op2Combiner.get(cE2.getCType()).canCombine(parent, cE1,
-                cE2);
+    public HashMap<CType, CC_> getOp2Comb() {
+        if (this.op2Combiner == null) {
+            this.op2Combiner = super.getOp2Comb();
+            this.op2Combiner.put(CType.TIMESROW, new CC_FracTRTR());
+        }
+        return this.op2Combiner;
     }
 }

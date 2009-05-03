@@ -21,57 +21,60 @@ import java.util.HashMap;
 import cTree.CElement;
 import cTree.CType;
 
-public class CombineHandler {
+public class CombHandler {
 
-    private volatile static CombineHandler uniqueInstance;
+    private volatile static CombHandler uniqueInstance;
 
-    public HashMap<CType, CCombinerTyp> getTypCombiner;
+    private HashMap<CType, CCombinerTyp> typCombiner;
 
     /*
      * Je nach Operatortyp wird gemaess einer HashMap verzweigt
      */
-    private CombineHandler() {
-        this.getTypCombiner = new HashMap<CType, CCombinerTyp>();
-        final CCombinerTyp default1 = new CCombinerTyp();
-        for (final CType cType : CType.values()) {
-            this.getTypCombiner.put(cType, default1);
-        }
-        this.getTypCombiner.put(CType.PLUSROW, new CCombinerTStrich());
-        this.getTypCombiner.put(CType.TIMESROW, new CCombinerTPunkt());
-        this.getTypCombiner.put(CType.POT, new CCombinerTPot());
-        this.getTypCombiner.put(CType.FRAC, new CCombinerTFrac());
+    private CombHandler() {
     }
 
-    public static CombineHandler getInstance() {
-        if (CombineHandler.uniqueInstance == null) {
-            synchronized (CombineHandler.class) {
-                if (CombineHandler.uniqueInstance == null) {
-                    CombineHandler.uniqueInstance = new CombineHandler();
+    public static CombHandler getInst() {
+        if (CombHandler.uniqueInstance == null) {
+            synchronized (CombHandler.class) {
+                if (CombHandler.uniqueInstance == null) {
+                    CombHandler.uniqueInstance = new CombHandler();
                 }
             }
         }
-        return CombineHandler.uniqueInstance;
+        return CombHandler.uniqueInstance;
+    }
+
+    private HashMap<CType, CCombinerTyp> getTypComb() {
+        if (this.typCombiner == null) {
+            this.typCombiner = new HashMap<CType, CCombinerTyp>();
+            final CCombinerTyp default1 = new CCombinerTyp();
+            for (final CType cType : CType.values()) {
+                this.typCombiner.put(cType, default1);
+            }
+            this.typCombiner.put(CType.PLUSROW, new CCombinerTStrich());
+            this.typCombiner.put(CType.TIMESROW, new CCombinerTPunkt());
+            this.typCombiner.put(CType.POT, new CCombinerTPot());
+            this.typCombiner.put(CType.FRAC, new CCombinerTFrac());
+        }
+        return this.typCombiner;
     }
 
     public boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("CombineHandler can combine?");
-        return this.getTypCombiner.get(parent.getCType()).canCombine(parent,
-                cE1, cE2);
+        final CType pt = parent.getCType();
+        return this.getTypComb().get(pt).canCombine(parent, cE1, cE2);
     }
 
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("CombineHandler combine");
-        return this.getTypCombiner.get(parent.getCType()).combine(parent,
-                cE1, cE2);
+        final CType pt = parent.getCType();
+        return this.getTypComb().get(pt).combine(parent, cE1, cE2);
     }
 
     public CC_ getCombiner(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("CombineHandler getCombiner");
-        return this.getTypCombiner.get(parent.getCType()).getCombiner(parent,
-                cE1, cE2);
+        final CType pt = parent.getCType();
+        return this.getTypComb().get(pt).getCombiner(parent, cE1, cE2);
     }
 
     // -------------------------------------------------------------------------------
@@ -88,14 +91,12 @@ public class CombineHandler {
             final CElement newC, final CElement repC, final CElement remC,
             final boolean replace) {
         if (replace) {
-            System.out.println("// replace");
             parent.removeChild(remC, false, false, false);
             parent.removeChild(repC, false, false, false);
             final CElement grandParent = parent.getParent();
             return grandParent.replaceChild(newC, parent, true, true);
 
         } else {
-            System.out.println("// insert");
             parent.removeChild(remC, true, true, false);
             return parent.replaceChild(newC, repC, true, true);
         }

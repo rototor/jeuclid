@@ -17,47 +17,74 @@
 package cTree.cCombine;
 
 import cTree.CElement;
-import cTree.cDefence.DefenceHandler;
+import cTree.cDefence.DefHandler;
 
 public class CC_ {
 
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (!this.canCombine(parent, cE1, cE2)) {
-            System.out.println("Repelled!!");
-            return cE1;
-        }
-        final boolean replace = CombineHandler.getInstance()
-                .justTwo(cE1, cE2);
-        final CElement newChild = this.createCombination(parent, cE1, cE2);
-        System.out.println("CC inserted");
-        return CombineHandler.getInstance().insertOrReplace(parent, newChild,
-                cE1, cE2, replace);
-    }
-
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
-        System.out.println("Cant create combination");
-        // Vorsicht! Fehlbedienung möglich. Repeller einsetzen!
-        return cE1;
-    }
-
+    /**
+     * This should be overwriten by each Class.
+     * 
+     * @param parent
+     * @param cE1
+     * @param cE2
+     * @return Defaults to always false
+     */
     protected boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("Repell standard?");
         return false;
     }
 
+    /**
+     * The Standardmethod with a Hook for createCombination
+     * 
+     * @param parent
+     * @param cE1
+     * @param cE2
+     * @return the newly inserted CElement.
+     */
+    public CElement combine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        if (!this.canCombine(parent, cE1, cE2)) {
+            return cE1;
+        }
+        final boolean replace = CombHandler.getInst().justTwo(cE1, cE2);
+        final CElement newChild = this.createCombination(parent, cE1, cE2);
+        return CombHandler.getInst().insertOrReplace(parent, newChild, cE1,
+                cE2, replace);
+    }
+
+    /**
+     * Methode only to be inserted into combine.
+     * 
+     * @param parent
+     * @param cE1
+     * @param cE2
+     * @return the newly created Element
+     */
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        return cE1;
+    }
+
+    /**
+     * Methode to remove unnecessarily injected fences
+     */
     protected void clean() {
 
     }
 
+    /**
+     * Trys to remove fences el if doit is true. Usualy doit is provided by
+     * CMessage.
+     * 
+     * @param el
+     * @param doIt
+     */
     protected void condCleanOne(final CElement el, final boolean doIt) {
-        if (doIt
-                && DefenceHandler.getInstance().canDefence(el.getParent(),
-                        el, el.getFirstChild())) {
-            DefenceHandler.getInstance().defence(el.getParent(), el,
-                    el.getFirstChild());
+        final CElement par = el.getParent();
+        final CElement child = el.getFirstChild();
+        if (doIt && DefHandler.getInst().canDefence(par, el, child)) {
+            DefHandler.getInst().defence(par, el, child);
         }
     }
 }

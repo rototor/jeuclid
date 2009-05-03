@@ -20,14 +20,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
-import cTree.cCombine.CombineHandler;
+import cTree.cCombine.CombHandler;
 
 public class CA_Verbinden extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
         final CElement first = els.get(0);
-        return CombineHandler.getInstance().combine(first.getParent(), first,
+        return CombHandler.getInst().combine(first.getParent(), first,
                 first.getNextSibling());
     }
 
@@ -41,7 +41,7 @@ public class CA_Verbinden extends CAlter {
         final CElement first = els.get(0);
         return first.hasNextC()
                 && first.hasParent()
-                && CombineHandler.getInstance().canCombine(first.getParent(),
+                && CombHandler.getInst().canCombine(first.getParent(),
                         first, first.getNextSibling());
     }
 

@@ -23,14 +23,12 @@ public class CC_PunktAny1 extends CC_ {
     @Override
     protected boolean canCombine(final CElement parent,
             final CElement minTerm, final CElement tRow) {
-        System.out.println("Repell mult Any 1");
         return true;
     }
 
     @Override
     protected CElement createCombination(final CElement parent,
             final CElement cE1, final CElement cE2) {
-        System.out.println("Mult Any 1");
         return cE1.cloneCElement(false); // parent.cloneChild(cE1, false);
     }
 }

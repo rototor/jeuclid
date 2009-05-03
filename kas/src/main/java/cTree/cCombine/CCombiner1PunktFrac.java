@@ -16,6 +16,8 @@
 
 package cTree.cCombine;
 
+import java.util.HashMap;
+
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
@@ -28,26 +30,32 @@ import cTree.CType;
 public class CCombiner1PunktFrac extends CCombiner1 {
     public CCombiner1PunktFrac() {
         super();
-        this.op2Combiner.put(CType.NUM, new CC_PunktFracNum());
-        this.op2Combiner.put(CType.FRAC, new CC_PunktFracFrac());
+    }
+
+    @Override
+    public HashMap<CType, CC_> getOp2Comb() {
+        if (this.op2Combiner == null) {
+            this.op2Combiner = super.getOp2Comb();
+            this.op2Combiner.put(CType.NUM, new CC_PunktFracNum());
+            this.op2Combiner.put(CType.FRAC, new CC_PunktFracFrac());
+        }
+        return this.op2Combiner;
     }
 
     @Override
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("Mult Frac" + cE2.getCType() + " "
-                + cE2.hasExtDiv() + " " + cE2.hasExtPraefix());
         if (cE2 instanceof CFrac) {
-            return this.op2Combiner.get(CType.FRAC).combine(parent, cE1, cE2);
+            return this.getOp2Comb().get(CType.FRAC)
+                    .combine(parent, cE1, cE2);
         } else {
-            return this.op2Combiner.get(CType.NUM).combine(parent, cE1, cE2);
+            return this.getOp2Comb().get(CType.NUM).combine(parent, cE1, cE2);
         }
     }
 
     @Override
     public boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("CombinerTyp*Fr can combine?");
         return (cE2 instanceof CFrac) || (cE2 instanceof CNum)
                 || (cE2 instanceof CIdent) || (cE2 instanceof CFences)
                 || (cE2 instanceof CPot) || (cE2 instanceof CSqrt);

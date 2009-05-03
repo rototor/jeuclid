@@ -24,7 +24,7 @@ import cTree.CFences;
 import cTree.CFrac;
 import cTree.CMessage;
 import cTree.CTimesRow;
-import cTree.cDefence.DefenceHandler;
+import cTree.cDefence.DefHandler;
 
 public class CA_Frac_InQuotient extends CAlter {
 
@@ -87,9 +87,9 @@ public class CA_Frac_InQuotient extends CAlter {
 
     protected void condCleanOne(final CElement el, final boolean doIt) {
         if (doIt
-                && DefenceHandler.getInstance().canDefence(el.getParent(),
+                && DefHandler.getInst().canDefence(el.getParent(),
                         el, el.getFirstChild())) {
-            DefenceHandler.getInstance().defence(el.getParent(), el,
+            DefHandler.getInst().defence(el.getParent(), el,
                     el.getFirstChild());
         }
     }

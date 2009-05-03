@@ -16,24 +16,25 @@
 
 package cTree.cCombine;
 
-import cTree.CElement;
+import java.util.HashMap;
+
 import cTree.CType;
 
 public class CCombinerTPot extends CCombinerTyp {
     public CCombinerTPot() {
-        for (final CType cType : CType.values()) {
-            this.op1Combiner.put(cType, new CCombiner1PotDefault());
-        }
-        this.op1Combiner.put(CType.NUM, new CCombiner1PotNum());
-        this.op1Combiner.put(CType.FENCES, new CCombiner1PotFences());
+        super();
     }
 
     @Override
-    public boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        System.out.println("CombinerTyp^ can combine?");
-        return this.op1Combiner.get(cE1.getCType()).canCombine(parent, cE1,
-                cE2);
+    public HashMap<CType, CCombiner1> getOp1Comb() {
+        if (this.op1Combiner == null) {
+            this.op1Combiner = new HashMap<CType, CCombiner1>();
+            for (final CType cType : CType.values()) {
+                this.op1Combiner.put(cType, new CCombiner1PotDefault());
+            }
+            this.op1Combiner.put(CType.NUM, new CCombiner1PotNum());
+            this.op1Combiner.put(CType.FENCES, new CCombiner1PotFences());
+        }
+        return this.op1Combiner;
     }
-
 }
