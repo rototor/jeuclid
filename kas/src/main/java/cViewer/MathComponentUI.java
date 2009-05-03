@@ -19,7 +19,6 @@
 
 package cViewer;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -146,17 +145,17 @@ public class MathComponentUI extends ComponentUI implements
         return start;
     }
 
-    private Color getRealBackgroundColor() {
-        Color back = this.mathComponent.getBackground();
-        if (this.mathComponent.isOpaque()) {
-            if (back == null) {
-                back = Color.WHITE;
-            }
-            // Remove Alpha
-            back = new Color(back.getRGB());
-        }
-        return back;
-    }
+    // private Color getRealBackgroundColor() {
+    // Color back = this.mathComponent.getBackground();
+    // if (this.mathComponent.isOpaque()) {
+    // if (back == null) {
+    // back = Color.WHITE;
+    // }
+    // // Remove Alpha
+    // back = new Color(back.getRGB());
+    // }
+    // return back;
+    // }
 
     /** {@inheritDoc} */
     @Override
@@ -290,7 +289,7 @@ public class MathComponentUI extends ComponentUI implements
     public static void getDocInfo(final Node d) {
         if (d != null) {
             if (d instanceof Element) {
-                final Element el = (Element) d;
+                // final Element el = (Element) d;
                 // System.out.println(el.getBaseURI()); null
                 // Tagname : mi, mo, mrow, mfrac, msqrt ... ebenso localName
                 // ebenso NodeName

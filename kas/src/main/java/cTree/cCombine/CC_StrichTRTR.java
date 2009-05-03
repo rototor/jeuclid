@@ -17,7 +17,6 @@ public class CC_StrichTRTR extends CC_ {
     @Override
     protected boolean canCombine(final CElement parent, final CElement cTR1,
             final CElement cTR2) {
-        System.out.println("Repell add tr tr");
         if (!((CTimesRow) cTR1).isMonom()) {
             return false;
         }
@@ -30,23 +29,17 @@ public class CC_StrichTRTR extends CC_ {
     @Override
     protected CElement createCombination(final CElement parent,
             final CElement cTR1, final CElement cTR2) {
-        System.out.println("Combine add tr tr");
         final CTimesRow my1 = (CTimesRow) cTR1;
         final CTimesRow my2 = (CTimesRow) cTR2;
         // nun haben wir gleichartige Monome wir holen die Koeffizienten
         final int exp1 = my1.getKoeffAsBetragFromMonom().getValue();
         final int exp2 = my2.getKoeffAsBetragFromMonom().getValue();
-        // newChild ist in der Regel ein Clone von cTR1, allerdings sollten
-        // wir sicherheitshalber
-        // einen Koeffizienten einfügen, falls es ihn nicht gibt:
-        // negative Koeffizienten sind nicht vorgesehen!!
         CElement newChild = null;
         if (my1.getFirstChild() instanceof CNum) {
             newChild = cTR1.cloneCElement(false);
         } else {
             final CElement new1 = CNum.createNum(parent.getElement(), "1");
             new1.setCRolle(CRolle.FAKTOR1);
-            System.out.println("Try to insert 1");
             newChild = CTimesRow.createRow(CTimesRow.createList(new1, my1));
         }
 
@@ -58,14 +51,7 @@ public class CC_StrichTRTR extends CC_ {
                 } else if (exp1 > exp2) {
                     newChild.getFirstChild().setText("" + (exp1 - exp2));
                 } else {
-                    final CElement arg = cTR1.cloneCElement(false); // evtl
-                                                                    // falsch
-                                                                    // falls
-                                                                    // es
-                                                                    // keinen
-                                                                    // echten
-                                                                    // Koeffizienten
-                                                                    // bi
+                    final CElement arg = cTR1.cloneCElement(false);
                     arg.getFirstChild().setText("" + (exp2 - exp1));
                     newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);
                 }
@@ -74,19 +60,17 @@ public class CC_StrichTRTR extends CC_ {
             }
 
         } else {
-            if (this.gleicheMin(cTR2, cTR1)) { // erhöhe Koeff um 1
+            if (this.gleicheMin(cTR2, cTR1)) {
                 ((CTimesRow) newChild).getKoeffAsBetragFromMonom().setText(
                         "" + (exp1 + exp2));
-            } else { // erniedrige Koeffizient um 1
+            } else {
                 if (exp1 == exp2) {
                     newChild = CNum.createNum(parent.getElement(), "0");
                     newChild.setCRolle(CRolle.SUMMANDN1);
                 } else if (exp1 > exp2) {
                     newChild.getFirstChild().setText("" + (exp1 - exp2));
                 } else {
-                    cTR1.togglePlusMinus(false); // evtl. falsch, wenn es
-                                                 // keinen echten
-                                                 // Koeffizienten gibt
+                    cTR1.togglePlusMinus(false);
                     newChild.getFirstChild().setText("" + (exp2 - exp1));
                 }
             }
