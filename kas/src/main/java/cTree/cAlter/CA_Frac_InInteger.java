@@ -22,6 +22,7 @@ import java.util.HashMap;
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.CNum;
+import cTree.CRolle;
 
 public class CA_Frac_InInteger extends CAlter {
 
@@ -64,24 +65,27 @@ public class CA_Frac_InInteger extends CAlter {
     public boolean check(final ArrayList<CElement> els) {
         if (els.size() > 0 && els.get(0) instanceof CFrac) {
             this.cFrac = (CFrac) els.get(0);
-            this.z = this.cFrac.getZaehler();
-            this.n = this.cFrac.getNenner();
-            try {
-                if (this.n instanceof CNum) {
-                    this.nVal = ((CNum) this.n).getValue();
-                    if (this.nVal == 1) {
-                        this.changeTyp = ChangeTyp.Eins;
-                        return true;
-                    } else if (this.z instanceof CNum) {
-                        this.zVal = ((CNum) this.z).getValue();
-                        if (this.nVal != 0 && this.zVal % this.nVal == 0) {
-                            this.changeTyp = ChangeTyp.ZweiZahlen;
+            if (this.cFrac.getCRolle() != CRolle.FRACTION) {
+                this.z = this.cFrac.getZaehler();
+                this.n = this.cFrac.getNenner();
+                try {
+                    if (this.n instanceof CNum) {
+                        this.nVal = ((CNum) this.n).getValue();
+                        if (this.nVal == 1) {
+                            this.changeTyp = ChangeTyp.Eins;
                             return true;
+                        } else if (this.z instanceof CNum) {
+                            this.zVal = ((CNum) this.z).getValue();
+                            if (this.nVal != 0 && this.zVal % this.nVal == 0) {
+                                this.changeTyp = ChangeTyp.ZweiZahlen;
+                                return true;
+                            }
                         }
                     }
+                } catch (final NumberFormatException e) {
                 }
-            } catch (final NumberFormatException e) {
             }
+
         }
         return false;
     }

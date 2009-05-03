@@ -45,12 +45,26 @@ public class CC_StrichFracMixedNum extends CC_ {
         this.cF1 = (CFrac) frac;
         this.cNenner1 = (CNum) this.cF1.getNenner();
         return (this.cNenner.getValue() != 0)
-                && (this.cNenner1.getValue() != 0);
+                && (this.cNenner1.getValue() != 0 && (this.cF1
+                        .hasNumberValue()));
+        // letztes dann löschen
+    }
+
+    @Override
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        System.out.println("Add Frac and MixedNum");
+        if (this.cF.hasNumberValue()) {
+            System.out.println("Add Frac and MixedNum NumberV");
+            return this.createNumberCombination(parent, cE1, cE2);
+        } else {
+            System.out.println("Add Frac and MixedNum Term");
+            return this.createTermCombination(parent, cE1, cE2);
+        }
     }
 
     // evtl einbauen dass auch ein Bruch entstehen kann
-    @Override
-    protected CElement createCombination(final CElement parent,
+    protected CElement createNumberCombination(final CElement parent,
             final CElement cE1, final CElement cE2) {
         System.out.println("Add Frac and Mixed");
 
@@ -64,70 +78,54 @@ public class CC_StrichFracMixedNum extends CC_ {
         final int wertZ = vz1 * zVal1 * nVal2 + vz2 * (gVal2 * nVal2 + zVal2)
                 * nVal1;
         final int aWertZ = Math.abs(wertZ);
-        System.out.println(aWertZ);
         final int newNVal = nVal1 * nVal2;
         final int vzWert = (wertZ < 0) ? -1 : 1;
         final int newGVal = aWertZ / newNVal;
         final int newZVal = aWertZ % newNVal;
-        System.out.println(newZVal);
-
-        CElement newChild = null;
+        final CMixedNumber arg = (CMixedNumber) cE2.cloneCElement(false);
+        ((CNum) arg.getWholeNumber()).setValue(newGVal);
+        ((CNum) ((CFrac) arg.getFraction()).getZaehler()).setValue(newZVal);
+        ((CNum) ((CFrac) arg.getFraction()).getNenner()).setValue(newNVal);
+        CElement newChild = arg;
         if (cE1.getCRolle() == CRolle.SUMMAND1) {
-            System.out.println("// falls ein Summand1 dabei ist");
-            if (cE2.hasExtMinus() && (wertZ < 0)) { // So entsteht eine
-                // Minrow
-                final CMixedNumber arg = (CMixedNumber) cE2
-                        .cloneCElement(false);
-                ((CNum) arg.getWholeNumber()).setValue(newGVal);
-                ((CNum) ((CFrac) arg.getFraction()).getZaehler())
-                        .setValue(newZVal);
-                ((CNum) ((CFrac) arg.getFraction()).getNenner())
-                        .setValue(newNVal);
+            if (cE2.hasExtMinus() && (wertZ < 0)) {
                 newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);
-            } else { // So entsteht eine Zahl als Summand1
-                final CMixedNumber arg = (CMixedNumber) cE2
-                        .cloneCElement(false);
-                ((CNum) arg.getWholeNumber()).setValue(newGVal);
-                ((CNum) ((CFrac) arg.getFraction()).getZaehler())
-                        .setValue(newZVal);
-                ((CNum) ((CFrac) arg.getFraction()).getNenner())
-                        .setValue(newNVal);
-                newChild = arg;
             }
         } else if (cE1.getCRolle() == CRolle.NACHVZMINUS) {
             if (wertZ < 0) {
-                final CMixedNumber arg = (CMixedNumber) cE2
-                        .cloneCElement(false);
-                ((CNum) arg.getWholeNumber()).setValue(newGVal);
-                ((CNum) ((CFrac) arg.getFraction()).getZaehler())
-                        .setValue(newZVal);
-                ((CNum) ((CFrac) arg.getFraction()).getNenner())
-                        .setValue(newNVal);
                 newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);
-            } else {
-                final CMixedNumber arg = (CMixedNumber) cE2
-                        .cloneCElement(false);
-                ((CNum) arg.getWholeNumber()).setValue(newGVal);
-                ((CNum) ((CFrac) arg.getFraction()).getZaehler())
-                        .setValue(newZVal);
-                ((CNum) ((CFrac) arg.getFraction()).getNenner())
-                        .setValue(newNVal);
-                newChild = arg;
             }
         } else {
-            System.out.println("// falls weitere Summanden");
-            final CMixedNumber arg = (CMixedNumber) cE2.cloneCElement(false);
-            ((CNum) arg.getWholeNumber()).setValue(newGVal);
-            ((CNum) ((CFrac) arg.getFraction()).getZaehler())
-                    .setValue(newZVal);
-            ((CNum) ((CFrac) arg.getFraction()).getNenner())
-                    .setValue(newNVal);
             if (vzWert * vz1 < 0) {
                 newChild = CFences.createFenced(CMinTerm.createMinTerm(arg));
-            } else {
-                newChild = arg;
             }
         }
         return newChild;
+    }
+
+    protected CElement createTermCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        // final CElement cZN = this.cF.getZaehler().cloneCElement(false);
+        // final CElement cNN = this.cF.getNenner().cloneCElement(false);
+        // final CElement cNN2 = this.cF.getNenner().cloneCElement(false);
+        // final CElement cNumN = cE2.cloneCElement(false);
+        // final CTimesRow cT =
+        // CTimesRow.createRow(CTimesRow.createList(cNumN,
+        // cNN));
+        // cT.correctInternalPraefixesAndRolle();
+        // final CPlusRow cP = CPlusRow.createRow(CPlusRow.createList(cT,
+        // cZN));
+        // cP.correctInternalPraefixesAndRolle();
+        // final CFrac arg = CFrac.createFraction(cP, cNN2);
+        // CElement newChild = arg;
+        // if (!cE1.hasExtMinus() && cE2.hasExtMinus() || cE1.hasExtMinus()
+        // && !cE2.hasExtMinus()) {
+        // arg.getZaehler().getFirstChild().getNextSibling()
+        // .togglePlusMinus(false);
+        // }
+        // if (cE1.getCRolle() == CRolle.NACHVZMINUS) {
+        // newChild = CMinTerm.createMinTerm(newChild, CRolle.SUMMAND1);
+        // }
+        return null; // newChild;
     }
 }

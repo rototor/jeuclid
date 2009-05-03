@@ -32,13 +32,28 @@ public class CCombiner1PunktFences extends CCombiner1 {
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
         System.out.println("Mult Fences");
-        return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
+        if (cE2.getCType() == CType.FENCES || cE2.getCType() == CType.FRAC
+                || cE2.getCType() == CType.IDENT
+                || cE2.getCType() == CType.SQRT) {
+            return this.op2Combiner.get(CType.IDENT)
+                    .combine(parent, cE1, cE2);
+        } else {
+            return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1,
+                    cE2);
+        }
     }
 
     @Override
     public boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        return this.op2Combiner.get(cE2.getCType()).canCombine(parent, cE1,
-                cE2);
+        if (cE2.getCType() == CType.FENCES || cE2.getCType() == CType.FRAC
+                || cE2.getCType() == CType.IDENT
+                || cE2.getCType() == CType.SQRT) {
+            return this.op2Combiner.get(CType.IDENT).canCombine(parent, cE1,
+                    cE2);
+        } else {
+            return this.op2Combiner.get(cE2.getCType()).canCombine(parent,
+                    cE1, cE2);
+        }
     }
 }

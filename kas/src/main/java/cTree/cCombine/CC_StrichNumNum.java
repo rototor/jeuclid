@@ -45,6 +45,7 @@ public class CC_StrichNumNum extends CC_ {
         final CNum arg = (CNum) cN1.cloneCElement(false);
         arg.setValue(aWertZ);
         newChild = arg;
+
         if (cN1.getCRolle() == CRolle.SUMMAND1) {
             if (cN2.hasExtMinus() && (wertZ < 0)) {
                 newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);

@@ -26,6 +26,7 @@ public class CDefenceTPunkt extends CDefenceTyp {
         }
         this.op1Defencer.put(CType.FENCES, new CD_1PunktEasy());
         this.op1Defencer.put(CType.FRAC, new CD_1PunktEasy());
+        this.op1Defencer.put(CType.MIXEDN, new CD_1PunktEasy());
         this.op1Defencer.put(CType.IDENT, new CD_1PunktEasy());
         this.op1Defencer.put(CType.NUM, new CD_1PunktEasy());
         this.op1Defencer.put(CType.POT, new CD_1PunktEasy());
