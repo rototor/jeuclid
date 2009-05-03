@@ -49,10 +49,12 @@ public class AlterHandler {
             strings.add("CA_Frac_InInteger");
             strings.add("CA_Frac_InSumme");
             strings.add("CA_Frac_InProdukt");
+            strings.add("CA_Frac_InQuotient");
             strings.add("CA_Frac_InGemZahl");
             strings.add("CA_Frac_Kehrbruch");
             strings.add("CA_Frac_MinusKuerzen");
             strings.add("CA_Frac_Kuerzen");
+            strings.add("CA_Frac_KuerzenGanz");
             strings.add("CA_Frac_Min1Vorziehen");
             strings.add("CA_GemZ_InFrac");
             strings.add("CA_GemZ_InSum");
