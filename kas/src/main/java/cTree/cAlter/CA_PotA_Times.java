@@ -25,7 +25,7 @@ import cTree.CMessage;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CTimesRow;
-import cTree.cDefence.DefenceHandler;
+import cTree.cDefence.DefHandler;
 
 public class CA_PotA_Times extends CAlter {
 
@@ -51,7 +51,7 @@ public class CA_PotA_Times extends CAlter {
         parent.replaceChild(newEl, els.get(0), true, true);
         System.out.println("DidIt " + didIt);
         if (didIt.isMessage()) {
-            return DefenceHandler.getInstance().defence(parent, newEl,
+            return DefHandler.getInst().defence(parent, newEl,
                     newEl.getFirstChild());
         }
         return newEl;

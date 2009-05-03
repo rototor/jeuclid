@@ -16,28 +16,37 @@
 
 package cTree.cCombine;
 
+import java.util.HashMap;
+
 import cTree.CElement;
 import cTree.CType;
 
 public class CCombiner1PunktIdent extends CCombiner1 {
     public CCombiner1PunktIdent() {
         super();
-        this.op2Combiner.put(CType.IDENT, new CC_PunktIdentIdent());
-        this.op2Combiner.put(CType.FENCES, new CC_PunktIdentFences());
-        this.op2Combiner.put(CType.POT, new CC_PunktIdentPot());
-        this.op2Combiner.put(CType.TIMESROW, new CC_PunktIdentTR());
+
+    }
+
+    @Override
+    public HashMap<CType, CC_> getOp2Comb() {
+        if (this.op2Combiner == null) {
+            this.op2Combiner = super.getOp2Comb();
+            this.op2Combiner.put(CType.IDENT, new CC_PunktIdentIdent());
+            this.op2Combiner.put(CType.FENCES, new CC_PunktIdentFences());
+            this.op2Combiner.put(CType.POT, new CC_PunktIdentPot());
+            this.op2Combiner.put(CType.TIMESROW, new CC_PunktIdentTR());
+        }
+        return this.op2Combiner;
     }
 
     @Override
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("Mult Ident");
         if (cE1.istGleichartigesMonom(cE2)) {
-            System.out.println("Gleichartig");
-            return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1,
+            return this.getOp2Comb().get(cE2.getCType()).combine(parent, cE1,
                     cE2);
         } else if (cE2.getCType() == CType.FENCES) {
-            return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1,
+            return this.getOp2Comb().get(cE2.getCType()).combine(parent, cE1,
                     cE2);
         }
         return cE1;
@@ -47,11 +56,10 @@ public class CCombiner1PunktIdent extends CCombiner1 {
     public boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
         if (cE1.istGleichartigesMonom(cE2)) {
-            System.out.println("Gleichartig");
-            return this.op2Combiner.get(cE2.getCType()).canCombine(parent,
+            return this.getOp2Comb().get(cE2.getCType()).canCombine(parent,
                     cE1, cE2);
         } else if (cE2.getCType() == CType.FENCES) {
-            return this.op2Combiner.get(cE2.getCType()).canCombine(parent,
+            return this.getOp2Comb().get(cE2.getCType()).canCombine(parent,
                     cE1, cE2);
         }
         return false;

@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import cTree.adapter.ElementAdapter;
 import cTree.adapter.PraefixAdapter;
 import cTree.adapter.RolleAdapter;
-import cTree.cCombine.CombineHandler;
-import cTree.cDefence.DefenceHandler;
+import cTree.cCombine.CombHandler;
+import cTree.cDefence.DefHandler;
 import cTree.cSplit.SplitHandler;
 
 public abstract class CElement extends RolleAdapter implements
@@ -50,7 +50,7 @@ public abstract class CElement extends RolleAdapter implements
         final CElement erstesElement = active;
         if (erstesElement.hasNextC()) {
             final CElement zweitesElement = erstesElement.getNextSibling();
-            final CElement cEl = CombineHandler.getInstance().combine(this,
+            final CElement cEl = CombHandler.getInst().combine(this,
                     erstesElement, zweitesElement);
             System.out.println("Have combined" + cEl.getParent().getText());
             return cEl;
@@ -88,7 +88,7 @@ public abstract class CElement extends RolleAdapter implements
 
     public final CElement defence(final CElement aFencePair) {
         if (aFencePair instanceof CFences && aFencePair.hasChildC()) {
-            return DefenceHandler.getInstance().defence(this, aFencePair,
+            return DefHandler.getInst().defence(this, aFencePair,
                     aFencePair.getFirstChild());
         }
         return aFencePair;

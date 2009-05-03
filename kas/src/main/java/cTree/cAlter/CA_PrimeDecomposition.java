@@ -9,7 +9,7 @@ import cTree.CFences;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CTimesRow;
-import cTree.cDefence.DefenceHandler;
+import cTree.cDefence.DefHandler;
 
 public class CA_PrimeDecomposition extends CAlter {
 
@@ -65,7 +65,7 @@ public class CA_PrimeDecomposition extends CAlter {
                 old = cF;
             } else {
                 parent.replaceChild(cF, old, true, true);
-                old = DefenceHandler.getInstance().defence(cF.getParent(),
+                old = DefHandler.getInst().defence(cF.getParent(),
                         cF, cF.getInnen());
             }
 

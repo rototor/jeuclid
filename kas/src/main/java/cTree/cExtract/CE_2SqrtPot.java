@@ -24,7 +24,7 @@ import cTree.CMessage;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CRolle;
-import cTree.cDefence.DefenceHandler;
+import cTree.cDefence.DefHandler;
 
 public class CE_2SqrtPot extends CE_1 {
 
@@ -45,7 +45,7 @@ public class CE_2SqrtPot extends CE_1 {
         ExtractHandler.getInstance().insertOrReplace(parent, newChild,
                 selection, true);
         newChild.setCRolle(rolle);
-        return DefenceHandler.getInstance().conDefence(newChild.getParent(),
+        return DefHandler.getInst().conDefence(newChild.getParent(),
                 newChild, newChild.getFirstChild(), didIt.isMessage());
     }
 

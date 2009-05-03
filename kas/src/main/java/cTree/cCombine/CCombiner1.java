@@ -23,37 +23,42 @@ import cTree.CType;
 
 public class CCombiner1 {
 
-    public HashMap<CType, CC_> op2Combiner;
+    protected HashMap<CType, CC_> op2Combiner;
 
     /*
      * Bei bekanntem Operator wird nach dem ersten Operanden gemaess einer
      * HashMap verzweigt.
      */
     public CCombiner1() {
-        this.op2Combiner = new HashMap<CType, CC_>();
-        final CC_ default2 = new CC_();
-        for (final CType cType : CType.values()) {
-            this.op2Combiner.put(cType, default2);
-        }
 
+    }
+
+    public HashMap<CType, CC_> getOp2Comb() {
+        if (this.op2Combiner == null) {
+            this.op2Combiner = new HashMap<CType, CC_>();
+            final CC_ default2 = new CC_();
+            for (final CType cType : CType.values()) {
+                this.op2Combiner.put(cType, default2);
+            }
+        }
+        return this.op2Combiner;
     }
 
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("Default1");
-        return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
+        final CType ct2 = cE2.getCType();
+        return this.getOp2Comb().get(ct2).combine(parent, cE1, cE2);
     }
 
     public boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        return this.op2Combiner.get(cE2.getCType()).canCombine(parent, cE1,
-                cE2);
+        final CType ct2 = cE2.getCType();
+        return this.getOp2Comb().get(ct2).canCombine(parent, cE1, cE2);
     }
 
     public CC_ getCombiner(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("CombineHandler getCombiner");
-        return this.op2Combiner.get(cE2.getCType());
+        return this.getOp2Comb().get(cE2.getCType());
     }
 
 }

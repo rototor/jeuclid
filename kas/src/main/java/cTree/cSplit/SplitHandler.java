@@ -21,7 +21,7 @@ import java.util.HashMap;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.adapter.DOMElementMap;
-import cTree.cDefence.DefenceHandler;
+import cTree.cDefence.DefHandler;
 
 public class SplitHandler {
     private volatile static SplitHandler uniqueInstance;
@@ -76,7 +76,7 @@ public class SplitHandler {
             final CFences cF = CFences.createFenced(this.getSplitter.get(
                     this.operation).split(parent, cE1, this.operator));
             parent.replaceChild(cF, cE1, true, true);
-            return DefenceHandler.getInstance().defence(parent, cF,
+            return DefHandler.getInst().defence(parent, cF,
                     cF.getInnen());
         } else {
             return cE1;

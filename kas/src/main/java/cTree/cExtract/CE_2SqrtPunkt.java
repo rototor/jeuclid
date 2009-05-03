@@ -27,7 +27,7 @@ import cTree.CRolle;
 import cTree.CSqrt;
 import cTree.CTimesRow;
 import cTree.CType;
-import cTree.cDefence.DefenceHandler;
+import cTree.cDefence.DefHandler;
 
 public class CE_2SqrtPunkt extends CE_1 {
 
@@ -51,7 +51,7 @@ public class CE_2SqrtPunkt extends CE_1 {
         ExtractHandler.getInstance().insertOrReplace(parent, newChild,
                 selection, true);
         newChild.setCRolle(rolle);
-        return DefenceHandler.getInstance().conDefence(newChild.getParent(),
+        return DefHandler.getInst().conDefence(newChild.getParent(),
                 newChild, newChild.getFirstChild(), didIt.isMessage());
     }
 

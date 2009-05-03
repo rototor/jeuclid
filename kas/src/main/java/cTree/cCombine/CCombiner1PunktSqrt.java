@@ -16,30 +16,40 @@
 
 package cTree.cCombine;
 
-import cTree.CElement;
+import java.util.HashMap;
+
 import cTree.CType;
 
 public class CCombiner1PunktSqrt extends CCombiner1 {
     public CCombiner1PunktSqrt() {
         super();
-        this.op2Combiner.put(CType.SQRT, new CC_PunktSqrtSqrt());
-        this.op2Combiner.put(CType.IDENT, new CC_PunktSqrtIdent());
-        this.op2Combiner.put(CType.NUM, new CC_PunktSqrtIdent());
-        this.op2Combiner.put(CType.FENCES, new CC_PunktSqrtIdent());
-        this.op2Combiner.put(CType.POT, new CC_PunktSqrtPot());
+
     }
 
     @Override
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        System.out.println("Mult Sqrt");
-        return this.op2Combiner.get(cE2.getCType()).combine(parent, cE1, cE2);
+    public HashMap<CType, CC_> getOp2Comb() {
+        if (this.op2Combiner == null) {
+            this.op2Combiner = super.getOp2Comb();
+            this.op2Combiner.put(CType.SQRT, new CC_PunktSqrtSqrt());
+            this.op2Combiner.put(CType.IDENT, new CC_PunktSqrtIdent());
+            this.op2Combiner.put(CType.NUM, new CC_PunktSqrtIdent());
+            this.op2Combiner.put(CType.FENCES, new CC_PunktSqrtIdent());
+            this.op2Combiner.put(CType.POT, new CC_PunktSqrtPot());
+        }
+        return this.op2Combiner;
     }
 
-    @Override
-    public boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        return this.op2Combiner.get(cE2.getCType()).canCombine(parent, cE1,
-                cE2);
-    }
+    // @Override
+    // public CElement combine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // final CType ct2 = cE2.getCType();
+    // return this.getOp2Comb().get(ct2).combine(parent, cE1, cE2);
+    // }
+    //
+    // @Override
+    // public boolean canCombine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // final CType ct2 = cE2.getCType();
+    // return this.getOp2Comb().get(ct2).canCombine(parent, cE1, cE2);
+    // }
 }
