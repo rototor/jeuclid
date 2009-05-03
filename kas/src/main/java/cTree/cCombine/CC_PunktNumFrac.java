@@ -73,7 +73,7 @@ public class CC_PunktNumFrac extends CC_ {
             this.z1 = zaehlerNeu.getFirstChild();
             this.z2 = this.z1.getNextSibling();
             zaehlerNeu.correctInternalPraefixesAndRolle();
-            this.newChild = CFrac.createFraction(zaehlerNeu, nennerAlt);
+            this.newChild = CFrac.createFraction(zaehlerNeu, zaehlerAlt);
         }
         return this.newChild;
     }

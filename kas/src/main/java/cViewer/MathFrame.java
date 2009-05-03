@@ -89,8 +89,6 @@ public class MathFrame extends JFrame {
 
     private TreeViewDialog treeViewDialog;
 
-    private JSplitPane splitPaneBP;
-
     private JSplitPane splitPaneVM;
 
     private JSplitPane splitPaneCV;
