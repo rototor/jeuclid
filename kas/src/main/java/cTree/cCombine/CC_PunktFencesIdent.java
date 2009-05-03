@@ -20,17 +20,30 @@ import java.util.ArrayList;
 
 import cTree.CElement;
 import cTree.CFences;
+import cTree.CMinTerm;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
 
 public class CC_PunktFencesIdent extends CC_ {
 
-    // a*(b+c+d) -> (a*b+a*c+a*d)
-    // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
-    // steht
+    private CC_PunktFencedMinExp cme;
+
+    private CC_PunktFencedSumExp cse;
 
     @Override
     protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        System.out.println("Multipliziere geklammerte Summe/MinRow mit Num");
+        if (cE1.getFirstChild() instanceof CMinTerm) {
+            System.out.println("Found MinTerms");
+            return this.getCme().createCombination(parent, cE1, cE2);
+        } else if (cE1.getFirstChild() instanceof CPlusRow) {
+            return this.getCse().createCombination(parent, cE1, cE2);
+        }
+        return cE1;
+    }
+
+    protected CElement createCobination(final CElement parent,
             final CElement cE1, final CElement cE2) {
         System.out.println("Multipliziere geklammerte Summe mit Ident");
         final ArrayList<CElement> oldAddendList = ((CPlusRow) cE1
@@ -44,6 +57,37 @@ public class CC_PunktFencesIdent extends CC_ {
 
     @Override
     protected boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Repell fenced sum/min mult num");
+        if (cE1.getFirstChild() instanceof CMinTerm) {
+            System.out.println("Found MinTerms");
+            return this.getCme().canCombine(parent, cE1, cE2);
+        } else if (cE1.getFirstChild() instanceof CPlusRow) {
+            return this.getCse().canCombine(parent, cE1, cE2);
+        }
+        return false;
+    }
+
+    protected CC_PunktFencedMinExp getCme() {
+        if (this.cme == null) {
+            this.cme = new CC_PunktFencedMinExp();
+        }
+        return this.cme;
+    }
+
+    /**
+     * Getter method for css.
+     * 
+     * @return the css
+     */
+    protected CC_PunktFencedSumExp getCse() {
+        if (this.cse == null) {
+            this.cse = new CC_PunktFencedSumExp();
+        }
+        return this.cse;
+    }
+
+    protected boolean canCobine(final CElement parent, final CElement cE1,
             final CElement cE2) {
         System.out.println("Repell fenced sum mult ident");
         if (cE1.hasExtDiv()) {
