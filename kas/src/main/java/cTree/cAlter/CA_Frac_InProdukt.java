@@ -23,6 +23,7 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
 import cTree.CMessage;
+import cTree.CRolle;
 import cTree.CTimesRow;
 
 public class CA_Frac_InProdukt extends CAlter {
@@ -66,7 +67,8 @@ public class CA_Frac_InProdukt extends CAlter {
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        if (els.size() > 0 && els.get(0) instanceof CFrac) {
+        if (els.size() > 0 && els.get(0) instanceof CFrac
+                && (els.get(0).getCRolle() != CRolle.FRACTION)) {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();
             this.n = this.cFrac.getNenner();
