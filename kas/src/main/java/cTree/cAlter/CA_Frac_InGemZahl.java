@@ -23,6 +23,7 @@ import cTree.CElement;
 import cTree.CFrac;
 import cTree.CMixedNumber;
 import cTree.CNum;
+import cTree.CRolle;
 
 public class CA_Frac_InGemZahl extends CAlter {
 
@@ -58,7 +59,8 @@ public class CA_Frac_InGemZahl extends CAlter {
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        if (els.size() > 0 && els.get(0) instanceof CFrac) {
+        if (els.size() > 0 && els.get(0) instanceof CFrac
+                && (els.get(0).getCRolle() != CRolle.FRACTION)) {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();
             this.n = this.cFrac.getNenner();
