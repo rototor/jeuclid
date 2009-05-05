@@ -24,8 +24,6 @@ import cTree.CType;
 public class CCombiner1PunktPot extends CCombiner1 {
     public CCombiner1PunktPot() {
         super();
-        this.op2Combiner.put(CType.IDENT, new CC_PunktPotIdent());
-        this.op2Combiner.put(CType.POT, new CC_PunktPotPot());
     }
 
     @Override

@@ -19,6 +19,7 @@ package cTree.cCombine;
 import java.util.HashMap;
 
 import cTree.CElement;
+import cTree.CFences;
 import cTree.CType;
 
 public class CombHandler {
@@ -91,11 +92,16 @@ public class CombHandler {
             final CElement newC, final CElement repC, final CElement remC,
             final boolean replace) {
         if (replace) {
-            parent.removeChild(remC, false, false, false);
-            parent.removeChild(repC, false, false, false);
             final CElement grandParent = parent.getParent();
-            return grandParent.replaceChild(newC, parent, true, true);
-
+            if (grandParent instanceof CFences) {
+                final CElement ggParent = grandParent.getParent();
+                final CFences newF = CFences.createFenced(newC);
+                return ggParent.replaceChild(newF, grandParent, true, true);
+            } else {
+                // parent.removeChild(remC, false, false, false);
+                // parent.removeChild(repC, false, false, false);
+                return grandParent.replaceChild(newC, parent, true, true);
+            }
         } else {
             parent.removeChild(remC, true, true, false);
             return parent.replaceChild(newC, repC, true, true);

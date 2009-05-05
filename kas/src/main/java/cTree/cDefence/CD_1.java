@@ -25,8 +25,7 @@ public class CD_1 {
         System.out.println("Do the defence work");
         final boolean replace = this.replaceP(parent, fences);
         final CElement insertion = this.createInsertion(fences, content);
-        DefHandler.getInst().replaceFoP(parent, insertion, fences,
-                replace);
+        DefHandler.getInst().replaceFoP(parent, insertion, fences, replace);
         return insertion;
     }
 
@@ -42,7 +41,7 @@ public class CD_1 {
 
     public boolean canDefence(final CElement parent, final CElement fences,
             final CElement content) {
-        System.out.println("DefencerCD1 can Defence?");
+        System.out.println("Defencer can Defence?");
         return true;
     }
 }

@@ -168,8 +168,6 @@ public final class TreeViewDialog extends JFrame {
                             string.content + this.newline, this.standard);
                     // mit ActiveC
                 } else {
-                    System.out.println("Printing" + string.start + " "
-                            + string.mid + " " + string.end);
                     this.doc.insertString(this.doc.getLength(),
                             string.content.substring(0, string.start + 1),
                             this.standard);
@@ -190,7 +188,6 @@ public final class TreeViewDialog extends JFrame {
     }
 
     public void update() {
-        System.out.println("Updating");
         this.setData();
         this.repaint();
     }
