@@ -24,7 +24,7 @@ import cTree.CPot;
 import cTree.CRolle;
 import cTree.adapter.EElementHelper;
 
-public class CC_PunktPotIdent extends CC_ {
+public class CC_PunktPotExp extends CC_ {
 
     @Override
     protected CElement createCombination(final CElement parent,

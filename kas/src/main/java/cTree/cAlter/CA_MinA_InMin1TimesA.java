@@ -26,7 +26,7 @@ import cTree.CNum;
 import cTree.CTimesRow;
 import cTree.CType;
 
-public class CA_Minrow extends CAlter {
+public class CA_MinA_InMin1TimesA extends CAlter {
 
     @Override
     public CElement change(final ArrayList<CElement> els) {

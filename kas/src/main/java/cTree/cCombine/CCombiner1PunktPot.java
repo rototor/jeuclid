@@ -19,6 +19,8 @@ package cTree.cCombine;
 import java.util.HashMap;
 
 import cTree.CElement;
+import cTree.CNum;
+import cTree.CPot;
 import cTree.CType;
 
 public class CCombiner1PunktPot extends CCombiner1 {
@@ -30,7 +32,9 @@ public class CCombiner1PunktPot extends CCombiner1 {
     public HashMap<CType, CC_> getOp2Comb() {
         if (this.op2Combiner == null) {
             this.op2Combiner = super.getOp2Comb();
-            this.op2Combiner.put(CType.IDENT, new CC_PunktPotIdent());
+            final CC_PunktPotExp cppe = new CC_PunktPotExp();
+            this.op2Combiner.put(CType.IDENT, cppe);
+            this.op2Combiner.put(CType.NUM, cppe);
             this.op2Combiner.put(CType.POT, new CC_PunktPotPot());
         }
         return this.op2Combiner;
@@ -39,7 +43,7 @@ public class CCombiner1PunktPot extends CCombiner1 {
     @Override
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        if (cE1.istGleichartigesMonom(cE2)) {
+        if (this.canCombine(parent, cE1, cE2)) {
             return this.getOp2Comb().get(cE2.getCType()).combine(parent, cE1,
                     cE2);
         }
@@ -52,6 +56,11 @@ public class CCombiner1PunktPot extends CCombiner1 {
         if (cE1.istGleichartigesMonom(cE2)) {
             return this.getOp2Comb().get(cE2.getCType()).canCombine(parent,
                     cE1, cE2);
+        }
+        if (((CPot) cE1).getBasis() instanceof CNum && (cE2 instanceof CNum)) {
+            final CNum cN1 = (CNum) ((CPot) cE1).getBasis();
+            final CNum cN2 = (CNum) cE2;
+            return cN1.getValue() == cN2.getValue();
         }
         return false;
     }

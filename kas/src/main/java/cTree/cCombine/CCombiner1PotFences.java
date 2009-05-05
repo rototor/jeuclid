@@ -39,6 +39,6 @@ public class CCombiner1PotFences extends CCombiner1 {
     public boolean canCombine(final CElement potenz, final CElement basis,
             final CElement exp) {
         return this.getOp2Comb().get(exp.getCType()).canCombine(potenz,
-                basis.getFirstChild(), exp);
+                basis, exp);
     }
 }
