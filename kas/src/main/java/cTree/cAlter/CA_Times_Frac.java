@@ -21,45 +21,49 @@ import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMinTerm;
-import cTree.CNum;
+import cTree.CFrac;
 import cTree.CTimesRow;
-import cTree.CType;
 
-public class CA_Minrow extends CAlter {
+public class CA_Times_Frac extends CAlter {
+
+    private CTimesRow parent;
+
+    private CElement first;
+
+    private CElement sec;
 
     @Override
     public CElement change(final ArrayList<CElement> els) {
-        final CElement old = els.get(0);
-        final CElement newOne = CNum.createNum(old.getElement(), "1");
-        final CElement newFirst = CFences.createFenced(CMinTerm
-                .createMinTerm(newOne));
-        final CElement newSecond = ((CMinTerm) old).getValue().cloneCElement(
-                false);
-        final CTimesRow newChild = CTimesRow.createRow(CTimesRow.createList(
-                newFirst, newSecond));
-        newChild.correctInternalPraefixesAndRolle();
-
-        final CElement gParent = old.getParent();
+        final CFrac newEl = CFrac.createFraction(this.first
+                .cloneCElement(false), this.sec.cloneCElement(false));
+        final CElement gParent = this.parent.getParent();
         if (gParent instanceof CFences) {
             final CElement ggParent = gParent.getParent();
-            final CElement newF = CFences.createFenced(newChild);
-            ggParent.replaceChild(newF, gParent, true, true);
+            ggParent.replaceChild(CFences.createFenced(newEl), gParent, true,
+                    true);
         } else {
-            old.getParent().replaceChild(newChild, old, true, true);
+            gParent.replaceChild(newEl, this.parent, true, true);
         }
-        return newChild;
+        return newEl;
     }
 
     @Override
     public String getText() {
-        return "-a in Produkt mit (-1)*a";
+        return "Quotient in Bruch";
     }
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        final CElement el = els.get(0);
-        return el.getCType().equals(CType.MINROW);
+        this.first = els.get(0);
+        if (this.first.getParent() instanceof CTimesRow
+                && this.first.hasNextC()) {
+            this.parent = (CTimesRow) this.first.getParent();
+            this.sec = this.first.getNextSibling();
+            if (!this.first.hasPrevC() && !this.sec.hasNextC()) {
+                return this.sec.hasExtDiv();
+            }
+        }
+        return false;
     }
 
     @Override

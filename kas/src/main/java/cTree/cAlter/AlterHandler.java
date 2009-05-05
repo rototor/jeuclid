@@ -44,6 +44,7 @@ public class AlterHandler {
         } catch (final Exception e) {
             strings.add("CA_DivA_Frac");
             strings.add("CA_DivA_Pot");
+            strings.add("CA_DivMin1_InMalMin1");
             strings.add("CA_Entklammern");
             strings.add("CA_Extract");
             strings.add("CA_Frac_InInteger");
@@ -71,6 +72,7 @@ public class AlterHandler {
             strings.add("CA_PotA_Times");
             strings.add("CA_PrimeDecomposition");
             strings.add("CA_Times_PotA");
+            strings.add("CA_Times_Frac");
             strings.add("CA_TimesRow_Sort");
             strings.add("CA_Verbinden");
 
