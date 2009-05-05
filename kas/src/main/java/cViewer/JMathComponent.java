@@ -80,20 +80,18 @@ public final class JMathComponent extends JComponent implements
 
     protected Document document;
 
-    // Das "wohlgeformte" orgw3c.dom-Dokument
+    // Einige aufeinanderfolgende CElemente mit gleichem Parent
     protected ArrayList<CElement> activeC;
 
-    // Einige aufeinanderfolgende CElemente mit gleichem Parent
+    // Der MathML_String als Speicher für den letzten Zustand
     private String undoSave;
 
-    // Der MathML_String als Speicher für den letzten Zustand
     private final MutableLayoutContext parameters;
 
+    // Actions die mit Maus Tastatur oder Buttons ausgelöst werden können
     public HashMap<Object, Action> actions;
 
     public Counter counter;
-
-    // Actions die mit Maus Tastatur oder Buttons ausgelöst werden können
 
     public JFrame frame;
 
@@ -372,13 +370,9 @@ public final class JMathComponent extends JComponent implements
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                JMathComponentHelper.getDocInfo(JMathComponent.this
-                        .getDocument());
-                // String redo = MathMLSerializer.serializeDocument(
-                // JMathComponent.this.getDocument(), false, false);
-                // redo = JMathComponentHelper.cleanString(redo);
-                // JMathComponent.this.setContent(redo);
-                // JMathComponent.this.modifyDocument();
+                // JMathComponentHelper.getDocInfo(JMathComponent.this
+                // .getDocument());
+                JMathComponent.this.resetDoc();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
@@ -425,6 +419,14 @@ public final class JMathComponent extends JComponent implements
         this.undoSave = MathMLSerializer.serializeDocument(
                 this.getDocument(), false, false);
         this.undoSave = JMathComponentHelper.cleanString(this.undoSave);
+    }
+
+    private void resetDoc() {
+        String redo = MathMLSerializer.serializeDocument(this.getDocument(),
+                false, false);
+        redo = JMathComponentHelper.cleanString(redo);
+        this.setContent(redo);
+        this.modifyDocument();
     }
 
     public void setDocument(final Document doc) {
@@ -590,6 +592,7 @@ public final class JMathComponent extends JComponent implements
     }
 
     public void handleEvent(final Event ev) {
+        System.out.println("Event handled");
         // if (ev.getType().equals(MutationEventImpl.DOM_NODE_INSERTED)) {
         // String redo = MathMLSerializer.serializeDocument(
         // JMathComponent.this.getDocument(), false, false);

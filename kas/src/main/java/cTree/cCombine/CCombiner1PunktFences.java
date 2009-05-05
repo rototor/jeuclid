@@ -43,8 +43,7 @@ public class CCombiner1PunktFences extends CCombiner1 {
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
         System.out.println("Mult Fences");
-        if (cE2.getCType() == CType.FENCES || cE2.getCType() == CType.FRAC
-                || cE2.getCType() == CType.IDENT
+        if (cE2.getCType() == CType.FRAC || cE2.getCType() == CType.IDENT
                 || cE2.getCType() == CType.SQRT) {
             return this.getOp2Comb().get(CType.IDENT).combine(parent, cE1,
                     cE2);

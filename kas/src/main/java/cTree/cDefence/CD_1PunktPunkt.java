@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import org.w3c.dom.Element;
 
 import cTree.CElement;
+import cTree.CFences;
 import cTree.CTimesRow;
 
 public class CD_1PunktPunkt extends CD_1 {
@@ -28,26 +29,36 @@ public class CD_1PunktPunkt extends CD_1 {
     @Override
     public CElement defence(final CElement parent, final CElement fences,
             final CElement content) {
-        System.out.println("Do the defence work punkt punkt");
-        final boolean aussenDiv = (fences.hasExtDiv());
-        final Element op = (fences.getExtPraefix() != null) ? (Element) fences
-                .getExtPraefix().cloneNode(true)
-                : null;
+        if (this.canDefence(parent, fences, content)) {
+            final boolean aussenDiv = (fences.hasExtDiv());
+            final Element op = (fences.getExtPraefix() != null) ? (Element) fences
+                    .getExtPraefix().cloneNode(true)
+                    : null;
 
-        // Drei Rows bis zur Klammer, Klammerinneres, nach der Klammer
-        final ArrayList<CElement> rows = new ArrayList<CElement>();
-        rows.addAll(((CTimesRow) parent).startTo(fences));
-        rows.addAll(((CTimesRow) this.createInsertion(fences, content,
-                aussenDiv, op)).getMemberList());
-        rows.addAll(((CTimesRow) parent).endFrom(fences));
+            // Drei Rows bis zur Klammer, Klammerinneres, nach der Klammer
+            final ArrayList<CElement> rows = new ArrayList<CElement>();
+            rows.addAll(((CTimesRow) parent).startTo(fences));
+            rows.addAll(((CTimesRow) this.createInsertion(fences, content,
+                    aussenDiv, op)).getMemberList());
+            rows.addAll(((CTimesRow) parent).endFrom(fences));
 
-        // Verschmelzen der Rows zu einer
-        final CTimesRow newParent = CTimesRow.createRow(rows);
-        newParent.correctInternalPraefixesAndRolle();
+            // Verschmelzen der Rows zu einer
+            final CTimesRow newParent = CTimesRow.createRow(rows);
+            newParent.correctInternalPraefixesAndRolle();
 
-        // Das Parent wird eingefügt
-        parent.getParent().replaceChild(newParent, parent, true, true);
-        return newParent.getFirstChild();
+            // Das Parent wird eingefügt
+            final CElement gParent = parent.getParent();
+            if (gParent instanceof CFences) {
+                final CElement ggParent = gParent.getParent();
+                final CElement newF = CFences.createFenced(newParent);
+                return ggParent.replaceChild(newF, gParent, true, true);
+            } else {
+                return gParent.replaceChild(newParent, parent, true, true);
+            }
+        } else {
+            return fences;
+        }
+
     }
 
     protected CElement createInsertion(final CElement fences,
@@ -64,8 +75,4 @@ public class CD_1PunktPunkt extends CD_1 {
         return newChild;
     }
 
-    @Override
-    protected boolean replaceP(final CElement parent, final CElement fences) {
-        return true;
-    }
 }
