@@ -19,122 +19,43 @@ package cTree.cCombine;
 import java.util.ArrayList;
 
 import cTree.CElement;
-import cTree.CFences;
-import cTree.CMessage;
-import cTree.CNum;
-import cTree.CPlusRow;
-import cTree.CPot;
-import cTree.CRolle;
-import cTree.CTimesRow;
-import cTree.CType;
 
 public class CC_PotFencesNum extends CC_ {
 
-    // parent basis und exponent können zusammengeholt sein, parent ist nur
-    // producer
-    private CType cType;
+    private ArrayList<CC_> combs;
 
-    @Override
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (!this.canCombine(parent, ((CFences) cE1).getInnen(), cE2)) {
-            return cE1;
+    private CC_ comb;
+
+    public CC_PotFencesNum() {
+        super();
+    }
+
+    public ArrayList<CC_> getCombs() {
+        if (this.combs == null) {
+            this.combs = new ArrayList<CC_>();
+            this.combs.add(new CC_PotFencedMinrowNum());
+            this.combs.add(new CC_PotFencedSumNum());
+            this.combs.add(new CC_PotFencedTRNum());
         }
-        System.out.println("PotFences - Can combine");
-        // parent ist die Potenz, cE1 die Basis /Klammer cE2 der Exponent
-        final CElement newArg = this.createCombination(parent.getParent(),
-                ((CFences) cE1).getInnen(), cE2);
-        final CFences newChild = CFences.createFenced(newArg);
-        newArg.setCRolle(CRolle.GEKLAMMERT);
-        parent.getParent().replaceChild(newChild, parent, true, true);
-        // CombineHandler.getInstance().insertOrReplace(parent, newChild, cE1,
-        // cE2, replace);
-        return newChild;
+        return this.combs;
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement basis,
-            final CElement expo) {
-        System.out.println("Repell pot fences num?");
-        if ((basis instanceof CPlusRow) && ((CPlusRow) basis).getCount() == 2
-                && ((CNum) expo).getValue() == 2) {
-            this.cType = CType.PLUSROW;
-            return true;
-        }
-        if (basis instanceof CTimesRow) {
-            this.cType = CType.TIMESROW;
-            return true;
+    protected boolean canCombine(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        for (final CC_ testComb : this.getCombs()) {
+            if (testComb.canCombine(parent, cE1, cE2)) {
+                this.comb = testComb;
+                return true;
+            }
         }
         return false;
     }
 
     @Override
-    protected CElement createCombination(final CElement potenz,
-            final CElement basis, final CElement expo) {
-        if (this.cType == CType.PLUSROW) {
-            return this.createP(potenz, basis, expo);
-        } else {
-            return this.createT(potenz, basis, expo);
-        }
-    }
-
-    protected CElement createP(final CElement potenz, final CElement basis,
-            final CElement expo) {
-        System.out.println("Binomische Formel");
-        final CElement old1 = basis.getFirstChild();
-        old1.show();
-        final CElement old2 = old1.getNextSibling();
-        old2.show();
-        final String rz = old2.getPraefixAsString();
-
-        final ArrayList<CElement> list = new ArrayList<CElement>();
-        final CElement s1 = CFences.condCreateFenced(old1
-                .cloneCElement(false), new CMessage(false));
-        final CElement summand1 = CPot.createPot(s1, 2);
-        list.add(summand1);
-
-        final ArrayList<CElement> list2 = new ArrayList<CElement>();
-        list2.add(CNum.createNum(potenz.getElement(), "2"));
-        list2.add(old1.cloneCElement(false));
-        list2.add(old2.cloneCElement(false));
-        final CTimesRow summand2 = CTimesRow.createRow(list2);
-        summand2.correctInternalPraefixesAndRolle();
-        System.out.println("Binomische Formel Summand 2:");
-        summand2.show();
-        summand2.setPraefix(rz);
-        list.add(summand2);
-
-        final CElement s3 = CFences.condCreateFenced(old2
-                .cloneCElement(false), new CMessage(false));
-        final CElement summand3 = CPot.createPot(s3, 2);
-        summand3.setPraefix("+");
-        list.add(summand3);
-
-        final CPlusRow newChild = CPlusRow.createRow(list);
-        newChild.correctInternalPraefixesAndRolle();
-        newChild.setCRolleAndPraefixFrom(potenz);
-        return newChild;
-    }
-
-    protected CElement createT(final CElement potenz, final CElement basis,
-            final CElement expo) {
-        System.out.println("(abc)^n nach a^n b^n c^n");
-        final CTimesRow oldRow = (CTimesRow) basis.cloneCElement(false);
-        final ArrayList<CElement> oldList = oldRow.getMemberList();
-        final ArrayList<CElement> newList = new ArrayList<CElement>();
-        for (final CElement cEl : oldList) {
-            cEl.setExtPraefix(null);
-            final CPot newPot = CPot
-                    .createPot(cEl, expo.cloneCElement(false));
-            if (cEl.hasExtDiv()) {
-                newPot.setPraefix(":");
-            }
-            newList.add(newPot);
-
-        }
-        final CTimesRow newChild = CTimesRow.createRow(newList);
-        newChild.correctInternalPraefixesAndRolle();
-        newChild.setCRolleAndPraefixFrom(potenz);
-        return newChild;
+    protected CElement createCombination(final CElement parent,
+            final CElement cE1, final CElement cE2) {
+        System.out.println("Pot Fences and Num");
+        return this.comb.createCombination(parent, cE1, cE2);
     }
 }

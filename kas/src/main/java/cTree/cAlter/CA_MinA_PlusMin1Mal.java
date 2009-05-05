@@ -45,7 +45,7 @@ public class CA_MinA_PlusMin1Mal extends CAlter {
 
     @Override
     public String getText() {
-        return "-a in Produkt mit (-1)*a 1";
+        return "-a in Produkt mit +(-1)*a";
     }
 
     @Override
