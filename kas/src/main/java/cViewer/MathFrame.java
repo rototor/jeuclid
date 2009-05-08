@@ -274,7 +274,7 @@ public class MathFrame extends JFrame {
         } catch (final IOException e) {
             System.out.println("Fehler beim Lesen der Datei");
         }
-        this.getMathComponent().setContent(result);
+        this.getMathComponent().setNewContent(result);
         this.getViewComponent().setContent(result);
         this.getTreeViewDialog().update();
         this.getMathComponent().requestFocusInWindow();
@@ -462,11 +462,11 @@ public class MathFrame extends JFrame {
         result.add(new JButton(this.getMathComponent().getActionByName(
                 "Verbinden")));
         final ZerlegeAction z = (ZerlegeAction) this.getMathComponent()
-                .getActionByName("Zerlegen");
+                .getActionByName("Splitten");
         result.add(this.getTextField());
         z.textField = this.getTextField();
         result.add(new JButton(this.getMathComponent().getActionByName(
-                "Zerlegen")));
+                "Splitten")));
         // Undo and Redo (simple)
         result.add(new JButton(this.getMathComponent()
                 .getActionByName("Redo")));

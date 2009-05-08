@@ -54,64 +54,68 @@ public class CC_PunktNumPot extends CC_ {
     public CElement combine(final CElement parent, final CElement ident,
             final CElement oldPot) {
         System.out.println("Multipliziere Ident and Pot");
-        final boolean replace = this.justTwo(ident, oldPot);
-        CElement newChild = null;
-        boolean toggle = false;
-        // erster Faktor
-        if (ident.getCRolle() == CRolle.FAKTOR1) {
-            if (oldPot.hasExtDiv()) {
-                return ident;
-            } else {
-                final int iExp = ((CNum) ((CPot) oldPot).getExponent())
-                        .getValue();
-                final CElement newBase = ident.cloneCElement(false); // parent.cloneChild(cE1,
-                // false);
-                final CElement newExp = CNum.createNum(parent.getElement(),
-                        "" + (iExp + 1));
-                newChild = CPot.createPot(newBase, newExp);
-                newChild.setCRolle(ident.getCRolle());
-            }
-            // weitere Faktoren
-        } else {
-            if (this
-                    .gleicheDiv(ident.getExtPraefix(), oldPot.getExtPraefix())) {
-                final int iExp = ((CNum) ((CPot) oldPot).getExponent())
-                        .getValue();
-                final CElement newBase = ident.cloneCElement(false); // parent.cloneChild(cE1,
-                // false);
-                final CElement newExp = CNum.createNum(parent.getElement(),
-                        "" + (iExp + 1));
-                newChild = CPot.createPot(newBase, newExp);
-                newChild.setCRolle(ident.getCRolle());
-            } else {
-                final int iExp = ((CNum) ((CPot) oldPot).getExponent())
-                        .getValue();
-                if (iExp > 0) {
-                    toggle = true; // anderes Vorzeichen da sich das von der
-                    // Potenz durchsetzt
+        if (this.canCombine(parent, ident, oldPot)) {
+            final boolean replace = this.justTwo(ident, oldPot);
+            CElement newChild = null;
+            boolean toggle = false;
+            // erster Faktor
+            if (ident.getCRolle() == CRolle.FAKTOR1) {
+                if (oldPot.hasExtDiv()) {
+                    return ident;
+                } else {
+                    final int iExp = ((CNum) ((CPot) oldPot).getExponent())
+                            .getValue();
                     final CElement newBase = ident.cloneCElement(false); // parent.cloneChild(cE1,
                     // false);
                     final CElement newExp = CNum.createNum(parent
-                            .getElement(), "" + (iExp - 1));
+                            .getElement(), "" + (iExp + 1));
+                    newChild = CPot.createPot(newBase, newExp);
+                    newChild.setCRolle(ident.getCRolle());
+                }
+                // weitere Faktoren
+            } else {
+                if (this.gleicheDiv(ident.getExtPraefix(), oldPot
+                        .getExtPraefix())) {
+                    final int iExp = ((CNum) ((CPot) oldPot).getExponent())
+                            .getValue();
+                    final CElement newBase = ident.cloneCElement(false); // parent.cloneChild(cE1,
+                    // false);
+                    final CElement newExp = CNum.createNum(parent
+                            .getElement(), "" + (iExp + 1));
                     newChild = CPot.createPot(newBase, newExp);
                     newChild.setCRolle(ident.getCRolle());
                 } else {
-                    return ident;
+                    final int iExp = ((CNum) ((CPot) oldPot).getExponent())
+                            .getValue();
+                    if (iExp > 0) {
+                        toggle = true; // anderes Vorzeichen da sich das von
+                        // der
+                        // Potenz durchsetzt
+                        final CElement newBase = ident.cloneCElement(false); // parent.cloneChild(cE1,
+                        // false);
+                        final CElement newExp = CNum.createNum(parent
+                                .getElement(), "" + (iExp - 1));
+                        newChild = CPot.createPot(newBase, newExp);
+                        newChild.setCRolle(ident.getCRolle());
+                    } else {
+                        return ident;
+                    }
                 }
             }
-        }
 
-        if (replace) {
-            System.out.println("// replace");
-            parent.getParent().replaceChild(newChild, parent, true, true);
-        } else {
-            System.out.println("// insert");
-            if (toggle) {
-                ident.toggleTimesDiv(false);
+            if (replace) {
+                System.out.println("// replace");
+                parent.getParent().replaceChild(newChild, parent, true, true);
+            } else {
+                System.out.println("// insert");
+                if (toggle) {
+                    ident.toggleTimesDiv(false);
+                }
+                parent.replaceChild(newChild, ident, true, true);
+                parent.removeChild(oldPot, true, true, false);
             }
-            parent.replaceChild(newChild, ident, true, true);
-            parent.removeChild(oldPot, true, true, false);
+            return newChild;
         }
-        return newChild;
+        return ident;
     }
 }
