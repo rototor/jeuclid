@@ -70,7 +70,7 @@ public class JMathMouseListener implements MouseListener {
                     this.mathComponent.getActionByName("Rausziehen")
                             .actionPerformed(null);
                 } else {
-                    this.mathComponent.getActionByName("Zerlegen")
+                    this.mathComponent.getActionByName("Splitten")
                             .actionPerformed(null);
                 }
             } else {
@@ -137,8 +137,8 @@ public class JMathMouseListener implements MouseListener {
             // Auswählen
         } else {
             final CElement newE = cTree.adapter.DOMElementMap.getInstance().getCElement
-                    .get(((MathComponentUI) this.mathComponent.getUI())
-                            .getNodeFromView(e.getX(), e.getY()));
+                    .get((this.mathComponent.getUI()).getNodeFromView(e
+                            .getX(), e.getY()));
             this.mathComponent.setCActive(cTree.CNavHelper.chooseElement(
                     cAct, newE));
             this.mathComponent.clearCButFirst();

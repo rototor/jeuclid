@@ -83,8 +83,8 @@ public final class JMathComponent extends JComponent implements
     // Einige aufeinanderfolgende CElemente mit gleichem Parent
     protected ArrayList<CElement> activeC;
 
-    // Der MathML_String als Speicher für den letzten Zustand
-    private String undoSave;
+    // Speicher fuer UndoRedo
+    private final Archiv archiv;
 
     private final MutableLayoutContext parameters;
 
@@ -107,6 +107,7 @@ public final class JMathComponent extends JComponent implements
                 .getDefaultLayoutContext());
         this.setParameter(Parameter.MATHSIZE, 48f);
         this.activeC = new ArrayList<CElement>();
+        this.archiv = new Archiv();
         final String initS = "<math><mrow><mi>x</mi><mo>=</mo>"
                 + "<mfrac><mrow><mrow><mo>-</mo><mi>b</mi></mrow>"
                 + "<mo>+</mo><msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup>"
@@ -158,7 +159,7 @@ public final class JMathComponent extends JComponent implements
         }
 
         public void actionPerformed(final ActionEvent ae) {
-            JMathComponent.this.saveForUndo();
+            JMathComponent.this.addToUndo();
             JMathComponent.this.removeCActivity();
             final String cleaned = this.textField.getText().replace(" ", "");
             final CElement newAct = JMathComponent.this.getCActive()
@@ -176,13 +177,13 @@ public final class JMathComponent extends JComponent implements
         // Legt die Actions der Komponente in einem HashMap ab
         final HashMap<Object, Action> actions = new HashMap<Object, Action>();
 
-        AbstractAction myAction = new ZerlegeAction("Zerlegen");
+        AbstractAction myAction = new ZerlegeAction("Splitten");
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("ZoomIn") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                JMathComponent.this.saveForUndo();
                 JMathComponent.this.removeCActivity();
                 JMathComponent.this.setCActive(JMathComponent.this
                         .getCActive().tryToSelectFirstChild());
@@ -191,11 +192,11 @@ public final class JMathComponent extends JComponent implements
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("ZoomOut") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                JMathComponent.this.saveForUndo();
                 JMathComponent.this.removeCActivity();
                 JMathComponent.this.setCActive(JMathComponent.this
                         .getCActive().tryToSelectParent());
@@ -204,11 +205,11 @@ public final class JMathComponent extends JComponent implements
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("GeheWeiter") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                JMathComponent.this.saveForUndo();
                 JMathComponent.this.removeCActivity();
                 JMathComponent.this.setCActive(JMathComponent.this
                         .getCActive().tryToSelectRight());
@@ -217,6 +218,7 @@ public final class JMathComponent extends JComponent implements
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("Selection+") {
             private static final long serialVersionUID = 20081230L;
 
@@ -235,6 +237,7 @@ public final class JMathComponent extends JComponent implements
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("Selection-") {
             private static final long serialVersionUID = 20081230L;
 
@@ -249,11 +252,11 @@ public final class JMathComponent extends JComponent implements
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("GeheZurueck") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                JMathComponent.this.saveForUndo();
                 JMathComponent.this.removeCActivity();
                 JMathComponent.this.setCActive(JMathComponent.this
                         .getCActive().tryToSelectLeft());
@@ -262,13 +265,14 @@ public final class JMathComponent extends JComponent implements
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("BewegeRechts") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
                 final CElement cAct = JMathComponent.this.getCActive();
                 final JMathComponent myComp = JMathComponent.this;
-                myComp.saveForUndo();
+                myComp.addToUndo();
                 myComp.removeCActivity();
                 myComp.setCActive(cAct.getParent().moveRight(cAct));
                 myComp.getCActive().setCActiveProperty();
@@ -277,119 +281,145 @@ public final class JMathComponent extends JComponent implements
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("BewegeLinks") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
                 final CElement cAct = JMathComponent.this.getCActive();
-                JMathComponent.this.saveForUndo();
-                JMathComponent.this.removeCActivity();
-                JMathComponent.this.setCActive(cAct.getParent()
-                        .moveLeft(cAct));
-                JMathComponent.this.getCActive().setCActiveProperty();
-                JMathComponent.this.modifyDocument();
+                final JMathComponent myComp = JMathComponent.this;
+                myComp.addToUndo();
+                myComp.removeCActivity();
+                myComp.setCActive(cAct.getParent().moveLeft(cAct));
+                myComp.getCActive().setCActiveProperty();
+                myComp.modifyDocument();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("Aendern") {
             private static final long serialVersionUID = 20090406L;
 
             public void actionPerformed(final ActionEvent ae) {
-                JMathComponent.this.saveForUndo();
-                JMathComponent.this.setCActive(AlterHandler.getInstance()
-                        .change(JMathComponent.this.activeC,
-                                ae.getActionCommand()));
-                JMathComponent.this.getCActive().setCActiveProperty();
-                JMathComponent.this.modifyDocument();
-                JMathComponent.this.counter.incCount();
+                final JMathComponent myComp = JMathComponent.this;
+                myComp.addToUndo();
+                myComp.setCActive(AlterHandler.getInstance().change(
+                        JMathComponent.this.activeC, ae.getActionCommand()));
+                myComp.getCActive().setCActiveProperty();
+                myComp.modifyDocument();
+                myComp.counter.incCount();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("Verbinden") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
                 final CElement cAct = JMathComponent.this.getCActive();
-                JMathComponent.this.saveForUndo();
-                JMathComponent.this.removeCActivity();
-                JMathComponent.this.setCActive(cAct.getParent().combineRight(
-                        cAct));
-                JMathComponent.this.getCActive().setCActiveProperty();
-                JMathComponent.this.modifyDocument();
-                JMathComponent.this.counter.incCount();
+                final JMathComponent myComp = JMathComponent.this;
+                myComp.addToUndo();
+                myComp.removeCActivity();
+                myComp.setCActive(cAct.getParent().combineRight(cAct));
+                myComp.getCActive().setCActiveProperty();
+                myComp.modifyDocument();
+                myComp.counter.incCount();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("Rausziehen") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
                 final CElement cAct = JMathComponent.this.getCActive();
+                final JMathComponent myComp = JMathComponent.this;
                 if (cAct.getParent() != null) {
-                    JMathComponent.this.saveForUndo();
-                    JMathComponent.this.setCActive(JMathComponent.this
-                            .getCActive().getParent().extract(
-                                    JMathComponent.this.activeC));
-                    JMathComponent.this.getCActive().setCActiveProperty();
-                    JMathComponent.this.modifyDocument();
-                    JMathComponent.this.counter.incCount();
+                    myComp.addToUndo();
+                    myComp.setCActive(myComp.getCActive().getParent()
+                            .extract(myComp.activeC));
+                    myComp.getCActive().setCActiveProperty();
+                    myComp.modifyDocument();
+                    myComp.counter.incCount();
                 }
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("Klammere") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                JMathComponent.this.saveForUndo();
-                JMathComponent.this.setCActive(JMathComponent.this
-                        .getCActive().getParent().fence(
-                                JMathComponent.this.activeC));
-                JMathComponent.this.getCActive().setCActiveProperty();
-                JMathComponent.this.modifyDocument();
-                JMathComponent.this.counter.incCount();
+                final JMathComponent myComp = JMathComponent.this;
+                myComp.addToUndo();
+                myComp.setCActive(myComp.getCActive().getParent().fence(
+                        myComp.activeC));
+                myComp.getCActive().setCActiveProperty();
+                myComp.modifyDocument();
+                myComp.counter.incCount();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("Entklammere") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
                 final CElement cAct = JMathComponent.this.getCActive();
-                JMathComponent.this.saveForUndo();
-                JMathComponent.this.removeCActivity();
-                JMathComponent.this
-                        .setCActive(cAct.getParent().defence(cAct));
-                JMathComponent.this.getCActive().setCActiveProperty();
-                JMathComponent.this.modifyDocument();
-                JMathComponent.this.counter.incCount();
+                final JMathComponent myComp = JMathComponent.this;
+                myComp.addToUndo();
+                myComp.removeCActivity();
+                myComp.setCActive(cAct.getParent().defence(cAct));
+                myComp.getCActive().setCActiveProperty();
+                myComp.modifyDocument();
+                myComp.counter.incCount();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("Meins") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                // JMathComponentHelper.getDocInfo(JMathComponent.this
-                // .getDocument());
                 JMathComponent.this.resetDoc();
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("Undo") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                String redo = MathMLSerializer.serializeDocument(
-                        JMathComponent.this.getDocument(), false, false);
-                redo = JMathComponentHelper.cleanString(redo);
-                JMathComponent.this.setContent(JMathComponent.this.undoSave);
-                JMathComponent.this.modifyDocument();
-                JMathComponent.this.undoSave = redo;
-                JMathComponent.this.counter.incCount();
+                final JMathComponent myComp = JMathComponent.this;
+                if (myComp.archiv.canUndo()) {
+                    String now = MathMLSerializer.serializeDocument(myComp
+                            .getDocument(), false, false);
+                    now = JMathComponentHelper.cleanString(now);
+                    final String old = myComp.archiv.undo(now);
+                    myComp.setContent(old);
+                    myComp.modifyDocument();
+                }
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
+        myAction = new AbstractAction("Redo") {
+            private static final long serialVersionUID = 20081230L;
+
+            public void actionPerformed(final ActionEvent ae) {
+                final JMathComponent myComp = JMathComponent.this;
+                if (myComp.archiv.canRedo()) {
+                    String now = MathMLSerializer.serializeDocument(myComp
+                            .getDocument(), false, false);
+                    now = JMathComponentHelper.cleanString(now);
+                    final String newer = myComp.archiv.redo(now);
+                    myComp.setContent(newer);
+                    myComp.modifyDocument();
+                }
+            }
+        };
+        actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("Vergrößern") {
             private static final long serialVersionUID = 20081230L;
 
@@ -399,6 +429,7 @@ public final class JMathComponent extends JComponent implements
             }
         };
         actions.put(myAction.getValue(Action.NAME), myAction);
+
         myAction = new AbstractAction("Verkleinern") {
             private static final long serialVersionUID = 20081230L;
 
@@ -415,10 +446,10 @@ public final class JMathComponent extends JComponent implements
         return this.actions.get(name);
     }
 
-    private void saveForUndo() {
-        this.undoSave = MathMLSerializer.serializeDocument(
-                this.getDocument(), false, false);
-        this.undoSave = JMathComponentHelper.cleanString(this.undoSave);
+    private void addToUndo() {
+        final String s = MathMLSerializer.serializeDocument(this
+                .getDocument(), false, false);
+        this.archiv.addEdit(JMathComponentHelper.cleanString(s));
     }
 
     private void resetDoc() {
@@ -452,7 +483,6 @@ public final class JMathComponent extends JComponent implements
     public void modifyDocument() {
         JMathElementHandler.parseDom(this.getDocument().getFirstChild());
         EElementHelper.setDots(this.getDocument().getFirstChild());
-        System.out.println("Modifying");
         this.firePropertyChange("documentChange", null, this.getDocument());
         if (this.frame instanceof MathFrame) {
             if (((MathFrame) this.frame).getTreeViewDialog() != null) {
@@ -515,8 +545,13 @@ public final class JMathComponent extends JComponent implements
         this.reval();
     }
 
+    public void setNewContent(final String contentString) {
+        this.archiv.discardAllEdits();
+        this.setContent(contentString);
+    }
+
     // wird vom MathFrame aufgerufen
-    public void setContent(final String contentString) {
+    private void setContent(final String contentString) {
         try {
             final String s = JMathElementHandler
                     .testMathMLString(contentString);

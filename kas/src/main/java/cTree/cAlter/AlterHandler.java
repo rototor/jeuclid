@@ -42,11 +42,13 @@ public class AlterHandler {
             }
             reader.close();
         } catch (final Exception e) {
+            strings.add("CA_PotA_Times");
+            strings.add("CA_Times_PotA");
+            strings.add("CA_Times_Frac");
+            strings.add("CA_Times_MinRaus");
+            strings.add("CA_TimesRow_Sort");
             strings.add("CA_DivA_Frac");
-            strings.add("CA_DivA_Pot");
             strings.add("CA_DivMin1_InMalMin1");
-            strings.add("CA_Entklammern");
-            strings.add("CA_Extract");
             strings.add("CA_Frac_InInteger");
             strings.add("CA_Frac_InSumme");
             strings.add("CA_Frac_InProdukt");
@@ -61,7 +63,6 @@ public class AlterHandler {
             strings.add("CA_GemZ_InSum");
             strings.add("CA_GemZ_Norm");
             strings.add("CA_GemZ_1Raus");
-            strings.add("CA_Klammern");
             strings.add("CA_Min1_InProdInMinTerm");
             strings.add("CA_Min1_InProdInSum");
             strings.add("CA_Min1_InProdInSumFirst");
@@ -69,14 +70,7 @@ public class AlterHandler {
             strings.add("CA_MinA_InMin1TimesA");
             strings.add("CA_MinVorziehenSumFencedSum");
             strings.add("CA_PlusRow_Sort");
-            strings.add("CA_PotA_Times");
             strings.add("CA_PrimeDecomposition");
-            strings.add("CA_Times_PotA");
-            strings.add("CA_Times_Frac");
-            strings.add("CA_Times_MinRaus");
-            strings.add("CA_TimesRow_Sort");
-            strings.add("CA_Verbinden");
-
         }
         Class c;
         for (final String s : strings) {
