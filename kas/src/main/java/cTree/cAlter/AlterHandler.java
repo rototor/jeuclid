@@ -70,6 +70,7 @@ public class AlterHandler {
             strings.add("CA_MinA_InMin1TimesA");
             strings.add("CA_MinVorziehenSumFencedSum");
             strings.add("CA_PlusRow_Sort");
+            strings.add("CA_PlusRow_MinRaus");
             strings.add("CA_PrimeDecomposition");
         }
         Class c;

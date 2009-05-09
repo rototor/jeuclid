@@ -54,6 +54,12 @@ public class CFences extends CElement {
         }
     }
 
+    public static CElement createFencedMin1(final CElement producer) {
+        final CElement newOne = CNum.createNum(producer.getElement(), "1");
+        final CElement newMinOne = CMinTerm.createMinTerm(newOne);
+        return CFences.createFenced(newMinOne);
+    }
+
     public CElement getInnen() {
         return this.getFirstChild();
     }
