@@ -165,4 +165,13 @@ public abstract class CTreeMutator extends CTreeWalker {
         return active;
     }
 
+    // Support für die Verschiebung in dem CTree
+    public CElement moveRight(final int i, final CElement active) {
+        return active;
+    }
+
+    public CElement moveLeft(final int i, final CElement active) {
+        return active;
+    }
+
 }

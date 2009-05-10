@@ -82,8 +82,6 @@ public abstract class PraefixAdapter extends ElementAdapter {
             if (this.praefix == null) {
                 final Element newOp = EElementHelper.createOp(this
                         .getElement(), s);
-                System.out.println("Praefixadapter setPraefix"
-                        + newOp.getTextContent());
                 if (parent != null) {
                     parent.insertBefore(newOp, this.getElement());
                 }
@@ -94,8 +92,6 @@ public abstract class PraefixAdapter extends ElementAdapter {
         } else { // s=""
             if (this.praefix != null) {
                 if (parent != null) {
-                    System.out
-                            .println("PraefixAdapter setPraefix Try to remove praefix");
                     parent.removeChild(this.praefix);
                 }
                 this.praefix = null;
@@ -111,7 +107,6 @@ public abstract class PraefixAdapter extends ElementAdapter {
         final Element el = this.getElement();
         final Node parent = el.getParentNode();
         if (parent != null) {
-            System.out.println("PraefixAdapter: parent nicht null");
             parent.removeChild(el.getPreviousSibling());
             this.setExtPraefix(null);
         }

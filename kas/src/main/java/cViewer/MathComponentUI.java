@@ -19,14 +19,19 @@
 
 package cViewer;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -46,20 +51,15 @@ import cTree.CElement;
 public class MathComponentUI extends ComponentUI implements
         PropertyChangeListener {
 
-    /**
-     * Reference to ViewComponent.
-     */
     private JMathComponent mathComponent;
 
-    /**
-     * Reference to layout tree.
-     */
     private JEuclidView jEuclidView;
 
-    /**
-     * Referen to Document
-     */
     private Node document;
+
+    private ArrayList<MyLine> lines;
+
+    private MyLine bestLine;
 
     private Dimension preferredSize;
 
@@ -68,12 +68,13 @@ public class MathComponentUI extends ComponentUI implements
      */
     public MathComponentUI() {
         super();
-        // nothing to do.
+        this.bestLine = null;
     }
 
     /** {@inheritDoc} */
     @Override
     public void paint(final Graphics g, final JComponent c) {
+
         this.preferredSize = null;
         // using the size seems to cause flickering is some cases
         final Dimension dim = this.mathComponent.getSize();
@@ -84,7 +85,25 @@ public class MathComponentUI extends ComponentUI implements
             final Point2D alignOffset = this.calculateAlignmentOffset(dim);
             this.jEuclidView.draw((Graphics2D) g, (float) alignOffset.getX()
                     + start.x, (float) alignOffset.getY() + start.y);
+            g.setColor(Color.ORANGE);
+            ((Graphics2D) g).setStroke(new BasicStroke(2f));
+            if (!this.getLines().isEmpty()) {
+                System.out.println("painting Lines " + this.lines.size());
+                for (final MyLine line : this.lines) {
+                    final Line2D dLine = line.getLine();
+                    g.drawLine((int) dLine.getX1(), (int) dLine.getY1(),
+                            (int) dLine.getX2(), (int) dLine.getY2());
+                }
+            }
+            if (this.bestLine != null) {
+                g.setColor(Color.YELLOW);
+                ((Graphics2D) g).setStroke(new BasicStroke(3f));
+                final Line2D bLine = this.bestLine.getLine();
+                g.drawLine((int) bLine.getX1(), (int) bLine.getY1(),
+                        (int) bLine.getX2(), (int) bLine.getY2());
+            }
         }
+
     }
 
     // /** {@inheritDoc} */ seems necessary to me
@@ -97,6 +116,33 @@ public class MathComponentUI extends ComponentUI implements
     // }
     // this.paint(g, c);
     // }
+
+    public ArrayList<MyLine> getLines() {
+        if (this.lines == null) {
+            this.lines = new ArrayList<MyLine>();
+        }
+        return this.lines;
+    }
+
+    public void setLines() {
+        System.out.println("Lines setting");
+        if (this.mathComponent.getCActive() != null) {
+            CElement now = this.mathComponent.getCActive();
+            int i = 0;
+            while (now.hasNextC()) {
+                now = now.getNextSibling();
+                i = i + 1;
+                this.lines.add(new MyLine(i, this.getRightLine(now)));
+            }
+            now = this.mathComponent.getCActive();
+            i = 0;
+            while (now.hasPrevC()) {
+                now = now.getPrevSibling();
+                i = i - 1;
+                this.lines.add(new MyLine(i, this.getLeftLine(now)));
+            }
+        }
+    }
 
     public Point2D calculateAlignmentOffset(final Dimension dim) {
         final float xo;
@@ -277,6 +323,97 @@ public class MathComponentUI extends ComponentUI implements
                 (float) point.getY());
     }
 
+    public Rectangle2D.Float getRect(final CElement cEl) {
+        if (cEl != null) {
+            final Point2D point = this
+                    .calculateAlignmentOffset(this.mathComponent.getSize());
+            Rectangle2D.Float rel = this.jEuclidView.getRect((float) point
+                    .getX(), (float) point.getY(), cEl.getElement());
+            if (cEl.getExtPraefix() != null) {
+                final Rectangle2D.Float rpf = this.jEuclidView.getRect(
+                        (float) point.getX(), (float) point.getY(), cEl
+                                .getExtPraefix());
+                final Rectangle2D rges = rpf.createUnion(rel);
+                rel = (Rectangle2D.Float) rges;
+            }
+            System.out.println(rel.getX() + " " + rel.getY());
+            return rel;
+        } else {
+            return null;
+        }
+    }
+
+    public Line2D.Float getLeftLine(final CElement cEl) {
+        if (cEl != null) {
+            final Point2D point = this
+                    .calculateAlignmentOffset(this.mathComponent.getSize());
+            Rectangle2D.Float rel = this.jEuclidView.getRect((float) point
+                    .getX(), (float) point.getY(), cEl.getElement());
+            if (cEl.getExtPraefix() != null) {
+                final Rectangle2D.Float rpf = this.jEuclidView.getRect(
+                        (float) point.getX(), (float) point.getY(), cEl
+                                .getExtPraefix());
+                final Rectangle2D rges = rpf.createUnion(rel);
+                rel = (Rectangle2D.Float) rges;
+            }
+            System.out.println("getLeftLine: " + rel.getMinX());
+            return new Line2D.Float((int) rel.getMinX(), (int) rel.getMinY(),
+                    (int) rel.getMinX(), (int) rel.getMaxY());
+        } else {
+            return null;
+        }
+    }
+
+    public Line2D.Float getRightLine(final CElement cEl) {
+        if (cEl != null) {
+            final Point2D point = this
+                    .calculateAlignmentOffset(this.mathComponent.getSize());
+            Rectangle2D.Float rel = this.jEuclidView.getRect((float) point
+                    .getX(), (float) point.getY(), cEl.getElement());
+            if (cEl.getExtPraefix() != null) {
+                final Rectangle2D.Float rpf = this.jEuclidView.getRect(
+                        (float) point.getX(), (float) point.getY(), cEl
+                                .getExtPraefix());
+                final Rectangle2D rges = rpf.createUnion(rel);
+                rel = (Rectangle2D.Float) rges;
+            }
+            return new Line2D.Float((int) rel.getMaxX(), (int) rel.getMinY(),
+                    (int) rel.getMaxX(), (int) rel.getMaxY());
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Gets the x-Coord of the left boundary of the ViewRectangle of the given
+     * CElement, if it exists, otherwise it returns -1;
+     * 
+     * @param cEl
+     * @return
+     */
+    public int getXMin(final CElement cEl) {
+        if (this.getRect(cEl) != null) {
+            return (int) this.getRect(cEl).getMinX();
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * Gets the x-Coord of the right boundary of the ViewRectangle of the
+     * given CElement, if it exists, otherwise it returns -1;
+     * 
+     * @param cEl
+     * @return
+     */
+    public int getXMax(final CElement cEl) {
+        if (this.getRect(cEl) != null) {
+            return (int) this.getRect(cEl).getMaxX();
+        } else {
+            return 5000;
+        }
+    }
+
     public Node getNodeFromView(final int x, final int y) {
         final List<JEuclidView.NodeRect> nodeRects = this.getNodesAt(x, y);
         if (!nodeRects.isEmpty()) {
@@ -342,5 +479,63 @@ public class MathComponentUI extends ComponentUI implements
                 MathComponentUI.getDocInfo(d.getNextSibling(), true);
             }
         }
+    }
+
+    public void setBestLine(final MyLine bestLine) {
+        this.bestLine = bestLine;
+    }
+
+    public MyLine getBestLine() {
+        return this.bestLine;
+    }
+
+    public class MyLine {
+        private Line2D.Float line;
+
+        private int dist;
+
+        public MyLine(final int i, final Line2D.Float line) {
+            this.dist = i;
+            this.line = line;
+        }
+
+        /**
+         * Getter method for line.
+         * 
+         * @return the line
+         */
+        public Line2D.Float getLine() {
+            return this.line;
+        }
+
+        /**
+         * Setter method for line.
+         * 
+         * @param line
+         *            the line to set
+         */
+        public void setLine(final Line2D.Float line) {
+            this.line = line;
+        }
+
+        /**
+         * Getter method for dist.
+         * 
+         * @return the dist
+         */
+        public int getDist() {
+            return this.dist;
+        }
+
+        /**
+         * Setter method for dist.
+         * 
+         * @param dist
+         *            the dist to set
+         */
+        public void setDist(final int dist) {
+            this.dist = dist;
+        }
+
     }
 }

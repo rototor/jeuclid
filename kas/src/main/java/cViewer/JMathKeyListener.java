@@ -65,4 +65,5 @@ public class JMathKeyListener implements KeyListener {
 
     public void keyReleased(final KeyEvent e) {
     }
+
 }

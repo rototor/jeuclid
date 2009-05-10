@@ -420,8 +420,10 @@ public class MathFrame extends JFrame {
             this.mathComponent = new JMathComponent(this);
             this.mathComponent.addKeyListener(new JMathKeyListener(
                     this.mathComponent));
-            this.mathComponent.addMouseListener(new JMathMouseListener(
-                    this.mathComponent, this.getTextField()));
+            final JMathMouseListener jMML = new JMathMouseListener(
+                    this.mathComponent, this.getTextField());
+            this.mathComponent.addMouseListener(jMML);
+            this.mathComponent.addMouseMotionListener(jMML);
         }
         return this.mathComponent;
     }

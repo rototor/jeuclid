@@ -55,10 +55,35 @@ public abstract class CRow extends CElement {
     }
 
     @Override
+    public CElement moveRight(final int i, CElement el1) {
+        for (int j = 0; j < i; j++) {
+            if (el1.hasNextC()) {
+                final CElement el2 = el1.getNextSibling();
+                el1 = this.tauscheMitVorzeichen(el1, el2, true);
+            }
+        }
+        return el1;
+    }
+
+    @Override
     public CElement moveLeft(final CElement el2) {
         if (el2.hasPrevC()) {
             final CElement el1 = el2.getPrevSibling();
             return this.tauscheMitVorzeichen(el1, el2, false);
+        }
+        return el2;
+    }
+
+    @Override
+    public CElement moveLeft(int i, CElement el2) {
+        System.out.println("i " + i);
+        i = -i;
+
+        for (int j = 0; j < i; j++) {
+            if (el2.hasPrevC()) {
+                final CElement el1 = el2.getPrevSibling();
+                el2 = this.tauscheMitVorzeichen(el1, el2, false);
+            }
         }
         return el2;
     }

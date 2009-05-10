@@ -58,7 +58,6 @@ public class CTimesRow extends CRow {
         if (this.hasChildC()) {
             CElement first = this.getFirstChild();
             if (first.hasExtPraefix()) {
-                System.out.println("CTimesRow correct first");
                 this.getElement().removeChild(first.getExtPraefix());
                 this.setPraefix("");
             } else if (first.hasExtTimes()) {
@@ -103,7 +102,6 @@ public class CTimesRow extends CRow {
     // expects el as a Clone
     protected static void insertMember(final CRow list,
             final CElement toInsertClone, boolean isFirst) {
-        System.out.println("Creating Member of TimesRow");
         if (toInsertClone instanceof CTimesRow) {
             // evtl Vorzeichen dem ersten Faktor zuschlagen, dann alle einzeln
             // als clone anhängen
@@ -178,14 +176,12 @@ public class CTimesRow extends CRow {
 
     public static CElement foldOne(final CTimesRow cTR) {
         CElement newElement;
-        System.out.println("Fold a TimesRow");
         boolean timesRowAgain = false;
         if (cTR.getFirstChild().hasNextC()
                 && cTR.getFirstChild().getNextSibling().hasNextC()) {
             timesRowAgain = true;
         }
         if (timesRowAgain) {
-            System.out.println("TimesRow found");
             final ArrayList<CElement> factorList = cTR.getMemberList();
             factorList.remove(0);
             final CTimesRow newTR = CTimesRow.createRow(factorList);
@@ -195,7 +191,6 @@ public class CTimesRow extends CRow {
         } else {
             // newElement ist das secondSibling evtl. mit dem externen
             // Vorzeichen
-            System.out.println("Not Done yet");
             newElement = cTR.getFirstChild().getNextSibling();
             newElement.setCRolleAndPraefixFrom(cTR);
         }
@@ -217,8 +212,6 @@ public class CTimesRow extends CRow {
             final ArrayList<CElement> args = new ArrayList<CElement>();
             final CElement newFirst = first.cloneCElement(false);
             Element res = null;
-            System.out
-                    .println("erster Praefix " + first.getPraefixAsString());
             if (first.getExtPraefix() != null) {
                 res = (Element) first.getExtPraefix().cloneNode(true);
             }
@@ -368,7 +361,6 @@ public class CTimesRow extends CRow {
             }
         }
         final String simpleVarString = this.getSimpleVarString();
-        System.out.println("SimpleVarString is: " + simpleVarString);
         final char[] toSort = simpleVarString.toCharArray();
         java.util.Arrays.sort(toSort);
         final boolean isSorted = java.util.Arrays.equals(simpleVarString
@@ -392,7 +384,6 @@ public class CTimesRow extends CRow {
         } else if (e2 instanceof CIdent) {
             final String s1 = this.getVarString();
             final String s2 = ((CIdent) e2).getVar();
-            System.out.println("Stringvergleich: " + s1 + " " + s2);
             boolean result = !(s1.equals("Fehler") || s2.equals("Fehler"));
             result = result && (s1.equals(s2));
             return result;

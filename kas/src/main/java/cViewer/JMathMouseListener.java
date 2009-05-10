@@ -18,18 +18,22 @@ package cViewer;
 
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import javax.swing.event.MouseInputAdapter;
+
+import org.w3c.dom.Node;
 
 import cTree.CElement;
 import cTree.CType;
+import cTree.adapter.DOMElementMap;
 import cTree.cAlter.AlterHandler;
+import cViewer.MathComponentUI.MyLine;
 
-public class JMathMouseListener implements MouseListener {
+public class JMathMouseListener extends MouseInputAdapter {
     private final JMathComponent mathComponent;
 
     private int x0;
@@ -43,14 +47,18 @@ public class JMathMouseListener implements MouseListener {
         this.jTextField = s;
     }
 
+    @Override
     public void mousePressed(final MouseEvent e) {
         this.x0 = e.getX();
         this.y0 = e.getY();
+        this.getUI().setLines();
     }
 
+    @Override
     public void mouseMoved(final MouseEvent e) {
     }
 
+    @Override
     public void mouseReleased(final MouseEvent e) {
         // nach rechts ziehen: Zusammenfassen
         if (e.getX() > this.x0 + 10) {
@@ -85,6 +93,8 @@ public class JMathMouseListener implements MouseListener {
             this.mathComponent.getActionByName("Selection-").actionPerformed(
                     null);
         }
+        this.getUI().getLines().clear();
+        this.getUI().setBestLine(null);
     }
 
     public void showMenu(final MouseEvent evt) {
@@ -106,24 +116,41 @@ public class JMathMouseListener implements MouseListener {
         menu.show(this.mathComponent, evt.getX(), evt.getY());
     }
 
+    @Override
     public void mouseEntered(final MouseEvent e) {
         this.mathComponent.requestFocusInWindow();
     }
 
+    @Override
     public void mouseExited(final MouseEvent e) {
     }
 
+    @Override
     public void mouseDragged(final MouseEvent e) {
+        final ArrayList<MyLine> lines = this.getUI().getLines();
+        if (!lines.isEmpty()) {
+            MyLine bestLine = lines.get(0);
+            double bestDist = Math.abs(bestLine.getLine().getX1() - e.getX());
+            for (final MyLine line : lines) {
+                final double newDist = Math.abs(line.getLine().getX1()
+                        - e.getX());
+                if (newDist < bestDist) {
+                    bestLine = line;
+                    bestDist = newDist;
+                }
+            }
+            this.getUI().setBestLine(bestLine);
+        }
+        this.mathComponent.repaint();
     }
 
+    @Override
     public void mouseClicked(final MouseEvent e) {
         final CElement cAct = this.mathComponent.getCActive();
         // Rechtsklick: Aendern
         if ((e.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK) {
             if (this.mathComponent.getCActive() != null
                     && this.mathComponent.getCActive().getCType() != CType.MATH) {
-                System.out.println("Was"
-                        + this.mathComponent.getCActive().getCType());
                 this.showMenu(e);
                 this.mathComponent.modifyDocument();
             }
@@ -133,16 +160,35 @@ public class JMathMouseListener implements MouseListener {
                     && this.mathComponent.getCActive().getCType() != CType.MATH) {
                 this.mathComponent.getActionByName("ZoomOut")
                         .actionPerformed(null);
+                // this.getUI().getLines().clear();
+                this.mathComponent.repaint();
             }
+            // Parent zeigen
+            // } else if ((e.getModifiers() & InputEvent.CTRL_MASK) ==
+            // InputEvent.CTRL_MASK) {
+            // if (this.mathComponent.getCActive() != null
+            // && this.mathComponent.getCActive().hasParent()) {
+            // // this.getUI().getLines().clear();
+            // // this.getUI().setRect(this.getUI().getRect(newE));
+            // this.mathComponent.repaint();
+            // }
             // Auswählen
         } else {
-            final CElement newE = cTree.adapter.DOMElementMap.getInstance().getCElement
-                    .get((this.mathComponent.getUI()).getNodeFromView(e
-                            .getX(), e.getY()));
+            final Node el = this.getUI().getNodeFromView(e.getX(), e.getY());
+            final CElement newE = DOMElementMap.getInstance().getCElement
+                    .get(el);
+
+            // this.getUI().getLines().clear();
+            this.mathComponent.repaint();
             this.mathComponent.setCActive(cTree.CNavHelper.chooseElement(
                     cAct, newE));
             this.mathComponent.clearCButFirst();
             this.mathComponent.modifyDocument();
         }
     }
+
+    private MathComponentUI getUI() {
+        return this.mathComponent.getUI();
+    }
+
 }
