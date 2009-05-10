@@ -274,7 +274,13 @@ public final class JMathComponent extends JComponent implements
                 final JMathComponent myComp = JMathComponent.this;
                 myComp.addToUndo();
                 myComp.removeCActivity();
-                myComp.setCActive(cAct.getParent().moveRight(cAct));
+                if (myComp.getUI().getBestLine() != null) {
+                    final int i = myComp.getUI().getBestLine().getDist();
+                    System.out.println("Distance: " + i);
+                    myComp.setCActive(cAct.getParent().moveRight(i, cAct));
+                } else {
+                    myComp.setCActive(cAct.getParent().moveRight(cAct));
+                }
                 myComp.getCActive().setCActiveProperty();
                 myComp.modifyDocument();
 
@@ -290,7 +296,13 @@ public final class JMathComponent extends JComponent implements
                 final JMathComponent myComp = JMathComponent.this;
                 myComp.addToUndo();
                 myComp.removeCActivity();
-                myComp.setCActive(cAct.getParent().moveLeft(cAct));
+                if (myComp.getUI().getBestLine() != null) {
+                    final int i = myComp.getUI().getBestLine().getDist();
+                    System.out.println("Distance: " + i);
+                    myComp.setCActive(cAct.getParent().moveLeft(i, cAct));
+                } else {
+                    myComp.setCActive(cAct.getParent().moveLeft(cAct));
+                }
                 myComp.getCActive().setCActiveProperty();
                 myComp.modifyDocument();
             }
