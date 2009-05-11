@@ -24,38 +24,31 @@ public class CE_1 {
 
     public CElement extract(final CElement parent,
             final ArrayList<CElement> selection, final CElement cE2) {
-        System.out.println("Lazy extracting");
-        if (!this.canExtract(parent, selection)) {
+        if (this.canExtract(parent, selection)) {
+            final ExtractHandler extractor = ExtractHandler.getInstance();
+            final boolean replace = extractor.justAll(selection);
+            final boolean hasMinus = selection.get(0).hasExtMinus();
+            System.out.println("Hat Minus in CE_1 " + hasMinus);
+            final CElement newChild = this.createExtraction(parent,
+                    selection, cE2);
+            extractor.insertOrReplace(parent, newChild, selection, replace);
+            if (hasMinus) {
+                newChild.toggleToPraefixEmptyOrPlus();
+            }
+            return newChild;
+        } else {
             return selection.get(0);
         }
-        // weitere Property entfernen
-        final boolean replace = ExtractHandler.getInstance().justAll(
-                selection);
-        final boolean hasMinus = selection.get(0).hasExtMinus();
-        System.out.println("Replace? " + replace);
-        System.out.println("Wie viele Member in Selection? "
-                + selection.size());
-        final CElement newChild = this.createExtraction(parent, selection,
-                cE2);
-        ExtractHandler.getInstance().insertOrReplace(parent, newChild,
-                selection, replace);
-        if (hasMinus) {
-            newChild.toggleToPraefixEmptyOrPlus();
-        }
-        return newChild;
+
     }
 
     protected CElement createExtraction(final CElement parent,
             final ArrayList<CElement> selection, final CElement cE2) {
-        System.out.println("Cant create extraction");
-        // Vorsicht! Fehlbedienung möglich. Repeller einsetzen!
         return cE2;
     }
 
     protected boolean canExtract(final CElement parent,
             final ArrayList<CElement> selection) {
-        System.out.println("Repell standard for extract?");
         return false;
     }
-
 }

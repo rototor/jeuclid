@@ -66,7 +66,7 @@ public final class AboutDialog extends JDialog {
      * @return void
      */
     private void initialize() {
-        this.setModal(true);
+        this.setModalityType(ModalityType.DOCUMENT_MODAL);
         this.setResizable(false);
         this.setContentPane(this.getJContentPane());
         this.setTitle("KAS - Editorial");

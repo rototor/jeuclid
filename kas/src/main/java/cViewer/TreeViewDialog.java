@@ -92,6 +92,7 @@ public final class TreeViewDialog extends JFrame {
         this.getText.put(CType.FRAC, "Bruch");
         this.getText.put(CType.MATH, "Mathe");
         this.getText.put(CType.MINROW, "MinusTerm");
+        this.getText.put(CType.PLUSTERM, "PlusTerm");
         this.getText.put(CType.MIXEDN, "Gem. Zahl");
         this.getText.put(CType.PLUSROW, "Summe");
         this.getText.put(CType.POT, "Potenz");

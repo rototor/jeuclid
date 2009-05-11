@@ -100,6 +100,16 @@ public abstract class CTreeWalker extends ActivityAdapter {
         }
     }
 
+    public CElement getLastChild() {
+        if (this.element.getLastChild() == null
+                || !(this.element.getLastChild() instanceof Element)) {
+            return null;
+        } else {
+            final Element lastTest = (Element) this.element.getLastChild();
+            return DOMElementMap.getInstance().getCElement.get(lastTest);
+        }
+    }
+
     // Support für die Auswahl im CTree
     // ---------------------------------------
     public CElement tryToSelectParent() {

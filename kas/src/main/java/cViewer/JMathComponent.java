@@ -84,9 +84,9 @@ public final class JMathComponent extends JComponent implements
     protected ArrayList<CElement> activeC;
 
     // Speicher fuer UndoRedo
-    private final Archiv archiv;
+    private Archiv archiv;
 
-    private final MutableLayoutContext parameters;
+    private MutableLayoutContext parameters;
 
     // Actions die mit Maus Tastatur oder Buttons ausgelöst werden können
     public HashMap<Object, Action> actions;
@@ -95,7 +95,11 @@ public final class JMathComponent extends JComponent implements
 
     public JFrame frame;
 
-    public JMathComponent(final JFrame frame) {
+    public JMathComponent() {
+        // empty on purpose
+    }
+
+    public void initialize(final JFrame frame) {
         this.updateUI();
         this.frame = frame;
         if (this.frame instanceof MathFrame) {

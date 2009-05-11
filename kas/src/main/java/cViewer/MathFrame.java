@@ -417,7 +417,8 @@ public class MathFrame extends JFrame {
 
     public JMathComponent getMathComponent() {
         if (this.mathComponent == null) {
-            this.mathComponent = new JMathComponent(this);
+            this.mathComponent = ViewerFactory.getInst().getMathComponent();
+            this.mathComponent.initialize(this);
             this.mathComponent.addKeyListener(new JMathKeyListener(
                     this.mathComponent));
             final JMathMouseListener jMML = new JMathMouseListener(

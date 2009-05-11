@@ -18,56 +18,50 @@ package cTree.cExtract;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import cTree.CElement;
-import cTree.CFences;
-import cTree.CPlusRow;
-import cTree.CRow;
 import cTree.CTimesRow;
+import cViewer.ViewerFactory;
 
 public class CE_2StrichPunkt extends CE_1 {
+
+    CE_1 extracter;
 
     @Override
     protected CElement createExtraction(final CElement parent,
             final ArrayList<CElement> selection, final CElement defElement) {
-        System.out.println("Extract strich punkt ");
-        CTimesRow newChild = null;
-        final ArrayList<CElement> foldedList = CTimesRow.fold(CTimesRow
-                .castList(CRow.cloneList(selection)));
-        final CPlusRow reducedSum = CPlusRow.createRow(foldedList);
-        reducedSum.correctInternalPraefixesAndRolle();
-        final CElement fencedSum = CFences.createFenced(reducedSum);
-        fencedSum.setPraefix("*");
-        final ArrayList<CElement> factors = CTimesRow.createList(defElement,
-                fencedSum);
-        newChild = CTimesRow.createRow(factors);
-        newChild.correctInternalCRolles();
-        return newChild;
+        return this.extracter.createExtraction(parent, selection, defElement);
     }
 
     @Override
     protected boolean canExtract(final CElement parent,
             final ArrayList<CElement> selection) {
-        // Alle müssen TimesRow sein und der erste Operator ist nicht div
         for (final CElement cEl : selection) {
             if (!(cEl instanceof CTimesRow)) {
                 return false;
-            } else {
-                if (cEl.getFirstChild() == null
-                        || cEl.getFirstChild().getNextSibling() == null
-                        || cEl.getFirstChild().getNextSibling().hasExtDiv()) {
-                    return false;
-                }
             }
+            // if (!(cEl instanceof CTimesRow)
+            // || (cEl instanceof CMinTerm && ((CMinTerm) cEl)
+            // .getValue() instanceof CTimesRow)) {
+            // return false;
+            // }
         }
-        // Wir prüfen, ob die Texte übereinstimmen, sehr provisorisch
-        final String vorlage = selection.get(0).getFirstChild().getText();
-        System.out.println("Vorlage" + vorlage);
-        for (final CElement cEl : selection) {
-            if (!vorlage.equals(cEl.getFirstChild().getText())) {
-                System.out.println("Fehler gefunden");
-                return false;
-            }
+        final Object[] possibilities = { "Vorzeichen", "erster Faktor",
+                "letzter Faktor" };
+        final String s = (String) JOptionPane.showInputDialog(ViewerFactory
+                .getInst().getMathComponent(), "Wähle:", "Was herausziehen?",
+                JOptionPane.QUESTION_MESSAGE, null, possibilities,
+                "erster Faktor");
+        if ("Vorzeichen".equals(s)) {
+            this.extracter = new CE_2StrichPunktVZ();
+        } else if ("erster Faktor".equals(s)) {
+            this.extracter = new CE_2StrichPunkt1();
+        } else if ("letzter Faktor".equals(s)) {
+            this.extracter = new CE_2StrichPunktL();
+        } else {
+            return false;
         }
-        return true;
+        return this.extracter.canExtract(parent, selection);
     }
 }

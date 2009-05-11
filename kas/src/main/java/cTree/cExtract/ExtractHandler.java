@@ -21,7 +21,6 @@ import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CType;
-import cTree.adapter.DOMElementMap;
 
 public class ExtractHandler {
     private volatile static ExtractHandler uniqueInstance;
@@ -40,7 +39,7 @@ public class ExtractHandler {
 
     public static ExtractHandler getInstance() {
         if (ExtractHandler.uniqueInstance == null) {
-            synchronized (DOMElementMap.class) {
+            synchronized (ExtractHandler.class) {
                 if (ExtractHandler.uniqueInstance == null) {
                     ExtractHandler.uniqueInstance = new ExtractHandler();
                 }
@@ -49,15 +48,22 @@ public class ExtractHandler {
         return ExtractHandler.uniqueInstance;
     }
 
+    /**
+     * 
+     * @param parent
+     * @param selection
+     *            an ArrayList
+     * @param defaultElement
+     *            the first element of the ArrayList
+     * @return
+     */
     public CElement extract(final CElement parent,
             final ArrayList<CElement> selection, final CElement defaultElement) {
-        System.out.println("Extract from " + parent.getCType());
         return this.getTypExtracter.get(parent.getCType()).extract(parent,
                 selection, defaultElement);
     }
 
     public boolean canExtract(final ArrayList<CElement> selection) {
-        System.out.println("Extract from " + selection.get(0).getCType());
         if (selection.size() > 0) {
             final CElement parent = selection.get(0).getParent();
             System.out.println("Extract from " + parent.getCType());
@@ -75,10 +81,8 @@ public class ExtractHandler {
     public void insertOrReplace(final CElement parent, final CElement newC,
             final ArrayList<CElement> selection, final boolean replace) {
         if (replace) {
-            System.out.println("// replace");
             parent.getParent().replaceChild(newC, parent, true, true);
         } else {
-            System.out.println("// insert");
             parent.replaceChild(newC, selection.get(0), true, true);
             for (int i = 1; i < selection.size(); i++) {
                 parent.removeChild(selection.get(i), true, true, false);
