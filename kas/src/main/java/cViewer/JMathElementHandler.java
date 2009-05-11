@@ -184,6 +184,18 @@ public class JMathElementHandler {
                         return "unknown";
                     }
                     // vz anders als Minus
+                } else if ("+".equals(e1.getTextContent())) {
+                    if (e1.getNextSibling() != null
+                            && e1.getNextSibling() instanceof Element
+                            && e1.getNextSibling().getNextSibling() == null) {
+                        return "pterm";
+                        // nach - und einem Element geht es noch weiter,
+                        // Fehler
+                    } else {
+                        System.out
+                                .println("Fehler nach vz Minus kein Element");
+                        return "unknown";
+                    }
                 } else {
                     System.out.println("Fehler nach vz das nicht minus ist");
                     return "unknown";

@@ -44,6 +44,7 @@ public class DOMElementMap {
         this.getType.put("msup", CType.POT);
         this.getType.put("msqrt", CType.SQRT);
         this.getType.put("VzTerm", CType.MINROW);
+        this.getType.put("PTerm", CType.PLUSTERM);
         this.getType.put("mmixed", CType.MIXEDN);
         this.getType.put("empty", CType.EMPTY);
         this.getType.put("unknown", CType.UNKNOWN);

@@ -197,10 +197,41 @@ public class CTimesRow extends CRow {
         return newElement;
     }
 
+    public static CElement foldOneL(final CTimesRow cTR) {
+        CElement newElement;
+        boolean timesRowAgain = false;
+        if (cTR.getFirstChild().hasNextC()
+                && cTR.getFirstChild().getNextSibling().hasNextC()) {
+            timesRowAgain = true;
+        }
+        if (timesRowAgain) {
+            final ArrayList<CElement> factorList = cTR.getMemberList();
+            factorList.remove(factorList.size() - 1);
+            final CTimesRow newTR = CTimesRow.createRow(factorList);
+            newTR.correctInternalPraefixesAndRolle();
+            newTR.setCRolleAndPraefixFrom(cTR);
+            newElement = newTR;
+        } else {
+            // newElement ist das secondSibling evtl. mit dem externen
+            // Vorzeichen
+            newElement = cTR.getFirstChild();
+            newElement.setCRolleAndPraefixFrom(cTR);
+        }
+        return newElement;
+    }
+
     public static ArrayList<CElement> fold(final ArrayList<CTimesRow> list) {
         final ArrayList<CElement> result = new ArrayList<CElement>();
         for (final CTimesRow cEl : list) {
             result.add(CTimesRow.foldOne(cEl));
+        }
+        return result;
+    }
+
+    public static ArrayList<CElement> foldL(final ArrayList<CTimesRow> list) {
+        final ArrayList<CElement> result = new ArrayList<CElement>();
+        for (final CTimesRow cEl : list) {
+            result.add(CTimesRow.foldOneL(cEl));
         }
         return result;
     }

@@ -134,6 +134,9 @@ public class CElementHelper {
         if (name.equals("vzterm")) {
             return new CMinTerm(el);
         }
+        if (name.equals("pterm")) {
+            return new CPlusTerm(el);
+        }
         if (name.equals("mmixed")) {
             return new CMixedNumber(el);
         }
@@ -245,6 +248,9 @@ public class CElementHelper {
         }
         if (cType == CType.MINROW) {
             return CRolle.NACHVZMINUS;
+        }
+        if (cType == CType.PLUSTERM) {
+            return CRolle.NACHVZPLUS;
         }
         if (cType == CType.PLUSROW) {
             return CRolle.SUMMAND1;
