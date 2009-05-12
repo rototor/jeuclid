@@ -41,11 +41,6 @@ public class CE_2StrichPunkt extends CE_1 {
             if (!(cEl instanceof CTimesRow)) {
                 return false;
             }
-            // if (!(cEl instanceof CTimesRow)
-            // || (cEl instanceof CMinTerm && ((CMinTerm) cEl)
-            // .getValue() instanceof CTimesRow)) {
-            // return false;
-            // }
         }
         final Object[] possibilities = { "Vorzeichen", "erster Faktor",
                 "letzter Faktor" };

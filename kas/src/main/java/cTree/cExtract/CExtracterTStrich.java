@@ -24,12 +24,14 @@ import cTree.CType;
 public class CExtracterTStrich extends CExtracterTyp {
     public CExtracterTStrich() {
         super();
+        this.op1Extracter.put(CType.MINROW, new CE_2StrichMinrow());
         this.op1Extracter.put(CType.TIMESROW, new CE_2StrichPunkt());
     }
 
     @Override
     public CElement extract(final CElement parent,
             final ArrayList<CElement> selection, final CElement defElement) {
+        System.out.println("ExtractTStrich");
         return this.op1Extracter.get(selection.get(0).getCType()).extract(
                 parent, selection, defElement);
     }
