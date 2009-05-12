@@ -19,10 +19,10 @@ package cTree.cCombine;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CMessage;
-import cTree.CMinTerm;
-import cTree.CTimesRow;
+import cTree.CPlusRow;
+import cTree.CPlusTerm;
 
-public class CC_PunktFencedMinFencedMin extends CC_ {
+public class CC_StrichFencedMinFencedPlus extends CC_ {
 
     // a*(b+c+d) -> (a*b+a*c+a*d)
     // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
@@ -31,26 +31,29 @@ public class CC_PunktFencedMinFencedMin extends CC_ {
     @Override
     protected CElement createCombination(final CElement parent,
             final CElement cE1, final CElement cE2) {
-        System.out.println("Multipliziere zwei geklammerte MinTerme");
-        final CElement inCE1 = ((CMinTerm) cE1.getFirstChild()).getValue()
-                .cloneCElement(false);
+        System.out.println("Addiere zwei geklammerte MinTerme");
+        final CElement inCE1 = cE1.getFirstChild().cloneCElement(false);
         final CElement newCE1 = CFences.condCreateFenced(inCE1, new CMessage(
                 false));
-        final CElement inCE2 = ((CMinTerm) cE2.getFirstChild()).getValue()
+        final CElement inCE2 = ((CPlusTerm) cE2.getFirstChild()).getValue()
                 .cloneCElement(false);
         final CElement newCE2 = CFences.condCreateFenced(inCE2, new CMessage(
                 false));
-
-        final CFences newChild = CFences.createFenced(CTimesRow
-                .createRow(CTimesRow.createList(newCE1, newCE2)));
-        ((CTimesRow) newChild.getInnen()).correctInternalPraefixesAndRolle();
+        newCE2.setPraefix(cE2.getPraefixAsString());
+        final CFences newChild = CFences.createFenced(CPlusRow
+                .createRow(CPlusRow.createList(newCE1, newCE2)));
+        ((CPlusRow) newChild.getInnen()).correctInternalPraefixesAndRolle();
+        if (cE1.hasExtMinus()) {
+            ((CPlusRow) newChild.getInnen()).getFirstChild().getNextSibling()
+                    .togglePlusMinus(false);
+        }
         return newChild;
     }
 
     @Override
     protected boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("Repell fenced mult fenced?");
+        System.out.println("Repell fenced sum fenced?");
         return true;
     }
 }

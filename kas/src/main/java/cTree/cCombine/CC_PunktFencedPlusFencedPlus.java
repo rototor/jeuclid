@@ -19,10 +19,10 @@ package cTree.cCombine;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CMessage;
-import cTree.CMinTerm;
+import cTree.CPlusTerm;
 import cTree.CTimesRow;
 
-public class CC_PunktFencedMinFencedMin extends CC_ {
+public class CC_PunktFencedPlusFencedPlus extends CC_ {
 
     // a*(b+c+d) -> (a*b+a*c+a*d)
     // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
@@ -31,26 +31,24 @@ public class CC_PunktFencedMinFencedMin extends CC_ {
     @Override
     protected CElement createCombination(final CElement parent,
             final CElement cE1, final CElement cE2) {
-        System.out.println("Multipliziere zwei geklammerte MinTerme");
-        final CElement inCE1 = ((CMinTerm) cE1.getFirstChild()).getValue()
+        System.out.println("Multipliziere PlusTerm mit PlusTerm");
+        final CElement inCE1 = ((CPlusTerm) cE1.getFirstChild()).getValue()
                 .cloneCElement(false);
         final CElement newCE1 = CFences.condCreateFenced(inCE1, new CMessage(
                 false));
-        final CElement inCE2 = ((CMinTerm) cE2.getFirstChild()).getValue()
+        final CElement inCE2 = ((CPlusTerm) cE2.getFirstChild()).getValue()
                 .cloneCElement(false);
         final CElement newCE2 = CFences.condCreateFenced(inCE2, new CMessage(
                 false));
-
-        final CFences newChild = CFences.createFenced(CTimesRow
-                .createRow(CTimesRow.createList(newCE1, newCE2)));
-        ((CTimesRow) newChild.getInnen()).correctInternalPraefixesAndRolle();
-        return newChild;
+        final CTimesRow newChild = CTimesRow.createRow(CTimesRow.createList(
+                newCE1, newCE2));
+        newChild.correctInternalPraefixesAndRolle();
+        return CFences.createFenced(newChild);
     }
 
     @Override
     protected boolean canCombine(final CElement parent, final CElement cE1,
             final CElement cE2) {
-        System.out.println("Repell fenced mult fenced?");
         return true;
     }
 }
