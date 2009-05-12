@@ -25,7 +25,7 @@ public final class MathApp {
 
     private static void createAndShowGUI() {
         // Erzeugt das Fenster und garniert den Fensterrahmen
-        final MathFrame frame = new MathFrame();
+        final MathFrame frame = ViewerFactory.getInst().getMathFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

@@ -17,7 +17,10 @@
 package cTree.cCombine;
 
 import cTree.CElement;
+import cTree.CMinTerm;
+import cTree.CNum;
 import cTree.cDefence.DefHandler;
+import cViewer.ViewerFactory;
 
 public class CC_ {
 
@@ -49,6 +52,12 @@ public class CC_ {
         }
         final boolean replace = CombHandler.getInst().justTwo(cE1, cE2);
         final CElement newChild = this.createCombination(parent, cE1, cE2);
+        if (newChild instanceof CNum
+                || (newChild instanceof CMinTerm && ((CMinTerm) newChild)
+                        .getValue() instanceof CNum)) {
+            final String sol = newChild.getText();
+            ViewerFactory.getInst().getDialog(sol);
+        }
         return CombHandler.getInst().insertOrReplace(parent, newChild, cE1,
                 cE2, replace);
     }

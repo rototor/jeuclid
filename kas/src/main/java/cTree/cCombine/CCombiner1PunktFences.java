@@ -48,6 +48,7 @@ public class CCombiner1PunktFences extends CCombiner1 {
             return this.getOp2Comb().get(CType.IDENT).combine(parent, cE1,
                     cE2);
         } else {
+            System.out.println("Mult Fences 2");
             return this.getOp2Comb().get(cE2.getCType()).combine(parent, cE1,
                     cE2);
         }
@@ -62,6 +63,7 @@ public class CCombiner1PunktFences extends CCombiner1 {
             return this.getOp2Comb().get(CType.IDENT).canCombine(parent, cE1,
                     cE2);
         } else {
+            System.out.println(" can Mult Fences 2");
             return this.getOp2Comb().get(cE2.getCType()).canCombine(parent,
                     cE1, cE2);
         }

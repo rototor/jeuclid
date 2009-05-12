@@ -34,6 +34,7 @@ public class CCombinerTStrich extends CCombinerTyp {
             for (final CType cType : CType.values()) {
                 this.op1Combiner.put(cType, new CCombiner1());
             }
+            this.op1Combiner.put(CType.FENCES, new CCombiner1StrichFences());
             this.op1Combiner.put(CType.NUM, new CCombiner1StrichNum());
             this.op1Combiner.put(CType.MINROW, new CCombiner1StrichMinrow());
             this.op1Combiner.put(CType.FRAC, new CCombiner1StrichFrac());
@@ -52,6 +53,7 @@ public class CCombinerTStrich extends CCombinerTyp {
         } else if (cE2.is0()) {
             return (new CC_StrichAny0()).combine(parent, cE1, cE2);
         }
+        System.out.println("Strich");
         return this.getOp1Comb().get(cE1.getCType())
                 .combine(parent, cE1, cE2);
     }

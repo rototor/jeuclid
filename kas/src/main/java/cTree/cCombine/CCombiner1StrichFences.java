@@ -19,6 +19,7 @@ package cTree.cCombine;
 import java.util.HashMap;
 
 import cTree.CElement;
+import cTree.CFences;
 import cTree.CType;
 
 public class CCombiner1StrichFences extends CCombiner1 {
@@ -31,6 +32,7 @@ public class CCombiner1StrichFences extends CCombiner1 {
     public HashMap<CType, CC_> getOp2Comb() {
         if (this.op2Combiner == null) {
             this.op2Combiner = super.getOp2Comb();
+            this.op2Combiner.put(CType.FENCES, new CC_StrichFencesFences());
             this.op2Combiner.put(CType.IDENT, new CC_StrichIdentIdent());
             this.op2Combiner.put(CType.TIMESROW, new CC_StrichIdentTR());
         }
@@ -41,6 +43,10 @@ public class CCombiner1StrichFences extends CCombiner1 {
     public CElement combine(final CElement parent, final CElement cE1,
             final CElement cE2) {
         if (cE1.istGleichartigesMonom(cE2)) {
+            return this.getOp2Comb().get(cE2.getCType()).combine(parent, cE1,
+                    cE2);
+        } else if (cE2 instanceof CFences) {
+            System.out.println("Adding Fences");
             return this.getOp2Comb().get(cE2.getCType()).combine(parent, cE1,
                     cE2);
         }
