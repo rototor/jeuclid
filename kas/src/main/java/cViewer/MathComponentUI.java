@@ -88,7 +88,6 @@ public class MathComponentUI extends ComponentUI implements
             g.setColor(Color.ORANGE);
             ((Graphics2D) g).setStroke(new BasicStroke(2f));
             if (!this.getLines().isEmpty()) {
-                System.out.println("painting Lines " + this.lines.size());
                 for (final MyLine line : this.lines) {
                     final Line2D dLine = line.getLine();
                     g.drawLine((int) dLine.getX1(), (int) dLine.getY1(),
@@ -125,7 +124,6 @@ public class MathComponentUI extends ComponentUI implements
     }
 
     public void setLines() {
-        System.out.println("Lines setting");
         if (this.mathComponent.getCActive() != null) {
             CElement now = this.mathComponent.getCActive();
             int i = 0;
@@ -336,7 +334,6 @@ public class MathComponentUI extends ComponentUI implements
                 final Rectangle2D rges = rpf.createUnion(rel);
                 rel = (Rectangle2D.Float) rges;
             }
-            System.out.println(rel.getX() + " " + rel.getY());
             return rel;
         } else {
             return null;
@@ -356,7 +353,6 @@ public class MathComponentUI extends ComponentUI implements
                 final Rectangle2D rges = rpf.createUnion(rel);
                 rel = (Rectangle2D.Float) rges;
             }
-            System.out.println("getLeftLine: " + rel.getMinX());
             return new Line2D.Float((int) rel.getMinX(), (int) rel.getMinY(),
                     (int) rel.getMinX(), (int) rel.getMaxY());
         } else {
@@ -430,8 +426,6 @@ public class MathComponentUI extends ComponentUI implements
                 // System.out.println(el.getBaseURI()); null
                 // Tagname : mi, mo, mrow, mfrac, msqrt ... ebenso localName
                 // ebenso NodeName
-                System.out.println("*Element" + d.getNodeName() + " "
-                        + d.getAttributes().getNamedItem("name"));
                 // + d.getClass() + d.getNodeValue()
                 if (d.hasAttributes()) {
                     final String result = "Attributes: ";
