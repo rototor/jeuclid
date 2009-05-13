@@ -18,6 +18,7 @@ package cTree.cCombine;
 
 import cTree.CElement;
 import cTree.CMinTerm;
+import cTree.CPlusRow;
 import cTree.CPlusTerm;
 
 public class CC_StrichFencesFences extends CC_ {
@@ -29,6 +30,8 @@ public class CC_StrichFencesFences extends CC_ {
     private CC_StrichFencedMinFencedPlus cmp;
 
     private CC_StrichFencedPlusFencedMin cpm;
+
+    private CC_StrichFencedSumFencedSum css;
 
     @Override
     protected CElement createCombination(final CElement parent,
@@ -45,6 +48,9 @@ public class CC_StrichFencesFences extends CC_ {
         } else if (cE1.getFirstChild() instanceof CMinTerm
                 && cE2.getFirstChild() instanceof CPlusTerm) {
             return this.getCmp().createCombination(parent, cE1, cE2);
+        } else if (cE1.getFirstChild() instanceof CPlusRow
+                && cE2.getFirstChild() instanceof CPlusRow) {
+            return this.getCss().createCombination(parent, cE1, cE2);
         }
         return cE1;
     }
@@ -69,7 +75,12 @@ public class CC_StrichFencesFences extends CC_ {
                 && cE2.getFirstChild() instanceof CPlusTerm) {
             System.out.println("Found MP");
             return this.getCmp().canCombine(parent, cE1, cE2);
+        } else if (cE1.getFirstChild() instanceof CPlusRow
+                && cE2.getFirstChild() instanceof CPlusRow) {
+            System.out.println("Found SS");
+            return this.getCss().canCombine(parent, cE1, cE2);
         }
+
         return false;
     }
 
@@ -104,5 +115,12 @@ public class CC_StrichFencesFences extends CC_ {
             this.cpp = new CC_StrichFencedPlusFencedPlus();
         }
         return this.cpp;
+    }
+
+    protected CC_StrichFencedSumFencedSum getCss() {
+        if (this.css == null) {
+            this.css = new CC_StrichFencedSumFencedSum();
+        }
+        return this.css;
     }
 }
