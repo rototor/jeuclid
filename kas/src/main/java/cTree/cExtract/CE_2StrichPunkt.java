@@ -18,10 +18,9 @@ package cTree.cExtract;
 
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import cTree.CElement;
 import cTree.CTimesRow;
+import cViewer.TransferObject;
 import cViewer.ViewerFactory;
 
 public class CE_2StrichPunkt extends CE_1 {
@@ -42,12 +41,16 @@ public class CE_2StrichPunkt extends CE_1 {
                 return false;
             }
         }
-        final Object[] possibilities = { "Vorzeichen", "erster Faktor",
-                "letzter Faktor" };
-        final String s = (String) JOptionPane.showInputDialog(ViewerFactory
-                .getInst().getMathComponent(), "Wähle:", "Was herausziehen?",
-                JOptionPane.QUESTION_MESSAGE, null, possibilities,
-                "erster Faktor");
+        // final Object[] possibilities = { "Vorzeichen", "erster Faktor",
+        // "letzter Faktor" };
+        // final String s = (String) JOptionPane.showInputDialog(ViewerFactory
+        // .getInst().getMathComponent(), "Wähle:", "Was herausziehen?",
+        // JOptionPane.QUESTION_MESSAGE, null, possibilities,
+        // "erster Faktor");
+
+        final TransferObject to = new TransferObject();
+        ViewerFactory.getInst().getComboDialog(to);
+        final String s = to.getContent();
         if ("Vorzeichen".equals(s)) {
             this.extracter = new CE_2StrichPunktVZ();
         } else if ("erster Faktor".equals(s)) {
@@ -59,4 +62,5 @@ public class CE_2StrichPunkt extends CE_1 {
         }
         return this.extracter.canExtract(parent, selection);
     }
+
 }

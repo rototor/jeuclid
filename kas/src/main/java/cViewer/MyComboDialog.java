@@ -10,39 +10,35 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-public class MyInputDialog extends JDialog implements ActionListener,
+public class MyComboDialog extends JDialog implements ActionListener,
         PropertyChangeListener {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 20090512L;
 
-    private String stringInput = null;
-
-    private final JTextField textField;
-
-    private final String solution;
+    private final JComboBox jCombobox;
 
     private final JOptionPane optionPane;
 
-    public String getValidatedText() {
-        return this.stringInput;
-    }
+    private final TransferObject transfer;
 
-    public MyInputDialog(final MathFrame mf, final String sol) {
+    public MyComboDialog(final MathFrame mf, final TransferObject transfer) {
+
         super(mf, true);
-        this.solution = sol;
-        this.setTitle("Berechne");
-
-        this.textField = new JTextField(10);
-        this.textField.setFont(new Font("Dialog", 1, 16));
+        this.transfer = transfer;
+        this.setTitle("Wähle: ");
+        final String[] strArray = new String[3];
+        strArray[0] = "Vorzeichen";
+        strArray[1] = "erster Faktor";
+        strArray[2] = "letzter Faktor";
+        this.jCombobox = new JComboBox(strArray);
+        this.jCombobox.setFont(new Font("Dialog", 1, 16));
         final Object[] options = { "Ok", "Abbruch" };
-        this.optionPane = new JOptionPane(this.textField,
+        this.optionPane = new JOptionPane(this.jCombobox,
                 JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,
                 null, options, options[0]);
         this.setContentPane(this.optionPane);
@@ -50,17 +46,17 @@ public class MyInputDialog extends JDialog implements ActionListener,
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent we) {
-                MyInputDialog.this.optionPane.setValue(new Integer(
+                MyComboDialog.this.optionPane.setValue(new Integer(
                         JOptionPane.CLOSED_OPTION));
             }
         });
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(final ComponentEvent ce) {
-                MyInputDialog.this.textField.requestFocusInWindow();
+                MyComboDialog.this.jCombobox.requestFocusInWindow();
             }
         });
-        this.textField.addActionListener(this);
+        this.jCombobox.addActionListener(this);
         this.optionPane.addPropertyChangeListener(this);
     }
 
@@ -83,21 +79,10 @@ public class MyInputDialog extends JDialog implements ActionListener,
             this.optionPane.setValue(JOptionPane.UNINITIALIZED_VALUE);
 
             if ("Ok".equals(value)) {
-                this.stringInput = this.textField.getText();
-                if (this.solution.equals(this.stringInput)) {
-                    this.textField.setText(null);
-                    this.setVisible(false);
-                } else {
-                    this.textField.selectAll();
-                    JOptionPane.showMessageDialog(MyInputDialog.this,
-                            "Probiers doch mal mit." + this.solution,
-                            "Versuchs nochmal!", JOptionPane.ERROR_MESSAGE);
-                    this.stringInput = null;
-                    this.textField.requestFocusInWindow();
-                }
+                this.transfer.setContent((String) this.jCombobox
+                        .getSelectedItem());
+                this.setVisible(false);
             } else {
-                this.stringInput = null;
-                this.textField.setText(null);
                 this.setVisible(false);
             }
         }

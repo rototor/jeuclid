@@ -37,9 +37,17 @@ public class ViewerFactory {
         return this.frame;
     }
 
-    public MyInputDialog getDialog(final String text) {
+    public MyInputDialog getInputDialog(final String text) {
         final MyInputDialog dialog = new MyInputDialog(this.getMathFrame(),
                 text);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this.getMathComponent());
+        dialog.setVisible(true);
+        return dialog;
+    }
+
+    public MyComboDialog getComboDialog(final TransferObject o) {
+        final MyComboDialog dialog = new MyComboDialog(this.getMathFrame(), o);
         dialog.pack();
         dialog.setLocationRelativeTo(this.getMathComponent());
         dialog.setVisible(true);
