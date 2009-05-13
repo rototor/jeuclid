@@ -25,6 +25,7 @@ public class CDefenceTStrich extends CDefenceTyp {
         for (final CType cType : CType.values()) {
             this.op1Defencer.put(cType, new CD_1StrichDefault());
         }
+        this.op1Defencer.put(CType.PLUSTERM, new CD_1StrichPlusterm());
         this.op1Defencer.put(CType.MINROW, new CD_1StrichMinrow());
         this.op1Defencer.put(CType.PLUSROW, new CD_1StrichStrich());
     }

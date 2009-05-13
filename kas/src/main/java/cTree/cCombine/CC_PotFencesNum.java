@@ -33,6 +33,7 @@ public class CC_PotFencesNum extends CC_ {
     public ArrayList<CC_> getCombs() {
         if (this.combs == null) {
             this.combs = new ArrayList<CC_>();
+            this.combs.add(new CC_PotFencedPlusrowNum());
             this.combs.add(new CC_PotFencedMinrowNum());
             this.combs.add(new CC_PotFencedSumNum());
             this.combs.add(new CC_PotFencedTRNum());

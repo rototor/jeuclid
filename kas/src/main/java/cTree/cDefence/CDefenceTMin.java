@@ -19,12 +19,13 @@ package cTree.cDefence;
 import cTree.CType;
 
 public class CDefenceTMin extends CDefenceTyp {
-	public CDefenceTMin(){
-//		super();
-		for (CType cType : CType.values()){
-			op1Defencer.put(cType, new CD_1StrichDefault());
-		}
-		this.op1Defencer.put(CType.MINROW, new CD_1MinrowMinrow());
-		this.op1Defencer.put(CType.PLUSROW, new CD_1MinrowStrich());
-	}
+    public CDefenceTMin() {
+        // super();
+        for (final CType cType : CType.values()) {
+            this.op1Defencer.put(cType, new CD_1StrichDefault());
+        }
+        this.op1Defencer.put(CType.PLUSTERM, new CD_1StrichPlusterm());
+        this.op1Defencer.put(CType.MINROW, new CD_1MinrowMinrow());
+        this.op1Defencer.put(CType.PLUSROW, new CD_1MinrowStrich());
+    }
 }
