@@ -31,6 +31,7 @@ public class CDefenceTPunkt extends CDefenceTyp {
         this.op1Defencer.put(CType.NUM, new CD_1PunktEasy());
         this.op1Defencer.put(CType.POT, new CD_1PunktEasy());
         this.op1Defencer.put(CType.SQRT, new CD_1PunktEasy());
+        this.op1Defencer.put(CType.PLUSTERM, new CD_1StrichPlusterm());
         this.op1Defencer.put(CType.TIMESROW, new CD_1PunktPunkt());
     }
 
