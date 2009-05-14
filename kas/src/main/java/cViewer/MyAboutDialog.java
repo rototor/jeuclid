@@ -20,7 +20,6 @@ package cViewer;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.URL;
@@ -37,7 +36,7 @@ import javax.swing.SwingConstants;
  * 
  * @version $Revision$
  */
-public final class AboutDialog extends JDialog {
+public final class MyAboutDialog extends JDialog {
 
     private static final int LARGE_FONT = 14;
 
@@ -55,8 +54,8 @@ public final class AboutDialog extends JDialog {
 
     private JLabel wwwLabel;
 
-    public AboutDialog(final Frame owner) {
-        super(owner);
+    public MyAboutDialog() {
+        super(ViewerFactory.getInst().getMathFrame());
         this.initialize();
     }
 
@@ -74,7 +73,7 @@ public final class AboutDialog extends JDialog {
             @Override
             public void keyPressed(final KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_V && e.isAltDown()) {
-                    JOptionPane.showMessageDialog(AboutDialog.this,
+                    JOptionPane.showMessageDialog(MyAboutDialog.this,
                             "Version: 0.1");
                 }
             }
@@ -90,14 +89,14 @@ public final class AboutDialog extends JDialog {
         if (this.jContentPane == null) {
             this.wwwLabel = new JLabel();
             this.wwwLabel.setText(" http://jeuclid.sourceforge.net ");
-            this.wwwLabel.setFont(new Font(AboutDialog.ABOUT_FONT,
-                    Font.PLAIN, AboutDialog.SMALL_FONT));
+            this.wwwLabel.setFont(new Font(MyAboutDialog.ABOUT_FONT,
+                    Font.PLAIN, MyAboutDialog.SMALL_FONT));
             this.wwwLabel.setHorizontalAlignment(SwingConstants.CENTER);
             this.jeuclidLabel = new JLabel();
             this.jeuclidLabel.setText("KAS - ein JEuclid-Subprojekt");
             this.jeuclidLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            this.jeuclidLabel.setFont(new Font(AboutDialog.ABOUT_FONT,
-                    Font.BOLD, AboutDialog.LARGE_FONT));
+            this.jeuclidLabel.setFont(new Font(MyAboutDialog.ABOUT_FONT,
+                    Font.BOLD, MyAboutDialog.LARGE_FONT));
             this.iconLabel = new JLabel();
             this.iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
             final URL url = this.getClass().getResource(
