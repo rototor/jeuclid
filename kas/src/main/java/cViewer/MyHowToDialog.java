@@ -18,7 +18,6 @@ package cViewer;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GridLayout;
 
 import javax.swing.JDialog;
@@ -29,7 +28,7 @@ import javax.swing.JPanel;
  * HowToDialog for KAS for JEuclid.
  * 
  */
-public final class HowToDialog extends JDialog {
+public final class MyHowToDialog extends JDialog {
 
     private Font textFont;
 
@@ -41,8 +40,8 @@ public final class HowToDialog extends JDialog {
 
     private JPanel jContentPane;
 
-    public HowToDialog(final Frame owner) {
-        super(owner);
+    public MyHowToDialog() {
+        super(ViewerFactory.getInst().getMathFrame());
         this.initialize();
     }
 
@@ -160,7 +159,7 @@ public final class HowToDialog extends JDialog {
 
         JTextLabel(final String s) {
             super(s);
-            this.setFont(HowToDialog.this.textFont);
+            this.setFont(MyHowToDialog.this.textFont);
             this.setForeground(Color.BLACK);
         }
     }
@@ -170,7 +169,7 @@ public final class HowToDialog extends JDialog {
 
         JHeaderLabel(final String s) {
             super(s);
-            this.setFont(HowToDialog.this.headFont);
+            this.setFont(MyHowToDialog.this.headFont);
             this.setForeground(Color.RED);
         }
     }
@@ -180,7 +179,7 @@ public final class HowToDialog extends JDialog {
 
         JH2Label(final String s) {
             super(s);
-            this.setFont(HowToDialog.this.head2Font);
+            this.setFont(MyHowToDialog.this.head2Font);
             this.setForeground(Color.RED);
         }
     }

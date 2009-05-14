@@ -47,10 +47,13 @@ public class CE_2StrichPunkt extends CE_1 {
         // .getInst().getMathComponent(), "Wähle:", "Was herausziehen?",
         // JOptionPane.QUESTION_MESSAGE, null, possibilities,
         // "erster Faktor");
-
-        final TransferObject to = new TransferObject();
+        final String[] strArray = new String[3];
+        strArray[0] = "Vorzeichen";
+        strArray[1] = "erster Faktor";
+        strArray[2] = "letzter Faktor";
+        final TransferObject to = new TransferObject(strArray);
         ViewerFactory.getInst().getComboDialog(to);
-        final String s = to.getContent();
+        final String s = to.getResult();
         if ("Vorzeichen".equals(s)) {
             this.extracter = new CE_2StrichPunktVZ();
         } else if ("erster Faktor".equals(s)) {

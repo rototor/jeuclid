@@ -500,11 +500,7 @@ public final class JMathComponent extends JComponent implements
         JMathElementHandler.parseDom(this.getDocument().getFirstChild());
         EElementHelper.setDots(this.getDocument().getFirstChild());
         this.firePropertyChange("documentChange", null, this.getDocument());
-        if (this.frame instanceof MathFrame) {
-            if (((MathFrame) this.frame).getTreeViewDialog() != null) {
-                ((MathFrame) this.frame).getTreeViewDialog().update();
-            }
-        }
+        ViewerFactory.getInst().getTreeViewDialog().update();
         this.reval();
     }
 

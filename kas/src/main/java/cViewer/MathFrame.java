@@ -38,7 +38,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -82,12 +81,6 @@ public class MathFrame extends JFrame {
     private JMenuItem howToMenuItem;
 
     private JMenuItem treeViewItem;
-
-    private AboutDialog aboutDialog;
-
-    private HowToDialog howToDialog;
-
-    private TreeViewDialog treeViewDialog;
 
     private JSplitPane splitPaneVM;
 
@@ -158,19 +151,12 @@ public class MathFrame extends JFrame {
     }
 
     private void displayTreeView() {
-        final JFrame aDialog = this.getTreeViewDialog();
+        final JFrame aDialog = ViewerFactory.getInst().getTreeViewDialog();
         aDialog.pack();
         final Point loc = this.getLocation();
         loc.translate(this.getWidth(), 0);
         aDialog.setLocation(loc);
         aDialog.setVisible(true);
-    }
-
-    public TreeViewDialog getTreeViewDialog() {
-        if (this.treeViewDialog == null) {
-            this.treeViewDialog = new TreeViewDialog(this);
-        }
-        return this.treeViewDialog;
     }
 
     private JMenuItem getHowToItem() {
@@ -179,27 +165,11 @@ public class MathFrame extends JFrame {
             this.howToMenuItem.setText("Tastatur und Maussteuerung");
             this.howToMenuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
-                    MathFrame.this.displayHowTo();
+                    ViewerFactory.getInst().getHowToDialog();
                 }
             });
         }
         return this.howToMenuItem;
-    }
-
-    private void displayHowTo() {
-        final JDialog aDialog = this.getHowToDialog();
-        aDialog.pack();
-        final Point loc = this.getLocation();
-        loc.translate((this.getWidth() - aDialog.getWidth()) / 2, 0);
-        aDialog.setLocation(loc);
-        aDialog.setVisible(true);
-    }
-
-    private JDialog getHowToDialog() {
-        if (this.howToDialog == null) {
-            this.howToDialog = new HowToDialog(this);
-        }
-        return this.howToDialog;
     }
 
     private JMenuItem getAboutMenuItem() {
@@ -208,27 +178,11 @@ public class MathFrame extends JFrame {
             this.aboutMenuItem.setText("About KAS");
             this.aboutMenuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
-                    MathFrame.this.displayAbout();
+                    ViewerFactory.getInst().getAboutDialog();
                 }
             });
         }
         return this.aboutMenuItem;
-    }
-
-    public void displayAbout() {
-        final JDialog aDialog = this.getAboutDialog();
-        aDialog.pack();
-        final Point loc = this.getLocation();
-        loc.translate((this.getWidth() - aDialog.getWidth()) / 2, 0);
-        aDialog.setLocation(loc);
-        aDialog.setVisible(true);
-    }
-
-    private JDialog getAboutDialog() {
-        if (this.aboutDialog == null) {
-            this.aboutDialog = new AboutDialog(this);
-        }
-        return this.aboutDialog;
     }
 
     private JMenu getFileMenu() {
@@ -276,15 +230,8 @@ public class MathFrame extends JFrame {
         }
         this.getMathComponent().setNewContent(result);
         this.getViewComponent().setContent(result);
-        this.getTreeViewDialog().update();
+        ViewerFactory.getInst().getTreeViewDialog().update();
         this.getMathComponent().requestFocusInWindow();
-    }
-
-    public Counter getCounter() {
-        if (this.counter == null) {
-            this.counter = new Counter();
-        }
-        return this.counter;
     }
 
     private File selectFileToOpen(final Frame parent) {
@@ -415,6 +362,13 @@ public class MathFrame extends JFrame {
         }
     }
 
+    public Counter getCounter() {
+        if (this.counter == null) {
+            this.counter = new Counter();
+        }
+        return this.counter;
+    }
+
     public JMathComponent getMathComponent() {
         if (this.mathComponent == null) {
             this.mathComponent = ViewerFactory.getInst().getMathComponent();
@@ -481,7 +435,7 @@ public class MathFrame extends JFrame {
     public JTextField getTextField() {
         if (this.textField == null) {
             this.textField = new JTextField(6);
-            final Font f = new Font("DialogInput", 1, 18);
+            final Font f = new Font("DialogInput", 1, 16);
             this.textField.setFont(f);
         }
         return this.textField;

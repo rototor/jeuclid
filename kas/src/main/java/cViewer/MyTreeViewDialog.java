@@ -19,7 +19,6 @@ package cViewer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Insets;
 import java.util.HashMap;
 
@@ -44,9 +43,7 @@ import cTree.adapter.DOMElementMap;
  * TreeViewDialog for KAS for JEuclid.
  * 
  */
-public final class TreeViewDialog extends JFrame {
-
-    // private Font textFont;
+public final class MyTreeViewDialog extends JFrame {
 
     private static final long serialVersionUID = 20090416L;
 
@@ -59,8 +56,6 @@ public final class TreeViewDialog extends JFrame {
     private CElement document;
 
     private AbstractDocument doc;
-
-    private final MathFrame owner;
 
     private LayoutString[] strings;
 
@@ -76,11 +71,10 @@ public final class TreeViewDialog extends JFrame {
 
     private SimpleAttributeSet addition;
 
-    public TreeViewDialog(final Frame owner) {
+    public MyTreeViewDialog() {
         super("Eine Baumdarstellung");
         this.setSize(500, 300);
         this.maxLineNr = 18;
-        this.owner = (MathFrame) owner;
         this.init();
         this.setContentPane(this.getJContentPane());
     }
@@ -149,8 +143,8 @@ public final class TreeViewDialog extends JFrame {
 
     public void setData() {
         // hole das Document
-        final Element el = (Element) (this.owner).getMathComponent()
-                .getDocument().getFirstChild();
+        final Element el = (Element) ViewerFactory.getInst()
+                .getMathComponent().getDocument().getFirstChild();
         this.document = DOMElementMap.getInstance().getCElement.get(el);
         // Alle LayoutStrings resetten
         for (int i = 0; i < this.maxLineNr; i++) {
@@ -240,7 +234,7 @@ public final class TreeViewDialog extends JFrame {
         // evtl Anfang auffuellen
         final String oldString = this.strings[tiefe].content;
         if (pbreite > oldString.length()) {
-            this.strings[tiefe].content = TreeViewDialog.fillString(
+            this.strings[tiefe].content = MyTreeViewDialog.fillString(
                     this.strings[tiefe].content, pbreite);
         }
         // aktuelle Info einfuellen
@@ -254,7 +248,7 @@ public final class TreeViewDialog extends JFrame {
                     .getFirstChild());
         }
         if (breiteVonUnten > neuesEnde - 1) {
-            this.strings[tiefe].content = TreeViewDialog.fillString(
+            this.strings[tiefe].content = MyTreeViewDialog.fillString(
                     this.strings[tiefe].content, breiteVonUnten - 1);
         }
 
@@ -265,7 +259,7 @@ public final class TreeViewDialog extends JFrame {
                     .getNextSibling());
         } else {
             if (parentende > neuesEnde - 1) {
-                this.strings[tiefe].content = TreeViewDialog.fillString(
+                this.strings[tiefe].content = MyTreeViewDialog.fillString(
                         this.strings[tiefe].content, parentende);
             }
             neuesEnde = this.strings[tiefe].content.length();

@@ -1,5 +1,21 @@
 package cViewer;
 
+/*
+ * Copyright 2009 Erhard Kuenzel
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,35 +33,26 @@ import javax.swing.WindowConstants;
 
 public class MyInputDialog extends JDialog implements ActionListener,
         PropertyChangeListener {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 20090512L;
 
     private String stringInput = null;
 
-    private final JTextField textField;
+    private JTextField textField;
 
     private final String solution;
 
-    private final JOptionPane optionPane;
+    private JOptionPane optionPane;
 
     public String getValidatedText() {
         return this.stringInput;
     }
 
-    public MyInputDialog(final MathFrame mf, final String sol) {
-        super(mf, true);
-        this.solution = sol;
+    public MyInputDialog(final String sol) {
+        super(ViewerFactory.getInst().getMathFrame(), true);
         this.setTitle("Berechne");
-
-        this.textField = new JTextField(10);
-        this.textField.setFont(new Font("Dialog", 1, 16));
-        final Object[] options = { "Ok", "Abbruch" };
-        this.optionPane = new JOptionPane(this.textField,
-                JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,
-                null, options, options[0]);
-        this.setContentPane(this.optionPane);
+        this.solution = sol;
+        this.setContentPane(this.getJOptionPane());
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -57,47 +64,62 @@ public class MyInputDialog extends JDialog implements ActionListener,
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(final ComponentEvent ce) {
-                MyInputDialog.this.textField.requestFocusInWindow();
+                MyInputDialog.this.getJTextField().requestFocusInWindow();
             }
         });
-        this.textField.addActionListener(this);
-        this.optionPane.addPropertyChangeListener(this);
+        this.getJTextField().addActionListener(this);
+        this.getJOptionPane().addPropertyChangeListener(this);
+    }
+
+    public JTextField getJTextField() {
+        if (this.textField == null) {
+            this.textField = new JTextField(10);
+            this.textField.setFont(new Font("Dialog", 1, 16));
+        }
+        return this.textField;
+    }
+
+    public JOptionPane getJOptionPane() {
+        if (this.optionPane == null) {
+            final Object[] options = { "Ok", "Abbruch" };
+            this.optionPane = new JOptionPane(this.getJTextField(),
+                    JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,
+                    null, options, options[0]);
+        }
+        return this.optionPane;
     }
 
     public void actionPerformed(final ActionEvent e) {
-        this.optionPane.setValue("Ok");
+        this.getJOptionPane().setValue("Ok");
     }
 
     public void propertyChange(final PropertyChangeEvent e) {
         final String prop = e.getPropertyName();
         if (this.isVisible()
-                && (e.getSource() == this.optionPane)
+                && (e.getSource() == this.getJOptionPane())
                 && (JOptionPane.VALUE_PROPERTY.equals(prop) || JOptionPane.INPUT_VALUE_PROPERTY
                         .equals(prop))) {
-            final Object value = this.optionPane.getValue();
-
+            final Object value = this.getJOptionPane().getValue();
             if (value == JOptionPane.UNINITIALIZED_VALUE) {
                 return;
             }
-
-            this.optionPane.setValue(JOptionPane.UNINITIALIZED_VALUE);
-
+            this.getJOptionPane().setValue(JOptionPane.UNINITIALIZED_VALUE);
             if ("Ok".equals(value)) {
-                this.stringInput = this.textField.getText();
+                this.stringInput = this.getJTextField().getText();
                 if (this.solution.equals(this.stringInput)) {
-                    this.textField.setText(null);
+                    this.getJTextField().setText(null);
                     this.setVisible(false);
                 } else {
-                    this.textField.selectAll();
+                    this.getJTextField().selectAll();
                     JOptionPane.showMessageDialog(MyInputDialog.this,
-                            "Probiers doch mal mit." + this.solution,
+                            "Probiers doch mal mit  " + this.solution,
                             "Versuchs nochmal!", JOptionPane.ERROR_MESSAGE);
                     this.stringInput = null;
-                    this.textField.requestFocusInWindow();
+                    this.getJTextField().requestFocusInWindow();
                 }
             } else {
                 this.stringInput = null;
-                this.textField.setText(null);
+                this.getJTextField().setText(null);
                 this.setVisible(false);
             }
         }
