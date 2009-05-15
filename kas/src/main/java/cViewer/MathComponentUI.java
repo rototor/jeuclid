@@ -15,7 +15,6 @@
  */
 
 /* $Id$ */
-/* $Id$ */
 
 package cViewer;
 
@@ -59,7 +58,7 @@ public class MathComponentUI extends ComponentUI implements
 
     private ArrayList<MyLine> lines;
 
-    private MyLine bestLine;
+    private MyLine bestLine = null;
 
     private Dimension preferredSize;
 
@@ -68,7 +67,6 @@ public class MathComponentUI extends ComponentUI implements
      */
     public MathComponentUI() {
         super();
-        this.bestLine = null;
     }
 
     /** {@inheritDoc} */
@@ -76,11 +74,9 @@ public class MathComponentUI extends ComponentUI implements
     public void paint(final Graphics g, final JComponent c) {
 
         this.preferredSize = null;
-        // using the size seems to cause flickering is some cases
         final Dimension dim = this.mathComponent.getSize();
         final Point start = this
                 .getStartPointWithBordersAndAdjustDimension(dim);
-        // this.paintBackground(g, dim, start); seems necessary to me
         if (this.jEuclidView != null) {
             final Point2D alignOffset = this.calculateAlignmentOffset(dim);
             this.jEuclidView.draw((Graphics2D) g, (float) alignOffset.getX()
@@ -88,33 +84,21 @@ public class MathComponentUI extends ComponentUI implements
             g.setColor(Color.ORANGE);
             ((Graphics2D) g).setStroke(new BasicStroke(2f));
             if (!this.getLines().isEmpty()) {
-                for (final MyLine line : this.lines) {
+                for (final MyLine line : this.getLines()) {
                     final Line2D dLine = line.getLine();
                     g.drawLine((int) dLine.getX1(), (int) dLine.getY1(),
                             (int) dLine.getX2(), (int) dLine.getY2());
                 }
             }
-            if (this.bestLine != null) {
+            if (this.getBestLine() != null) {
                 g.setColor(Color.YELLOW);
                 ((Graphics2D) g).setStroke(new BasicStroke(3f));
-                final Line2D bLine = this.bestLine.getLine();
+                final Line2D bLine = this.getBestLine().getLine();
                 g.drawLine((int) bLine.getX1(), (int) bLine.getY1(),
                         (int) bLine.getX2(), (int) bLine.getY2());
             }
         }
-
     }
-
-    // /** {@inheritDoc} */ seems necessary to me
-    // @Override
-    // public void update(final Graphics g, final JComponent c) {
-    // System.out.println("MC updating");
-    // if (c.isOpaque()) {
-    // g.setColor(c.getBackground());
-    // g.fillRect(0, 0, c.getWidth(), c.getHeight());
-    // }
-    // this.paint(g, c);
-    // }
 
     public ArrayList<MyLine> getLines() {
         if (this.lines == null) {
@@ -130,14 +114,14 @@ public class MathComponentUI extends ComponentUI implements
             while (now.hasNextC()) {
                 now = now.getNextSibling();
                 i = i + 1;
-                this.lines.add(new MyLine(i, this.getRightLine(now)));
+                this.getLines().add(new MyLine(i, this.getRightLine(now)));
             }
             now = this.mathComponent.getCActive();
             i = 0;
             while (now.hasPrevC()) {
                 now = now.getPrevSibling();
                 i = i - 1;
-                this.lines.add(new MyLine(i, this.getLeftLine(now)));
+                this.getLines().add(new MyLine(i, this.getLeftLine(now)));
             }
         }
     }
@@ -165,15 +149,6 @@ public class MathComponentUI extends ComponentUI implements
         return new Point2D.Float(xo, yo);
     }
 
-    // private void paintBackground(final Graphics g, final Dimension dim,
-    // final Point start) {
-    // final Color back = this.getRealBackgroundColor();
-    // if (back != null) {
-    // g.setColor(back);
-    // g.fillRect(start.x, start.y, dim.width, dim.height);
-    // }
-    // }
-
     private Point getStartPointWithBordersAndAdjustDimension(
             final Dimension dim) {
         Point start = new Point(0, 0);
@@ -188,18 +163,6 @@ public class MathComponentUI extends ComponentUI implements
         }
         return start;
     }
-
-    // private Color getRealBackgroundColor() {
-    // Color back = this.mathComponent.getBackground();
-    // if (this.mathComponent.isOpaque()) {
-    // if (back == null) {
-    // back = Color.WHITE;
-    // }
-    // // Remove Alpha
-    // back = new Color(back.getRGB());
-    // }
-    // return back;
-    // }
 
     /** {@inheritDoc} */
     @Override

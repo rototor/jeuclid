@@ -56,7 +56,10 @@ public class CC_ {
                 || (newChild instanceof CMinTerm && ((CMinTerm) newChild)
                         .getValue() instanceof CNum)) {
             final String sol = newChild.getText();
-            ViewerFactory.getInst().getInputDialog(sol);
+            if (ViewerFactory.getInst().getMathFrame().getStateTransfer()
+                    .getResult().charAt(0) != '-') {
+                ViewerFactory.getInst().getInputDialog(sol);
+            }
         }
         return CombHandler.getInst().insertOrReplace(parent, newChild, cE1,
                 cE2, replace);
