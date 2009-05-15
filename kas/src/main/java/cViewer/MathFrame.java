@@ -17,6 +17,7 @@
 package cViewer;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
@@ -82,6 +83,8 @@ public class MathFrame extends JFrame {
 
     private JMenuItem treeViewItem;
 
+    private JMenuItem optionItem;
+
     private JSplitPane splitPaneVM;
 
     private JSplitPane splitPaneCV;
@@ -90,15 +93,19 @@ public class MathFrame extends JFrame {
 
     private JScrollPane scrollPane;
 
+    private MyOptionsDialog optionsDialog;
+
+    private TransferObject stateTransfer;
+
     private JMathComponent mathComponent;
 
     private JMathViewer viewComponent;
 
-    public JTextField textField;
+    private JTextField textField;
 
-    public CountLabel countLabel;
+    private CountLabel countLabel;
 
-    public Counter counter;
+    private Counter counter;
 
     /**
      * This is the default constructor.
@@ -133,6 +140,7 @@ public class MathFrame extends JFrame {
             this.helpMenu.add(this.getHowToItem());
             this.helpMenu.add(this.getAboutMenuItem());
             this.helpMenu.add(this.getTreeViewItem());
+            this.helpMenu.add(this.getOptionMenuItem());
         }
         return this.helpMenu;
     }
@@ -183,6 +191,42 @@ public class MathFrame extends JFrame {
             });
         }
         return this.aboutMenuItem;
+    }
+
+    private JMenuItem getOptionMenuItem() {
+        if (this.optionItem == null) {
+            this.optionItem = new JMenuItem();
+            this.optionItem.setText("Options ...");
+            this.optionItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    final Dialog dialog = MathFrame.this.getOptionsDialog();
+                    dialog.setLocationRelativeTo(MathFrame.this);
+                    dialog.setVisible(true);
+                }
+            });
+        }
+        return this.optionItem;
+    }
+
+    public MyOptionsDialog getOptionsDialog() {
+        if (this.optionsDialog == null) {
+            this.optionsDialog = new MyOptionsDialog(this.getStateTransfer());
+            this.optionsDialog.pack();
+        }
+        return this.optionsDialog;
+    }
+
+    public TransferObject getStateTransfer() {
+        if (this.stateTransfer == null) {
+            final String[] strings = new String[4];
+            strings[0] = "Ganze Zahlen selber berechnen?";
+            strings[1] = "unbelegt";
+            strings[2] = "unbelegt";
+            strings[3] = "unbelegt";
+            this.stateTransfer = new TransferObject(strings);
+            this.stateTransfer.setResult("0123");
+        }
+        return this.stateTransfer;
     }
 
     private JMenu getFileMenu() {
@@ -372,7 +416,7 @@ public class MathFrame extends JFrame {
     public JMathComponent getMathComponent() {
         if (this.mathComponent == null) {
             this.mathComponent = ViewerFactory.getInst().getMathComponent();
-            this.mathComponent.initialize(this);
+            this.mathComponent.initialize();
             this.mathComponent.addKeyListener(new JMathKeyListener(
                     this.mathComponent));
             final JMathMouseListener jMML = new JMathMouseListener(
@@ -440,4 +484,5 @@ public class MathFrame extends JFrame {
         }
         return this.textField;
     }
+
 }

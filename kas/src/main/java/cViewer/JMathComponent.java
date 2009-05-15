@@ -34,7 +34,6 @@ import javax.accessibility.Accessible;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -80,36 +79,20 @@ public final class JMathComponent extends JComponent implements
 
     protected Document document;
 
-    // Einige aufeinanderfolgende CElemente mit gleichem Parent
     protected ArrayList<CElement> activeC;
 
-    // Speicher fuer UndoRedo
     private Archiv archiv;
 
     private MutableLayoutContext parameters;
 
-    // Actions die mit Maus Tastatur oder Buttons ausgelöst werden können
-    public HashMap<Object, Action> actions;
-
-    public Counter counter;
-
-    public JFrame frame;
+    private HashMap<Object, Action> actions;
 
     public JMathComponent() {
         // empty on purpose
     }
 
-    public void initialize(final JFrame frame) {
+    public void initialize() {
         this.updateUI();
-        this.frame = frame;
-        if (this.frame instanceof MathFrame) {
-            this.counter = ((MathFrame) this.frame).getCounter();
-        } else {
-            this.counter = new Counter();
-        }
-        this.parameters = new LayoutContextImpl(LayoutContextImpl
-                .getDefaultLayoutContext());
-        this.setParameter(Parameter.MATHSIZE, 48f);
         this.activeC = new ArrayList<CElement>();
         this.archiv = new Archiv();
         final String initS = "<math><mrow><mi>x</mi><mo>=</mo>"
@@ -120,11 +103,18 @@ public final class JMathComponent extends JComponent implements
                 + "<mo><mchar name=\"InvisibleTimes\"/></mo>" + "<mi>a</mi>"
                 + "</mrow></mfrac>" + "</mrow></math>";
         this.setContent(initS);
-        // für die Bedienung über die Tastur wichtig
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(false);
-        this.actions = this.createActionTable();
         this.requestFocusInWindow();
+    }
+
+    public MutableLayoutContext getParameters() {
+        if (this.parameters == null) {
+            this.parameters = new LayoutContextImpl(LayoutContextImpl
+                    .getDefaultLayoutContext());
+            this.setParameter(Parameter.MATHSIZE, 48f);
+        }
+        return this.parameters;
     }
 
     public CElement getCActive() {
@@ -163,26 +153,27 @@ public final class JMathComponent extends JComponent implements
         }
 
         public void actionPerformed(final ActionEvent ae) {
-            JMathComponent.this.addToUndo();
-            JMathComponent.this.removeCActivity();
-            final String cleaned = this.textField.getText().replace(" ", "");
-            final CElement newAct = JMathComponent.this.getCActive()
-                    .getParent().split(JMathComponent.this.getCActive(),
-                            cleaned);
+            final JMathComponent mathC = JMathComponent.this;
+            mathC.addToUndo();
+            mathC.removeCActivity();
+            final String cleaned = ViewerFactory.getInst().getMathFrame()
+                    .getTextField().getText().replace(" ", "");
+            final CElement newAct = mathC.getCActive().getParent().split(
+                    mathC.getCActive(), cleaned);
             newAct.setCActiveProperty();
-            JMathComponent.this.setCActive(newAct);
-            JMathComponent.this.requestFocusInWindow();
-            JMathComponent.this.counter.incCount();
-            JMathComponent.this.modifyDocument();
+            mathC.setCActive(newAct);
+            mathC.requestFocusInWindow();
+            mathC.modifyDocument();
+            ViewerFactory.getInst().getMathFrame().getCounter().incCount();
         }
     }
 
-    private HashMap<Object, Action> createActionTable() {
+    private HashMap<Object, Action> getActions() {
         // Legt die Actions der Komponente in einem HashMap ab
-        final HashMap<Object, Action> actions = new HashMap<Object, Action>();
+        this.actions = new HashMap<Object, Action>();
 
         AbstractAction myAction = new ZerlegeAction("Splitten");
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("ZoomIn") {
             private static final long serialVersionUID = 20081230L;
@@ -195,7 +186,7 @@ public final class JMathComponent extends JComponent implements
                 JMathComponent.this.modifyDocument();
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("ZoomOut") {
             private static final long serialVersionUID = 20081230L;
@@ -208,7 +199,7 @@ public final class JMathComponent extends JComponent implements
                 JMathComponent.this.modifyDocument();
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("GeheWeiter") {
             private static final long serialVersionUID = 20081230L;
@@ -221,7 +212,7 @@ public final class JMathComponent extends JComponent implements
                 JMathComponent.this.modifyDocument();
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Selection+") {
             private static final long serialVersionUID = 20081230L;
@@ -240,7 +231,7 @@ public final class JMathComponent extends JComponent implements
                 }
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Selection-") {
             private static final long serialVersionUID = 20081230L;
@@ -255,7 +246,7 @@ public final class JMathComponent extends JComponent implements
                 }
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("GeheZurueck") {
             private static final long serialVersionUID = 20081230L;
@@ -268,7 +259,7 @@ public final class JMathComponent extends JComponent implements
                 JMathComponent.this.modifyDocument();
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("BewegeRechts") {
             private static final long serialVersionUID = 20081230L;
@@ -280,7 +271,6 @@ public final class JMathComponent extends JComponent implements
                 myComp.removeCActivity();
                 if (myComp.getUI().getBestLine() != null) {
                     final int i = myComp.getUI().getBestLine().getDist();
-                    System.out.println("Distance: " + i);
                     myComp.setCActive(cAct.getParent().moveRight(i, cAct));
                 } else {
                     myComp.setCActive(cAct.getParent().moveRight(cAct));
@@ -290,7 +280,7 @@ public final class JMathComponent extends JComponent implements
 
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("BewegeLinks") {
             private static final long serialVersionUID = 20081230L;
@@ -311,7 +301,7 @@ public final class JMathComponent extends JComponent implements
                 myComp.modifyDocument();
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Aendern") {
             private static final long serialVersionUID = 20090406L;
@@ -323,10 +313,11 @@ public final class JMathComponent extends JComponent implements
                         JMathComponent.this.activeC, ae.getActionCommand()));
                 myComp.getCActive().setCActiveProperty();
                 myComp.modifyDocument();
-                myComp.counter.incCount();
+                ViewerFactory.getInst().getMathFrame().getCounter()
+                        .incCount();
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Verbinden") {
             private static final long serialVersionUID = 20081230L;
@@ -339,10 +330,11 @@ public final class JMathComponent extends JComponent implements
                 myComp.setCActive(cAct.getParent().combineRight(cAct));
                 myComp.getCActive().setCActiveProperty();
                 myComp.modifyDocument();
-                myComp.counter.incCount();
+                ViewerFactory.getInst().getMathFrame().getCounter()
+                        .incCount();
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Rausziehen") {
             private static final long serialVersionUID = 20081230L;
@@ -356,11 +348,12 @@ public final class JMathComponent extends JComponent implements
                             .extract(myComp.activeC));
                     myComp.getCActive().setCActiveProperty();
                     myComp.modifyDocument();
-                    myComp.counter.incCount();
+                    ViewerFactory.getInst().getMathFrame().getCounter()
+                            .incCount();
                 }
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Klammere") {
             private static final long serialVersionUID = 20081230L;
@@ -372,10 +365,11 @@ public final class JMathComponent extends JComponent implements
                         myComp.activeC));
                 myComp.getCActive().setCActiveProperty();
                 myComp.modifyDocument();
-                myComp.counter.incCount();
+                ViewerFactory.getInst().getMathFrame().getCounter()
+                        .incCount();
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Entklammere") {
             private static final long serialVersionUID = 20081230L;
@@ -388,19 +382,22 @@ public final class JMathComponent extends JComponent implements
                 myComp.setCActive(cAct.getParent().defence(cAct));
                 myComp.getCActive().setCActiveProperty();
                 myComp.modifyDocument();
-                myComp.counter.incCount();
+                ViewerFactory.getInst().getMathFrame().getCounter()
+                        .incCount();
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Meins") {
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
                 JMathComponent.this.resetDoc();
+                System.out.println(ViewerFactory.getInst().getMathFrame()
+                        .getStateTransfer().getResult());
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Undo") {
             private static final long serialVersionUID = 20081230L;
@@ -417,7 +414,7 @@ public final class JMathComponent extends JComponent implements
                 }
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Redo") {
             private static final long serialVersionUID = 20081230L;
@@ -434,7 +431,7 @@ public final class JMathComponent extends JComponent implements
                 }
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Vergrößern") {
             private static final long serialVersionUID = 20081230L;
@@ -444,7 +441,7 @@ public final class JMathComponent extends JComponent implements
                         JMathComponent.this.getFontSize() * 1.25f);
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
 
         myAction = new AbstractAction("Verkleinern") {
             private static final long serialVersionUID = 20081230L;
@@ -454,12 +451,12 @@ public final class JMathComponent extends JComponent implements
                         JMathComponent.this.getFontSize() * 0.8f);
             }
         };
-        actions.put(myAction.getValue(Action.NAME), myAction);
-        return actions;
+        this.actions.put(myAction.getValue(Action.NAME), myAction);
+        return this.actions;
     }
 
     public Action getActionByName(final String name) {
-        return this.actions.get(name);
+        return this.getActions().get(name);
     }
 
     private void addToUndo() {
@@ -515,17 +512,13 @@ public final class JMathComponent extends JComponent implements
         return this.document;
     }
 
-    public MutableLayoutContext getParameters() {
-        return this.parameters;
-    }
-
     @Override
     public Color getForeground() {
-        return (Color) this.parameters.getParameter(Parameter.MATHCOLOR);
+        return (Color) this.getParameters().getParameter(Parameter.MATHCOLOR);
     }
 
     public float getFontSize() {
-        return (Float) this.parameters.getParameter(Parameter.MATHSIZE);
+        return (Float) this.getParameters().getParameter(Parameter.MATHSIZE);
     }
 
     public int getHorizontalAlignment() {
@@ -567,7 +560,6 @@ public final class JMathComponent extends JComponent implements
         try {
             final String s = JMathElementHandler
                     .testMathMLString(contentString);
-            // erzeugt das org.w3c.dom-Document und übergibt es
             final Document document = DOMBuilder.getInstance()
                     .createJeuclidDom(MathMLParserSupport.parseString(s));
             this.setDocument(document);
@@ -587,10 +579,10 @@ public final class JMathComponent extends JComponent implements
     public void setParameters(final Map<Parameter, Object> newValues) {
         for (final Map.Entry<Parameter, Object> entry : newValues.entrySet()) {
             final Parameter key = entry.getKey();
-            final Object oldValue = this.parameters.getParameter(key);
-            this.parameters.setParameter(key, entry.getValue());
-            this.firePropertyChange(key.name(), oldValue, this.parameters
-                    .getParameter(key));
+            final Object oldValue = this.getParameters().getParameter(key);
+            this.getParameters().setParameter(key, entry.getValue());
+            this.firePropertyChange(key.name(), oldValue, this
+                    .getParameters().getParameter(key));
         }
         this.revalidate();
         this.repaint();
