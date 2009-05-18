@@ -137,9 +137,9 @@ public class MyOptionsDialog extends JDialog implements ActionListener,
 
     public JOptionPane getJOptionPane() {
         if (this.optionPane == null) {
-            final Object[] options = { "Ok", "Abbruch" };
+            final Object[] options = { "Ok" };
             this.optionPane = new JOptionPane(this.getCheckPanel(),
-                    JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_OPTION,
                     null, options, options[0]);
         }
         return this.optionPane;

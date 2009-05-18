@@ -33,9 +33,13 @@ public class AlterHandler {
     private AlterHandler() {
         this.getAlters = new HashMap<String, CAlter>();
         final ArrayList<String> strings = new ArrayList<String>();
+        // final java.net.URL chURL = AlterHandler.class
+        // .getResource("/CA_DivA_Frac.java");
+        // System.out.println("Changer: " + chURL);
         try {
             final BufferedReader reader = new BufferedReader(new FileReader(
                     System.getProperty("user.dir") + "/Changers.txt"));
+
             String line = "";
             while ((line = reader.readLine()) != null) {
                 strings.add(line);

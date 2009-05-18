@@ -18,6 +18,7 @@ package cTree.cCombine;
 
 import cTree.CElement;
 import cTree.CMinTerm;
+import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.cDefence.DefHandler;
 import cViewer.ViewerFactory;
@@ -58,6 +59,14 @@ public class CC_ {
             final String sol = newChild.getText();
             if (ViewerFactory.getInst().getMathFrame().getStateTransfer()
                     .getResult().charAt(0) != '-') {
+                ViewerFactory.getInst().getInputDialog(sol);
+            }
+        } else if (newChild instanceof CMixedNumber
+                || (newChild instanceof CMinTerm && ((CMinTerm) newChild)
+                        .getValue() instanceof CMixedNumber)) {
+            final String sol = newChild.getText();
+            if (ViewerFactory.getInst().getMathFrame().getStateTransfer()
+                    .getResult().charAt(1) != '-') {
                 ViewerFactory.getInst().getInputDialog(sol);
             }
         }
