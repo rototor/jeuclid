@@ -220,7 +220,7 @@ public class MathFrame extends JFrame {
         if (this.stateTransfer == null) {
             final String[] strings = new String[4];
             strings[0] = "Ganze Zahlen selber berechnen?";
-            strings[1] = "unbelegt";
+            strings[1] = "Gemischte Zahlen selber berechnen?";
             strings[2] = "unbelegt";
             strings[3] = "unbelegt";
             this.stateTransfer = new TransferObject(strings);
