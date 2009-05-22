@@ -16,39 +16,37 @@
 
 package cTree.cExtract;
 
-import java.util.ArrayList;
-
 import cTree.CElement;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
 
-public class CE_1 {
+public class CE_1 extends C_Changer {
 
-    public CElement extract(final CElement parent,
-            final ArrayList<CElement> selection, final CElement cE2) {
-        if (this.canExtract(parent, selection)) {
-            final ExtractHandler extractor = ExtractHandler.getInstance();
-            final boolean replace = extractor.justAll(selection);
-            final boolean hasMinus = selection.get(0).hasExtMinus();
-            System.out.println("Hat Minus in CE_1 " + hasMinus);
-            final CElement newChild = this.createExtraction(parent,
-                    selection, cE2);
-            extractor.insertOrReplace(parent, newChild, selection, replace);
-            if (hasMinus) {
-                newChild.toggleToPraefixEmptyOrPlus();
-            }
-            return newChild;
-        } else {
-            return selection.get(0);
+    @Override
+    public CElement doIt() {
+        final boolean replace = this.justAll(this.getEvent().getSelection());
+        final boolean hasMinus = this.getEvent().getFirst().hasExtMinus();
+        final CElement newChild = this.createExtraction();
+        this.insertOrReplace(newChild, replace);
+        if (hasMinus) {
+            newChild.toggleToPraefixEmptyOrPlus();
         }
-
+        return newChild;
     }
 
-    protected CElement createExtraction(final CElement parent,
-            final ArrayList<CElement> selection, final CElement cE2) {
-        return cE2;
+    protected CElement createExtraction() {
+        return this.getEvent().getFirst();
     }
 
-    protected boolean canExtract(final CElement parent,
-            final ArrayList<CElement> selection) {
+    @Override
+    public boolean canDo(final C_Event e) {
+        if (e instanceof C_Event) {
+            this.setEvent((CE_Event) e);
+        }
         return false;
+    }
+
+    public CE_1 getExt(final CE_Event event) {
+        return this;
     }
 }

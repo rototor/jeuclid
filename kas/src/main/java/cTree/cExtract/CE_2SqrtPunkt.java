@@ -27,41 +27,38 @@ import cTree.CRolle;
 import cTree.CSqrt;
 import cTree.CTimesRow;
 import cTree.CType;
+import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
 public class CE_2SqrtPunkt extends CE_1 {
 
     @Override
-    public CElement extract(final CElement parent,
-            final ArrayList<CElement> selection, final CElement cE2) {
-        // selection.get(0) ist das Produkt, Parent die Wurzel
-        System.out.println("Lazy extracting");
-        if (!this.canExtract(parent, selection)) {
-            return selection.get(0);
-        }
+    public CElement doIt() {
+        // // selection.get(0) ist das Produkt, Parent die Wurzel
+        // System.out.println("Lazy extracting");
+        // if (!this.canDo(parent, selection)) {
+        // return selection.get(0);
+        // }
 
         // Praefix sichern
-        final CRolle rolle = parent.getCRolle();
-        final CTimesRow newArg = this
-                .createExtraction(parent, selection, cE2);
+        final CRolle rolle = this.getEvent().getParent().getCRolle();
+        final CTimesRow newArg = this.createExtraction();
         newArg.correctInternalPraefixesAndRolle();
         final CMessage didIt = new CMessage(false);
         final CElement newChild = CFences.condCreateFenced(newArg, didIt);
         newArg.setCRolle(CRolle.GEKLAMMERT);
-        ExtractHandler.getInstance().insertOrReplace(parent, newChild,
-                selection, true);
+        this.insertOrReplace(newChild, true);
         newChild.setCRolle(rolle);
         return DefHandler.getInst().conDefence(newChild.getParent(),
                 newChild, newChild.getFirstChild(), didIt.isMessage());
     }
 
     @Override
-    protected CTimesRow createExtraction(final CElement parent,
-            final ArrayList<CElement> selection, final CElement defElement) {
+    protected CTimesRow createExtraction() {
         System.out.println("Extract sqrt punkt ");
         // Analyse des bisherigen Produkts
-        final CTimesRow oldProduct = (CTimesRow) selection.get(0);
-        final CElement oldFirst = selection.get(0).getFirstChild();
+        final CTimesRow oldProduct = (CTimesRow) this.getEvent().getFirst();
+        final CElement oldFirst = oldProduct.getFirstChild();
         final CElement newFirst = oldFirst.cloneCElement(false);
         final CSqrt firstSqrt = CSqrt.createSqrt(newFirst);
         newFirst.setCRolle(CRolle.RADIKANT);
@@ -92,8 +89,14 @@ public class CE_2SqrtPunkt extends CE_1 {
     }
 
     @Override
-    protected boolean canExtract(final CElement parent,
-            final ArrayList<CElement> selection) {
+    public boolean canDo(final C_Event e) {
+        if (e == null) {
+            return false;
+        }
+        if (e instanceof C_Event && !e.equals(this.getEvent())) {
+            this.setEvent((CE_Event) e);
+        }
+        final ArrayList<CElement> selection = this.getEvent().getSelection();
         // Man kann nur die ganz linken Elemente extrahieren
         if (selection.size() != 1
                 || !selection.get(0).getCType().equals(CType.TIMESROW)) {

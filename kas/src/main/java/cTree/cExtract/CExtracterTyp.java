@@ -16,10 +16,8 @@
 
 package cTree.cExtract;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import cTree.CElement;
 import cTree.CType;
 
 public class CExtracterTyp {
@@ -32,17 +30,9 @@ public class CExtracterTyp {
         }
     }
 
-    public CElement extract(final CElement parent,
-            final ArrayList<CElement> selection, final CElement defElement) {
-        System.out.println("Extract simple");
-        return this.op1Extracter.get(parent.getCType()).extract(parent,
-                selection, defElement);
+    public CE_1 getExt(final CE_Event event) {
+        final CType firstTyp = event.getFirst().getCType();
+        return this.op1Extracter.get(firstTyp).getExt(event);
     }
 
-    public boolean canExtract(final CElement parent,
-            final ArrayList<CElement> selection) {
-        System.out.println("Can Extract simple");
-        return this.op1Extracter.get(selection.get(0).getCType()).canExtract(
-                parent, selection);
-    }
 }

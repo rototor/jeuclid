@@ -23,12 +23,17 @@ import cTree.CFences;
 import cTree.CPlusRow;
 import cTree.CRow;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 
 public class CE_2StrichPunktL extends CE_1 {
 
     @Override
-    protected CElement createExtraction(final CElement parent,
-            final ArrayList<CElement> selection, final CElement defElement) {
+    protected CElement createExtraction() {
+        final ArrayList<CElement> selection = this.getEvent().getSelection();
+        for (final CElement cEl : selection) {
+            cEl.removeCLastProperty();
+        }
+        selection.get(0).removeCActiveProperty();
         for (final CElement cEl : selection) {
             cEl.removeCLastProperty();
         }
@@ -50,9 +55,16 @@ public class CE_2StrichPunktL extends CE_1 {
     }
 
     @Override
-    protected boolean canExtract(final CElement parent,
-            final ArrayList<CElement> selection) {
-        final boolean praefix = selection.get(0).getLastChild().hasExtDiv();
+    public boolean canDo(final C_Event e) {
+        if (e == null) {
+            return false;
+        }
+        if (e instanceof C_Event && !e.equals(this.getEvent())) {
+            this.setEvent((CE_Event) e);
+        }
+        final ArrayList<CElement> selection = this.getEvent().getSelection();
+        final boolean praefix = this.getEvent().getFirst().getLastChild()
+                .hasExtDiv();
         for (final CElement cEl : selection) {
             if (cEl.getLastChild() == null || !cEl.getLastChild().hasPrevC()
                     || !(praefix == cEl.getLastChild().hasExtDiv())) {
@@ -60,10 +72,11 @@ public class CE_2StrichPunktL extends CE_1 {
             }
         }
         // Wir prüfen, ob die Texte übereinstimmen, sehr provisorisch
-        final String vorlage = selection.get(0).getLastChild().getText();
+        final String vorlage = this.getEvent().getFirst().getFirstChild()
+                .getText();
         System.out.println("Vorlage" + vorlage);
         for (final CElement cEl : selection) {
-            if (!vorlage.equals(cEl.getLastChild().getText())) {
+            if (!vorlage.equals(cEl.getFirstChild().getText())) {
                 System.out.println("Fehler gefunden");
                 return false;
             }

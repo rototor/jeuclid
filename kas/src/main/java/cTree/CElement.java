@@ -23,6 +23,8 @@ import cTree.adapter.PraefixAdapter;
 import cTree.adapter.RolleAdapter;
 import cTree.cCombine.CombHandler;
 import cTree.cDefence.DefHandler;
+import cTree.cExtract.CE_1;
+import cTree.cExtract.CE_Event;
 import cTree.cExtract.ExtractHandler;
 import cTree.cSplit.SplitHandler;
 
@@ -61,8 +63,14 @@ public abstract class CElement extends RolleAdapter implements
     }
 
     public CElement extract(final ArrayList<CElement> active) {
-        return ExtractHandler.getInstance().extract(this, active,
-                active.get(0).getFirstChild());
+        final CE_Event event = new CE_Event(active);
+        final CE_1 extracter = ExtractHandler.getInst().getExt(event);
+        System.out.println(extracter.toString());
+        if (extracter.canDo(event)) {
+            return extracter.doIt();
+        } else {
+            return active.get(0);
+        }
     };
 
     public CElement split(final CElement zuZerlegen, final String s) {

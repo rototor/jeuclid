@@ -24,6 +24,7 @@ import cTree.CMinTerm;
 import cTree.CPlusRow;
 import cTree.CRow;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 
 public class CE_2StrichPunkt1M extends CE_1 {
 
@@ -34,8 +35,8 @@ public class CE_2StrichPunkt1M extends CE_1 {
     private CTimesRow arg;
 
     @Override
-    protected CElement createExtraction(final CElement parent,
-            final ArrayList<CElement> selection, final CElement defElement) {
+    protected CElement createExtraction() {
+        final ArrayList<CElement> selection = this.getEvent().getSelection();
         for (final CElement cEl : selection) {
             cEl.removeCLastProperty();
         }
@@ -65,9 +66,15 @@ public class CE_2StrichPunkt1M extends CE_1 {
     }
 
     @Override
-    protected boolean canExtract(final CElement parent,
-            final ArrayList<CElement> selection) {
+    public boolean canDo(final C_Event e) {
+        if (e == null) {
+            return false;
+        }
+        if (e instanceof C_Event && !e.equals(this.getEvent())) {
+            this.setEvent((CE_Event) e);
+        }
         boolean first = true;
+        final ArrayList<CElement> selection = this.getEvent().getSelection();
         for (final CElement cEl : selection) {
             if (first) {
                 this.mT = (CMinTerm) cEl;
