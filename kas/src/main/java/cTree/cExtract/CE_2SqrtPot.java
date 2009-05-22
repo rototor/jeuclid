@@ -24,35 +24,33 @@ import cTree.CMessage;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CRolle;
+import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
 public class CE_2SqrtPot extends CE_1 {
 
-    @Override
-    public CElement extract(final CElement parent,
+    public CElement doIt(final CElement parent,
             final ArrayList<CElement> selection, final CElement cE2) {
         // selection.get(0) ist das Produkt, Parent die Wurzel
-        if (!this.canExtract(parent, selection)) {
-            return selection.get(0);
-        }
+        // if (!this.canDo(parent, selection)) {
+        // return selection.get(0);
+        // }
         System.out.println("SqrtPot - Can extract");
         // Praefix sichern
         final CRolle rolle = parent.getCRolle();
-        final CElement newArg = this.createExtraction(parent, selection, cE2);
+        final CElement newArg = this.createExtraction();
         final CMessage didIt = new CMessage(false);
         final CElement newChild = CFences.condCreateFenced(newArg, didIt);
         newArg.setCRolle(CRolle.GEKLAMMERT);
-        ExtractHandler.getInstance().insertOrReplace(parent, newChild,
-                selection, true);
+        this.insertOrReplace(newChild, true);
         newChild.setCRolle(rolle);
         return DefHandler.getInst().conDefence(newChild.getParent(),
                 newChild, newChild.getFirstChild(), didIt.isMessage());
     }
 
     @Override
-    protected CElement createExtraction(final CElement parent,
-            final ArrayList<CElement> selection, final CElement defElement) {
-        final CPot oldPot = (CPot) selection.get(0);
+    protected CElement createExtraction() {
+        final CPot oldPot = (CPot) this.getEvent().getFirst();
         final int oldExp = ((CNum) oldPot.getExponent()).getValue();
         CElement newChild = null;
         if (oldExp == 2) {
@@ -66,8 +64,14 @@ public class CE_2SqrtPot extends CE_1 {
     }
 
     @Override
-    protected boolean canExtract(final CElement parent,
-            final ArrayList<CElement> selection) {
+    public boolean canDo(final C_Event e) {
+        if (e == null) {
+            return false;
+        }
+        if (e instanceof C_Event && !e.equals(this.getEvent())) {
+            this.setEvent((CE_Event) e);
+        }
+        final ArrayList<CElement> selection = this.getEvent().getSelection();
         // Man kann nur die ganz linken Elemente extrahieren
         if (selection.size() != 1) {
             System.out.println("Wir extrahieren nur bei einer Potenz");

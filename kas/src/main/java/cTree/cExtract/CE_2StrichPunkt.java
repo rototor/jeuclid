@@ -16,8 +16,6 @@
 
 package cTree.cExtract;
 
-import java.util.ArrayList;
-
 import cTree.CElement;
 import cTree.CTimesRow;
 import cViewer.TransferObject;
@@ -25,28 +23,14 @@ import cViewer.ViewerFactory;
 
 public class CE_2StrichPunkt extends CE_1 {
 
-    CE_1 extracter;
-
     @Override
-    protected CElement createExtraction(final CElement parent,
-            final ArrayList<CElement> selection, final CElement defElement) {
-        return this.extracter.createExtraction(parent, selection, defElement);
-    }
-
-    @Override
-    protected boolean canExtract(final CElement parent,
-            final ArrayList<CElement> selection) {
-        for (final CElement cEl : selection) {
+    public CE_1 getExt(final CE_Event event) {
+        CE_1 extracter = new CE_1();
+        for (final CElement cEl : event.getSelection()) {
             if (!(cEl instanceof CTimesRow)) {
-                return false;
+                return extracter;
             }
         }
-        // final Object[] possibilities = { "Vorzeichen", "erster Faktor",
-        // "letzter Faktor" };
-        // final String s = (String) JOptionPane.showInputDialog(ViewerFactory
-        // .getInst().getMathComponent(), "Wähle:", "Was herausziehen?",
-        // JOptionPane.QUESTION_MESSAGE, null, possibilities,
-        // "erster Faktor");
         final String[] strArray = new String[3];
         strArray[0] = "Vorzeichen";
         strArray[1] = "erster Faktor";
@@ -55,15 +39,12 @@ public class CE_2StrichPunkt extends CE_1 {
         ViewerFactory.getInst().getComboDialog(to);
         final String s = to.getResult();
         if ("Vorzeichen".equals(s)) {
-            this.extracter = new CE_2StrichPunktVZ();
+            extracter = new CE_2StrichPunktVZ();
         } else if ("erster Faktor".equals(s)) {
-            this.extracter = new CE_2StrichPunkt1();
+            extracter = new CE_2StrichPunkt1();
         } else if ("letzter Faktor".equals(s)) {
-            this.extracter = new CE_2StrichPunktL();
-        } else {
-            return false;
+            extracter = new CE_2StrichPunktL();
         }
-        return this.extracter.canExtract(parent, selection);
+        return extracter;
     }
-
 }

@@ -20,14 +20,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
+import cTree.cExtract.CE_1;
+import cTree.cExtract.CE_Event;
 import cTree.cExtract.ExtractHandler;
 
 public class CA_Extract extends CAlter {
 
+    private CE_1 extracter = null;
+
     @Override
     public CElement change(final ArrayList<CElement> els) {
-
-        return els.get(0).getParent().extract(els);
+        return this.extracter.doIt();
     }
 
     @Override
@@ -37,7 +40,9 @@ public class CA_Extract extends CAlter {
 
     @Override
     public boolean check(final ArrayList<CElement> els) {
-        return ExtractHandler.getInstance().canExtract(els);
+        final CE_Event event = new CE_Event(els);
+        this.extracter = ExtractHandler.getInst().getExt(event);
+        return this.extracter.canDo(event);
     }
 
     @Override
