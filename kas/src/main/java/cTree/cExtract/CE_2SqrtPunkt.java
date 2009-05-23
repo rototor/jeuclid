@@ -34,13 +34,6 @@ public class CE_2SqrtPunkt extends CE_1 {
 
     @Override
     public CElement doIt() {
-        // // selection.get(0) ist das Produkt, Parent die Wurzel
-        // System.out.println("Lazy extracting");
-        // if (!this.canDo(parent, selection)) {
-        // return selection.get(0);
-        // }
-
-        // Praefix sichern
         final CRolle rolle = this.getEvent().getParent().getCRolle();
         final CTimesRow newArg = this.createExtraction();
         newArg.correctInternalPraefixesAndRolle();
@@ -90,12 +83,10 @@ public class CE_2SqrtPunkt extends CE_1 {
 
     @Override
     public boolean canDo(final C_Event e) {
-        if (e == null) {
+        if (e == null || !(e instanceof CE_Event)) {
             return false;
         }
-        if (e instanceof C_Event && !e.equals(this.getEvent())) {
-            this.setEvent((CE_Event) e);
-        }
+        this.setEvent(e);
         final ArrayList<CElement> selection = this.getEvent().getSelection();
         // Man kann nur die ganz linken Elemente extrahieren
         if (selection.size() != 1

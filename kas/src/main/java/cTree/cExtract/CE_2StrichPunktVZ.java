@@ -39,13 +39,7 @@ public class CE_2StrichPunktVZ extends CE_1 {
         selection.get(0).removeCActiveProperty();
         CElement newChild = null;
         final ArrayList<CElement> newM = new ArrayList<CElement>();
-        // boolean first = !selection.get(0).hasPrevC(); Unmöglich i
         for (final CElement member : selection) {
-            // if (first) {
-            // final CMinTerm mT = (CMinTerm) member;
-            // newM.add(mT.getValue().cloneCElement(false));
-            // first = false;
-            // } else {
             final CElement newMember = member.cloneCElement(true);
             newMember.togglePlusMinus(false);
             newM.add(newMember);
@@ -59,21 +53,16 @@ public class CE_2StrichPunktVZ extends CE_1 {
         final CTimesRow newTR = CTimesRow.createRow(CTimesRow.createList(
                 min1, newChild));
         newTR.correctInternalPraefixesAndRolle();
-        // if (first) {
-        // newChild = CMinTerm.createMinTerm(newChild);
-        // }
         return newTR;
     }
 
     //
     @Override
     public boolean canDo(final C_Event e) {
-        if (e == null) {
+        if (e == null || !(e instanceof C_Event)) {
             return false;
         }
-        if (e instanceof C_Event && !e.equals(this.getEvent())) {
-            this.setEvent((CE_Event) e);
-        }
+        this.setEvent(e);
         return this.getEvent().getFirst().hasExtMinus();
     }
 }

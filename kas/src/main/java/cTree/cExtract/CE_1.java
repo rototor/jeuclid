@@ -40,13 +40,17 @@ public class CE_1 extends C_Changer {
 
     @Override
     public boolean canDo(final C_Event e) {
-        if (e instanceof C_Event) {
-            this.setEvent((CE_Event) e);
-        }
         return false;
     }
 
-    public CE_1 getExt(final CE_Event event) {
-        return this;
+    @Override
+    public C_Changer getChanger(final C_Event event) {
+        if (this.canDo(event)) {
+            return this;
+        } else {
+            final C_Changer ext = new CE_No();
+            ext.setEvent(event);
+            return ext;
+        }
     }
 }

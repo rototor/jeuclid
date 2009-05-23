@@ -29,12 +29,10 @@ public class CE_2StrichPunkt1 extends CE_1 {
 
     @Override
     public boolean canDo(final C_Event e) {
-        if (e == null) {
+        if (e == null || !(e instanceof C_Event)) {
             return false;
         }
-        if (e instanceof C_Event && !e.equals(this.getEvent())) {
-            this.setEvent((CE_Event) e);
-        }
+        this.setEvent(e);
         final ArrayList<CElement> selection = this.getEvent().getSelection();
         for (final CElement cEl : selection) {
             if (cEl.getFirstChild() == null
@@ -63,8 +61,7 @@ public class CE_2StrichPunkt1 extends CE_1 {
             cEl.removeCLastProperty();
         }
         selection.get(0).removeCActiveProperty();
-        final CElement defElement = this.getEvent().getFirst()
-                .getFirstChild().cloneCElement(false);
+        final CElement defElement = this.getEvent().getFirstFirst().cloneCElement(false);
         CTimesRow newChild = null;
         final ArrayList<CElement> foldedList = CTimesRow.fold(CTimesRow
                 .castList(CRow.cloneList(selection)));

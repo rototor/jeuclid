@@ -65,12 +65,10 @@ public class CE_2StrichPunktLM extends CE_1 {
 
     @Override
     public boolean canDo(final C_Event e) {
-        if (e == null) {
+        if (e == null || !(e instanceof C_Event)) {
             return false;
         }
-        if (e instanceof C_Event && !e.equals(this.getEvent())) {
-            this.setEvent((CE_Event) e);
-        }
+        this.setEvent(e);
         final ArrayList<CElement> selection = this.getEvent().getSelection();
         boolean first = true;
         boolean praefix = false;
