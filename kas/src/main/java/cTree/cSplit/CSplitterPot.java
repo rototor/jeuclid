@@ -19,8 +19,9 @@ package cTree.cSplit;
 import cTree.CElement;
 import cTree.CNum;
 import cTree.CPot;
+import cTree.adapter.C_Event;
 
-public class CSplitterPot extends CSplitter1 {
+public class CSplitterPot extends CSplitterBase {
 
     private int nr1;
 
@@ -69,16 +70,18 @@ public class CSplitterPot extends CSplitter1 {
     }
 
     @Override
-    public boolean check(final CElement cE1, final String operator) {
-        System.out.println("Check the Pot Num split");
-        this.init(cE1, operator);
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement cE1 = event.getFirst();
+        final String op = ((CS_Event) event).getOperator();
+        this.init(cE1, op);
         return this.canSplit;
     }
 
     @Override
-    public CElement split(final CElement parent, final CElement cE1,
-            final String operator) {
-
+    public CElement split() {
+        final CElement parent = this.getEvent().getParent();
+        final CElement cE1 = this.getEvent().getFirst();
         System.out.println("Do the Pot Num split");
         final CNum first = CNum.createNum(parent.getElement(), ""
                 + this.result);

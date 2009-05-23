@@ -21,14 +21,19 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CPlusRow;
 import cTree.CRolle;
+import cTree.adapter.C_Event;
 
-public class CSplitterMin extends CSplitter1 {
+public class CSplitterMin extends CSplitterBase {
 
     @Override
-    public boolean check(final CElement cE1, final String operator) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        this.setEvent(event);
+        final String op = ((CS_Event) event).getOperator();
+        final CElement cE1 = event.getFirst();
         if (cE1 instanceof CNum && (cE1.getCRolle() != CRolle.NACHVZMINUS)) {
             try {
-                Integer.parseInt(operator);
+                Integer.parseInt(op);
                 return true;
             } catch (final NumberFormatException e) {
                 return false;
@@ -38,27 +43,28 @@ public class CSplitterMin extends CSplitter1 {
     }
 
     @Override
-    public CElement split(final CElement parent, CElement cE1,
-            final String operator) {
+    public CElement split() {
         System.out.println("Do the Minus Num split");
         try {
-            final int zahl = Integer.parseInt(operator);
+            CElement cE1 = this.getEvent().getFirst();
+            final String op = ((CS_Event) this.getEvent()).getOperator();
+            final int zahl = Integer.parseInt(op);
             if (cE1 instanceof CNum) {
                 final CNum cEl = (CNum) cE1;
                 final int cZahl = Integer.parseInt(cEl.getText());
-                final boolean zuZerlegenHatMinus = cEl.hasExtMinus();
+                final boolean zuZHatMinus = cEl.hasExtMinus();
                 if (cEl.hasExtMinus() && cEl.getCRolle() == CRolle.SUMMANDN1) {
                     cE1.getExtPraefix().setTextContent("+");
                 } else {
                     // Behandlung der MinRow
                 }
-                cE1 = this
-                        .zerlegeStrich(cZahl, zahl, zuZerlegenHatMinus, cEl);
+                cE1 = this.zerlegeStrich(cZahl, zahl, zuZHatMinus, cEl);
+                return cE1;
             }
         } catch (final NumberFormatException e) {
             System.out.println("Ich kann das nicht");
         }
-        return cE1;
+        return this.getEvent().getFirst();
     }
 
     private CElement zerlegeStrich(final int bisher, final int neu,

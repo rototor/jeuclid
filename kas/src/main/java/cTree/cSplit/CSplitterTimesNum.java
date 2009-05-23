@@ -19,8 +19,9 @@ package cTree.cSplit;
 import cTree.CElement;
 import cTree.CNum;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 
-public class CSplitterTimesNum extends CSplitter1 {
+public class CSplitterTimesNum extends CSplitterBase {
 
     private int nr1;
 
@@ -45,11 +46,13 @@ public class CSplitterTimesNum extends CSplitter1 {
         this.splitTyp = SplitTyp.NO;
     }
 
-    private void init(final CElement cE1, final String operator) {
+    private void init(final CS_Event event) {
         System.out.println("Init the M Num split");
+        final CElement cE1 = event.getFirst();
+        final String op = event.getOperator();
         if (cE1 instanceof CNum) {
             try {
-                this.nr2 = Integer.parseInt(operator);
+                this.nr2 = Integer.parseInt(op);
                 if (this.nr2 == 0) {
                     this.splitTyp = SplitTyp.NO;
                 } else {
@@ -74,7 +77,7 @@ public class CSplitterTimesNum extends CSplitter1 {
             }
         } else {
             try {
-                this.nr2 = Integer.parseInt(operator);
+                this.nr2 = Integer.parseInt(op);
                 if (this.nr2 != 1) {
                     this.nr1 = 1;
                     this.nr2 = 1;
@@ -91,16 +94,17 @@ public class CSplitterTimesNum extends CSplitter1 {
     }
 
     @Override
-    public boolean check(final CElement cE1, final String operator) {
+    public boolean canDo(final C_Event event) {
         System.out.println("Check the Mult Num split");
-        this.init(cE1, operator);
+        this.setEvent(event);
+        this.init((CS_Event) event);
         return this.splitTyp != SplitTyp.NO;
     }
 
     @Override
-    public CElement split(final CElement parent, final CElement cE1,
-            final String operator) {
-
+    public CElement split() {
+        final CElement parent = this.getEvent().getParent();
+        final CElement cE1 = this.getEvent().getFirst();
         if (this.splitTyp == SplitTyp.E) {
             System.out.println("Do the Mult 1 split");
             this.first = cE1.cloneCElement(false);

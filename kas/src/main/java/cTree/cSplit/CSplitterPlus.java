@@ -21,14 +21,18 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CPlusRow;
 import cTree.CRolle;
+import cTree.adapter.C_Event;
 
-public class CSplitterPlus extends CSplitter1 {
+public class CSplitterPlus extends CSplitterBase {
 
     @Override
-    public boolean check(final CElement cE1, final String operator) {
-        if (cE1 instanceof CNum && (cE1.getCRolle() != CRolle.NACHVZMINUS)) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement cE1 = event.getFirst();
+        final String op = ((CS_Event) event).getOperator();
+        if (cE1 instanceof CNum && (cE1.getCRolle() != CRolle.NACHVZPLUS)) {
             try {
-                Integer.parseInt(operator);
+                Integer.parseInt(op);
                 return true;
             } catch (final NumberFormatException e) {
                 return false;
@@ -38,11 +42,12 @@ public class CSplitterPlus extends CSplitter1 {
     }
 
     @Override
-    public CElement split(final CElement parent, CElement cE1,
-            final String operator) {
+    public CElement split() {
         System.out.println("Do the Plus Num split");
         try {
-            final int zahl = Integer.parseInt(operator);
+            CElement cE1 = this.getEvent().getFirst();
+            final String op = ((CS_Event) this.getEvent()).getOperator();
+            final int zahl = Integer.parseInt(op);
             if (cE1 instanceof CNum) {
                 final CNum cEl = (CNum) cE1;
                 final int cZahl = Integer.parseInt(cEl.getText());
@@ -54,11 +59,12 @@ public class CSplitterPlus extends CSplitter1 {
                 }
                 cE1 = this
                         .zerlegeStrich(cZahl, zahl, zuZerlegenHatMinus, cEl);
+                return cE1;
             }
         } catch (final NumberFormatException e) {
             System.out.println("Ich kann das split num plus nicht");
         }
-        return cE1;
+        return this.getEvent().getFirst();
     }
 
     private CElement zerlegeStrich(final int bisher, final int neu,

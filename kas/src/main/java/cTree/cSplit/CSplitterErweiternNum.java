@@ -22,9 +22,10 @@ import cTree.CFrac;
 import cTree.CMessage;
 import cTree.CNum;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
-public class CSplitterErweiternNum extends CSplitter1 {
+public class CSplitterErweiternNum extends CSplitterBase {
 
     private int nr1;
 
@@ -51,12 +52,13 @@ public class CSplitterErweiternNum extends CSplitter1 {
         this.splitTyp = SplitTyp.NO;
     }
 
-    private void init(final CElement cE1, final String operator) {
+    private void init(final CS_Event event) {
         System.out.println("Init the Erw Num split");
-
+        final CElement cE1 = event.getFirst();
+        final String op = event.getOperator();
         if (cE1 instanceof CFrac) {
             try {
-                this.nr1 = Integer.parseInt(operator);
+                this.nr1 = Integer.parseInt(op);
                 if (this.nr1 != 0) {
                     this.newEl = CNum.createNum(cE1.getElement(), ""
                             + this.nr1);
@@ -82,23 +84,23 @@ public class CSplitterErweiternNum extends CSplitter1 {
 
     protected void condCleanOne(final CElement el, final boolean doIt) {
         if (doIt
-                && DefHandler.getInst().canDefence(el.getParent(),
-                        el, el.getFirstChild())) {
+                && DefHandler.getInst().canDefence(el.getParent(), el,
+                        el.getFirstChild())) {
             DefHandler.getInst().defence(el.getParent(), el,
                     el.getFirstChild());
         }
     }
 
     @Override
-    public boolean check(final CElement cE1, final String operator) {
+    public boolean canDo(final C_Event event) {
         System.out.println("Check the erweitern CEl-Split");
-        this.init(cE1, operator);
+        this.setEvent(event);
+        this.init((CS_Event) event);
         return this.splitTyp != SplitTyp.NO;
     }
 
     @Override
-    public CElement split(final CElement parent, final CElement cE1,
-            final String operator) {
+    public CElement split() {
 
         System.out.println("Do the Erweitern split");
         final CTimesRow newNum = CTimesRow.createRow(CTimesRow.createList(
@@ -112,5 +114,4 @@ public class CSplitterErweiternNum extends CSplitter1 {
         final CFrac newFrac = CFrac.createFraction(newNum, newDen);
         return newFrac;
     }
-
 }

@@ -20,8 +20,9 @@ import cTree.CElement;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 
-public class CSplitterTimesPot extends CSplitter1 {
+public class CSplitterTimesPot extends CSplitterBase {
 
     private int origB;
 
@@ -41,18 +42,20 @@ public class CSplitterTimesPot extends CSplitter1 {
         this.canSplit = false;
     }
 
-    private void init(final CElement cE1, final String operator) {
+    private void init(final CS_Event event) {
         System.out.println("Init the M Num split");
+        final CElement cE1 = event.getFirst();
+        final String op = event.getOperator();
         if (cE1 instanceof CPot) {
             final CPot cPot = (CPot) cE1;
             if (cPot.getBasis() instanceof CNum
                     && cPot.getExponent() instanceof CNum) {
                 this.origB = ((CNum) cPot.getBasis()).getValue();
                 this.origE = ((CNum) cPot.getExponent()).getValue();
-                final int pos = operator.indexOf("^");
-                if (pos > 0 && pos < operator.length()) {
-                    final String vorher = operator.substring(0, pos);
-                    final String nachher = operator.substring(pos + 1);
+                final int pos = op.indexOf("^");
+                if (pos > 0 && pos < op.length()) {
+                    final String vorher = op.substring(0, pos);
+                    final String nachher = op.substring(pos + 1);
                     System.out.println("Zerlege " + pos + " " + vorher + " "
                             + nachher);
                     try {
@@ -71,16 +74,17 @@ public class CSplitterTimesPot extends CSplitter1 {
     }
 
     @Override
-    public boolean check(final CElement cE1, final String operator) {
+    public boolean canDo(final C_Event event) {
         System.out.println("Check the Mult Pot split");
-        this.init(cE1, operator);
+        this.setEvent(event);
+        this.init((CS_Event) event);
         return this.canSplit;
     }
 
     @Override
-    public CElement split(final CElement parent, final CElement cE1,
-            final String operator) {
+    public CElement split() {
         System.out.println("Do the Times Pot split");
+        final CElement cE1 = this.getEvent().getFirst();
         final CPot first = (CPot) cE1.cloneCElement(false);
         ((CNum) first.getExponent()).setValue(this.result);
         final CPot second = CPot.createPot(first.getBasis().cloneCElement(

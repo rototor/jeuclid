@@ -26,6 +26,8 @@ import cTree.cDefence.DefHandler;
 import cTree.cExtract.CE_1;
 import cTree.cExtract.CE_Event;
 import cTree.cExtract.ExtractHandler;
+import cTree.cSplit.CS_Event;
+import cTree.cSplit.CSplitterBase;
 import cTree.cSplit.SplitHandler;
 
 public abstract class CElement extends RolleAdapter implements
@@ -65,7 +67,6 @@ public abstract class CElement extends RolleAdapter implements
     public CElement extract(final ArrayList<CElement> active) {
         final CE_Event event = new CE_Event(active);
         final CE_1 extracter = ExtractHandler.getInst().getExt(event);
-        System.out.println(extracter.toString());
         if (extracter.canDo(event)) {
             return extracter.doIt();
         } else {
@@ -74,7 +75,13 @@ public abstract class CElement extends RolleAdapter implements
     };
 
     public CElement split(final CElement zuZerlegen, final String s) {
-        return SplitHandler.getInstance().split(this, zuZerlegen, s);
+        final CS_Event event = new CS_Event(zuZerlegen, s);
+        final CSplitterBase splitter = SplitHandler.getInst().getSplitr(event);
+        if (splitter.canDo(event)) {
+            return splitter.doIt();
+        } else {
+            return zuZerlegen;
+        }
     }
 
     // --- Support für die Klammern in dem CTree
