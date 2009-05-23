@@ -20,37 +20,35 @@ import java.util.HashMap;
 
 import cTree.CElement;
 
-public class CSplitterErweitern extends CSplitter1 {
+public class CSplitterErweitern extends CSplitterBase {
 
-    public HashMap<String, CSplitter1> getSplitter;
+    public HashMap<String, CSplitterBase> getSplitter;
 
-    private CSplitter1 splitter;
+    private CSplitterBase splitter;
 
     /* nur Splits der Form e(x-45) oder e(y+2) oder e(3x+2) sind möglich! */
 
     public CSplitterErweitern() {
-        this.getSplitter = new HashMap<String, CSplitter1>();
+        this.getSplitter = new HashMap<String, CSplitterBase>();
         this.getSplitter.put("i", new CSplitterErweiternIdent());
         this.getSplitter.put("n", new CSplitterErweiternFences());
         this.getSplitter.put("f", new CSplitterErweiternNum());
     }
 
     @Override
-    public boolean check(final CElement cE1, final String operator) {
-        for (final CSplitter1 test : this.getSplitter.values()) {
-            if (test.check(cE1, operator)) {
+    public CSplitterBase getSplitr(final CS_Event event) {
+        for (final CSplitterBase test : this.getSplitter.values()) {
+            if (test.canDo(event)) {
                 this.splitter = test;
-                return true;
+                return test;
             }
         }
-        return false;
+        return new CSplitter_No();
     }
 
     @Override
-    public CElement split(final CElement parent, final CElement cE1,
-            final String operator) {
-        System.out.println("SplitterErweitern Split "
-                + this.splitter.toString());
-        return this.splitter.split(parent, cE1, operator);
+    public CElement split() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -18,22 +18,15 @@ package cTree.cSplit;
 
 import java.util.HashMap;
 
-import cTree.CElement;
-import cTree.CFences;
 import cTree.adapter.DOMElementMap;
-import cTree.cDefence.DefHandler;
 
 public class SplitHandler {
     private volatile static SplitHandler uniqueInstance;
 
-    private String operation;
-
-    private String operator;
-
-    public HashMap<String, CSplitter1> getSplitter;
+    public HashMap<String, CSplitterBase> getSplitter;
 
     private SplitHandler() {
-        this.getSplitter = new HashMap<String, CSplitter1>();
+        this.getSplitter = new HashMap<String, CSplitterBase>();
         this.getSplitter.put("*", new CSplitterTimes());
         this.getSplitter.put(":", new CSplitterDiv());
         this.getSplitter.put("+", new CSplitterPlus());
@@ -42,7 +35,7 @@ public class SplitHandler {
         this.getSplitter.put("e", new CSplitterErweitern());
     }
 
-    public static SplitHandler getInstance() {
+    public static SplitHandler getInst() {
         if (SplitHandler.uniqueInstance == null) {
             synchronized (DOMElementMap.class) {
                 if (SplitHandler.uniqueInstance == null) {
@@ -53,33 +46,17 @@ public class SplitHandler {
         return SplitHandler.uniqueInstance;
     }
 
-    private boolean canSplit(final CElement parent, final CElement cE1,
-            final String s) {
-        if (s.length() < 2) { // kein Operator oder Operant
-            return false;
+    public CSplitterBase getSplitr(final CS_Event event) {
+        final String s = event.getString();
+        if (s.length() < 2) { // kein Operator oder Operand
+            return new CSplitter_No();
         } else {
-            this.operation = s.substring(0, 1);
-            this.operator = s.substring(1);
-            if (!this.getSplitter.containsKey(this.operation)) {
-                return false;
+            final String op = event.getOperation();
+            if (this.getSplitter.containsKey(op)) {
+                return this.getSplitter.get(op).getSplitr(event);
             } else {
-                return this.getSplitter.get(this.operation).check(cE1,
-                        this.operator);
+                return new CSplitter_No();
             }
-        }
-    }
-
-    public CElement split(final CElement parent, final CElement cE1,
-            final String s) {
-        if (this.canSplit(parent, cE1, s)) {
-            System.out.println("SplitHandler Split " + this.operation);
-            final CFences cF = CFences.createFenced(this.getSplitter.get(
-                    this.operation).split(parent, cE1, this.operator));
-            parent.replaceChild(cF, cE1, true, true);
-            return DefHandler.getInst().defence(parent, cF,
-                    cF.getInnen());
-        } else {
-            return cE1;
         }
     }
 }

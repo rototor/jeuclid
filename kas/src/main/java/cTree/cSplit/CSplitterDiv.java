@@ -19,8 +19,9 @@ package cTree.cSplit;
 import cTree.CElement;
 import cTree.CNum;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 
-public class CSplitterDiv extends CSplitter1 {
+public class CSplitterDiv extends CSplitterBase {
 
     private int nr1;
 
@@ -83,16 +84,17 @@ public class CSplitterDiv extends CSplitter1 {
     }
 
     @Override
-    public boolean check(final CElement cE1, final String operator) {
-        System.out.println("Check the Div Num split");
-        this.init(cE1, operator);
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final String op = ((CS_Event) event).getOperator();
+        this.init(event.getFirst(), op);
         return this.splitTyp != SplitTyp.NO;
     }
 
     @Override
-    public CElement split(final CElement parent, final CElement cE1,
-            final String operator) {
-
+    public CElement split() {
+        final CElement parent = this.getEvent().getParent();
+        final CElement cE1 = this.getEvent().getFirst();
         System.out.println("Do the Div Num split");
         if (this.splitTyp == SplitTyp.D3D15) {
             cE1.toggleTimesDiv(false);

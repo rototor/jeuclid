@@ -17,17 +17,30 @@
 package cTree.cSplit;
 
 import cTree.CElement;
+import cTree.CFences;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.cDefence.DefHandler;
 
-public class CSplitter1 {
+public abstract class CSplitterBase extends C_Changer {
 
-    public CElement split(final CElement parent, final CElement cE1,
-            final String operator) {
-        System.out.println("Do the Default split");
-        return cE1;
+    @Override
+    public CElement doIt() {
+        final CFences cF = CFences.createFenced(this.split());
+        final CElement parent = this.getEvent().getParent();
+        parent.replaceChild(cF, this.getEvent().getFirst(), true, true);
+        return DefHandler.getInst().defence(parent, cF, cF.getInnen());
     }
 
-    public boolean check(final CElement cE1, final String operator) {
+    @Override
+    public boolean canDo(final C_Event e) {
         return false;
     }
+
+    public CSplitterBase getSplitr(final CS_Event event) {
+        return this;
+    }
+
+    public abstract CElement split();
 
 }

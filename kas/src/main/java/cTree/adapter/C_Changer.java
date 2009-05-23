@@ -3,21 +3,20 @@ package cTree.adapter;
 import java.util.ArrayList;
 
 import cTree.CElement;
-import cTree.cExtract.CE_Event;
 
 public abstract class C_Changer {
 
-    private CE_Event event;
+    private C_Event event;
 
     public abstract CElement doIt();
 
     public abstract boolean canDo(C_Event e);
 
-    public CE_Event getEvent() {
+    public C_Event getEvent() {
         return this.event;
     }
 
-    public void setEvent(final CE_Event event) {
+    public void setEvent(final C_Event event) {
         this.event = event;
     }
 

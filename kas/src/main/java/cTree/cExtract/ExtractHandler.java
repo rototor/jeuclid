@@ -27,10 +27,6 @@ public class ExtractHandler {
 
     private ExtractHandler() {
         this.getTypExtracter = new HashMap<CType, CExtracterTyp>();
-        final CExtracterTyp default1 = new CExtracterTyp();
-        for (final CType cType : CType.values()) {
-            this.getTypExtracter.put(cType, default1);
-        }
         this.getTypExtracter.put(CType.PLUSROW, new CExtracterTStrich());
         this.getTypExtracter.put(CType.SQRT, new CExtracterTSqrt());
     }
@@ -48,7 +44,13 @@ public class ExtractHandler {
 
     public CE_1 getExt(final CE_Event event) {
         final CType parentTyp = event.getParent().getCType();
-        return this.getTypExtracter.get(parentTyp).getExt(event);
+        if (this.getTypExtracter.containsKey(parentTyp)) {
+            return this.getTypExtracter.get(parentTyp).getExt(event);
+        } else {
+            // return (new CExtracterTyp()).getExt(event);
+            return new CE_1();
+        }
+
     }
 
 }

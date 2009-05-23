@@ -22,9 +22,10 @@ import cTree.CFrac;
 import cTree.CIdent;
 import cTree.CMessage;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
-public class CSplitterErweiternIdent extends CSplitter1 {
+public class CSplitterErweiternIdent extends CSplitterBase {
 
     private CFrac oldFrac;
 
@@ -48,16 +49,15 @@ public class CSplitterErweiternIdent extends CSplitter1 {
         this.splitTyp = SplitTyp.NO;
     }
 
-    private void init(final CElement cE1, final String operator) {
+    private void init(final CS_Event event) {
         System.out.println("Init the Erw Ident split");
-
-        if (cE1 instanceof CFrac && operator.length() == 1
-                && (operator.charAt(0) <= 'z') && (operator.charAt(0) >= 'a')) {
+        final CElement cE1 = event.getFirst();
+        final String op = event.getOperator();
+        if (cE1 instanceof CFrac && op.length() == 1 && (op.charAt(0) <= 'z')
+                && (op.charAt(0) >= 'a')) {
             System.out.println("Check ok");
-            this.newEl = CIdent.createIdent(cE1.getElement(), operator);
-
+            this.newEl = CIdent.createIdent(cE1.getElement(), op);
             this.oldFrac = (CFrac) cE1;
-
             this.oldNum = CFences.condCreateFenced(this.oldFrac.getZaehler()
                     .cloneCElement(true), this.oldNumMes);
             // evtl falsch ! Vorzeichen!
@@ -72,24 +72,23 @@ public class CSplitterErweiternIdent extends CSplitter1 {
 
     protected void condCleanOne(final CElement el, final boolean doIt) {
         if (doIt
-                && DefHandler.getInst().canDefence(el.getParent(),
-                        el, el.getFirstChild())) {
+                && DefHandler.getInst().canDefence(el.getParent(), el,
+                        el.getFirstChild())) {
             DefHandler.getInst().defence(el.getParent(), el,
                     el.getFirstChild());
         }
     }
 
     @Override
-    public boolean check(final CElement cE1, final String operator) {
+    public boolean canDo(final C_Event event) {
         System.out.println("Check the erweitern CEl-Split");
-        this.init(cE1, operator);
+        this.setEvent(event);
+        this.init((CS_Event) event);
         return this.splitTyp != SplitTyp.NO;
     }
 
     @Override
-    public CElement split(final CElement parent, final CElement cE1,
-            final String operator) {
-
+    public CElement split() {
         System.out.println("Do the Erweitern split");
         final CTimesRow newNum = CTimesRow.createRow(CTimesRow.createList(
                 this.oldNum, this.newEl));
