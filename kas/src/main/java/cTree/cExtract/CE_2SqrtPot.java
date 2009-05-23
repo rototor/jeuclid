@@ -29,14 +29,12 @@ import cTree.cDefence.DefHandler;
 
 public class CE_2SqrtPot extends CE_1 {
 
-    public CElement doIt(final CElement parent,
-            final ArrayList<CElement> selection, final CElement cE2) {
-        // selection.get(0) ist das Produkt, Parent die Wurzel
-        // if (!this.canDo(parent, selection)) {
-        // return selection.get(0);
-        // }
+    @Override
+    public CElement doIt() {
+
         System.out.println("SqrtPot - Can extract");
         // Praefix sichern
+        final CElement parent = this.getEvent().getParent();
         final CRolle rolle = parent.getCRolle();
         final CElement newArg = this.createExtraction();
         final CMessage didIt = new CMessage(false);
@@ -65,12 +63,10 @@ public class CE_2SqrtPot extends CE_1 {
 
     @Override
     public boolean canDo(final C_Event e) {
-        if (e == null) {
+        if (e == null || !(e instanceof CE_Event)) {
             return false;
         }
-        if (e instanceof C_Event && !e.equals(this.getEvent())) {
-            this.setEvent((CE_Event) e);
-        }
+        this.setEvent(e);
         final ArrayList<CElement> selection = this.getEvent().getSelection();
         // Man kann nur die ganz linken Elemente extrahieren
         if (selection.size() != 1) {

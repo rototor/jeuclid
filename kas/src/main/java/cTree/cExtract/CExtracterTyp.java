@@ -19,20 +19,27 @@ package cTree.cExtract;
 import java.util.HashMap;
 
 import cTree.CType;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
 
-public class CExtracterTyp {
+public class CExtracterTyp extends C_Changer {
     public HashMap<CType, CE_1> op1Extracter;
 
     public CExtracterTyp() {
         this.op1Extracter = new HashMap<CType, CE_1>();
-        for (final CType cType : CType.values()) {
-            this.op1Extracter.put(cType, new CE_1());
-        }
     }
 
-    public CE_1 getExt(final CE_Event event) {
+    @Override
+    public C_Changer getChanger(final C_Event event) {
         final CType firstTyp = event.getFirst().getCType();
-        return this.op1Extracter.get(firstTyp).getExt(event);
+        if (this.op1Extracter.containsKey(firstTyp)) {
+            System.out.println("CExtracterTyp");
+            return this.op1Extracter.get(firstTyp).getChanger(event);
+        } else {
+            final C_Changer ext = new CE_No();
+            ext.setEvent(event);
+            return ext;
+        }
     }
 
 }

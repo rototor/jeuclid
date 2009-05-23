@@ -19,6 +19,7 @@ package cTree.cExtract;
 import java.util.HashMap;
 
 import cTree.CType;
+import cTree.adapter.C_Changer;
 
 public class ExtractHandler {
     private volatile static ExtractHandler uniqueInstance;
@@ -42,15 +43,15 @@ public class ExtractHandler {
         return ExtractHandler.uniqueInstance;
     }
 
-    public CE_1 getExt(final CE_Event event) {
+    public C_Changer getChanger(final CE_Event event) {
         final CType parentTyp = event.getParent().getCType();
         if (this.getTypExtracter.containsKey(parentTyp)) {
-            return this.getTypExtracter.get(parentTyp).getExt(event);
+            System.out.println("ExtractHandler");
+            return this.getTypExtracter.get(parentTyp).getChanger(event);
         } else {
-            // return (new CExtracterTyp()).getExt(event);
-            return new CE_1();
+            final C_Changer ext = new CE_No();
+            ext.setEvent(event);
+            return ext;
         }
-
     }
-
 }
