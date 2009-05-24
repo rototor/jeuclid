@@ -16,7 +16,6 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
@@ -24,12 +23,13 @@ import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 
 public class CA_Min1_InProdInSumFirst extends CAlter {
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        final CElement old = els.get(0);
+    public CElement doIt() {
+        final CElement old = this.getEvent().getFirst();
         final CTimesRow oldTimesRow = (CTimesRow) old.getParent();
         final CElement newInnen = CTimesRow.foldOne((CTimesRow) oldTimesRow
                 .cloneCElement(false));
@@ -45,14 +45,16 @@ public class CA_Min1_InProdInSumFirst extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        final CElement el = els.get(0);
-        if (el instanceof CFences) {
-            final CFences elF = (CFences) el;
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement first = event.getFirst();
+        if (first instanceof CFences) {
+            final CFences elF = (CFences) first;
             if (elF.isFencedMin1() && elF.getCRolle().equals(CRolle.FAKTOR1)
                     && elF.getNextSibling().hasExtTimes()) {
-                if (el.hasParent() && el.getParent() instanceof CTimesRow) {
-                    final CElement elP = el.getParent();
+                if (first.hasParent()
+                        && first.getParent() instanceof CTimesRow) {
+                    final CElement elP = first.getParent();
                     if (elP.hasParent()
                             && elP.getCRolle().equals(CRolle.SUMMAND1)) {
                         return true;

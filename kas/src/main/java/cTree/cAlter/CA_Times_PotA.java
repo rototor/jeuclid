@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 import cTree.CElement;
 import cTree.CPot;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 import cTree.adapter.EElementHelper;
 
 public class CA_Times_PotA extends CAlter {
@@ -35,12 +36,13 @@ public class CA_Times_PotA extends CAlter {
     private int exp;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
+        final ArrayList<CElement> sel = this.getEvent().getSelection();
         final CPot newEl = CPot.createPot(this.first.cloneCElement(false),
                 this.exp);
         this.parent.replaceChild(newEl, this.first, true, true);
         for (int i = 1; i < this.exp; i++) {
-            this.parent.removeChild(els.get(i), true, true, false);
+            this.parent.removeChild(sel.get(i), true, true, false);
         }
         return newEl;
     }
@@ -63,7 +65,9 @@ public class CA_Times_PotA extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 1) {
             this.exp = els.size();
             if (els.get(0).hasParent()

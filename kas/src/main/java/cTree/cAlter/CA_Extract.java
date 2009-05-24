@@ -16,20 +16,19 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
-import cTree.cExtract.CE_1;
-import cTree.cExtract.CE_Event;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
 import cTree.cExtract.ExtractHandler;
 
 public class CA_Extract extends CAlter {
 
-    private CE_1 extracter = null;
+    private C_Changer extracter = null;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         return this.extracter.doIt();
     }
 
@@ -39,9 +38,8 @@ public class CA_Extract extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        final CE_Event event = new CE_Event(els);
-        this.extracter = ExtractHandler.getInst().getExt(event);
+    public boolean canDo(final C_Event event) {
+        this.extracter = ExtractHandler.getInst().getChanger(event);
         return this.extracter.canDo(event);
     }
 

@@ -16,13 +16,13 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 
 public class CA_Times_Frac extends CAlter {
 
@@ -33,7 +33,7 @@ public class CA_Times_Frac extends CAlter {
     private CElement sec;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         final CFrac newEl = CFrac.createFraction(this.first
                 .cloneCElement(false), this.sec.cloneCElement(false));
         final CElement gParent = this.parent.getParent();
@@ -53,8 +53,9 @@ public class CA_Times_Frac extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        this.first = els.get(0);
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        this.first = event.getFirst();
         if (this.first.getParent() instanceof CTimesRow
                 && this.first.hasNextC()) {
             this.parent = (CTimesRow) this.first.getParent();

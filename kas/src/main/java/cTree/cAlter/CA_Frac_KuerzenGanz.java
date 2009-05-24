@@ -22,6 +22,7 @@ import java.util.HashMap;
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.CNum;
+import cTree.adapter.C_Event;
 
 public class CA_Frac_KuerzenGanz extends CAlter {
 
@@ -30,8 +31,8 @@ public class CA_Frac_KuerzenGanz extends CAlter {
     private CElement n;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        final CFrac cFrac = (CFrac) els.get(0);
+    public CElement doIt() {
+        final CFrac cFrac = (CFrac) this.getEvent().getFirst();
         int zVal = ((CNum) this.z).getValue();
         int nVal = ((CNum) this.n).getValue();
         final int newCom = CA_Frac_KuerzenGanz.ggT(zVal, nVal);
@@ -48,7 +49,9 @@ public class CA_Frac_KuerzenGanz extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CFrac) {
             final CFrac cFrac = (CFrac) els.get(0);
             this.z = cFrac.getZaehler();

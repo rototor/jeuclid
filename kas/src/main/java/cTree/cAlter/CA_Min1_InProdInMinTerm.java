@@ -16,7 +16,6 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
@@ -24,6 +23,7 @@ import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 
 public class CA_Min1_InProdInMinTerm extends CAlter {
 
@@ -32,7 +32,7 @@ public class CA_Min1_InProdInMinTerm extends CAlter {
     private CMinTerm oldMinTerm;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         final CElement newChild = CTimesRow
                 .foldOne((CTimesRow) this.oldTimesRow.cloneCElement(false));
         if (newChild instanceof CTimesRow
@@ -50,14 +50,16 @@ public class CA_Min1_InProdInMinTerm extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        final CElement el = els.get(0);
-        if (el instanceof CFences) {
-            final CFences elF = (CFences) el;
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement first = event.getFirst();
+        if (first instanceof CFences) {
+            final CFences elF = (CFences) first;
             if (elF.isFencedMin1() && elF.getCRolle().equals(CRolle.FAKTOR1)
                     && elF.getNextSibling().hasExtTimes()) {
-                if (el.hasParent() && el.getParent() instanceof CTimesRow) {
-                    this.oldTimesRow = (CTimesRow) el.getParent();
+                if (first.hasParent()
+                        && first.getParent() instanceof CTimesRow) {
+                    this.oldTimesRow = (CTimesRow) first.getParent();
                     if (this.oldTimesRow.hasParent()
                             && this.oldTimesRow.getParent() instanceof CMinTerm) {
                         this.oldMinTerm = (CMinTerm) this.oldTimesRow

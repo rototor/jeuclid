@@ -24,6 +24,7 @@ import cTree.CFrac;
 import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.CRolle;
+import cTree.adapter.C_Event;
 
 public class CA_Frac_InGemZahl extends CAlter {
 
@@ -38,7 +39,7 @@ public class CA_Frac_InGemZahl extends CAlter {
     private int nz;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         final int gz = this.zz / this.nz;
         System.out.println("GanzZahl " + gz);
         final int newZZ = this.zz % this.nz;
@@ -58,10 +59,13 @@ public class CA_Frac_InGemZahl extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        if (els.size() > 0 && els.get(0) instanceof CFrac
-                && (els.get(0).getCRolle() != CRolle.FRACTION)) {
-            this.cFrac = (CFrac) els.get(0);
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement first = event.getFirst();
+        final ArrayList<CElement> sel = event.getSelection();
+        if (sel.size() > 0 && first instanceof CFrac
+                && (first.getCRolle() != CRolle.FRACTION)) {
+            this.cFrac = (CFrac) first;
             this.z = this.cFrac.getZaehler();
             this.n = this.cFrac.getNenner();
             if ((this.z instanceof CNum) && (this.n instanceof CNum)) {

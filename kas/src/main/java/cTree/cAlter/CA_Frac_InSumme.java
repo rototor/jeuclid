@@ -25,6 +25,7 @@ import cTree.CFrac;
 import cTree.CMessage;
 import cTree.CPlusRow;
 import cTree.CRolle;
+import cTree.adapter.C_Event;
 
 public class CA_Frac_InSumme extends CAlter {
 
@@ -37,7 +38,7 @@ public class CA_Frac_InSumme extends CAlter {
     private ArrayList<CElement> zs = new ArrayList<CElement>();
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         final ArrayList<CElement> fracs = new ArrayList<CElement>();
         for (final CElement z : this.zs) {
             final CFrac frac = CFrac.createFraction(z.cloneCElement(false),
@@ -59,7 +60,9 @@ public class CA_Frac_InSumme extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CFrac
                 && (els.get(0).getCRolle() != CRolle.FRACTION)) {
             this.cFrac = (CFrac) els.get(0);

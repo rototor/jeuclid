@@ -23,6 +23,7 @@ import cTree.CElement;
 import cTree.CFrac;
 import cTree.CMixedNumber;
 import cTree.CNum;
+import cTree.adapter.C_Event;
 
 public class CA_GemZ_1Raus extends CAlter {
 
@@ -41,7 +42,7 @@ public class CA_GemZ_1Raus extends CAlter {
     private int nz;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         final int newWZ = this.wz - 1;
         final int newZZ = this.nz + this.zz;
         CElement cEl;
@@ -67,8 +68,9 @@ public class CA_GemZ_1Raus extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        System.out.println("Check GemischteZ 1 aufteilen");
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CMixedNumber) {
             this.cMixed = (CMixedNumber) els.get(0);
             this.w = this.cMixed.getWholeNumber();

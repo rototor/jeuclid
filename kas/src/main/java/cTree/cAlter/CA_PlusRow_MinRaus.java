@@ -24,6 +24,7 @@ import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 
 public class CA_PlusRow_MinRaus extends CAlter {
 
@@ -34,8 +35,7 @@ public class CA_PlusRow_MinRaus extends CAlter {
     private ArrayList<CElement> members;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-
+    public CElement doIt() {
         this.parent = this.cP.getParent();
         this.members = this.cP.getMemberList();
         final ArrayList<CElement> newM = new ArrayList<CElement>();
@@ -68,7 +68,9 @@ public class CA_PlusRow_MinRaus extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.get(0) instanceof CPlusRow) {
             this.cP = (CPlusRow) els.get(0);
             return (this.cP.getFirstChild() instanceof CMinTerm);

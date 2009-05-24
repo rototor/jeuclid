@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
+import cTree.adapter.C_Event;
 import cTree.adapter.DOMElementMap;
 
 public class AlterHandler {
@@ -76,6 +77,9 @@ public class AlterHandler {
             strings.add("CA_PlusRow_Sort");
             strings.add("CA_PlusRow_MinRaus");
             strings.add("CA_PrimeDecomposition");
+            strings.add("CA_Extract");
+            strings.add("CA_Entklammern");
+            strings.add("CA_Verbinden");
         }
         Class c;
         for (final String s : strings) {
@@ -102,8 +106,12 @@ public class AlterHandler {
 
     public ArrayList<String> getOptions(final ArrayList<CElement> els) {
         final ArrayList<String> options = new ArrayList<String>();
+        final C_Event event = new C_Event(els);
         for (final CAlter ca : this.getAlters.values()) {
-            if (ca.check(els)) {
+            // if (ca.check(els)) {
+            // options.add(ca.getText());
+            // }
+            if (ca.canDo(event)) {
                 options.add(ca.getText());
             }
         }
@@ -114,7 +122,7 @@ public class AlterHandler {
             final String actionCommand) {
         if (this.getAlters.containsKey(actionCommand)) {
             els.get(0).removeCActiveProperty();
-            final CElement el = this.getAlters.get(actionCommand).change(els);
+            final CElement el = this.getAlters.get(actionCommand).doIt();
             el.setCActiveProperty();
             return el;
         } else {

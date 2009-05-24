@@ -16,18 +16,18 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
+import cTree.adapter.C_Event;
 
 public class CA_DivMin1_InMalMin1 extends CAlter {
 
     private CFences cF;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         this.cF.toggleTimesDiv(false);
         return this.cF;
     }
@@ -38,10 +38,12 @@ public class CA_DivMin1_InMalMin1 extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        if (els.get(0).hasExtDiv() && (els.get(0) instanceof CFences)) {
+    public boolean canDo(final C_Event event) {
+        final CElement first = event.getFirst();
+        if (first.hasExtDiv() && (first instanceof CFences)) {
             System.out.println("Is fenced Min1");
-            this.cF = (CFences) els.get(0);
+            this.cF = (CFences) first;
+            this.setEvent(event);
             return this.cF.isFencedMin1();
         }
         return false;

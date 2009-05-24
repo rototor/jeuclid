@@ -9,6 +9,7 @@ import cTree.CFences;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
 public class CA_PrimeDecomposition extends CAlter {
@@ -25,8 +26,8 @@ public class CA_PrimeDecomposition extends CAlter {
     }
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        CElement old = els.get(0);
+    public CElement doIt() {
+        CElement old = this.getEvent().getFirst();
         try {
             int n = ((CNum) old).getValue();
             final List<PairOfInt> list = new ArrayList<PairOfInt>();
@@ -65,8 +66,8 @@ public class CA_PrimeDecomposition extends CAlter {
                 old = cF;
             } else {
                 parent.replaceChild(cF, old, true, true);
-                old = DefHandler.getInst().defence(cF.getParent(),
-                        cF, cF.getInnen());
+                old = DefHandler.getInst().defence(cF.getParent(), cF,
+                        cF.getInnen());
             }
 
         } catch (final NumberFormatException e) {
@@ -81,8 +82,9 @@ public class CA_PrimeDecomposition extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        final CElement el = els.get(0);
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement el = event.getFirst();
         return (el instanceof CNum) && (((CNum) el).getValue() > 1);
     }
 

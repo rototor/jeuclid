@@ -24,6 +24,7 @@ import cTree.CFrac;
 import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.CPlusRow;
+import cTree.adapter.C_Event;
 
 public class CA_PlusRow_InGemZ extends CAlter {
 
@@ -34,7 +35,7 @@ public class CA_PlusRow_InGemZ extends CAlter {
     private CElement f;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         final CMixedNumber cEl = CMixedNumber.createMixedNumber(this.w,
                 this.f);
         this.cP.getParent().replaceChild(cEl, this.cP, true, true);
@@ -47,8 +48,9 @@ public class CA_PlusRow_InGemZ extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        System.out.println("Check Summe -> gemZ");
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CPlusRow) {
             this.cP = (CPlusRow) els.get(0);
             this.w = this.cP.getFirstChild();

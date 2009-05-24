@@ -25,6 +25,7 @@ import cTree.CMessage;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
 public class CA_PotA_Times extends CAlter {
@@ -38,7 +39,8 @@ public class CA_PotA_Times extends CAlter {
     private int exp;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
+        final CElement first = this.getEvent().getFirst();
         final ArrayList<CElement> list = new ArrayList<CElement>();
         for (int i = 0; i < this.exp; i++) {
             list.add(this.cBase.cloneCElement(false));
@@ -47,8 +49,8 @@ public class CA_PotA_Times extends CAlter {
         cTR.correctInternalPraefixesAndRolle();
         final CMessage didIt = new CMessage(false);
         final CElement newEl = CFences.condCreateFenced(cTR, didIt);
-        final CElement parent = els.get(0).getParent();
-        parent.replaceChild(newEl, els.get(0), true, true);
+        final CElement parent = first.getParent();
+        parent.replaceChild(newEl, first, true, true);
         System.out.println("DidIt " + didIt);
         if (didIt.isMessage()) {
             return DefHandler.getInst().defence(parent, newEl,
@@ -63,7 +65,9 @@ public class CA_PotA_Times extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.get(0) instanceof CPot) {
             this.cPot = (CPot) els.get(0);
             if (this.cPot.getExponent() instanceof CNum) {

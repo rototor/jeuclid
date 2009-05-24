@@ -16,17 +16,17 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
+import cTree.adapter.C_Event;
 import cTree.cCombine.CombHandler;
 
 public class CA_Verbinden extends CAlter {
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        final CElement first = els.get(0);
+    public CElement doIt() {
+        final CElement first = this.getEvent().getFirst();
         return CombHandler.getInst().combine(first.getParent(), first,
                 first.getNextSibling());
     }
@@ -37,12 +37,13 @@ public class CA_Verbinden extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        final CElement first = els.get(0);
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement first = event.getFirst();
         return first.hasNextC()
                 && first.hasParent()
-                && CombHandler.getInst().canCombine(first.getParent(),
-                        first, first.getNextSibling());
+                && CombHandler.getInst().canCombine(first.getParent(), first,
+                        first.getNextSibling());
     }
 
     @Override

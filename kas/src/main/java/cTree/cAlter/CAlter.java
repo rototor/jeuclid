@@ -16,18 +16,13 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import cTree.CElement;
+import cTree.adapter.C_Changer;
 
-public abstract class CAlter {
-
-    public abstract CElement change(ArrayList<CElement> els);
+public abstract class CAlter extends C_Changer {
 
     public abstract String getText();
-
-    public abstract boolean check(ArrayList<CElement> els);
 
     public abstract void register(HashMap<String, CAlter> hashMap);
 }

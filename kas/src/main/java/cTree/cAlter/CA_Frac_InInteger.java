@@ -23,6 +23,7 @@ import cTree.CElement;
 import cTree.CFrac;
 import cTree.CNum;
 import cTree.CRolle;
+import cTree.adapter.C_Event;
 
 public class CA_Frac_InInteger extends CAlter {
 
@@ -43,7 +44,7 @@ public class CA_Frac_InInteger extends CAlter {
     private ChangeTyp changeTyp;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         if (this.changeTyp == ChangeTyp.ZweiZahlen) {
             final CNum cNum = CNum.createNum(this.cFrac.getElement(), ""
                     + (this.zVal / this.nVal));
@@ -62,9 +63,12 @@ public class CA_Frac_InInteger extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        if (els.size() > 0 && els.get(0) instanceof CFrac) {
-            this.cFrac = (CFrac) els.get(0);
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement first = event.getFirst();
+        final ArrayList<CElement> sel = event.getSelection();
+        if (sel.size() > 0 && first instanceof CFrac) {
+            this.cFrac = (CFrac) first;
             if (this.cFrac.getCRolle() != CRolle.FRACTION) {
                 this.z = this.cFrac.getZaehler();
                 this.n = this.cFrac.getNenner();
