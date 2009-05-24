@@ -22,6 +22,7 @@ import java.util.HashMap;
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.CMinTerm;
+import cTree.adapter.C_Event;
 
 public class CA_Frac_MinusKuerzen extends CAlter {
 
@@ -32,7 +33,7 @@ public class CA_Frac_MinusKuerzen extends CAlter {
     private CElement n;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         final CElement newNum = ((CMinTerm) this.z).getValue().cloneCElement(
                 false);
         final CElement newDen = ((CMinTerm) this.n).getValue().cloneCElement(
@@ -48,7 +49,9 @@ public class CA_Frac_MinusKuerzen extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CFrac) {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();

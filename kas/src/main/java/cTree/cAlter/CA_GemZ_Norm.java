@@ -23,6 +23,7 @@ import cTree.CElement;
 import cTree.CFrac;
 import cTree.CMixedNumber;
 import cTree.CNum;
+import cTree.adapter.C_Event;
 
 public class CA_GemZ_Norm extends CAlter {
 
@@ -41,7 +42,7 @@ public class CA_GemZ_Norm extends CAlter {
     private int nz;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         final int raus = this.zz / this.nz;
         final int newZZ = this.zz % this.nz;
         final int newWZ = this.wz + raus;
@@ -66,8 +67,9 @@ public class CA_GemZ_Norm extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        System.out.println("Check gemz zusammenfassen");
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CMixedNumber) {
             this.cMixed = (CMixedNumber) els.get(0);
             this.w = this.cMixed.getWholeNumber();

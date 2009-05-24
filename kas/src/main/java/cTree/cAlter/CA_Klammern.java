@@ -21,11 +21,13 @@ import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
+import cTree.adapter.C_Event;
 
 public class CA_Klammern extends CAlter {
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
+        final ArrayList<CElement> els = this.getEvent().getSelection();
         return els.get(0).getParent().fence(els);
     }
 
@@ -35,9 +37,11 @@ public class CA_Klammern extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        return (els.size() > 0 && els.get(0) != null && !(els.size() == 1 && (els
-                .get(0) instanceof CFences)));
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement first = event.getFirst();
+        final ArrayList<CElement> els = event.getSelection();
+        return (els.size() > 0 && first != null && !(els.size() == 1 && (first instanceof CFences)));
     }
 
     @Override

@@ -25,6 +25,7 @@ import cTree.CFrac;
 import cTree.CMessage;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 
 public class CA_Frac_InProdukt extends CAlter {
 
@@ -37,7 +38,7 @@ public class CA_Frac_InProdukt extends CAlter {
     private ArrayList<CElement> zp = new ArrayList<CElement>();
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         final ArrayList<CElement> els1 = new ArrayList<CElement>();
         boolean first = true;
 
@@ -66,10 +67,13 @@ public class CA_Frac_InProdukt extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        if (els.size() > 0 && els.get(0) instanceof CFrac
-                && (els.get(0).getCRolle() != CRolle.FRACTION)) {
-            this.cFrac = (CFrac) els.get(0);
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement first = event.getFirst();
+        final ArrayList<CElement> sel = event.getSelection();
+        if (sel.size() > 0 && first instanceof CFrac
+                && (first.getCRolle() != CRolle.FRACTION)) {
+            this.cFrac = (CFrac) first;
             this.z = this.cFrac.getZaehler();
             this.n = this.cFrac.getNenner();
             if (this.z instanceof CTimesRow) {

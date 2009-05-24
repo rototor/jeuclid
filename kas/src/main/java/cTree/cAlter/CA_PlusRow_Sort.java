@@ -23,13 +23,15 @@ import java.util.HashMap;
 import cTree.CElement;
 import cTree.CPComparator;
 import cTree.CPlusRow;
+import cTree.adapter.C_Event;
 
 public class CA_PlusRow_Sort extends CAlter {
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        if (els.get(0) instanceof CPlusRow) {
-            final CPlusRow old = (CPlusRow) els.get(0);
+    public CElement doIt() {
+        final CElement first = this.getEvent().getFirst();
+        if (first instanceof CPlusRow) {
+            final CPlusRow old = (CPlusRow) first;
             final ArrayList<CElement> sumMembers = old.getMemberList();
             Collections.sort(sumMembers, new CPComparator());
             if (sumMembers.size() > 0) {
@@ -41,11 +43,10 @@ public class CA_PlusRow_Sort extends CAlter {
             }
             final CPlusRow newRow = CPlusRow.createRow(sumMembers);
             newRow.correctInternalPraefixesAndRolle();
-            els.get(0).getParent().replaceChild(newRow, els.get(0), true,
-                    true);
+            first.getParent().replaceChild(newRow, first, true, true);
             return newRow;
         } else {
-            return els.get(0);
+            return first;
         }
     }
 
@@ -55,7 +56,9 @@ public class CA_PlusRow_Sort extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         return (els.size() > 0 && (els.get(0) instanceof CPlusRow));
     }
 

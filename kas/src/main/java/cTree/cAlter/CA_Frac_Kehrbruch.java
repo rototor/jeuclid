@@ -21,12 +21,13 @@ import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFrac;
+import cTree.adapter.C_Event;
 
 public class CA_Frac_Kehrbruch extends CAlter {
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        final CFrac old = (CFrac) els.get(0);
+    public CElement doIt() {
+        final CFrac old = (CFrac) this.getEvent().getFirst();
         final CElement newNum = old.getNenner().cloneCElement(true);
         final CElement newDen = old.getZaehler().cloneCElement(true);
         final CFrac newFrac = CFrac.createFraction(newNum, newDen);
@@ -42,7 +43,9 @@ public class CA_Frac_Kehrbruch extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         return (els.get(0).hasExtDiv() || els.get(0).hasExtTimes())
                 && (els.get(0) instanceof CFrac);
     }

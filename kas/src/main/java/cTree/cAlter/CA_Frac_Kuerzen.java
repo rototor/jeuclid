@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFrac;
+import cTree.adapter.C_Event;
 import cTree.cCombine.CombHandler;
 
 public class CA_Frac_Kuerzen extends CAlter {
@@ -32,9 +33,8 @@ public class CA_Frac_Kuerzen extends CAlter {
     private CElement n;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        return CombHandler.getInst().combine(this.cFrac, this.z,
-                this.n);
+    public CElement doIt() {
+        return CombHandler.getInst().combine(this.cFrac, this.z, this.n);
     }
 
     @Override
@@ -43,13 +43,15 @@ public class CA_Frac_Kuerzen extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CFrac) {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();
             this.n = this.cFrac.getNenner();
-            return CombHandler.getInst().canCombine(this.cFrac,
-                    this.z, this.n);
+            return CombHandler.getInst().canCombine(this.cFrac, this.z,
+                    this.n);
         }
         return false;
     }

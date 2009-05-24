@@ -16,21 +16,21 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
+import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
 public class CA_Entklammern extends CAlter {
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        final CElement fences = els.get(0);
+    public CElement doIt() {
+        final CElement fences = this.getEvent().getFirst();
         System.out.println("Entferne Klammer " + fences.getText());
-        return DefHandler.getInst().defence(fences.getParent(),
-                fences, ((CFences) fences).getInnen());
+        return DefHandler.getInst().defence(fences.getParent(), fences,
+                ((CFences) fences).getInnen());
     }
 
     @Override
@@ -39,12 +39,14 @@ public class CA_Entklammern extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        if (els.get(0) instanceof CFences) {
-            final CFences cF = (CFences) els.get(0);
+    public boolean canDo(final C_Event event) {
+        final CElement first = event.getFirst();
+        if (first instanceof CFences) {
+            this.setEvent(event);
+            final CFences cF = (CFences) first;
             if (cF.hasParent() && cF.getInnen() != null) {
-                return DefHandler.getInst().canDefence(
-                        cF.getParent(), cF, cF.getInnen());
+                return DefHandler.getInst().canDefence(cF.getParent(), cF,
+                        cF.getInnen());
             }
         }
         return false;

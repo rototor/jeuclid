@@ -16,18 +16,18 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CPlusRow;
+import cTree.adapter.C_Event;
 
 public class CA_MinVorziehenSumFencedSum extends CAlter {
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        final CElement fences = els.get(0);
+    public CElement doIt() {
+        final CElement fences = this.getEvent().getFirst();
         fences.togglePlusMinus(false);
         final CFences f = (CFences) fences;
         ((CPlusRow) f.getInnen()).toggleAllVZ();
@@ -40,8 +40,9 @@ public class CA_MinVorziehenSumFencedSum extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        final CElement fences = els.get(0);
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement fences = event.getFirst();
         if (fences instanceof CFences) {
             if (((CFences) fences).getInnen() instanceof CPlusRow) {
                 return fences.getParent() instanceof CPlusRow;

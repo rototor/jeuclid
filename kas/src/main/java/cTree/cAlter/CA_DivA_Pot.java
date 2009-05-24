@@ -16,19 +16,19 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CPot;
+import cTree.adapter.C_Event;
 
 public class CA_DivA_Pot extends CAlter {
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        final CElement old = els.get(0);
+    public CElement doIt() {
+        final CElement old = this.getEvent().getFirst();
         final CElement newNum = CNum.createNum(old.getElement(), "1");
         final CElement newExp = CMinTerm.createMinTerm(newNum);
         final CElement newBase = old.cloneCElement(false);
@@ -44,8 +44,9 @@ public class CA_DivA_Pot extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        return els.get(0).hasExtDiv();
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        return event.getFirst().hasExtDiv();
     }
 
     @Override

@@ -24,6 +24,7 @@ import cTree.CFences;
 import cTree.CFrac;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
+import cTree.adapter.C_Event;
 
 public class CA_Frac_Min1Vorziehen extends CAlter {
 
@@ -34,7 +35,7 @@ public class CA_Frac_Min1Vorziehen extends CAlter {
     private CElement n;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         final CElement newNum;
         final CElement newFrac;
         if (this.z instanceof CMinTerm) {
@@ -66,7 +67,9 @@ public class CA_Frac_Min1Vorziehen extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CFrac) {
             this.cFrac = (CFrac) els.get(0);
             this.z = this.cFrac.getZaehler();

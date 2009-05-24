@@ -16,18 +16,18 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.CNum;
+import cTree.adapter.C_Event;
 
 public class CA_DivA_Frac extends CAlter {
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        final CElement old = els.get(0);
+    public CElement doIt() {
+        final CElement old = this.getEvent().getFirst();
         final CElement newNum = CNum.createNum(old.getElement(), "1");
         final CElement newDen = old.cloneCElement(false);
         final CFrac newFrac = CFrac.createFraction(newNum, newDen);
@@ -43,8 +43,9 @@ public class CA_DivA_Frac extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        return els.get(0).hasExtDiv();
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        return event.getFirst().hasExtDiv();
     }
 
     @Override

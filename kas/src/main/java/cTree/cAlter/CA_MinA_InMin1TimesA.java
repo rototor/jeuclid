@@ -16,7 +16,6 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
@@ -24,12 +23,13 @@ import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CTimesRow;
 import cTree.CType;
+import cTree.adapter.C_Event;
 
 public class CA_MinA_InMin1TimesA extends CAlter {
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
-        final CElement old = els.get(0);
+    public CElement doIt() {
+        final CElement old = this.getEvent().getFirst();
         final CElement newFirst = CFences.createFencedMin1(old);
         final CElement newSecond = ((CMinTerm) old).getValue().cloneCElement(
                 false);
@@ -54,9 +54,10 @@ public class CA_MinA_InMin1TimesA extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
-        final CElement el = els.get(0);
-        return el.getCType().equals(CType.MINROW);
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final CElement first = event.getFirst();
+        return first.getCType().equals(CType.MINROW);
     }
 
     @Override

@@ -28,7 +28,6 @@ public class CSplitterMin extends CSplitterBase {
     @Override
     public boolean canDo(final C_Event event) {
         this.setEvent(event);
-        this.setEvent(event);
         final String op = ((CS_Event) event).getOperator();
         final CElement cE1 = event.getFirst();
         if (cE1 instanceof CNum && (cE1.getCRolle() != CRolle.NACHVZMINUS)) {
@@ -72,7 +71,6 @@ public class CSplitterMin extends CSplitterBase {
         // den geänderten Term errechnen
         final int geAendert = bisherMin ? 0 - bisher + neu : bisher + neu;
         final boolean ergebnisNegativ = (geAendert < 0);
-
         final CNum first = CNum.createNum(cEl.getElement(), ""
                 + Math.abs(geAendert));
         final CElement newfirst = ergebnisNegativ ? CMinTerm

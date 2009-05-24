@@ -25,6 +25,7 @@ import cTree.CFrac;
 import cTree.CMessage;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
 public class CA_Frac_InQuotient extends CAlter {
@@ -36,7 +37,7 @@ public class CA_Frac_InQuotient extends CAlter {
     private CElement n;
 
     @Override
-    public CElement change(final ArrayList<CElement> els) {
+    public CElement doIt() {
         final CMessage aroundFirst = new CMessage(false);
         final CMessage aroundSec = new CMessage(false);
         final CElement newZ = CFences.condCreateFenced(this.z
@@ -71,7 +72,9 @@ public class CA_Frac_InQuotient extends CAlter {
     }
 
     @Override
-    public boolean check(final ArrayList<CElement> els) {
+    public boolean canDo(final C_Event event) {
+        this.setEvent(event);
+        final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CFrac
                 && (els.get(0).getCRolle() != CRolle.FRACTION)) {
             this.cFrac = (CFrac) els.get(0);
