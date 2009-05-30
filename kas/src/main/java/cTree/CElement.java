@@ -19,6 +19,7 @@ package cTree;
 import java.util.ArrayList;
 
 import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
 import cTree.adapter.ElementAdapter;
 import cTree.adapter.PraefixAdapter;
 import cTree.adapter.RolleAdapter;
@@ -53,11 +54,9 @@ public abstract class CElement extends RolleAdapter implements
     public CElement combineRight(final CElement active) {
         final CElement erstesElement = active;
         if (erstesElement.hasNextC()) {
-            final CElement zweitesElement = erstesElement.getNextSibling();
-            final CElement cEl = CombHandler.getInst().combine(this,
-                    erstesElement, zweitesElement);
-            System.out.println("Have combined" + cEl.getParent().getText());
-            return cEl;
+            final C_Event event = new C_Event(active);
+            final C_Changer comb = CombHandler.getInst().getChanger(event);
+            return comb.doIt();
         } else {
             return active;
         }
@@ -67,21 +66,12 @@ public abstract class CElement extends RolleAdapter implements
         final CE_Event event = new CE_Event(active);
         final C_Changer ext = ExtractHandler.getInst().getChanger(event);
         return ext.doIt();
-        // if (ext.canDo(event)) {
-        // return ext.doIt();
-        // } else {
-        // return active.get(0);
-        // }
     };
 
     public CElement split(final CElement zuZerlegen, final String s) {
         final CS_Event event = new CS_Event(zuZerlegen, s);
         final C_Changer splitter = SplitHandler.getInst().getSplitr(event);
-        if (splitter.canDo(event)) {
-            return splitter.doIt();
-        } else {
-            return zuZerlegen;
-        }
+        return splitter.doIt();
     }
 
     // --- Support für die Klammern in dem CTree

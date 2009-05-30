@@ -19,6 +19,7 @@ package cTree.cExtract;
 import cTree.CElement;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
 public class CE_1 extends C_Changer {
 
@@ -39,18 +40,16 @@ public class CE_1 extends C_Changer {
     }
 
     @Override
-    public boolean canDo(final C_Event e) {
+    public boolean canDo() {
         return false;
     }
 
     @Override
     public C_Changer getChanger(final C_Event event) {
-        if (this.canDo(event)) {
+        if (this.canDo()) {
             return this;
         } else {
-            final C_Changer ext = new CE_No();
-            ext.setEvent(event);
-            return ext;
+            return new C_No(event);
         }
     }
 }

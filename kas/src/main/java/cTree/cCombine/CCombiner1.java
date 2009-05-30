@@ -18,12 +18,14 @@ package cTree.cCombine;
 
 import java.util.HashMap;
 
-import cTree.CElement;
 import cTree.CType;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
-public class CCombiner1 {
+public abstract class CCombiner1 {
 
-    protected HashMap<CType, CC_> op2Combiner;
+    protected HashMap<CType, CC_Base> op2Combiner;
 
     /*
      * Bei bekanntem Operator wird nach dem ersten Operanden gemaess einer
@@ -33,32 +35,38 @@ public class CCombiner1 {
 
     }
 
-    public HashMap<CType, CC_> getOp2Comb() {
+    public HashMap<CType, CC_Base> getOp2Comb() {
         if (this.op2Combiner == null) {
-            this.op2Combiner = new HashMap<CType, CC_>();
-            final CC_ default2 = new CC_();
-            for (final CType cType : CType.values()) {
-                this.op2Combiner.put(cType, default2);
-            }
+            this.op2Combiner = new HashMap<CType, CC_Base>();
         }
         return this.op2Combiner;
     }
 
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        final CType ct2 = cE2.getCType();
-        return this.getOp2Comb().get(ct2).combine(parent, cE1, cE2);
+    public C_Changer getChanger(final C_Event e) {
+        if (e != null && e.getFirst() != null && e.getFirst().hasNextC()) {
+            final CType cType = e.getFirst().getNextSibling().getCType();
+            if (this.getOp2Comb().containsKey(cType)) {
+                return this.getOp2Comb().get(cType).getChanger(e);
+            }
+        }
+        return new C_No(e);
     }
 
-    public boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        final CType ct2 = cE2.getCType();
-        return this.getOp2Comb().get(ct2).canCombine(parent, cE1, cE2);
-    }
-
-    public CC_ getCombiner(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        return this.getOp2Comb().get(cE2.getCType());
-    }
+    // public CElement combine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // final CType ct2 = cE2.getCType();
+    // return this.getOp2Comb().get(ct2).doIt(parent, cE1, cE2);
+    // }
+    //
+    // public boolean canCombine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // final CType ct2 = cE2.getCType();
+    // return this.getOp2Comb().get(ct2).canDo(parent, cE1, cE2);
+    // }
+    //
+    // public CC_ getCombiner(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // return this.getOp2Comb().get(cE2.getCType());
+    // }
 
 }

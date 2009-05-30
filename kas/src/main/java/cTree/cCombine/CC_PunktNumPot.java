@@ -19,6 +19,7 @@ package cTree.cCombine;
 import org.w3c.dom.Element;
 
 import cTree.CElement;
+import cTree.CIdent;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CRolle;
@@ -26,14 +27,15 @@ import cTree.adapter.EElementHelper;
 
 // wegen toggle noch gelassen
 
-public class CC_PunktNumPot extends CC_ {
+public class CC_PunktNumPot extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (((CPot) cE2).getBasis() instanceof CNum) {
-            final CNum cN = (CNum) ((CPot) cE2).getBasis();
-            return cN.getValue() == ((CNum) cE1).getValue();
+    public boolean canDo() {
+        final CPot cE2 = (CPot) this.getSec();
+        final CNum cE1 = (CNum) this.getFirst();
+        if (cE2.getBasis() instanceof CNum) {
+            final CNum cN = (CNum) cE2.getBasis();
+            return cN.getValue() == cE1.getValue();
         }
         return false;
     }
@@ -46,15 +48,13 @@ public class CC_PunktNumPot extends CC_ {
                         .getTextContent()));
     }
 
-    private boolean justTwo(final CElement first, final CElement second) {
-        return !(first.hasPrevC() || second.hasNextC());
-    }
-
     @Override
-    public CElement combine(final CElement parent, final CElement ident,
-            final CElement oldPot) {
+    public CElement doIt() {
         System.out.println("Multipliziere Ident and Pot");
-        if (this.canCombine(parent, ident, oldPot)) {
+        final CIdent ident = (CIdent) this.getFirst();
+        if (this.canDo()) {
+            final CPot oldPot = (CPot) this.getSec();
+            final CElement parent = this.getParent();
             final boolean replace = this.justTwo(ident, oldPot);
             CElement newChild = null;
             boolean toggle = false;
@@ -63,7 +63,7 @@ public class CC_PunktNumPot extends CC_ {
                 if (oldPot.hasExtDiv()) {
                     return ident;
                 } else {
-                    final int iExp = ((CNum) ((CPot) oldPot).getExponent())
+                    final int iExp = ((CNum) (oldPot).getExponent())
                             .getValue();
                     final CElement newBase = ident.cloneCElement(false); // parent.cloneChild(cE1,
                     // false);
@@ -76,7 +76,7 @@ public class CC_PunktNumPot extends CC_ {
             } else {
                 if (this.gleicheDiv(ident.getExtPraefix(), oldPot
                         .getExtPraefix())) {
-                    final int iExp = ((CNum) ((CPot) oldPot).getExponent())
+                    final int iExp = ((CNum) (oldPot).getExponent())
                             .getValue();
                     final CElement newBase = ident.cloneCElement(false); // parent.cloneChild(cE1,
                     // false);
@@ -85,7 +85,7 @@ public class CC_PunktNumPot extends CC_ {
                     newChild = CPot.createPot(newBase, newExp);
                     newChild.setCRolle(ident.getCRolle());
                 } else {
-                    final int iExp = ((CNum) ((CPot) oldPot).getExponent())
+                    final int iExp = ((CNum) (oldPot).getExponent())
                             .getValue();
                     if (iExp > 0) {
                         toggle = true; // anderes Vorzeichen da sich das von

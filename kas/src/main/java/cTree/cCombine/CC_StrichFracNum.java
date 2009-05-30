@@ -25,24 +25,23 @@ import cTree.CPlusRow;
 import cTree.CRolle;
 import cTree.CTimesRow;
 
-public class CC_StrichFracNum extends CC_ {
+public class CC_StrichFracNum extends CC_Base {
 
     private CFrac cF;
 
     private CElement cNenner;
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement frac,
-            final CElement num) {
-        this.cF = (CFrac) frac;
+    public boolean canDo() {
+        this.cF = (CFrac) this.getFirst();
         this.cNenner = this.cF.getNenner();
         return !(this.cNenner instanceof CNum)
                 || (((CNum) this.cNenner).getValue() != 0);
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Add Frac and Num");
         if (this.cF.hasNumberValue()) {
             System.out.println("Add Frac and Num NumberV");

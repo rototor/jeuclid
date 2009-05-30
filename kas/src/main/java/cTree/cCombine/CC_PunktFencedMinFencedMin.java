@@ -22,15 +22,15 @@ import cTree.CMessage;
 import cTree.CMinTerm;
 import cTree.CTimesRow;
 
-public class CC_PunktFencedMinFencedMin extends CC_ {
+public class CC_PunktFencedMinFencedMin extends CC_Base {
 
     // a*(b+c+d) -> (a*b+a*c+a*d)
     // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
     // steht
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Multipliziere zwei geklammerte MinTerme");
         final CElement inCE1 = ((CMinTerm) cE1.getFirstChild()).getValue()
                 .cloneCElement(false);
@@ -48,9 +48,7 @@ public class CC_PunktFencedMinFencedMin extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        System.out.println("Repell fenced mult fenced?");
+    public boolean canDo() {
         return true;
     }
 }

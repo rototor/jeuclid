@@ -84,8 +84,8 @@ public class CSplitterDiv extends CSplitterBase {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final String op = ((CS_Event) event).getOperator();
         this.init(event.getFirst(), op);
         return this.splitTyp != SplitTyp.NO;

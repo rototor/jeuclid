@@ -20,19 +20,19 @@ import java.util.ArrayList;
 
 import cTree.CElement;
 
-public class CC_PotFencesNum extends CC_ {
+public class CC_PotFencesNum extends CC_Base {
 
-    private ArrayList<CC_> combs;
+    private ArrayList<CC_Base> combs;
 
-    private CC_ comb;
+    private CC_Base comb;
 
     public CC_PotFencesNum() {
         super();
     }
 
-    public ArrayList<CC_> getCombs() {
+    public ArrayList<CC_Base> getCombs() {
         if (this.combs == null) {
-            this.combs = new ArrayList<CC_>();
+            this.combs = new ArrayList<CC_Base>();
             this.combs.add(new CC_PotFencedPlusrowNum());
             this.combs.add(new CC_PotFencedMinrowNum());
             this.combs.add(new CC_PotFencedSumNum());
@@ -42,10 +42,9 @@ public class CC_PotFencesNum extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        for (final CC_ testComb : this.getCombs()) {
-            if (testComb.canCombine(parent, cE1, cE2)) {
+    public boolean canDo() {
+        for (final CC_Base testComb : this.getCombs()) {
+            if (testComb.canDo()) {
                 this.comb = testComb;
                 return true;
             }
@@ -54,9 +53,9 @@ public class CC_PotFencesNum extends CC_ {
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Pot Fences and Num");
-        return this.comb.createCombination(parent, cE1, cE2);
+        return this.comb.createComb(parent, cE1, cE2);
     }
 }

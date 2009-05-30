@@ -18,6 +18,8 @@ package cTree.cSplit;
 
 import java.util.HashMap;
 
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_No;
 import cTree.adapter.DOMElementMap;
 
 public class SplitHandler {
@@ -46,16 +48,16 @@ public class SplitHandler {
         return SplitHandler.uniqueInstance;
     }
 
-    public CSplitterBase getSplitr(final CS_Event event) {
+    public C_Changer getSplitr(final CS_Event event) {
         final String s = event.getString();
         if (s.length() < 2) { // kein Operator oder Operand
-            return new CSplitter_No();
+            return new C_No(event);
         } else {
             final String op = event.getOperation();
             if (this.getSplitter.containsKey(op)) {
                 return this.getSplitter.get(op).getSplitr(event);
             } else {
-                return new CSplitter_No();
+                return new C_No(event);
             }
         }
     }

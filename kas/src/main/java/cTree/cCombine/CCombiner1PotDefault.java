@@ -16,38 +16,37 @@
 
 package cTree.cCombine;
 
-import cTree.CElement;
-import cTree.CNum;
-import cTree.CPot;
 
 public class CCombiner1PotDefault extends CCombiner1 {
 
-    @Override
-    public CElement combine(final CElement potenz, final CElement basis,
-            final CElement exp) {
-        if (((CPot) potenz).isHoch1()) {
-            final CElement newChild = basis.cloneCElement(false); // potenz.cloneChild(basis,
-            // false);
-            potenz.getParent().replaceChild(newChild, potenz, true, true);
-            return newChild;
-        } else if (((CPot) potenz).isHoch0()) {
-            final CElement newChild = CNum.createNum(potenz.getElement(),
-                    "" + 1);
-            newChild.setCRolleAndPraefixFrom(potenz);
-            potenz.getParent().replaceChild(newChild, potenz, true, true);
-            return newChild;
-        }
-        return potenz;
-    }
+    // @Override
+    // public CElement combine(final CElement potenz, final CElement basis,
+    // final CElement exp) {
+    // if (((CPot) potenz).isHoch1()) {
+    // final CElement newChild = basis.cloneCElement(false); //
+    // potenz.cloneChild(basis,
+    // // false);
+    // potenz.getParent().replaceChild(newChild, potenz, true, true);
+    // return newChild;
+    // } else if (((CPot) potenz).isHoch0()) {
+    // final CElement newChild = CNum.createNum(potenz.getElement(),
+    // "" + 1);
+    // newChild.setCRolleAndPraefixFrom(potenz);
+    // potenz.getParent().replaceChild(newChild, potenz, true, true);
+    // return newChild;
+    // }
+    // return potenz;
+    // }
+    //
+    // @Override
+    // public boolean canCombine(final CElement potenz, final CElement basis,
+    // final CElement exp) {
+    // if (((CPot) potenz).isHoch1()) {
+    // return true;
+    // } else if (((CPot) potenz).isHoch0()) {
+    // return true;
+    // }
+    // return false;
+    // }
 
-    @Override
-    public boolean canCombine(final CElement potenz, final CElement basis,
-            final CElement exp) {
-        if (((CPot) potenz).isHoch1()) {
-            return true;
-        } else if (((CPot) potenz).isHoch0()) {
-            return true;
-        }
-        return false;
-    }
 }

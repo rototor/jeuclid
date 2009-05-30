@@ -19,6 +19,7 @@ package cTree.cAlter;
 import java.util.HashMap;
 
 import cTree.CElement;
+import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.cCombine.CombHandler;
 
@@ -26,9 +27,16 @@ public class CA_Verbinden extends CAlter {
 
     @Override
     public CElement doIt() {
-        final CElement first = this.getEvent().getFirst();
-        return CombHandler.getInst().combine(first.getParent(), first,
-                first.getNextSibling());
+        final C_Changer ch = CombHandler.getInst()
+                .getChanger(this.getEvent());
+        if (ch.canDo()) {
+            return ch.doIt();
+        } else {
+            return this.getEvent().getFirst();
+        }
+        // final CElement first = this.getEvent().getFirst();
+        // return CombHandler.getInst().combine(first.getParent(), first,
+        // first.getNextSibling());
     }
 
     @Override
@@ -37,13 +45,14 @@ public class CA_Verbinden extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final CElement first = event.getFirst();
-        return first.hasNextC()
-                && first.hasParent()
-                && CombHandler.getInst().canCombine(first.getParent(), first,
-                        first.getNextSibling());
+        if (first.hasNextC() && first.hasParent()) {
+            final C_Changer c = CombHandler.getInst().getChanger(event);
+            return c.canDo();
+        }
+        return false;
     }
 
     @Override

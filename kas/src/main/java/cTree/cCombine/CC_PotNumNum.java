@@ -19,30 +19,31 @@ package cTree.cCombine;
 import cTree.CElement;
 import cTree.CNum;
 
-public class CC_PotNumNum extends CC_ {
+public class CC_PotNumNum extends CC_Base {
 
     // parent basis und exponent können zusammengeholt sein, parent ist nur
     // producer
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement basis,
-            final CElement expo) {
+    public boolean canDo() {
+        final CElement cE1 = this.getFirst();
+        final CElement cE2 = this.getSec();
         System.out.println("Repell pot num num?");
         try {
-            final int basisZahl = ((CNum) basis).getValue();
-            final int expZahl = ((CNum) expo).getValue();
+            final int basisZahl = ((CNum) cE1).getValue();
+            final int expZahl = ((CNum) cE2).getValue();
             if (basisZahl != 0 || expZahl != 0) {
                 return true;
             } else {
                 return false;
             }
-        } catch (final NumberFormatException e) {
+        } catch (final NumberFormatException ex) {
             return false;
         }
     }
 
     @Override
-    protected CElement createCombination(final CElement potenz,
+    protected CElement createComb(final CElement potenz,
             final CElement basis, final CElement expo) {
         System.out.println("Potenziere Zahlen");
         final int basisZahl = ((CNum) basis).getValue();

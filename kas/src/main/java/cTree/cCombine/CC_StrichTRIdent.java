@@ -22,11 +22,11 @@ import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
 
-public class CC_StrichTRIdent extends CC_ {
+public class CC_StrichTRIdent extends CC_Base {
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cTR, final CElement cIdent) {
+    protected CElement createComb(final CElement parent, final CElement cTR,
+            final CElement cIdent) {
         System.out.println("Add TR and ID ohne 0 und 1");
         final int koeff = ((CTimesRow) cTR).getKoeffAsBetragFromMonom()
                 .getValue();// Vorsicht! Fehlbedienung möglich. Repeller
@@ -63,14 +63,18 @@ public class CC_StrichTRIdent extends CC_ {
         return newChild;
     }
 
+    // @Override
+    // protected boolean canDo(final CElement parent, final CElement cTR,
+    // final CElement cIdent) {
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cTR,
-            final CElement cIdent) {
-        if (!((CTimesRow) cTR).isMonom()) {
+    public boolean canDo() {
+        final CTimesRow cTR = (CTimesRow) this.getFirst();
+        final CIdent cIdent = (CIdent) this.getSec();
+        if (!cTR.isMonom()) {
             return false;
         }
         final String a = cIdent.getText();
-        final CElement var = ((CTimesRow) cTR).getFirstVarInMonomRow();
+        final CElement var = cTR.getFirstVarInMonomRow();
         if (!(var instanceof CIdent) || !a.equals(((CIdent) var).getText())) {
             return false;
         }

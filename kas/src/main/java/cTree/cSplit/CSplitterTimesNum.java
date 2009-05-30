@@ -94,9 +94,9 @@ public class CSplitterTimesNum extends CSplitterBase {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
+    public boolean canDo() {
         System.out.println("Check the Mult Num split");
-        this.setEvent(event);
+        final C_Event event = this.getEvent();
         this.init((CS_Event) event);
         return this.splitTyp != SplitTyp.NO;
     }

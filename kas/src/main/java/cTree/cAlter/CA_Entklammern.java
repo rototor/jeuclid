@@ -20,7 +20,6 @@ import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
 public class CA_Entklammern extends CAlter {
@@ -39,10 +38,9 @@ public class CA_Entklammern extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        final CElement first = event.getFirst();
+    public boolean canDo() {
+        final CElement first = this.getEvent().getFirst();
         if (first instanceof CFences) {
-            this.setEvent(event);
             final CFences cF = (CFences) first;
             if (cF.hasParent() && cF.getInnen() != null) {
                 return DefHandler.getInst().canDefence(cF.getParent(), cF,

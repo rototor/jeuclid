@@ -24,7 +24,7 @@ import cTree.CMinTerm;
 import cTree.CPlusRow;
 import cTree.CRolle;
 
-public class CC_StrichFracFracT extends CC_ {
+public class CC_StrichFracFracT extends CC_Base {
 
     private CFrac b1;
 
@@ -47,8 +47,9 @@ public class CC_StrichFracFracT extends CC_ {
     private CFrac newChild;
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
+        final CElement cE1 = this.getFirst();
+        final CElement cE2 = this.getSec();
         if (cE1 instanceof CFrac && cE2 instanceof CFrac) {
             this.b1 = (CFrac) cE1;
             this.b2 = (CFrac) cE2;
@@ -63,8 +64,8 @@ public class CC_StrichFracFracT extends CC_ {
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Addieren Brüche");
         final boolean zuerstMin = cE1.hasExtMinus();
         final boolean dannMin = cE2.hasExtMinus();

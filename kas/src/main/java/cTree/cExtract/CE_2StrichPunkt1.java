@@ -28,7 +28,8 @@ import cTree.adapter.C_Event;
 public class CE_2StrichPunkt1 extends CE_1 {
 
     @Override
-    public boolean canDo(final C_Event e) {
+    public boolean canDo() {
+        final C_Event e = this.getEvent();
         if (e == null || !(e instanceof C_Event)) {
             return false;
         }
@@ -61,7 +62,8 @@ public class CE_2StrichPunkt1 extends CE_1 {
             cEl.removeCLastProperty();
         }
         selection.get(0).removeCActiveProperty();
-        final CElement defElement = this.getEvent().getFirstFirst().cloneCElement(false);
+        final CElement defElement = this.getEvent().getFirstFirst()
+                .cloneCElement(false);
         CTimesRow newChild = null;
         final ArrayList<CElement> foldedList = CTimesRow.fold(CTimesRow
                 .castList(CRow.cloneList(selection)));

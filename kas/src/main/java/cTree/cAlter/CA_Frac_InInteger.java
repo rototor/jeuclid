@@ -63,8 +63,8 @@ public class CA_Frac_InInteger extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final CElement first = event.getFirst();
         final ArrayList<CElement> sel = event.getSelection();
         if (sel.size() > 0 && first instanceof CFrac) {

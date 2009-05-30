@@ -67,8 +67,8 @@ public class CA_GemZ_Norm extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CMixedNumber) {
             this.cMixed = (CMixedNumber) els.get(0);

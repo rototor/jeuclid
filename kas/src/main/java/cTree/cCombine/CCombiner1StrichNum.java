@@ -27,7 +27,7 @@ public class CCombiner1StrichNum extends CCombiner1 {
     }
 
     @Override
-    public HashMap<CType, CC_> getOp2Comb() {
+    public HashMap<CType, CC_Base> getOp2Comb() {
         if (this.op2Combiner == null) {
             this.op2Combiner = super.getOp2Comb();
             this.op2Combiner.put(CType.NUM, new CC_StrichNumNum());

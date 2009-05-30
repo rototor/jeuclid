@@ -22,6 +22,7 @@ import cTree.CElement;
 import cTree.CTimesRow;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 import cViewer.TransferObject;
 import cViewer.ViewerFactory;
 
@@ -44,7 +45,7 @@ public class CE_2StrichPunkt extends CE_1 {
 
     @Override
     public C_Changer getChanger(final C_Event event) {
-        final CE_1 extracter = new CE_No();
+        final C_Changer extracter = new C_No(event);
         extracter.setEvent(event);
         for (final CElement cEl : event.getSelection()) {
             if (!(cEl instanceof CTimesRow)) {
@@ -54,7 +55,7 @@ public class CE_2StrichPunkt extends CE_1 {
         final TransferObject to = new TransferObject(this.strArray);
         ViewerFactory.getInst().getComboDialog(to);
         final CE_1 ext = this.extracters.get(to.getResult());
-        if (ext.canDo(event)) {
+        if (ext.canDo()) {
             return ext;
         } else {
             return extracter;

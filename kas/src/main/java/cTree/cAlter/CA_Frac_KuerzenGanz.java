@@ -49,8 +49,8 @@ public class CA_Frac_KuerzenGanz extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CFrac) {
             final CFrac cFrac = (CFrac) els.get(0);

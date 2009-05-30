@@ -22,17 +22,16 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRolle;
 
-public class CC_StrichNumNum extends CC_ {
+public class CC_StrichNumNum extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement num1,
-            final CElement num2) {
+    public boolean canDo() {
         return true;
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cN1, final CElement cN2) {
+    protected CElement createComb(final CElement parent, final CElement cN1,
+            final CElement cN2) {
         System.out.println("Add Num and Num");
         final int wert1 = ((CNum) cN1).getValue();
         final int wert2 = ((CNum) cN2).getValue();

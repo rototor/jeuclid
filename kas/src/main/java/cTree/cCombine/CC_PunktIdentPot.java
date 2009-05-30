@@ -27,14 +27,15 @@ import cTree.adapter.EElementHelper;
 
 // wegen toggle noch gelassen
 
-public class CC_PunktIdentPot extends CC_ {
+public class CC_PunktIdentPot extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (((CPot) cE2).getBasis() instanceof CIdent) {
-            final CIdent cId = (CIdent) ((CPot) cE2).getBasis();
-            return ((CIdent) cE1).getVar().equals(cId.getVar());
+    public boolean canDo() {
+        final CPot cE2 = (CPot) this.getSec();
+        final CIdent cE1 = (CIdent) this.getFirst();
+        if ((cE2).getBasis() instanceof CIdent) {
+            final CIdent cId = (CIdent) (cE2).getBasis();
+            return (cE1).getVar().equals(cId.getVar());
         }
         return false;
     }
@@ -47,13 +48,11 @@ public class CC_PunktIdentPot extends CC_ {
                         .getTextContent()));
     }
 
-    private boolean justTwo(final CElement first, final CElement second) {
-        return !(first.hasPrevC() || second.hasNextC());
-    }
-
     @Override
-    public CElement combine(final CElement parent, final CElement ident,
-            final CElement oldPot) {
+    public CElement doIt() {
+        final CElement parent = this.getParent();
+        final CElement ident = this.getFirst();
+        final CElement oldPot = this.getSec();
         System.out.println("Multipliziere Ident and Pot");
         final boolean replace = this.justTwo(ident, oldPot);
         CElement newChild = null;

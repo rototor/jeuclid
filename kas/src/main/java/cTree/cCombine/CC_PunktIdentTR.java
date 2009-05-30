@@ -22,13 +22,13 @@ import cTree.CElement;
 import cTree.CRow;
 import cTree.CTimesRow;
 
-public class CC_PunktIdentTR extends CC_ {
+public class CC_PunktIdentTR extends CC_Base {
 
     // noch alt
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Multipliziere Ident TR");
         // a*|b*c| -> |a*b*c| und +-*a*|b*c| -> +-*|a*b*c| aber nicht :a*|b*c|
         final CElement faktor1 = cE1.cloneCElement(false); // parent.cloneChild(cE1,
@@ -44,9 +44,8 @@ public class CC_PunktIdentTR extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (cE1.hasExtDiv() || cE2.hasExtDiv()) {
+    public boolean canDo() {
+        if (this.getFirst().hasExtDiv() || this.getSec().hasExtDiv()) {
             return false;
         }
         return true;

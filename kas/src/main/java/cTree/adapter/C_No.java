@@ -14,24 +14,32 @@
  * limitations under the License.
  */
 
-package cTree.cExtract;
+package cTree.adapter;
 
 import cTree.CElement;
-import cTree.adapter.C_Event;
 
-public class CE_No extends CE_1 {
+public class C_No extends C_Changer {
 
+    public C_No(final C_Event event) {
+        this.setEvent(event);
+    }
+
+    /**
+     * This should be overwriten by each Class.
+     */
+    @Override
+    public boolean canDo() {
+        return false;
+    }
+
+    /**
+     * Do nothing
+     */
     @Override
     public CElement doIt() {
         if (this.getEvent() != null) {
             return this.getEvent().getFirst();
         }
         return null;
-    }
-
-    @Override
-    public boolean canDo(final C_Event e) {
-        this.setEvent(e);
-        return true;
     }
 }

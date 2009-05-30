@@ -70,8 +70,8 @@ public class CSplitterPot extends CSplitterBase {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final CElement cE1 = event.getFirst();
         final String op = ((CS_Event) event).getOperator();
         this.init(cE1, op);

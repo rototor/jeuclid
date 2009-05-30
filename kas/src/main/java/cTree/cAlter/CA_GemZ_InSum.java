@@ -57,8 +57,8 @@ public class CA_GemZ_InSum extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final CElement first = event.getFirst();
         final ArrayList<CElement> els = event.getSelection();
         if (els.size() > 0 && els.get(0) instanceof CMixedNumber) {

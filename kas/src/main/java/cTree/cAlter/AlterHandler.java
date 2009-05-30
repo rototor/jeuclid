@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cTree.CElement;
+import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.adapter.DOMElementMap;
 
@@ -108,10 +109,8 @@ public class AlterHandler {
         final ArrayList<String> options = new ArrayList<String>();
         final C_Event event = new C_Event(els);
         for (final CAlter ca : this.getAlters.values()) {
-            // if (ca.check(els)) {
-            // options.add(ca.getText());
-            // }
-            if (ca.canDo(event)) {
+            final C_Changer c = ca.getChanger(event);
+            if (c.canDo()) {
                 options.add(ca.getText());
             }
         }

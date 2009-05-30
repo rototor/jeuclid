@@ -22,7 +22,7 @@ import cTree.CFrac;
 import cTree.CMessage;
 import cTree.CTimesRow;
 
-public class CC_PunktFracFrac extends CC_ {
+public class CC_PunktFracFrac extends CC_Base {
 
     private CElement z1;
 
@@ -45,14 +45,13 @@ public class CC_PunktFracFrac extends CC_ {
     private CFrac newChild;
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
         return true;
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Multipliziere Brüche");
         final boolean zuerstDiv = cE1.hasExtDiv();
         final boolean dannDiv = cE2.hasExtDiv();

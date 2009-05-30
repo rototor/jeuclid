@@ -24,15 +24,15 @@ import cTree.CMinTerm;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
 
-public class CC_PunktIdentFences extends CC_ {
+public class CC_PunktIdentFences extends CC_Base {
 
     // a*(b+c+d) -> (a*b+a*c+a*d)
     // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
     // steht
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         if (cE2.getFirstChild() instanceof CPlusRow) {
             System.out
                     .println("Multipliziere Ident mit Klammer, die Summe enthält");
@@ -62,8 +62,9 @@ public class CC_PunktIdentFences extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
+        final CElement cE1 = this.getFirst();
+        final CElement cE2 = this.getSec();
         System.out.println("Repell ident mult fenced sum");
         if (cE1.hasExtDiv() || cE2.hasExtDiv()) {
             return false;

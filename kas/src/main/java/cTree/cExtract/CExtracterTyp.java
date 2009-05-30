@@ -21,6 +21,7 @@ import java.util.HashMap;
 import cTree.CType;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
 public class CExtracterTyp extends C_Changer {
     public HashMap<CType, CE_1> op1Extracter;
@@ -36,9 +37,7 @@ public class CExtracterTyp extends C_Changer {
             System.out.println("CExtracterTyp");
             return this.op1Extracter.get(firstTyp).getChanger(event);
         } else {
-            final C_Changer ext = new CE_No();
-            ext.setEvent(event);
-            return ext;
+            return new C_No(event);
         }
     }
 

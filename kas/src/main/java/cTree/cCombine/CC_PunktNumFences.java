@@ -21,31 +21,32 @@ import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
 
-public class CC_PunktNumFences extends CC_ {
+public class CC_PunktNumFences extends CC_Base {
 
     private CC_PunktNumFencedSum cns;
 
     private CC_PunktNumFencedMin cnm;
 
     @Override
-    protected CElement createCombination(final CElement oldSumme,
+    protected CElement createComb(final CElement oldSumme,
             final CElement cE1, final CElement cE2) {
         if (((CFences) cE2).getInnen() instanceof CMinTerm) {
-            return this.getCnm().createCombination(oldSumme, cE1, cE2);
+            return this.getCnm().createComb(oldSumme, cE1, cE2);
         } else if (((CFences) cE2).getInnen() instanceof CPlusRow) {
-            return this.getCns().createCombination(oldSumme, cE1, cE2);
+            return this.getCns().createComb(oldSumme, cE1, cE2);
         }
         return cE1;
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement el,
-            final CElement el2) {
+    public boolean canDo() {
         System.out.println("Can Combine Num times Fences?");
+        final CElement el = this.getFirst();
+        final CElement el2 = el.getNextSibling();
         if (((CFences) el2).getInnen() instanceof CMinTerm) {
-            return this.getCnm().canCombine(parent, el, el2);
+            return this.getCnm().canDo();
         } else if (((CFences) el2).getInnen() instanceof CPlusRow) {
-            return this.getCns().canCombine(parent, el, el2);
+            return this.getCns().canDo();
         }
         return false;
     }

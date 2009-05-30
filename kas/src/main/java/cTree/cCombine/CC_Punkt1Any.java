@@ -18,21 +18,19 @@ package cTree.cCombine;
 
 import cTree.CElement;
 
-public class CC_Punkt1Any extends CC_ {
+public class CC_Punkt1Any extends CC_Base {
 
     // parent basis und exponent können zusammengeholt sein, parent ist nur
     // producer
 
     @Override
-    protected boolean canCombine(final CElement parent,
-            final CElement minTerm, final CElement tRow) {
-        System.out.println("Repell mult Any 1?");
+    public boolean canDo() {
         return true;
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Mult 1 Any");
         return cE2.cloneCElement(false);
     }

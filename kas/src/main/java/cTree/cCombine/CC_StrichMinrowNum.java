@@ -21,21 +21,20 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRolle;
 
-public class CC_StrichMinrowNum extends CC_ {
+public class CC_StrichMinrowNum extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
         System.out.println(" Repell Add Minrow and Num?");
-        if (!(((CMinTerm) cE1).getValue() instanceof CNum)) {
+        if (!(((CMinTerm) this.getFirst()).getValue() instanceof CNum)) {
             return false;
         }
         return true;
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         final int wertE = Integer.parseInt(((CNum) ((CMinTerm) cE1)
                 .getValue()).getText());
         final int wertZ = Integer.parseInt(cE2.getText());
@@ -49,7 +48,7 @@ public class CC_StrichMinrowNum extends CC_ {
             System.out
                     .println("// Minterm in Summe muss erster Summand sein");
             newChild = cE1.cloneCElement(false); // parent.cloneChild(cE1,
-                                                 // false);
+            // false);
             int value = wertE - wertZ;
             if (cE2.hasExtMinus()) {
                 value = wertE + wertZ;

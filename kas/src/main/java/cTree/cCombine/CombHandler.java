@@ -18,9 +18,10 @@ package cTree.cCombine;
 
 import java.util.HashMap;
 
-import cTree.CElement;
-import cTree.CFences;
 import cTree.CType;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
 public class CombHandler {
 
@@ -48,10 +49,10 @@ public class CombHandler {
     private HashMap<CType, CCombinerTyp> getTypComb() {
         if (this.typCombiner == null) {
             this.typCombiner = new HashMap<CType, CCombinerTyp>();
-            final CCombinerTyp default1 = new CCombinerTyp();
-            for (final CType cType : CType.values()) {
-                this.typCombiner.put(cType, default1);
-            }
+            // final CCombinerTyp default1 = new CCombinerTyp();
+            // for (final CType cType : CType.values()) {
+            // this.typCombiner.put(cType, default1);
+            // }
             this.typCombiner.put(CType.PLUSROW, new CCombinerTStrich());
             this.typCombiner.put(CType.TIMESROW, new CCombinerTPunkt());
             this.typCombiner.put(CType.POT, new CCombinerTPot());
@@ -60,51 +61,15 @@ public class CombHandler {
         return this.typCombiner;
     }
 
-    public boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        final CType pt = parent.getCType();
-        return this.getTypComb().get(pt).canCombine(parent, cE1, cE2);
-    }
-
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        final CType pt = parent.getCType();
-        return this.getTypComb().get(pt).combine(parent, cE1, cE2);
-    }
-
-    public CC_ getCombiner(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        final CType pt = parent.getCType();
-        return this.getTypComb().get(pt).getCombiner(parent, cE1, cE2);
-    }
-
     // -------------------------------------------------------------------------------
 
-    public boolean justTwo(final CElement first, final CElement second) {
-        return !(first.hasPrevC() || second.hasNextC());
-    }
-
-    /*
-     * Je nach replace wird entweder paren oder repC ersetzt. remC wird
-     * entfernt.
-     */
-    public CElement insertOrReplace(final CElement parent,
-            final CElement newC, final CElement repC, final CElement remC,
-            final boolean replace) {
-        if (replace) {
-            final CElement grandParent = parent.getParent();
-            if (grandParent instanceof CFences) {
-                final CElement ggParent = grandParent.getParent();
-                final CFences newF = CFences.createFenced(newC);
-                return ggParent.replaceChild(newF, grandParent, true, true);
-            } else {
-                // parent.removeChild(remC, false, false, false);
-                // parent.removeChild(repC, false, false, false);
-                return grandParent.replaceChild(newC, parent, true, true);
-            }
+    public C_Changer getChanger(final C_Event e) {
+        final CType cType = e.getParent().getCType();
+        if (this.getTypComb().containsKey(cType)) {
+            return this.getTypComb().get(cType).getChanger(e);
         } else {
-            parent.removeChild(remC, true, true, false);
-            return parent.replaceChild(newC, repC, true, true);
+            return new C_No(e);
         }
     }
+
 }

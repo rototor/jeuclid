@@ -23,10 +23,10 @@ import cTree.CFences;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
 
-public class CC_PunktNumFencedSum extends CC_ {
+public class CC_PunktNumFencedSum extends CC_Base {
 
     @Override
-    protected CElement createCombination(final CElement oldSumme,
+    protected CElement createComb(final CElement oldSumme,
             final CElement cE1, final CElement cE2) {
         System.out
                 .println("Multipliziere Num mit Klammer, die Summe enthält");
@@ -41,8 +41,7 @@ public class CC_PunktNumFencedSum extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement el,
-            final CElement el2) {
-        return !el2.hasExtDiv();
+    public boolean canDo() {
+        return !this.getSec().hasExtDiv();
     }
 }

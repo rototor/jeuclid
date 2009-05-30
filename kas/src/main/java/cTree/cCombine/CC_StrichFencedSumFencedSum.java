@@ -22,15 +22,15 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CPlusRow;
 
-public class CC_StrichFencedSumFencedSum extends CC_ {
+public class CC_StrichFencedSumFencedSum extends CC_Base {
 
     // a*(b+c+d) -> (a*b+a*c+a*d)
     // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
     // steht
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Addiere zwei geklammerte Summen");
         final boolean gleicheVZ = cE1.hasExtMinus() && cE2.hasExtMinus()
                 || !cE1.hasExtMinus() && !cE2.hasExtMinus();
@@ -52,8 +52,7 @@ public class CC_StrichFencedSumFencedSum extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
         System.out.println("Repell fenced sum fenced sum?");
         return true;
     }

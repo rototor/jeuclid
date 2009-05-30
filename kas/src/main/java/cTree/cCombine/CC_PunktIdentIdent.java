@@ -25,7 +25,7 @@ import cTree.CRolle;
 import cTree.CTimesRow;
 import cTree.adapter.EElementHelper;
 
-public class CC_PunktIdentIdent extends CC_ {
+public class CC_PunktIdentIdent extends CC_Base {
 
     public CElement create(final CElement producer, final CElement first,
             final CElement second) {
@@ -44,8 +44,8 @@ public class CC_PunktIdentIdent extends CC_ {
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Multipliziere Idents");
         CElement newChild = null;
         if (cE1.getCRolle() == CRolle.FAKTOR1) {
@@ -79,8 +79,7 @@ public class CC_PunktIdentIdent extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
         System.out.println("Repell ident times ident?");
         return true;
     }

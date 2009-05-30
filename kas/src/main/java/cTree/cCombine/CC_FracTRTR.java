@@ -21,29 +21,36 @@ import java.util.ArrayList;
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.CTimesRow;
+import cTree.adapter.C_Event;
 
-public class CC_FracTRTR extends CC_ {
+public class CC_FracTRTR extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        System.out.println("Repell frac TR TR?");
-        if (cE1.getFirstChild().getNextSibling().hasExtDiv()
-                || cE2.getFirstChild().getNextSibling().hasExtDiv()) {
-            System.out.println("Zähler oder Nenner hat Div");
-            return false;
-        }
-        if (!cE1.getFirstChild().getText().equals(
-                cE2.getFirstChild().getText())) {
-            System.out.println("Zähler und Nenner beginnen verschieden");
-            return false;
+    public boolean canDo() {
+        final C_Event e = this.getEvent();
+        this.setEvent(e);
+        if (e.getParent() != null && e.getFirst() != null
+                && e.getFirst().hasNextC()) {
+            final CElement cE1 = e.getFirst();
+            final CElement cE2 = cE1.getNextSibling();
+            System.out.println("Repell frac TR TR?");
+            if (cE1.getFirstChild().getNextSibling().hasExtDiv()
+                    || cE2.getFirstChild().getNextSibling().hasExtDiv()) {
+                System.out.println("Zähler oder Nenner hat Div");
+                return false;
+            }
+            if (!cE1.getFirstChild().getText().equals(
+                    cE2.getFirstChild().getText())) {
+                System.out.println("Zähler und Nenner beginnen verschieden");
+                return false;
+            }
         }
         return true;
     }
 
     @Override
-    protected CFrac createCombination(final CElement parent,
-            final CElement firstTR, final CElement secondTR) {
+    protected CFrac createComb(final CElement parent, final CElement firstTR,
+            final CElement secondTR) {
         final ArrayList<CElement> foldedList = CTimesRow.fold(CTimesRow
                 .castList(CTimesRow.createList(firstTR, secondTR)));
         final CFrac newFrac = CFrac.createFraction(foldedList.get(0),
@@ -52,17 +59,54 @@ public class CC_FracTRTR extends CC_ {
     }
 
     @Override
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        // parent ist frac cE1 der Zähler cE2 der Nenner
-        if (!this.canCombine(parent, cE1, cE2)) {
-            return cE1;
-        }
-        final CFrac newChild = this.createCombination(parent, cE1, cE2);
-        parent.getParent().replaceChild(newChild, parent, true, true); // false
-        // als
-        // Praefix?
-        // newChild.getZaehler().setCActiveProperty();
+    public CElement doIt() {
+        final CElement parent = this.getParent();
+        final CElement cE1 = this.getFirst();
+        final CElement cE2 = this.getSec();
+        final CFrac newChild = this.createComb(parent, cE1, cE2);
+        parent.getParent().replaceChild(newChild, parent, true, true);
         return newChild.getZaehler();
     }
+
+    // @Override
+    // protected boolean canDo(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // System.out.println("Repell frac TR TR?");
+    // if (cE1.getFirstChild().getNextSibling().hasExtDiv()
+    // || cE2.getFirstChild().getNextSibling().hasExtDiv()) {
+    // System.out.println("Zähler oder Nenner hat Div");
+    // return false;
+    // }
+    // if (!cE1.getFirstChild().getText().equals(
+    // cE2.getFirstChild().getText())) {
+    // System.out.println("Zähler und Nenner beginnen verschieden");
+    // return false;
+    // }
+    // return true;
+    // }
+
+    // @Override
+    // protected CFrac createComb(final CElement parent,
+    // final CElement firstTR, final CElement secondTR) {
+    // final ArrayList<CElement> foldedList = CTimesRow.fold(CTimesRow
+    // .castList(CTimesRow.createList(firstTR, secondTR)));
+    // final CFrac newFrac = CFrac.createFraction(foldedList.get(0),
+    // foldedList.get(1));
+    // return newFrac;
+    // }
+    //
+    // @Override
+    // public CElement doIt(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // // parent ist frac cE1 der Zähler cE2 der Nenner
+    // if (!this.canDo(parent, cE1, cE2)) {
+    // return cE1;
+    // }
+    // final CFrac newChild = this.createComb(parent, cE1, cE2);
+    // parent.getParent().replaceChild(newChild, parent, true, true); // false
+    // // als
+    // // Praefix?
+    // // newChild.getZaehler().setCActiveProperty();
+    // return newChild.getZaehler();
+    // }
 }

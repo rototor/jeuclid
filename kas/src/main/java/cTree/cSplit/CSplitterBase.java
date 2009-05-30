@@ -19,7 +19,6 @@ package cTree.cSplit;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.adapter.C_Changer;
-import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
 public abstract class CSplitterBase extends C_Changer {
@@ -33,11 +32,11 @@ public abstract class CSplitterBase extends C_Changer {
     }
 
     @Override
-    public boolean canDo(final C_Event e) {
+    public boolean canDo() {
         return false;
     }
 
-    public CSplitterBase getSplitr(final CS_Event event) {
+    public C_Changer getSplitr(final CS_Event event) {
         return this;
     }
 

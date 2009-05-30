@@ -18,13 +18,6 @@ package cTree.cCombine;
 
 import java.util.HashMap;
 
-import cTree.CElement;
-import cTree.CFences;
-import cTree.CFrac;
-import cTree.CIdent;
-import cTree.CNum;
-import cTree.CPot;
-import cTree.CSqrt;
 import cTree.CType;
 
 public class CCombiner1PunktFrac extends CCombiner1 {
@@ -33,7 +26,7 @@ public class CCombiner1PunktFrac extends CCombiner1 {
     }
 
     @Override
-    public HashMap<CType, CC_> getOp2Comb() {
+    public HashMap<CType, CC_Base> getOp2Comb() {
         if (this.op2Combiner == null) {
             this.op2Combiner = super.getOp2Comb();
             this.op2Combiner.put(CType.NUM, new CC_PunktFracNum());
@@ -42,22 +35,22 @@ public class CCombiner1PunktFrac extends CCombiner1 {
         return this.op2Combiner;
     }
 
-    @Override
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (cE2 instanceof CFrac) {
-            return this.getOp2Comb().get(CType.FRAC)
-                    .combine(parent, cE1, cE2);
-        } else {
-            return this.getOp2Comb().get(CType.NUM).combine(parent, cE1, cE2);
-        }
-    }
-
-    @Override
-    public boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        return (cE2 instanceof CFrac) || (cE2 instanceof CNum)
-                || (cE2 instanceof CIdent) || (cE2 instanceof CFences)
-                || (cE2 instanceof CPot) || (cE2 instanceof CSqrt);
-    }
+    // @Override
+    // public CElement combine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // if (cE2 instanceof CFrac) {
+    // return this.getOp2Comb().get(CType.FRAC)
+    // .doIt(parent, cE1, cE2);
+    // } else {
+    // return this.getOp2Comb().get(CType.NUM).doIt(parent, cE1, cE2);
+    // }
+    // }
+    //
+    // @Override
+    // public boolean canCombine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // return (cE2 instanceof CFrac) || (cE2 instanceof CNum)
+    // || (cE2 instanceof CIdent) || (cE2 instanceof CFences)
+    // || (cE2 instanceof CPot) || (cE2 instanceof CSqrt);
+    // }
 }

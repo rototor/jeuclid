@@ -60,7 +60,8 @@ public class CE_2StrichPunktVZM extends CE_1 {
     }
 
     @Override
-    public boolean canDo(final C_Event e) {
+    public boolean canDo() {
+        final C_Event e = this.getEvent();
         if (e == null || !(e instanceof C_Event)) {
             return false;
         }

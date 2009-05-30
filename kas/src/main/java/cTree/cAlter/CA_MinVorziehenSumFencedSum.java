@@ -40,8 +40,8 @@ public class CA_MinVorziehenSumFencedSum extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final CElement fences = event.getFirst();
         if (fences instanceof CFences) {
             if (((CFences) fences).getInnen() instanceof CPlusRow) {

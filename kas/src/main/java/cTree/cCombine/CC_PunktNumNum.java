@@ -23,15 +23,15 @@ import cTree.CNum;
 import cTree.CRolle;
 import cTree.adapter.EElementHelper;
 
-public class CC_PunktNumNum extends CC_ {
+public class CC_PunktNumNum extends CC_Base {
 
     private int wertE;
 
     private int wertZ;
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Multipliziere Zahlen");
         CElement newChild = null;
 
@@ -74,10 +74,11 @@ public class CC_PunktNumNum extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        this.wertE = ((CNum) cE1).getValue();
-        this.wertZ = ((CNum) cE2).getValue();
+    public boolean canDo() {
+        final CNum cE1 = (CNum) this.getFirst();
+        final CNum cE2 = (CNum) this.getSec();
+        this.wertE = (cE1).getValue();
+        this.wertZ = (cE2).getValue();
         if (cE1.getCRolle() == CRolle.FAKTOR1 && cE2.hasExtDiv()
                 && (this.wertE % this.wertZ) != 0) {
             return false;

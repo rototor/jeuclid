@@ -37,8 +37,8 @@ public class CA_Klammern extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final CElement first = event.getFirst();
         final ArrayList<CElement> els = event.getSelection();
         return (els.size() > 0 && first != null && !(els.size() == 1 && (first instanceof CFences)));

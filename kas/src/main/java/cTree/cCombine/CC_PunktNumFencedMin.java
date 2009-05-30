@@ -21,10 +21,10 @@ import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CTimesRow;
 
-public class CC_PunktNumFencedMin extends CC_ {
+public class CC_PunktNumFencedMin extends CC_Base {
 
     @Override
-    protected CElement createCombination(final CElement oldSumme,
+    protected CElement createComb(final CElement oldSumme,
             final CElement cE1, final CElement cE2) {
         System.out.println("Mult Num mit Klammer, die MinTerm enthält");
 
@@ -50,8 +50,7 @@ public class CC_PunktNumFencedMin extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement el,
-            final CElement el2) {
+    public boolean canDo() {
         System.out.println("Can Combine Num times FencedMin?");
         return true;
     }
