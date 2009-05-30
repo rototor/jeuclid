@@ -23,13 +23,13 @@ import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
 
-public class CC_StrichMinrowIdent extends CC_ {
+public class CC_StrichMinrowIdent extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent,
-            final CElement minTerm, final CElement ident) {
-        System.out.println("Repell add Minrow and Ident?");
-        final CElement minTermArg = ((CMinTerm) minTerm).getValue();
+    public boolean canDo() {
+        final CMinTerm minTerm = (CMinTerm) this.getFirst();
+        final CIdent ident = (CIdent) this.getSec();
+        final CElement minTermArg = minTerm.getValue();
         if (!(minTermArg instanceof CIdent)
                 && !(minTermArg instanceof CTimesRow)) {
             return false;
@@ -48,8 +48,8 @@ public class CC_StrichMinrowIdent extends CC_ {
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Add Minrow and Ident");
         final CElement minTermArg = ((CMinTerm) cE1).getValue();
         CElement newChild = null;

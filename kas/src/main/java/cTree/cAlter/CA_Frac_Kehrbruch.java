@@ -43,8 +43,8 @@ public class CA_Frac_Kehrbruch extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final ArrayList<CElement> els = event.getSelection();
         return (els.get(0).hasExtDiv() || els.get(0).hasExtTimes())
                 && (els.get(0) instanceof CFrac);

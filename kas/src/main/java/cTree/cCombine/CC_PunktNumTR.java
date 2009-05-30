@@ -22,17 +22,17 @@ import cTree.CElement;
 import cTree.CRow;
 import cTree.CTimesRow;
 
-public class CC_PunktNumTR extends CC_ {
+public class CC_PunktNumTR extends CC_Base {
 
     // noch alt
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Multipliziere Num TR");
         // a*|b*c| -> |a*b*c| und +-*a*|b*c| -> +-*|a*b*c| aber nicht :a*|b*c|
         final CElement faktor1 = cE1.cloneCElement(false); // parent.cloneChild(cE1,
-                                                           // false);
+        // false);
         final ArrayList<CElement> first = CRow.makeSingleElementList(faktor1);
         final ArrayList<CElement> second = ((CTimesRow) cE2).getMemberList();
         second.get(0).setPraefix("*");
@@ -44,9 +44,8 @@ public class CC_PunktNumTR extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (cE1.hasExtDiv() || cE2.hasExtDiv()) {
+    public boolean canDo() {
+        if (this.getFirst().hasExtDiv() || this.getSec().hasExtDiv()) {
             return false;
         }
         return true;

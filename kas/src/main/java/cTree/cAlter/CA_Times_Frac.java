@@ -53,8 +53,8 @@ public class CA_Times_Frac extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         this.first = event.getFirst();
         if (this.first.getParent() instanceof CTimesRow
                 && this.first.hasNextC()) {

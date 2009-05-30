@@ -19,6 +19,7 @@ package cTree.adapter;
 import java.util.ArrayList;
 
 import cTree.CElement;
+import cTree.CFences;
 
 public abstract class C_Changer {
 
@@ -33,34 +34,108 @@ public abstract class C_Changer {
     }
 
     public CElement doIt() {
-        return this.event.getFirst();
+        if (this.event != null) {
+            return this.event.getFirst();
+        }
+        return null;
     }
 
-    public boolean canDo(final C_Event e) {
+    // hook fuer die Methode getChanger
+    public boolean canDo() {
         return false;
     }
 
     public C_Changer getChanger(final C_Event e) {
-        return this;
+        this.setEvent(e);
+        if (this.canDo()) {
+            return this;
+        } else {
+            return new C_No(e);
+        }
     }
 
     // -- Utilities
+
+    public CElement getParent() {
+        if (this.getEvent() != null) {
+            return this.getEvent().getParent();
+        } else {
+            return null;
+        }
+    }
+
+    public CElement getFirst() {
+        if (this.getEvent() != null) {
+            return this.getEvent().getFirst();
+        } else {
+            return null;
+        }
+    }
+
+    public CElement getSec() {
+        if (this.getFirst() != null && this.getFirst().hasNextC()) {
+            return this.getEvent().getFirst().getNextSibling();
+        } else {
+            return null;
+        }
+    }
 
     public boolean justAll(final ArrayList<CElement> selection) {
         return !(selection.get(0).hasPrevC() || selection.get(
                 selection.size() - 1).hasNextC());
     }
 
-    public void insertOrReplace(final CElement newC, final boolean replace) {
-        final CElement parent = this.event.getParent();
-        final ArrayList<CElement> selection = this.event.getSelection();
-        if (replace) {
-            parent.getParent().replaceChild(newC, parent, true, true);
+    public boolean justTwo(final CElement first, final CElement second) {
+        return !(first.hasPrevC() || second.hasNextC());
+    }
+
+    public void insertOrReplace(final CElement newC, final boolean replace)
+            throws NullPointerException {
+        if (this.event == null || this.event.getParent() == null
+                || this.event.getFirst() == null) {
+            throw new NullPointerException();
         } else {
-            parent.replaceChild(newC, this.event.getFirst(), true, true);
-            for (int i = 1; i < selection.size(); i++) {
-                parent.removeChild(selection.get(i), true, true, false);
+            final CElement parent = this.event.getParent();
+            final ArrayList<CElement> selection = this.event.getSelection();
+            if (replace) {
+                parent.getParent().replaceChild(newC, parent, true, true);
+            } else {
+                parent.replaceChild(newC, this.event.getFirst(), true, true);
+                for (int i = 1; i < selection.size(); i++) {
+                    parent.removeChild(selection.get(i), true, true, false);
+                }
             }
         }
+
     }
+
+    // * Je nach replace wird entweder paren oder repC ersetzt. remC wird
+    // * entfernt.
+    // */
+    public CElement insertOrReplace(final CElement parent,
+            final CElement newC, final CElement repC, final CElement remC,
+            final boolean replace) throws NullPointerException {
+        if (parent != null) {
+            if (replace) {
+                final CElement grandParent = parent.getParent();
+                if (grandParent instanceof CFences) {
+                    final CElement ggParent = grandParent.getParent();
+                    final CFences newF = CFences.createFenced(newC);
+                    return ggParent.replaceChild(newF, grandParent, true,
+                            true);
+                } else {
+                    // parent.removeChild(remC, false, false, false);
+                    // parent.removeChild(repC, false, false, false);
+                    return grandParent.replaceChild(newC, parent, true, true);
+                }
+            } else {
+                parent.removeChild(remC, true, true, false);
+                return parent.replaceChild(newC, repC, true, true);
+            }
+        } else {
+            throw new NullPointerException();
+        }
+
+    }
+
 }

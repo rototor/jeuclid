@@ -21,11 +21,10 @@ import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
 
-public class CC_StrichIdentIdent extends CC_ {
+public class CC_StrichIdentIdent extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
         System.out.println("Repell add ident ident");
         return true;
     }
@@ -37,8 +36,8 @@ public class CC_StrichIdentIdent extends CC_ {
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Add Ident and Ident");
         CElement newChild = null;
         if (cE1.getCRolle() == CRolle.SUMMAND1) {

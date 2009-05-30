@@ -29,9 +29,6 @@ public class CCombinerTPot extends CCombinerTyp {
     public HashMap<CType, CCombiner1> getOp1Comb() {
         if (this.op1Combiner == null) {
             this.op1Combiner = new HashMap<CType, CCombiner1>();
-            for (final CType cType : CType.values()) {
-                this.op1Combiner.put(cType, new CCombiner1PotDefault());
-            }
             this.op1Combiner.put(CType.NUM, new CCombiner1PotNum());
             this.op1Combiner.put(CType.FENCES, new CCombiner1PotFences());
         }

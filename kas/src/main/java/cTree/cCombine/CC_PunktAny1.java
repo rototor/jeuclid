@@ -18,17 +18,16 @@ package cTree.cCombine;
 
 import cTree.CElement;
 
-public class CC_PunktAny1 extends CC_ {
+public class CC_PunktAny1 extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent,
-            final CElement minTerm, final CElement tRow) {
+    public boolean canDo() {
         return true;
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         return cE1.cloneCElement(false); // parent.cloneChild(cE1, false);
     }
 }

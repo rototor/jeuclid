@@ -18,9 +18,6 @@ package cTree.cCombine;
 
 import java.util.HashMap;
 
-import cTree.CElement;
-import cTree.CNum;
-import cTree.CPot;
 import cTree.CType;
 
 public class CCombiner1PunktPot extends CCombiner1 {
@@ -29,7 +26,7 @@ public class CCombiner1PunktPot extends CCombiner1 {
     }
 
     @Override
-    public HashMap<CType, CC_> getOp2Comb() {
+    public HashMap<CType, CC_Base> getOp2Comb() {
         if (this.op2Combiner == null) {
             this.op2Combiner = super.getOp2Comb();
             final CC_PunktPotExp cppe = new CC_PunktPotExp();
@@ -40,28 +37,28 @@ public class CCombiner1PunktPot extends CCombiner1 {
         return this.op2Combiner;
     }
 
-    @Override
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (this.canCombine(parent, cE1, cE2)) {
-            return this.getOp2Comb().get(cE2.getCType()).combine(parent, cE1,
-                    cE2);
-        }
-        return cE1;
-    }
-
-    @Override
-    public boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (cE1.istGleichartigesMonom(cE2)) {
-            return this.getOp2Comb().get(cE2.getCType()).canCombine(parent,
-                    cE1, cE2);
-        }
-        if (((CPot) cE1).getBasis() instanceof CNum && (cE2 instanceof CNum)) {
-            final CNum cN1 = (CNum) ((CPot) cE1).getBasis();
-            final CNum cN2 = (CNum) cE2;
-            return cN1.getValue() == cN2.getValue();
-        }
-        return false;
-    }
+    // @Override
+    // public CElement combine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // if (this.canCombine(parent, cE1, cE2)) {
+    // return this.getOp2Comb().get(cE2.getCType()).doIt(parent, cE1,
+    // cE2);
+    // }
+    // return cE1;
+    // }
+    //
+    // @Override
+    // public boolean canCombine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // if (cE1.istGleichartigesMonom(cE2)) {
+    // return this.getOp2Comb().get(cE2.getCType()).canDo(parent,
+    // cE1, cE2);
+    // }
+    // if (((CPot) cE1).getBasis() instanceof CNum && (cE2 instanceof CNum)) {
+    // final CNum cN1 = (CNum) ((CPot) cE1).getBasis();
+    // final CNum cN2 = (CNum) cE2;
+    // return cN1.getValue() == cN2.getValue();
+    // }
+    // return false;
+    // }
 }

@@ -24,14 +24,13 @@ import cTree.CPot;
 import cTree.CRolle;
 import cTree.adapter.EElementHelper;
 
-public class CC_PunktPotPot extends CC_ {
+public class CC_PunktPotPot extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
         System.out.println("Repell pot times pot?");
-        final CPot pot1 = (CPot) cE1;
-        final CPot pot2 = (CPot) cE2;
+        final CPot pot1 = (CPot) this.getFirst();
+        final CPot pot2 = (CPot) this.getSec();
         final int exp1 = ((CNum) (pot1).getExponent()).getValue();
         final int exp2 = ((CNum) (pot2).getExponent()).getValue();
         if (!pot1.getBasis().getText().equals(pot2.getBasis().getText())) {
@@ -53,7 +52,7 @@ public class CC_PunktPotPot extends CC_ {
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
+    protected CElement createComb(final CElement parent,
             final CElement firstPot, final CElement secondPot) {
         CElement newChild = null;
         final int exp1 = ((CNum) ((CPot) firstPot).getExponent()).getValue();
@@ -105,13 +104,11 @@ public class CC_PunktPotPot extends CC_ {
     }
 
     @Override
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (!this.canCombine(parent, cE1, cE2)) {
-            return cE1;
-        }
-        final boolean replace = CombHandler.getInst()
-                .justTwo(cE1, cE2);
+    public CElement doIt() {
+        final CElement parent = this.getParent();
+        final CElement cE1 = this.getFirst();
+        final CElement cE2 = cE1.getNextSibling();
+        final boolean replace = this.justTwo(cE1, cE2);
         // evtl muss man das Zeichen vor cE1 ändern
         final int exp1 = ((CNum) ((CPot) cE1).getExponent()).getValue();
         final int exp2 = ((CNum) ((CPot) cE2).getExponent()).getValue();
@@ -119,9 +116,8 @@ public class CC_PunktPotPot extends CC_ {
         toggle = toggle
                 || (!cE1.hasExtDiv() && cE2.hasExtDiv() && (exp2 > exp1));
         System.out.println("Toggle?" + toggle);
-        final CElement newChild = this.createCombination(parent, cE1, cE2);
-        CombHandler.getInst().insertOrReplace(parent, newChild, cE1,
-                cE2, replace);
+        final CElement newChild = this.createComb(parent, cE1, cE2);
+        this.insertOrReplace(parent, newChild, cE1, cE2, replace);
         if (toggle) {
             newChild.toggleTimesDiv(false);
         }

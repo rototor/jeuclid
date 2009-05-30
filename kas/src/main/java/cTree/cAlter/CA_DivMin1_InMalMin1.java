@@ -20,7 +20,6 @@ import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.adapter.C_Event;
 
 public class CA_DivMin1_InMalMin1 extends CAlter {
 
@@ -38,12 +37,11 @@ public class CA_DivMin1_InMalMin1 extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        final CElement first = event.getFirst();
+    public boolean canDo() {
+        final CElement first = this.getEvent().getFirst();
         if (first.hasExtDiv() && (first instanceof CFences)) {
             System.out.println("Is fenced Min1");
             this.cF = (CFences) first;
-            this.setEvent(event);
             return this.cF.isFencedMin1();
         }
         return false;

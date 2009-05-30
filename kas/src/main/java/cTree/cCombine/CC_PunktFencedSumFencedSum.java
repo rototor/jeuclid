@@ -23,15 +23,15 @@ import cTree.CFences;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
 
-public class CC_PunktFencedSumFencedSum extends CC_ {
+public class CC_PunktFencedSumFencedSum extends CC_Base {
 
     // a*(b+c+d) -> (a*b+a*c+a*d)
     // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
     // steht
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out
                 .println("Multipliziere Klammer mit Klammer, die Summe enthält");
         final ArrayList<CElement> oldAddendList = ((CPlusRow) cE2
@@ -45,8 +45,9 @@ public class CC_PunktFencedSumFencedSum extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
+        final CElement cE1 = this.getFirst();
+        final CElement cE2 = this.getSec();
         System.out.println("Repell fenced mult fenced");
         if (cE1.hasExtDiv() || cE2.hasExtDiv()) {
             return false;

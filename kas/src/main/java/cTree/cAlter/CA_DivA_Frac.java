@@ -21,7 +21,6 @@ import java.util.HashMap;
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.CNum;
-import cTree.adapter.C_Event;
 
 public class CA_DivA_Frac extends CAlter {
 
@@ -43,9 +42,8 @@ public class CA_DivA_Frac extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
-        return event.getFirst().hasExtDiv();
+    public boolean canDo() {
+        return this.getEvent().getFirst().hasExtDiv();
     }
 
     @Override

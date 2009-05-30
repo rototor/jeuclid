@@ -44,8 +44,8 @@ public class CA_Min1_InProdInSum extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final CElement first = event.getFirst();
         if (first instanceof CFences) {
             final CFences elF = (CFences) first;

@@ -24,10 +24,10 @@ import cTree.CPot;
 import cTree.CRolle;
 import cTree.adapter.EElementHelper;
 
-public class CC_PunktPotExp extends CC_ {
+public class CC_PunktPotExp extends CC_Base {
 
     @Override
-    protected CElement createCombination(final CElement parent,
+    protected CElement createComb(final CElement parent,
             final CElement firstPot, final CElement ident) {
         System.out.println("Multipliziere Pot Ident");
         CElement newChild = null;
@@ -75,8 +75,7 @@ public class CC_PunktPotExp extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
         System.out.println("Repell pot times ident?");
         return true;
     }

@@ -18,7 +18,6 @@ package cTree.cCombine;
 
 import java.util.HashMap;
 
-import cTree.CElement;
 import cTree.CType;
 
 public class CCombiner1StrichIdent extends CCombiner1 {
@@ -28,7 +27,7 @@ public class CCombiner1StrichIdent extends CCombiner1 {
     }
 
     @Override
-    public HashMap<CType, CC_> getOp2Comb() {
+    public HashMap<CType, CC_Base> getOp2Comb() {
         if (this.op2Combiner == null) {
             this.op2Combiner = super.getOp2Comb();
             this.op2Combiner.put(CType.IDENT, new CC_StrichIdentIdent());
@@ -37,23 +36,23 @@ public class CCombiner1StrichIdent extends CCombiner1 {
         return this.op2Combiner;
     }
 
-    @Override
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (cE1.istGleichartigesMonom(cE2)) {
-            return this.getOp2Comb().get(cE2.getCType()).combine(parent, cE1,
-                    cE2);
-        }
-        return cE1;
-    }
-
-    @Override
-    public boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (cE1.istGleichartigesMonom(cE2)) {
-            return this.getOp2Comb().get(cE2.getCType()).canCombine(parent,
-                    cE1, cE2);
-        }
-        return false;
-    }
+    // @Override
+    // public CElement combine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // if (cE1.istGleichartigesMonom(cE2)) {
+    // return this.getOp2Comb().get(cE2.getCType()).doIt(parent, cE1,
+    // cE2);
+    // }
+    // return cE1;
+    // }
+    //
+    // @Override
+    // public boolean canCombine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // if (cE1.istGleichartigesMonom(cE2)) {
+    // return this.getOp2Comb().get(cE2.getCType()).canDo(parent,
+    // cE1, cE2);
+    // }
+    // return false;
+    // }
 }

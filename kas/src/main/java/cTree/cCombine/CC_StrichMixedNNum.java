@@ -24,7 +24,7 @@ import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.CRolle;
 
-public class CC_StrichMixedNNum extends CC_ {
+public class CC_StrichMixedNNum extends CC_Base {
 
     private CMixedNumber cM;
 
@@ -33,9 +33,8 @@ public class CC_StrichMixedNNum extends CC_ {
     private CNum cNenner;
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement mixed,
-            final CElement num) {
-        this.cM = (CMixedNumber) mixed;
+    public boolean canDo() {
+        this.cM = (CMixedNumber) this.getFirst();
         this.cF = (CFrac) this.cM.getFraction();
         this.cNenner = (CNum) this.cF.getNenner();
         return this.cNenner.getValue() != 0;
@@ -43,8 +42,8 @@ public class CC_StrichMixedNNum extends CC_ {
 
     // evtl einbauen dass auch ein Bruch entstehen kann
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Add Mixed and Num");
 
         final int numVal = ((CNum) cE2).getValue();

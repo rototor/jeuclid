@@ -23,15 +23,16 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRolle;
 
-public class CC_StrichFracFracN extends CC_ {
+public class CC_StrichFracFracN extends CC_Base {
 
     private CFrac b1;
 
     private CFrac b2;
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
+        final CElement cE1 = this.getFirst();
+        final CElement cE2 = this.getSec();
         if (cE1 instanceof CFrac && cE2 instanceof CFrac) {
             this.b1 = (CFrac) cE1;
             this.b2 = (CFrac) cE2;
@@ -43,8 +44,8 @@ public class CC_StrichFracFracN extends CC_ {
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Add Frac and Mixed");
 
         final int zVal1 = ((CNum) this.b1.getZaehler()).getValue();

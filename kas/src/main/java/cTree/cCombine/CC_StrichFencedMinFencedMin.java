@@ -22,15 +22,15 @@ import cTree.CMessage;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
 
-public class CC_StrichFencedMinFencedMin extends CC_ {
+public class CC_StrichFencedMinFencedMin extends CC_Base {
 
     // a*(b+c+d) -> (a*b+a*c+a*d)
     // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
     // steht
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Addiere zwei geklammerte MinTerme");
         final CElement inCE1 = cE1.getFirstChild().cloneCElement(false);
         final CElement newCE1 = CFences.condCreateFenced(inCE1, new CMessage(
@@ -53,8 +53,7 @@ public class CC_StrichFencedMinFencedMin extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
         System.out.println("Repell fenced sum fenced?");
         return true;
     }

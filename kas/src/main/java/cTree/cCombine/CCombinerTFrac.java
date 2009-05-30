@@ -30,9 +30,6 @@ public class CCombinerTFrac extends CCombinerTyp {
     public HashMap<CType, CCombiner1> getOp1Comb() {
         if (this.op1Combiner == null) {
             this.op1Combiner = new HashMap<CType, CCombiner1>();
-            for (final CType cType : CType.values()) {
-                this.op1Combiner.put(cType, new CCombiner1());
-            }
             this.op1Combiner.put(CType.TIMESROW, new CCombiner1FracTR());
         }
         return this.op1Combiner;

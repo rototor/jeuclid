@@ -6,7 +6,7 @@ import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
 
-public class CC_StrichTRTR extends CC_ {
+public class CC_StrichTRTR extends CC_Base {
 
     private boolean gleicheMin(final CElement el1, final CElement el2) {
         final boolean result1 = (el1.hasExtMinus() && el2.hasExtMinus());
@@ -15,20 +15,19 @@ public class CC_StrichTRTR extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cTR1,
-            final CElement cTR2) {
-        if (!((CTimesRow) cTR1).isMonom()) {
+    public boolean canDo() {
+        if (!((CTimesRow) this.getFirst()).isMonom()) {
             return false;
         }
-        if (!((CTimesRow) cTR2).isMonom()) {
+        if (!((CTimesRow) this.getSec()).isMonom()) {
             return false;
         }
         return true;
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cTR1, final CElement cTR2) {
+    protected CElement createComb(final CElement parent, final CElement cTR1,
+            final CElement cTR2) {
         final CTimesRow my1 = (CTimesRow) cTR1;
         final CTimesRow my2 = (CTimesRow) cTR2;
         // nun haben wir gleichartige Monome wir holen die Koeffizienten

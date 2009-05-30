@@ -22,7 +22,6 @@ import cTree.CElement;
 import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CPot;
-import cTree.adapter.C_Event;
 
 public class CA_DivA_Pot extends CAlter {
 
@@ -44,9 +43,8 @@ public class CA_DivA_Pot extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
-        return event.getFirst().hasExtDiv();
+    public boolean canDo() {
+        return this.getEvent().getFirst().hasExtDiv();
     }
 
     @Override

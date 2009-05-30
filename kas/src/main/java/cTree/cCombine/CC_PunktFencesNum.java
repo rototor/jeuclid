@@ -21,36 +21,37 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CPlusRow;
 
-public class CC_PunktFencesNum extends CC_ {
+public class CC_PunktFencesNum extends CC_Base {
 
     private CC_PunktFencedMinNum cmn;
 
     private CC_PunktFencedSumNum csn;
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Multipliziere geklammerte Summe/MinRow mit Num");
         if (cE1.getFirstChild() instanceof CMinTerm && cE2 instanceof CNum) {
             System.out.println("Found MinTerms");
-            return this.getCmn().createCombination(parent, cE1, cE2);
+            return this.getCmn().createComb(parent, cE1, cE2);
         } else if (cE1.getFirstChild() instanceof CPlusRow
                 && cE2 instanceof CNum) {
-            return this.getCsn().createCombination(parent, cE1, cE2);
+            return this.getCsn().createComb(parent, cE1, cE2);
         }
         return cE1;
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
+        final CElement cE1 = this.getFirst();
+        final CElement cE2 = this.getSec();
         System.out.println("Repell fenced sum/min mult num");
         if (cE1.getFirstChild() instanceof CMinTerm && cE2 instanceof CNum) {
             System.out.println("Found MinTerms");
-            return this.getCmn().canCombine(parent, cE1, cE2);
+            return this.getCmn().canDo();
         } else if (cE1.getFirstChild() instanceof CPlusRow
                 && cE2 instanceof CNum) {
-            return this.getCsn().canCombine(parent, cE1, cE2);
+            return this.getCsn().canDo();
         }
         return false;
     }

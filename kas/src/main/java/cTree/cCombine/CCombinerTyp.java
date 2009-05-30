@@ -18,10 +18,12 @@ package cTree.cCombine;
 
 import java.util.HashMap;
 
-import cTree.CElement;
 import cTree.CType;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
-public class CCombinerTyp {
+public abstract class CCombinerTyp extends C_Changer {
     protected HashMap<CType, CCombiner1> op1Combiner;
 
     public CCombinerTyp() {
@@ -31,28 +33,35 @@ public class CCombinerTyp {
     public HashMap<CType, CCombiner1> getOp1Comb() {
         if (this.op1Combiner == null) {
             this.op1Combiner = new HashMap<CType, CCombiner1>();
-            for (final CType cType : CType.values()) {
-                this.op1Combiner.put(cType, new CCombiner1());
-            }
         }
         return this.op1Combiner;
     }
 
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        final CType ct1 = cE1.getCType();
-        return this.getOp1Comb().get(ct1).combine(parent, cE1, cE2);
-    }
+    // public CElement combine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // final CType ct1 = cE1.getCType();
+    // return this.getOp1Comb().get(ct1).combine(parent, cE1, cE2);
+    // }
+    //
+    // public boolean canCombine(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // final CType ct1 = cE1.getCType();
+    // return this.getOp1Comb().get(ct1).canCombine(parent, cE1, cE2);
+    // }
+    //
+    // public CC_ getCombiner(final CElement parent, final CElement cE1,
+    // final CElement cE2) {
+    // final CType ct1 = cE1.getCType();
+    // return this.getOp1Comb().get(ct1).getCombiner(parent, cE1, cE2);
+    // }
 
-    public boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        final CType ct1 = cE1.getCType();
-        return this.getOp1Comb().get(ct1).canCombine(parent, cE1, cE2);
-    }
-
-    public CC_ getCombiner(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        final CType ct1 = cE1.getCType();
-        return this.getOp1Comb().get(ct1).getCombiner(parent, cE1, cE2);
+    @Override
+    public C_Changer getChanger(final C_Event e) {
+        final CType cType = e.getFirst().getCType();
+        if (this.getOp1Comb().containsKey(cType)) {
+            return this.getOp1Comb().get(cType).getChanger(e);
+        } else {
+            return new C_No(e);
+        }
     }
 }

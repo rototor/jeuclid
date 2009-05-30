@@ -20,39 +20,23 @@ import cTree.CElement;
 import cTree.CMinTerm;
 import cTree.CMixedNumber;
 import cTree.CNum;
+import cTree.adapter.C_Changer;
 import cTree.cDefence.DefHandler;
 import cViewer.ViewerFactory;
 
-public class CC_ {
-
-    /**
-     * This should be overwriten by each Class.
-     * 
-     * @param parent
-     * @param cE1
-     * @param cE2
-     * @return Defaults to always false
-     */
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        return false;
-    }
+public abstract class CC_Base extends C_Changer {
 
     /**
      * The Standardmethod with a Hook for createCombination
      * 
-     * @param parent
-     * @param cE1
-     * @param cE2
-     * @return the newly inserted CElement.
      */
-    public CElement combine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        if (!this.canCombine(parent, cE1, cE2)) {
-            return cE1;
-        }
-        final boolean replace = CombHandler.getInst().justTwo(cE1, cE2);
-        final CElement newChild = this.createCombination(parent, cE1, cE2);
+    @Override
+    public CElement doIt() {
+        final CElement p = this.getParent();
+        final CElement cE1 = this.getFirst();
+        final CElement cE2 = this.getSec();
+        final boolean replace = this.justTwo(cE1, cE2);
+        final CElement newChild = this.createComb(p, cE1, cE2);
         if (newChild instanceof CNum
                 || (newChild instanceof CMinTerm && ((CMinTerm) newChild)
                         .getValue() instanceof CNum)) {
@@ -70,8 +54,7 @@ public class CC_ {
                 ViewerFactory.getInst().getInputDialog(sol);
             }
         }
-        return CombHandler.getInst().insertOrReplace(parent, newChild, cE1,
-                cE2, replace);
+        return this.insertOrReplace(p, newChild, cE1, cE2, replace);
     }
 
     /**
@@ -82,8 +65,8 @@ public class CC_ {
      * @param cE2
      * @return the newly created Element
      */
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         return cE1;
     }
 
@@ -95,7 +78,7 @@ public class CC_ {
     }
 
     /**
-     * Trys to remove fences el if doit is true. Usualy doit is provided by
+     * Trys to remove fences el if doit is true. Usually doit is provided by
      * CMessage.
      * 
      * @param el

@@ -20,7 +20,6 @@ import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.adapter.C_Changer;
-import cTree.adapter.C_Event;
 import cTree.cExtract.ExtractHandler;
 
 public class CA_Extract extends CAlter {
@@ -38,9 +37,9 @@ public class CA_Extract extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.extracter = ExtractHandler.getInst().getChanger(event);
-        return this.extracter.canDo(event);
+    public boolean canDo() {
+        this.extracter = ExtractHandler.getInst().getChanger(this.getEvent());
+        return this.extracter.canDo();
     }
 
     @Override

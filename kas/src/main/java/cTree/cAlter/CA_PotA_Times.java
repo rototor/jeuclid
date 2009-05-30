@@ -65,8 +65,8 @@ public class CA_PotA_Times extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final ArrayList<CElement> els = event.getSelection();
         if (els.get(0) instanceof CPot) {
             this.cPot = (CPot) els.get(0);

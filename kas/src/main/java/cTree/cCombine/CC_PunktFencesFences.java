@@ -18,10 +18,12 @@ package cTree.cCombine;
 
 import cTree.CElement;
 import cTree.CMinTerm;
-import cTree.CPlusRow;
 import cTree.CPlusTerm;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
-public class CC_PunktFencesFences extends CC_ {
+public class CC_PunktFencesFences extends CC_Base {
 
     private CC_PunktFencedMinFencedMin cmm;
 
@@ -34,50 +36,87 @@ public class CC_PunktFencesFences extends CC_ {
     private CC_PunktFencedSumFencedSum css;
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
-        if (cE1.getFirstChild() instanceof CMinTerm
-                && cE2.getFirstChild() instanceof CMinTerm) {
-            return this.getCmm().createCombination(parent, cE1, cE2);
-        } else if (cE1.getFirstChild() instanceof CPlusTerm
-                && cE2.getFirstChild() instanceof CPlusTerm) {
-            return this.getCpp().createCombination(parent, cE1, cE2);
-        } else if (cE1.getFirstChild() instanceof CPlusTerm
-                && cE2.getFirstChild() instanceof CMinTerm) {
-            return this.getCpm().createCombination(parent, cE1, cE2);
-        } else if (cE1.getFirstChild() instanceof CMinTerm
-                && cE2.getFirstChild() instanceof CPlusTerm) {
-            return this.getCmp().createCombination(parent, cE1, cE2);
-        } else if (cE1.getFirstChild() instanceof CPlusRow
-                && cE2.getFirstChild() instanceof CPlusRow) {
-            return this.getCss().createCombination(parent, cE1, cE2);
+    public C_Changer getChanger(final C_Event e) {
+        if (e != null && e.getFirst() != null && e.getFirst().hasNextC()) {
+            this.setEvent(e);
+            if (this.getSec().hasExtDiv()) {
+                return new C_No(e);
+            }
+            final CElement cE1 = this.getFirst();
+            final CElement cE2 = this.getSec();
+            System.out.println("Try to combine Fences Fences");
+            if (cE1.getFirstChild() instanceof CMinTerm
+                    && cE2.getFirstChild() instanceof CMinTerm) {
+                System.out.println("Found MinTerms");
+                return this.getCmm().getChanger(e);
+            } else if (cE1.getFirstChild() instanceof CPlusTerm
+                    && cE2.getFirstChild() instanceof CMinTerm) {
+                System.out.println("Found PM");
+                return this.getCpm().getChanger(e);
+            } else if (cE1.getFirstChild() instanceof CPlusTerm
+                    && cE2.getFirstChild() instanceof CPlusTerm) {
+                System.out.println("Found PP");
+                return this.getCpp().getChanger(e);
+            } else if (cE1.getFirstChild() instanceof CMinTerm
+                    && cE2.getFirstChild() instanceof CPlusTerm) {
+                System.out.println("Found MP");
+                return this.getCmp().getChanger(e);
+            }
         }
-        return cE1;
+        return new C_No(e);
     }
 
-    @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        System.out.println("Try to combine Fences Fences");
-        if (cE1.getFirstChild() instanceof CMinTerm
-                && cE2.getFirstChild() instanceof CMinTerm) {
-            System.out.println("Found MinTerms");
-            return this.getCmm().canCombine(parent, cE1, cE2);
-        } else if (cE1.getFirstChild() instanceof CPlusTerm
-                && cE2.getFirstChild() instanceof CMinTerm) {
-            System.out.println("Found PM");
-            return this.getCpm().canCombine(parent, cE1, cE2);
-        } else if (cE1.getFirstChild() instanceof CPlusTerm
-                && cE2.getFirstChild() instanceof CPlusTerm) {
-            System.out.println("Found PP");
-            return this.getCpp().canCombine(parent, cE1, cE2);
-        } else if (cE1.getFirstChild() instanceof CMinTerm
-                && cE2.getFirstChild() instanceof CPlusTerm) {
-            System.out.println("Found MP");
-            return this.getCmp().canCombine(parent, cE1, cE2);
-        }
-        return false;
-    }
+    // @Override
+    // protected CElement createComb(final CElement parent, final CElement
+    // cE1,
+    // final CElement cE2) {
+    // if (cE1.getFirstChild() instanceof CMinTerm
+    // && cE2.getFirstChild() instanceof CMinTerm) {
+    // return this.getCmm().createComb(parent, cE1, cE2);
+    // } else if (cE1.getFirstChild() instanceof CPlusTerm
+    // && cE2.getFirstChild() instanceof CPlusTerm) {
+    // return this.getCpp().createComb(parent, cE1, cE2);
+    // } else if (cE1.getFirstChild() instanceof CPlusTerm
+    // && cE2.getFirstChild() instanceof CMinTerm) {
+    // return this.getCpm().createComb(parent, cE1, cE2);
+    // } else if (cE1.getFirstChild() instanceof CMinTerm
+    // && cE2.getFirstChild() instanceof CPlusTerm) {
+    // return this.getCmp().createComb(parent, cE1, cE2);
+    // } else if (cE1.getFirstChild() instanceof CPlusRow
+    // && cE2.getFirstChild() instanceof CPlusRow) {
+    // return this.getCss().createComb(parent, cE1, cE2);
+    // }
+    // return cE1;
+    // }
+    //
+    // @Override
+    // public boolean canDo(final C_Event e) {
+    // this.setEvent(e);
+    // if (this.getSec().hasExtDiv()) {
+    // return false;
+    // }
+    // final CElement cE1 = this.getFirst();
+    // final CElement cE2 = this.getSec();
+    // System.out.println("Try to combine Fences Fences");
+    // if (cE1.getFirstChild() instanceof CMinTerm
+    // && cE2.getFirstChild() instanceof CMinTerm) {
+    // System.out.println("Found MinTerms");
+    // return this.getCmm().canDo(e);
+    // } else if (cE1.getFirstChild() instanceof CPlusTerm
+    // && cE2.getFirstChild() instanceof CMinTerm) {
+    // System.out.println("Found PM");
+    // return this.getCpm().canDo(e);
+    // } else if (cE1.getFirstChild() instanceof CPlusTerm
+    // && cE2.getFirstChild() instanceof CPlusTerm) {
+    // System.out.println("Found PP");
+    // return this.getCpp().canDo(e);
+    // } else if (cE1.getFirstChild() instanceof CMinTerm
+    // && cE2.getFirstChild() instanceof CPlusTerm) {
+    // System.out.println("Found MP");
+    // return this.getCmp().canDo(e);
+    // }
+    // return false;
+    // }
 
     /**
      * Getter method for cmm.

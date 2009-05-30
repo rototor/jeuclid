@@ -26,11 +26,11 @@ import cTree.CPlusRow;
 import cTree.CPot;
 import cTree.CTimesRow;
 
-public class CC_PotFencedSumNum extends CC_ {
+public class CC_PotFencedSumNum extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement basis,
-            final CElement expo) {
+    public boolean canDo() {
+        final CElement basis = this.getFirst();
         System.out.println("Repell pot fencedSum num?");
         if (basis instanceof CFences) {
             final CFences cF = (CFences) basis;
@@ -40,7 +40,7 @@ public class CC_PotFencedSumNum extends CC_ {
     }
 
     @Override
-    protected CElement createCombination(final CElement potenz,
+    protected CElement createComb(final CElement potenz,
             final CElement fences, final CElement expo) {
         System.out.println("Binomische Formel");
         final CFences cF = (CFences) fences;

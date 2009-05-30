@@ -26,8 +26,8 @@ import cTree.adapter.C_Event;
 public class CSplitterMin extends CSplitterBase {
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final String op = ((CS_Event) event).getOperator();
         final CElement cE1 = event.getFirst();
         if (cE1 instanceof CNum && (cE1.getCRolle() != CRolle.NACHVZMINUS)) {

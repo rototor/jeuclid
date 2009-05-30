@@ -23,11 +23,11 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CPot;
 
-public class CC_PotFencedMinrowNum extends CC_ {
+public class CC_PotFencedMinrowNum extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement basis,
-            final CElement expo) {
+    public boolean canDo() {
+        final CElement basis = this.getFirst();
         if (basis instanceof CFences) {
             final CFences cF = (CFences) basis;
             return (cF.getInnen() instanceof CMinTerm);
@@ -36,7 +36,7 @@ public class CC_PotFencedMinrowNum extends CC_ {
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
+    protected CElement createComb(final CElement parent,
             final CElement basis, final CElement expo) {
         final CPot cP = (CPot) parent;
         final CFences cF = (CFences) cP.getBasis();

@@ -54,8 +54,8 @@ public class CA_MinA_InMin1TimesA extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final CElement first = event.getFirst();
         return first.getCType().equals(CType.MINROW);
     }

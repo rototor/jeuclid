@@ -23,11 +23,11 @@ import cTree.CRolle;
 import cTree.CSqrt;
 import cTree.CTimesRow;
 
-public class CC_PunktSqrtSqrt extends CC_ {
+public class CC_PunktSqrtSqrt extends CC_Base {
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Multipliziere Sqrts");
         if (cE1.hasExtDiv()) {
             System.out
@@ -44,10 +44,9 @@ public class CC_PunktSqrtSqrt extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
         System.out.println("Repell sqrt times sqrt: only faktor1");
-        if (cE1.hasExtDiv()) {
+        if (this.getFirst().hasExtDiv()) {
             return false;
         }
         return true;

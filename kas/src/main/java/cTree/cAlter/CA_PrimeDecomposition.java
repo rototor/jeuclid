@@ -82,8 +82,8 @@ public class CA_PrimeDecomposition extends CAlter {
     }
 
     @Override
-    public boolean canDo(final C_Event event) {
-        this.setEvent(event);
+    public boolean canDo() {
+        final C_Event event = this.getEvent();
         final CElement el = event.getFirst();
         return (el instanceof CNum) && (((CNum) el).getValue() > 1);
     }

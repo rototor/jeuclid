@@ -19,6 +19,8 @@ package cTree.cSplit;
 import java.util.HashMap;
 
 import cTree.CElement;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_No;
 
 public class CSplitterErweitern extends CSplitterBase {
 
@@ -36,14 +38,14 @@ public class CSplitterErweitern extends CSplitterBase {
     }
 
     @Override
-    public CSplitterBase getSplitr(final CS_Event event) {
+    public C_Changer getSplitr(final CS_Event event) {
         for (final CSplitterBase test : this.getSplitter.values()) {
-            if (test.canDo(event)) {
+            if (test.canDo()) {
                 this.splitter = test;
                 return test;
             }
         }
-        return new CSplitter_No();
+        return new C_No(event);
     }
 
     @Override

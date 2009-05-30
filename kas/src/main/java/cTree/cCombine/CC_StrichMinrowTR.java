@@ -23,25 +23,24 @@ import cTree.CNum;
 import cTree.CRow;
 import cTree.CTimesRow;
 
-public class CC_StrichMinrowTR extends CC_ {
+public class CC_StrichMinrowTR extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent,
-            final CElement minTerm, final CElement tRow) {
+    public boolean canDo() {
         System.out.println("Repell add Minrow and TR?");
-        final CElement minTermArg = ((CMinTerm) minTerm).getValue();
-        if (!((CTimesRow) tRow).isMonom()) {
+        final CElement minTermArg = ((CMinTerm) this.getFirst()).getValue();
+        if (!((CTimesRow) this.getSec()).isMonom()) {
             return false;
         }
-        if (!((CTimesRow) tRow).istGleichartigesMonom(minTermArg)) {
+        if (!((CTimesRow) this.getSec()).istGleichartigesMonom(minTermArg)) {
             return false;
         }
         return true;
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Add Minrow and TR");
         final int koeff2 = ((CTimesRow) cE2).getKoeffAsBetragFromMonom()
                 .getValue();
@@ -63,7 +62,7 @@ public class CC_StrichMinrowTR extends CC_ {
             final int vz2 = cE2.hasExtMinus() ? -1 : 1;
             if (koeff2 * vz2 > koeff1) { // -4a + 7a = 3a
                 final CTimesRow newArg = (CTimesRow) cE2.cloneCElement(false); // .cloneChild(cE2,
-                                                                               // false);
+                // false);
                 newArg.getKoeffAsBetragFromMonom().setText(
                         "" + (koeff2 - koeff1));
                 newChild = newArg;
@@ -79,8 +78,8 @@ public class CC_StrichMinrowTR extends CC_ {
                     newChild = CMinTerm
                             .createMinTerm(newArg, cE1.getCRolle());
                 } else if (minTermArg instanceof CIdent) { // -a - 2a = -3a
-                                                           // oder -a - a =
-                                                           // -2a
+                    // oder -a - a =
+                    // -2a
                     final CElement f1 = CNum.createNum(minTermArg
                             .getElement(), "" + (koeff1 - koeff2 * vz2));
                     final CElement f2 = minTermArg.cloneCElement(false);
@@ -97,7 +96,7 @@ public class CC_StrichMinrowTR extends CC_ {
         } else {
             if (cE2.hasExtMinus()) { // bilde TimesRow
                 final CTimesRow newArg = (CTimesRow) cE2.cloneCElement(false); // .cloneChild(cE2,
-                                                                               // false);
+                // false);
                 newArg.getKoeffAsBetragFromMonom().setText("" + (koeff2 + 1));
                 newChild = CMinTerm.createMinTerm(newArg, cE1.getCRolle());
             } else { // bilde 0
@@ -106,10 +105,10 @@ public class CC_StrichMinrowTR extends CC_ {
                     newChild.setCRolle(cE1.getCRolle());
                 } else if (koeff2 == 2) {
                     newChild = cE1.getFirstChild().cloneCElement(false); // .cloneChild(cE1.getFirstChild(),
-                                                                         // false);
+                    // false);
                 } else if (koeff2 == 0) {
                     newChild = cE1.cloneCElement(true); // parent.cloneChild(cE1,
-                                                        // true);
+                    // true);
                 } else {
                     final CTimesRow newArg = (CTimesRow) cE2
                             .cloneCElement(false); // .cloneChild(cE2, false);

@@ -20,24 +20,23 @@ import cTree.CElement;
 import cTree.CMinTerm;
 import cTree.CRolle;
 
-public class CC_Strich0Any extends CC_ {
+public class CC_Strich0Any extends CC_Base {
 
     @Override
-    protected boolean canCombine(final CElement parent,
-            final CElement minTerm, final CElement tRow) {
+    public boolean canDo() {
         System.out.println("Repell 0 Any?");
         return true;
     }
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Add 0 Any");
         CElement newChild = null;
         if (cE2.hasExtMinus() && cE1.getCRolle() == CRolle.SUMMAND1) { // bilde
-                                                                       // TimesRow
+            // TimesRow
             final CElement newArg = cE2.cloneCElement(false); // parent.cloneChild(cE2,
-                                                              // false);
+            // false);
             newChild = CMinTerm.createMinTerm(newArg, cE1.getCRolle());
         } else { // nimm cE2
             if ((cE1.hasExtMinus() && cE2.hasExtPlus())
@@ -45,7 +44,7 @@ public class CC_Strich0Any extends CC_ {
                 cE1.togglePlusMinus(false);
             }
             newChild = cE2.cloneCElement(false); // parent.cloneChild(cE2,
-                                                 // false);
+            // false);
         }
         return newChild;
     }

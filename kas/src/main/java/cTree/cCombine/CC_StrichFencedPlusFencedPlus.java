@@ -22,15 +22,15 @@ import cTree.CMessage;
 import cTree.CPlusRow;
 import cTree.CPlusTerm;
 
-public class CC_StrichFencedPlusFencedPlus extends CC_ {
+public class CC_StrichFencedPlusFencedPlus extends CC_Base {
 
     // a*(b+c+d) -> (a*b+a*c+a*d)
     // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
     // steht
 
     @Override
-    protected CElement createCombination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
         System.out.println("Addiere zwei geklammerte PlusTerme"
                 + cE1.getPraefixAsString());
         final CElement inCE1 = ((CPlusTerm) cE1.getFirstChild()).getValue()
@@ -54,8 +54,7 @@ public class CC_StrichFencedPlusFencedPlus extends CC_ {
     }
 
     @Override
-    protected boolean canCombine(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+    public boolean canDo() {
         return true;
     }
 }
