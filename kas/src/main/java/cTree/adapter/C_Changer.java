@@ -21,6 +21,19 @@ import java.util.ArrayList;
 import cTree.CElement;
 import cTree.CFences;
 
+/**
+ * Abstract BaseClass for all Changers. References a C_Event-Objects which
+ * provides the necessary informations for the change to do.
+ * 
+ * The getChanger(C_Event) returns this, if the change can be done, a better
+ * C_Changer if one is known to this or C_No elsewise (cf. composite).
+ * 
+ * CanDo and DoIt should perform the change.
+ * 
+ * C_Changer also provides basic tools to get information from C_Event easily
+ * and supports for replaceOrInsert.
+ */
+
 public abstract class C_Changer {
 
     private C_Event event;

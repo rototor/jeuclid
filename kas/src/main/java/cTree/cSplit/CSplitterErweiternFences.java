@@ -24,7 +24,6 @@ import cTree.CMessage;
 import cTree.CNum;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
 /**
@@ -62,7 +61,8 @@ public class CSplitterErweiternFences extends CSplitterBase {
         this.splitTyp = SplitTyp.NO;
     }
 
-    private void init(final CS_Event event) {
+    @Override
+    protected void init(final CS_Event event) {
         System.out.println("Init the Erw Fences split");
         final CElement cE1 = event.getFirst();
         final String op = event.getOperator();
@@ -169,8 +169,6 @@ public class CSplitterErweiternFences extends CSplitterBase {
     @Override
     public boolean canDo() {
         System.out.println("Check the erweitern CEl-Split");
-        final C_Event event = this.getEvent();
-        this.init((CS_Event) event);
         return this.splitTyp != SplitTyp.NO;
     }
 

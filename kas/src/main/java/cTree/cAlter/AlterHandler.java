@@ -105,13 +105,13 @@ public class AlterHandler {
         return AlterHandler.uniqueInstance;
     }
 
-    public ArrayList<String> getOptions(final ArrayList<CElement> els) {
-        final ArrayList<String> options = new ArrayList<String>();
+    public HashMap<String, C_Changer> getOptions(final ArrayList<CElement> els) {
+        final HashMap<String, C_Changer> options = new HashMap<String, C_Changer>();
         final C_Event event = new C_Event(els);
         for (final CAlter ca : this.getAlters.values()) {
             final C_Changer c = ca.getChanger(event);
             if (c.canDo()) {
-                options.add(ca.getText());
+                options.put(ca.getText(), c);
             }
         }
         return options;

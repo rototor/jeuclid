@@ -22,7 +22,6 @@ import cTree.CFrac;
 import cTree.CIdent;
 import cTree.CMessage;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
 import cTree.cDefence.DefHandler;
 
 public class CSplitterErweiternIdent extends CSplitterBase {
@@ -49,7 +48,8 @@ public class CSplitterErweiternIdent extends CSplitterBase {
         this.splitTyp = SplitTyp.NO;
     }
 
-    private void init(final CS_Event event) {
+    @Override
+    protected void init(final CS_Event event) {
         System.out.println("Init the Erw Ident split");
         final CElement cE1 = event.getFirst();
         final String op = event.getOperator();
@@ -82,8 +82,6 @@ public class CSplitterErweiternIdent extends CSplitterBase {
     @Override
     public boolean canDo() {
         System.out.println("Check the erweitern CEl-Split");
-        final C_Event event = this.getEvent();
-        this.init((CS_Event) event);
         return this.splitTyp != SplitTyp.NO;
     }
 
