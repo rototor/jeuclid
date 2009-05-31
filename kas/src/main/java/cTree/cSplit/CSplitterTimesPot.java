@@ -20,7 +20,6 @@ import cTree.CElement;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
 
 public class CSplitterTimesPot extends CSplitterBase {
 
@@ -42,7 +41,8 @@ public class CSplitterTimesPot extends CSplitterBase {
         this.canSplit = false;
     }
 
-    private void init(final CS_Event event) {
+    @Override
+    protected void init(final CS_Event event) {
         System.out.println("Init the M Num split");
         final CElement cE1 = event.getFirst();
         final String op = event.getOperator();
@@ -76,8 +76,6 @@ public class CSplitterTimesPot extends CSplitterBase {
     @Override
     public boolean canDo() {
         System.out.println("Check the Mult Pot split");
-        final C_Event event = this.getEvent();
-        this.init((CS_Event) event);
         return this.canSplit;
     }
 

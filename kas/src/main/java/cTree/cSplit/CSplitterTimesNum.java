@@ -19,7 +19,8 @@ package cTree.cSplit;
 import cTree.CElement;
 import cTree.CNum;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
+
+// zu komplex sollte mit getChanger in drei weitere Klassen gesplittet werden
 
 public class CSplitterTimesNum extends CSplitterBase {
 
@@ -46,7 +47,8 @@ public class CSplitterTimesNum extends CSplitterBase {
         this.splitTyp = SplitTyp.NO;
     }
 
-    private void init(final CS_Event event) {
+    @Override
+    protected void init(final CS_Event event) {
         System.out.println("Init the M Num split");
         final CElement cE1 = event.getFirst();
         final String op = event.getOperator();
@@ -58,11 +60,12 @@ public class CSplitterTimesNum extends CSplitterBase {
                 } else {
                     this.nr1 = ((CNum) cE1).getValue();
                     if (cE1.hasExtDiv()) {
+                        // geht: :5 -> :(5*3)*3 -> :15*3
                         this.result = this.nr1 * this.nr2;
                         this.splitTyp = SplitTyp.D;
                     } else {
                         if (this.nr1 % this.nr2 == 0) {
-                            // geht: 15 -> (15:3)*3 -> 5:3
+                            // geht: 15 -> (15:3)*3 -> 5*3
                             this.result = this.nr1 / this.nr2;
                             this.splitTyp = SplitTyp.M15M3;
                         } else {
@@ -84,6 +87,7 @@ public class CSplitterTimesNum extends CSplitterBase {
                     this.result = 0;
                     this.splitTyp = SplitTyp.NO;
                 } else {
+                    // geht: 5 -> 5*1
                     this.splitTyp = SplitTyp.E;
                 }
             } catch (final NumberFormatException e) {
@@ -96,8 +100,6 @@ public class CSplitterTimesNum extends CSplitterBase {
     @Override
     public boolean canDo() {
         System.out.println("Check the Mult Num split");
-        final C_Event event = this.getEvent();
-        this.init((CS_Event) event);
         return this.splitTyp != SplitTyp.NO;
     }
 

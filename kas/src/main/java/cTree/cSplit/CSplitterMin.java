@@ -21,15 +21,13 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CPlusRow;
 import cTree.CRolle;
-import cTree.adapter.C_Event;
 
 public class CSplitterMin extends CSplitterBase {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final String op = ((CS_Event) event).getOperator();
-        final CElement cE1 = event.getFirst();
+        final String op = ((CS_Event) this.getEvent()).getOperator();
+        final CElement cE1 = this.getEvent().getFirst();
         if (cE1 instanceof CNum && (cE1.getCRolle() != CRolle.NACHVZMINUS)) {
             try {
                 Integer.parseInt(op);

@@ -19,8 +19,18 @@ package cTree.cSplit;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 import cTree.cDefence.DefHandler;
 
+/**
+ * Overrides getChanger(C_Event), canDo() and doIt() in the superclass
+ * C_Changer to provide hooks for init(CS_Event) in getChanger and split in
+ * doIt(). Init retrieves the information from the C_Event-Object. DoIt
+ * creates the splitted expression which is fenced in doIt() as a protection.
+ * 
+ * @version $Revision$
+ */
 public abstract class CSplitterBase extends C_Changer {
 
     @Override
@@ -36,10 +46,21 @@ public abstract class CSplitterBase extends C_Changer {
         return false;
     }
 
-    public C_Changer getSplitr(final CS_Event event) {
-        return this;
+    @Override
+    public C_Changer getChanger(final C_Event event) {
+        if (event instanceof CS_Event) {
+            this.setEvent(event);
+            this.init((CS_Event) event);
+            return this;
+        }
+        return new C_No(event);
     }
 
-    public abstract CElement split();
+    // ----------------- Hooks ------------------------------------------
+
+    protected void init(final CS_Event event) {
+    }
+
+    protected abstract CElement split();
 
 }

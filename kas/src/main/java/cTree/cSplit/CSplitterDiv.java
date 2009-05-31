@@ -19,7 +19,9 @@ package cTree.cSplit;
 import cTree.CElement;
 import cTree.CNum;
 import cTree.CTimesRow;
+import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
 public class CSplitterDiv extends CSplitterBase {
 
@@ -42,7 +44,7 @@ public class CSplitterDiv extends CSplitterBase {
         this.splitTyp = SplitTyp.NO;
     }
 
-    private void init(final CElement cE1, final String operator) {
+    protected void init(final CElement cE1, final String operator) {
         System.out.println("Init the Div Num split");
         if (cE1 instanceof CNum) {
             try {
@@ -84,15 +86,25 @@ public class CSplitterDiv extends CSplitterBase {
     }
 
     @Override
+    public C_Changer getChanger(final C_Event event) {
+        if (event instanceof CS_Event) {
+            this.setEvent(event);
+            final String op = ((CS_Event) event).getOperator();
+            this.init(event.getFirst(), op);
+            if (this.canDo()) {
+                return this;
+            }
+        }
+        return new C_No(event);
+    }
+
+    @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final String op = ((CS_Event) event).getOperator();
-        this.init(event.getFirst(), op);
         return this.splitTyp != SplitTyp.NO;
     }
 
     @Override
-    public CElement split() {
+    protected CElement split() {
         final CElement parent = this.getEvent().getParent();
         final CElement cE1 = this.getEvent().getFirst();
         System.out.println("Do the Div Num split");

@@ -19,6 +19,7 @@ package cViewer;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -29,6 +30,7 @@ import org.w3c.dom.Node;
 
 import cTree.CElement;
 import cTree.CType;
+import cTree.adapter.C_Changer;
 import cTree.adapter.DOMElementMap;
 import cTree.cAlter.AlterHandler;
 import cViewer.MathComponentUI.MyLine;
@@ -98,16 +100,12 @@ public class JMathMouseListener extends MouseInputAdapter {
     }
 
     public void showMenu(final MouseEvent evt) {
-        System.out.println("Showing Menu");
-        final ArrayList<String> strings = AlterHandler.getInstance()
+        final HashMap<String, C_Changer> options = AlterHandler.getInstance()
                 .getOptions(this.mathComponent.activeC);
         final JPopupMenu menu = new JPopupMenu();
         JMenuItem item = new JMenuItem(this.mathComponent
                 .getActionByName("Aendern"));
-        item.setText("Umwandlungen:");
-        item.setEnabled(false);
-        menu.add(item);
-        for (final String s : strings) {
+        for (final String s : options.keySet()) {
             item = new JMenuItem(this.mathComponent
                     .getActionByName("Aendern"));
             item.setText(s);

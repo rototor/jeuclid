@@ -70,7 +70,7 @@ public abstract class CElement extends RolleAdapter implements
 
     public CElement split(final CElement zuZerlegen, final String s) {
         final CS_Event event = new CS_Event(zuZerlegen, s);
-        final C_Changer splitter = SplitHandler.getInst().getSplitr(event);
+        final C_Changer splitter = SplitHandler.getInst().getChanger(event);
         return splitter.doIt();
     }
 

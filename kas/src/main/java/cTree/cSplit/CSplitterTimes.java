@@ -20,13 +20,12 @@ import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
 import cTree.adapter.C_No;
 
 public class CSplitterTimes extends CSplitterBase {
 
     public HashMap<String, CSplitterBase> getSplitter;
-
-    private CSplitterBase splitter;
 
     public CSplitterTimes() {
         this.getSplitter = new HashMap<String, CSplitterBase>();
@@ -35,11 +34,11 @@ public class CSplitterTimes extends CSplitterBase {
     }
 
     @Override
-    public C_Changer getSplitr(final CS_Event event) {
+    public C_Changer getChanger(final C_Event event) {
         for (final CSplitterBase test : this.getSplitter.values()) {
-            if (test.canDo()) {
-                this.splitter = test;
-                return test;
+            final C_Changer c = test.getChanger(event);
+            if (c.canDo()) {
+                return c;
             }
         }
         return new C_No(event);
@@ -47,7 +46,7 @@ public class CSplitterTimes extends CSplitterBase {
 
     @Override
     public CElement split() {
-        // TODO Auto-generated method stub
+        // should never happen
         return null;
     }
 
