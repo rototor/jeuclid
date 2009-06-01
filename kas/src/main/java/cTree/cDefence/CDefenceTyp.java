@@ -27,10 +27,7 @@ public class CDefenceTyp extends C_Changer {
     protected HashMap<CType, CD_Base> op1Defencer;
 
     public CDefenceTyp() {
-        this.op1Defencer = new HashMap<CType, CD_Base>();
-        for (final CType cType : CType.values()) {
-            this.op1Defencer.put(cType, new CD_Base());
-        }
+
     }
 
     protected HashMap<CType, CD_Base> getOp1Def() {
@@ -50,17 +47,4 @@ public class CDefenceTyp extends C_Changer {
         }
         return new C_No(e);
     }
-    // public boolean canDefence(final CElement parent, final CElement fences,
-    // final CElement content) {
-    // System.out.println("DefenceTyp can Defence?");
-    // return this.op1Defencer.get(parent.getCType()).canDefence(parent,
-    // fences, content);
-    // }
-    //
-    // public CElement defence(final CElement parent, final CElement fences,
-    // final CElement content) {
-    // System.out.println("Defence");
-    // return this.op1Defencer.get(content.getCType()).defence(parent,
-    // fences, content);
-    // }
 }

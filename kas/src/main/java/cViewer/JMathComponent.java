@@ -361,6 +361,7 @@ public final class JMathComponent extends JComponent implements
             public void actionPerformed(final ActionEvent ae) {
                 final JMathComponent myComp = JMathComponent.this;
                 myComp.addToUndo();
+                System.out.println("Fencing in JMathComponent");
                 myComp.setCActive(myComp.getCActive().getParent().fence(
                         myComp.activeC));
                 myComp.getCActive().setCActiveProperty();

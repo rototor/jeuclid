@@ -77,6 +77,7 @@ public abstract class CElement extends RolleAdapter implements
     // --- Support für die Klammern in dem CTree
     // --- wird von der CPlusRow und der CTimesRow überschrieben
     public CElement fence(final ArrayList<CElement> active) {
+        System.out.println("Fencing in CElement");
         if (active.size() == 1) {
             return this.standardFencing(active.get(0));
         } else {

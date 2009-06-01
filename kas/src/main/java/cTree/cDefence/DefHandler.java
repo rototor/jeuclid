@@ -18,7 +18,6 @@ package cTree.cDefence;
 
 import java.util.HashMap;
 
-import cTree.CElement;
 import cTree.CType;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
@@ -26,7 +25,8 @@ import cTree.adapter.C_No;
 import cTree.adapter.DOMElementMap;
 
 public class DefHandler {
-    private volatile static DefHandler uniqueInstance;
+
+    private static volatile DefHandler uniqueInstance;
 
     public HashMap<CType, CDefenceTyp> typDef;
 
@@ -59,20 +59,10 @@ public class DefHandler {
     public C_Changer getChanger(final C_Event e) {
         final CType cType = e.getParent().getCType();
         if (this.getTypDef().containsKey(cType)) {
+            System.out.println("e: " + cType);
             return this.getTypDef().get(cType).getChanger(e);
         } else {
             return new C_No(e);
         }
     }
-
-    public boolean canDo() {
-        // should never happen
-        return false;
-    }
-
-    public CElement doIt() {
-        // should never happen
-        return null;
-    }
-
 }

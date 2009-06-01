@@ -41,12 +41,4 @@ public class CDefenceTPunkt extends CDefenceTyp {
         }
         return this.op1Defencer;
     }
-
-    // @Override
-    // public boolean canDefence(final CElement parent, final CElement fences,
-    // final CElement content) {
-    // System.out.println("DefenceTyp* can Defence?");
-    // return this.op1Defencer.get(content.getCType()).canDefence(parent,
-    // fences, content);
-    // }
 }

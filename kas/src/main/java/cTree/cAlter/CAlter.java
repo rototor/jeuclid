@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package cTree.cDefence;
+package cTree.cAlter;
 
-import cTree.CElement;
+import java.util.HashMap;
 
-public class CD_1StrichDefault extends CD_Base {
+import cTree.adapter.C_Changer;
 
-    @Override
-    protected CElement createInsertion(final CElement fences,
-            final CElement content) {
-        System.out.println("Defence strich default");
-        return content.cloneCElement(false);
-    }
+public abstract class CAlter extends C_Changer {
+
+    public abstract String getText();
+
+    public abstract void register(HashMap<String, CAlter> hashMap);
 }

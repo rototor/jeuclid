@@ -20,7 +20,7 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.adapter.C_Changer;
 
-public class CD_Base extends C_Changer {
+public abstract class CD_Base extends C_Changer {
 
     @Override
     public CElement doIt() {
