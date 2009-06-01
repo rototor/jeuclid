@@ -57,10 +57,9 @@ public class CE_2StrichPunktL extends CExtractBase {
     @Override
     public boolean canDo() {
         final C_Event e = this.getEvent();
-        if (e == null || !(e instanceof C_Event)) {
+        if (e == null) {
             return false;
         }
-        this.setEvent(e);
         final ArrayList<CElement> selection = this.getEvent().getSelection();
         final boolean praefix = this.getEvent().getFirst().getLastChild()
                 .hasExtDiv();
@@ -71,11 +70,11 @@ public class CE_2StrichPunktL extends CExtractBase {
             }
         }
         // Wir prüfen, ob die Texte übereinstimmen, sehr provisorisch
-        final String vorlage = this.getEvent().getFirst().getFirstChild()
+        final String vorlage = this.getEvent().getFirst().getLastChild()
                 .getText();
         System.out.println("Vorlage" + vorlage);
         for (final CElement cEl : selection) {
-            if (!vorlage.equals(cEl.getFirstChild().getText())) {
+            if (!vorlage.equals(cEl.getLastChild().getText())) {
                 System.out.println("Fehler gefunden");
                 return false;
             }
