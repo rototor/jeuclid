@@ -16,19 +16,17 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
 import cTree.CMessage;
 import cTree.CRolle;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
+import cTree.adapter.C_Changer;
+import cTree.cDefence.CD_Event;
 import cTree.cDefence.DefHandler;
 
-public class CA_Frac_InQuotient extends CAlter {
+public class CA_Frac_InQuotient extends CA_Base {
 
     private CFrac cFrac;
 
@@ -73,29 +71,24 @@ public class CA_Frac_InQuotient extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final ArrayList<CElement> els = event.getSelection();
-        if (els.size() > 0 && els.get(0) instanceof CFrac
-                && (els.get(0).getCRolle() != CRolle.FRACTION)) {
-            this.cFrac = (CFrac) els.get(0);
-            this.z = this.cFrac.getZaehler();
-            this.n = this.cFrac.getNenner();
-            return true;
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            if (first instanceof CFrac
+                    && (first.getCRolle() != CRolle.FRACTION)) {
+                this.cFrac = (CFrac) first;
+                this.z = this.cFrac.getZaehler();
+                this.n = this.cFrac.getNenner();
+                return true;
+            }
         }
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
-
     protected void condCleanOne(final CElement el, final boolean doIt) {
-        if (doIt
-                && DefHandler.getInst().canDefence(el.getParent(), el,
-                        el.getFirstChild())) {
-            DefHandler.getInst().defence(el.getParent(), el,
-                    el.getFirstChild());
+        final CD_Event e = new CD_Event(el);
+        final C_Changer c = DefHandler.getInst().getChanger(e);
+        if (doIt && c.canDo()) {
+            c.doIt();
         }
     }
 }

@@ -17,7 +17,6 @@
 package cTree.cAlter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
@@ -26,17 +25,15 @@ import cTree.CPlusRow;
 import cTree.CTimesRow;
 import cTree.adapter.C_Event;
 
-public class CA_PlusRow_MinRaus extends CAlter {
+public class CA_PlusRow_MinRaus extends CA_Base {
 
     private CPlusRow cP;
-
-    private CElement parent;
 
     private ArrayList<CElement> members;
 
     @Override
     public CElement doIt() {
-        this.parent = this.cP.getParent();
+        final CElement parent = this.cP.getParent();
         this.members = this.cP.getMemberList();
         final ArrayList<CElement> newM = new ArrayList<CElement>();
         boolean first = true;
@@ -53,12 +50,12 @@ public class CA_PlusRow_MinRaus extends CAlter {
         }
         final CPlusRow newP = CPlusRow.createRow(newM);
         newP.correctInternalPraefixesAndRolle();
-        final CElement min1 = CFences.createFencedMin1(this.parent);
+        final CElement min1 = CFences.createFencedMin1(parent);
         final CElement fencedSum = CFences.createFenced(newP);
         final CTimesRow newTR = CTimesRow.createRow(CTimesRow.createList(
                 min1, fencedSum));
         newTR.correctInternalPraefixesAndRolle();
-        this.parent.replaceChild(newTR, this.cP, true, true);
+        parent.replaceChild(newTR, this.cP, true, true);
         return newTR;
     }
 
@@ -78,8 +75,4 @@ public class CA_PlusRow_MinRaus extends CAlter {
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

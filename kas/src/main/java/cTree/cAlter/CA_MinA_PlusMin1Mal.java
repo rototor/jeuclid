@@ -16,17 +16,14 @@
 
 package cTree.cAlter;
 
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
 
-public class CA_MinA_PlusMin1Mal extends CAlter {
+public class CA_MinA_PlusMin1Mal extends CA_Base {
 
     @Override
     public CElement doIt() {
@@ -50,13 +47,12 @@ public class CA_MinA_PlusMin1Mal extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final CElement el = event.getFirst();
-        return el.hasExtMinus() && el.getCRolle().equals(CRolle.SUMMANDN1);
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            return first.hasExtMinus()
+                    && first.getCRolle().equals(CRolle.SUMMANDN1);
+        }
+        return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

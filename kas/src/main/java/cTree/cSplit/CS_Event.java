@@ -19,6 +19,12 @@ package cTree.cSplit;
 import cTree.CElement;
 import cTree.adapter.C_Event;
 
+/**
+ * Transports an additional String which describes how to split the active
+ * CElement
+ * 
+ * @version $Revision: 000 $
+ */
 public class CS_Event extends C_Event {
 
     private final String s;

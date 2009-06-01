@@ -29,11 +29,11 @@ import cTree.adapter.DOMElementMap;
 public class AlterHandler {
     private volatile static AlterHandler uniqueInstance;
 
-    public HashMap<String, CAlter> getAlters;
+    public HashMap<String, CA_Base> getAlters;
 
     @SuppressWarnings("unchecked")
     private AlterHandler() {
-        this.getAlters = new HashMap<String, CAlter>();
+        this.getAlters = new HashMap<String, CA_Base>();
         final ArrayList<String> strings = new ArrayList<String>();
         // final java.net.URL chURL = AlterHandler.class
         // .getResource("/CA_DivA_Frac.java");
@@ -86,7 +86,7 @@ public class AlterHandler {
         for (final String s : strings) {
             try {
                 c = Class.forName("cTree.cAlter." + s);
-                final CAlter a = (CAlter) c.getConstructor().newInstance();
+                final CA_Base a = (CA_Base) c.getConstructor().newInstance();
                 a.register(this.getAlters);
             } catch (final Exception e) {
                 System.err.println("Error3");
@@ -108,7 +108,7 @@ public class AlterHandler {
     public HashMap<String, C_Changer> getOptions(final ArrayList<CElement> els) {
         final HashMap<String, C_Changer> options = new HashMap<String, C_Changer>();
         final C_Event event = new C_Event(els);
-        for (final CAlter ca : this.getAlters.values()) {
+        for (final CA_Base ca : this.getAlters.values()) {
             final C_Changer c = ca.getChanger(event);
             if (c.canDo()) {
                 options.put(ca.getText(), c);

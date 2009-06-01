@@ -19,26 +19,19 @@ package cTree.cDefence;
 import java.util.HashMap;
 
 import cTree.CElement;
-import cTree.CFences;
-import cTree.CMath;
 import cTree.CType;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 import cTree.adapter.DOMElementMap;
 
 public class DefHandler {
     private volatile static DefHandler uniqueInstance;
 
-    public HashMap<CType, CDefenceTyp> getTypDefencer;
+    public HashMap<CType, CDefenceTyp> typDef;
 
     private DefHandler() {
-        this.getTypDefencer = new HashMap<CType, CDefenceTyp>();
-        final CDefenceTyp default1 = new CDefenceTyp();
-        for (final CType cType : CType.values()) {
-            this.getTypDefencer.put(cType, default1);
-        }
-        this.getTypDefencer.put(CType.MINROW, new CDefenceTMin());
-        this.getTypDefencer.put(CType.PLUSROW, new CDefenceTStrich());
-        this.getTypDefencer.put(CType.TIMESROW, new CDefenceTPunkt());
-        this.getTypDefencer.put(CType.POT, new CDefenceTPot());
+        // empty on purpose
     }
 
     public static DefHandler getInst() {
@@ -52,53 +45,34 @@ public class DefHandler {
         return DefHandler.uniqueInstance;
     }
 
-    public boolean canDefence(final CElement parent, final CElement fences,
-            final CElement content) {
-        System.out.println("DefenceHandler can Defence?");
-        return this.getTypDefencer.get(parent.getCType()).canDefence(parent,
-                fences, content);
+    protected HashMap<CType, CDefenceTyp> getTypDef() {
+        if (this.typDef == null) {
+            this.typDef = new HashMap<CType, CDefenceTyp>();
+            this.typDef.put(CType.MINROW, new CDefenceTMin());
+            this.typDef.put(CType.PLUSROW, new CDefenceTStrich());
+            this.typDef.put(CType.TIMESROW, new CDefenceTPunkt());
+            this.typDef.put(CType.POT, new CDefenceTPot());
+        }
+        return this.typDef;
     }
 
-    /*
-     * Es wird ein CDefenceTyp nach dem Parent gewählt, dieser entscheidet
-     * nach dem Content
-     */
-    public CElement defence(final CElement parent, final CElement fences,
-            final CElement content) {
-        System.out.println("DefenceHandler call " + parent.getCType());
-        return this.getTypDefencer.get(parent.getCType()).defence(parent,
-                fences, content);
-    }
-
-    /*
-     * Es wird ein CDefenceTyp nach dem Parent gewählt, dieser entscheidet
-     * nach dem Content
-     */
-    public CElement conDefence(final CElement parent, final CElement fences,
-            final CElement content, final boolean doIt) {
-        System.out.println("DefenceHandler condCall " + parent.getCType());
-        if (doIt && this.canDefence(parent, fences, content)) {
-            return this.defence(parent, fences, content);
+    public C_Changer getChanger(final C_Event e) {
+        final CType cType = e.getParent().getCType();
+        if (this.getTypDef().containsKey(cType)) {
+            return this.getTypDef().get(cType).getChanger(e);
         } else {
-            return fences;
+            return new C_No(e);
         }
     }
 
-    public void replaceFoP(final CElement parent, final CElement newC,
-            final CElement repC, final boolean replace) {
-        if (replace) {
-            System.out.println("// replace Parent of Fences");
-            final CElement grandParent = parent.getParent();
-            if (grandParent instanceof CMath && newC instanceof CFences) {
-                grandParent.replaceChild(newC.getFirstChild(), parent, true,
-                        true);
-            } else {
-                parent.getParent().replaceChild(newC, parent, true, true);
-            }
-        } else {
-            System.out.println("// replace Fences");
-            parent.replaceChild(newC, repC, true, true);
-        }
+    public boolean canDo() {
+        // should never happen
+        return false;
+    }
+
+    public CElement doIt() {
+        // should never happen
+        return null;
     }
 
 }

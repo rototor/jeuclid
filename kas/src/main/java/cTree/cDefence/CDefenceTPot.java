@@ -16,23 +16,36 @@
 
 package cTree.cDefence;
 
-import cTree.CElement;
+import java.util.HashMap;
+
 import cTree.CType;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
 public class CDefenceTPot extends CDefenceTyp {
     public CDefenceTPot() {
-        for (final CType cType : CType.values()) {
-            this.op1Defencer.put(cType, new CD_1PotDefault());
 
+    }
+
+    // zu verbessern
+    @Override
+    protected HashMap<CType, CD_Base> getOp1Def() {
+        if (this.op1Defencer == null) {
+            super.getOp1Def();
+            for (final CType cType : CType.values()) {
+                this.op1Defencer.put(cType, new CD_1PotDefault());
+            }
         }
+        return this.op1Defencer;
     }
 
     @Override
-    public boolean canDefence(final CElement parent, final CElement fences,
-            final CElement content) {
-        System.out.println("DefenceTyp^ can Defence?");
-        return this.op1Defencer.get(content.getCType()).canDefence(parent,
-                fences, content);
+    public C_Changer getChanger(final C_Event e) {
+        if (e instanceof CD_Event) {
+            final C_Changer c = new CD_1PotDefault();
+            return c.getChanger(e);
+        }
+        return new C_No(e);
     }
-
 }

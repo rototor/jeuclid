@@ -17,18 +17,21 @@
 package cTree.cDefence;
 
 import cTree.CElement;
+import cTree.CFences;
 import cTree.CRolle;
 
-public class CD_1StrichMinrow extends CD_1 {
+public class CD_1StrichMinrow extends CD_Base {
 
     @Override
-    public CElement defence(final CElement parent, final CElement fences,
-            final CElement content) {
+    public CElement doIt() {
+        System.out.println("Do the defence work strich strich");
+        final CFences f = this.getFences();
+        final CElement p = this.getParent();
+        final CElement content = this.getInside();
         System.out.println("Do the defence work");
-        final boolean first = (fences.getCRolle() == CRolle.SUMMAND1);
-        final CElement insertion = this.createInsertion(fences, content);
-        DefHandler.getInst().replaceFoP(parent, insertion, fences,
-                false);
+        final boolean first = (f.getCRolle() == CRolle.SUMMAND1);
+        final CElement insertion = this.createInsertion(f, content);
+        this.replaceFoPDef(p, insertion, f, false);
         if (!first) {
             insertion.togglePlusMinus(false);
         }

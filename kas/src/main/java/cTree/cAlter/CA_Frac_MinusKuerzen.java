@@ -16,15 +16,11 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.CMinTerm;
-import cTree.adapter.C_Event;
 
-public class CA_Frac_MinusKuerzen extends CAlter {
+public class CA_Frac_MinusKuerzen extends CA_Base {
 
     private CFrac cFrac;
 
@@ -50,19 +46,16 @@ public class CA_Frac_MinusKuerzen extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final ArrayList<CElement> els = event.getSelection();
-        if (els.size() > 0 && els.get(0) instanceof CFrac) {
-            this.cFrac = (CFrac) els.get(0);
-            this.z = this.cFrac.getZaehler();
-            this.n = this.cFrac.getNenner();
-            return ((this.z instanceof CMinTerm) && (this.n instanceof CMinTerm));
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            if (first instanceof CFrac) {
+                this.cFrac = (CFrac) first;
+                this.z = this.cFrac.getZaehler();
+                this.n = this.cFrac.getNenner();
+                return ((this.z instanceof CMinTerm) && (this.n instanceof CMinTerm));
+            }
         }
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

@@ -16,12 +16,10 @@
 
 package cTree.cAlter;
 
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CFences;
 
-public class CA_DivMin1_InMalMin1 extends CAlter {
+public class CA_DivMin1_InMalMin1 extends CA_Base {
 
     private CFences cF;
 
@@ -38,17 +36,14 @@ public class CA_DivMin1_InMalMin1 extends CAlter {
 
     @Override
     public boolean canDo() {
-        final CElement first = this.getEvent().getFirst();
-        if (first.hasExtDiv() && (first instanceof CFences)) {
-            System.out.println("Is fenced Min1");
-            this.cF = (CFences) first;
-            return this.cF.isFencedMin1();
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getEvent().getFirst();
+            if (first.hasExtDiv() && (first instanceof CFences)) {
+                this.cF = (CFences) first;
+                return this.cF.isFencedMin1();
+            }
         }
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

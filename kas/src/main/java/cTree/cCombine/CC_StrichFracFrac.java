@@ -18,17 +18,13 @@ package cTree.cCombine;
 
 import java.util.ArrayList;
 
-import cTree.CElement;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
 public class CC_StrichFracFrac extends CC_Base {
 
     private ArrayList<CC_Base> combs;
-
-    private CC_Base comb;
-
-    public CC_StrichFracFrac() {
-        super();
-    }
 
     public ArrayList<CC_Base> getCombs() {
         if (this.combs == null) {
@@ -40,20 +36,13 @@ public class CC_StrichFracFrac extends CC_Base {
     }
 
     @Override
-    public boolean canDo() {
+    public C_Changer getChanger(final C_Event e) {
         for (final CC_Base testComb : this.getCombs()) {
+            testComb.getChanger(e);
             if (testComb.canDo()) {
-                this.comb = testComb;
-                return true;
+                return testComb;
             }
         }
-        return false;
-    }
-
-    @Override
-    protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        System.out.println("Add Frac and MixedNum");
-        return this.comb.createComb(parent, cE1, cE2);
+        return new C_No(e);
     }
 }

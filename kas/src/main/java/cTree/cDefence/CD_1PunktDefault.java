@@ -18,19 +18,17 @@ package cTree.cDefence;
 
 import cTree.CElement;
 
-public class CD_1PunktDefault extends CD_1 {
+public class CD_1PunktDefault extends CD_Base {
 
     @Override
-    public CElement defence(final CElement parent, final CElement fences,
-            final CElement content) {
+    public CElement doIt() {
         System.out.println("Dont defence dot this");
-        return fences;
+        return this.getFences();
     }
 
     @Override
-    public boolean canDefence(final CElement parent, final CElement fences,
-            final CElement content) {
-        System.out.println("DefencerCD*D can Defence?");
+    public boolean canDo() {
+        System.out.println("DefencerCDPunktD can Defence?");
         return false;
     }
 }

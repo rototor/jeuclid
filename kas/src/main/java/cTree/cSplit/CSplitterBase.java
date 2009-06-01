@@ -21,6 +21,7 @@ import cTree.CFences;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.adapter.C_No;
+import cTree.cDefence.CD_Event;
 import cTree.cDefence.DefHandler;
 
 /**
@@ -38,7 +39,9 @@ public abstract class CSplitterBase extends C_Changer {
         final CFences cF = CFences.createFenced(this.split());
         final CElement parent = this.getEvent().getParent();
         parent.replaceChild(cF, this.getEvent().getFirst(), true, true);
-        return DefHandler.getInst().defence(parent, cF, cF.getInnen());
+        final CD_Event e = new CD_Event(cF);
+        final C_Changer c = DefHandler.getInst().getChanger(e);
+        return c.doIt();
     }
 
     @Override

@@ -16,18 +16,14 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
 import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.CPlusRow;
-import cTree.adapter.C_Event;
 
-public class CA_GemZ_InSum extends CAlter {
+public class CA_GemZ_InSum extends CA_Base {
 
     private CMixedNumber cMixed;
 
@@ -58,28 +54,24 @@ public class CA_GemZ_InSum extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final CElement first = event.getFirst();
-        final ArrayList<CElement> els = event.getSelection();
-        if (els.size() > 0 && els.get(0) instanceof CMixedNumber) {
-            this.cMixed = (CMixedNumber) first;
-            this.w = this.cMixed.getWholeNumber();
-            this.f = this.cMixed.getFraction();
-            this.z = ((CFrac) this.cMixed.getFraction()).getZaehler();
-            this.n = ((CFrac) this.cMixed.getFraction()).getNenner();
-            if ((this.w instanceof CNum) && (this.z instanceof CNum)
-                    && (this.n instanceof CNum)) {
-                this.nz = ((CNum) this.n).getValue();
-                if (this.nz != 0) {
-                    return true;
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            if (first instanceof CMixedNumber) {
+                this.cMixed = (CMixedNumber) first;
+                this.w = this.cMixed.getWholeNumber();
+                this.f = this.cMixed.getFraction();
+                this.z = ((CFrac) this.cMixed.getFraction()).getZaehler();
+                this.n = ((CFrac) this.cMixed.getFraction()).getNenner();
+                if ((this.w instanceof CNum) && (this.z instanceof CNum)
+                        && (this.n instanceof CNum)) {
+                    this.nz = ((CNum) this.n).getValue();
+                    if (this.nz != 0) {
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

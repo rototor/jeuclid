@@ -17,7 +17,6 @@
 package cTree.cAlter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.w3c.dom.Element;
 
@@ -27,7 +26,7 @@ import cTree.CTimesRow;
 import cTree.adapter.C_Event;
 import cTree.adapter.EElementHelper;
 
-public class CA_Times_PotA extends CAlter {
+public class CA_Times_PotA extends CA_Base {
 
     private CTimesRow parent;
 
@@ -87,8 +86,4 @@ public class CA_Times_PotA extends CAlter {
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

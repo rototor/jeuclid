@@ -26,7 +26,7 @@ import cTree.CRow;
 import cTree.CTimesRow;
 import cTree.adapter.C_Event;
 
-public class CE_2StrichPunktLM extends CE_1 {
+public class CE_2StrichPunktLM extends CExtractBase {
 
     private String vorlage = "";
 

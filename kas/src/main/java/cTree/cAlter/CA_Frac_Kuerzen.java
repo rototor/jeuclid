@@ -16,33 +16,19 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.cCombine.CombHandler;
 
-public class CA_Frac_Kuerzen extends CAlter {
+public class CA_Frac_Kuerzen extends CA_Base {
 
-    private CFrac cFrac;
-
-    private CElement z;
-
-    private CElement n;
+    private C_Changer c;
 
     @Override
     public CElement doIt() {
-        final C_Event event = new C_Event(this.z);
-        final C_Changer cc = CombHandler.getInst().getChanger(event);
-        if (cc.canDo()) {
-            return cc.doIt();
-        } else {
-            return this.z;
-        }
-        // return CombHandler.getInst().combine(this.cFrac, this.z, this.n);
+        return this.c.doIt();
     }
 
     @Override
@@ -52,23 +38,16 @@ public class CA_Frac_Kuerzen extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final ArrayList<CElement> els = event.getSelection();
-        if (els.size() > 0 && els.get(0) instanceof CFrac) {
-            this.cFrac = (CFrac) els.get(0);
-            this.z = this.cFrac.getZaehler();
-            this.n = this.cFrac.getNenner();
-            final C_Event e = new C_Event(this.z);
-            final C_Changer c = CombHandler.getInst().getChanger(e);
-            return c.canDo();
-            // return CombHandler.getInst().canCombine(this.cFrac, this.z,
-            // this.n);
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            if (first instanceof CFrac) {
+                final CElement z = ((CFrac) first).getZaehler();
+                final C_Event e = new C_Event(z);
+                this.c = CombHandler.getInst().getChanger(e);
+                return this.c.canDo();
+            }
         }
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

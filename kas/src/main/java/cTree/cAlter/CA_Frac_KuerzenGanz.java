@@ -16,15 +16,11 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.CNum;
-import cTree.adapter.C_Event;
 
-public class CA_Frac_KuerzenGanz extends CAlter {
+public class CA_Frac_KuerzenGanz extends CA_Base {
 
     private CElement z;
 
@@ -50,14 +46,15 @@ public class CA_Frac_KuerzenGanz extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final ArrayList<CElement> els = event.getSelection();
-        if (els.size() > 0 && els.get(0) instanceof CFrac) {
-            final CFrac cFrac = (CFrac) els.get(0);
-            this.z = cFrac.getZaehler();
-            this.n = cFrac.getNenner();
-            return (this.z instanceof CNum) && (this.n instanceof CNum)
-                    && (((CNum) this.n).getValue() != 0);
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            if (first instanceof CFrac) {
+                final CFrac cFrac = (CFrac) first;
+                this.z = cFrac.getZaehler();
+                this.n = cFrac.getNenner();
+                return (this.z instanceof CNum) && (this.n instanceof CNum)
+                        && (((CNum) this.n).getValue() != 0);
+            }
         }
         return false;
     }
@@ -74,8 +71,4 @@ public class CA_Frac_KuerzenGanz extends CAlter {
         return g;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

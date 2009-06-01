@@ -21,14 +21,14 @@ import cTree.CMinTerm;
 import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.adapter.C_Changer;
+import cTree.cDefence.CD_Event;
 import cTree.cDefence.DefHandler;
 import cViewer.ViewerFactory;
 
 public abstract class CC_Base extends C_Changer {
 
     /**
-     * The Standardmethod with a Hook for createCombination
-     * 
+     * The standardmethod with a Hook for createCombination
      */
     @Override
     public CElement doIt() {
@@ -37,6 +37,12 @@ public abstract class CC_Base extends C_Changer {
         final CElement cE2 = this.getSec();
         final boolean replace = this.justTwo(cE1, cE2);
         final CElement newChild = this.createComb(p, cE1, cE2);
+        this.calcNum(newChild);
+        this.calcMixed(newChild);
+        return this.insertOrReplace(p, newChild, cE1, cE2, replace);
+    }
+
+    private void calcNum(final CElement newChild) {
         if (newChild instanceof CNum
                 || (newChild instanceof CMinTerm && ((CMinTerm) newChild)
                         .getValue() instanceof CNum)) {
@@ -45,7 +51,11 @@ public abstract class CC_Base extends C_Changer {
                     .getResult().charAt(0) != '-') {
                 ViewerFactory.getInst().getInputDialog(sol);
             }
-        } else if (newChild instanceof CMixedNumber
+        }
+    }
+
+    private void calcMixed(final CElement newChild) {
+        if (newChild instanceof CMixedNumber
                 || (newChild instanceof CMinTerm && ((CMinTerm) newChild)
                         .getValue() instanceof CMixedNumber)) {
             final String sol = newChild.getText();
@@ -54,7 +64,6 @@ public abstract class CC_Base extends C_Changer {
                 ViewerFactory.getInst().getInputDialog(sol);
             }
         }
-        return this.insertOrReplace(p, newChild, cE1, cE2, replace);
     }
 
     /**
@@ -84,11 +93,14 @@ public abstract class CC_Base extends C_Changer {
      * @param el
      * @param doIt
      */
-    protected void condCleanOne(final CElement el, final boolean doIt) {
-        final CElement par = el.getParent();
-        final CElement child = el.getFirstChild();
-        if (doIt && DefHandler.getInst().canDefence(par, el, child)) {
-            DefHandler.getInst().defence(par, el, child);
+
+    protected CElement condCleanOne(final CElement el, final boolean doIt) {
+        final CD_Event e = new CD_Event(el);
+        final C_Changer c = DefHandler.getInst().getChanger(e);
+        if (doIt && c.canDo()) {
+            return c.doIt();
+        } else {
+            return el;
         }
     }
 }

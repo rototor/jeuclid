@@ -1,7 +1,6 @@
 package cTree.cAlter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import cTree.CElement;
@@ -9,10 +8,11 @@ import cTree.CFences;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
+import cTree.adapter.C_Changer;
+import cTree.cDefence.CD_Event;
 import cTree.cDefence.DefHandler;
 
-public class CA_PrimeDecomposition extends CAlter {
+public class CA_PrimeDecomposition extends CA_Base {
 
     private class PairOfInt {
         public int base;
@@ -66,8 +66,9 @@ public class CA_PrimeDecomposition extends CAlter {
                 old = cF;
             } else {
                 parent.replaceChild(cF, old, true, true);
-                old = DefHandler.getInst().defence(cF.getParent(), cF,
-                        cF.getInnen());
+                final CD_Event e = new CD_Event(cF);
+                final C_Changer c = DefHandler.getInst().getChanger(e);
+                old = c.doIt();
             }
 
         } catch (final NumberFormatException e) {
@@ -83,13 +84,11 @@ public class CA_PrimeDecomposition extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final CElement el = event.getFirst();
-        return (el instanceof CNum) && (((CNum) el).getValue() > 1);
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            return (first instanceof CNum) && (((CNum) first).getValue() > 1);
+        }
+        return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

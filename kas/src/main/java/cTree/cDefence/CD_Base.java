@@ -17,15 +17,20 @@
 package cTree.cDefence;
 
 import cTree.CElement;
+import cTree.CFences;
+import cTree.adapter.C_Changer;
 
-public class CD_1 {
+public class CD_Base extends C_Changer {
 
-    public CElement defence(final CElement parent, final CElement fences,
-            final CElement content) {
-        System.out.println("Do the defence work");
-        final boolean replace = this.replaceP(parent, fences);
-        final CElement insertion = this.createInsertion(fences, content);
-        DefHandler.getInst().replaceFoP(parent, insertion, fences, replace);
+    @Override
+    public CElement doIt() {
+        System.out.println("Do the defence work ");
+        final CElement p = this.getParent();
+        final CFences f = this.getFences();
+        final CElement content = this.getInside();
+        final boolean replace = this.replaceP(p, f);
+        final CElement insertion = this.createInsertion(f, content);
+        this.replaceFoPDef(p, insertion, f, replace);
         return insertion;
     }
 
@@ -39,9 +44,17 @@ public class CD_1 {
         return false;
     }
 
-    public boolean canDefence(final CElement parent, final CElement fences,
-            final CElement content) {
+    @Override
+    public boolean canDo() {
         System.out.println("Defencer can Defence?");
         return true;
+    }
+
+    public CFences getFences() {
+        return (CFences) ((CD_Event) this.getEvent()).getFences();
+    }
+
+    public CElement getInside() {
+        return ((CD_Event) this.getEvent()).getInside();
     }
 }

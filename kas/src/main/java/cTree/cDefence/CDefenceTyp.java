@@ -18,30 +18,49 @@ package cTree.cDefence;
 
 import java.util.HashMap;
 
-import cTree.CElement;
 import cTree.CType;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
-public class CDefenceTyp {
-    public HashMap<CType, CD_1> op1Defencer;
+public class CDefenceTyp extends C_Changer {
+    protected HashMap<CType, CD_Base> op1Defencer;
 
     public CDefenceTyp() {
-        this.op1Defencer = new HashMap<CType, CD_1>();
+        this.op1Defencer = new HashMap<CType, CD_Base>();
         for (final CType cType : CType.values()) {
-            this.op1Defencer.put(cType, new CD_1());
+            this.op1Defencer.put(cType, new CD_Base());
         }
     }
 
-    public boolean canDefence(final CElement parent, final CElement fences,
-            final CElement content) {
-        System.out.println("DefenceTyp can Defence?");
-        return this.op1Defencer.get(parent.getCType()).canDefence(parent,
-                fences, content);
+    protected HashMap<CType, CD_Base> getOp1Def() {
+        if (this.op1Defencer == null) {
+            this.op1Defencer = new HashMap<CType, CD_Base>();
+        }
+        return this.op1Defencer;
     }
 
-    public CElement defence(final CElement parent, final CElement fences,
-            final CElement content) {
-        System.out.println("Defence");
-        return this.op1Defencer.get(content.getCType()).defence(parent,
-                fences, content);
+    @Override
+    public C_Changer getChanger(final C_Event e) {
+        if (e instanceof CD_Event) {
+            final CType cType = ((CD_Event) e).getInside().getCType();
+            if (this.getOp1Def().containsKey(cType)) {
+                return this.getOp1Def().get(cType).getChanger(e);
+            }
+        }
+        return new C_No(e);
     }
+    // public boolean canDefence(final CElement parent, final CElement fences,
+    // final CElement content) {
+    // System.out.println("DefenceTyp can Defence?");
+    // return this.op1Defencer.get(parent.getCType()).canDefence(parent,
+    // fences, content);
+    // }
+    //
+    // public CElement defence(final CElement parent, final CElement fences,
+    // final CElement content) {
+    // System.out.println("Defence");
+    // return this.op1Defencer.get(content.getCType()).defence(parent,
+    // fences, content);
+    // }
 }

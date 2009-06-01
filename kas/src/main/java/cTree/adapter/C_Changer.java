@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import cTree.CElement;
 import cTree.CFences;
+import cTree.CMath;
 
 /**
  * Abstract BaseClass for all Changers. References a C_Event-Objects which
@@ -149,6 +150,23 @@ public abstract class C_Changer {
             throw new NullPointerException();
         }
 
+    }
+
+    public void replaceFoPDef(final CElement parent, final CElement newC,
+            final CElement repC, final boolean replace) {
+        if (replace) {
+            System.out.println("// replace Parent of Fences");
+            final CElement grandParent = parent.getParent();
+            if (grandParent instanceof CMath && newC instanceof CFences) {
+                grandParent.replaceChild(newC.getFirstChild(), parent, true,
+                        true);
+            } else {
+                parent.getParent().replaceChild(newC, parent, true, true);
+            }
+        } else {
+            System.out.println("// replace Fences");
+            parent.replaceChild(newC, repC, true, true);
+        }
     }
 
 }

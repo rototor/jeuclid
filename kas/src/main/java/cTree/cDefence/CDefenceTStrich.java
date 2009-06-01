@@ -16,26 +16,32 @@
 
 package cTree.cDefence;
 
-import cTree.CElement;
+import java.util.HashMap;
+
 import cTree.CType;
 
 public class CDefenceTStrich extends CDefenceTyp {
     public CDefenceTStrich() {
-        // super();
-        for (final CType cType : CType.values()) {
-            this.op1Defencer.put(cType, new CD_1StrichDefault());
-        }
-        this.op1Defencer.put(CType.PLUSTERM, new CD_1StrichPlusterm());
-        this.op1Defencer.put(CType.MINROW, new CD_1StrichMinrow());
-        this.op1Defencer.put(CType.PLUSROW, new CD_1StrichStrich());
+
     }
 
     @Override
-    public boolean canDefence(final CElement parent, final CElement fences,
-            final CElement content) {
-        System.out.println("DefenceTyp+ can Defence?");
-        return this.op1Defencer.get(content.getCType()).canDefence(parent,
-                fences, content);
+    protected HashMap<CType, CD_Base> getOp1Def() {
+        if (this.op1Defencer == null) {
+            super.getOp1Def();
+            this.op1Defencer.put(CType.PLUSTERM, new CD_1StrichPlusterm());
+            this.op1Defencer.put(CType.MINROW, new CD_1StrichMinrow());
+            this.op1Defencer.put(CType.PLUSROW, new CD_1StrichStrich());
+        }
+        return this.op1Defencer;
     }
+
+    // @Override
+    // public boolean canDefence(final CElement parent, final CElement fences,
+    // final CElement content) {
+    // System.out.println("DefenceTyp+ can Defence?");
+    // return this.op1Defencer.get(content.getCType()).canDefence(parent,
+    // fences, content);
+    // }
 
 }

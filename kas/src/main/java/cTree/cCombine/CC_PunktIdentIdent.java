@@ -23,9 +23,22 @@ import cTree.CNum;
 import cTree.CPot;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 import cTree.adapter.EElementHelper;
 
 public class CC_PunktIdentIdent extends CC_Base {
+
+    @Override
+    public C_Changer getChanger(final C_Event e) {
+        this.setEvent(e);
+        if (this.canDo()) {
+            return this;
+        } else {
+            return new C_No(e);
+        }
+    }
 
     public CElement create(final CElement producer, final CElement first,
             final CElement second) {
@@ -80,7 +93,8 @@ public class CC_PunktIdentIdent extends CC_Base {
 
     @Override
     public boolean canDo() {
-        System.out.println("Repell ident times ident?");
-        return true;
+        final String s1 = this.getFirst().getText();
+        final String s2 = this.getSec().getText();
+        return s1.equals(s2);
     }
 }

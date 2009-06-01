@@ -16,14 +16,12 @@
 
 package cTree.cAlter;
 
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CPot;
 
-public class CA_DivA_Pot extends CAlter {
+public class CA_DivA_Pot extends CA_Base {
 
     @Override
     public CElement doIt() {
@@ -44,11 +42,11 @@ public class CA_DivA_Pot extends CAlter {
 
     @Override
     public boolean canDo() {
-        return this.getEvent().getFirst().hasExtDiv();
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            return this.getEvent().getFirst().hasExtDiv();
+        } else {
+            return false;
+        }
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

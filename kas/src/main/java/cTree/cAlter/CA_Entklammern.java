@@ -16,20 +16,30 @@
 
 package cTree.cAlter;
 
-import java.util.HashMap;
-
 import cTree.CElement;
-import cTree.CFences;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
+import cTree.cDefence.CD_Event;
 import cTree.cDefence.DefHandler;
 
-public class CA_Entklammern extends CAlter {
+public class CA_Entklammern extends CA_Base {
+
+    private C_Changer defencer;
+
+    @Override
+    public C_Changer getChanger(final C_Event e) {
+        if (e instanceof CD_Event) {
+            this.setEvent(e);
+            this.defencer = DefHandler.getInst().getChanger(e);
+        }
+        this.defencer = new C_No(e);
+        return this.defencer;
+    }
 
     @Override
     public CElement doIt() {
-        final CElement fences = this.getEvent().getFirst();
-        System.out.println("Entferne Klammer " + fences.getText());
-        return DefHandler.getInst().defence(fences.getParent(), fences,
-                ((CFences) fences).getInnen());
+        return this.defencer.doIt();
     }
 
     @Override
@@ -39,19 +49,7 @@ public class CA_Entklammern extends CAlter {
 
     @Override
     public boolean canDo() {
-        final CElement first = this.getEvent().getFirst();
-        if (first instanceof CFences) {
-            final CFences cF = (CFences) first;
-            if (cF.hasParent() && cF.getInnen() != null) {
-                return DefHandler.getInst().canDefence(cF.getParent(), cF,
-                        cF.getInnen());
-            }
-        }
-        return false;
+        return this.defencer.canDo();
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

@@ -19,6 +19,9 @@ package cTree.cCombine;
 import java.util.ArrayList;
 
 import cTree.CElement;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
 public class CC_PotFencesNum extends CC_Base {
 
@@ -39,6 +42,17 @@ public class CC_PotFencesNum extends CC_Base {
             this.combs.add(new CC_PotFencedTRNum());
         }
         return this.combs;
+    }
+
+    @Override
+    public C_Changer getChanger(final C_Event e) {
+        for (final CC_Base testComb : this.getCombs()) {
+            testComb.getChanger(e);
+            if (testComb.canDo()) {
+                return testComb;
+            }
+        }
+        return new C_No(e);
     }
 
     @Override

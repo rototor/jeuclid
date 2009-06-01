@@ -17,7 +17,6 @@
 package cTree.cAlter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFrac;
@@ -26,7 +25,7 @@ import cTree.CNum;
 import cTree.CPlusRow;
 import cTree.adapter.C_Event;
 
-public class CA_PlusRow_InGemZ extends CAlter {
+public class CA_PlusRow_InGemZ extends CA_Base {
 
     private CPlusRow cP;
 
@@ -64,8 +63,4 @@ public class CA_PlusRow_InGemZ extends CAlter {
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

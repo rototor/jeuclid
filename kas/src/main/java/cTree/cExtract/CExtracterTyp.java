@@ -24,18 +24,25 @@ import cTree.adapter.C_Event;
 import cTree.adapter.C_No;
 
 public class CExtracterTyp extends C_Changer {
-    public HashMap<CType, CE_1> op1Extracter;
+    protected HashMap<CType, CExtractBase> op1Extracter;
 
-    public CExtracterTyp() {
-        this.op1Extracter = new HashMap<CType, CE_1>();
+    /**
+     * Getter method for op1Extracter.
+     * 
+     * @return the op1Extracter
+     */
+    public HashMap<CType, CExtractBase> getOp1Extracter() {
+        if (this.op1Extracter == null) {
+            this.op1Extracter = new HashMap<CType, CExtractBase>();
+        }
+        return this.op1Extracter;
     }
 
     @Override
     public C_Changer getChanger(final C_Event event) {
         final CType firstTyp = event.getFirst().getCType();
-        if (this.op1Extracter.containsKey(firstTyp)) {
-            System.out.println("CExtracterTyp");
-            return this.op1Extracter.get(firstTyp).getChanger(event);
+        if (this.getOp1Extracter().containsKey(firstTyp)) {
+            return this.getOp1Extracter().get(firstTyp).getChanger(event);
         } else {
             return new C_No(event);
         }
