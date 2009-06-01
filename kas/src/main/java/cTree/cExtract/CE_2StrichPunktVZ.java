@@ -22,7 +22,6 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
 
 public class CE_2StrichPunktVZ extends CExtractBase {
 
@@ -59,11 +58,10 @@ public class CE_2StrichPunktVZ extends CExtractBase {
     //
     @Override
     public boolean canDo() {
-        final C_Event e = this.getEvent();
-        if (e == null || !(e instanceof C_Event)) {
+        if (this.getEvent() == null) {
             return false;
         }
-        this.setEvent(e);
         return this.getEvent().getFirst().hasExtMinus();
     }
+
 }

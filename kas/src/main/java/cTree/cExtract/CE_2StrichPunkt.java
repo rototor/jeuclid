@@ -55,10 +55,6 @@ public class CE_2StrichPunkt extends CExtractBase {
         final TransferObject to = new TransferObject(this.strArray);
         ViewerFactory.getInst().getComboDialog(to);
         final CExtractBase ext = this.extracters.get(to.getResult());
-        if (ext.canDo()) {
-            return ext;
-        } else {
-            return extracter;
-        }
+        return ext.getChanger(event);
     }
 }

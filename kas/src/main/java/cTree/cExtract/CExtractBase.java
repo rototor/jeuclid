@@ -46,6 +46,7 @@ public class CExtractBase extends C_Changer {
 
     @Override
     public C_Changer getChanger(final C_Event event) {
+        this.setEvent(event);
         if (this.canDo()) {
             return this;
         } else {
