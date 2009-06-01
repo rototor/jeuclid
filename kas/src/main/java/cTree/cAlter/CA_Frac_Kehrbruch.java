@@ -16,14 +16,10 @@
 
 package cTree.cAlter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CFrac;
-import cTree.adapter.C_Event;
 
-public class CA_Frac_Kehrbruch extends CAlter {
+public class CA_Frac_Kehrbruch extends CA_Base {
 
     @Override
     public CElement doIt() {
@@ -44,14 +40,13 @@ public class CA_Frac_Kehrbruch extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final ArrayList<CElement> els = event.getSelection();
-        return (els.get(0).hasExtDiv() || els.get(0).hasExtTimes())
-                && (els.get(0) instanceof CFrac);
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            return (first.hasExtDiv() || first.hasExtTimes())
+                    && (first instanceof CFrac);
+        } else {
+            return false;
+        }
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

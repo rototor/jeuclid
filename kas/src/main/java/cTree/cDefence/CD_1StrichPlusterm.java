@@ -18,7 +18,7 @@ package cTree.cDefence;
 
 import cTree.CElement;
 
-public class CD_1StrichPlusterm extends CD_1 {
+public class CD_1StrichPlusterm extends CD_Base {
 
     @Override
     protected CElement createInsertion(final CElement fences,

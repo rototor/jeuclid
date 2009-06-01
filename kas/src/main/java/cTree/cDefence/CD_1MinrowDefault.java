@@ -18,7 +18,7 @@ package cTree.cDefence;
 
 import cTree.CElement;
 
-public class CD_1MinrowDefault extends CD_1{
+public class CD_1MinrowDefault extends CD_Base{
 	
 	protected CElement createInsertion(CElement fences, CElement content){
 		System.out.println("Defence minrow default");

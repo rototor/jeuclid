@@ -24,7 +24,7 @@ import cTree.CPlusRow;
 import cTree.CTimesRow;
 import cTree.adapter.C_Event;
 
-public class CE_2StrichPunktVZ extends CE_1 {
+public class CE_2StrichPunktVZ extends CExtractBase {
 
     @Override
     protected CElement createExtraction() {

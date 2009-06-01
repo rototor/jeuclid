@@ -16,12 +16,19 @@
 
 package cTree.cExtract;
 
+import java.util.HashMap;
+
 import cTree.CType;
 
 public class CExtracterTStrich extends CExtracterTyp {
-    public CExtracterTStrich() {
-        super();
-        this.op1Extracter.put(CType.MINROW, new CE_2StrichMinrow());
-        this.op1Extracter.put(CType.TIMESROW, new CE_2StrichPunkt());
+
+    @Override
+    public HashMap<CType, CExtractBase> getOp1Extracter() {
+        if (this.op1Extracter == null) {
+            final HashMap<CType, CExtractBase> hm = super.getOp1Extracter();
+            hm.put(CType.MINROW, new CE_2StrichMinrow());
+            hm.put(CType.TIMESROW, new CE_2StrichPunkt());
+        }
+        return this.op1Extracter;
     }
 }

@@ -17,16 +17,14 @@
 package cTree.cAlter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CMessage;
 import cTree.CMinTerm;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
 
-public class CA_Times_MinRaus extends CAlter {
+public class CA_Times_MinRaus extends CA_Base {
 
     private CTimesRow cT;
 
@@ -79,24 +77,21 @@ public class CA_Times_MinRaus extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final CElement first = event.getFirst();
-        if (first instanceof CTimesRow) {
-            this.cT = (CTimesRow) first;
-            this.parent = first.getParent();
-            this.members = this.cT.getMemberList();
-            for (final CElement member : this.members) {
-                if (member instanceof CFences
-                        && (((CFences) member).getInnen() instanceof CMinTerm)) {
-                    return true;
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            if (first instanceof CTimesRow) {
+                this.cT = (CTimesRow) first;
+                this.parent = first.getParent();
+                this.members = this.cT.getMemberList();
+                for (final CElement member : this.members) {
+                    if (member instanceof CFences
+                            && (((CFences) member).getInnen() instanceof CMinTerm)) {
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

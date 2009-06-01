@@ -16,14 +16,11 @@
 
 package cTree.cAlter;
 
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.adapter.C_Changer;
-import cTree.adapter.C_Event;
 import cTree.cCombine.CombHandler;
 
-public class CA_Verbinden extends CAlter {
+public class CA_Verbinden extends CA_Base {
 
     @Override
     public CElement doIt() {
@@ -46,17 +43,15 @@ public class CA_Verbinden extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final CElement first = event.getFirst();
-        if (first.hasNextC() && first.hasParent()) {
-            final C_Changer c = CombHandler.getInst().getChanger(event);
-            return c.canDo();
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            if (first.hasNextC() && first.hasParent()) {
+                final C_Changer c = CombHandler.getInst().getChanger(
+                        this.getEvent());
+                return c.canDo();
+            }
         }
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

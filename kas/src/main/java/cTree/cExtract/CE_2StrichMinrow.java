@@ -27,13 +27,13 @@ import cTree.adapter.C_No;
 import cViewer.TransferObject;
 import cViewer.ViewerFactory;
 
-public class CE_2StrichMinrow extends CE_1 {
-    private final HashMap<String, CE_1> extracters;
+public class CE_2StrichMinrow extends CExtractBase {
+    private final HashMap<String, CExtractBase> extracters;
 
     private final String[] strArray;
 
     public CE_2StrichMinrow() {
-        this.extracters = new HashMap<String, CE_1>();
+        this.extracters = new HashMap<String, CExtractBase>();
         this.strArray = new String[3];
         this.strArray[0] = "Vorzeichen";
         this.strArray[1] = "erster Faktor";
@@ -57,7 +57,7 @@ public class CE_2StrichMinrow extends CE_1 {
         }
         final TransferObject to = new TransferObject(this.strArray);
         ViewerFactory.getInst().getComboDialog(to);
-        final CE_1 ext = this.extracters.get(to.getResult());
+        final CExtractBase ext = this.extracters.get(to.getResult());
         if (ext.canDo()) {
             return ext;
         } else {

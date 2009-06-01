@@ -27,10 +27,12 @@ import cTree.CRolle;
 import cTree.CSqrt;
 import cTree.CTimesRow;
 import cTree.CType;
+import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
+import cTree.cDefence.CD_Event;
 import cTree.cDefence.DefHandler;
 
-public class CE_2SqrtPunkt extends CE_1 {
+public class CE_2SqrtPunkt extends CExtractBase {
 
     @Override
     public CElement doIt() {
@@ -42,8 +44,9 @@ public class CE_2SqrtPunkt extends CE_1 {
         newArg.setCRolle(CRolle.GEKLAMMERT);
         this.insertOrReplace(newChild, true);
         newChild.setCRolle(rolle);
-        return DefHandler.getInst().conDefence(newChild.getParent(),
-                newChild, newChild.getFirstChild(), didIt.isMessage());
+        final CD_Event e = new CD_Event(newChild, didIt.isMessage());
+        final C_Changer c = DefHandler.getInst().getChanger(e);
+        return c.doIt();
     }
 
     @Override
@@ -84,7 +87,7 @@ public class CE_2SqrtPunkt extends CE_1 {
     @Override
     public boolean canDo() {
         final C_Event e = this.getEvent();
-        if (e == null || !(e instanceof CE_Event)) {
+        if (e == null) {
             return false;
         }
         this.setEvent(e);

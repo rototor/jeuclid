@@ -24,39 +24,41 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CTimesRow;
 
-public class CD_1PunktPunkt extends CD_1 {
+public class CD_1PunktPunkt extends CD_Base {
 
     @Override
-    public CElement defence(final CElement parent, final CElement fences,
-            final CElement content) {
-        if (this.canDefence(parent, fences, content)) {
-            final boolean aussenDiv = (fences.hasExtDiv());
-            final Element op = (fences.getExtPraefix() != null) ? (Element) fences
-                    .getExtPraefix().cloneNode(true)
-                    : null;
+    public CElement doIt() {
+        System.out.println("Do the defence work strich strich");
+        final CFences f = this.getFences();
+        final CElement p = this.getParent();
+        final CElement content = this.getInside();
+        if (this.canDo()) {
+            final boolean aussenDiv = (f.hasExtDiv());
+            final Element op = (f.getExtPraefix() != null) ? (Element) f
+                    .getExtPraefix().cloneNode(true) : null;
 
             // Drei Rows bis zur Klammer, Klammerinneres, nach der Klammer
             final ArrayList<CElement> rows = new ArrayList<CElement>();
-            rows.addAll(((CTimesRow) parent).startTo(fences));
-            rows.addAll(((CTimesRow) this.createInsertion(fences, content,
+            rows.addAll(((CTimesRow) p).startTo(f));
+            rows.addAll(((CTimesRow) this.createInsertion(f, content,
                     aussenDiv, op)).getMemberList());
-            rows.addAll(((CTimesRow) parent).endFrom(fences));
+            rows.addAll(((CTimesRow) p).endFrom(f));
 
             // Verschmelzen der Rows zu einer
             final CTimesRow newParent = CTimesRow.createRow(rows);
             newParent.correctInternalPraefixesAndRolle();
 
             // Das Parent wird eingefügt
-            final CElement gParent = parent.getParent();
+            final CElement gParent = p.getParent();
             if (gParent instanceof CFences) {
                 final CElement ggParent = gParent.getParent();
                 final CElement newF = CFences.createFenced(newParent);
                 return ggParent.replaceChild(newF, gParent, true, true);
             } else {
-                return gParent.replaceChild(newParent, parent, true, true);
+                return gParent.replaceChild(newParent, p, true, true);
             }
         } else {
-            return fences;
+            return f;
         }
 
     }

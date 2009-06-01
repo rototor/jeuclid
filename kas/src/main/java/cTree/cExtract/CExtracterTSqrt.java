@@ -16,13 +16,19 @@
 
 package cTree.cExtract;
 
+import java.util.HashMap;
+
 import cTree.CType;
 
 public class CExtracterTSqrt extends CExtracterTyp {
 
-    public CExtracterTSqrt() {
-        super();
-        this.op1Extracter.put(CType.TIMESROW, new CE_2SqrtPunkt());
-        this.op1Extracter.put(CType.POT, new CE_2SqrtPot());
+    @Override
+    public HashMap<CType, CExtractBase> getOp1Extracter() {
+        if (this.op1Extracter == null) {
+            final HashMap<CType, CExtractBase> hm = super.getOp1Extracter();
+            hm.put(CType.TIMESROW, new CE_2SqrtPunkt());
+            hm.put(CType.POT, new CE_2SqrtPot());
+        }
+        return this.op1Extracter;
     }
 }

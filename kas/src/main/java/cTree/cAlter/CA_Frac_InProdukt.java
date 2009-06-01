@@ -17,7 +17,6 @@
 package cTree.cAlter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
@@ -27,7 +26,7 @@ import cTree.CRolle;
 import cTree.CTimesRow;
 import cTree.adapter.C_Event;
 
-public class CA_Frac_InProdukt extends CAlter {
+public class CA_Frac_InProdukt extends CA_Base {
 
     private CFrac cFrac;
 
@@ -68,25 +67,23 @@ public class CA_Frac_InProdukt extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final CElement first = event.getFirst();
-        final ArrayList<CElement> sel = event.getSelection();
-        if (sel.size() > 0 && first instanceof CFrac
-                && (first.getCRolle() != CRolle.FRACTION)) {
-            this.cFrac = (CFrac) first;
-            this.z = this.cFrac.getZaehler();
-            this.n = this.cFrac.getNenner();
-            if (this.z instanceof CTimesRow) {
-                final CTimesRow zprod = (CTimesRow) this.z;
-                this.zp = zprod.getMemberList();
-                return true;
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final C_Event event = this.getEvent();
+            final CElement first = event.getFirst();
+            final ArrayList<CElement> sel = event.getSelection();
+            if (sel.size() > 0 && first instanceof CFrac
+                    && (first.getCRolle() != CRolle.FRACTION)) {
+                this.cFrac = (CFrac) first;
+                this.z = this.cFrac.getZaehler();
+                this.n = this.cFrac.getNenner();
+                if (this.z instanceof CTimesRow) {
+                    final CTimesRow zprod = (CTimesRow) this.z;
+                    this.zp = zprod.getMemberList();
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

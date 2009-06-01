@@ -17,13 +17,12 @@
 package cTree.cAlter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
 import cTree.adapter.C_Event;
 
-public class CA_Klammern extends CAlter {
+public class CA_Klammern extends CA_Base {
 
     @Override
     public CElement doIt() {
@@ -38,14 +37,14 @@ public class CA_Klammern extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final CElement first = event.getFirst();
-        final ArrayList<CElement> els = event.getSelection();
-        return (els.size() > 0 && first != null && !(els.size() == 1 && (first instanceof CFences)));
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final C_Event event = this.getEvent();
+            final CElement first = event.getFirst();
+            final ArrayList<CElement> els = event.getSelection();
+            return (els.size() > 0 && first != null && !(els.size() == 1 && (first instanceof CFences)));
+        } else {
+            return false;
+        }
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

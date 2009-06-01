@@ -20,9 +20,18 @@ import java.util.HashMap;
 
 import cTree.adapter.C_Changer;
 
-public abstract class CAlter extends C_Changer {
+/**
+ * Adds support for being displayed in a popup menu. getText(): delivers the
+ * string which is displayed in the list. register(): a hashmap is find the
+ * changer when the text is chosen.
+ * 
+ * @version $Revision: 000 $
+ */
+public abstract class CA_Base extends C_Changer {
 
     public abstract String getText();
 
-    public abstract void register(HashMap<String, CAlter> hashMap);
+    public void register(final HashMap<String, CA_Base> hashMap) {
+        hashMap.put(this.getText(), this);
+    }
 }

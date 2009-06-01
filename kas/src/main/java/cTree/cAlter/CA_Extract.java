@@ -16,13 +16,11 @@
 
 package cTree.cAlter;
 
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.adapter.C_Changer;
 import cTree.cExtract.ExtractHandler;
 
-public class CA_Extract extends CAlter {
+public class CA_Extract extends CA_Base {
 
     private C_Changer extracter = null;
 
@@ -42,8 +40,4 @@ public class CA_Extract extends CAlter {
         return this.extracter.canDo();
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

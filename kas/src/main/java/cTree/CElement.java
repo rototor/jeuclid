@@ -24,8 +24,8 @@ import cTree.adapter.ElementAdapter;
 import cTree.adapter.PraefixAdapter;
 import cTree.adapter.RolleAdapter;
 import cTree.cCombine.CombHandler;
+import cTree.cDefence.CD_Event;
 import cTree.cDefence.DefHandler;
-import cTree.cExtract.CE_Event;
 import cTree.cExtract.ExtractHandler;
 import cTree.cSplit.CS_Event;
 import cTree.cSplit.SplitHandler;
@@ -63,7 +63,7 @@ public abstract class CElement extends RolleAdapter implements
     }
 
     public CElement extract(final ArrayList<CElement> active) {
-        final CE_Event event = new CE_Event(active);
+        final C_Event event = new C_Event(active);
         final C_Changer ext = ExtractHandler.getInst().getChanger(event);
         return ext.doIt();
     };
@@ -94,8 +94,9 @@ public abstract class CElement extends RolleAdapter implements
 
     public final CElement defence(final CElement aFencePair) {
         if (aFencePair instanceof CFences && aFencePair.hasChildC()) {
-            return DefHandler.getInst().defence(this, aFencePair,
-                    aFencePair.getFirstChild());
+            final CD_Event e = new CD_Event(aFencePair);
+            final C_Changer c = DefHandler.getInst().getChanger(e);
+            c.doIt();
         }
         return aFencePair;
     }

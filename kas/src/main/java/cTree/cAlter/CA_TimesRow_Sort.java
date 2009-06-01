@@ -18,14 +18,13 @@ package cTree.cAlter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CTComparator;
 import cTree.CTimesRow;
 import cTree.adapter.C_Event;
 
-public class CA_TimesRow_Sort extends CAlter {
+public class CA_TimesRow_Sort extends CA_Base {
 
     @Override
     public CElement doIt() {
@@ -66,8 +65,4 @@ public class CA_TimesRow_Sort extends CAlter {
         return (els.size() > 0 && (els.get(0) instanceof CTimesRow));
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

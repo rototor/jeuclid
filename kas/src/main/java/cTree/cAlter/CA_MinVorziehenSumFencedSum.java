@@ -16,14 +16,11 @@
 
 package cTree.cAlter;
 
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CPlusRow;
-import cTree.adapter.C_Event;
 
-public class CA_MinVorziehenSumFencedSum extends CAlter {
+public class CA_MinVorziehenSumFencedSum extends CA_Base {
 
     @Override
     public CElement doIt() {
@@ -41,18 +38,15 @@ public class CA_MinVorziehenSumFencedSum extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final CElement fences = event.getFirst();
-        if (fences instanceof CFences) {
-            if (((CFences) fences).getInnen() instanceof CPlusRow) {
-                return fences.getParent() instanceof CPlusRow;
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement fences = this.getFirst();
+            if (fences instanceof CFences) {
+                if (((CFences) fences).getInnen() instanceof CPlusRow) {
+                    return fences.getParent() instanceof CPlusRow;
+                }
             }
         }
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

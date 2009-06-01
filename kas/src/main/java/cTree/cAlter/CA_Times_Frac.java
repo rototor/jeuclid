@@ -16,15 +16,12 @@
 
 package cTree.cAlter;
 
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
 
-public class CA_Times_Frac extends CAlter {
+public class CA_Times_Frac extends CA_Base {
 
     private CTimesRow parent;
 
@@ -54,21 +51,19 @@ public class CA_Times_Frac extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        this.first = event.getFirst();
-        if (this.first.getParent() instanceof CTimesRow
-                && this.first.hasNextC()) {
-            this.parent = (CTimesRow) this.first.getParent();
-            this.sec = this.first.getNextSibling();
-            if (!this.first.hasPrevC() && !this.sec.hasNextC()) {
-                return this.sec.hasExtDiv();
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            this.first = this.getFirst();
+            System.out.println(this.first.getText());
+            if (this.first.getParent() instanceof CTimesRow
+                    && this.first.hasNextC()) {
+                this.parent = (CTimesRow) this.first.getParent();
+                this.sec = this.first.getNextSibling();
+                if (!this.first.hasPrevC() && !this.sec.hasNextC()) {
+                    return this.sec.hasExtDiv();
+                }
             }
         }
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

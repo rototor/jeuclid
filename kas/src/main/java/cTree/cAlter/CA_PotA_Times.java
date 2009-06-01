@@ -17,7 +17,6 @@
 package cTree.cAlter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import cTree.CElement;
 import cTree.CFences;
@@ -25,10 +24,11 @@ import cTree.CMessage;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
+import cTree.adapter.C_Changer;
+import cTree.cDefence.CD_Event;
 import cTree.cDefence.DefHandler;
 
-public class CA_PotA_Times extends CAlter {
+public class CA_PotA_Times extends CA_Base {
 
     private CPot cPot;
 
@@ -53,8 +53,9 @@ public class CA_PotA_Times extends CAlter {
         parent.replaceChild(newEl, first, true, true);
         System.out.println("DidIt " + didIt);
         if (didIt.isMessage()) {
-            return DefHandler.getInst().defence(parent, newEl,
-                    newEl.getFirstChild());
+            final CD_Event e = new CD_Event(newEl);
+            final C_Changer c = DefHandler.getInst().getChanger(e);
+            c.doIt();
         }
         return newEl;
     }
@@ -66,22 +67,19 @@ public class CA_PotA_Times extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final ArrayList<CElement> els = event.getSelection();
-        if (els.get(0) instanceof CPot) {
-            this.cPot = (CPot) els.get(0);
-            if (this.cPot.getExponent() instanceof CNum) {
-                this.cExp = (CNum) this.cPot.getExponent();
-                this.cBase = this.cPot.getBasis();
-                this.exp = this.cExp.getValue();
-                return this.exp < 4;
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            if (first instanceof CPot) {
+                this.cPot = (CPot) first;
+                if (this.cPot.getExponent() instanceof CNum) {
+                    this.cExp = (CNum) this.cPot.getExponent();
+                    this.cBase = this.cPot.getBasis();
+                    this.exp = this.cExp.getValue();
+                    return this.exp < 4;
+                }
             }
         }
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }

@@ -22,6 +22,8 @@ import cTree.CFrac;
 import cTree.CIdent;
 import cTree.CMessage;
 import cTree.CTimesRow;
+import cTree.adapter.C_Changer;
+import cTree.cDefence.CD_Event;
 import cTree.cDefence.DefHandler;
 
 public class CSplitterErweiternIdent extends CSplitterBase {
@@ -70,12 +72,13 @@ public class CSplitterErweiternIdent extends CSplitterBase {
         }
     }
 
-    protected void condCleanOne(final CElement el, final boolean doIt) {
-        if (doIt
-                && DefHandler.getInst().canDefence(el.getParent(), el,
-                        el.getFirstChild())) {
-            DefHandler.getInst().defence(el.getParent(), el,
-                    el.getFirstChild());
+    protected CElement condCleanOne(final CElement el, final boolean doIt) {
+        final CD_Event e = new CD_Event(el);
+        final C_Changer c = DefHandler.getInst().getChanger(e);
+        if (doIt && c.canDo()) {
+            return c.doIt();
+        } else {
+            return el;
         }
     }
 

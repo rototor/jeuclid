@@ -18,7 +18,7 @@ package cTree.cDefence;
 
 import cTree.*;
 
-public class CD_1MinrowStrich extends CD_1{
+public class CD_1MinrowStrich extends CD_Base{
 	
 	protected CElement createInsertion(CElement fences, CElement content){
 		System.out.println("Defence minrow strich");

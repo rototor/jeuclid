@@ -16,16 +16,22 @@
 
 package cTree.cDefence;
 
+import java.util.HashMap;
+
 import cTree.CType;
 
 public class CDefenceTMin extends CDefenceTyp {
     public CDefenceTMin() {
-        // super();
-        for (final CType cType : CType.values()) {
-            this.op1Defencer.put(cType, new CD_1StrichDefault());
+    }
+
+    @Override
+    protected HashMap<CType, CD_Base> getOp1Def() {
+        if (this.op1Defencer == null) {
+            super.getOp1Def();
+            this.op1Defencer.put(CType.PLUSTERM, new CD_1StrichPlusterm());
+            this.op1Defencer.put(CType.MINROW, new CD_1MinrowMinrow());
+            this.op1Defencer.put(CType.PLUSROW, new CD_1MinrowStrich());
         }
-        this.op1Defencer.put(CType.PLUSTERM, new CD_1StrichPlusterm());
-        this.op1Defencer.put(CType.MINROW, new CD_1MinrowMinrow());
-        this.op1Defencer.put(CType.PLUSROW, new CD_1MinrowStrich());
+        return this.op1Defencer;
     }
 }

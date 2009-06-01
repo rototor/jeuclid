@@ -16,16 +16,13 @@
 
 package cTree.cAlter;
 
-import java.util.HashMap;
-
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CRolle;
 import cTree.CTimesRow;
-import cTree.adapter.C_Event;
 
-public class CA_Min1_InProdInMinTerm extends CAlter {
+public class CA_Min1_InProdInMinTerm extends CA_Base {
 
     private CTimesRow oldTimesRow;
 
@@ -51,20 +48,22 @@ public class CA_Min1_InProdInMinTerm extends CAlter {
 
     @Override
     public boolean canDo() {
-        final C_Event event = this.getEvent();
-        final CElement first = event.getFirst();
-        if (first instanceof CFences) {
-            final CFences elF = (CFences) first;
-            if (elF.isFencedMin1() && elF.getCRolle().equals(CRolle.FAKTOR1)
-                    && elF.getNextSibling().hasExtTimes()) {
-                if (first.hasParent()
-                        && first.getParent() instanceof CTimesRow) {
-                    this.oldTimesRow = (CTimesRow) first.getParent();
-                    if (this.oldTimesRow.hasParent()
-                            && this.oldTimesRow.getParent() instanceof CMinTerm) {
-                        this.oldMinTerm = (CMinTerm) this.oldTimesRow
-                                .getParent();
-                        return true;
+        if (this.getEvent() != null && this.getEvent().getFirst() != null) {
+            final CElement first = this.getFirst();
+            if (first instanceof CFences) {
+                final CFences elF = (CFences) first;
+                if (elF.isFencedMin1()
+                        && elF.getCRolle().equals(CRolle.FAKTOR1)
+                        && elF.getNextSibling().hasExtTimes()) {
+                    if (first.hasParent()
+                            && first.getParent() instanceof CTimesRow) {
+                        this.oldTimesRow = (CTimesRow) first.getParent();
+                        if (this.oldTimesRow.hasParent()
+                                && this.oldTimesRow.getParent() instanceof CMinTerm) {
+                            this.oldMinTerm = (CMinTerm) this.oldTimesRow
+                                    .getParent();
+                            return true;
+                        }
                     }
                 }
             }
@@ -72,8 +71,4 @@ public class CA_Min1_InProdInMinTerm extends CAlter {
         return false;
     }
 
-    @Override
-    public void register(final HashMap<String, CAlter> hashMap) {
-        hashMap.put(this.getText(), this);
-    }
 }
