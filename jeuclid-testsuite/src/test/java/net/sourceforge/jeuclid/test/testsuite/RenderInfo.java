@@ -61,8 +61,8 @@ public class RenderInfo implements Serializable {
      * @param y
      *            Y-Position.
      */
-    public RenderInfo(final String element, final float asc,
-            final float desc, final float wid, final float x, final float y) {
+    public RenderInfo(final String element, final float asc, final float desc,
+            final float wid, final float x, final float y) {
         super();
         if (element == null) {
             this.elementName = "";
@@ -84,20 +84,32 @@ public class RenderInfo implements Serializable {
      *            RenderInfo to compare to.
      * @return true if both RenderInfos are similar.
      */
-    public boolean isSimilar(final RenderInfo other) {
-        boolean isSim = true;
-        isSim &= this.elementName.equals(other.elementName);
-        isSim &= this.isClose(this.ascent, other.ascent);
-        isSim &= this.isClose(this.descent, other.descent);
-        isSim &= this.isClose(this.width, other.width);
-        isSim &= this.isClose(this.posx, other.posx);
-        isSim &= this.isClose(this.posy, other.posy);
-        return isSim;
+    public String checkSimilar(final RenderInfo other) {
+        final StringBuilder b = new StringBuilder();
+        if (!this.elementName.equals(other.elementName)) {
+            b.append(" name was: " + other.elementName);
+        }
+        if (!this.isClose(this.ascent, other.ascent)) {
+            b.append(" ascent " + this.ascent + " vs. " + other.ascent);
+        }
+        if (!this.isClose(this.descent, other.descent)) {
+            b.append(" descent " + this.descent + " vs. " + other.descent);
+        }
+        if (!this.isClose(this.width, other.width)) {
+            b.append(" width " + this.width + " vs. " + other.width);
+        }
+        if (!this.isClose(this.posx, other.posx)) {
+            b.append(" posx " + this.posx + " vs. " + other.posx);
+        }
+        if (!this.isClose(this.posy, other.posy)) {
+            b.append(" posy " + this.posy + " vs. " + other.posy);
+        }
+        return b.toString();
     }
 
     private boolean isClose(final float should, final float is) {
-        final float maxdelta = Math.max(Math.abs(should
-                * RenderInfo.FUZZYNESS), 0.1f);
+        final float maxdelta = Math.max(
+                Math.abs(should * RenderInfo.FUZZYNESS), 0.1f);
         return Math.abs(should - is) <= maxdelta;
     }
 

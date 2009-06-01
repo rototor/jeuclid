@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -110,15 +111,15 @@ public class TestTestSuiteRendering {
         this.oldRendering = this.loadRenderings();
     }
 
-    private void createInfo(final JEuclidView view,
-            final LayoutableNode node, final List<RenderInfo> renderInfos) {
+    private void createInfo(final JEuclidView view, final LayoutableNode node,
+            final List<RenderInfo> renderInfos) {
         final LayoutInfo info = view.getInfo(node);
         final RenderInfo renderInfo = new RenderInfo(node.getNodeName(), info
                 .getAscentHeight(LayoutStage.STAGE2), info
                 .getDescentHeight(LayoutStage.STAGE2), info
-                .getWidth(LayoutStage.STAGE2), info
-                .getPosX(LayoutStage.STAGE2), info
-                .getPosY(LayoutStage.STAGE2));
+                .getWidth(LayoutStage.STAGE2),
+                info.getPosX(LayoutStage.STAGE2), info
+                        .getPosY(LayoutStage.STAGE2));
         renderInfos.add(renderInfo);
         for (final LayoutableNode n : node.getChildrenToLayout()) {
             this.createInfo(view, n, renderInfos);
@@ -139,9 +140,11 @@ public class TestTestSuiteRendering {
         final BufferedReader br = new BufferedReader(new InputStreamReader(i,
                 "UTF-8"));
         String line;
+        final List<String> failures = new ArrayList<String>();
         while ((line = br.readLine()) != null) {
-            this.renderAndCompare(line);
+            this.renderAndCompare(line, failures);
         }
+        Assert.assertTrue(failures.isEmpty(), failures.toString());
         this.saveCurrentRenderings();
     }
 
@@ -178,27 +181,32 @@ public class TestTestSuiteRendering {
         return retVal;
     }
 
-    private void renderAndCompare(final String name) throws Exception {
+    private void renderAndCompare(final String name, final List<String> failures)
+            throws Exception {
         final List<RenderInfo> currentList = this.render(name);
         this.currentRendering.put(name, currentList);
         final List<RenderInfo> oldList = this.oldRendering.get(name);
-        this.compareRenderings(name, currentList, oldList);
+        this.compareRenderings(name, currentList, oldList, failures);
     }
 
     private void compareRenderings(final String name,
-            final List<RenderInfo> currentList, final List<RenderInfo> oldList) {
+            final List<RenderInfo> currentList, final List<RenderInfo> oldList,
+            final List<String> failures) {
         if (oldList == null) {
             // TODO: Maybe log?
             return;
         }
-        Assert.assertEquals(currentList.size(), oldList.size(), name
-                + " has changed in number of elements!");
+        if (currentList.size() != oldList.size()) {
+            failures.add(name + " has changed in number of elements! (old: "
+                    + oldList.size() + " new: " + currentList.size() + ")");
+        }
         for (int i = 0; i < currentList.size(); i++) {
             final RenderInfo current = currentList.get(i);
             final RenderInfo old = oldList.get(i);
-            if (!current.isSimilar(old)) {
-                Assert.fail(name + " differs for element "
-                        + current.getElementName());
+            final String similarities = current.checkSimilar(old);
+            if (similarities.length() > 0) {
+                failures.add(name + " differes for element "
+                        + current.getElementName() + " in" + similarities);
             }
         }
     }
