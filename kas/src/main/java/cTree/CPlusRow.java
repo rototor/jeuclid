@@ -258,6 +258,7 @@ public class CPlusRow extends CRow {
     // Support für die Klammern in dem CTree noch keine Vorzeichenanpassung
     @Override
     public CElement fence(final ArrayList<CElement> active) {
+        System.out.println("Klammern in Summe");
         for (final CElement el : active) {
             el.removeCLastProperty();
         }
@@ -265,6 +266,7 @@ public class CPlusRow extends CRow {
         if (active.size() == 1) {
             result = this.standardFencing(active.get(0));
         } else if (active.size() > 1) {
+            System.out.println("Klammern in Summe 2");
             final CElement first = active.get(0);
             final CPlusRow innen = CPlusRow.createRow(CRow.cloneList(active));
             innen.correctInternalPraefixesAndRolle();

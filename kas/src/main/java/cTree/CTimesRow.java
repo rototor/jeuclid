@@ -290,6 +290,18 @@ public class CTimesRow extends CRow {
         for (final CElement el : active) {
             el.removeCLastProperty();
         }
+        if (!active.get(0).hasPrevC()
+                && !active.get(active.size() - 1).hasNextC()) {
+            System.out.println("ganzes Produkt");
+            final CElement parent = active.get(0).getParent();
+            if (parent.hasParent()) {
+                final CElement realParent = parent.getParent();
+                final ArrayList<CElement> newList = new ArrayList<CElement>();
+                newList.add(parent);
+                return realParent.fence(newList);
+            }
+        }
+
         CElement result = null;
         if (active.size() == 1) {
             result = this.standardFencing(active.get(0));

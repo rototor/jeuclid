@@ -16,9 +16,6 @@
 
 package cTree.cDefence;
 
-import java.util.HashMap;
-
-import cTree.CType;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.adapter.C_No;
@@ -26,18 +23,6 @@ import cTree.adapter.C_No;
 public class CDefenceTPot extends CDefenceTyp {
     public CDefenceTPot() {
 
-    }
-
-    // zu verbessern
-    @Override
-    protected HashMap<CType, CD_Base> getOp1Def() {
-        if (this.op1Defencer == null) {
-            super.getOp1Def();
-            for (final CType cType : CType.values()) {
-                this.op1Defencer.put(cType, new CD_1PotDefault());
-            }
-        }
-        return this.op1Defencer;
     }
 
     @Override
