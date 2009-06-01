@@ -23,6 +23,8 @@ import java.util.List;
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.AbstractDocument;
+
 /**
  * Generic class for all mathobjects that can be represented using other Math
  * objects. These math objects use a delegates for the actual display and
@@ -39,10 +41,16 @@ public abstract class AbstractElementWithDelegates extends AbstractContainer {
     private List<LayoutableNode> delegates;
 
     /**
-     * default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractElementWithDelegates() {
-        super();
+    public AbstractElementWithDelegates(final String qname,
+            final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /**

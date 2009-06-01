@@ -24,6 +24,7 @@ import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
@@ -62,17 +63,23 @@ public final class Mstyle extends AbstractContainer implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mstyle() {
-        super();
+    public Mstyle(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
         this.setDefaultMathAttribute(Mstyle.ATTR_DISPLAYSTYLE, "");
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mstyle();
+        return new Mstyle(this.nodeName, this.ownerDocument);
     }
 
     /**
@@ -321,8 +328,7 @@ public final class Mstyle extends AbstractContainer implements
     }
 
     /** {@inheritDoc} */
-    public void setNegativemediummathspace(
-            final String negativemediummathspace) {
+    public void setNegativemediummathspace(final String negativemediummathspace) {
         throw new UnsupportedOperationException();
         // TODO Auto-generated method stub
     }

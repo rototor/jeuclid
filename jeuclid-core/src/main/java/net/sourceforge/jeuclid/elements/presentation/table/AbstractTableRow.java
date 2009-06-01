@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.mathml.MathMLNodeList;
 import org.w3c.dom.mathml.MathMLTableCellElement;
 import org.w3c.dom.mathml.MathMLTableRowElement;
@@ -31,10 +32,15 @@ public abstract class AbstractTableRow extends AbstractTableElement implements
         MathMLTableRowElement {
 
     /**
-     * Default Constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractTableRow() {
-        super();
+    public AbstractTableRow(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
         this.setDefaultMathAttribute(Mtable.ATTR_GROUPALIGN, "");
     }
 
@@ -60,8 +66,8 @@ public abstract class AbstractTableRow extends AbstractTableElement implements
     }
 
     /** {@inheritDoc} */
-    public MathMLTableCellElement setCell(
-            final MathMLTableCellElement newCell, final int index) {
+    public MathMLTableCellElement setCell(final MathMLTableCellElement newCell,
+            final int index) {
         throw new UnsupportedOperationException();
     }
 

@@ -149,11 +149,7 @@ public final class DocumentElement extends GenericDocument implements
     /** {@inheritDoc} */
     @Override
     public Element createElement(final String tagName) {
-        // TODO: This should be refactored.
-        // Note: removeNSPrefix is needed because Saxon calls this function
-        // with a NS Prefix.
-        return JEuclidElementFactory.elementFromName(this
-                .removeNSPrefix(tagName), this);
+        return JEuclidElementFactory.elementFromName(tagName, this);
     }
 
     /** {@inheritDoc} */
@@ -167,21 +163,12 @@ public final class DocumentElement extends GenericDocument implements
             ns = namespaceURI;
         }
         if (ns == null) {
-            return this.createElement(qualifiedName.intern());
+            return this.createElement(qualifiedName);
         } else {
-            final String tagname = this.removeNSPrefix(qualifiedName);
-            final Element e = this.createElement(tagname);
+            final Element e = this.createElement(qualifiedName);
             // TODO: E should contain ns
             return e;
         }
-    }
-
-    private String removeNSPrefix(final String qualifiedName) {
-        final int posSeparator = qualifiedName.indexOf(':');
-        if (posSeparator >= 0) {
-            return qualifiedName.substring(posSeparator + 1);
-        }
-        return qualifiedName;
     }
 
 }

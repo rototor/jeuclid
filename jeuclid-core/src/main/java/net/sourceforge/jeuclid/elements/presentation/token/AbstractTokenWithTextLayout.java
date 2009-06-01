@@ -32,6 +32,7 @@ import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.TextObject;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.mathml.MathMLPresentationToken;
 
 /**
@@ -43,10 +44,16 @@ public abstract class AbstractTokenWithTextLayout extends
         AbstractJEuclidElement implements MathMLPresentationToken {
 
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractTokenWithTextLayout() {
-        super();
+    public AbstractTokenWithTextLayout(final String qname,
+            final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
@@ -57,8 +64,8 @@ public abstract class AbstractTokenWithTextLayout extends
         if (!this.isEmpty()) {
             final Graphics2D g = view.getGraphics();
             final TextLayout t = this.produceTextLayout(g, context);
-            final StringUtil.TextLayoutInfo tli = StringUtil
-                    .getTextLayoutInfo(t, false);
+            final StringUtil.TextLayoutInfo tli = StringUtil.getTextLayoutInfo(
+                    t, false);
             info.setAscentHeight(tli.getAscent(), stage);
             info.setDescentHeight(tli.getDescent(), stage);
             final float width = tli.getWidth();

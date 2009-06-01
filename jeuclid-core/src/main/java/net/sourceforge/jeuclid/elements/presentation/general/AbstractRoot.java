@@ -35,6 +35,7 @@ import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 import net.sourceforge.jeuclid.layout.LineObject;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.mathml.MathMLRadicalElement;
 
 /**
@@ -48,6 +49,18 @@ public abstract class AbstractRoot extends AbstractJEuclidElement implements
     private static final String EXTRA_SPACE = "0.1ex";
 
     private static final String ROOT_WIDTH = "0.5em";
+
+    /**
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
+     */
+    public AbstractRoot(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+    }
 
     /**
      * retrieve the content of this radical element.

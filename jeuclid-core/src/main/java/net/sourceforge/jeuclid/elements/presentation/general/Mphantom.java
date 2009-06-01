@@ -24,6 +24,7 @@ import java.util.List;
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 
 /**
@@ -41,16 +42,21 @@ public final class Mphantom extends AbstractContainer {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mphantom() {
-        super();
+    public Mphantom(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mphantom();
+        return new Mphantom(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */

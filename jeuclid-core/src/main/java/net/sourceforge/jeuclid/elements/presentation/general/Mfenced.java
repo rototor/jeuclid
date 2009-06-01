@@ -28,6 +28,7 @@ import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLFencedElement;
 
@@ -58,11 +59,15 @@ public final class Mfenced extends AbstractElementWithDelegates implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a new MathFenced object.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-
-    public Mfenced() {
-        super();
+    public Mfenced(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
         this.setDefaultMathAttribute(Mfenced.ATTR_OPEN, "(");
         this.setDefaultMathAttribute(Mfenced.ATTR_CLOSE, ")");
         this.setDefaultMathAttribute(Mfenced.ATTR_SEPARATORS, ",");
@@ -71,7 +76,7 @@ public final class Mfenced extends AbstractElementWithDelegates implements
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mfenced();
+        return new Mfenced(this.nodeName, this.ownerDocument);
     }
 
     /**

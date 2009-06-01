@@ -37,7 +37,7 @@ import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
-import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 
 import org.apache.commons.logging.Log;
@@ -65,8 +65,7 @@ import org.xml.sax.SAXException;
  * @see net.sourceforge.jeuclid.awt.MathComponent
  * @version $Revision$
  */
-public final class JMathComponent extends JComponent implements
-        SwingConstants {
+public final class JMathComponent extends JComponent implements SwingConstants {
 
     private static final String FONT_SEPARATOR = ",";
 
@@ -97,8 +96,7 @@ public final class JMathComponent extends JComponent implements
     public JMathComponent() {
         this.updateUI();
         this.fontCompat();
-        this.setDocument(new Mrow());
-        // this.setContent(JMathComponent.DEFAULT_DOCUMENT);
+        this.setDocument(new DocumentElement());
     }
 
     /**
@@ -115,8 +113,8 @@ public final class JMathComponent extends JComponent implements
      * Tries to return the content as a String.
      * <p>
      * This transforms the internal DOM tree back into a string, which may is
-     * not guaranteed to be the literally same as the original content.
-     * However, it will represent the same XML document.
+     * not guaranteed to be the literally same as the original content. However,
+     * it will represent the same XML document.
      * 
      * @return the content string.
      */
@@ -148,8 +146,7 @@ public final class JMathComponent extends JComponent implements
 
     /**
      * Font list for Doublestruck. Please see
-     * {@link Parameter#FontsDoublestruck} for an explanation of this
-     * parameter.
+     * {@link Parameter#FontsDoublestruck} for an explanation of this parameter.
      * 
      * @return The list for Doublestruck.
      * @see Parameter#FontsDoublestruck
@@ -194,8 +191,8 @@ public final class JMathComponent extends JComponent implements
     }
 
     /**
-     * Font list for Sans-Serif. Please see {@link Parameter#FontsSanserif}
-     * for an explanation of this parameter.
+     * Font list for Sans-Serif. Please see {@link Parameter#FontsSanserif} for
+     * an explanation of this parameter.
      * 
      * @return The list for sansserif.
      * @see Parameter#FontsSanserif
@@ -282,8 +279,8 @@ public final class JMathComponent extends JComponent implements
      * Vertical alignment, as defined by
      * {@link javax.swing.JLabel#getVerticalAlignment()}.
      * <p>
-     * Supported are: {@link SwingConstants#TOP},
-     * {@link SwingConstants#CENTER}, {@link SwingConstants#BOTTOM}.
+     * Supported are: {@link SwingConstants#TOP}, {@link SwingConstants#CENTER},
+     * {@link SwingConstants#BOTTOM}.
      * 
      * @return the verticalAlignment
      * @see javax.swing.JLabel#getVerticalAlignment()
@@ -388,8 +385,8 @@ public final class JMathComponent extends JComponent implements
     }
 
     /**
-     * Font list for Fraktur. Please see {@link Parameter#FONTS_FRAKTUR} for
-     * an explanation of this parameter.
+     * Font list for Fraktur. Please see {@link Parameter#FONTS_FRAKTUR} for an
+     * explanation of this parameter.
      * 
      * @param newFonts
      *            new list for Fraktur (comma seraparated).
@@ -448,8 +445,9 @@ public final class JMathComponent extends JComponent implements
      * @see Parameter#FONTS_MONOSPACED
      */
     public void setFontsMonospaced(final String newFonts) {
-        this.setParameter(Parameter.FONTS_MONOSPACED, this
-                .splitFonts(newFonts));
+        this
+                .setParameter(Parameter.FONTS_MONOSPACED, this
+                        .splitFonts(newFonts));
     }
 
     /**
@@ -461,8 +459,7 @@ public final class JMathComponent extends JComponent implements
      * @see Parameter#FONTS_SANSSERIF
      */
     public void setFontsSanserif(final String newFonts) {
-        this.setParameter(Parameter.FONTS_SANSSERIF, this
-                .splitFonts(newFonts));
+        this.setParameter(Parameter.FONTS_SANSSERIF, this.splitFonts(newFonts));
     }
 
     /**
@@ -524,8 +521,8 @@ public final class JMathComponent extends JComponent implements
      * Vertical alignment, as defined by
      * {@link javax.swing.JLabel#setVerticalAlignment(int)}.
      * <p>
-     * Supported are: {@link SwingConstants#TOP},
-     * {@link SwingConstants#CENTER}, {@link SwingConstants#BOTTOM}.
+     * Supported are: {@link SwingConstants#TOP}, {@link SwingConstants#CENTER},
+     * {@link SwingConstants#BOTTOM}.
      * 
      * @param vAlignment
      *            the verticalAlignment to set

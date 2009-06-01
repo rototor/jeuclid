@@ -38,6 +38,7 @@ import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 import net.sourceforge.jeuclid.layout.LineObject;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLFractionElement;
@@ -87,24 +88,29 @@ public final class Mfrac extends AbstractJEuclidElement implements
     private static final float NOLINE_THRESHHOLD = 0.001f;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mfrac() {
-        super();
+    public Mfrac(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
         this.setDefaultMathAttribute(Mfrac.ATTR_LINETHICKNESS, "1");
         this.setDefaultMathAttribute(Mfrac.ATTR_BEVELLED, Boolean.FALSE
                 .toString());
+        this.setDefaultMathAttribute(Mfrac.ATTR_NUMALIGN, HAlign.ALIGN_CENTER);
         this
-                .setDefaultMathAttribute(Mfrac.ATTR_NUMALIGN,
+                .setDefaultMathAttribute(Mfrac.ATTR_DENOMALIGN,
                         HAlign.ALIGN_CENTER);
-        this.setDefaultMathAttribute(Mfrac.ATTR_DENOMALIGN,
-                HAlign.ALIGN_CENTER);
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mfrac();
+        return new Mfrac(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */
@@ -113,8 +119,7 @@ public final class Mfrac extends AbstractJEuclidElement implements
             final LayoutContext context) {
         return new InlineLayoutContext(this
                 .applyLocalAttributesToContext(context), !((Boolean) context
-                .getParameter(Parameter.MFRAC_KEEP_SCRIPTLEVEL))
-                .booleanValue());
+                .getParameter(Parameter.MFRAC_KEEP_SCRIPTLEVEL)).booleanValue());
     }
 
     /**
@@ -258,11 +263,10 @@ public final class Mfrac extends AbstractJEuclidElement implements
 
     // CHECKSTYLE:OFF
     // More than 7 parameters - but only used here, so this is ok.
-    private void layoutStacked(final LayoutInfo info,
-            final LayoutStage stage, final float middleShift,
-            final float linethickness, final float extraSpace,
-            final LayoutInfo numerator, final LayoutInfo denominator,
-            final LayoutContext context) {
+    private void layoutStacked(final LayoutInfo info, final LayoutStage stage,
+            final float middleShift, final float linethickness,
+            final float extraSpace, final LayoutInfo numerator,
+            final LayoutInfo denominator, final LayoutContext context) {
         // CHECKSTLYE:ON
         final float numWidth = numerator.getWidth(stage);
         final float denumWidth = denominator.getWidth(stage);
@@ -273,9 +277,11 @@ public final class Mfrac extends AbstractJEuclidElement implements
         final float denumOffset = HAlign.parseString(this.getDenomalign(),
                 HAlign.CENTER).getHAlignOffset(stage, denominator, width);
 
-        numerator.moveTo(numOffset + extraSpace, -(middleShift
-                + linethickness / 2.0f + extraSpace + numerator
-                .getDescentHeight(stage)), stage);
+        numerator
+                .moveTo(
+                        numOffset + extraSpace,
+                        -(middleShift + linethickness / 2.0f + extraSpace + numerator
+                                .getDescentHeight(stage)), stage);
 
         denominator.moveTo(denumOffset + extraSpace, -middleShift
                 + linethickness / 2.0f + extraSpace
@@ -284,20 +290,18 @@ public final class Mfrac extends AbstractJEuclidElement implements
         if (linethickness > Mfrac.NOLINE_THRESHHOLD) {
             final GraphicsObject line = new LineObject(extraSpace,
                     -middleShift, extraSpace + width, -middleShift,
-                    linethickness, (Color) this
-                            .applyLocalAttributesToContext(context)
-                            .getParameter(Parameter.MATHCOLOR));
+                    linethickness, (Color) this.applyLocalAttributesToContext(
+                            context).getParameter(Parameter.MATHCOLOR));
             info.setGraphicsObject(line);
         }
     }
 
     // CHECKSTYLE:OFF
     // More than 7 parameters - but only used here, so this is ok.
-    private void layoutBeveled(final LayoutInfo info,
-            final LayoutStage stage, final float middleShift,
-            final float linethickness, final float extraSpace,
-            final LayoutInfo numerator, final LayoutInfo denominator,
-            final LayoutContext context) {
+    private void layoutBeveled(final LayoutInfo info, final LayoutStage stage,
+            final float middleShift, final float linethickness,
+            final float extraSpace, final LayoutInfo numerator,
+            final LayoutInfo denominator, final LayoutContext context) {
         // CHECKSTYLE:ON
         final float numPosY = -middleShift / 2.0f
                 + numerator.getDescentHeight(stage);
@@ -319,9 +323,8 @@ public final class Mfrac extends AbstractJEuclidElement implements
         if (linethickness > Mfrac.NOLINE_THRESHHOLD) {
             final GraphicsObject line = new LineObject(posX, totalDescent,
                     lineWidth + posX, totalDescent - totalHeight,
-                    linethickness, (Color) this
-                            .applyLocalAttributesToContext(context)
-                            .getParameter(Parameter.MATHCOLOR));
+                    linethickness, (Color) this.applyLocalAttributesToContext(
+                            context).getParameter(Parameter.MATHCOLOR));
             info.setGraphicsObject(line);
         }
         posX += lineWidth;

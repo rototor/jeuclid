@@ -24,6 +24,7 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLStringLitElement;
 
@@ -51,10 +52,15 @@ public final class Ms extends AbstractTokenWithTextLayout implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Ms() {
-        super();
+    public Ms(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
         this.setDefaultMathAttribute(Ms.ATTR_LQUOTE, Ms.VALUE_DOUBLEQUOTE);
         this.setDefaultMathAttribute(Ms.ATTR_RQUOTE, Ms.VALUE_DOUBLEQUOTE);
     }
@@ -62,7 +68,7 @@ public final class Ms extends AbstractTokenWithTextLayout implements
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Ms();
+        return new Ms(this.nodeName, this.ownerDocument);
     }
 
     /**

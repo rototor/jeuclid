@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLTableCellElement;
 
@@ -45,10 +46,16 @@ public final class Mtd extends AbstractTableElement implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mtd() {
-        super();
+    public Mtd(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
         this.setDefaultMathAttribute(Mtd.ATTR_ROWSPAN, Mtd.VALUE_ONE);
         this.setDefaultMathAttribute(Mtd.ATTR_COLUMNSPAN, Mtd.VALUE_ONE);
     }
@@ -56,7 +63,7 @@ public final class Mtd extends AbstractTableElement implements
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mtd();
+        return new Mtd(this.nodeName, this.ownerDocument);
     }
 
     /**

@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 
 /**
@@ -37,16 +38,20 @@ public final class None extends AbstractInvisibleJEuclidElement {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
      * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public None() {
-        super();
+    public None(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new None();
+        return new None(this.nodeName, this.ownerDocument);
     }
 }

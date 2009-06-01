@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 
 /**
@@ -34,17 +35,21 @@ public final class Mtext extends AbstractTokenWithStandardLayout {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
      * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mtext() {
-        super();
+    public Mtext(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mtext();
+        return new Mtext(this.nodeName, this.ownerDocument);
     }
 
 }

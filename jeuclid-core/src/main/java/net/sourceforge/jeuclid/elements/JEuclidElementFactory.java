@@ -61,7 +61,7 @@ import net.sourceforge.jeuclid.elements.presentation.token.Ms;
 import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
 import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
 
-import org.apache.batik.dom.AbstractNode;
+import org.apache.batik.dom.AbstractDocument;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
@@ -86,17 +86,28 @@ public final class JEuclidElementFactory {
         // Empty on purpose
     }
 
+    private static String removeNSPrefix(final String qualifiedName) {
+        final int posSeparator = qualifiedName.indexOf(':');
+        if (posSeparator >= 0) {
+            return qualifiedName.substring(posSeparator + 1);
+        }
+        return qualifiedName;
+    }
+
     /**
      * Factory for MathML Elements.
      * 
-     * @param localName
-     *            name of the element without namespaces.
+     * @param qualifiedName
+     *            name of the element with optional namespace prefix.
      * @param ownerDocument
      *            Document this element belongs to.
      * @return A new MathElement for this tag name.
      */
-    public static Element elementFromName(final String localName,
+    public static Element elementFromName(final String qualifiedName,
             final Document ownerDocument) {
+
+        final String localName = JEuclidElementFactory
+                .removeNSPrefix(qualifiedName);
 
         final Constructor<?> con = JEuclidElementFactory.IMPL_CLASSES
                 .get(localName);
@@ -104,7 +115,8 @@ public final class JEuclidElementFactory {
         JEuclidElement element = null;
         if (con != null) {
             try {
-                element = (JEuclidElement) con.newInstance();
+                element = (JEuclidElement) con.newInstance(qualifiedName,
+                        ownerDocument);
             } catch (final InstantiationException e) {
                 element = null;
             } catch (final IllegalAccessException e) {
@@ -116,10 +128,8 @@ public final class JEuclidElementFactory {
         if (element == null) {
             // JEuclidElementFactory.LOGGER.info("Unsupported element: "
             // + localName);
-            element = new Mrow();
+            element = new Mrow(qualifiedName, (AbstractDocument) ownerDocument);
         }
-        ((AbstractNode) element).setOwnerDocument(ownerDocument);
-        ((AbstractNode) element).setNodeName(localName);
         return element;
     }
 
@@ -127,7 +137,8 @@ public final class JEuclidElementFactory {
         try {
             final Field f = c.getField("ELEMENT");
             final String tag = (String) f.get(null);
-            JEuclidElementFactory.IMPL_CLASSES.put(tag, c.getConstructor());
+            JEuclidElementFactory.IMPL_CLASSES.put(tag, c.getConstructor(
+                    String.class, AbstractDocument.class));
         } catch (final NoSuchFieldException e) {
             JEuclidElementFactory.LOGGER.warn(c.toString(), e);
         } catch (final NoSuchMethodException e) {

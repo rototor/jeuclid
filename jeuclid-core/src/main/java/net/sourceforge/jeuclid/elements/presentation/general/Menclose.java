@@ -45,7 +45,7 @@ import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 import net.sourceforge.jeuclid.layout.LineObject;
 
-import org.apache.batik.dom.AbstractNode;
+import org.apache.batik.dom.AbstractDocument;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
@@ -67,10 +67,16 @@ public final class Menclose extends AbstractElementWithDelegates implements
             AbstractContainer {
 
         /**
-         * Default constructor.
+         * Default constructor. Sets MathML Namespace.
+         * 
+         * @param qname
+         *            Qualified name.
+         * @param odoc
+         *            Owner Document.
          */
-        public AbstractRowLikeNotation() {
-            super();
+        public AbstractRowLikeNotation(final String qname,
+                final AbstractDocument odoc) {
+            super(qname, odoc);
         }
 
         /** {@inheritDoc} */
@@ -136,15 +142,20 @@ public final class Menclose extends AbstractElementWithDelegates implements
         private static final long serialVersionUID = 1L;
 
         /**
-         * Default constructor.
+         * Default constructor. Sets MathML Namespace.
+         * 
+         * @param qname
+         *            Qualified name.
+         * @param odoc
+         *            Owner Document.
          */
-        public Longdiv() {
-            super();
+        public Longdiv(final String qname, final AbstractDocument odoc) {
+            super(qname, odoc);
         }
 
         @Override
         protected Node newNode() {
-            return new Longdiv();
+            return new Longdiv(this.nodeName, this.ownerDocument);
         }
 
         /** {@inheritDoc} */
@@ -183,15 +194,20 @@ public final class Menclose extends AbstractElementWithDelegates implements
         private static final long serialVersionUID = 1L;
 
         /**
-         * Default constructor.
+         * Default constructor. Sets MathML Namespace.
+         * 
+         * @param qname
+         *            Qualified name.
+         * @param odoc
+         *            Owner Document.
          */
-        public Updiagonalstrike() {
-            super();
+        public Updiagonalstrike(final String qname, final AbstractDocument odoc) {
+            super(qname, odoc);
         }
 
         @Override
         protected Node newNode() {
-            return new Updiagonalstrike();
+            return new Updiagonalstrike(this.nodeName, this.ownerDocument);
         }
 
         /** {@inheritDoc} */
@@ -218,15 +234,21 @@ public final class Menclose extends AbstractElementWithDelegates implements
         private static final long serialVersionUID = 1L;
 
         /**
-         * Default constructor.
+         * Default constructor. Sets MathML Namespace.
+         * 
+         * @param qname
+         *            Qualified name.
+         * @param odoc
+         *            Owner Document.
          */
-        public Downdiagonalstrike() {
-            super();
+        public Downdiagonalstrike(final String qname,
+                final AbstractDocument odoc) {
+            super(qname, odoc);
         }
 
         @Override
         protected Node newNode() {
-            return new Downdiagonalstrike();
+            return new Downdiagonalstrike(this.nodeName, this.ownerDocument);
         }
 
         /** {@inheritDoc} */
@@ -246,13 +268,21 @@ public final class Menclose extends AbstractElementWithDelegates implements
             Menclose.AbstractRowLikeNotation {
         private static final long serialVersionUID = 1L;
 
-        public Actuarial() {
-            super();
+        /**
+         * Default constructor. Sets MathML Namespace.
+         * 
+         * @param qname
+         *            Qualified name.
+         * @param odoc
+         *            Owner Document.
+         */
+        public Actuarial(final String qname, final AbstractDocument odoc) {
+            super(qname, odoc);
         }
 
         @Override
         protected Node newNode() {
-            return new Actuarial();
+            return new Actuarial(this.nodeName, this.ownerDocument);
         }
 
         /** {@inheritDoc} */
@@ -306,17 +336,23 @@ public final class Menclose extends AbstractElementWithDelegates implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Menclose() {
-        super();
+    public Menclose(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
         this.setDefaultMathAttribute(Menclose.ATTR_NOTATION, "");
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Menclose();
+        return new Menclose(this.nodeName, this.ownerDocument);
     }
 
     /**
@@ -353,8 +389,8 @@ public final class Menclose extends AbstractElementWithDelegates implements
             final Constructor<?> con = notationImpls.pop();
             try {
                 final JEuclidElement element = (JEuclidElement) con
-                        .newInstance();
-                ((AbstractNode) element).setOwnerDocument(this.ownerDocument);
+                        .newInstance("saklsdiwet:menclosechild",
+                                this.ownerDocument);
                 element.appendChild(lastChild);
                 lastChild = element;
             } catch (final InstantiationException e) {
@@ -407,15 +443,18 @@ public final class Menclose extends AbstractElementWithDelegates implements
 
     static {
         try {
-            Menclose.IMPL_CLASSES.put("radical", Msqrt.class.getConstructor());
+            Menclose.IMPL_CLASSES.put("radical", Msqrt.class.getConstructor(
+                    String.class, AbstractDocument.class));
             Menclose.IMPL_CLASSES.put("longdiv", Menclose.Longdiv.class
-                    .getConstructor());
+                    .getConstructor(String.class, AbstractDocument.class));
             Menclose.IMPL_CLASSES.put("updiagonalstrike",
-                    Menclose.Updiagonalstrike.class.getConstructor());
+                    Menclose.Updiagonalstrike.class.getConstructor(
+                            String.class, AbstractDocument.class));
             Menclose.IMPL_CLASSES.put("downdiagonalstrike",
-                    Menclose.Downdiagonalstrike.class.getConstructor());
+                    Menclose.Downdiagonalstrike.class.getConstructor(
+                            String.class, AbstractDocument.class));
             Menclose.IMPL_CLASSES.put("actuarial", Menclose.Actuarial.class
-                    .getConstructor());
+                    .getConstructor(String.class, AbstractDocument.class));
         } catch (final NoSuchMethodException e) {
             Menclose.LOGGER.fatal(e);
         }

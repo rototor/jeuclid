@@ -24,6 +24,7 @@ import net.sourceforge.jeuclid.context.Display;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLMathElement;
 
@@ -55,8 +56,8 @@ public final class MathImpl extends AbstractContainer implements
                         this.context).getParameter(which);
             }
 
-            final String s = MathImpl.this.getAttributeNS(
-                    Constants.NS_CONTEXT, which.getOptionName());
+            final String s = MathImpl.this.getAttributeNS(Constants.NS_CONTEXT,
+                    which.getOptionName());
             if ((s != null) && (s.length() > 0)) {
                 retVal = which.fromString(s);
             } else {
@@ -95,16 +96,21 @@ public final class MathImpl extends AbstractContainer implements
     private static final String DEPRECATED_BLOCK_VALUE_FOR_MODE = MathImpl.ATTR_DISPLAY;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public MathImpl() {
-        super();
+    public MathImpl(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new MathImpl();
+        return new MathImpl(this.nodeName, this.ownerDocument);
     }
 
     /**
@@ -124,12 +130,10 @@ public final class MathImpl extends AbstractContainer implements
      */
     public String getDisplay() {
         final String retVal;
-        final String attrDisplay = this
-                .getMathAttribute(MathImpl.ATTR_DISPLAY);
+        final String attrDisplay = this.getMathAttribute(MathImpl.ATTR_DISPLAY);
         if (attrDisplay == null) {
-            if (MathImpl.DEPRECATED_BLOCK_VALUE_FOR_MODE
-                    .equalsIgnoreCase(this
-                            .getMathAttribute(MathImpl.ATTR_MODE))) {
+            if (MathImpl.DEPRECATED_BLOCK_VALUE_FOR_MODE.equalsIgnoreCase(this
+                    .getMathAttribute(MathImpl.ATTR_MODE))) {
                 retVal = MathImpl.DISPLAY_BLOCK;
             } else {
                 retVal = MathImpl.DISPLAY_INLINE;

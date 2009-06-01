@@ -42,6 +42,7 @@ import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 import net.sourceforge.jeuclid.layout.LineObject;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
@@ -289,10 +290,16 @@ public final class Mtable extends AbstractTableElement implements
     }
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mtable() {
-        super();
+    public Mtable(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
         this.setDefaultMathAttribute(Mtable.ATTR_ALIGN,
                 Mtable.VAlign.VALUE_AXIS);
         this.setDefaultMathAttribute(Mtable.ATTR_ROWALIGN,
@@ -329,7 +336,7 @@ public final class Mtable extends AbstractTableElement implements
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mtable();
+        return new Mtable(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */
