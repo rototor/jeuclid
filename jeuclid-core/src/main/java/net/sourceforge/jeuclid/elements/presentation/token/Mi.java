@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 
 /**
@@ -36,16 +37,21 @@ public final class Mi extends AbstractTokenWithStandardLayout {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mi() {
-        super();
+    public Mi(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mi();
+        return new Mi(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */

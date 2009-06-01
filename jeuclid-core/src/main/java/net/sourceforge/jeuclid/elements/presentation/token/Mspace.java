@@ -26,6 +26,7 @@ import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLSpaceElement;
 
@@ -58,10 +59,16 @@ public final class Mspace extends AbstractJEuclidElement implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mspace() {
-        super();
+    public Mspace(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
         this.setDefaultMathAttribute(Mspace.ATTR_DEPTH, Constants.ZERO);
         this.setDefaultMathAttribute(Mspace.ATTR_HEIGHT, Constants.ZERO);
         this.setDefaultMathAttribute(Mspace.ATTR_WIDTH, Constants.ZERO);
@@ -71,7 +78,7 @@ public final class Mspace extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mspace();
+        return new Mspace(this.nodeName, this.ownerDocument);
     }
 
     /**
@@ -125,10 +132,10 @@ public final class Mspace extends AbstractJEuclidElement implements
             final LayoutInfo info, final LayoutStage stage,
             final LayoutContext context) {
         final LayoutContext now = this.applyLocalAttributesToContext(context);
-        info.setAscentHeight(AttributesHelper.convertSizeToPt(this
-                .getHeight(), now, AttributesHelper.PT), stage);
-        info.setDescentHeight(AttributesHelper.convertSizeToPt(this
-                .getDepth(), now, AttributesHelper.PT), stage);
+        info.setAscentHeight(AttributesHelper.convertSizeToPt(this.getHeight(),
+                now, AttributesHelper.PT), stage);
+        info.setDescentHeight(AttributesHelper.convertSizeToPt(this.getDepth(),
+                now, AttributesHelper.PT), stage);
         info.setWidth(AttributesHelper.convertSizeToPt(this.getWidth(), now,
                 AttributesHelper.PT), stage);
     }

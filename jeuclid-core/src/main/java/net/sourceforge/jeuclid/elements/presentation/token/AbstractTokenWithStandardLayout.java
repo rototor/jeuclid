@@ -24,6 +24,8 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
+import org.apache.batik.dom.AbstractDocument;
+
 /**
  * Common functionality for all tokens where the text layout is based on the
  * text content.
@@ -34,20 +36,25 @@ public abstract class AbstractTokenWithStandardLayout extends
         AbstractTokenWithTextLayout {
 
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
      * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractTokenWithStandardLayout() {
-        super();
+    public AbstractTokenWithStandardLayout(final String qname,
+            final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
     protected AttributedString textContentAsAttributedString(
             final LayoutContext now) {
-        return StringUtil.convertStringtoAttributedString(this.getText(),
-                this.getMathvariantAsVariant(), GraphicsSupport
-                        .getFontsizeInPoint(now), now);
+        return StringUtil.convertStringtoAttributedString(this.getText(), this
+                .getMathvariantAsVariant(), GraphicsSupport
+                .getFontsizeInPoint(now), now);
     }
 
     /** {@inheritDoc} */

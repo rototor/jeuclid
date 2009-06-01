@@ -34,6 +34,7 @@ import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLOperatorElement;
 import org.w3c.dom.mathml.MathMLUnderOverElement;
@@ -63,10 +64,15 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
     public static final String ATTR_ACCENTUNDER = "accentunder";
 
     /**
-     * default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractUnderOver() {
-        super();
+    public AbstractUnderOver(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
@@ -95,8 +101,7 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
                 && Boolean
                         .parseBoolean(((MathMLOperatorElement) this.getBase())
                                 .getMovablelimits())
-                && (Display.INLINE.equals(now
-                        .getParameter(Parameter.DISPLAY)));
+                && (Display.INLINE.equals(now.getParameter(Parameter.DISPLAY)));
     }
 
     /** {@inheritDoc} */

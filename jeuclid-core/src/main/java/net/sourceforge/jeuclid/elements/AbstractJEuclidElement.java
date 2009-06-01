@@ -42,6 +42,7 @@ import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.apache.batik.dom.GenericElementNS;
 import org.apache.batik.dom.events.DOMMutationEvent;
 import org.w3c.dom.Node;
@@ -51,8 +52,8 @@ import org.w3c.dom.mathml.MathMLMathElement;
 import org.w3c.dom.mathml.MathMLNodeList;
 
 /**
- * The basic class for all math elements. Every element class inherits from
- * this class. It provides basic functionality for drawing.
+ * The basic class for all math elements. Every element class inherits from this
+ * class. It provides basic functionality for drawing.
  * 
  * @version $Revision$
  */
@@ -133,6 +134,19 @@ public abstract class AbstractJEuclidElement extends
     private JEuclidElement fakeParent;
 
     private final Map<String, String> defaultMathAttributes = new HashMap<String, String>();
+
+    /**
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
+     */
+    public AbstractJEuclidElement(final String qname,
+            final AbstractDocument odoc) {
+        super(AbstractJEuclidElement.URI, qname, odoc);
+    }
 
     /**
      * Gets the used font. Everything regardes font, processed by MathBase
@@ -391,8 +405,8 @@ public abstract class AbstractJEuclidElement extends
             newText.append(theText.trim());
 
             for (int i = 0; i < newText.length() - 1; i++) {
-                if (newText.charAt(i) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX
-                        && newText.charAt(i + 1) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX) {
+                if ((newText.charAt(i) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX)
+                        && (newText.charAt(i + 1) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX)) {
                     newText.deleteCharAt(i);
                     // CHECKSTYLE:OFF
                     // This is intentional
@@ -442,8 +456,7 @@ public abstract class AbstractJEuclidElement extends
      *            Value of mathvariant.
      */
     public void setMathvariant(final String mathvariant) {
-        this.setAttribute(AbstractJEuclidElement.ATTR_MATHVARIANT,
-                mathvariant);
+        this.setAttribute(AbstractJEuclidElement.ATTR_MATHVARIANT, mathvariant);
     }
 
     /**
@@ -522,16 +535,15 @@ public abstract class AbstractJEuclidElement extends
 
     /**
      * Sets default values for math attributes. Default values are returned
-     * through getMathAttribute, but not stored in the actual DOM tree. This
-     * is necessary to support proper serialization.
+     * through getMathAttribute, but not stored in the actual DOM tree. This is
+     * necessary to support proper serialization.
      * 
      * @param key
      *            the attribute to set.
      * @param value
      *            value of the attribute.
      */
-    protected void setDefaultMathAttribute(final String key,
-            final String value) {
+    protected void setDefaultMathAttribute(final String key, final String value) {
         this.defaultMathAttributes.put(key, value);
     }
 
@@ -617,8 +629,7 @@ public abstract class AbstractJEuclidElement extends
      * @param g
      *            Graphics2D context to use.
      */
-    public float getMiddleShift(final Graphics2D g,
-            final LayoutContext context) {
+    public float getMiddleShift(final Graphics2D g, final LayoutContext context) {
         return this.getFontMetrics(g, context).getAscent()
                 * AbstractJEuclidElement.MIDDLE_SHIFT;
     }
@@ -640,9 +651,7 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public void setMathElementStyle(final String mathElementStyle) {
-        this
-                .setAttribute(AbstractJEuclidElement.ATTR_STYLE,
-                        mathElementStyle);
+        this.setAttribute(AbstractJEuclidElement.ATTR_STYLE, mathElementStyle);
     }
 
     /** {@inheritDoc} */
@@ -734,8 +743,8 @@ public abstract class AbstractJEuclidElement extends
      * 
      * @param applyTo
      *            the context to apply to
-     * @return a context which has the style attributes changed accordingly.
-     *         May be the original context if nothing has changed.
+     * @return a context which has the style attributes changed accordingly. May
+     *         be the original context if nothing has changed.
      */
     private LayoutContext applyStyleAttributes(final LayoutContext applyTo) {
         LayoutContext retVal = applyTo;
@@ -757,8 +766,7 @@ public abstract class AbstractJEuclidElement extends
         // context.
 
         if ((msize != null) || (foreground != null)) {
-            retVal = new StyleAttributeLayoutContext(applyTo, msize,
-                    foreground);
+            retVal = new StyleAttributeLayoutContext(applyTo, msize, foreground);
         }
 
         return retVal;
@@ -843,8 +851,7 @@ public abstract class AbstractJEuclidElement extends
         AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
                 .add(AbstractJEuclidElement.ATTR_DEPRECATED_FONTFAMILY);
 
-        AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
-                .add(Mo.ATTR_MOVEABLEWRONG);
+        AbstractJEuclidElement.DEPRECATED_ATTRIBUTES.add(Mo.ATTR_MOVEABLEWRONG);
     }
 
     /**

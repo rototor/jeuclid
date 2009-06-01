@@ -24,6 +24,8 @@ import net.sourceforge.jeuclid.context.InlineLayoutContext;
 import net.sourceforge.jeuclid.context.RelativeScriptlevelLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
+import org.apache.batik.dom.AbstractDocument;
+
 /**
  * Base class for msub, msup, msubsup, and mmultiscripts.
  * 
@@ -38,12 +40,18 @@ public abstract class AbstractScriptElement extends AbstractJEuclidElement {
     public static final String ATTR_SUPERSCRIPTSHIFT = "superscriptshift";
 
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractScriptElement() {
-        super();
-        this.setDefaultMathAttribute(
-                AbstractScriptElement.ATTR_SUBSCRIPTSHIFT, Constants.ZERO);
+    public AbstractScriptElement(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
+        this.setDefaultMathAttribute(AbstractScriptElement.ATTR_SUBSCRIPTSHIFT,
+                Constants.ZERO);
         this.setDefaultMathAttribute(
                 AbstractScriptElement.ATTR_SUPERSCRIPTSHIFT, Constants.ZERO);
     }
@@ -52,8 +60,7 @@ public abstract class AbstractScriptElement extends AbstractJEuclidElement {
      * @return attribute subscriptshift.
      */
     public String getSubscriptshift() {
-        return this
-                .getMathAttribute(AbstractScriptElement.ATTR_SUBSCRIPTSHIFT);
+        return this.getMathAttribute(AbstractScriptElement.ATTR_SUBSCRIPTSHIFT);
     }
 
     /**

@@ -62,13 +62,18 @@ public final class DOMBuilder {
     @GuardedBy("itself")
     private final Transformer identityTransformer;
 
+    @GuardedBy("itself")
+    private final Transformer namespaceTransformer;
+
     /**
      * Default constructor.
      */
     protected DOMBuilder() {
         this.identityTransformer = this.createIdentityTransformer();
-        this.contentTransformer = this
-                .createContentTransformer(this.identityTransformer);
+        this.contentTransformer = this.createTransformer(
+                "/content/mathmlc2p.xsl", this.identityTransformer);
+        this.namespaceTransformer = this.createTransformer(
+                "/addMathMLNamespace.xsl", this.identityTransformer);
     }
 
     private Transformer createIdentityTransformer() {
@@ -83,12 +88,13 @@ public final class DOMBuilder {
         return t;
     }
 
-    private Transformer createContentTransformer(final Transformer fallback) {
+    private Transformer createTransformer(final String sourceFile,
+            final Transformer fallback) {
         Transformer t;
         try {
             t = TransformerFactory.newInstance().newTemplates(
                     new StreamSource(DOMBuilder.class
-                            .getResourceAsStream("/content/mathmlc2p.xsl")))
+                            .getResourceAsStream(sourceFile)))
                     .newTransformer();
         } catch (final TransformerException e) {
             DOMBuilder.LOGGER.warn(e.getMessage());
@@ -145,6 +151,29 @@ public final class DOMBuilder {
      */
     public DocumentElement createJeuclidDom(final Node node,
             final boolean supportContent) {
+        return this.createJeuclidDom(node, supportContent, false);
+    }
+
+    /**
+     * Constructs a builder.
+     * <p>
+     * This constructor needs a valid DOM Tree. To obtain a DOM tree, you may
+     * use {@link MathMLParserSupport}.
+     * 
+     * @param node
+     *            The MathML document. Can be an instance of Document, Element
+     *            or DocumentFragment with Element child
+     * @param supportContent
+     *            if set to true, content Math will be supported. This impacts
+     *            performance.
+     * @param addNamespace
+     *            if set to true, the MathML namespace will be added to all
+     *            elements.
+     * @return the parsed Document
+     * @see MathMLParserSupport
+     */
+    public DocumentElement createJeuclidDom(final Node node,
+            final boolean supportContent, final boolean addNamespace) {
         Node documentElement;
         if (node instanceof Document) {
             documentElement = ((Document) node).getDocumentElement();
@@ -164,20 +193,30 @@ public final class DOMBuilder {
                             + ". Expected either Document, Element or DocumentFragment");
         }
 
-        // TODO: This could be enabled / disabled with a switch?
-        DocumentElement d = null;
+        if (addNamespace) {
+            documentElement = this.applyTransform(documentElement,
+                    this.namespaceTransformer);
+        }
+
+        final DocumentElement d;
+        if (supportContent) {
+            d = this.applyTransform(documentElement, this.contentTransformer);
+        } else {
+            d = this
+                    .applyTransform(documentElement, this.identityTransformer);
+        }
+        return d;
+    }
+
+    private DocumentElement applyTransform(final Node src,
+            final Transformer transformer) {
+        DocumentElement d;
         try {
-            final DOMSource source = new DOMSource(documentElement);
+            final DOMSource source = new DOMSource(src);
             d = new DocumentElement();
             final DOMResult result = new DOMResult(d);
-            final Transformer t;
-            if (supportContent) {
-                t = this.contentTransformer;
-            } else {
-                t = this.identityTransformer;
-            }
-            synchronized (t) {
-                t.transform(source, result);
+            synchronized (transformer) {
+                transformer.transform(source, result);
             }
         } catch (final TransformerException e) {
             d = null;

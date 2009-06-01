@@ -24,6 +24,7 @@ import java.util.List;
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLActionElement;
 
@@ -48,17 +49,22 @@ public final class Maction extends AbstractElementWithDelegates implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Maction() {
-        super();
+    public Maction(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
         this.setDefaultMathAttribute(Maction.ATTR_SELECTION, "1");
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Maction();
+        return new Maction(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */

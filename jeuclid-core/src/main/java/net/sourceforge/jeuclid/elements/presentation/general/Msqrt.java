@@ -23,6 +23,7 @@ import java.util.List;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 
@@ -41,16 +42,21 @@ public final class Msqrt extends AbstractRoot {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Msqrt() {
-        super();
+    public Msqrt(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Msqrt();
+        return new Msqrt(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */
@@ -70,7 +76,7 @@ public final class Msqrt extends AbstractRoot {
         if (this.getMathElementCount() == 1) {
             retVal = this.getMathElement(0);
         } else {
-            retVal = new Mrow();
+            retVal = new Mrow(Mrow.ELEMENT, this.ownerDocument);
             retVal.setFakeParent(this);
             for (int i = 0; i < this.getMathElementCount(); i++) {
                 retVal.appendChild(this.getMathElement(i));

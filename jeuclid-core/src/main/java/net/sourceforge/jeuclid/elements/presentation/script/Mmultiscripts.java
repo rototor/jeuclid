@@ -31,6 +31,7 @@ import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLMultiScriptsElement;
@@ -76,17 +77,23 @@ public final class Mmultiscripts extends AbstractScriptElement implements
     private boolean inRewriteChildren;
 
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mmultiscripts() {
-        super();
+    public Mmultiscripts(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
         this.inRewriteChildren = false;
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mmultiscripts();
+        return new Mmultiscripts(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */
@@ -213,7 +220,7 @@ public final class Mmultiscripts extends AbstractScriptElement implements
     @Override
     public boolean hasChildPrescripts(final JEuclidElement child) {
         return child.isSameNode(this.getBase())
-                && this.getNumprescriptcolumns() > 0;
+                && (this.getNumprescriptcolumns() > 0);
     }
 
     /** {@inheritDoc} */
@@ -221,7 +228,7 @@ public final class Mmultiscripts extends AbstractScriptElement implements
     public boolean hasChildPostscripts(final JEuclidElement child,
             final LayoutContext context) {
         return child.isSameNode(this.getBase())
-                && this.getNumscriptcolumns() > 0;
+                && (this.getNumscriptcolumns() > 0);
     }
 
     /** {@inheritDoc} */

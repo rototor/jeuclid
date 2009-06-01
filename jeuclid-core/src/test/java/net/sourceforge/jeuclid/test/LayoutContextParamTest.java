@@ -82,9 +82,9 @@ public class LayoutContextParamTest {
         }
         Assert.assertEquals(Parameter.FONTS_SERIF.fromString("Arial"),
                 Collections.singletonList("arial"));
-        Assert.assertEquals(Parameter.FONTS_SERIF
-                .fromString("Arial,Helvetica"), Arrays.asList(new String[] {
-                "arial", "helvetica" }));
+        Assert.assertEquals(
+                Parameter.FONTS_SERIF.fromString("Arial,Helvetica"), Arrays
+                        .asList(new String[] { "arial", "helvetica" }));
         Assert.assertEquals(Parameter.FONTS_SERIF.fromString("Foo, Bar"),
                 Arrays.asList(new String[] { "foo", "bar" }));
         Assert.assertEquals(Parameter.MATHCOLOR.fromString("RED"), Color.RED);
@@ -93,8 +93,8 @@ public class LayoutContextParamTest {
             Assert.fail();
         } catch (final IllegalArgumentException e) {
         }
-        Assert.assertEquals(Parameter.MATHCOLOR
-                .fromString("rgb(100,100,100)"), new Color(100, 100, 100));
+        Assert.assertEquals(Parameter.MATHCOLOR.fromString("rgb(100,100,100)"),
+                new Color(100, 100, 100));
         Assert.assertEquals(Parameter.MATHSIZE.fromString("0.5"), Float
                 .valueOf(0.5f));
         Assert.assertEquals(Parameter.SCRIPTLEVEL.fromString("1"), Integer
@@ -116,12 +116,12 @@ public class LayoutContextParamTest {
                 .asList(new String[] { "f1", "f2" })), "f1, f2");
         Assert.assertEquals(Parameter.MATHCOLOR.toString(Color.RED), "red");
         Assert.assertEquals(Parameter.MATHCOLOR.toString(null), null);
-        Assert.assertEquals(Parameter.MATHCOLOR
-                .toString(new Color(32, 32, 32)), "#202020");
+        Assert.assertEquals(
+                Parameter.MATHCOLOR.toString(new Color(32, 32, 32)), "#202020");
         Assert.assertEquals(Parameter.MATHSIZE.toString(Float.valueOf(0.5f)),
                 "0.5");
-        Assert.assertEquals(Parameter.SCRIPTLEVEL
-                .toString(Integer.valueOf(2)), "2");
+        Assert.assertEquals(Parameter.SCRIPTLEVEL.toString(Integer.valueOf(2)),
+                "2");
     }
 
     /**
@@ -129,8 +129,8 @@ public class LayoutContextParamTest {
      */
     @Test
     public void testParamFromNSProgrammatically() {
-        final MathImpl mi = new MathImpl();
-        mi.setOwnerDocument(new DocumentElement());
+        final MathImpl mi = new MathImpl(MathImpl.ELEMENT,
+                new DocumentElement());
         final LayoutContext defaultContext = LayoutContextImpl
                 .getDefaultLayoutContext();
         final LayoutContext testContext1 = mi.getChildLayoutContext(0,

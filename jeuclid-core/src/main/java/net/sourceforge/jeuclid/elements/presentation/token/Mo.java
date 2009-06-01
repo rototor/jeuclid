@@ -42,6 +42,7 @@ import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.TextObject;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.apache.batik.dom.events.DOMCustomEvent;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.CustomEvent;
@@ -152,11 +153,9 @@ public final class Mo extends AbstractJEuclidElement implements
     public static final String VER_DELIMITERS = "[{()}]|"
             + /* Up Arrow */"\u2191" + /* Down Arrow */"\u2193" + /*
                                                                    * Up Arrow
-                                                                   * Down
-                                                                   * Arrow
+                                                                   * Down Arrow
                                                                    */"\u21C5"
-            + /* Up Arrow Up Arrow */"\u21C8"
-            + /* Down Down Arrows */"\u21CA"
+            + /* Up Arrow Up Arrow */"\u21C8" + /* Down Down Arrows */"\u21CA"
             + /* Down Arrow Up Arrow */"\u21F5" + "\u2223\u2225\u2329\u232A";
 
     private static final long serialVersionUID = 1L;
@@ -172,10 +171,16 @@ public final class Mo extends AbstractJEuclidElement implements
     // private static final Log LOGGER =
     // LogFactory.getLog(MathOperator.class);
     /**
-     * Creates a mathoperator element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mo() {
-        super();
+    public Mo(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
         this.setDefaultMathAttribute(Mo.ATTR_FORM,
                 OperatorDictionary.FORM_INFIX);
         this.setDefaultMathAttribute(Mo.ATTR_FENCE, Constants.FALSE);
@@ -186,8 +191,9 @@ public final class Mo extends AbstractJEuclidElement implements
                 AttributesHelper.THICKMATHSPACE);
         this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_SYMMETRIC, Constants.TRUE);
-        this.setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
-                AttributesHelper.INFINITY);
+        this
+                .setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
+                        AttributesHelper.INFINITY);
         this.setDefaultMathAttribute(Mo.ATTR_MINSIZE, "1");
         this.setDefaultMathAttribute(Mo.ATTR_LARGEOP, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, Constants.FALSE);
@@ -198,7 +204,7 @@ public final class Mo extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mo();
+        return new Mo(this.nodeName, this.ownerDocument);
     }
 
     /**
@@ -286,13 +292,13 @@ public final class Mo extends AbstractJEuclidElement implements
     }
 
     private boolean isVerticalDelimeter() {
-        return this.getText().length() == 1
-                && (Mo.VER_DELIMITERS.indexOf(this.getText().charAt(0)) >= 0 || this
+        return (this.getText().length() == 1)
+                && ((Mo.VER_DELIMITERS.indexOf(this.getText().charAt(0)) >= 0) || this
                         .isFence());
     }
 
     private boolean isHorizontalDelimeter() {
-        return this.getText().length() == 1
+        return (this.getText().length() == 1)
                 && (Mo.HOR_DELIMITERS.indexOf(this.getText().charAt(0)) >= 0);
     }
 
@@ -320,13 +326,9 @@ public final class Mo extends AbstractJEuclidElement implements
         if (!this.inChangeHook) {
             this.inChangeHook = true;
             this.detectFormParameter();
-            this
-                    .loadAttributeFromDictionary(Mo.ATTR_LARGEOP,
-                            Constants.FALSE);
-            this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC,
-                    Constants.TRUE);
-            this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY,
-                    Constants.FALSE);
+            this.loadAttributeFromDictionary(Mo.ATTR_LARGEOP, Constants.FALSE);
+            this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC, Constants.TRUE);
+            this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY, Constants.FALSE);
             this.loadAttributeFromDictionary(Mo.ATTR_FENCE, Constants.FALSE);
             this.loadAttributeFromDictionary(Mo.ATTR_LSPACE,
                     AttributesHelper.THICKMATHSPACE);
@@ -350,9 +352,7 @@ public final class Mo extends AbstractJEuclidElement implements
             }
 
             if (this.isFence()) {
-                this
-                        .setDefaultMathAttribute(Mo.ATTR_STRETCHY,
-                                Constants.TRUE);
+                this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, Constants.TRUE);
             }
             final CustomEvent evt = new DOMCustomEvent();
             evt.initCustomEventNS(null, Mo.MOEVENT, true, false, null);
@@ -380,13 +380,13 @@ public final class Mo extends AbstractJEuclidElement implements
     private void detectFormParameter() {
         final String form;
         final JEuclidElement parent = this.getParent();
-        if (parent != null && (parent instanceof Mrow)) {
+        if ((parent != null) && (parent instanceof Mrow)) {
             final int index = parent.getIndexOfMathElement(this);
-            if (index == 0 && parent.getMathElementCount() > 0) {
+            if ((index == 0) && (parent.getMathElementCount() > 0)) {
                 form = OperatorDictionary.FORM_PREFIX;
             } else {
-                if (index == (parent.getMathElementCount() - 1)
-                        && parent.getMathElementCount() > 0) {
+                if ((index == (parent.getMathElementCount() - 1))
+                        && (parent.getMathElementCount() > 0)) {
                     form = OperatorDictionary.FORM_POSTFIX;
                 } else {
                     form = OperatorDictionary.FORM_INFIX;
@@ -542,9 +542,8 @@ public final class Mo extends AbstractJEuclidElement implements
                 || this.isVerticalDelimeter() || this.isHorizontalDelimeter()) {
             info.setLayoutStage(LayoutStage.STAGE1);
         } else {
-            info.setGraphicsObject(new TextObject(t,
-                    lspace + tli.getOffset(), 0, null, (Color) now
-                            .getParameter(Parameter.MATHCOLOR)));
+            info.setGraphicsObject(new TextObject(t, lspace + tli.getOffset(),
+                    0, null, (Color) now.getParameter(Parameter.MATHCOLOR)));
             info.setLayoutStage(LayoutStage.STAGE2);
         }
     }
@@ -577,16 +576,16 @@ public final class Mo extends AbstractJEuclidElement implements
             calcBaselineShift = 0.0f;
         } else {
             if (stretchVertically) {
-                final float[] yf = this.calcYScaleFactorAndBaselineShift(
-                        info, parentInfo, textLayoutInfo, now);
+                final float[] yf = this.calcYScaleFactorAndBaselineShift(info,
+                        parentInfo, textLayoutInfo, now);
                 calcScaleY = yf[0];
                 calcBaselineShift = yf[1];
             } else {
                 calcScaleY = 1.0f;
                 calcBaselineShift = 0.0f;
             }
-            calcScaleX = this.calcXScaleFactor(info, parentInfo,
-                    textLayoutInfo);
+            calcScaleX = this
+                    .calcXScaleFactor(info, parentInfo, textLayoutInfo);
         }
         info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(now)
                 + textLayoutInfo.getOffset() * calcScaleX, calcBaselineShift,
@@ -648,9 +647,7 @@ public final class Mo extends AbstractJEuclidElement implements
         calcBaselineShift = targetDescent - realDescentScaled;
 
         info.setDescentHeight(targetDescent, LayoutStage.STAGE2);
-        info
-                .setAscentHeight(targetHeight - targetDescent,
-                        LayoutStage.STAGE2);
+        info.setAscentHeight(targetHeight - targetDescent, LayoutStage.STAGE2);
         return new float[] { calcScaleY, calcBaselineShift };
     }
 

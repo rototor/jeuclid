@@ -27,6 +27,7 @@ import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 import net.sourceforge.jeuclid.font.FontFactory;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLGlyphElement;
 
@@ -35,8 +36,8 @@ import org.w3c.dom.mathml.MathMLGlyphElement;
  * 
  * @todo FontFamliy gives a "deprecated attribute" warning due to the current
  *       design.
- * @todo other attributes (such as italic, bold, etc.) may be inherited from
- *       the context.
+ * @todo other attributes (such as italic, bold, etc.) may be inherited from the
+ *       context.
  * @version $Revision$
  */
 public final class Mglyph extends AbstractTokenWithTextLayout implements
@@ -56,16 +57,21 @@ public final class Mglyph extends AbstractTokenWithTextLayout implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mglyph() {
-        super();
+    public Mglyph(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mglyph();
+        return new Mglyph(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */
@@ -89,9 +95,9 @@ public final class Mglyph extends AbstractTokenWithTextLayout implements
                     0, 1));
             retVal.addAttribute(TextAttribute.FONT, font);
         } else {
-            retVal = StringUtil.convertStringtoAttributedString(
-                    this.getAlt(), this.getMathvariantAsVariant(),
-                    GraphicsSupport.getFontsizeInPoint(now), now);
+            retVal = StringUtil.convertStringtoAttributedString(this.getAlt(),
+                    this.getMathvariantAsVariant(), GraphicsSupport
+                            .getFontsizeInPoint(now), now);
         }
         return retVal;
     }

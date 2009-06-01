@@ -23,6 +23,8 @@ import java.util.List;
 
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.AbstractDocument;
+
 /**
  * Represents a MathElement with no content.
  * 
@@ -30,12 +32,18 @@ import net.sourceforge.jeuclid.layout.LayoutableNode;
  */
 public abstract class AbstractInvisibleJEuclidElement extends
         AbstractJEuclidElement {
+
     /**
-     * Default Constructor.
+     * Default constructor. Sets MathML Namespace.
      * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractInvisibleJEuclidElement() {
-        super();
+    public AbstractInvisibleJEuclidElement(final String qname,
+            final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */

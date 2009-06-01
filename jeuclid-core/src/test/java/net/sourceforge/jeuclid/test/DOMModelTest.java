@@ -154,17 +154,17 @@ public class DOMModelTest {
      */
     @Test
     public void testSerialization() throws Exception {
-        final Document origDoc = MathMLParserSupport
-                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
-                        + "<mrow id='abc'><mn>1</mn></mrow></math>");
+        final String shouldBe = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\" xmlns='http://www.w3.org/1998/Math/MathML'>"
+                + "<mrow id='abc'><mn>1</mn></mrow></math>";
+        final Document origDoc = MathMLParserSupport.parseString(shouldBe);
         final MathMLDocument mathMLDoc = DOMBuilder.getInstance()
                 .createJeuclidDom(origDoc);
         final String reserialStr = MathMLSerializer.serializeDocument(
                 mathMLDoc, false, false);
 
-        final Document reserial = MathMLParserSupport
-                .parseString(reserialStr);
-        Assert.assertTrue(reserial.isEqualNode(origDoc));
+        final Document reserial = MathMLParserSupport.parseString(reserialStr);
+        Assert.assertTrue(reserial.isEqualNode(origDoc), "is: " + reserialStr
+                + "\nshould be: " + shouldBe);
     }
 
     /**
@@ -175,17 +175,17 @@ public class DOMModelTest {
      */
     @Test
     public void testSerialization2() throws Exception {
-        final Document origDoc = MathMLParserSupport
-                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
-                        + "<mtext>Alignment<malignmark/>Test</mtext></math>");
+        final String shouldBe = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\" xmlns='http://www.w3.org/1998/Math/MathML'>"
+                + "<mtext>Alignment<malignmark/>Test</mtext></math>";
+        final Document origDoc = MathMLParserSupport.parseString(shouldBe);
         final MathMLDocument mathMLDoc = DOMBuilder.getInstance()
                 .createJeuclidDom(origDoc);
         final String reserialStr = MathMLSerializer.serializeDocument(
                 mathMLDoc, false, false);
 
-        final Document reserial = MathMLParserSupport
-                .parseString(reserialStr);
-        Assert.assertTrue(reserial.isEqualNode(origDoc));
+        final Document reserial = MathMLParserSupport.parseString(reserialStr);
+        Assert.assertTrue(reserial.isEqualNode(origDoc), "is: " + reserialStr
+                + "\nshould be: " + shouldBe);
     }
 
     /**
@@ -202,7 +202,8 @@ public class DOMModelTest {
                         + "<mo stretchy='false'>Y</mo>"
                         + "<mo>&#x0007d;</mo>"
                         + "<mo>&#x02254;</mo>"
-                        + "<mo>&#x0201d;</mo>" + "</math>");
+                        + "<mo>&#x0201d;</mo>"
+                        + "</math>");
         final MathMLDocument docElement = DOMBuilder.getInstance()
                 .createJeuclidDom(doc);
 
@@ -300,9 +301,8 @@ public class DOMModelTest {
                 ownerDocument) instanceof MathMLTableRowElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("mtd",
                 ownerDocument) instanceof MathMLTableCellElement);
-        Assert
-                .assertTrue(JEuclidElementFactory.elementFromName(
-                        "maligngroup", ownerDocument) instanceof MathMLAlignGroupElement);
+        Assert.assertTrue(JEuclidElementFactory.elementFromName("maligngroup",
+                ownerDocument) instanceof MathMLAlignGroupElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("malignmark",
                 ownerDocument) instanceof MathMLAlignMarkElement);
         Assert.assertTrue(JEuclidElementFactory.elementFromName("maction",
@@ -802,12 +802,11 @@ public class DOMModelTest {
                     }
                 }, false);
         mathElement.appendChild(docElement.createElement(Mi.ELEMENT));
-        Assert
-                .assertTrue(this.miCount == 0,
-                        "Event must not be called on Mi");
+        Assert.assertTrue(this.miCount == 0, "Event must not be called on Mi");
         Assert.assertTrue(this.mathCount > 0, "Event must be called on Math");
-        Assert.assertTrue(this.docCount > 0,
-                "Event must be called on Document");
+        Assert
+                .assertTrue(this.docCount > 0,
+                        "Event must be called on Document");
     }
 
     /**

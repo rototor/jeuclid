@@ -20,18 +20,25 @@ package net.sourceforge.jeuclid.elements.presentation.table;
 
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 
+import org.apache.batik.dom.AbstractDocument;
+
 /**
- * Common functionality for all Table elements. This class contains support
- * for setting and getting alignment attributes.
+ * Common functionality for all Table elements. This class contains support for
+ * setting and getting alignment attributes.
  * 
  * @version $Revision$
  */
 public abstract class AbstractTableElement extends AbstractContainer {
     /**
-     * Default Constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractTableElement() {
-        super();
+    public AbstractTableElement(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /**

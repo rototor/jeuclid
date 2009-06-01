@@ -24,6 +24,7 @@ import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.mathml.MathMLScriptElement;
 
 /**
@@ -34,14 +35,19 @@ import org.w3c.dom.mathml.MathMLScriptElement;
  * 
  * @version $Revision$
  */
-public abstract class AbstractSubSuper extends AbstractScriptElement
-        implements MathMLScriptElement {
+public abstract class AbstractSubSuper extends AbstractScriptElement implements
+        MathMLScriptElement {
 
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractSubSuper() {
-        super();
+    public AbstractSubSuper(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
@@ -66,8 +72,8 @@ public abstract class AbstractSubSuper extends AbstractScriptElement
             final LayoutInfo info, final LayoutStage stage,
             final LayoutContext context) {
         ScriptSupport.layout(view, info, stage, this
-                .applyLocalAttributesToContext(context), this,
-                this.getBase(), this.getSubscript(), this.getSuperscript(),
-                this.getSubscriptshift(), this.getSuperscriptshift());
+                .applyLocalAttributesToContext(context), this, this.getBase(),
+                this.getSubscript(), this.getSuperscript(), this
+                        .getSubscriptshift(), this.getSuperscriptshift());
     }
 }

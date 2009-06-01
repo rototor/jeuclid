@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.elements.content.semantic;
 
 import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLSemanticsElement;
@@ -40,16 +41,21 @@ public final class Semantics extends AbstractContainer implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Semantics() {
-        super();
+    public Semantics(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Semantics();
+        return new Semantics(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */

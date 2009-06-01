@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLLabeledRowElement;
@@ -38,16 +39,21 @@ public final class Mlabeledtr extends AbstractTableRow implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mlabeledtr() {
-        super();
+    public Mlabeledtr(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
     protected Node newNode() {
-        return new Mlabeledtr();
+        return new Mlabeledtr(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */
