@@ -16,12 +16,17 @@
 
 package cTree.cCombine;
 
+import java.util.HashMap;
+
 import cTree.CElement;
 import cTree.CMinTerm;
+import cTree.CPlusRow;
 import cTree.CPlusTerm;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.adapter.C_No;
+import cViewer.TransferObject;
+import cViewer.ViewerFactory;
 
 public class CC_PunktFencesFences extends CC_Base {
 
@@ -33,7 +38,24 @@ public class CC_PunktFencesFences extends CC_Base {
 
     private CC_PunktFencedPlusFencedMin cpm;
 
-    private CC_PunktFencedSumFencedSum css;
+    private CC_PunktFencedAnyFencedSum cas;
+
+    private CC_PunktFencedSumFencedAny csa;
+
+    private final String[] strArray;
+
+    private final HashMap<String, C_Changer> changers;
+
+    public CC_PunktFencesFences() {
+        super();
+        this.strArray = new String[2];
+        this.strArray[0] = "Ersten Faktor spalten";
+        this.strArray[1] = "Zweiten Faktor spalten";
+        this.changers = new HashMap<String, C_Changer>();
+        this.changers.put(this.strArray[0], new CC_PunktFencedAnyFencedSum());
+        this.changers.put(this.strArray[1], new CC_PunktFencedSumFencedAny());
+        // this.strArray[2] = "letzter Faktor";
+    }
 
     @Override
     public C_Changer getChanger(final C_Event e) {
@@ -61,6 +83,13 @@ public class CC_PunktFencesFences extends CC_Base {
                     && cE2.getFirstChild() instanceof CPlusTerm) {
                 System.out.println("Found MP");
                 return this.getCmp().getChanger(e);
+            } else if (cE1.getFirstChild() instanceof CPlusRow
+                    && cE2.getFirstChild() instanceof CPlusRow) {
+                System.out.println("Found SS");
+                final TransferObject to = new TransferObject(this.strArray);
+                ViewerFactory.getInst().getComboDialog(to);
+                final C_Changer c = this.changers.get(to.getResult());
+                return c.getChanger(e);
             }
         }
         return new C_No(e);
@@ -156,10 +185,22 @@ public class CC_PunktFencesFences extends CC_Base {
      * 
      * @return the css
      */
-    protected CC_PunktFencedSumFencedSum getCss() {
-        if (this.css == null) {
-            this.css = new CC_PunktFencedSumFencedSum();
+    protected CC_PunktFencedAnyFencedSum getCas() {
+        if (this.cas == null) {
+            this.cas = new CC_PunktFencedAnyFencedSum();
         }
-        return this.css;
+        return this.cas;
+    }
+
+    /**
+     * Getter method for css.
+     * 
+     * @return the css
+     */
+    protected CC_PunktFencedSumFencedAny getCsa() {
+        if (this.csa == null) {
+            this.csa = new CC_PunktFencedSumFencedAny();
+        }
+        return this.csa;
     }
 }

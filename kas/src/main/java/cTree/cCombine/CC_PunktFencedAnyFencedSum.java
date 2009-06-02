@@ -23,7 +23,7 @@ import cTree.CFences;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
 
-public class CC_PunktFencedSumFencedSum extends CC_Base {
+public class CC_PunktFencedAnyFencedSum extends CC_Base {
 
     // a*(b+c+d) -> (a*b+a*c+a*d)
     // geht nicht bei : vor a oder () oder wenn in der Klammer keine Summe
@@ -34,10 +34,10 @@ public class CC_PunktFencedSumFencedSum extends CC_Base {
             final CElement cE2) {
         System.out
                 .println("Multipliziere Klammer mit Klammer, die Summe enthält");
-        final ArrayList<CElement> oldAddendList = ((CPlusRow) cE2
+        final ArrayList<CElement> oldAddendList = ((CPlusRow) cE1
                 .getFirstChild()).getMemberList();
-        final ArrayList<CElement> newAddendList = CTimesRow.map(cE1,
-                oldAddendList);
+        final ArrayList<CElement> newAddendList = CTimesRow.map(
+                oldAddendList, cE2);
         final CFences newChild = CFences.createFenced(CPlusRow
                 .createRow(newAddendList));
         ((CPlusRow) newChild.getInnen()).correctInternalPraefixesAndRolle();
@@ -52,7 +52,7 @@ public class CC_PunktFencedSumFencedSum extends CC_Base {
         if (cE1.hasExtDiv() || cE2.hasExtDiv()) {
             return false;
         }
-        if (!cE2.hasChildC() || !(cE2.getFirstChild() instanceof CPlusRow)) {
+        if (!cE1.hasChildC() || !(cE1.getFirstChild() instanceof CPlusRow)) {
             return false;
         }
         return true;

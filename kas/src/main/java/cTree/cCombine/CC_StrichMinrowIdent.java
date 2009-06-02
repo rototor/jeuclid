@@ -58,9 +58,8 @@ public class CC_StrichMinrowIdent extends CC_Base {
                 final CElement newFirst = CNum.createNum(parent.getElement(),
                         "2");
                 newFirst.setCRolle(CRolle.FAKTOR1);
-                final CElement newSecond = CNum.createNum(
-                        parent.getElement(), ((CMinTerm) cE1).getValue()
-                                .getText());
+                final CElement newSecond = CIdent.createIdent(parent
+                        .getElement(), ((CMinTerm) cE1).getValue().getText());
                 newSecond.setCRolle(CRolle.FAKTORN1);
                 newSecond.setPraefix("*");
                 final CElement cTR = CTimesRow.createRow(CTimesRow

@@ -33,38 +33,10 @@ public class CCombiner1PunktFences extends CCombiner1 {
             this.op2Combiner.put(CType.IDENT, new CC_PunktFencesIdent());
             this.op2Combiner.put(CType.NUM, new CC_PunktFencesNum());
             this.op2Combiner.put(CType.POT, new CC_PunktFencesPot());
+            this.op2Combiner.put(CType.FRAC, new CC_PunktFencesFrac());
             this.op2Combiner.put(CType.FENCES, new CC_PunktFencesFences());
         }
         return this.op2Combiner;
     }
 
-    // @Override
-    // public CElement combine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // System.out.println("Mult Fences");
-    // if (cE2.getCType() == CType.FRAC || cE2.getCType() == CType.IDENT
-    // || cE2.getCType() == CType.SQRT) {
-    // return this.getOp2Comb().get(CType.IDENT).doIt(parent, cE1,
-    // cE2);
-    // } else {
-    // System.out.println("Mult Fences 2");
-    // return this.getOp2Comb().get(cE2.getCType()).doIt(parent, cE1,
-    // cE2);
-    // }
-    // }
-    //
-    // @Override
-    // public boolean canCombine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // if (cE2.getCType() == CType.FENCES || cE2.getCType() == CType.FRAC
-    // || cE2.getCType() == CType.IDENT
-    // || cE2.getCType() == CType.SQRT) {
-    // return this.getOp2Comb().get(CType.IDENT).canDo(parent, cE1,
-    // cE2);
-    // } else {
-    // System.out.println(" can Mult Fences 2");
-    // return this.getOp2Comb().get(cE2.getCType()).canDo(parent,
-    // cE1, cE2);
-    // }
-    // }
 }

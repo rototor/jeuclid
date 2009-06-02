@@ -44,48 +44,11 @@ public class CCombinerTPunkt extends CCombinerTyp {
         return this.op1Combiner;
     }
 
-    // @Override
-    // public CElement combine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // System.out.println("CombineHandler *");
-    // if (cE1.is0() && !cE2.hasExtDiv()) {
-    // return (new CC_Punkt0Any()).doIt(parent, cE1, cE2);
-    // } else if (cE2.is0() && !cE2.hasExtDiv()) {
-    // return (new CC_PunktAny0()).doIt(parent, cE1, cE2);
-    // } else if ((cE1 instanceof CNum) && ((CNum) cE1).is1()
-    // && !cE2.hasExtDiv()) {
-    // return (new CC_Punkt1Any()).doIt(parent, cE1, cE2);
-    // } else if ((cE2 instanceof CNum) && ((CNum) cE2).is1()) {
-    // return (new CC_PunktAny1()).doIt(parent, cE1, cE2);
-    // }
-    // return this.getOp1Comb().get(cE1.getCType())
-    // .combine(parent, cE1, cE2);
-    // }
-    //
-    // @Override
-    // public boolean canCombine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // System.out.println("CombineHandler *");
-    // if (cE1.is0() && !cE2.hasExtDiv()) {
-    // return (new CC_Punkt0Any()).canDo(parent, cE1, cE2);
-    // } else if (cE2.is0() && !cE2.hasExtDiv()) {
-    // return (new CC_PunktAny0()).canDo(parent, cE1, cE2);
-    // } else if ((cE1 instanceof CNum) && ((CNum) cE1).is1()
-    // && !cE2.hasExtDiv()) {
-    // return (new CC_Punkt1Any()).canDo(parent, cE1, cE2);
-    // } else if ((cE2 instanceof CNum) && ((CNum) cE2).is1()) {
-    // return (new CC_PunktAny1()).canDo(parent, cE1, cE2);
-    // }
-    // return this.getOp1Comb().get(cE1.getCType()).canCombine(parent, cE1,
-    // cE2);
-    // }
-
     @Override
     public C_Changer getChanger(final C_Event e) {
         final CElement cE1 = e.getFirst();
         final CType cType = cE1.getCType();
         final CElement cE2 = e.getFirst().getNextSibling();
-        final CElement parent = e.getParent();
         if (cE1.is0() && !cE2.hasExtDiv()) {
             return (new CC_Punkt0Any()).getChanger(e);
         } else if (cE2.is0() && !cE2.hasExtDiv()) {
@@ -96,6 +59,7 @@ public class CCombinerTPunkt extends CCombinerTyp {
         } else if ((cE2 instanceof CNum) && ((CNum) cE2).is1()) {
             return (new CC_PunktAny1()).getChanger(e);
         } else if (this.getOp1Comb().containsKey(cType)) {
+            System.out.println("Combiner1 " + cType);
             return this.getOp1Comb().get(cType).getChanger(e);
         } else {
             return new C_No(e);

@@ -17,6 +17,7 @@
 package cTree.cCombine;
 
 import cTree.CElement;
+import cTree.CIdent;
 import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
@@ -26,7 +27,9 @@ public class CC_StrichIdentIdent extends CC_Base {
     @Override
     public boolean canDo() {
         System.out.println("Repell add ident ident");
-        return true;
+        final String s1 = ((CIdent) this.getFirst()).getVar();
+        final String s2 = ((CIdent) this.getSec()).getVar();
+        return s1.equals(s2);
     }
 
     private boolean gleicheMin(final CElement el1, final CElement el2) {

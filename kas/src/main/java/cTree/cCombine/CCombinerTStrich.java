@@ -45,31 +45,6 @@ public class CCombinerTStrich extends CCombinerTyp {
         return this.op1Combiner;
     }
 
-    // @Override
-    // public CElement combine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // if (cE1.is0()) {
-    // return (new CC_Strich0Any()).doIt(parent, cE1, cE2);
-    // } else if (cE2.is0()) {
-    // return (new CC_StrichAny0()).doIt(parent, cE1, cE2);
-    // }
-    // System.out.println("Strich");
-    // return this.getOp1Comb().get(cE1.getCType())
-    // .combine(parent, cE1, cE2);
-    // }
-    //
-    // @Override
-    // public boolean canCombine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // if (cE1.is0()) {
-    // return (new CC_Strich0Any()).canDo(parent, cE1, cE2);
-    // } else if (cE2.is0()) {
-    // return (new CC_StrichAny0()).canDo(parent, cE1, cE2);
-    // }
-    // return this.getOp1Comb().get(cE1.getCType()).canCombine(parent, cE1,
-    // cE2);
-    // }
-
     @Override
     public C_Changer getChanger(final C_Event e) {
         final CElement cE1 = e.getFirst();
