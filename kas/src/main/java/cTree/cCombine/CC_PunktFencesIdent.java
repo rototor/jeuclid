@@ -23,6 +23,9 @@ import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
 public class CC_PunktFencesIdent extends CC_Base {
 
@@ -56,17 +59,31 @@ public class CC_PunktFencesIdent extends CC_Base {
     }
 
     @Override
-    public boolean canDo() {
+    public C_Changer getChanger(final C_Event event) {
+        this.setEvent(event);
         final CElement cE1 = this.getFirst();
         System.out.println("Repell fenced sum/min mult num");
         if (cE1.getFirstChild() instanceof CMinTerm) {
             System.out.println("Found MinTerms");
-            return this.getCme().canDo();
+            return this.getCme().getChanger(event);
         } else if (cE1.getFirstChild() instanceof CPlusRow) {
-            return this.getCse().canDo();
+            return this.getCse().getChanger(event);
         }
-        return false;
+        return new C_No(event);
     }
+
+    // @Override
+    // public boolean canDo() {
+    // final CElement cE1 = this.getFirst();
+    // System.out.println("Repell fenced sum/min mult num");
+    // if (cE1.getFirstChild() instanceof CMinTerm) {
+    // System.out.println("Found MinTerms");
+    // return this.getCme().canDo();
+    // } else if (cE1.getFirstChild() instanceof CPlusRow) {
+    // return this.getCse().canDo();
+    // }
+    // return false;
+    // }
 
     protected CC_PunktFencedMinExp getCme() {
         if (this.cme == null) {

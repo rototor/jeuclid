@@ -49,10 +49,6 @@ public class CombHandler {
     private HashMap<CType, CCombinerTyp> getTypComb() {
         if (this.typCombiner == null) {
             this.typCombiner = new HashMap<CType, CCombinerTyp>();
-            // final CCombinerTyp default1 = new CCombinerTyp();
-            // for (final CType cType : CType.values()) {
-            // this.typCombiner.put(cType, default1);
-            // }
             this.typCombiner.put(CType.PLUSROW, new CCombinerTStrich());
             this.typCombiner.put(CType.TIMESROW, new CCombinerTPunkt());
             this.typCombiner.put(CType.POT, new CCombinerTPot());

@@ -29,6 +29,7 @@ public class CCombiner1PunktFrac extends CCombiner1 {
     public HashMap<CType, CC_Base> getOp2Comb() {
         if (this.op2Combiner == null) {
             this.op2Combiner = super.getOp2Comb();
+            this.op2Combiner.put(CType.FENCES, new CC_PunktFracFences());
             this.op2Combiner.put(CType.NUM, new CC_PunktFracNum());
             this.op2Combiner.put(CType.FRAC, new CC_PunktFracFrac());
         }

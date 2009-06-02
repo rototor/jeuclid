@@ -22,7 +22,9 @@ public class CC_StrichTRTR extends CC_Base {
         if (!((CTimesRow) this.getSec()).isMonom()) {
             return false;
         }
-        return true;
+        final String first = ((CTimesRow) this.getFirst()).getVarString();
+        final String sec = ((CTimesRow) this.getSec()).getVarString();
+        return first.equals(sec);
     }
 
     @Override
@@ -40,6 +42,7 @@ public class CC_StrichTRTR extends CC_Base {
             final CElement new1 = CNum.createNum(parent.getElement(), "1");
             new1.setCRolle(CRolle.FAKTOR1);
             newChild = CTimesRow.createRow(CTimesRow.createList(new1, my1));
+            ((CTimesRow) newChild).correctInternalPraefixesAndRolle();
         }
 
         if (cTR1.getCRolle() == CRolle.SUMMAND1) {

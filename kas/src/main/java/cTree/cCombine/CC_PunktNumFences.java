@@ -20,6 +20,9 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
 public class CC_PunktNumFences extends CC_Base {
 
@@ -36,6 +39,21 @@ public class CC_PunktNumFences extends CC_Base {
             return this.getCns().createComb(oldSumme, cE1, cE2);
         }
         return cE1;
+    }
+
+    @Override
+    public C_Changer getChanger(final C_Event e) {
+        System.out.println("Can Combine Num times Fences?");
+        this.setEvent(e);
+        final CElement el = this.getFirst();
+        System.out.println(el.toString());
+        final CElement el2 = el.getNextSibling();
+        if (((CFences) el2).getInnen() instanceof CMinTerm) {
+            return this.getCnm().getChanger(e);
+        } else if (((CFences) el2).getInnen() instanceof CPlusRow) {
+            return this.getCns().getChanger(e);
+        }
+        return new C_No(e);
     }
 
     @Override
