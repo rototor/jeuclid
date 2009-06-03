@@ -55,8 +55,7 @@ public class MathComponentUI extends ComponentUI implements
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory
-            .getLog(MathComponentUI.class);
+    private static final Log LOGGER = LogFactory.getLog(MathComponentUI.class);
 
     private JMathComponent mathComponent;
 
@@ -137,8 +136,7 @@ public class MathComponentUI extends ComponentUI implements
         }
     }
 
-    private Point getStartPointWithBordersAndAdjustDimension(
-            final Dimension dim) {
+    private Point getStartPointWithBordersAndAdjustDimension(final Dimension dim) {
         Point start = new Point(0, 0);
         final Border border = this.mathComponent.getBorder();
         if (border != null) {
@@ -167,9 +165,14 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     @Override
     public void installUI(final JComponent c) {
-        this.mathComponent = (JMathComponent) c;
-        c.addPropertyChangeListener(this);
-        this.installDefaults(this.mathComponent);
+        if (c instanceof JMathComponent) {
+            this.mathComponent = (JMathComponent) c;
+            c.addPropertyChangeListener(this);
+            this.installDefaults(this.mathComponent);
+        } else {
+            throw new IllegalArgumentException(
+                    "This UI can only be installed on a JMathComponent");
+        }
     }
 
     /**
@@ -281,8 +284,8 @@ public class MathComponentUI extends ComponentUI implements
      * @return list of nodes with rendering information
      */
     public List<JEuclidView.NodeRect> getNodesAt(final float x, final float y) {
-        final Point2D point = this
-                .calculateAlignmentOffset(this.mathComponent.getSize());
+        final Point2D point = this.calculateAlignmentOffset(this.mathComponent
+                .getSize());
         return this.jEuclidView.getNodesAt(x, y, (float) point.getX(),
                 (float) point.getY());
     }

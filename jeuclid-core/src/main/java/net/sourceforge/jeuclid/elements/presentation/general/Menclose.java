@@ -431,11 +431,13 @@ public final class Menclose extends AbstractElementWithDelegates implements
         for (final String curNotation : notations) {
             final Constructor<?> con = Menclose.IMPL_CLASSES.get(curNotation
                     .toLowerCase(Locale.ENGLISH));
-            if (con != null) {
+            if (con == null) {
+                if (curNotation.length() > 0) {
+                    Menclose.LOGGER.info("Unsupported notation for menclose: "
+                            + curNotation);
+                }
+            } else {
                 notationImpls.push(con);
-            } else if (curNotation.length() > 0) {
-                Menclose.LOGGER.info("Unsupported notation for menclose: "
-                        + curNotation);
             }
         }
         return notationImpls;

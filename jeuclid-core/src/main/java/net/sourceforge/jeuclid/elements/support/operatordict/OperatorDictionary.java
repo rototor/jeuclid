@@ -167,8 +167,9 @@ public final class OperatorDictionary implements Serializable {
      * Initializes Dictionary.
      */
     private void initializeFromXML() {
+        InputStream dictInput = null;
         try {
-            final InputStream dictInput = OperatorDictionary.class
+            dictInput = OperatorDictionary.class
                     .getResourceAsStream(OperatorDictionary.DICTIONARY_FILE);
             final SAXParserFactory factory = SAXParserFactory.newInstance();
             final XMLReader reader = factory.newSAXParser().getXMLReader();
@@ -184,6 +185,14 @@ public final class OperatorDictionary implements Serializable {
         } catch (final IOException e) {
             OperatorDictionary.LOGGER.warn(
                     "Read error while accessing XML dictionary", e);
+        } finally {
+            if (dictInput != null) {
+                try {
+                    dictInput.close();
+                } catch (IOException io) {
+                    // ignore.
+                }
+            }
         }
     }
 
