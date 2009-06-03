@@ -37,19 +37,4 @@ public class CCombiner1StrichMixedN extends CCombiner1 {
         return this.op2Combiner;
     }
 
-    // @Override
-    // public CElement combine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // System.out.println("Add MixedN " + cE2.getCType() + " "
-    // + cE2.hasExtDiv() + " " + cE2.hasExtPraefix());
-    // return this.getOp2Comb().get(cE2.getCType()).combine(parent, cE1, cE2);
-    // }
-    //
-    // @Override
-    // public boolean canCombine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // System.out.println("CombinerTyp+Mixed can combine?");
-    // return this.getOp2Comb().get(cE2.getCType()).canCombine(parent, cE1,
-    // cE2);
-    // }
 }

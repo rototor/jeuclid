@@ -76,8 +76,10 @@ public class CC_PunktPotExp extends CC_Base {
 
     @Override
     public boolean canDo() {
-        System.out.println("Repell pot times ident?");
-        return true;
+        final CPot first = (CPot) this.getFirst();
+        final String firstBaseText = first.getBasis().getText();
+        final String secText = this.getSec().getText();
+        return firstBaseText.equals(secText);
     }
 
     private boolean gleicheDiv(final Element op1, final Element op2) {

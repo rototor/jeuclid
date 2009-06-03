@@ -39,17 +39,4 @@ public class CCombiner1PunktNum extends CCombiner1 {
         return this.op2Combiner;
     }
 
-    // @Override
-    // public CElement combine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // final CType ct2 = cE2.getCType();
-    // return this.getOp2Comb().get(ct2).doIt(parent, cE1, cE2);
-    // }
-    //
-    // @Override
-    // public boolean canCombine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // final CType ct2 = cE2.getCType();
-    // return this.getOp2Comb().get(ct2).canDo(parent, cE1, cE2);
-    // }
 }

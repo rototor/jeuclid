@@ -16,24 +16,20 @@
 
 package cTree.cCombine;
 
-import java.util.HashMap;
+import cTree.CElement;
+import cTree.CNum;
 
-import cTree.CType;
+public class CC_PotAny0 extends CC_Base {
 
-public class CCombiner1PunktFrac extends CCombiner1 {
-    public CCombiner1PunktFrac() {
-        super();
+    @Override
+    public boolean canDo() {
+        return true;
     }
 
     @Override
-    public HashMap<CType, CC_Base> getOp2Comb() {
-        if (this.op2Combiner == null) {
-            this.op2Combiner = super.getOp2Comb();
-            this.op2Combiner.put(CType.FENCES, new CC_PunktFracFences());
-            this.op2Combiner.put(CType.NUM, new CC_PunktFracNum());
-            this.op2Combiner.put(CType.FRAC, new CC_PunktFracFrac());
-        }
-        return this.op2Combiner;
+    protected CElement createComb(final CElement parent, final CElement cE1,
+            final CElement cE2) {
+        System.out.println("Pot Any 0");
+        return CNum.createNum(parent.getElement(), "" + 1);
     }
-
 }

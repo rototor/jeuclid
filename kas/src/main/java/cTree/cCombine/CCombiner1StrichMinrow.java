@@ -45,46 +45,4 @@ public class CCombiner1StrichMinrow extends CCombiner1 {
         return this.op2Combiner;
     }
 
-    // @Override
-    // public CElement combine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // if (this.canCombine(parent, cE1, cE2)) {
-    // System.out.println("Add Minrow");
-    // if (this.cI.istGleichartigesMonom(cE2)) {
-    // System.out.println("Gleichartig");
-    // return this.getOp2Comb().get(cE2.getCType()).doIt(parent,
-    // cE1, cE2);
-    // } else if ((this.cI instanceof CNum)
-    // || (this.cI instanceof CFrac)
-    // || (this.cI instanceof CMixedNumber)) {
-    // final boolean replace = justTwo(cE1, cE2);
-    // final CElement newEl = this.myCombiner.createCombination(
-    // parent, this.cI, cE2);
-    // return insertOrReplace(parent, newEl, cE1, cE2, replace);
-    // }
-    // }
-    // return cE1;
-    // }
-    //
-    // @Override
-    // public boolean canCombine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // this.cI = ((CMinTerm) cE1).getValue();
-    // if (this.cI.istGleichartigesMonom(cE2)) {
-    // System.out.println("Gleichartig");
-    // return this.getOp2Comb().get(cE2.getCType()).canDo(parent, cE1,
-    // cE2);
-    // } else if ((this.cI instanceof CNum) || (this.cI instanceof CFrac)
-    // || (this.cI instanceof CMixedNumber)) {
-    // // this.myCombiner = this.op2Combiner.get(cE2.getCType());
-    // final C_Event event = new C_Event(cE2);
-    // this.myCombiner = (CC_) CombHandler.getInst().getChanger(event);
-    // // this.myCombiner = CombHandler.getInst().getCombiner(parent,
-    // // this.cI, cE2);
-    // System.out.println("My Combiner" + this.myCombiner.toString());
-    // return this.myCombiner.canDo(event);
-    // // return this.myCombiner.canDo(parent, this.cI, cE2);
-    // }
-    // return false;
-    // }
 }
