@@ -31,6 +31,10 @@ public enum OperatorForm {
     /** Postfix form, e.g. a+. */
     POSTFIX;
 
+    private OperatorForm() {
+        // Empty on purpose.
+    }
+
     /**
      * Parse a String into an OperatorForm.
      * 
