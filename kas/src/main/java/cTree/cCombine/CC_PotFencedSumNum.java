@@ -16,65 +16,25 @@
 
 package cTree.cCombine;
 
-import java.util.ArrayList;
-
-import cTree.CElement;
-import cTree.CFences;
-import cTree.CMessage;
 import cTree.CNum;
-import cTree.CPlusRow;
-import cTree.CPot;
-import cTree.CTimesRow;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
 public class CC_PotFencedSumNum extends CC_Base {
 
     @Override
-    public boolean canDo() {
-        final CElement basis = this.getFirst();
-        System.out.println("Repell pot fencedSum num?");
-        if (basis instanceof CFences) {
-            final CFences cF = (CFences) basis;
-            return (cF.getInnen() instanceof CPlusRow);
+    public C_Changer getChanger(final C_Event e) {
+        this.setEvent(e);
+        final int exp = ((CNum) this.getSec()).getValue();
+        if (exp == 0) {
+            return new CC_PotAny0().getChanger(e);
+        } else if (exp == 1) {
+            return new CC_PotAny1().getChanger(e);
+        } else if (exp == 2) {
+            return new CC_PotFencedSum2().getChanger(e);
+        } else {
+            return new C_No(e);
         }
-        return false;
-    }
-
-    @Override
-    protected CElement createComb(final CElement potenz,
-            final CElement fences, final CElement expo) {
-        System.out.println("Binomische Formel");
-        final CFences cF = (CFences) fences;
-        final CPlusRow basis = (CPlusRow) cF.getInnen();
-        final CElement old1 = basis.getFirstChild();
-        final CElement old2 = old1.getNextSibling();
-        final String rz = old2.getPraefixAsString();
-
-        final ArrayList<CElement> list = new ArrayList<CElement>();
-        final CElement s1 = CFences.condCreateFenced(old1
-                .cloneCElement(false), new CMessage(false));
-        final CElement summand1 = CPot.createPot(s1, 2);
-        list.add(summand1);
-
-        final ArrayList<CElement> list2 = new ArrayList<CElement>();
-        list2.add(CNum.createNum(potenz.getElement(), "2"));
-        list2.add(old1.cloneCElement(false));
-        list2.add(old2.cloneCElement(false));
-        final CTimesRow summand2 = CTimesRow.createRow(list2);
-        summand2.correctInternalPraefixesAndRolle();
-        System.out.println("Binomische Formel Summand 2:");
-        summand2.show();
-        summand2.setPraefix(rz);
-        list.add(summand2);
-
-        final CElement s3 = CFences.condCreateFenced(old2
-                .cloneCElement(false), new CMessage(false));
-        final CElement summand3 = CPot.createPot(s3, 2);
-        summand3.setPraefix("+");
-        list.add(summand3);
-
-        final CPlusRow newChild = CPlusRow.createRow(list);
-        newChild.correctInternalPraefixesAndRolle();
-        newChild.setCRolleAndPraefixFrom(potenz);
-        return CFences.createFenced(newChild);
     }
 }

@@ -47,9 +47,9 @@ public class CC_PotFencesNum extends CC_Base {
     @Override
     public C_Changer getChanger(final C_Event e) {
         for (final CC_Base testComb : this.getCombs()) {
-            testComb.getChanger(e);
-            if (testComb.canDo()) {
-                return testComb;
+            final C_Changer c = testComb.getChanger(e);
+            if (c.canDo()) {
+                return c;
             }
         }
         return new C_No(e);
