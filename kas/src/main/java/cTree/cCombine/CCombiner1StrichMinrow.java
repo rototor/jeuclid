@@ -18,14 +18,9 @@ package cTree.cCombine;
 
 import java.util.HashMap;
 
-import cTree.CElement;
 import cTree.CType;
 
 public class CCombiner1StrichMinrow extends CCombiner1 {
-
-    private CElement cI;
-
-    private CC_Base myCombiner;
 
     public CCombiner1StrichMinrow() {
         super();

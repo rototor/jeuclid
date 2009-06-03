@@ -21,6 +21,7 @@ import java.util.HashMap;
 import cTree.CType;
 
 public class CCombiner1PotFences extends CCombiner1 {
+
     public CCombiner1PotFences() {
         super();
     }
