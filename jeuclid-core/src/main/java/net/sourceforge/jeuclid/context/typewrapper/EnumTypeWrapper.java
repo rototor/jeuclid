@@ -60,8 +60,7 @@ public final class EnumTypeWrapper extends AbstractSimpleTypeWrapper {
         if (value == null) {
             return null;
         }
-        final Object o = Enum.valueOf((Class) this.getValueType(), value);
-        return o;
+        return Enum.valueOf((Class) this.getValueType(), value);
     }
 
     /**
