@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Erhard Kuenzel
+ * Copyright 2009 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ * 
+ * 
+ * /* $Id$ */
 
 package cTree.cCombine;
 
@@ -23,9 +25,13 @@ import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.adapter.C_No;
 
+/**
+ * The way to get a combiner object.
+ * 
+ */
 public class CombHandler {
 
-    private volatile static CombHandler uniqueInstance;
+    private static volatile CombHandler uniqueInstance;
 
     private HashMap<CType, CCombinerTyp> typCombiner;
 

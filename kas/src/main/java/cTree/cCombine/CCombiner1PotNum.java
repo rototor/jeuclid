@@ -35,11 +35,4 @@ public class CCombiner1PotNum extends CCombiner1 {
         return this.op2Combiner;
     }
 
-    // @Override
-    // public boolean canCombine(final CElement potenz, final CElement basis,
-    // final CElement exp) {
-    // return this.op2Combiner.get(exp.getCType()).canCombine(potenz, basis,
-    // exp);
-    // }
-
 }

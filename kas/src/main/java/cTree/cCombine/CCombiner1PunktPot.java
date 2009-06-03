@@ -37,28 +37,4 @@ public class CCombiner1PunktPot extends CCombiner1 {
         return this.op2Combiner;
     }
 
-    // @Override
-    // public CElement combine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // if (this.canCombine(parent, cE1, cE2)) {
-    // return this.getOp2Comb().get(cE2.getCType()).doIt(parent, cE1,
-    // cE2);
-    // }
-    // return cE1;
-    // }
-    //
-    // @Override
-    // public boolean canCombine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // if (cE1.istGleichartigesMonom(cE2)) {
-    // return this.getOp2Comb().get(cE2.getCType()).canDo(parent,
-    // cE1, cE2);
-    // }
-    // if (((CPot) cE1).getBasis() instanceof CNum && (cE2 instanceof CNum)) {
-    // final CNum cN1 = (CNum) ((CPot) cE1).getBasis();
-    // final CNum cN2 = (CNum) cE2;
-    // return cN1.getValue() == cN2.getValue();
-    // }
-    // return false;
-    // }
 }

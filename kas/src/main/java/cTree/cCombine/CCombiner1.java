@@ -53,21 +53,4 @@ public abstract class CCombiner1 {
         return new C_No(e);
     }
 
-    // public CElement combine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // final CType ct2 = cE2.getCType();
-    // return this.getOp2Comb().get(ct2).doIt(parent, cE1, cE2);
-    // }
-    //
-    // public boolean canCombine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // final CType ct2 = cE2.getCType();
-    // return this.getOp2Comb().get(ct2).canDo(parent, cE1, cE2);
-    // }
-    //
-    // public CC_ getCombiner(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // return this.getOp2Comb().get(cE2.getCType());
-    // }
-
 }

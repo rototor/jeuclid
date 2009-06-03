@@ -37,24 +37,6 @@ public abstract class CCombinerTyp extends C_Changer {
         return this.op1Combiner;
     }
 
-    // public CElement combine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // final CType ct1 = cE1.getCType();
-    // return this.getOp1Comb().get(ct1).combine(parent, cE1, cE2);
-    // }
-    //
-    // public boolean canCombine(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // final CType ct1 = cE1.getCType();
-    // return this.getOp1Comb().get(ct1).canCombine(parent, cE1, cE2);
-    // }
-    //
-    // public CC_ getCombiner(final CElement parent, final CElement cE1,
-    // final CElement cE2) {
-    // final CType ct1 = cE1.getCType();
-    // return this.getOp1Comb().get(ct1).getCombiner(parent, cE1, cE2);
-    // }
-
     @Override
     public C_Changer getChanger(final C_Event e) {
         final CType cType = e.getFirst().getCType();

@@ -16,37 +16,24 @@
 
 package cTree.cCombine;
 
+import cTree.CPot;
+import cTree.adapter.C_Changer;
+import cTree.adapter.C_Event;
+import cTree.adapter.C_No;
 
 public class CCombiner1PotDefault extends CCombiner1 {
 
-    // @Override
-    // public CElement combine(final CElement potenz, final CElement basis,
-    // final CElement exp) {
-    // if (((CPot) potenz).isHoch1()) {
-    // final CElement newChild = basis.cloneCElement(false); //
-    // potenz.cloneChild(basis,
-    // // false);
-    // potenz.getParent().replaceChild(newChild, potenz, true, true);
-    // return newChild;
-    // } else if (((CPot) potenz).isHoch0()) {
-    // final CElement newChild = CNum.createNum(potenz.getElement(),
-    // "" + 1);
-    // newChild.setCRolleAndPraefixFrom(potenz);
-    // potenz.getParent().replaceChild(newChild, potenz, true, true);
-    // return newChild;
-    // }
-    // return potenz;
-    // }
-    //
-    // @Override
-    // public boolean canCombine(final CElement potenz, final CElement basis,
-    // final CElement exp) {
-    // if (((CPot) potenz).isHoch1()) {
-    // return true;
-    // } else if (((CPot) potenz).isHoch0()) {
-    // return true;
-    // }
-    // return false;
-    // }
+    @Override
+    public C_Changer getChanger(final C_Event e) {
+        if (e != null && e.getFirst() != null && e.getFirst().hasNextC()) {
+            final CPot pot = (CPot) e.getParent();
+            if (pot.isHoch0() && !pot.getBasis().is0()) {
+                return new CC_PotAny0().getChanger(e);
+            } else if (pot.isHoch1()) {
+                return new CC_PotAny1().getChanger(e);
+            }
+        }
+        return new C_No(e);
+    }
 
 }

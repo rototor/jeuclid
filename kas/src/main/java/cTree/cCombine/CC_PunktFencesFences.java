@@ -48,13 +48,14 @@ public class CC_PunktFencesFences extends CC_Base {
 
     public CC_PunktFencesFences() {
         super();
-        this.strArray = new String[2];
+        this.strArray = new String[3];
         this.strArray[0] = "Ersten Faktor spalten";
         this.strArray[1] = "Zweiten Faktor spalten";
+        this.strArray[2] = "Jedes mit jedem";
         this.changers = new HashMap<String, C_Changer>();
         this.changers.put(this.strArray[0], new CC_PunktFencedAnyFencedSum());
         this.changers.put(this.strArray[1], new CC_PunktFencedSumFencedAny());
-        // this.strArray[2] = "letzter Faktor";
+        this.changers.put(this.strArray[2], new CC_PunktFencedSumFencedSum());
     }
 
     @Override
@@ -95,63 +96,6 @@ public class CC_PunktFencesFences extends CC_Base {
         return new C_No(e);
     }
 
-    // @Override
-    // protected CElement createComb(final CElement parent, final CElement
-    // cE1,
-    // final CElement cE2) {
-    // if (cE1.getFirstChild() instanceof CMinTerm
-    // && cE2.getFirstChild() instanceof CMinTerm) {
-    // return this.getCmm().createComb(parent, cE1, cE2);
-    // } else if (cE1.getFirstChild() instanceof CPlusTerm
-    // && cE2.getFirstChild() instanceof CPlusTerm) {
-    // return this.getCpp().createComb(parent, cE1, cE2);
-    // } else if (cE1.getFirstChild() instanceof CPlusTerm
-    // && cE2.getFirstChild() instanceof CMinTerm) {
-    // return this.getCpm().createComb(parent, cE1, cE2);
-    // } else if (cE1.getFirstChild() instanceof CMinTerm
-    // && cE2.getFirstChild() instanceof CPlusTerm) {
-    // return this.getCmp().createComb(parent, cE1, cE2);
-    // } else if (cE1.getFirstChild() instanceof CPlusRow
-    // && cE2.getFirstChild() instanceof CPlusRow) {
-    // return this.getCss().createComb(parent, cE1, cE2);
-    // }
-    // return cE1;
-    // }
-    //
-    // @Override
-    // public boolean canDo(final C_Event e) {
-    // this.setEvent(e);
-    // if (this.getSec().hasExtDiv()) {
-    // return false;
-    // }
-    // final CElement cE1 = this.getFirst();
-    // final CElement cE2 = this.getSec();
-    // System.out.println("Try to combine Fences Fences");
-    // if (cE1.getFirstChild() instanceof CMinTerm
-    // && cE2.getFirstChild() instanceof CMinTerm) {
-    // System.out.println("Found MinTerms");
-    // return this.getCmm().canDo(e);
-    // } else if (cE1.getFirstChild() instanceof CPlusTerm
-    // && cE2.getFirstChild() instanceof CMinTerm) {
-    // System.out.println("Found PM");
-    // return this.getCpm().canDo(e);
-    // } else if (cE1.getFirstChild() instanceof CPlusTerm
-    // && cE2.getFirstChild() instanceof CPlusTerm) {
-    // System.out.println("Found PP");
-    // return this.getCpp().canDo(e);
-    // } else if (cE1.getFirstChild() instanceof CMinTerm
-    // && cE2.getFirstChild() instanceof CPlusTerm) {
-    // System.out.println("Found MP");
-    // return this.getCmp().canDo(e);
-    // }
-    // return false;
-    // }
-
-    /**
-     * Getter method for cmm.
-     * 
-     * @return the cmm
-     */
     protected CC_PunktFencedMinFencedMin getCmm() {
         if (this.cmm == null) {
             this.cmm = new CC_PunktFencedMinFencedMin();
@@ -180,11 +124,6 @@ public class CC_PunktFencesFences extends CC_Base {
         return this.cpp;
     }
 
-    /**
-     * Getter method for css.
-     * 
-     * @return the css
-     */
     protected CC_PunktFencedAnyFencedSum getCas() {
         if (this.cas == null) {
             this.cas = new CC_PunktFencedAnyFencedSum();
@@ -192,11 +131,6 @@ public class CC_PunktFencesFences extends CC_Base {
         return this.cas;
     }
 
-    /**
-     * Getter method for css.
-     * 
-     * @return the css
-     */
     protected CC_PunktFencedSumFencedAny getCsa() {
         if (this.csa == null) {
             this.csa = new CC_PunktFencedSumFencedAny();
