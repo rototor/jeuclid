@@ -16,9 +16,9 @@
 
 package cTree.cDefence;
 
-import cTree.adapter.C_Changer;
-import cTree.adapter.C_Event;
-import cTree.adapter.C_No;
+import java.util.HashMap;
+
+import cTree.CType;
 
 public class CDefenceTPot extends CDefenceTyp {
     public CDefenceTPot() {
@@ -26,11 +26,15 @@ public class CDefenceTPot extends CDefenceTyp {
     }
 
     @Override
-    public C_Changer getChanger(final C_Event e) {
-        if (e instanceof CD_Event) {
-            final C_Changer c = new CD_1PotDefault();
-            return c.getChanger(e);
+    protected HashMap<CType, CD_Base> getOp1Def() {
+        if (this.op1Defencer == null) {
+            super.getOp1Def();
+            this.op1Defencer.put(CType.FENCES, new CD_1PunktEasy());
+            this.op1Defencer.put(CType.IDENT, new CD_1PunktEasy());
+            this.op1Defencer.put(CType.NUM, new CD_1PunktEasy());
+            this.op1Defencer.put(CType.SQRT, new CD_1PunktEasy());
         }
-        return new C_No(e);
+        return this.op1Defencer;
     }
+
 }

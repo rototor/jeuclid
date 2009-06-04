@@ -41,7 +41,7 @@ public class CDefenceTStrich extends CDefenceTyp {
 
     @Override
     public C_Changer getChanger(final C_Event e) {
-        if (e instanceof CD_Event) {
+        if (e instanceof CD_Event && ((CD_Event) e).isDoDef()) {
             final CType cType = ((CD_Event) e).getInside().getCType();
             if (this.getOp1Def().containsKey(cType)) {
                 return this.getOp1Def().get(cType).getChanger(e);

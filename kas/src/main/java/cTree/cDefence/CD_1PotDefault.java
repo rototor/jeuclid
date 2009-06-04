@@ -22,14 +22,16 @@ public class CD_1PotDefault extends CD_Base {
 
     @Override
     public CElement doIt() {
-        System.out.println("Dont defence pot this");
-        return this.getFences();
+        System.out.println("Defence pot easy");
+        final CElement newChild = this.getInside().cloneCElement(false);
+        this.getParent().replaceChild(newChild, this.getFences(), true, true);
+        return newChild;
     }
 
     @Override
     public boolean canDo() {
         System.out.println("DefencerCDPotD can Defence?");
-        return false;
+        return true;
     }
 
 }

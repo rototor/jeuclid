@@ -33,7 +33,6 @@ public class CE_2SqrtPot extends CExtractBase {
 
     @Override
     public CElement doIt() {
-
         System.out.println("SqrtPot - Can extract");
         // Praefix sichern
         final CElement parent = this.getEvent().getParent();
@@ -51,6 +50,7 @@ public class CE_2SqrtPot extends CExtractBase {
 
     @Override
     protected CElement createExtraction() {
+        System.out.println("SqrtPot creates extraction ");
         final CPot oldPot = (CPot) this.getEvent().getFirst();
         final int oldExp = ((CNum) oldPot.getExponent()).getValue();
         CElement newChild = null;
@@ -66,6 +66,7 @@ public class CE_2SqrtPot extends CExtractBase {
 
     @Override
     public boolean canDo() {
+        System.out.println("SqrtPot cando ");
         final C_Event e = this.getEvent();
         if (e == null) {
             return false;
@@ -84,6 +85,7 @@ public class CE_2SqrtPot extends CExtractBase {
                 return false;
             }
         }
+        System.out.println("SqrtPot cando oks");
         return true;
     }
 }

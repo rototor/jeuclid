@@ -42,6 +42,7 @@ public class CExtracterTyp extends C_Changer {
     public C_Changer getChanger(final C_Event event) {
         final CType firstTyp = event.getFirst().getCType();
         if (this.getOp1Extracter().containsKey(firstTyp)) {
+            System.out.println("ExtractTyp" + firstTyp);
             return this.getOp1Extracter().get(firstTyp).getChanger(event);
         } else {
             return new C_No(event);
