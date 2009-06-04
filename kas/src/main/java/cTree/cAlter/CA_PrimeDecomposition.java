@@ -56,9 +56,15 @@ public class CA_PrimeDecomposition extends CA_Base {
                     pL.add(CPot.createPot(cB, p.exp));
                 }
             }
-            final CTimesRow cTR = CTimesRow.createRow(pL);
-            cTR.correctInternalPraefixesAndRolle();
-            final CFences cF = CFences.createFenced(cTR);
+            CElement result;
+            if (pL.size() > 1) {
+                final CTimesRow cTR = CTimesRow.createRow(pL);
+                cTR.correctInternalPraefixesAndRolle();
+                result = cTR;
+            } else {
+                result = pL.get(0);
+            }
+            final CFences cF = CFences.createFenced(result);
             final CElement parent = old.getParent();
             if (parent instanceof CFences) {
                 final CElement grandparent = parent.getParent();

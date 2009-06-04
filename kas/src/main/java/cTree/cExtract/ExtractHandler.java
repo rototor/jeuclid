@@ -48,6 +48,7 @@ public class ExtractHandler {
     public C_Changer getChanger(final C_Event event) {
         final CType parentTyp = event.getParent().getCType();
         if (this.getTypExtracter.containsKey(parentTyp)) {
+            System.out.println("ExtractHandler " + parentTyp);
             return this.getTypExtracter.get(parentTyp).getChanger(event);
         } else {
             return new C_No(event);

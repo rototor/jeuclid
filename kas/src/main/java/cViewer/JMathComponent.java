@@ -154,17 +154,21 @@ public final class JMathComponent extends JComponent implements
 
         public void actionPerformed(final ActionEvent ae) {
             final JMathComponent mathC = JMathComponent.this;
-            mathC.addToUndo();
-            mathC.removeCActivity();
-            final String cleaned = ViewerFactory.getInst().getMathFrame()
-                    .getTextField().getText().replace(" ", "");
-            final CElement newAct = mathC.getCActive().getParent().split(
-                    mathC.getCActive(), cleaned);
-            newAct.setCActiveProperty();
-            mathC.setCActive(newAct);
-            mathC.requestFocusInWindow();
-            mathC.modifyDocument();
-            ViewerFactory.getInst().getMathFrame().getCounter().incCount();
+            final CElement cAct = mathC.getCActive();
+            if (cAct != null) {
+                mathC.addToUndo();
+                mathC.removeCActivity();
+                final String cleaned = ViewerFactory.getInst().getMathFrame()
+                        .getTextField().getText().replace(" ", "");
+                final CElement newAct = cAct.getParent().split(cAct, cleaned);
+                newAct.setCActiveProperty();
+                mathC.setCActive(newAct);
+                mathC.requestFocusInWindow();
+                mathC.modifyDocument();
+                ViewerFactory.getInst().getMathFrame().getCounter()
+                        .incCount();
+            }
+
         }
     }
 
@@ -179,11 +183,15 @@ public final class JMathComponent extends JComponent implements
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                JMathComponent.this.removeCActivity();
-                JMathComponent.this.setCActive(JMathComponent.this
-                        .getCActive().tryToSelectFirstChild());
-                JMathComponent.this.getCActive().setCActiveProperty();
-                JMathComponent.this.modifyDocument();
+                final CElement cAct = JMathComponent.this.getCActive();
+                if (cAct != null) {
+                    JMathComponent.this.removeCActivity();
+                    JMathComponent.this.setCActive(JMathComponent.this
+                            .getCActive().tryToSelectFirstChild());
+                    JMathComponent.this.getCActive().setCActiveProperty();
+                    JMathComponent.this.modifyDocument();
+                }
+
             }
         };
         this.actions.put(myAction.getValue(Action.NAME), myAction);
@@ -192,11 +200,15 @@ public final class JMathComponent extends JComponent implements
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                JMathComponent.this.removeCActivity();
-                JMathComponent.this.setCActive(JMathComponent.this
-                        .getCActive().tryToSelectParent());
-                JMathComponent.this.getCActive().setCActiveProperty();
-                JMathComponent.this.modifyDocument();
+                final CElement cAct = JMathComponent.this.getCActive();
+                if (cAct != null) {
+                    JMathComponent.this.removeCActivity();
+                    JMathComponent.this.setCActive(JMathComponent.this
+                            .getCActive().tryToSelectParent());
+                    JMathComponent.this.getCActive().setCActiveProperty();
+                    JMathComponent.this.modifyDocument();
+                }
+
             }
         };
         this.actions.put(myAction.getValue(Action.NAME), myAction);
@@ -205,11 +217,15 @@ public final class JMathComponent extends JComponent implements
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                JMathComponent.this.removeCActivity();
-                JMathComponent.this.setCActive(JMathComponent.this
-                        .getCActive().tryToSelectRight());
-                JMathComponent.this.getCActive().setCActiveProperty();
-                JMathComponent.this.modifyDocument();
+                final CElement cAct = JMathComponent.this.getCActive();
+                if (cAct != null) {
+                    JMathComponent.this.removeCActivity();
+                    JMathComponent.this.setCActive(JMathComponent.this
+                            .getCActive().tryToSelectRight());
+                    JMathComponent.this.getCActive().setCActiveProperty();
+                    JMathComponent.this.modifyDocument();
+                }
+
             }
         };
         this.actions.put(myAction.getValue(Action.NAME), myAction);
@@ -218,17 +234,21 @@ public final class JMathComponent extends JComponent implements
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                final CElement lastC = JMathComponent.this.activeC
-                        .get(JMathComponent.this.activeC.size() - 1);
-                if (lastC.hasNextC()
-                        && lastC.hasParent()
-                        && ((lastC.getParent() instanceof CTimesRow) || (lastC
-                                .getParent() instanceof CPlusRow))) {
-                    final CElement nextC = lastC.getNextSibling();
-                    nextC.setCLastProperty();
-                    JMathComponent.this.activeC.add(nextC);
-                    JMathComponent.this.modifyDocument();
+                final CElement cAct = JMathComponent.this.getCActive();
+                if (cAct != null) {
+                    final CElement lastC = JMathComponent.this.activeC
+                            .get(JMathComponent.this.activeC.size() - 1);
+                    if (lastC.hasNextC()
+                            && lastC.hasParent()
+                            && ((lastC.getParent() instanceof CTimesRow) || (lastC
+                                    .getParent() instanceof CPlusRow))) {
+                        final CElement nextC = lastC.getNextSibling();
+                        nextC.setCLastProperty();
+                        JMathComponent.this.activeC.add(nextC);
+                        JMathComponent.this.modifyDocument();
+                    }
                 }
+
             }
         };
         this.actions.put(myAction.getValue(Action.NAME), myAction);
@@ -237,13 +257,17 @@ public final class JMathComponent extends JComponent implements
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                final CElement lastC = JMathComponent.this.activeC
-                        .get(JMathComponent.this.activeC.size() - 1);
-                if (JMathComponent.this.activeC.size() > 1) {
-                    lastC.removeCLastProperty();
-                    JMathComponent.this.activeC.remove(lastC);
-                    JMathComponent.this.modifyDocument();
+                final CElement cAct = JMathComponent.this.getCActive();
+                if (cAct != null) {
+                    final CElement lastC = JMathComponent.this.activeC
+                            .get(JMathComponent.this.activeC.size() - 1);
+                    if (JMathComponent.this.activeC.size() > 1) {
+                        lastC.removeCLastProperty();
+                        JMathComponent.this.activeC.remove(lastC);
+                        JMathComponent.this.modifyDocument();
+                    }
                 }
+
             }
         };
         this.actions.put(myAction.getValue(Action.NAME), myAction);
@@ -252,11 +276,15 @@ public final class JMathComponent extends JComponent implements
             private static final long serialVersionUID = 20081230L;
 
             public void actionPerformed(final ActionEvent ae) {
-                JMathComponent.this.removeCActivity();
-                JMathComponent.this.setCActive(JMathComponent.this
-                        .getCActive().tryToSelectLeft());
-                JMathComponent.this.getCActive().setCActiveProperty();
-                JMathComponent.this.modifyDocument();
+                final CElement cAct = JMathComponent.this.getCActive();
+                if (cAct != null) {
+                    JMathComponent.this.removeCActivity();
+                    JMathComponent.this.setCActive(JMathComponent.this
+                            .getCActive().tryToSelectLeft());
+                    JMathComponent.this.getCActive().setCActiveProperty();
+                    JMathComponent.this.modifyDocument();
+                }
+
             }
         };
         this.actions.put(myAction.getValue(Action.NAME), myAction);
@@ -267,16 +295,20 @@ public final class JMathComponent extends JComponent implements
             public void actionPerformed(final ActionEvent ae) {
                 final CElement cAct = JMathComponent.this.getCActive();
                 final JMathComponent myComp = JMathComponent.this;
-                myComp.addToUndo();
-                myComp.removeCActivity();
-                if (myComp.getUI().getBestLine() != null) {
-                    final int i = myComp.getUI().getBestLine().getDist();
-                    myComp.setCActive(cAct.getParent().moveRight(i, cAct));
-                } else {
-                    myComp.setCActive(cAct.getParent().moveRight(cAct));
+                if (cAct != null) {
+                    myComp.addToUndo();
+                    myComp.removeCActivity();
+                    if (myComp.getUI().getBestLine() != null) {
+                        final int i = myComp.getUI().getBestLine().getDist();
+                        myComp
+                                .setCActive(cAct.getParent().moveRight(i,
+                                        cAct));
+                    } else {
+                        myComp.setCActive(cAct.getParent().moveRight(cAct));
+                    }
+                    myComp.getCActive().setCActiveProperty();
+                    myComp.modifyDocument();
                 }
-                myComp.getCActive().setCActiveProperty();
-                myComp.modifyDocument();
 
             }
         };
@@ -288,17 +320,19 @@ public final class JMathComponent extends JComponent implements
             public void actionPerformed(final ActionEvent ae) {
                 final CElement cAct = JMathComponent.this.getCActive();
                 final JMathComponent myComp = JMathComponent.this;
-                myComp.addToUndo();
-                myComp.removeCActivity();
-                if (myComp.getUI().getBestLine() != null) {
-                    final int i = myComp.getUI().getBestLine().getDist();
-                    System.out.println("Distance: " + i);
-                    myComp.setCActive(cAct.getParent().moveLeft(i, cAct));
-                } else {
-                    myComp.setCActive(cAct.getParent().moveLeft(cAct));
+                if (cAct != null) {
+                    myComp.addToUndo();
+                    myComp.removeCActivity();
+                    if (myComp.getUI().getBestLine() != null) {
+                        final int i = myComp.getUI().getBestLine().getDist();
+                        System.out.println("Distance: " + i);
+                        myComp.setCActive(cAct.getParent().moveLeft(i, cAct));
+                    } else {
+                        myComp.setCActive(cAct.getParent().moveLeft(cAct));
+                    }
+                    myComp.getCActive().setCActiveProperty();
+                    myComp.modifyDocument();
                 }
-                myComp.getCActive().setCActiveProperty();
-                myComp.modifyDocument();
             }
         };
         this.actions.put(myAction.getValue(Action.NAME), myAction);
@@ -308,13 +342,16 @@ public final class JMathComponent extends JComponent implements
 
             public void actionPerformed(final ActionEvent ae) {
                 final JMathComponent myComp = JMathComponent.this;
-                myComp.addToUndo();
-                myComp.setCActive(AlterHandler.getInstance().change(
-                        JMathComponent.this.activeC, ae.getActionCommand()));
-                myComp.getCActive().setCActiveProperty();
-                myComp.modifyDocument();
-                ViewerFactory.getInst().getMathFrame().getCounter()
-                        .incCount();
+                if (myComp.getCActive() != null) {
+                    myComp.addToUndo();
+                    myComp.setCActive(AlterHandler.getInstance().change(
+                            JMathComponent.this.activeC,
+                            ae.getActionCommand()));
+                    myComp.getCActive().setCActiveProperty();
+                    myComp.modifyDocument();
+                    ViewerFactory.getInst().getMathFrame().getCounter()
+                            .incCount();
+                }
             }
         };
         this.actions.put(myAction.getValue(Action.NAME), myAction);
@@ -325,13 +362,15 @@ public final class JMathComponent extends JComponent implements
             public void actionPerformed(final ActionEvent ae) {
                 final CElement cAct = JMathComponent.this.getCActive();
                 final JMathComponent myComp = JMathComponent.this;
-                myComp.addToUndo();
-                myComp.removeCActivity();
-                myComp.setCActive(cAct.getParent().combineRight(cAct));
-                myComp.getCActive().setCActiveProperty();
-                myComp.modifyDocument();
-                ViewerFactory.getInst().getMathFrame().getCounter()
-                        .incCount();
+                if (cAct != null && cAct.getParent() != null) {
+                    myComp.addToUndo();
+                    myComp.removeCActivity();
+                    myComp.setCActive(cAct.getParent().combineRight(cAct));
+                    myComp.getCActive().setCActiveProperty();
+                    myComp.modifyDocument();
+                    ViewerFactory.getInst().getMathFrame().getCounter()
+                            .incCount();
+                }
             }
         };
         this.actions.put(myAction.getValue(Action.NAME), myAction);
@@ -342,7 +381,7 @@ public final class JMathComponent extends JComponent implements
             public void actionPerformed(final ActionEvent ae) {
                 final CElement cAct = JMathComponent.this.getCActive();
                 final JMathComponent myComp = JMathComponent.this;
-                if (cAct.getParent() != null) {
+                if (cAct != null && cAct.getParent() != null) {
                     myComp.addToUndo();
                     myComp.setCActive(myComp.getCActive().getParent()
                             .extract(myComp.activeC));
@@ -360,14 +399,16 @@ public final class JMathComponent extends JComponent implements
 
             public void actionPerformed(final ActionEvent ae) {
                 final JMathComponent myComp = JMathComponent.this;
-                myComp.addToUndo();
-                System.out.println("Fencing in JMathComponent");
-                myComp.setCActive(myComp.getCActive().getParent().fence(
-                        myComp.activeC));
-                myComp.getCActive().setCActiveProperty();
-                myComp.modifyDocument();
-                ViewerFactory.getInst().getMathFrame().getCounter()
-                        .incCount();
+                if (myComp.getCActive() != null) {
+                    myComp.addToUndo();
+                    System.out.println("Fencing in JMathComponent");
+                    myComp.setCActive(myComp.getCActive().getParent().fence(
+                            myComp.activeC));
+                    myComp.getCActive().setCActiveProperty();
+                    myComp.modifyDocument();
+                    ViewerFactory.getInst().getMathFrame().getCounter()
+                            .incCount();
+                }
             }
         };
         this.actions.put(myAction.getValue(Action.NAME), myAction);
@@ -377,14 +418,16 @@ public final class JMathComponent extends JComponent implements
 
             public void actionPerformed(final ActionEvent ae) {
                 final CElement cAct = JMathComponent.this.getCActive();
-                final JMathComponent myComp = JMathComponent.this;
-                myComp.addToUndo();
-                myComp.removeCActivity();
-                myComp.setCActive(cAct.getParent().defence(cAct));
-                myComp.getCActive().setCActiveProperty();
-                myComp.modifyDocument();
-                ViewerFactory.getInst().getMathFrame().getCounter()
-                        .incCount();
+                if (cAct != null) {
+                    final JMathComponent myComp = JMathComponent.this;
+                    myComp.addToUndo();
+                    myComp.removeCActivity();
+                    myComp.setCActive(cAct.getParent().defence(cAct));
+                    myComp.getCActive().setCActiveProperty();
+                    myComp.modifyDocument();
+                    ViewerFactory.getInst().getMathFrame().getCounter()
+                            .incCount();
+                }
             }
         };
         this.actions.put(myAction.getValue(Action.NAME), myAction);

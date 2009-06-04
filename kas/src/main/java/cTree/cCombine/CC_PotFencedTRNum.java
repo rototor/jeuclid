@@ -45,10 +45,11 @@ public class CC_PotFencedTRNum extends CC_Base {
         final ArrayList<CElement> oldList = oldRow.getMemberList();
         final ArrayList<CElement> newList = new ArrayList<CElement>();
         for (final CElement cEl : oldList) {
+            final boolean hasDiv = cEl.hasExtDiv();
             cEl.setExtPraefix(null);
             final CPot newPot = CPot
                     .createPot(cEl, expo.cloneCElement(false));
-            if (cEl.hasExtDiv()) {
+            if (hasDiv) {
                 newPot.setPraefix(":");
             }
             newList.add(newPot);
@@ -56,7 +57,6 @@ public class CC_PotFencedTRNum extends CC_Base {
         }
         final CTimesRow newChild = CTimesRow.createRow(newList);
         newChild.correctInternalPraefixesAndRolle();
-        newChild.setCRolleAndPraefixFrom(potenz);
         return CFences.createFenced(newChild);
     }
 }
