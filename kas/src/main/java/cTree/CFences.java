@@ -18,6 +18,8 @@ package cTree;
 
 import org.w3c.dom.Element;
 
+import cTree.cDefence.CD_Event;
+
 public class CFences extends CElement {
 
     public CFences(final Element element) {
@@ -37,19 +39,26 @@ public class CFences extends CElement {
         return fences;
     }
 
+    /**
+     * Falls sinnvoll werden Klammern erzeugt. Falls das geschieht wird in der
+     * CMessage true übergeben. Mit condCleanOne wird versucht am Ende diese
+     * Klammer zu entfernen.
+     * 
+     * @param inhalt
+     * @param didIt
+     * @return
+     */
     public static CElement condCreateFenced(final CElement inhalt,
-            final CMessage didIt) {
+            final CD_Event didIt) {
         if (inhalt instanceof CFences || inhalt instanceof CNum
-                || inhalt instanceof CIdent) {
-            didIt.setMessage(false);
+                || inhalt instanceof CIdent || inhalt instanceof CSqrt
+                || inhalt instanceof CPot) {
+            didIt.setDoDef(false);
+            //
             return inhalt;
         } else {
-            final CFences fences = (CFences) CElementHelper
-                    .createAll(inhalt.getElement(), "mfenced", "mfenced",
-                            CRolle.UNKNOWN, null);
-            fences.appendPraefixAndChild(inhalt);
-            inhalt.setCRolle(CRolle.GEKLAMMERT);
-            didIt.setMessage(true);
+            final CFences fences = CFences.createFenced(inhalt);
+            didIt.setDoDef(true);
             return fences;
         }
     }

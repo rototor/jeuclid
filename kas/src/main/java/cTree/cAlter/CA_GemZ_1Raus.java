@@ -20,6 +20,7 @@ import cTree.CElement;
 import cTree.CFrac;
 import cTree.CMixedNumber;
 import cTree.CNum;
+import cTree.cDefence.CD_Event;
 
 public class CA_GemZ_1Raus extends CA_Base {
 
@@ -38,7 +39,7 @@ public class CA_GemZ_1Raus extends CA_Base {
     private int nz;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final int newWZ = this.wz - 1;
         final int newZZ = this.nz + this.zz;
         CElement cEl;

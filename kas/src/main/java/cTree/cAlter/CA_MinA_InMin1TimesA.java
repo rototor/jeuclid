@@ -21,11 +21,12 @@ import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CTimesRow;
 import cTree.CType;
+import cTree.cDefence.CD_Event;
 
 public class CA_MinA_InMin1TimesA extends CA_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement old = this.getEvent().getFirst();
         final CElement newFirst = CFences.createFencedMin1(old);
         final CElement newSecond = ((CMinTerm) old).getValue().cloneCElement(

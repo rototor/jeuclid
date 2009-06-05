@@ -20,11 +20,12 @@ import cTree.CElement;
 import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CPot;
+import cTree.cDefence.CD_Event;
 
 public class CA_DivA_Pot extends CA_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement old = this.getEvent().getFirst();
         final CElement newNum = CNum.createNum(old.getElement(), "1");
         final CElement newExp = CMinTerm.createMinTerm(newNum);

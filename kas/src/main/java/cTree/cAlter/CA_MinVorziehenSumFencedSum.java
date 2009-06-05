@@ -19,11 +19,12 @@ package cTree.cAlter;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CPlusRow;
+import cTree.cDefence.CD_Event;
 
 public class CA_MinVorziehenSumFencedSum extends CA_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement fences = this.getEvent().getFirst();
         fences.togglePlusMinus(false);
         final CFences f = (CFences) fences;

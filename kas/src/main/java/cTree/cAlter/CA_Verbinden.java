@@ -19,15 +19,16 @@ package cTree.cAlter;
 import cTree.CElement;
 import cTree.adapter.C_Changer;
 import cTree.cCombine.CombHandler;
+import cTree.cDefence.CD_Event;
 
 public class CA_Verbinden extends CA_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final C_Changer ch = CombHandler.getInst()
                 .getChanger(this.getEvent());
         if (ch.canDo()) {
-            return ch.doIt();
+            return ch.doIt(null);
         } else {
             return this.getEvent().getFirst();
         }

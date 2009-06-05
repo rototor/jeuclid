@@ -52,26 +52,52 @@ public abstract class CElement extends RolleAdapter implements
 
     // --- Support für das Verbinden, Extrahieren und Aufspalten in dem CTree
     public CElement combineRight(final CElement active) {
+        // der Operand
         final CElement erstesElement = active;
         if (erstesElement.hasNextC()) {
+            // nach den Infos in event wird ein Changer gesucht
             final C_Event event = new C_Event(active);
-            final C_Changer comb = CombHandler.getInst().getChanger(event);
-            return comb.doIt();
+            C_Changer c = CombHandler.getInst().getChanger(event);
+            // in der Message kann der Changer ein Defence anfordern
+            final CD_Event message = new CD_Event(false);
+            CElement newActive = c.doIt(message);
+            if (message != null && message.isDoDef()) {
+                c = DefHandler.getInst().getChanger(message);
+                // weitere Anforderungen werden nicht akzeptiert
+                newActive = c.doIt(new CD_Event(true));
+            }
+            return newActive;
         } else {
             return active;
         }
     }
 
     public CElement extract(final ArrayList<CElement> active) {
+        // nach den Infos in event wird ein Changer gesucht
         final C_Event event = new C_Event(active);
-        final C_Changer ext = ExtractHandler.getInst().getChanger(event);
-        return ext.doIt();
+        C_Changer c = ExtractHandler.getInst().getChanger(event);
+        // in der Message kann der Changer ein Defence anfordern
+        final CD_Event message = new CD_Event(false);
+        CElement newActive = c.doIt(message);
+        if (message != null && message.isDoDef()) {
+            c = DefHandler.getInst().getChanger(message);
+            newActive = c.doIt(new CD_Event(true));
+        }
+        return newActive;
     };
 
     public CElement split(final CElement zuZerlegen, final String s) {
-        final CS_Event event = new CS_Event(zuZerlegen, s);
-        final C_Changer splitter = SplitHandler.getInst().getChanger(event);
-        return splitter.doIt();
+        // nach den Infos in event wird ein Changer gesucht
+        final C_Event event = new CS_Event(zuZerlegen, s);
+        C_Changer c = SplitHandler.getInst().getChanger(event);
+        // in der Message kann der Changer ein Defence anfordern
+        final CD_Event message = new CD_Event(false);
+        CElement newActive = c.doIt(message);
+        if (message != null && message.isDoDef()) {
+            c = DefHandler.getInst().getChanger(message);
+            newActive = c.doIt(new CD_Event(true));
+        }
+        return newActive;
     }
 
     // --- Support für die Klammern in dem CTree
@@ -97,7 +123,7 @@ public abstract class CElement extends RolleAdapter implements
         if (aFencePair instanceof CFences && aFencePair.hasChildC()) {
             final CD_Event e = new CD_Event(aFencePair);
             final C_Changer c = DefHandler.getInst().getChanger(e);
-            c.doIt();
+            c.doIt(null);
         }
         return aFencePair;
     }

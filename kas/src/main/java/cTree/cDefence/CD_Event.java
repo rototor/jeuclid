@@ -10,9 +10,11 @@ public class CD_Event extends C_Event {
 
     private boolean doDef;
 
-    /**
-     * Default Constructor.
-     */
+    public CD_Event(final boolean doDefence) {
+        super();
+        this.doDef = doDefence;
+    }
+
     public CD_Event(final ArrayList<CElement> selection) {
         super(selection);
         this.doDef = true;

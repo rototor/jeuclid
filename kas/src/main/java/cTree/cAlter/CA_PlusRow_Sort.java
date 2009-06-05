@@ -23,11 +23,12 @@ import cTree.CElement;
 import cTree.CPComparator;
 import cTree.CPlusRow;
 import cTree.adapter.C_Event;
+import cTree.cDefence.CD_Event;
 
 public class CA_PlusRow_Sort extends CA_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement first = this.getEvent().getFirst();
         if (first instanceof CPlusRow) {
             final CPlusRow old = (CPlusRow) first;

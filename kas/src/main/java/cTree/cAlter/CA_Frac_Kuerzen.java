@@ -21,14 +21,15 @@ import cTree.CFrac;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.cCombine.CombHandler;
+import cTree.cDefence.CD_Event;
 
 public class CA_Frac_Kuerzen extends CA_Base {
 
     private C_Changer c;
 
     @Override
-    public CElement doIt() {
-        return this.c.doIt();
+    public CElement doIt(final CD_Event message) {
+        return this.c.doIt(null);
     }
 
     @Override

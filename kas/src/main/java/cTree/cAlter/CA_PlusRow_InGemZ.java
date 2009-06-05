@@ -24,6 +24,7 @@ import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.CPlusRow;
 import cTree.adapter.C_Event;
+import cTree.cDefence.CD_Event;
 
 public class CA_PlusRow_InGemZ extends CA_Base {
 
@@ -34,7 +35,7 @@ public class CA_PlusRow_InGemZ extends CA_Base {
     private CElement f;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CMixedNumber cEl = CMixedNumber.createMixedNumber(this.w,
                 this.f);
         this.cP.getParent().replaceChild(cEl, this.cP, true, true);

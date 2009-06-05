@@ -24,6 +24,7 @@ import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.CRolle;
 import cTree.adapter.C_Event;
+import cTree.cDefence.CD_Event;
 
 public class CA_Frac_InGemZahl extends CA_Base {
 
@@ -38,7 +39,7 @@ public class CA_Frac_InGemZahl extends CA_Base {
     private int nz;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final int gz = this.zz / this.nz;
         System.out.println("GanzZahl " + gz);
         final int newZZ = this.zz % this.nz;

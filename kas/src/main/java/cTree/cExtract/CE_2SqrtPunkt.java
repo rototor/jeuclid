@@ -22,7 +22,6 @@ import org.w3c.dom.Element;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMessage;
 import cTree.CRolle;
 import cTree.CSqrt;
 import cTree.CTimesRow;
@@ -35,18 +34,18 @@ import cTree.cDefence.DefHandler;
 public class CE_2SqrtPunkt extends CExtractBase {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CRolle rolle = this.getEvent().getParent().getCRolle();
         final CTimesRow newArg = this.createExtraction();
         newArg.correctInternalPraefixesAndRolle();
-        final CMessage didIt = new CMessage(false);
+        final CD_Event didIt = new CD_Event(false);
         final CElement newChild = CFences.condCreateFenced(newArg, didIt);
         newArg.setCRolle(CRolle.GEKLAMMERT);
         this.insertOrReplace(newChild, true);
         newChild.setCRolle(rolle);
-        final CD_Event e = new CD_Event(newChild, didIt.isMessage());
+        final CD_Event e = new CD_Event(newChild, didIt.isDoDef());
         final C_Changer c = DefHandler.getInst().getChanger(e);
-        return c.doIt();
+        return c.doIt(null);
     }
 
     @Override

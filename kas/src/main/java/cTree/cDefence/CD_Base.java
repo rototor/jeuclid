@@ -23,7 +23,7 @@ import cTree.adapter.C_Changer;
 public abstract class CD_Base extends C_Changer {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         System.out.println("Do the defence work ");
         final CElement p = this.getParent();
         final CFences f = this.getFences();

@@ -20,6 +20,7 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CA_Times_Frac extends CA_Base {
 
@@ -30,7 +31,7 @@ public class CA_Times_Frac extends CA_Base {
     private CElement sec;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CFrac newEl = CFrac.createFraction(this.first
                 .cloneCElement(false), this.sec.cloneCElement(false));
         final CElement gParent = this.parent.getParent();

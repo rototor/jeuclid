@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMessage;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CRolle;
@@ -32,20 +31,20 @@ import cTree.cDefence.DefHandler;
 public class CE_2SqrtPot extends CExtractBase {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         System.out.println("SqrtPot - Can extract");
         // Praefix sichern
         final CElement parent = this.getEvent().getParent();
         final CRolle rolle = parent.getCRolle();
         final CElement newArg = this.createExtraction();
-        final CMessage didIt = new CMessage(false);
+        final CD_Event didIt = new CD_Event(false);
         final CElement newChild = CFences.condCreateFenced(newArg, didIt);
         newArg.setCRolle(CRolle.GEKLAMMERT);
         this.insertOrReplace(newChild, true);
         newChild.setCRolle(rolle);
-        final CD_Event e = new CD_Event(newChild, didIt.isMessage());
+        final CD_Event e = new CD_Event(newChild, didIt.isDoDef());
         final C_Changer c = DefHandler.getInst().getChanger(e);
-        return c.doIt();
+        return c.doIt(null);
     }
 
     @Override

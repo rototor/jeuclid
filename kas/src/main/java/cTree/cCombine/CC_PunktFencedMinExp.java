@@ -18,9 +18,9 @@ package cTree.cCombine;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMessage;
 import cTree.CMinTerm;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktFencedMinExp extends CC_Base {
 
@@ -34,7 +34,7 @@ public class CC_PunktFencedMinExp extends CC_Base {
         System.out.println("Multipliziere geklammerten MinTerm mit Exp");
         final CElement inCE1 = ((CMinTerm) cE1.getFirstChild()).getValue()
                 .cloneCElement(false);
-        final CElement newCE1 = CFences.condCreateFenced(inCE1, new CMessage(
+        final CElement newCE1 = CFences.condCreateFenced(inCE1, new CD_Event(
                 false));
         final CElement newCE2 = cE2.cloneCElement(true);
         final CTimesRow cTR = CTimesRow.createRow(CTimesRow.createList(

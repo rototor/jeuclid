@@ -25,6 +25,7 @@ import cTree.CElement;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.adapter.DOMElementMap;
+import cTree.cDefence.CD_Event;
 
 public class AlterHandler {
     private volatile static AlterHandler uniqueInstance;
@@ -121,7 +122,8 @@ public class AlterHandler {
             final String actionCommand) {
         if (this.getAlters.containsKey(actionCommand)) {
             els.get(0).removeCActiveProperty();
-            final CElement el = this.getAlters.get(actionCommand).doIt();
+            final CElement el = this.getAlters.get(actionCommand).doIt(
+                    new CD_Event(false));
             el.setCActiveProperty();
             return el;
         } else {

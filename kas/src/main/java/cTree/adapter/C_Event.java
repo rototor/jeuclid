@@ -7,9 +7,10 @@ import cTree.CElement;
 public class C_Event {
     private final ArrayList<CElement> selection;
 
-    /**
-     * Default Constructor.
-     */
+    public C_Event() {
+        this.selection = new ArrayList<CElement>();
+    }
+
     public C_Event(final ArrayList<CElement> selection) {
         this.selection = selection;
     }
@@ -21,6 +22,11 @@ public class C_Event {
 
     public ArrayList<CElement> getSelection() {
         return this.selection;
+    }
+
+    public void setCElement(final CElement cElement) {
+        this.selection.clear();
+        this.selection.add(cElement);
     }
 
     public CElement getFirst() {

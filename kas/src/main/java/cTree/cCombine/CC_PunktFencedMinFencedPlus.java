@@ -18,10 +18,10 @@ package cTree.cCombine;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMessage;
 import cTree.CMinTerm;
 import cTree.CPlusTerm;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktFencedMinFencedPlus extends CC_Base {
 
@@ -35,11 +35,11 @@ public class CC_PunktFencedMinFencedPlus extends CC_Base {
         System.out.println("Multipliziere MinTerm mit PlusTerm");
         final CElement inCE1 = ((CMinTerm) cE1.getFirstChild()).getValue()
                 .cloneCElement(false);
-        final CElement newCE1 = CFences.condCreateFenced(inCE1, new CMessage(
+        final CElement newCE1 = CFences.condCreateFenced(inCE1, new CD_Event(
                 false));
         final CElement inCE2 = ((CPlusTerm) cE2.getFirstChild()).getValue()
                 .cloneCElement(false);
-        final CElement newCE2 = CFences.condCreateFenced(inCE2, new CMessage(
+        final CElement newCE2 = CFences.condCreateFenced(inCE2, new CD_Event(
                 false));
         final CTimesRow newChild = CTimesRow.createRow(CTimesRow.createList(
                 newCE1, newCE2));

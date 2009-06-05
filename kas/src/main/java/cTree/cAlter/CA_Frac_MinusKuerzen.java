@@ -19,6 +19,7 @@ package cTree.cAlter;
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.CMinTerm;
+import cTree.cDefence.CD_Event;
 
 public class CA_Frac_MinusKuerzen extends CA_Base {
 
@@ -29,7 +30,7 @@ public class CA_Frac_MinusKuerzen extends CA_Base {
     private CElement n;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement newNum = ((CMinTerm) this.z).getValue().cloneCElement(
                 false);
         final CElement newDen = ((CMinTerm) this.n).getValue().cloneCElement(

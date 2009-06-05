@@ -23,6 +23,7 @@ import cTree.CFrac;
 import cTree.CNum;
 import cTree.CRolle;
 import cTree.adapter.C_Event;
+import cTree.cDefence.CD_Event;
 
 public class CA_Frac_InInteger extends CA_Base {
 
@@ -43,7 +44,7 @@ public class CA_Frac_InInteger extends CA_Base {
     private ChangeTyp changeTyp;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         if (this.changeTyp == ChangeTyp.ZweiZahlen) {
             final CNum cNum = CNum.createNum(this.cFrac.getElement(), ""
                     + (this.zVal / this.nVal));

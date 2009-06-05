@@ -38,8 +38,8 @@ public class CA_Entklammern extends CA_Base {
     }
 
     @Override
-    public CElement doIt() {
-        return this.defencer.doIt();
+    public CElement doIt(final CD_Event message) {
+        return this.defencer.doIt(null);
     }
 
     @Override

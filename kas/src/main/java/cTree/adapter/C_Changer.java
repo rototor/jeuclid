@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CMath;
+import cTree.cDefence.CD_Event;
 
 /**
  * Abstract BaseClass for all Changers. References a C_Event-Objects which
@@ -47,7 +48,7 @@ public abstract class C_Changer {
         this.event = event;
     }
 
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         if (this.event != null) {
             return this.event.getFirst();
         }

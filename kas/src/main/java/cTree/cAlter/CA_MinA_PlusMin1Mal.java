@@ -22,11 +22,12 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CA_MinA_PlusMin1Mal extends CA_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement old = this.getEvent().getFirst();
         final CElement newOne = CNum.createNum(old.getElement(), "1");
         final CElement newFirst = CFences.createFenced(CMinTerm

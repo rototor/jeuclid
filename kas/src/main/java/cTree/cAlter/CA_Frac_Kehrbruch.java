@@ -18,11 +18,12 @@ package cTree.cAlter;
 
 import cTree.CElement;
 import cTree.CFrac;
+import cTree.cDefence.CD_Event;
 
 public class CA_Frac_Kehrbruch extends CA_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CFrac old = (CFrac) this.getEvent().getFirst();
         final CElement newNum = old.getNenner().cloneCElement(true);
         final CElement newDen = old.getZaehler().cloneCElement(true);

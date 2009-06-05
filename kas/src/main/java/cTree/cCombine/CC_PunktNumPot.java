@@ -24,6 +24,7 @@ import cTree.CNum;
 import cTree.CPot;
 import cTree.CRolle;
 import cTree.adapter.EElementHelper;
+import cTree.cDefence.CD_Event;
 
 // wegen toggle noch gelassen
 
@@ -49,7 +50,7 @@ public class CC_PunktNumPot extends CC_Base {
     }
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         System.out.println("Multipliziere Ident and Pot");
         final CIdent ident = (CIdent) this.getFirst();
         if (this.canDo()) {

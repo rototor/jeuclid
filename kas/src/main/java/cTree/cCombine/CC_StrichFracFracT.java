@@ -19,10 +19,10 @@ package cTree.cCombine;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
-import cTree.CMessage;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
 import cTree.CRolle;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichFracFracT extends CC_Base {
 
@@ -36,11 +36,11 @@ public class CC_StrichFracFracT extends CC_Base {
 
     private CElement z2;
 
-    private final CMessage z1_TryDefence = new CMessage(false);
+    private final CD_Event z1_TryDefence = new CD_Event(false);
 
-    private final CMessage z2_TryDefence = new CMessage(false);
+    private final CD_Event z2_TryDefence = new CD_Event(false);
 
-    private final CMessage n1_TryDefence = new CMessage(false);
+    private final CD_Event n1_TryDefence = new CD_Event(false);
 
     private boolean gleicheMin;
 
@@ -108,10 +108,10 @@ public class CC_StrichFracFracT extends CC_Base {
 
     @Override
     protected void clean() {
-        this.condCleanOne(this.z2, this.z2_TryDefence.isMessage());
+        this.condCleanOne(this.z2, this.z2_TryDefence.isDoDef());
         this.z1 = this.newChild.getZaehler().getFirstChild();
-        this.condCleanOne(this.z1, this.z1_TryDefence.isMessage());
+        this.condCleanOne(this.z1, this.z1_TryDefence.isDoDef());
         this.n1 = this.newChild.getNenner().getFirstChild();
-        this.condCleanOne(this.n1, this.n1_TryDefence.isMessage());
+        this.condCleanOne(this.n1, this.n1_TryDefence.isDoDef());
     }
 }
