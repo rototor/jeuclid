@@ -25,6 +25,7 @@ import cTree.CPot;
 import cTree.CTimesRow;
 import cTree.adapter.C_Event;
 import cTree.adapter.EElementHelper;
+import cTree.cDefence.CD_Event;
 
 public class CA_Times_PotA extends CA_Base {
 
@@ -35,7 +36,7 @@ public class CA_Times_PotA extends CA_Base {
     private int exp;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final ArrayList<CElement> sel = this.getEvent().getSelection();
         final CPot newEl = CPot.createPot(this.first.cloneCElement(false),
                 this.exp);

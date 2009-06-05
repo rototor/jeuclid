@@ -31,7 +31,7 @@ public abstract class CC_Base extends C_Changer {
      * The standardmethod with a Hook for createCombination
      */
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement p = this.getParent();
         final CElement cE1 = this.getFirst();
         final CElement cE2 = this.getSec();
@@ -98,7 +98,7 @@ public abstract class CC_Base extends C_Changer {
         final CD_Event e = new CD_Event(el);
         final C_Changer c = DefHandler.getInst().getChanger(e);
         if (doIt && c.canDo()) {
-            return c.doIt();
+            return c.doIt(null);
         } else {
             return el;
         }

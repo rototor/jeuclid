@@ -35,13 +35,13 @@ import cTree.cDefence.DefHandler;
 public abstract class CSplitterBase extends C_Changer {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CFences cF = CFences.createFenced(this.split());
         final CElement parent = this.getEvent().getParent();
         parent.replaceChild(cF, this.getEvent().getFirst(), true, true);
         final CD_Event e = new CD_Event(cF);
         final C_Changer c = DefHandler.getInst().getChanger(e);
-        return c.doIt();
+        return c.doIt(null);
     }
 
     @Override

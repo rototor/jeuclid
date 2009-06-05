@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
-import cTree.CMessage;
 import cTree.CRolle;
 import cTree.CTimesRow;
 import cTree.adapter.C_Event;
+import cTree.cDefence.CD_Event;
 
 public class CA_Frac_InProdukt extends CA_Base {
 
@@ -37,7 +37,7 @@ public class CA_Frac_InProdukt extends CA_Base {
     private ArrayList<CElement> zp = new ArrayList<CElement>();
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final ArrayList<CElement> els1 = new ArrayList<CElement>();
         boolean first = true;
 
@@ -55,7 +55,7 @@ public class CA_Frac_InProdukt extends CA_Base {
         final CTimesRow cTR = CTimesRow.createRow(els1);
         cTR.correctInternalPraefixesAndRolle();
         final CElement cEl = CFences.condCreateFenced(cTR,
-                new CMessage(false));
+                new CD_Event(false));
         this.cFrac.getParent().replaceChild(cEl, this.cFrac, true, true);
         return cEl;
     }

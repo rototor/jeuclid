@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
-import cTree.CMessage;
 import cTree.CPlusRow;
 import cTree.CRolle;
+import cTree.cDefence.CD_Event;
 
 public class CA_Frac_InSumme extends CA_Base {
 
@@ -36,7 +36,7 @@ public class CA_Frac_InSumme extends CA_Base {
     private ArrayList<CElement> zs = new ArrayList<CElement>();
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final ArrayList<CElement> fracs = new ArrayList<CElement>();
         for (final CElement z : this.zs) {
             final CFrac frac = CFrac.createFraction(z.cloneCElement(false),
@@ -47,7 +47,7 @@ public class CA_Frac_InSumme extends CA_Base {
         final CPlusRow cPR = CPlusRow.createRow(fracs);
         cPR.correctInternalPraefixesAndRolle();
         final CElement cEl = CFences.condCreateFenced(cPR,
-                new CMessage(false));
+                new CD_Event(false));
         this.cFrac.getParent().replaceChild(cEl, this.cFrac, true, true);
         return cEl;
     }

@@ -18,9 +18,9 @@ package cTree.cCombine;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMessage;
 import cTree.CPlusTerm;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktFencedPlusFencedPlus extends CC_Base {
 
@@ -34,11 +34,11 @@ public class CC_PunktFencedPlusFencedPlus extends CC_Base {
         System.out.println("Multipliziere PlusTerm mit PlusTerm");
         final CElement inCE1 = ((CPlusTerm) cE1.getFirstChild()).getValue()
                 .cloneCElement(false);
-        final CElement newCE1 = CFences.condCreateFenced(inCE1, new CMessage(
+        final CElement newCE1 = CFences.condCreateFenced(inCE1, new CD_Event(
                 false));
         final CElement inCE2 = ((CPlusTerm) cE2.getFirstChild()).getValue()
                 .cloneCElement(false);
-        final CElement newCE2 = CFences.condCreateFenced(inCE2, new CMessage(
+        final CElement newCE2 = CFences.condCreateFenced(inCE2, new CD_Event(
                 false));
         final CTimesRow newChild = CTimesRow.createRow(CTimesRow.createList(
                 newCE1, newCE2));

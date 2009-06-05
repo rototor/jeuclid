@@ -21,11 +21,12 @@ import java.util.ArrayList;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.adapter.C_Event;
+import cTree.cDefence.CD_Event;
 
 public class CA_Klammern extends CA_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final ArrayList<CElement> els = this.getEvent().getSelection();
         return els.get(0).getParent().fence(els);
     }

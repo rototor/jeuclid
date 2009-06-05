@@ -18,6 +18,7 @@ package cTree.cAlter;
 
 import cTree.CElement;
 import cTree.adapter.C_Changer;
+import cTree.cDefence.CD_Event;
 import cTree.cExtract.ExtractHandler;
 
 public class CA_Extract extends CA_Base {
@@ -25,8 +26,8 @@ public class CA_Extract extends CA_Base {
     private C_Changer extracter = null;
 
     @Override
-    public CElement doIt() {
-        return this.extracter.doIt();
+    public CElement doIt(final CD_Event message) {
+        return this.extracter.doIt(null);
     }
 
     @Override

@@ -18,10 +18,10 @@ package cTree.cCombine;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMessage;
 import cTree.CNum;
 import cTree.CPlusTerm;
 import cTree.CPot;
+import cTree.cDefence.CD_Event;
 
 public class CC_PotFencedPlusrowNum extends CC_Base {
 
@@ -45,7 +45,7 @@ public class CC_PotFencedPlusrowNum extends CC_Base {
         final CNum cExp = (CNum) cP.getExponent();
         final CElement newEl = cEl.cloneCElement(false);
         final CElement newExp = cExp.cloneCElement(false);
-        final CElement nBase = CFences.condCreateFenced(newEl, new CMessage(
+        final CElement nBase = CFences.condCreateFenced(newEl, new CD_Event(
                 false));
         final CElement nPot = CPot.createPot(nBase, newExp);
         return nPot;

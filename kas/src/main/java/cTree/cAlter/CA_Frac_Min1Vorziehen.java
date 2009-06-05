@@ -21,6 +21,7 @@ import cTree.CFences;
 import cTree.CFrac;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
+import cTree.cDefence.CD_Event;
 
 public class CA_Frac_Min1Vorziehen extends CA_Base {
 
@@ -31,7 +32,7 @@ public class CA_Frac_Min1Vorziehen extends CA_Base {
     private CElement n;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement newNum;
         final CElement newFrac;
         if (this.z instanceof CMinTerm) {

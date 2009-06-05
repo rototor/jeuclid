@@ -27,11 +27,12 @@ import cTree.CTimesRow;
 public class CD_1PunktPunkt extends CD_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
+        // Situationen: a*(x*y)*b -> a*x*y*b
         System.out.println("Do the defence work strich strich");
-        final CFences f = this.getFences();
-        final CElement p = this.getParent();
-        final CElement content = this.getInside();
+        final CFences f = this.getFences(); // (x*y)
+        final CElement p = this.getParent(); // a*(x*y)*b
+        final CElement content = this.getInside(); // x*y
         if (this.canDo()) {
             final boolean aussenDiv = (f.hasExtDiv());
             final Element op = (f.getExtPraefix() != null) ? (Element) f
@@ -44,7 +45,7 @@ public class CD_1PunktPunkt extends CD_Base {
                     aussenDiv, op)).getMemberList());
             rows.addAll(((CTimesRow) p).endFrom(f));
 
-            // Verschmelzen der Rows zu einer
+            // Verschmelzen der Rows zu einer a*x*y*b
             final CTimesRow newParent = CTimesRow.createRow(rows);
             newParent.correctInternalPraefixesAndRolle();
 
@@ -52,6 +53,9 @@ public class CD_1PunktPunkt extends CD_Base {
             final CElement gParent = p.getParent();
             if (gParent instanceof CFences) {
                 final CElement ggParent = gParent.getParent();
+                System.out.println(gParent.toString());
+                System.out.println(ggParent.toString());
+
                 final CElement newF = CFences.createFenced(newParent);
                 return ggParent.replaceChild(newF, gParent, true, true);
             } else {

@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMessage;
 import cTree.CNum;
 import cTree.CPot;
 import cTree.CTimesRow;
@@ -39,7 +38,7 @@ public class CA_PotA_Times extends CA_Base {
     private int exp;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement first = this.getEvent().getFirst();
         final ArrayList<CElement> list = new ArrayList<CElement>();
         for (int i = 0; i < this.exp; i++) {
@@ -47,15 +46,15 @@ public class CA_PotA_Times extends CA_Base {
         }
         final CTimesRow cTR = CTimesRow.createRow(list);
         cTR.correctInternalPraefixesAndRolle();
-        final CMessage didIt = new CMessage(false);
+        final CD_Event didIt = new CD_Event(false);
         final CElement newEl = CFences.condCreateFenced(cTR, didIt);
         final CElement parent = first.getParent();
         parent.replaceChild(newEl, first, true, true);
         System.out.println("DidIt " + didIt);
-        if (didIt.isMessage()) {
+        if (didIt.isDoDef()) {
             final CD_Event e = new CD_Event(newEl);
             final C_Changer c = DefHandler.getInst().getChanger(e);
-            c.doIt();
+            c.doIt(null);
         }
         return newEl;
     }

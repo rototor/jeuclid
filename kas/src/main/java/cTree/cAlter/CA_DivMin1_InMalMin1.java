@@ -18,13 +18,14 @@ package cTree.cAlter;
 
 import cTree.CElement;
 import cTree.CFences;
+import cTree.cDefence.CD_Event;
 
 public class CA_DivMin1_InMalMin1 extends CA_Base {
 
     private CFences cF;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         this.cF.toggleTimesDiv(false);
         return this.cF;
     }

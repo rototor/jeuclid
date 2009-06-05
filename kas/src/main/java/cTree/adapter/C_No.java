@@ -17,6 +17,7 @@
 package cTree.adapter;
 
 import cTree.CElement;
+import cTree.cDefence.CD_Event;
 
 public class C_No extends C_Changer {
 
@@ -36,7 +37,7 @@ public class C_No extends C_Changer {
      * Do nothing
      */
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         if (this.getEvent() != null) {
             return this.getEvent().getFirst();
         }

@@ -24,6 +24,7 @@ import cTree.CMinTerm;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
 import cTree.adapter.C_Event;
+import cTree.cDefence.CD_Event;
 
 public class CA_PlusRow_MinRaus extends CA_Base {
 
@@ -32,7 +33,7 @@ public class CA_PlusRow_MinRaus extends CA_Base {
     private ArrayList<CElement> members;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement parent = this.cP.getParent();
         this.members = this.cP.getMemberList();
         final ArrayList<CElement> newM = new ArrayList<CElement>();

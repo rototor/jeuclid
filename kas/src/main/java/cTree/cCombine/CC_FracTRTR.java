@@ -22,6 +22,7 @@ import cTree.CElement;
 import cTree.CFrac;
 import cTree.CTimesRow;
 import cTree.adapter.C_Event;
+import cTree.cDefence.CD_Event;
 
 public class CC_FracTRTR extends CC_Base {
 
@@ -59,7 +60,7 @@ public class CC_FracTRTR extends CC_Base {
     }
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement parent = this.getParent();
         final CElement cE1 = this.getFirst();
         final CElement cE2 = this.getSec();

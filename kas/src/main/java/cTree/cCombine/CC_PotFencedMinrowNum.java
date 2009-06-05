@@ -18,10 +18,10 @@ package cTree.cCombine;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMessage;
 import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CPot;
+import cTree.cDefence.CD_Event;
 
 public class CC_PotFencedMinrowNum extends CC_Base {
 
@@ -46,7 +46,7 @@ public class CC_PotFencedMinrowNum extends CC_Base {
         final int exp = cExp.getValue();
         final CElement newEl = cEl.cloneCElement(false);
         final CElement newExp = cExp.cloneCElement(false);
-        final CElement nBase = CFences.condCreateFenced(newEl, new CMessage(
+        final CElement nBase = CFences.condCreateFenced(newEl, new CD_Event(
                 false));
         CElement nPot = CPot.createPot(nBase, newExp);
         if (exp % 2 == 1) {

@@ -21,6 +21,7 @@ import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CA_Min1_InProdInMinTerm extends CA_Base {
 
@@ -29,7 +30,7 @@ public class CA_Min1_InProdInMinTerm extends CA_Base {
     private CMinTerm oldMinTerm;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement newChild = CTimesRow
                 .foldOne((CTimesRow) this.oldTimesRow.cloneCElement(false));
         if (newChild instanceof CTimesRow

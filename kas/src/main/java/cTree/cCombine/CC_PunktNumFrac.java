@@ -19,8 +19,8 @@ package cTree.cCombine;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
-import cTree.CMessage;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktNumFrac extends CC_Base {
 
@@ -28,9 +28,9 @@ public class CC_PunktNumFrac extends CC_Base {
 
     private CElement z2;
 
-    private final CMessage z1_TryDefence = new CMessage(false);
+    private final CD_Event z1_TryDefence = new CD_Event(false);
 
-    private final CMessage z2_TryDefence = new CMessage(false);
+    private final CD_Event z2_TryDefence = new CD_Event(false);
 
     private boolean gleicheDiv;
 
@@ -79,8 +79,8 @@ public class CC_PunktNumFrac extends CC_Base {
 
     @Override
     protected void clean() {
-        this.condCleanOne(this.z1, this.z1_TryDefence.isMessage());
-        this.condCleanOne(this.z2, this.z2_TryDefence.isMessage());
+        this.condCleanOne(this.z1, this.z1_TryDefence.isDoDef());
+        this.condCleanOne(this.z2, this.z2_TryDefence.isDoDef());
     }
 
 }

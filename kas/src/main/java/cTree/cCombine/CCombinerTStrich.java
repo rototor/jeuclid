@@ -31,7 +31,7 @@ public class CCombinerTStrich extends CCombinerTyp {
     }
 
     @Override
-    public HashMap<CType, CCombiner1> getOp1Comb() {
+    protected HashMap<CType, CCombiner1> getOp1Comb() {
         if (this.op1Combiner == null) {
             this.op1Combiner = new HashMap<CType, CCombiner1>();
             this.op1Combiner.put(CType.FENCES, new CCombiner1StrichFences());

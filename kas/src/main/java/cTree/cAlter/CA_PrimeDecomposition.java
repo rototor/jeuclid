@@ -26,7 +26,7 @@ public class CA_PrimeDecomposition extends CA_Base {
     }
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         CElement old = this.getEvent().getFirst();
         try {
             int n = ((CNum) old).getValue();
@@ -74,7 +74,7 @@ public class CA_PrimeDecomposition extends CA_Base {
                 parent.replaceChild(cF, old, true, true);
                 final CD_Event e = new CD_Event(cF);
                 final C_Changer c = DefHandler.getInst().getChanger(e);
-                old = c.doIt();
+                old = c.doIt(null);
             }
 
         } catch (final NumberFormatException e) {

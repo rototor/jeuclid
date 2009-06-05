@@ -18,10 +18,10 @@ package cTree.cCombine;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMessage;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
 import cTree.CPlusTerm;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichFencedPlusFencedMin extends CC_Base {
 
@@ -35,11 +35,11 @@ public class CC_StrichFencedPlusFencedMin extends CC_Base {
         System.out.println("Addiere zwei geklammerte PM");
         final CElement inCE1 = ((CPlusTerm) cE1.getFirstChild()).getValue()
                 .cloneCElement(false);
-        final CElement newCE1 = CFences.condCreateFenced(inCE1, new CMessage(
+        final CElement newCE1 = CFences.condCreateFenced(inCE1, new CD_Event(
                 false));
         final CElement inCE2 = ((CMinTerm) cE2.getFirstChild()).getValue()
                 .cloneCElement(true);
-        final CElement newCE2 = CFences.condCreateFenced(inCE2, new CMessage(
+        final CElement newCE2 = CFences.condCreateFenced(inCE2, new CD_Event(
                 false));
         final CFences newChild = CFences.createFenced(CPlusRow
                 .createRow(CPlusRow.createList(newCE1, newCE2)));

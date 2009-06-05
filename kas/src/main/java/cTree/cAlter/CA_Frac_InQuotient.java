@@ -19,7 +19,6 @@ package cTree.cAlter;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
-import cTree.CMessage;
 import cTree.CRolle;
 import cTree.CTimesRow;
 import cTree.adapter.C_Changer;
@@ -35,9 +34,9 @@ public class CA_Frac_InQuotient extends CA_Base {
     private CElement n;
 
     @Override
-    public CElement doIt() {
-        final CMessage aroundFirst = new CMessage(false);
-        final CMessage aroundSec = new CMessage(false);
+    public CElement doIt(final CD_Event message) {
+        final CD_Event aroundFirst = new CD_Event(false);
+        final CD_Event aroundSec = new CD_Event(false);
         final CElement newZ = CFences.condCreateFenced(this.z
                 .cloneCElement(true), aroundFirst);
         final CElement newN = CFences.condCreateFenced(this.n
@@ -46,22 +45,26 @@ public class CA_Frac_InQuotient extends CA_Base {
                 newN));
         cTR.correctInternalPraefixesAndRolle();
         cTR.getFirstChild().getNextSibling().setPraefix(":");
-        final CMessage aroundAll = new CMessage(false);
-        CElement cEl = CFences.condCreateFenced(cTR, aroundAll);
+        CElement cEl = CFences.condCreateFenced(cTR, message);
         cEl = this.cFrac.getParent()
                 .replaceChild(cEl, this.cFrac, true, true);
-        if (aroundAll.isMessage()) {
-            this.condCleanOne(cEl.getFirstChild().getFirstChild()
-                    .getNextSibling(), aroundSec.isMessage());
-            this.condCleanOne(cEl.getFirstChild().getFirstChild(),
-                    aroundFirst.isMessage());
-        } else {
-            this.condCleanOne(cEl.getFirstChild().getNextSibling(), aroundSec
-                    .isMessage());
-            this.condCleanOne(cEl.getFirstChild(), aroundFirst.isMessage());
-        }
-        this.condCleanOne(cEl, aroundFirst.isMessage());
+        CElement toCorrect = (cEl instanceof CFences) ? ((CFences) cEl)
+                .getInnen() : cEl;
+        toCorrect = this.condCleanOne(toCorrect, aroundFirst.isDoDef());
+        // this.condCleanOne(cEl.getFirstChild().getFirstChild()
+        // .getNextSibling(), aroundSec.isMessage());
+        // this.condCleanOne(cEl.getFirstChild().getFirstChild(), aroundFirst
+        // .isMessage());
         return cEl;
+    }
+
+    protected CElement condCleanOne(final CElement el, final boolean doIt) {
+        final CD_Event e = new CD_Event(el);
+        final C_Changer c = DefHandler.getInst().getChanger(e);
+        if (doIt && c.canDo()) {
+            return c.doIt(null);
+        }
+        return el;
     }
 
     @Override
@@ -82,13 +85,5 @@ public class CA_Frac_InQuotient extends CA_Base {
             }
         }
         return false;
-    }
-
-    protected void condCleanOne(final CElement el, final boolean doIt) {
-        final CD_Event e = new CD_Event(el);
-        final C_Changer c = DefHandler.getInst().getChanger(e);
-        if (doIt && c.canDo()) {
-            c.doIt();
-        }
     }
 }

@@ -23,7 +23,7 @@ import cTree.CRolle;
 public class CD_1StrichMinrow extends CD_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         System.out.println("Do the defence work strich strich");
         final CFences f = this.getFences();
         final CElement p = this.getParent();

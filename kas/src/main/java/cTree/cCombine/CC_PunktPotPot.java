@@ -23,6 +23,7 @@ import cTree.CNum;
 import cTree.CPot;
 import cTree.CRolle;
 import cTree.adapter.EElementHelper;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktPotPot extends CC_Base {
 
@@ -104,7 +105,7 @@ public class CC_PunktPotPot extends CC_Base {
     }
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement parent = this.getParent();
         final CElement cE1 = this.getFirst();
         final CElement cE2 = cE1.getNextSibling();

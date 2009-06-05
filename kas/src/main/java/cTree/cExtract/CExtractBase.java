@@ -20,11 +20,12 @@ import cTree.CElement;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.adapter.C_No;
+import cTree.cDefence.CD_Event;
 
 public class CExtractBase extends C_Changer {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final boolean replace = this.justAll(this.getEvent().getSelection());
         final boolean hasMinus = this.getEvent().getFirst().hasExtMinus();
         final CElement newChild = this.createExtraction();

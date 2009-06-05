@@ -22,6 +22,7 @@ import cTree.CFrac;
 import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.CPlusRow;
+import cTree.cDefence.CD_Event;
 
 public class CA_GemZ_InSum extends CA_Base {
 
@@ -38,7 +39,7 @@ public class CA_GemZ_InSum extends CA_Base {
     private int nz;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CPlusRow cP = CPlusRow.createRow(CPlusRow.createList(this.w,
                 this.f));
         cP.correctInternalPraefixesAndRolle();

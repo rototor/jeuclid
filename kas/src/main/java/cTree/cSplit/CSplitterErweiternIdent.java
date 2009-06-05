@@ -20,7 +20,6 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CFrac;
 import cTree.CIdent;
-import cTree.CMessage;
 import cTree.CTimesRow;
 import cTree.adapter.C_Changer;
 import cTree.cDefence.CD_Event;
@@ -32,11 +31,11 @@ public class CSplitterErweiternIdent extends CSplitterBase {
 
     private CElement oldNum;
 
-    private final CMessage oldNumMes = new CMessage(false);
+    private final CD_Event oldNumMes = new CD_Event(false);
 
     private CElement oldDen;
 
-    private final CMessage oldDenMes = new CMessage(false);
+    private final CD_Event oldDenMes = new CD_Event(false);
 
     private CElement newEl;
 
@@ -76,7 +75,7 @@ public class CSplitterErweiternIdent extends CSplitterBase {
         final CD_Event e = new CD_Event(el);
         final C_Changer c = DefHandler.getInst().getChanger(e);
         if (doIt && c.canDo()) {
-            return c.doIt();
+            return c.doIt(null);
         } else {
             return el;
         }

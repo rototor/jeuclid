@@ -19,6 +19,7 @@ package cTree.cAlter;
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.CNum;
+import cTree.cDefence.CD_Event;
 
 public class CA_Frac_KuerzenGanz extends CA_Base {
 
@@ -27,7 +28,7 @@ public class CA_Frac_KuerzenGanz extends CA_Base {
     private CElement n;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CFrac cFrac = (CFrac) this.getEvent().getFirst();
         int zVal = ((CNum) this.z).getValue();
         int nVal = ((CNum) this.n).getValue();

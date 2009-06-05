@@ -19,11 +19,12 @@ package cTree.cAlter;
 import cTree.CElement;
 import cTree.CFrac;
 import cTree.CNum;
+import cTree.cDefence.CD_Event;
 
 public class CA_DivA_Frac extends CA_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement old = this.getEvent().getFirst();
         final CElement newNum = CNum.createNum(old.getElement(), "1");
         final CElement newDen = old.cloneCElement(false);

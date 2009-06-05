@@ -21,7 +21,7 @@ import cTree.CElement;
 public class CD_1PunktEasy extends CD_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         System.out.println("Defence punkt easy");
         final CElement newChild = this.getInside().cloneCElement(false);
         this.getParent().replaceChild(newChild, this.getFences(), true, true);

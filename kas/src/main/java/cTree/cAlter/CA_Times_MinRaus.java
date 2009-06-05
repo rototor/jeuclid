@@ -20,9 +20,9 @@ import java.util.ArrayList;
 
 import cTree.CElement;
 import cTree.CFences;
-import cTree.CMessage;
 import cTree.CMinTerm;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CA_Times_MinRaus extends CA_Base {
 
@@ -33,7 +33,7 @@ public class CA_Times_MinRaus extends CA_Base {
     private ArrayList<CElement> members;
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         int counter = 0;
 
         final ArrayList<CElement> newM = new ArrayList<CElement>();
@@ -44,7 +44,7 @@ public class CA_Times_MinRaus extends CA_Base {
                 final CFences cF = (CFences) member;
                 final CMinTerm cMin = (CMinTerm) cF.getInnen();
                 final CElement newArg = cMin.getValue().cloneCElement(false);
-                final CMessage didIt = new CMessage(false);
+                final CD_Event didIt = new CD_Event(false);
                 final CElement newMember = CFences.condCreateFenced(newArg,
                         didIt);
                 newMember.setPraefix(cF.getPraefixAsString());

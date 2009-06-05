@@ -20,11 +20,12 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CA_Min1_InProdInSum extends CA_Base {
 
     @Override
-    public CElement doIt() {
+    public CElement doIt(final CD_Event message) {
         final CElement old = this.getEvent().getFirst();
         final CTimesRow oldTimesRow = (CTimesRow) old.getParent();
         final CElement newChild = CTimesRow.foldOne((CTimesRow) oldTimesRow
