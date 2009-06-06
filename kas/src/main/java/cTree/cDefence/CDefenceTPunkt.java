@@ -29,13 +29,13 @@ public class CDefenceTPunkt extends CDefenceTyp {
     protected HashMap<CType, CD_Base> getOp1Def() {
         if (this.op1Defencer == null) {
             super.getOp1Def();
-            this.op1Defencer.put(CType.FENCES, new CD_1PunktEasy());
-            this.op1Defencer.put(CType.FRAC, new CD_1PunktEasy());
-            this.op1Defencer.put(CType.MIXEDN, new CD_1PunktEasy());
-            this.op1Defencer.put(CType.IDENT, new CD_1PunktEasy());
-            this.op1Defencer.put(CType.NUM, new CD_1PunktEasy());
-            this.op1Defencer.put(CType.POT, new CD_1PunktEasy());
-            this.op1Defencer.put(CType.SQRT, new CD_1PunktEasy());
+            this.op1Defencer.put(CType.FENCES, new CD_1Easy());
+            this.op1Defencer.put(CType.FRAC, new CD_1Easy());
+            this.op1Defencer.put(CType.MIXEDN, new CD_1Easy());
+            this.op1Defencer.put(CType.IDENT, new CD_1Easy());
+            this.op1Defencer.put(CType.NUM, new CD_1Easy());
+            this.op1Defencer.put(CType.POT, new CD_1Easy());
+            this.op1Defencer.put(CType.SQRT, new CD_1Easy());
             this.op1Defencer.put(CType.PLUSTERM, new CD_1StrichPlusterm());
             this.op1Defencer.put(CType.TIMESROW, new CD_1PunktPunkt());
         }

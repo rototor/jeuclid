@@ -29,10 +29,10 @@ public class CDefenceTPot extends CDefenceTyp {
     protected HashMap<CType, CD_Base> getOp1Def() {
         if (this.op1Defencer == null) {
             super.getOp1Def();
-            this.op1Defencer.put(CType.FENCES, new CD_1PunktEasy());
-            this.op1Defencer.put(CType.IDENT, new CD_1PunktEasy());
-            this.op1Defencer.put(CType.NUM, new CD_1PunktEasy());
-            this.op1Defencer.put(CType.SQRT, new CD_1PunktEasy());
+            this.op1Defencer.put(CType.FENCES, new CD_1Easy());
+            this.op1Defencer.put(CType.IDENT, new CD_1Easy());
+            this.op1Defencer.put(CType.NUM, new CD_1Easy());
+            this.op1Defencer.put(CType.SQRT, new CD_1Easy());
         }
         return this.op1Defencer;
     }

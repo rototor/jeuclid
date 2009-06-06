@@ -29,15 +29,14 @@ public abstract class CD_Base extends C_Changer {
         final CFences f = this.getFences();
         final CElement content = this.getInside();
         final boolean replace = this.replaceP(p, f);
-        final CElement insertion = this.createInsertion(f, content);
-        this.replaceFoPDef(p, insertion, f, replace);
+        CElement insertion = this.createInsertion(f, content);
+        insertion = this.replaceFoPDef(p, insertion, f, replace);
         return insertion;
     }
 
     protected CElement createInsertion(final CElement fences,
             final CElement content) {
-        System.out.println("Dont touch fences");
-        return content.cloneCElement(false);
+        return fences;
     }
 
     protected boolean replaceP(final CElement parent, final CElement fences) {
