@@ -18,7 +18,6 @@ package cTree.cCombine;
 
 import java.util.ArrayList;
 
-import cTree.CElement;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.adapter.C_No;
@@ -26,8 +25,6 @@ import cTree.adapter.C_No;
 public class CC_PotFencesNum extends CC_Base {
 
     private ArrayList<CC_Base> combs;
-
-    private CC_Base comb;
 
     public CC_PotFencesNum() {
         super();
@@ -53,23 +50,5 @@ public class CC_PotFencesNum extends CC_Base {
             }
         }
         return new C_No(e);
-    }
-
-    @Override
-    public boolean canDo() {
-        for (final CC_Base testComb : this.getCombs()) {
-            if (testComb.canDo()) {
-                this.comb = testComb;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        System.out.println("Pot Fences and Num");
-        return this.comb.createComb(parent, cE1, cE2);
     }
 }

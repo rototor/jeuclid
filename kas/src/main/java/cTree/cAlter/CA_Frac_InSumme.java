@@ -46,8 +46,7 @@ public class CA_Frac_InSumme extends CA_Base {
         }
         final CPlusRow cPR = CPlusRow.createRow(fracs);
         cPR.correctInternalPraefixesAndRolle();
-        final CElement cEl = CFences.condCreateFenced(cPR,
-                new CD_Event(false));
+        final CElement cEl = CFences.condCreateFenced(cPR, message);
         this.cFrac.getParent().replaceChild(cEl, this.cFrac, true, true);
         return cEl;
     }

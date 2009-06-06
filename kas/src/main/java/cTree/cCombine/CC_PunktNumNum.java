@@ -22,6 +22,7 @@ import cTree.CElement;
 import cTree.CNum;
 import cTree.CRolle;
 import cTree.adapter.EElementHelper;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktNumNum extends CC_Base {
 
@@ -31,7 +32,7 @@ public class CC_PunktNumNum extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Multipliziere Zahlen");
         CElement newChild = null;
 

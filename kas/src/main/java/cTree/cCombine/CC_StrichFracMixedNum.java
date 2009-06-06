@@ -23,6 +23,7 @@ import cTree.CMinTerm;
 import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.CRolle;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichFracMixedNum extends CC_Base {
 
@@ -51,7 +52,7 @@ public class CC_StrichFracMixedNum extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Add Frac and MixedNum");
         if (this.cF.hasNumberValue()) {
             System.out.println("Add Frac and MixedNum NumberV");

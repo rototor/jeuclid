@@ -43,26 +43,52 @@ public class CA_Frac_InQuotient extends CA_Base {
                 .cloneCElement(true), aroundSec);
         final CTimesRow cTR = CTimesRow.createRow(CTimesRow.createList(newZ,
                 newN));
+        System.out.println("Fences " + aroundFirst.isDoDef() + " "
+                + aroundSec.isDoDef());
         cTR.correctInternalPraefixesAndRolle();
         cTR.getFirstChild().getNextSibling().setPraefix(":");
         CElement cEl = CFences.condCreateFenced(cTR, message);
         cEl = this.cFrac.getParent()
                 .replaceChild(cEl, this.cFrac, true, true);
-        CElement toCorrect = (cEl instanceof CFences) ? ((CFences) cEl)
+
+        // evtl Klammern entfernen auf Clones achten
+        CElement quotient = (cEl instanceof CFences) ? ((CFences) cEl)
                 .getInnen() : cEl;
-        toCorrect = this.condCleanOne(toCorrect, aroundFirst.isDoDef());
-        // this.condCleanOne(cEl.getFirstChild().getFirstChild()
-        // .getNextSibling(), aroundSec.isMessage());
-        // this.condCleanOne(cEl.getFirstChild().getFirstChild(), aroundFirst
-        // .isMessage());
-        return cEl;
+        CElement cE = quotient.getFirstChild().getNextSibling();
+        CElement newCE = this.condCleanOne(cE, aroundSec.isDoDef(), message);
+        System.out
+                .println("DoIt " + newCE.getCType() + " " + newCE.getText());
+        if (newCE instanceof CFences) {
+            quotient = ((CFences) newCE).getInnen();
+        } else if (newCE instanceof CTimesRow) {
+            quotient = newCE;
+        } else {
+            quotient = newCE.getParent();
+        }
+        System.out.println("Quotient " + quotient.getCType() + " "
+                + quotient.getText());
+        cE = quotient.getFirstChild();
+        newCE = this.condCleanOne(cE, aroundFirst.isDoDef(), message);
+        System.out.println("Message " + message.isDoDef());
+        newCE = newCE.getParent();
+        if (message.isDoDef()) {
+            newCE = newCE.getParent();
+        }
+        return newCE;
     }
 
-    protected CElement condCleanOne(final CElement el, final boolean doIt) {
+    protected CElement condCleanOne(final CElement el, final boolean doIt,
+            final CD_Event message) {
         final CD_Event e = new CD_Event(el);
-        final C_Changer c = DefHandler.getInst().getChanger(e);
-        if (doIt && c.canDo()) {
-            return c.doIt(null);
+        System.out.println("Cond clean 0 " + el.getCType() + " "
+                + el.getText());
+        if (doIt) {
+            System.out.println("Cond clean 1");
+            final C_Changer c = DefHandler.getInst().getChanger(e);
+            if (doIt && c.canDo()) {
+                System.out.println("Cond clean 2");
+                return c.doIt(message);
+            }
         }
         return el;
     }

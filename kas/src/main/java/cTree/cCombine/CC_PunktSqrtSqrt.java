@@ -22,12 +22,13 @@ import cTree.CElement;
 import cTree.CRolle;
 import cTree.CSqrt;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktSqrtSqrt extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Multipliziere Sqrts");
         if (cE1.hasExtDiv()) {
             System.out
@@ -35,8 +36,9 @@ public class CC_PunktSqrtSqrt extends CC_Base {
         }
         final ArrayList<CElement> radList = CSqrt.getRadikandList(CSqrt
                 .createRootList(cE1, cE2));
-        final CElement newChild = CSqrt.createSqrt(CTimesRow
-                .createRow(radList));
+        final CTimesRow cTR = CTimesRow.createRow(radList);
+        cTR.correctInternalPraefixesAndRolle();
+        final CElement newChild = CSqrt.createSqrt(cTR);
         if (cE1.getCRolle() != CRolle.FAKTOR1) {
             newChild.setCRolle(CRolle.FAKTORN1);
         }

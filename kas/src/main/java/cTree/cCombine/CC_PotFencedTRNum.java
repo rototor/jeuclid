@@ -22,6 +22,7 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CPot;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PotFencedTRNum extends CC_Base {
 
@@ -37,7 +38,7 @@ public class CC_PotFencedTRNum extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement potenz,
-            final CElement fences, final CElement expo) {
+            final CElement fences, final CElement expo, final CD_Event cDEvent) {
         System.out.println("(abc)^n nach a^n b^n c^n");
         final CFences cF = (CFences) fences;
         final CTimesRow basis = (CTimesRow) cF.getInnen();
@@ -57,6 +58,6 @@ public class CC_PotFencedTRNum extends CC_Base {
         }
         final CTimesRow newChild = CTimesRow.createRow(newList);
         newChild.correctInternalPraefixesAndRolle();
-        return CFences.createFenced(newChild);
+        return CFences.condCreateFenced(newChild, cDEvent);
     }
 }

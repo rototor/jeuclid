@@ -23,6 +23,7 @@ import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktIdentFences extends CC_Base {
 
@@ -32,7 +33,7 @@ public class CC_PunktIdentFences extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         if (cE2.getFirstChild() instanceof CPlusRow) {
             System.out
                     .println("Multipliziere Ident mit Klammer, die Summe enthält");
@@ -55,8 +56,7 @@ public class CC_PunktIdentFences extends CC_Base {
             final CTimesRow newTR = CTimesRow.createRow(CTimesRow.createList(
                     newFirstFactor, newSecondFactor));
             final CMinTerm newMinTerm = CMinTerm.createMinTerm(newTR);
-            final CFences newFences = CFences.createFenced(newMinTerm);
-            return newFences;
+            return CFences.condCreateFenced(newMinTerm, cDEvent);
         }
 
     }

@@ -52,7 +52,7 @@ public class CA_Frac_Min1Vorziehen extends CA_Base {
             return cF;
         } else {
             final CMinTerm minTerm = CMinTerm.createMinTerm(newFrac);
-            final CFences cF = CFences.createFenced(minTerm);
+            final CElement cF = CFences.condCreateFenced(minTerm, message);
             this.cFrac.getParent().replaceChild(cF, this.cFrac, true, true);
             return cF;
         }

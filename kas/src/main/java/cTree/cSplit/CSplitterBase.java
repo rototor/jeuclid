@@ -36,12 +36,18 @@ public abstract class CSplitterBase extends C_Changer {
 
     @Override
     public CElement doIt(final CD_Event message) {
-        final CFences cF = CFences.createFenced(this.split());
+        final CElement cF = CFences.condCreateFenced(this.split(), message);
+        System.out.println("CSplitterBase message " + message.isDoDef());
         final CElement parent = this.getEvent().getParent();
         parent.replaceChild(cF, this.getEvent().getFirst(), true, true);
-        final CD_Event e = new CD_Event(cF);
-        final C_Changer c = DefHandler.getInst().getChanger(e);
-        return c.doIt(null);
+        if (message.isDoDef()) {
+            message.setDoDef(false);
+            final CD_Event e = new CD_Event(cF);
+            final C_Changer c = DefHandler.getInst().getChanger(e);
+            return c.doIt(null);
+        } else {
+            return cF;
+        }
     }
 
     @Override

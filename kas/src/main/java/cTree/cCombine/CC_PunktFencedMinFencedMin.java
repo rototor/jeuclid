@@ -30,7 +30,7 @@ public class CC_PunktFencedMinFencedMin extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Multipliziere zwei geklammerte MinTerme");
         final CElement inCE1 = ((CMinTerm) cE1.getFirstChild()).getValue()
                 .cloneCElement(false);
@@ -40,10 +40,10 @@ public class CC_PunktFencedMinFencedMin extends CC_Base {
                 .cloneCElement(false);
         final CElement newCE2 = CFences.condCreateFenced(inCE2, new CD_Event(
                 false));
-
-        final CFences newChild = CFences.createFenced(CTimesRow
-                .createRow(CTimesRow.createList(newCE1, newCE2)));
-        ((CTimesRow) newChild.getInnen()).correctInternalPraefixesAndRolle();
+        final CTimesRow cTR = CTimesRow.createRow(CTimesRow.createList(
+                newCE1, newCE2));
+        cTR.correctInternalPraefixesAndRolle();
+        final CElement newChild = CFences.condCreateFenced(cTR, cDEvent);
         return newChild;
     }
 

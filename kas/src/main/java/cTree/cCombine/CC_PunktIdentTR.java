@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import cTree.CElement;
 import cTree.CRow;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktIdentTR extends CC_Base {
 
@@ -28,7 +29,7 @@ public class CC_PunktIdentTR extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Multipliziere Ident TR");
         // a*|b*c| -> |a*b*c| und +-*a*|b*c| -> +-*|a*b*c| aber nicht :a*|b*c|
         final CElement faktor1 = cE1.cloneCElement(false); // parent.cloneChild(cE1,

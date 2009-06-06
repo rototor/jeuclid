@@ -30,7 +30,7 @@ public class CC_StrichFencedMinFencedMin extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Addiere zwei geklammerte MinTerme");
         final CElement inCE1 = cE1.getFirstChild().cloneCElement(false);
         final CElement newCE1 = CFences.condCreateFenced(inCE1, new CD_Event(
@@ -42,12 +42,19 @@ public class CC_StrichFencedMinFencedMin extends CC_Base {
         if (!cE2.hasExtMinus()) {
             newCE2.setPraefix("-");
         }
-        final CFences newChild = CFences.createFenced(CPlusRow
-                .createRow(CPlusRow.createList(newCE1, newCE2)));
-        ((CPlusRow) newChild.getInnen()).correctInternalPraefixesAndRolle();
+        final CPlusRow cPR = CPlusRow.createRow(CPlusRow.createList(newCE1,
+                newCE2));
+        cPR.correctInternalPraefixesAndRolle();
+        final CElement newChild = CFences.condCreateFenced(cPR, cDEvent);
         if (cE1.hasExtMinus()) {
-            ((CPlusRow) newChild.getInnen()).getFirstChild().getNextSibling()
-                    .togglePlusMinus(false);
+            if (cDEvent.isDoDef()) {
+                final CFences cF = (CFences) newChild;
+                ((CPlusRow) cF.getInnen()).getFirstChild().getNextSibling()
+                        .togglePlusMinus(false);
+            } else {
+                newChild.getFirstChild().getNextSibling().togglePlusMinus(
+                        false);
+            }
         }
         return newChild;
     }

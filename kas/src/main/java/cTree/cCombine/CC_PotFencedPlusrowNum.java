@@ -37,7 +37,7 @@ public class CC_PotFencedPlusrowNum extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent,
-            final CElement basis, final CElement expo) {
+            final CElement basis, final CElement expo, CD_Event cDEvent) {
         final CPot cP = (CPot) parent;
         final CFences cF = (CFences) cP.getBasis();
         final CPlusTerm cM = (CPlusTerm) cF.getInnen();

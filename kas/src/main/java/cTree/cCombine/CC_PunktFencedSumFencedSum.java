@@ -25,6 +25,7 @@ import cTree.CPlusRow;
 import cTree.CRolle;
 import cTree.CTimesRow;
 import cTree.adapter.EElementHelper;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktFencedSumFencedSum extends CC_Base {
 
@@ -34,7 +35,7 @@ public class CC_PunktFencedSumFencedSum extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Multipliziere zwei Summen");
         final ArrayList<CElement> oldAddList1 = ((CPlusRow) cE1
                 .getFirstChild()).getMemberList();
@@ -83,9 +84,7 @@ public class CC_PunktFencedSumFencedSum extends CC_Base {
         }
         final CPlusRow newSum = CPlusRow.createRow(newAddList);
         newSum.correctInternalPraefixesAndRolle();
-        final CFences newChild = CFences.createFenced(newSum);
-        ((CPlusRow) newChild.getInnen()).correctInternalPraefixesAndRolle();
-        return newChild;
+        return CFences.condCreateFenced(newSum, cDEvent);
     }
 
     @Override

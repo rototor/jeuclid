@@ -51,7 +51,7 @@ public class CC_PunktFracFrac extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Multipliziere Brüche");
         final boolean zuerstDiv = cE1.hasExtDiv();
         final boolean dannDiv = cE2.hasExtDiv();

@@ -21,12 +21,13 @@ import cTree.CIdent;
 import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichTRIdent extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cTR,
-            final CElement cIdent) {
+            final CElement cIdent, CD_Event cDEvent) {
         System.out.println("Add TR and ID ohne 0 und 1");
         final int koeff = ((CTimesRow) cTR).getKoeffAsBetragFromMonom()
                 .getValue();// Vorsicht! Fehlbedienung möglich. Repeller

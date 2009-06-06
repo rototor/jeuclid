@@ -36,10 +36,19 @@ public abstract class CC_Base extends C_Changer {
         final CElement cE1 = this.getFirst();
         final CElement cE2 = this.getSec();
         final boolean replace = this.justTwo(cE1, cE2);
-        final CElement newChild = this.createComb(p, cE1, cE2);
+        final CD_Event cDEvent = new CD_Event(false);
+        final CElement newChild = this.createComb(p, cE1, cE2, cDEvent);
         this.calcNum(newChild);
         this.calcMixed(newChild);
-        return this.insertOrReplace(p, newChild, cE1, cE2, replace);
+        CElement result = this
+                .insertOrReplace(p, newChild, cE1, cE2, replace);
+        if (cDEvent.isDoDef()) {
+            System.out.println("CC_Base doDef");
+            cDEvent.setCElement(result);
+            result = DefHandler.getInst().getChanger(cDEvent).doIt(
+                    new CD_Event(false));
+        }
+        return result;
     }
 
     private void calcNum(final CElement newChild) {
@@ -72,10 +81,12 @@ public abstract class CC_Base extends C_Changer {
      * @param parent
      * @param cE1
      * @param cE2
+     * @param cDEvent
+     *            TODO
      * @return the newly created Element
      */
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         return cE1;
     }
 

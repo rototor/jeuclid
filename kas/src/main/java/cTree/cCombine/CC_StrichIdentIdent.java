@@ -21,6 +21,7 @@ import cTree.CIdent;
 import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichIdentIdent extends CC_Base {
 
@@ -40,7 +41,7 @@ public class CC_StrichIdentIdent extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Add Ident and Ident");
         CElement newChild = null;
         if (cE1.getCRolle() == CRolle.SUMMAND1) {

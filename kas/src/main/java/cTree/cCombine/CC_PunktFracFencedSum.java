@@ -22,22 +22,22 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktFracFencedSum extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement oldSumme,
-            final CElement cE1, final CElement cE2) {
+            final CElement cE1, final CElement cE2, final CD_Event cDEvent) {
         System.out
                 .println("Multipliziere Num mit Klammer, die Summe enthält");
         final ArrayList<CElement> oldAddendList = ((CPlusRow) cE2
                 .getFirstChild()).getMemberList();
         final ArrayList<CElement> newAddendList = CTimesRow.map(cE1,
                 oldAddendList);
-        final CFences newChild = CFences.createFenced(CPlusRow
-                .createRow(newAddendList));
-        ((CPlusRow) newChild.getInnen()).correctInternalPraefixesAndRolle();
-        return newChild;
+        final CPlusRow cPR = CPlusRow.createRow(newAddendList);
+        cPR.correctInternalPraefixesAndRolle();
+        return CFences.condCreateFenced(cPR, cDEvent);
     }
 
     @Override

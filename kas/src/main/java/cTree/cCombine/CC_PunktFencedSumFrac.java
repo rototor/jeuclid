@@ -22,6 +22,7 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktFencedSumFrac extends CC_Base {
 
@@ -31,7 +32,7 @@ public class CC_PunktFencedSumFrac extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Multipliziere geklammerte Summe mit Frac");
         final ArrayList<CElement> oldAddendList = ((CPlusRow) cE1
                 .getFirstChild()).getMemberListFirstWithoutPraefix();
@@ -41,7 +42,7 @@ public class CC_PunktFencedSumFrac extends CC_Base {
                 + newAddendList.get(0).getFirstChild().getPraefixAsString());
         final CPlusRow newSum = CPlusRow.createRow(newAddendList);
         newSum.correctInternalPraefixesAndRolle();
-        final CElement newChild = CFences.createFenced(newSum);
+        final CElement newChild = CFences.condCreateFenced(newSum, cDEvent);
         return newChild;
     }
 

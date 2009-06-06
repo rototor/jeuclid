@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import cTree.CElement;
 import cTree.CFences;
 import cTree.CPlusRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichFencedSumFencedSum extends CC_Base {
 
@@ -30,7 +31,7 @@ public class CC_StrichFencedSumFencedSum extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Addiere zwei geklammerte Summen");
         final boolean gleicheVZ = cE1.hasExtMinus() && cE2.hasExtMinus()
                 || !cE1.hasExtMinus() && !cE2.hasExtMinus();
@@ -47,8 +48,7 @@ public class CC_StrichFencedSumFencedSum extends CC_Base {
         list1.addAll(list2);
         final CPlusRow out1 = CPlusRow.createRow(list1);
         out1.correctInternalPraefixesAndRolle();
-        final CFences newChild = CFences.createFenced(out1);
-        return newChild;
+        return CFences.condCreateFenced(out1, cDEvent);
     }
 
     @Override

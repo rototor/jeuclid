@@ -30,7 +30,7 @@ public class CC_PunktFencedMinExp extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Multipliziere geklammerten MinTerm mit Exp");
         final CElement inCE1 = ((CMinTerm) cE1.getFirstChild()).getValue()
                 .cloneCElement(false);
@@ -41,7 +41,7 @@ public class CC_PunktFencedMinExp extends CC_Base {
                 newCE1, newCE2));
         cTR.correctInternalPraefixesAndRolle();
         final CMinTerm cMin = CMinTerm.createMinTerm(cTR);
-        return CFences.createFenced(cMin);
+        return CFences.condCreateFenced(cMin, cDEvent);
     }
 
     @Override

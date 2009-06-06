@@ -27,6 +27,7 @@ import cTree.CPot;
 import cTree.CRolle;
 import cTree.CTimesRow;
 import cTree.adapter.EElementHelper;
+import cTree.cDefence.CD_Event;
 
 public class CC_PotFencedSum2 extends CC_Base {
 
@@ -44,7 +45,8 @@ public class CC_PotFencedSum2 extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement potenz, final CElement fen,
-            final CElement exp) {
+            final CElement exp, final CD_Event cDEvent) {
+        // Die CD-Events werden noch nicht ausgewertet.
         System.out.println("Binomische Formel");
         final CFences cF = (CFences) fen;
         final CPlusRow basis = (CPlusRow) cF.getInnen();
@@ -55,12 +57,14 @@ public class CC_PotFencedSum2 extends CC_Base {
             oldAddList.set(0, f);
         }
         final ArrayList<CElement> newAddList = new ArrayList<CElement>();
+        final ArrayList<CD_Event> cDEvents = new ArrayList<CD_Event>();
         boolean first = true;
         for (int i = 0; i < oldAddList.size() - 1; i++) {
             final CElement f1 = oldAddList.get(i);
             final String vz1 = f1.getPraefixAsString();
-            final CElement ff1 = CFences
-                    .createFenced(f1.cloneCElement(false));
+            final CD_Event event = new CD_Event(false);
+            final CElement ff1 = CFences.condCreateFenced(f1
+                    .cloneCElement(false), event);
             final CElement cEl = CPot.createPot(ff1, 2);
             if (first) {
                 first = false;
@@ -70,6 +74,7 @@ public class CC_PotFencedSum2 extends CC_Base {
                 cEl.setCRolle(CRolle.SUMMANDN1);
             }
             newAddList.add(cEl);
+            cDEvents.add(event);
             for (int j = i + 1; j < oldAddList.size(); j++) {
                 final CElement f2 = oldAddList.get(j);
                 final String vz2 = f2.getPraefixAsString();
@@ -97,15 +102,16 @@ public class CC_PotFencedSum2 extends CC_Base {
             }
         }
         CElement f1 = oldAddList.get(oldAddList.size() - 1);
-        f1 = CFences.createFenced(f1.cloneCElement(false));
+        final CD_Event event = new CD_Event(false);
+        f1 = CFences.condCreateFenced(f1.cloneCElement(false), event);
         final CElement cEl = CPot.createPot(f1, 2);
         cEl.setPraefix("+");
         cEl.setCRolle(CRolle.SUMMANDN1);
         newAddList.add(cEl);
+        cDEvents.add(event);
         final CPlusRow newSum = CPlusRow.createRow(newAddList);
         newSum.correctInternalPraefixesAndRolle();
-        final CFences newChild = CFences.createFenced(newSum);
-        ((CPlusRow) newChild.getInnen()).correctInternalPraefixesAndRolle();
+        final CElement newChild = CFences.condCreateFenced(newSum, cDEvent);
         return newChild;
     }
 }

@@ -22,6 +22,7 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CPlusRow;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktFencesPot extends CC_Base {
 
@@ -31,15 +32,15 @@ public class CC_PunktFencesPot extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Multipliziere geklammerte Summe mit Num");
         final ArrayList<CElement> oldAddendList = ((CPlusRow) cE1
                 .getFirstChild()).getMemberList();
         final ArrayList<CElement> newAddendList = CTimesRow.map(
                 oldAddendList, cE2);
-        final CElement newChild = CFences.createFenced(CPlusRow
-                .createRow(newAddendList));
-        return newChild;
+        final CPlusRow cPR = CPlusRow.createRow(newAddendList);
+        cPR.correctInternalPraefixesAndRolle();
+        return CFences.condCreateFenced(cPR, cDEvent);
     }
 
     @Override

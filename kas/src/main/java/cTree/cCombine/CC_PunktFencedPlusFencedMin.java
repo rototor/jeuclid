@@ -31,7 +31,7 @@ public class CC_PunktFencedPlusFencedMin extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Multipliziere PlusTerm mit MinTerm");
         final CElement inCE1 = ((CPlusTerm) cE1.getFirstChild()).getValue()
                 .cloneCElement(false);
@@ -44,7 +44,8 @@ public class CC_PunktFencedPlusFencedMin extends CC_Base {
         final CTimesRow newChild = CTimesRow.createRow(CTimesRow.createList(
                 newCE1, newCE2));
         newChild.correctInternalPraefixesAndRolle();
-        return CFences.createFenced(CMinTerm.createMinTerm(newChild));
+        final CMinTerm cMin = CMinTerm.createMinTerm(newChild);
+        return CFences.condCreateFenced(cMin, cDEvent);
     }
 
     @Override

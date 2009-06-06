@@ -54,7 +54,7 @@ public class CC_PunktPotPot extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent,
-            final CElement firstPot, final CElement secondPot) {
+            final CElement firstPot, final CElement secondPot, CD_Event cDEvent) {
         CElement newChild = null;
         final int exp1 = ((CNum) ((CPot) firstPot).getExponent()).getValue();
         final int exp2 = ((CNum) ((CPot) secondPot).getExponent()).getValue();
@@ -117,7 +117,7 @@ public class CC_PunktPotPot extends CC_Base {
         toggle = toggle
                 || (!cE1.hasExtDiv() && cE2.hasExtDiv() && (exp2 > exp1));
         System.out.println("Toggle?" + toggle);
-        final CElement newChild = this.createComb(parent, cE1, cE2);
+        final CElement newChild = this.createComb(parent, cE1, cE2, null);
         this.insertOrReplace(parent, newChild, cE1, cE2, replace);
         if (toggle) {
             newChild.toggleTimesDiv(false);

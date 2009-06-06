@@ -22,6 +22,7 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichMinrowIdent extends CC_Base {
 
@@ -49,7 +50,7 @@ public class CC_StrichMinrowIdent extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Add Minrow and Ident");
         final CElement minTermArg = ((CMinTerm) cE1).getValue();
         CElement newChild = null;

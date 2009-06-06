@@ -50,6 +50,7 @@ public class DefHandler {
             this.typDef = new HashMap<CType, CDefenceTyp>();
             this.typDef.put(CType.SQRT, new CDefenceTMath());
             this.typDef.put(CType.FRAC, new CDefenceTMath());
+            this.typDef.put(CType.MIXEDN, new CDefenceTMath());
             this.typDef.put(CType.MATH, new CDefenceTMath());
             this.typDef.put(CType.MINROW, new CDefenceTMin());
             this.typDef.put(CType.PLUSROW, new CDefenceTStrich());

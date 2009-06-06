@@ -34,7 +34,7 @@ public class CCombiner1PunktNum extends CCombiner1 {
             this.op2Combiner.put(CType.POT, new CC_PunktNumPot());
             this.op2Combiner.put(CType.FENCES, new CC_PunktNumFences());
             this.op2Combiner.put(CType.TIMESROW, new CC_PunktNumTR());
-            this.op2Combiner.put(CType.FRAC, new CC_PunktNumFrac());
+            this.op2Combiner.put(CType.FRAC, new CC_PunktDefFrac());
         }
         return this.op2Combiner;
     }

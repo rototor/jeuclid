@@ -21,6 +21,7 @@ import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRolle;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichNumNum extends CC_Base {
 
@@ -31,7 +32,7 @@ public class CC_StrichNumNum extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cN1,
-            final CElement cN2) {
+            final CElement cN2, final CD_Event cDEvent) {
         System.out.println("Add Num and Num");
         final int wert1 = ((CNum) cN1).getValue();
         final int wert2 = ((CNum) cN2).getValue();
@@ -55,7 +56,8 @@ public class CC_StrichNumNum extends CC_Base {
             }
         } else {
             if (vzWert * vz1 < 0) {
-                newChild = CFences.createFenced(CMinTerm.createMinTerm(arg));
+                final CMinTerm minTerm = CMinTerm.createMinTerm(arg);
+                newChild = CFences.condCreateFenced(minTerm, cDEvent);
             }
         }
         return newChild;

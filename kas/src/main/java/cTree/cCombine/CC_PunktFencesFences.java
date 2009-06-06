@@ -91,7 +91,14 @@ public class CC_PunktFencesFences extends CC_Base {
                 ViewerFactory.getInst().getComboDialog(to);
                 final C_Changer c = this.changers.get(to.getResult());
                 return c.getChanger(e);
+            } else if (cE1.getFirstChild() instanceof CPlusRow) {
+                System.out.println("Found SA");
+                return this.getCsa().getChanger(e);
+            } else if (cE2.getFirstChild() instanceof CPlusRow) {
+                System.out.println("Found AS");
+                return this.getCas().getChanger(e);
             }
+
         }
         return new C_No(e);
     }
