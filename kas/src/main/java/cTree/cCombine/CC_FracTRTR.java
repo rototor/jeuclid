@@ -40,11 +40,15 @@ public class CC_FracTRTR extends CC_Base {
                 System.out.println("Zähler oder Nenner hat Div");
                 return false;
             }
-            if (!cE1.getFirstChild().getText().equals(
-                    cE2.getFirstChild().getText())) {
+            if (cE1.getFirstChild().compareTo(cE2.getFirstChild()) != 0) {
                 System.out.println("Zähler und Nenner beginnen verschieden");
                 return false;
             }
+            // if (!cE1.getFirstChild().getText().equals(
+            // cE2.getFirstChild().getText())) {
+            // System.out.println("Zähler und Nenner beginnen verschieden");
+            // return false;
+            // }
         }
         return true;
     }
