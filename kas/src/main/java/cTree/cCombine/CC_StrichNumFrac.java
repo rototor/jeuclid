@@ -24,6 +24,7 @@ import cTree.CNum;
 import cTree.CPlusRow;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichNumFrac extends CC_Base {
 
@@ -41,7 +42,7 @@ public class CC_StrichNumFrac extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Add Num and Frac");
         if (this.cF.hasNumberValue()) {
             System.out.println("Add Num and Frac NumberV");

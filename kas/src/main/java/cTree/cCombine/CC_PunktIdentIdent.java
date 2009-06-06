@@ -27,6 +27,7 @@ import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.adapter.C_No;
 import cTree.adapter.EElementHelper;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktIdentIdent extends CC_Base {
 
@@ -58,7 +59,7 @@ public class CC_PunktIdentIdent extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Multipliziere Idents");
         CElement newChild = null;
         if (cE1.getCRolle() == CRolle.FAKTOR1) {

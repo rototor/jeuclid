@@ -22,6 +22,7 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRow;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichMinrowTR extends CC_Base {
 
@@ -40,7 +41,7 @@ public class CC_StrichMinrowTR extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Add Minrow and TR");
         final int koeff2 = ((CTimesRow) cE2).getKoeffAsBetragFromMonom()
                 .getValue();

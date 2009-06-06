@@ -22,6 +22,7 @@ import cTree.CFrac;
 import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRolle;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichFracFracN extends CC_Base {
 
@@ -45,7 +46,7 @@ public class CC_StrichFracFracN extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Add Frac and Mixed");
 
         final int zVal1 = ((CNum) this.b1.getZaehler()).getValue();
@@ -75,7 +76,8 @@ public class CC_StrichFracFracN extends CC_Base {
             }
         } else {
             if (vzWert * vz1 < 0) {
-                newChild = CFences.createFenced(CMinTerm.createMinTerm(arg));
+                final CMinTerm minTerm = CMinTerm.createMinTerm(arg);
+                newChild = CFences.condCreateFenced(minTerm, cDEvent);
             }
         }
         return newChild;

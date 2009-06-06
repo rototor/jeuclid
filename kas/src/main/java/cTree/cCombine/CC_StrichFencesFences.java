@@ -68,60 +68,6 @@ public class CC_StrichFencesFences extends CC_Base {
         return new C_No(e);
     }
 
-    // @Override
-    // protected CElement createComb(final CElement parent, final CElement
-    // cE1,
-    // final CElement cE2) {
-    // if (cE1.getFirstChild() instanceof CMinTerm
-    // && cE2.getFirstChild() instanceof CMinTerm) {
-    // return this.getCmm().createComb(parent, cE1, cE2);
-    // } else if (cE1.getFirstChild() instanceof CPlusTerm
-    // && cE2.getFirstChild() instanceof CPlusTerm) {
-    // return this.getCpp().createComb(parent, cE1, cE2);
-    // } else if (cE1.getFirstChild() instanceof CPlusTerm
-    // && cE2.getFirstChild() instanceof CMinTerm) {
-    // return this.getCpm().createComb(parent, cE1, cE2);
-    // } else if (cE1.getFirstChild() instanceof CMinTerm
-    // && cE2.getFirstChild() instanceof CPlusTerm) {
-    // return this.getCmp().createComb(parent, cE1, cE2);
-    // } else if (cE1.getFirstChild() instanceof CPlusRow
-    // && cE2.getFirstChild() instanceof CPlusRow) {
-    // return this.getCss().createComb(parent, cE1, cE2);
-    // }
-    // return cE1;
-    // }
-
-    // @Override
-    // public boolean canDo(final C_Event e) {
-    // this.setEvent(e);
-    // System.out.println("Try to combine Fences Fences");
-    // final CElement cE1 = this.getFirst();
-    // final CElement cE2 = this.getSec();
-    // if (cE1.getFirstChild() instanceof CMinTerm
-    // && cE2.getFirstChild() instanceof CMinTerm) {
-    // System.out.println("Found MinTerms");
-    // return this.getCmm().canDo(e);
-    // } else if (cE1.getFirstChild() instanceof CPlusTerm
-    // && cE2.getFirstChild() instanceof CMinTerm) {
-    // System.out.println("Found PM");
-    // return this.getCpm().canDo(e);
-    // } else if (cE1.getFirstChild() instanceof CPlusTerm
-    // && cE2.getFirstChild() instanceof CPlusTerm) {
-    // System.out.println("Found PP");
-    // return this.getCpp().canDo(e);
-    // } else if (cE1.getFirstChild() instanceof CMinTerm
-    // && cE2.getFirstChild() instanceof CPlusTerm) {
-    // System.out.println("Found MP");
-    // return this.getCmp().canDo(e);
-    // } else if (cE1.getFirstChild() instanceof CPlusRow
-    // && cE2.getFirstChild() instanceof CPlusRow) {
-    // System.out.println("Found SS");
-    // return this.getCss().canDo(e);
-    // }
-    //
-    // return false;
-    // }
-
     /**
      * Getter method for cmm.
      * 

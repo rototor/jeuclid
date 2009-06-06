@@ -30,7 +30,7 @@ public class CC_PunktFencedPlusFencedPlus extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Multipliziere PlusTerm mit PlusTerm");
         final CElement inCE1 = ((CPlusTerm) cE1.getFirstChild()).getValue()
                 .cloneCElement(false);
@@ -43,7 +43,7 @@ public class CC_PunktFencedPlusFencedPlus extends CC_Base {
         final CTimesRow newChild = CTimesRow.createRow(CTimesRow.createList(
                 newCE1, newCE2));
         newChild.correctInternalPraefixesAndRolle();
-        return CFences.createFenced(newChild);
+        return CFences.condCreateFenced(newChild, cDEvent);
     }
 
     @Override

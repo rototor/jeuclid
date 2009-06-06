@@ -31,6 +31,7 @@ public class CCombiner1PunktIdent extends CCombiner1 {
         if (this.op2Combiner == null) {
             this.op2Combiner = super.getOp2Comb();
             this.op2Combiner.put(CType.IDENT, new CC_PunktIdentIdent());
+            this.op2Combiner.put(CType.FRAC, new CC_PunktDefFrac());
             this.op2Combiner.put(CType.FENCES, new CC_PunktIdentFences());
             this.op2Combiner.put(CType.POT, new CC_PunktIdentPot());
             this.op2Combiner.put(CType.TIMESROW, new CC_PunktIdentTR());

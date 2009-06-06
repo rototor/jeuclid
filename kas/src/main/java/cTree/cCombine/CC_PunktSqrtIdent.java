@@ -23,12 +23,13 @@ import cTree.CPot;
 import cTree.CRolle;
 import cTree.CSqrt;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktSqrtIdent extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Multipliziere Sqrts Ident");
         if (cE1.hasExtDiv()) {
             System.out

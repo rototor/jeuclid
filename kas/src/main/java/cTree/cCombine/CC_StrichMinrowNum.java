@@ -20,6 +20,7 @@ import cTree.CElement;
 import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRolle;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichMinrowNum extends CC_Base {
 
@@ -34,7 +35,7 @@ public class CC_StrichMinrowNum extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         final int wertE = Integer.parseInt(((CNum) ((CMinTerm) cE1)
                 .getValue()).getText());
         final int wertZ = Integer.parseInt(cE2.getText());

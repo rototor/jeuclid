@@ -5,6 +5,7 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichTRTR extends CC_Base {
 
@@ -29,7 +30,7 @@ public class CC_StrichTRTR extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cTR1,
-            final CElement cTR2) {
+            final CElement cTR2, CD_Event cDEvent) {
         final CTimesRow my1 = (CTimesRow) cTR1;
         final CTimesRow my2 = (CTimesRow) cTR2;
         // nun haben wir gleichartige Monome wir holen die Koeffizienten

@@ -17,7 +17,7 @@
 package cTree.cSplit;
 
 import cTree.CElement;
-import cTree.adapter.C_Event;
+import cTree.cDefence.CD_Event;
 
 /**
  * Transports an additional String which describes how to split the active
@@ -25,12 +25,13 @@ import cTree.adapter.C_Event;
  * 
  * @version $Revision: 000 $
  */
-public class CS_Event extends C_Event {
+public class CS_Event extends CD_Event {
 
     private final String s;
 
     public CS_Event(final CElement cElement, final String s) {
         super(cElement);
+        super.setDoDef(false);
         this.s = s;
     }
 

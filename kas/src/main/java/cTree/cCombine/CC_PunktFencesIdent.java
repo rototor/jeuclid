@@ -16,13 +16,9 @@
 
 package cTree.cCombine;
 
-import java.util.ArrayList;
-
 import cTree.CElement;
-import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CPlusRow;
-import cTree.CTimesRow;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.adapter.C_No;
@@ -32,31 +28,6 @@ public class CC_PunktFencesIdent extends CC_Base {
     private CC_PunktFencedMinExp cme;
 
     private CC_PunktFencedSumExp cse;
-
-    @Override
-    protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        System.out.println("Multipliziere geklammerte Summe/MinRow mit Num");
-        if (cE1.getFirstChild() instanceof CMinTerm) {
-            System.out.println("Found MinTerms");
-            return this.getCme().createComb(parent, cE1, cE2);
-        } else if (cE1.getFirstChild() instanceof CPlusRow) {
-            return this.getCse().createComb(parent, cE1, cE2);
-        }
-        return cE1;
-    }
-
-    protected CElement createCobination(final CElement parent,
-            final CElement cE1, final CElement cE2) {
-        System.out.println("Multipliziere geklammerte Summe mit Ident");
-        final ArrayList<CElement> oldAddendList = ((CPlusRow) cE1
-                .getFirstChild()).getMemberList();
-        final ArrayList<CElement> newAddendList = CTimesRow.map(
-                oldAddendList, cE2);
-        final CElement newChild = CFences.createFenced(CPlusRow
-                .createRow(newAddendList));
-        return newChild;
-    }
 
     @Override
     public C_Changer getChanger(final C_Event event) {
@@ -71,19 +42,6 @@ public class CC_PunktFencesIdent extends CC_Base {
         }
         return new C_No(event);
     }
-
-    // @Override
-    // public boolean canDo() {
-    // final CElement cE1 = this.getFirst();
-    // System.out.println("Repell fenced sum/min mult num");
-    // if (cE1.getFirstChild() instanceof CMinTerm) {
-    // System.out.println("Found MinTerms");
-    // return this.getCme().canDo();
-    // } else if (cE1.getFirstChild() instanceof CPlusRow) {
-    // return this.getCse().canDo();
-    // }
-    // return false;
-    // }
 
     protected CC_PunktFencedMinExp getCme() {
         if (this.cme == null) {

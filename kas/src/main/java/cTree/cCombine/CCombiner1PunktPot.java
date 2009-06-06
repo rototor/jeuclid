@@ -33,6 +33,7 @@ public class CCombiner1PunktPot extends CCombiner1 {
             this.op2Combiner.put(CType.IDENT, cppe);
             this.op2Combiner.put(CType.NUM, cppe);
             this.op2Combiner.put(CType.POT, new CC_PunktPotPot());
+            this.op2Combiner.put(CType.FRAC, new CC_PunktDefFrac());
         }
         return this.op2Combiner;
     }

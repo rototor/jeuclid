@@ -20,12 +20,13 @@ import cTree.CElement;
 import cTree.CFences;
 import cTree.CMinTerm;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktFracFencedMin extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement oldSumme,
-            final CElement cE1, final CElement cE2) {
+            final CElement cE1, final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Mult Frac mit Klammer, die MinTerm enthält");
 
         final boolean toggle = cE1.hasExtDiv();
@@ -44,8 +45,7 @@ public class CC_PunktFracFencedMin extends CC_Base {
                 newFirstFactor, newSecondFactor));
         newTR.correctInternalPraefixesAndRolle();
         final CMinTerm newMinTerm = CMinTerm.createMinTerm(newTR);
-        final CFences newFences = CFences.createFenced(newMinTerm);
-        return newFences;
+        return CFences.condCreateFenced(newMinTerm, cDEvent);
 
     }
 

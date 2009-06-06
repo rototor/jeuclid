@@ -31,7 +31,7 @@ public class CC_StrichFencedPlusFencedMin extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Addiere zwei geklammerte PM");
         final CElement inCE1 = ((CPlusTerm) cE1.getFirstChild()).getValue()
                 .cloneCElement(false);

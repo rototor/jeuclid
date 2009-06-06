@@ -23,12 +23,13 @@ import cTree.CNum;
 import cTree.CPot;
 import cTree.CRolle;
 import cTree.adapter.EElementHelper;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktPotExp extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent,
-            final CElement firstPot, final CElement ident) {
+            final CElement firstPot, final CElement ident, CD_Event cDEvent) {
         System.out.println("Multipliziere Pot Ident");
         CElement newChild = null;
         // erster Faktor

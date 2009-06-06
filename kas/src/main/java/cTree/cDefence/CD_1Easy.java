@@ -23,6 +23,7 @@ public class CD_1Easy extends CD_Base {
     @Override
     public CElement doIt(final CD_Event message) {
         System.out.println("Defence easy");
+        System.out.println(this.getInside().toString());
         final CElement newChild = this.getInside().cloneCElement(false);
         this.getParent().replaceChild(newChild, this.getFences(), true, true);
         return newChild;

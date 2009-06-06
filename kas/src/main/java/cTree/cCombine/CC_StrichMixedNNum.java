@@ -23,6 +23,7 @@ import cTree.CMinTerm;
 import cTree.CMixedNumber;
 import cTree.CNum;
 import cTree.CRolle;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichMixedNNum extends CC_Base {
 
@@ -43,7 +44,7 @@ public class CC_StrichMixedNNum extends CC_Base {
     // evtl einbauen dass auch ein Bruch entstehen kann
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, final CD_Event cDEvent) {
         System.out.println("Add Mixed and Num");
 
         final int numVal = ((CNum) cE2).getValue();
@@ -72,9 +73,9 @@ public class CC_StrichMixedNNum extends CC_Base {
                 newChild = CMinTerm.createMinTerm(arg, CRolle.SUMMAND1);
             }
         } else {
-
             if (vzWert * vz1 < 0) {
-                newChild = CFences.createFenced(CMinTerm.createMinTerm(arg));
+                final CMinTerm minTerm = CMinTerm.createMinTerm(arg);
+                newChild = CFences.condCreateFenced(minTerm, cDEvent);
             }
         }
         return newChild;

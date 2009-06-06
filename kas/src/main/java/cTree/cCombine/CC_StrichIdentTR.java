@@ -22,6 +22,7 @@ import cTree.CMinTerm;
 import cTree.CNum;
 import cTree.CRolle;
 import cTree.CTimesRow;
+import cTree.cDefence.CD_Event;
 
 public class CC_StrichIdentTR extends CC_Base {
 
@@ -49,7 +50,7 @@ public class CC_StrichIdentTR extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent,
-            final CElement cIdent, final CElement cTR) {
+            final CElement cIdent, final CElement cTR, CD_Event cDEvent) {
         final int exp = ((CTimesRow) cTR).getKoeffAsBetragFromMonom()
                 .getValue();
         CElement newChild = null;

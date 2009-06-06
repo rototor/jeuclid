@@ -23,6 +23,7 @@ import cTree.CPlusRow;
 import cTree.adapter.C_Changer;
 import cTree.adapter.C_Event;
 import cTree.adapter.C_No;
+import cTree.cDefence.CD_Event;
 
 public class CC_PunktFencesFrac extends CC_Base {
 
@@ -32,14 +33,14 @@ public class CC_PunktFencesFrac extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Multipliziere geklammerte Summe/MinRow mit Num");
         if (cE1.getFirstChild() instanceof CMinTerm && cE2 instanceof CFrac) {
             System.out.println("Found MinTerms");
-            return this.getCmf().createComb(parent, cE1, cE2);
+            return this.getCmf().createComb(parent, cE1, cE2, null);
         } else if (cE1.getFirstChild() instanceof CPlusRow
                 && cE2 instanceof CFrac) {
-            return this.getCsf().createComb(parent, cE1, cE2);
+            return this.getCsf().createComb(parent, cE1, cE2, null);
         }
         return cE1;
     }

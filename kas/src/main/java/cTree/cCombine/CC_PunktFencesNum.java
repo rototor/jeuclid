@@ -30,19 +30,20 @@ public class CC_PunktFencesNum extends CC_Base {
 
     private CC_PunktFencedSumNum csn;
 
-    @Override
-    protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
-        System.out.println("Multipliziere geklammerte Summe/MinRow mit Num");
-        if (cE1.getFirstChild() instanceof CMinTerm && cE2 instanceof CNum) {
-            System.out.println("Found MinTerms");
-            return this.getCmn().createComb(parent, cE1, cE2);
-        } else if (cE1.getFirstChild() instanceof CPlusRow
-                && cE2 instanceof CNum) {
-            return this.getCsn().createComb(parent, cE1, cE2);
-        }
-        return cE1;
-    }
+    // @Override
+    // protected CElement createComb(final CElement parent, final CElement
+    // cE1,
+    // final CElement cE2, CD_Event cDEvent) {
+    // System.out.println("Multipliziere geklammerte Summe/MinRow mit Num");
+    // if (cE1.getFirstChild() instanceof CMinTerm && cE2 instanceof CNum) {
+    // System.out.println("Found MinTerms");
+    // return this.getCmn().createComb(parent, cE1, cE2, null);
+    // } else if (cE1.getFirstChild() instanceof CPlusRow
+    // && cE2 instanceof CNum) {
+    // return this.getCsn().createComb(parent, cE1, cE2, null);
+    // }
+    // return cE1;
+    // }
 
     @Override
     public C_Changer getChanger(final C_Event event) {

@@ -30,7 +30,9 @@ public class CCombiner1PunktFrac extends CCombiner1 {
         if (this.op2Combiner == null) {
             this.op2Combiner = super.getOp2Comb();
             this.op2Combiner.put(CType.FENCES, new CC_PunktFracFences());
-            this.op2Combiner.put(CType.NUM, new CC_PunktFracNum());
+            this.op2Combiner.put(CType.NUM, new CC_PunktFracDef());
+            this.op2Combiner.put(CType.IDENT, new CC_PunktFracDef());
+            this.op2Combiner.put(CType.POT, new CC_PunktFracDef());
             this.op2Combiner.put(CType.FRAC, new CC_PunktFracFrac());
         }
         return this.op2Combiner;

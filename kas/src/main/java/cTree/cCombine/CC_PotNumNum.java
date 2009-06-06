@@ -18,6 +18,7 @@ package cTree.cCombine;
 
 import cTree.CElement;
 import cTree.CNum;
+import cTree.cDefence.CD_Event;
 
 public class CC_PotNumNum extends CC_Base {
 
@@ -44,7 +45,7 @@ public class CC_PotNumNum extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement potenz,
-            final CElement basis, final CElement expo) {
+            final CElement basis, final CElement expo, CD_Event cDEvent) {
         System.out.println("Potenziere Zahlen");
         final int basisZahl = ((CNum) basis).getValue();
         final int expZahl = ((CNum) expo).getValue();

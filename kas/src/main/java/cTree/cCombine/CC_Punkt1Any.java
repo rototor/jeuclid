@@ -17,6 +17,7 @@
 package cTree.cCombine;
 
 import cTree.CElement;
+import cTree.cDefence.CD_Event;
 
 public class CC_Punkt1Any extends CC_Base {
 
@@ -30,7 +31,7 @@ public class CC_Punkt1Any extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent, final CElement cE1,
-            final CElement cE2) {
+            final CElement cE2, CD_Event cDEvent) {
         System.out.println("Mult 1 Any");
         return cE2.cloneCElement(false);
     }

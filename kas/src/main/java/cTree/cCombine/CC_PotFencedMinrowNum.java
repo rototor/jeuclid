@@ -37,7 +37,7 @@ public class CC_PotFencedMinrowNum extends CC_Base {
 
     @Override
     protected CElement createComb(final CElement parent,
-            final CElement basis, final CElement expo) {
+            final CElement basis, final CElement expo, final CD_Event cDEvent) {
         final CPot cP = (CPot) parent;
         final CFences cF = (CFences) cP.getBasis();
         final CMinTerm cM = (CMinTerm) cF.getInnen();
@@ -51,7 +51,7 @@ public class CC_PotFencedMinrowNum extends CC_Base {
         CElement nPot = CPot.createPot(nBase, newExp);
         if (exp % 2 == 1) {
             final CElement newMin = CMinTerm.createMinTerm(nPot);
-            nPot = CFences.createFenced(newMin);
+            nPot = CFences.condCreateFenced(newMin, cDEvent);
         }
         return nPot;
     }

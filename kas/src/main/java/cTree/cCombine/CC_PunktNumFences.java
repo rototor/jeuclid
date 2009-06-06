@@ -30,16 +30,16 @@ public class CC_PunktNumFences extends CC_Base {
 
     private CC_PunktNumFencedMin cnm;
 
-    @Override
-    protected CElement createComb(final CElement oldSumme,
-            final CElement cE1, final CElement cE2) {
-        if (((CFences) cE2).getInnen() instanceof CMinTerm) {
-            return this.getCnm().createComb(oldSumme, cE1, cE2);
-        } else if (((CFences) cE2).getInnen() instanceof CPlusRow) {
-            return this.getCns().createComb(oldSumme, cE1, cE2);
-        }
-        return cE1;
-    }
+    // @Override
+    // protected CElement createComb(final CElement oldSumme,
+    // final CElement cE1, final CElement cE2, CD_Event cDEvent) {
+    // if (((CFences) cE2).getInnen() instanceof CMinTerm) {
+    // return this.getCnm().createComb(oldSumme, cE1, cE2, null);
+    // } else if (((CFences) cE2).getInnen() instanceof CPlusRow) {
+    // return this.getCns().createComb(oldSumme, cE1, cE2, null);
+    // }
+    // return cE1;
+    // }
 
     @Override
     public C_Changer getChanger(final C_Event e) {
