@@ -29,6 +29,11 @@ public class CCombiner1FracTR extends CCombiner1 {
     public HashMap<CType, CC_Base> getOp2Comb() {
         if (this.op2Combiner == null) {
             this.op2Combiner = super.getOp2Comb();
+            this.op2Combiner.put(CType.FENCES, new CC_FracTRMost());
+            this.op2Combiner.put(CType.POT, new CC_FracTRMost());
+            this.op2Combiner.put(CType.SQRT, new CC_FracTRMost());
+            this.op2Combiner.put(CType.NUM, new CC_FracTRMost());
+            this.op2Combiner.put(CType.IDENT, new CC_FracTRMost());
             this.op2Combiner.put(CType.TIMESROW, new CC_FracTRTR());
         }
         return this.op2Combiner;

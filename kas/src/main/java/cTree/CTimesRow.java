@@ -174,6 +174,35 @@ public class CTimesRow extends CRow {
         return newList;
     }
 
+    public static CElement cutOne(final CTimesRow cTR, final int i) {
+        final ArrayList<CElement> factorList = cTR.getMemberList();
+        if (i < 0 || i >= factorList.size()) {
+            return cTR;
+        } else {
+            CElement newElement;
+            boolean timesRowAgain = false;
+            if (cTR.getFirstChild().hasNextC()
+                    && cTR.getFirstChild().getNextSibling().hasNextC()) {
+                timesRowAgain = true;
+            }
+            if (timesRowAgain) {
+                factorList.remove(i);
+                final CTimesRow newTR = CTimesRow.createRow(factorList);
+                newTR.correctInternalPraefixesAndRolle();
+                newTR.setCRolleAndPraefixFrom(cTR);
+                newElement = newTR;
+            } else {
+                if (i == 0) {
+                    newElement = cTR.getFirstChild().getNextSibling();
+                } else {
+                    newElement = cTR.getFirstChild();
+                }
+                newElement.setCRolleAndPraefixFrom(cTR);
+            }
+            return newElement;
+        }
+    }
+
     public static CElement foldOne(final CTimesRow cTR) {
         CElement newElement;
         boolean timesRowAgain = false;
