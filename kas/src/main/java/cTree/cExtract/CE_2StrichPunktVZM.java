@@ -28,6 +28,8 @@ public class CE_2StrichPunktVZM extends CExtractBase {
 
     @Override
     protected CElement createExtraction() {
+
+        System.out.println("VZM");
         final ArrayList<CElement> selection = this.getEvent().getSelection();
         for (final CElement cEl : selection) {
             cEl.removeCLastProperty();
@@ -64,6 +66,6 @@ public class CE_2StrichPunktVZM extends CExtractBase {
         if (this.getEvent() == null) {
             return false;
         }
-        return this.getEvent().getFirst().hasExtMinus();
+        return true;
     }
 }

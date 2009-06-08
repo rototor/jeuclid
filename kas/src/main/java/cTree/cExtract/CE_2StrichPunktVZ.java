@@ -27,6 +27,7 @@ public class CE_2StrichPunktVZ extends CExtractBase {
 
     @Override
     protected CElement createExtraction() {
+        System.out.println("VZ");
         final ArrayList<CElement> selection = this.getEvent().getSelection();
         for (final CElement cEl : selection) {
             cEl.removeCLastProperty();

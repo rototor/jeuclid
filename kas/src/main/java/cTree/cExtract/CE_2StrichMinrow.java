@@ -45,7 +45,6 @@ public class CE_2StrichMinrow extends CExtractBase {
 
     @Override
     public C_Changer getChanger(final C_Event event) {
-        System.out.println("ExtracterMinrow");
         final C_Changer extracter = new C_No(event);
         extracter.setEvent(event);
         for (final CElement cEl : event.getSelection()) {
@@ -58,10 +57,6 @@ public class CE_2StrichMinrow extends CExtractBase {
         final TransferObject to = new TransferObject(this.strArray);
         ViewerFactory.getInst().getComboDialog(to);
         final CExtractBase ext = this.extracters.get(to.getResult());
-        if (ext.canDo()) {
-            return ext;
-        } else {
-            return extracter;
-        }
+        return ext.getChanger(event);
     }
 }
