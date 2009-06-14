@@ -46,6 +46,7 @@ public abstract class CCombiner1 {
         if (e != null && e.getFirst() != null && e.getFirst().hasNextC()) {
             final CType cType = e.getFirst().getNextSibling().getCType();
             if (this.getOp2Comb().containsKey(cType)) {
+                System.out.println("combHandler 3 " + cType);
                 return this.getOp2Comb().get(cType).getChanger(e);
             }
         }

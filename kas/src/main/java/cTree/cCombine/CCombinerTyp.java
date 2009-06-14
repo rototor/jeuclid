@@ -41,6 +41,7 @@ public abstract class CCombinerTyp extends C_Changer {
     public C_Changer getChanger(final C_Event e) {
         final CType cType = e.getFirst().getCType();
         if (this.getOp1Comb().containsKey(cType)) {
+            System.out.println("combHandler 2 " + cType);
             return this.getOp1Comb().get(cType).getChanger(e);
         } else {
             return new C_No(e);

@@ -20,8 +20,8 @@ import java.util.HashMap;
 
 import cTree.CType;
 
-public class Combiner1FracFences extends CCombiner1 {
-    public Combiner1FracFences() {
+public class CCombiner1FracPR extends CCombiner1 {
+    public CCombiner1FracPR() {
         super();
     }
 
@@ -29,8 +29,7 @@ public class Combiner1FracFences extends CCombiner1 {
     public HashMap<CType, CC_Base> getOp2Comb() {
         if (this.op2Combiner == null) {
             this.op2Combiner = super.getOp2Comb();
-            this.op2Combiner.put(CType.IDENT, new CC_FracMostMost());
-            this.op2Combiner.put(CType.TIMESROW, new CC_FracMostTR());
+            this.op2Combiner.put(CType.PLUSROW, new CC_FracMostMost());
         }
         return this.op2Combiner;
     }

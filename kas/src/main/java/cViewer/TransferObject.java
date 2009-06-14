@@ -26,6 +26,8 @@ public class TransferObject {
 
     private String result;
 
+    private String comment;
+
     private final String[] options;
 
     public TransferObject(final String[] opts) {
@@ -58,6 +60,25 @@ public class TransferObject {
      */
     public String[] getOptions() {
         return this.options;
+    }
+
+    /**
+     * Getter method for comment.
+     * 
+     * @return the comment
+     */
+    public String getComment() {
+        return this.comment;
+    }
+
+    /**
+     * Setter method for comment.
+     * 
+     * @param comment
+     *            the comment to set
+     */
+    public void setComment(final String comment) {
+        this.comment = comment;
     }
 
 }
