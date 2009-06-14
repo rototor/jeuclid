@@ -44,8 +44,12 @@ public class MyComboDialog extends JDialog implements ActionListener,
 
     public MyComboDialog(final TransferObject transfer) {
         super(ViewerFactory.getInst().getMathFrame(), true);
-        this.setTitle("Wähle: ");
         this.transfer = transfer;
+        if (transfer.getComment() != null) {
+            this.setTitle(transfer.getComment());
+        } else {
+            this.setTitle("Wähle: ");
+        }
         this.setContentPane(this.getJOptionPane());
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {

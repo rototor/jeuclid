@@ -31,10 +31,13 @@ public class CCombinerTFrac extends CCombinerTyp {
         if (this.op1Combiner == null) {
             this.op1Combiner = new HashMap<CType, CCombiner1>();
             this.op1Combiner.put(CType.POT, new CCombiner1FracPot());
+            this.op1Combiner.put(CType.MIXEDN, new CCombiner1FracMixedN());
+            this.op1Combiner.put(CType.MINROW, new CCombiner1FracMinRow());
             this.op1Combiner.put(CType.SQRT, new CCombiner1FracSqrt());
             this.op1Combiner.put(CType.NUM, new CCombiner1FracNum());
             this.op1Combiner.put(CType.FENCES, new CCombiner1FracFences());
             this.op1Combiner.put(CType.IDENT, new CCombiner1FracIdent());
+            this.op1Combiner.put(CType.PLUSROW, new CCombiner1FracPR());
             this.op1Combiner.put(CType.TIMESROW, new CCombiner1FracTR());
         }
         return this.op1Combiner;

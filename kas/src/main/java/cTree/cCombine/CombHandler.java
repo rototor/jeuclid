@@ -68,6 +68,7 @@ public class CombHandler {
     public C_Changer getChanger(final C_Event e) {
         final CType cType = e.getParent().getCType();
         if (this.getTypComb().containsKey(cType)) {
+            System.out.println("combHandler" + cType);
             return this.getTypComb().get(cType).getChanger(e);
         } else {
             return new C_No(e);
