@@ -345,4 +345,55 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
         }
     }
 
+    // /**
+    // * Gets the Coords for a given node and offset.
+    // *
+    // * @param offsetX
+    // * xOffset
+    // * @param offsetY
+    // * yOffset
+    // *
+    // * @param node
+    // * org.dom.node
+    // * @return the rectangle
+    // *
+    // */
+    // public Rectangle2D.Float getRect(final float offsetX,
+    // final float offsetY, final Node node) {
+    // if (node instanceof LayoutableNode) {
+    // final LayoutInfo info = this.layoutMap.get(node);
+    // final LayoutStage stage = info.getLayoutStage();
+    // Node recNode = node;
+    // LayoutInfo recInfo = this.layoutMap.get(recNode);
+    // LayoutStage recStage = recInfo.getLayoutStage();
+    // float recInfoX = info.getPosX(recStage) + offsetX;
+    // float recInfoY = info.getPosY(recStage) + offsetY
+    // - info.getAscentHeight(recStage);
+    // while (recNode.getParentNode() != null
+    // && recNode.getParentNode() instanceof LayoutableNode) {
+    // recNode = recNode.getParentNode();
+    // recInfo = this.layoutMap.get(recNode);
+    // recStage = recInfo.getLayoutStage();
+    // recInfoX = recInfoX + recInfo.getPosX(recStage);
+    // recInfoY = recInfoY + recInfo.getPosY(recStage);
+    // }
+    // final Rectangle2D.Float rect = new Rectangle.Float(recInfoX,
+    // recInfoY, info.getWidth(stage), info
+    // .getAscentHeight(stage)
+    // + info.getDescentHeight(stage));
+    // return rect;
+    // } else {
+    // return null;
+    // }
+    // }
+
+    /**
+     * Getter method for layoutMap.
+     * 
+     * @return the layoutMap
+     */
+    public Map<Node, LayoutInfo> getLayoutMap() {
+        return this.layoutMap;
+    }
+
 }
