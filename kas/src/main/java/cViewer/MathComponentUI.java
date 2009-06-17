@@ -25,6 +25,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -32,6 +33,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.LookAndFeel;
@@ -41,6 +43,9 @@ import javax.swing.plaf.ComponentUI;
 
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.layout.JEuclidView;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -284,16 +289,46 @@ public class MathComponentUI extends ComponentUI implements
                 (float) point.getY());
     }
 
+    public Rectangle2D.Float getRect(final float offsetX,
+            final float offsetY, final Node node) {
+        if (node instanceof LayoutableNode) {
+            final Map<Node, LayoutInfo> layoutMap = this.jEuclidView
+                    .getLayoutMap();
+            final LayoutInfo info = layoutMap.get(node);
+            final LayoutStage stage = info.getLayoutStage();
+            Node recNode = node;
+            LayoutInfo recInfo = layoutMap.get(recNode);
+            LayoutStage recStage = recInfo.getLayoutStage();
+            float recInfoX = info.getPosX(recStage) + offsetX;
+            float recInfoY = info.getPosY(recStage) + offsetY
+                    - info.getAscentHeight(recStage);
+            while (recNode.getParentNode() != null
+                    && recNode.getParentNode() instanceof LayoutableNode) {
+                recNode = recNode.getParentNode();
+                recInfo = layoutMap.get(recNode);
+                recStage = recInfo.getLayoutStage();
+                recInfoX = recInfoX + recInfo.getPosX(recStage);
+                recInfoY = recInfoY + recInfo.getPosY(recStage);
+            }
+            final Rectangle2D.Float rect = new Rectangle.Float(recInfoX,
+                    recInfoY, info.getWidth(stage), info
+                            .getAscentHeight(stage)
+                            + info.getDescentHeight(stage));
+            return rect;
+        } else {
+            return null;
+        }
+    }
+
     public Rectangle2D.Float getRect(final CElement cEl) {
         if (cEl != null) {
             final Point2D point = this
                     .calculateAlignmentOffset(this.mathComponent.getSize());
-            Rectangle2D.Float rel = this.jEuclidView.getRect((float) point
-                    .getX(), (float) point.getY(), cEl.getElement());
+            Rectangle2D.Float rel = this.getRect((float) point.getX(),
+                    (float) point.getY(), cEl.getElement());
             if (cEl.getExtPraefix() != null) {
-                final Rectangle2D.Float rpf = this.jEuclidView.getRect(
-                        (float) point.getX(), (float) point.getY(), cEl
-                                .getExtPraefix());
+                final Rectangle2D.Float rpf = this.getRect((float) point
+                        .getX(), (float) point.getY(), cEl.getExtPraefix());
                 final Rectangle2D rges = rpf.createUnion(rel);
                 rel = (Rectangle2D.Float) rges;
             }
@@ -307,12 +342,11 @@ public class MathComponentUI extends ComponentUI implements
         if (cEl != null) {
             final Point2D point = this
                     .calculateAlignmentOffset(this.mathComponent.getSize());
-            Rectangle2D.Float rel = this.jEuclidView.getRect((float) point
-                    .getX(), (float) point.getY(), cEl.getElement());
+            Rectangle2D.Float rel = this.getRect((float) point.getX(),
+                    (float) point.getY(), cEl.getElement());
             if (cEl.getExtPraefix() != null) {
-                final Rectangle2D.Float rpf = this.jEuclidView.getRect(
-                        (float) point.getX(), (float) point.getY(), cEl
-                                .getExtPraefix());
+                final Rectangle2D.Float rpf = this.getRect((float) point
+                        .getX(), (float) point.getY(), cEl.getExtPraefix());
                 final Rectangle2D rges = rpf.createUnion(rel);
                 rel = (Rectangle2D.Float) rges;
             }
@@ -327,12 +361,11 @@ public class MathComponentUI extends ComponentUI implements
         if (cEl != null) {
             final Point2D point = this
                     .calculateAlignmentOffset(this.mathComponent.getSize());
-            Rectangle2D.Float rel = this.jEuclidView.getRect((float) point
-                    .getX(), (float) point.getY(), cEl.getElement());
+            Rectangle2D.Float rel = this.getRect((float) point.getX(),
+                    (float) point.getY(), cEl.getElement());
             if (cEl.getExtPraefix() != null) {
-                final Rectangle2D.Float rpf = this.jEuclidView.getRect(
-                        (float) point.getX(), (float) point.getY(), cEl
-                                .getExtPraefix());
+                final Rectangle2D.Float rpf = this.getRect((float) point
+                        .getX(), (float) point.getY(), cEl.getExtPraefix());
                 final Rectangle2D rges = rpf.createUnion(rel);
                 rel = (Rectangle2D.Float) rges;
             }
