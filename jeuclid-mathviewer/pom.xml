@@ -36,7 +36,8 @@
             <outputFile>mathviewer.jnlp</outputFile>
             <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
           </jnlp>
-          <pack200>true</pack200>
+          <unsignAlreadySignedJars>true</unsignAlreadySignedJars>
+          <pack200>false</pack200>
           <sign>
             <keystore>${basedir}/keystore</keystore>
             <keypass>verysecret</keypass>
