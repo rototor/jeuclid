@@ -45,7 +45,7 @@
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>target/fop/README.fop</source>
+      <source>target/fop/net/sourceforge/jeuclid/README.fop</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
