@@ -101,7 +101,7 @@ public final class CharacterMapping implements Serializable {
 
     private void loadUnicodeData() {
         final InputStream is = CharacterMapping.class
-                .getResourceAsStream("/UnicodeData.txt");
+                .getResourceAsStream("/net/sourceforge/jeuclid/UnicodeData.txt");
         try {
             final BufferedReader r = new BufferedReader(
                     new InputStreamReader(is));
@@ -229,7 +229,7 @@ public final class CharacterMapping implements Serializable {
             CharacterMapping m;
             try {
                 final InputStream is = CharacterMapping.class
-                        .getResourceAsStream("/charmap.ser");
+                        .getResourceAsStream("/net/sourceforge/jeuclid/charmap.ser");
                 final ObjectInput oi = new ObjectInputStream(is);
                 m = (CharacterMapping) oi.readObject();
                 oi.close();

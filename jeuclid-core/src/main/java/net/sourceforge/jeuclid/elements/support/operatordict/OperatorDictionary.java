@@ -116,7 +116,7 @@ public final class OperatorDictionary implements Serializable {
     /**
      * MathML dictionary resource.
      */
-    private static final String DICTIONARY_FILE = "/moDictionary.xml";
+    private static final String DICTIONARY_FILE = "/net/sourceforge/jeuclid/moDictionary.xml";
 
     /**
      * The instance of the Dictionary
@@ -141,7 +141,7 @@ public final class OperatorDictionary implements Serializable {
             OperatorDictionary newDict = null;
             try {
                 final InputStream is = OperatorDictionary.class
-                        .getResourceAsStream("/moDictionary.ser");
+                        .getResourceAsStream("/net/sourceforge/jeuclid/moDictionary.ser");
                 final ObjectInput oi = new ObjectInputStream(is);
                 newDict = (OperatorDictionary) oi.readObject();
                 oi.close();

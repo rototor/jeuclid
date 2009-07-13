@@ -71,9 +71,9 @@ public final class DOMBuilder {
     protected DOMBuilder() {
         this.identityTransformer = this.createIdentityTransformer();
         this.contentTransformer = this.createTransformer(
-                "/content/mathmlc2p.xsl", this.identityTransformer);
+                "/net/sourceforge/jeuclid/content/mathmlc2p.xsl", this.identityTransformer);
         this.namespaceTransformer = this.createTransformer(
-                "/addMathMLNamespace.xsl", this.identityTransformer);
+                "/net/sourceforge/jeuclid/addMathMLNamespace.xsl", this.identityTransformer);
     }
 
     private Transformer createIdentityTransformer() {
