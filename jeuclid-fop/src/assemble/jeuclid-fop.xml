@@ -32,7 +32,7 @@
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>target/classes/README.fop</source>
+      <source>target/classes/net/sourceforge/jeuclid/README.fop</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
