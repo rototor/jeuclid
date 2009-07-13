@@ -77,7 +77,7 @@ public class ResourceEntityResolver implements EntityResolver {
         if ((mappedPath == null)
                 && (systemId
                         .startsWith(ResourceEntityResolver.MML1_SYSTEMID_PATH))) {
-            mappedPath = "/mathml.1.0.1"
+            mappedPath = "/net/sourceforge/jeuclid/mathml.1.0.1"
                     + systemId
                             .substring(ResourceEntityResolver.MML1_SYSTEMID_PATH
                                     .length());
@@ -110,11 +110,11 @@ public class ResourceEntityResolver implements EntityResolver {
         // CHECKSTYLE:OFF
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//OpenOffice.org//DTD Modified W3C MathML 1.01//EN",
-                "/openoffice.mathml.1.0.1/math.dtd");
+                "/net/sourceforge/jeuclid/openoffice.mathml.1.0.1/math.dtd");
 
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 ResourceEntityResolver.MML2_PUBLICID,
-                "/mathml.2.0/mathml2.dtd");
+                "/net/sourceforge/jeuclid/mathml.2.0/mathml2.dtd");
 
         ResourceEntityResolver.PUBLIC_ID_TO_SYSYEM.put(
                 ResourceEntityResolver.MML2_PUBLICID,
@@ -122,79 +122,78 @@ public class ResourceEntityResolver implements EntityResolver {
 
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES MathML 2.0 Qualified Names 1.0//EN",
-                "/mathml.2.0/mathml2-qname-1.mod");
+                "/net/sourceforge/jeuclid/mathml.2.0/mathml2-qname-1.mod");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Arrow Relations for MathML 2.0//EN",
-                        "/mathml.2.0/iso9573-13/isoamsa.ent");
+                        "/net/sourceforge/jeuclid/mathml.2.0/iso9573-13/isoamsa.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Binary Operators for MathML 2.0//EN",
-                        "/mathml.2.0/iso9573-13/isoamsb.ent");
+                        "/net/sourceforge/jeuclid/mathml.2.0/iso9573-13/isoamsb.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Delimiters for MathML 2.0//EN",
-                        "/mathml.2.0/iso9573-13/isoamsc.ent");
+                        "/net/sourceforge/jeuclid/mathml.2.0/iso9573-13/isoamsc.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Negated Relations for MathML 2.0//EN",
-                        "/mathml.2.0/iso9573-13/isoamsn.ent");
+                        "/net/sourceforge/jeuclid/mathml.2.0/iso9573-13/isoamsn.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Ordinary for MathML 2.0//EN",
-                        "/mathml.2.0/iso9573-13/isoamso.ent");
+                        "/net/sourceforge/jeuclid/mathml.2.0/iso9573-13/isoamso.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Added Math Symbols: Relations for MathML 2.0//EN",
-                        "/mathml.2.0/iso9573-13/isoamsr.ent");
+                        "/net/sourceforge/jeuclid/mathml.2.0/iso9573-13/isoamsr.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Greek Symbols for MathML 2.0//EN",
-                "/mathml.2.0/iso9573-13/isogrk3.ent");
-        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
-                .put(
-                        "-//W3C//ENTITIES Math Alphabets: Fraktur for MathML 2.0//EN",
-                        "/mathml.2.0/iso9573-13/isomfrk.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/iso9573-13/isogrk3.ent");
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
+                "-//W3C//ENTITIES Math Alphabets: Fraktur for MathML 2.0//EN",
+                "/net/sourceforge/jeuclid/mathml.2.0/iso9573-13/isomfrk.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Math Alphabets: Open Face for MathML 2.0//EN",
-                        "/mathml.2.0/iso9573-13/isomopf.ent");
+                        "/net/sourceforge/jeuclid/mathml.2.0/iso9573-13/isomopf.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Math Alphabets: Script for MathML 2.0//EN",
-                "/mathml.2.0/iso9573-13/isomscr.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/iso9573-13/isomscr.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES General Technical for MathML 2.0//EN",
-                "/mathml.2.0/iso9573-13/isotech.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/iso9573-13/isotech.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Box and Line Drawing for MathML 2.0//EN",
-                "/mathml.2.0/iso8879/isobox.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/iso8879/isobox.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Russian Cyrillic for MathML 2.0//EN",
-                "/mathml.2.0/iso8879/isocyr1.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/iso8879/isocyr1.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Non-Russian Cyrillic for MathML 2.0//EN",
-                "/mathml.2.0/iso8879/isocyr2.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/iso8879/isocyr2.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Diacritical Marks for MathML 2.0//EN",
-                "/mathml.2.0/iso8879/isodia.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/iso8879/isodia.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Added Latin 1 for MathML 2.0//EN",
-                "/mathml.2.0/iso8879/isolat1.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/iso8879/isolat1.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Added Latin 2 for MathML 2.0//EN",
-                "/mathml.2.0/iso8879/isolat2.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/iso8879/isolat2.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
                 .put(
                         "-//W3C//ENTITIES Numeric and Special Graphic for MathML 2.0//EN",
-                        "/mathml.2.0/iso8879/isonum.ent");
+                        "/net/sourceforge/jeuclid/mathml.2.0/iso8879/isonum.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Publishing for MathML 2.0//EN",
-                "/mathml.2.0/iso8879/isopub.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/iso8879/isopub.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Extra for MathML 2.0//EN",
-                "/mathml.2.0/mathml/mmlextra.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/mathml/mmlextra.ent");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES Aliases for MathML 2.0//EN",
-                "/mathml.2.0/mathml/mmlalias.ent");
+                "/net/sourceforge/jeuclid/mathml.2.0/mathml/mmlalias.ent");
         // CHECKSTYLE:ON
 
     }

@@ -33,8 +33,8 @@ File basedir = new File("${project.basedir}");
 //}
 
 log.info("Preloading operator dictionary...");
-File newDict = new File(basedir,"target/classes/moDictionary.ser");
-File oldDict = new File(basedir,"target/classes/moDictionary.xml");
+File newDict = new File(basedir,"target/classes/net/sourceforge/jeuclid/moDictionary.ser");
+File oldDict = new File(basedir,"target/classes/net/sourceforge/jeuclid/moDictionary.xml");
 ant.delete(file:newDict);
 Object dict = OperatorDictionary.getInstance();
 os = new FileOutputStream(newDict);
@@ -44,8 +44,8 @@ oo.close();
 ant.delete(file:oldDict);
 
 log.info("Preloading character mappings...");
-File newMap = new File(basedir,"target/classes/charmap.ser");
-File oldMap = new File(basedir,"target/classes/UnicodeData.txt");
+File newMap = new File(basedir,"target/classes/net/sourceforge/jeuclid/charmap.ser");
+File oldMap = new File(basedir,"target/classes/net/sourceforge/jeuclid/UnicodeData.txt");
 ant.delete(file:newMap);
 CharacterMapping map = CharacterMapping.getInstance();
 os = new FileOutputStream(newMap);
