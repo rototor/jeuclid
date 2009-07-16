@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.6" date="TDA" description="TBD">
+      <action dev="maxberger" type="add">Provide Win32 MathViewer executable.</action>
       <action dev="maxberger" type="update" issue="2782019">Moved Resources from root namespace into net/sf/jeuclid.</action>
       <action dev="maxberger" type="add">Internal DOM Tree is now in the MathML Namespace.</action>
       <action dev="maxberger" type="add">jeuclid-core JAR file is now OSGi compatible.</action>
