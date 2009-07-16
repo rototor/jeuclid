@@ -23,6 +23,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,6 +74,8 @@ public class TestTestSuiteRendering {
     private static final Log LOGGER = LogFactory
             .getLog(TestTestSuiteRendering.class);
 
+    private static final String RENDER_NAME = "renderInfos.ser";
+
     private final LayoutContext layoutContext;
 
     private final Graphics2D g2d;
@@ -81,15 +84,12 @@ public class TestTestSuiteRendering {
 
     private final Map<String, List<RenderInfo>> oldRendering;
 
-    private final String vendor;
-
     private final File tempDir;
 
     /**
      * Default Constructor.
      */
     public TestTestSuiteRendering() {
-        this.vendor = System.getProperty("java.vendor");
         final MutableLayoutContext mlc = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
         mlc.setParameter(Parameter.ANTIALIAS, true);
@@ -148,13 +148,9 @@ public class TestTestSuiteRendering {
         this.saveCurrentRenderings();
     }
 
-    private String getRIName() {
-        return "renderInfos." + this.vendor + ".ser";
-    }
-
     private void saveCurrentRenderings() throws Exception {
         final ObjectOutputStream oo = new ObjectOutputStream(
-                new FileOutputStream(new File(this.tempDir, this.getRIName())));
+                new FileOutputStream(new File(this.tempDir, RENDER_NAME)));
         oo.writeObject(this.currentRendering);
         oo.close();
     }
@@ -163,9 +159,8 @@ public class TestTestSuiteRendering {
     private Map<String, List<RenderInfo>> loadRenderings() {
         Map<String, List<RenderInfo>> retVal = null;
         try {
-            final ObjectInputStream oi = new ObjectInputStream(ClassLoader
-                    .getSystemResourceAsStream(this.getRIName()));
-
+            final ObjectInputStream oi = new ObjectInputStream(
+                    new FileInputStream(new File(this.tempDir, RENDER_NAME)));
             retVal = (Map<String, List<RenderInfo>>) oi.readObject();
             oi.close();
         } catch (final Exception e) {
@@ -173,9 +168,7 @@ public class TestTestSuiteRendering {
         }
         if (retVal == null) {
             TestTestSuiteRendering.LOGGER
-                    .info("Could not load "
-                            + this.getRIName()
-                            + ". Please check the output of the MathML testsuite manually and copy the file from temp/ to src/test/resources");
+                    .info("Could not load old rendering infos. Will create them for the first time.");
             retVal = new HashMap<String, List<RenderInfo>>();
         }
         return retVal;
