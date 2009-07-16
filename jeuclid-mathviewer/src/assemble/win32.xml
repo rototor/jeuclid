@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<assembly>
+  <id>win32</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <files>
+    <file>
+      <source>target/jeuclid-mathviewer-${version}.exe</source>
+      <destName>JEuclid MathViewer.exe</destName>
+      <outputDirectory/>
+      <fileMode>0755</fileMode>
+    </file>
+    <file>
+      <source>target/core/net/sourceforge/jeuclid/LICENSE.txt</source>
+      <outputDirectory/>
+      <fileMode>0644</fileMode>
+    </file>
+    <file>
+      <source>target/core/net/sourceforge/jeuclid/NOTICE</source>
+      <outputDirectory/>
+      <fileMode>0644</fileMode>
+    </file>
+    <file>
+      <source>LICENSE.FreeHEP</source>
+      <outputDirectory/>
+      <fileMode>0644</fileMode>
+    </file>
+  </files>
+</assembly>

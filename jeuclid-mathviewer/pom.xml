@@ -110,24 +110,6 @@
         </executions>
       </plugin>
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-3</version>
-        <configuration>
-          <descriptors>
-            <descriptor>src/assemble/osx.xml</descriptor>
-          </descriptors>
-          <attach>false</attach>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>attached</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
         <version>1.2.1</version>
@@ -179,6 +161,25 @@
               </versionInfo>
               <icon>src/main/app-resources/jeuclid.ico</icon>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-3</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assemble/osx.xml</descriptor>
+            <descriptor>src/assemble/win32.xml</descriptor>
+          </descriptors>
+          <attach>false</attach>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>attached</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
