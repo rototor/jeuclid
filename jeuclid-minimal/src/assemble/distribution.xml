@@ -30,12 +30,12 @@
   </fileSets>
   <files>
     <file>
-      <source>target/core/LICENSE.txt</source>
+      <source>target/core/net/sourceforge/jeuclid/LICENSE.txt</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>target/core/NOTICE</source>
+      <source>target/core/net/sourceforge/jeuclid/NOTICE</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
