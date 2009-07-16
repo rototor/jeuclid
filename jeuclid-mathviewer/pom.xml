@@ -177,6 +177,7 @@
                 <internalName>mathviewer</internalName>
                 <originalFilename>mathviewer.exe</originalFilename>
               </versionInfo>
+              <icon>src/main/app-resources/jeuclid.ico</icon>
             </configuration>
           </execution>
         </executions>
