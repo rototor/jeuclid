@@ -174,8 +174,8 @@
                 <productVersion>0.0.0.0</productVersion>
                 <txtProductVersion>${project.version}</txtProductVersion>
                 <productName>JEuclid Mathviewer</productName>
-                <internalName>mathviewer</internalName>
-                <originalFilename>mathviewer.exe</originalFilename>
+                <internalName>${project.artifactId}</internalName>
+                <originalFilename>${project.artifactId}-${project.version}.exe</originalFilename>
               </versionInfo>
               <icon>src/main/app-resources/jeuclid.ico</icon>
             </configuration>
