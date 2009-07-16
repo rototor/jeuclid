@@ -93,8 +93,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      *            y-offset for baseline
      * @param g
      *            Graphics context for painting. Should be compatible to the
-     *            context used during construction, but does not have to be
-     *            the same.
+     *            context used during construction, but does not have to be the
+     *            same.
      */
     public void draw(final Graphics2D g, final float x, final float y) {
         this.layout(this.document, LayoutStage.STAGE2, this.context);
@@ -138,9 +138,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
 
         for (final LayoutableNode child : node.getChildrenToDraw()) {
             final LayoutInfo childInfo = this.getInfo(child);
-            this.drawNode(child, g,
-                    x + childInfo.getPosX(LayoutStage.STAGE2), y
-                            + childInfo.getPosY(LayoutStage.STAGE2), debug);
+            this.drawNode(child, g, x + childInfo.getPosX(LayoutStage.STAGE2),
+                    y + childInfo.getPosY(LayoutStage.STAGE2), debug);
         }
     }
 
@@ -171,8 +170,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
                 && LayoutStage.STAGE2.equals(toStage)) {
             int count = 0;
             for (final LayoutableNode l : node.getChildrenToLayout()) {
-                this.layout(l, LayoutStage.STAGE2, node
-                        .getChildLayoutContext(count, parentContext));
+                this.layout(l, LayoutStage.STAGE2, node.getChildLayoutContext(
+                        count, parentContext));
                 count++;
             }
             node.layoutStage2(this, info, parentContext);
@@ -197,8 +196,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      * @return width of this view.
      */
     public float getWidth() {
-        final LayoutInfo info = this.layout(this.document,
-                LayoutStage.STAGE2, this.context);
+        final LayoutInfo info = this.layout(this.document, LayoutStage.STAGE2,
+                this.context);
         return info.getWidth(LayoutStage.STAGE2);
     }
 
@@ -206,8 +205,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      * @return ascent height.
      */
     public float getAscentHeight() {
-        final LayoutInfo info = this.layout(this.document,
-                LayoutStage.STAGE2, this.context);
+        final LayoutInfo info = this.layout(this.document, LayoutStage.STAGE2,
+                this.context);
         return info.getAscentHeight(LayoutStage.STAGE2);
     }
 
@@ -215,8 +214,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      * @return descent height.
      */
     public float getDescentHeight() {
-        final LayoutInfo info = this.layout(this.document,
-                LayoutStage.STAGE2, this.context);
+        final LayoutInfo info = this.layout(this.document, LayoutStage.STAGE2,
+                this.context);
         return info.getDescentHeight(LayoutStage.STAGE2);
     }
 
@@ -286,8 +285,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      *            starting y position offset
      * @return list of nodes with rendering information
      */
-    public List<JEuclidView.NodeRect> getNodesAt(final float x,
-            final float y, final float offsetX, final float offsetY) {
+    public List<JEuclidView.NodeRect> getNodesAt(final float x, final float y,
+            final float offsetX, final float offsetY) {
         this.layout(this.document, LayoutStage.STAGE2, this.context);
         final List<JEuclidView.NodeRect> nodes = new LinkedList<JEuclidView.NodeRect>();
         this.getNodesAtRec(x, y, offsetX, offsetY, this.document, nodes);
@@ -345,55 +344,48 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
         }
     }
 
-    // /**
-    // * Gets the Coords for a given node and offset.
-    // *
-    // * @param offsetX
-    // * xOffset
-    // * @param offsetY
-    // * yOffset
-    // *
-    // * @param node
-    // * org.dom.node
-    // * @return the rectangle
-    // *
-    // */
-    // public Rectangle2D.Float getRect(final float offsetX,
-    // final float offsetY, final Node node) {
-    // if (node instanceof LayoutableNode) {
-    // final LayoutInfo info = this.layoutMap.get(node);
-    // final LayoutStage stage = info.getLayoutStage();
-    // Node recNode = node;
-    // LayoutInfo recInfo = this.layoutMap.get(recNode);
-    // LayoutStage recStage = recInfo.getLayoutStage();
-    // float recInfoX = info.getPosX(recStage) + offsetX;
-    // float recInfoY = info.getPosY(recStage) + offsetY
-    // - info.getAscentHeight(recStage);
-    // while (recNode.getParentNode() != null
-    // && recNode.getParentNode() instanceof LayoutableNode) {
-    // recNode = recNode.getParentNode();
-    // recInfo = this.layoutMap.get(recNode);
-    // recStage = recInfo.getLayoutStage();
-    // recInfoX = recInfoX + recInfo.getPosX(recStage);
-    // recInfoY = recInfoY + recInfo.getPosY(recStage);
-    // }
-    // final Rectangle2D.Float rect = new Rectangle.Float(recInfoX,
-    // recInfoY, info.getWidth(stage), info
-    // .getAscentHeight(stage)
-    // + info.getDescentHeight(stage));
-    // return rect;
-    // } else {
-    // return null;
-    // }
-    // }
-
     /**
-     * Getter method for layoutMap.
+     * Gets the absolute Bounds for a given node and offset. May return null if
+     * the node could not be found.
      * 
-     * @return the layoutMap
+     * @param offsetX
+     *            x position offset to node
+     * @param offsetY
+     *            y position offset to node
+     * 
+     * @param node
+     *            A layoutable node which was layouted in the current view.
+     * @return the rectangle with the absolute bounds or null if the given node
+     *         was not layouted in this view.
+     * 
      */
-    public Map<Node, LayoutInfo> getLayoutMap() {
-        return this.layoutMap;
+    public Rectangle2D getRect(final float offsetX, final float offsetY,
+            final LayoutableNode node) {
+        // ensure Layout
+        this.layout(this.document, LayoutStage.STAGE2, this.context);
+        final LayoutInfo info = this.layoutMap.get(node);
+        final Rectangle2D retVal;
+        if (info == null) {
+            retVal = null;
+        } else {
+            LayoutableNode recNode = node;
+            LayoutInfo recInfo = info;
+            float recInfoX = info.getPosX(LayoutStage.STAGE2) + offsetX;
+            float recInfoY = info.getPosY(LayoutStage.STAGE2) + offsetY
+                    - info.getAscentHeight(LayoutStage.STAGE2);
+            while (recNode.getParentNode() != null
+                    && recNode.getParentNode() instanceof LayoutableNode) {
+                recNode = (LayoutableNode) recNode.getParentNode();
+                recInfo = this.layoutMap.get(recNode);
+                recInfoX = recInfoX + recInfo.getPosX(LayoutStage.STAGE2);
+                recInfoY = recInfoY + recInfo.getPosY(LayoutStage.STAGE2);
+            }
+            retVal = new Rectangle.Float(recInfoX, recInfoY, info
+                    .getWidth(LayoutStage.STAGE2), info
+                    .getAscentHeight(LayoutStage.STAGE2)
+                    + info.getDescentHeight(LayoutStage.STAGE2));
+        }
+        return retVal;
     }
 
 }
