@@ -122,6 +122,7 @@
             <configuration>
               <shadedArtifactId>${project.artifactId}-ueber</shadedArtifactId>
               <shadedArtifactAttached>false</shadedArtifactAttached>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
             </configuration>
           </execution>
         </executions>
