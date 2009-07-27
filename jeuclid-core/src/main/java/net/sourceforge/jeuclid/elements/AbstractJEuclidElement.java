@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -146,6 +146,21 @@ public abstract class AbstractJEuclidElement extends
     public AbstractJEuclidElement(final String qname,
             final AbstractDocument odoc) {
         super(AbstractJEuclidElement.URI, qname, odoc);
+    }
+
+    /**
+     * Constructor to explicitly set the namespace.
+     * 
+     * @param nsUri
+     *            Namespace URI.
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
+     */
+    public AbstractJEuclidElement(final String nsUri, final String qname,
+            final AbstractDocument odoc) {
+        super(nsUri, qname, odoc);
     }
 
     /**

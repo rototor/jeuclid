@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -149,7 +149,7 @@ public final class DocumentElement extends GenericDocument implements
     /** {@inheritDoc} */
     @Override
     public Element createElement(final String tagName) {
-        return JEuclidElementFactory.elementFromName(tagName, this);
+        return JEuclidElementFactory.elementFromName(null, tagName, this);
     }
 
     /** {@inheritDoc} */
@@ -162,13 +162,6 @@ public final class DocumentElement extends GenericDocument implements
         } else {
             ns = namespaceURI;
         }
-        if (ns == null) {
-            return this.createElement(qualifiedName);
-        } else {
-            final Element e = this.createElement(qualifiedName);
-            // TODO: E should contain ns
-            return e;
-        }
+        return JEuclidElementFactory.elementFromName(ns, qualifiedName, this);
     }
-
 }
