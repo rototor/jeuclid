@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import java.util.Map;
 
 import net.sourceforge.jeuclid.elements.content.semantic.Annotation;
 import net.sourceforge.jeuclid.elements.content.semantic.Semantics;
+import net.sourceforge.jeuclid.elements.generic.ForeignElement;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
 import net.sourceforge.jeuclid.elements.presentation.enlivening.Maction;
 import net.sourceforge.jeuclid.elements.presentation.general.Menclose;
@@ -97,38 +98,45 @@ public final class JEuclidElementFactory {
     /**
      * Factory for MathML Elements.
      * 
+     * @param nsUri
+     *            namespace URI. May be null. May be ignored in the case of
+     *            MathML.
      * @param qualifiedName
      *            name of the element with optional namespace prefix.
      * @param ownerDocument
      *            Document this element belongs to.
      * @return A new MathElement for this tag name.
      */
-    public static Element elementFromName(final String qualifiedName,
-            final Document ownerDocument) {
+    public static Element elementFromName(final String nsUri,
+            final String qualifiedName, final Document ownerDocument) {
 
         final String localName = JEuclidElementFactory
                 .removeNSPrefix(qualifiedName);
 
-        final Constructor<?> con = JEuclidElementFactory.IMPL_CLASSES
-                .get(localName);
-
         JEuclidElement element = null;
-        if (con != null) {
-            try {
-                element = (JEuclidElement) con.newInstance(qualifiedName,
-                        ownerDocument);
-            } catch (final InstantiationException e) {
-                element = null;
-            } catch (final IllegalAccessException e) {
-                element = null;
-            } catch (final InvocationTargetException e) {
-                element = null;
+
+        if ((nsUri == null) || (AbstractJEuclidElement.URI.equals(nsUri))) {
+            final Constructor<?> con = JEuclidElementFactory.IMPL_CLASSES
+                    .get(localName);
+
+            if (con != null) {
+                try {
+                    element = (JEuclidElement) con.newInstance(qualifiedName,
+                            ownerDocument);
+                } catch (final InstantiationException e) {
+                    element = null;
+                } catch (final IllegalAccessException e) {
+                    element = null;
+                } catch (final InvocationTargetException e) {
+                    element = null;
+                }
             }
         }
         if (element == null) {
             // JEuclidElementFactory.LOGGER.info("Unsupported element: "
             // + localName);
-            element = new Mrow(qualifiedName, (AbstractDocument) ownerDocument);
+            element = new ForeignElement(nsUri, qualifiedName,
+                    (AbstractDocument) ownerDocument);
         }
         return element;
     }
