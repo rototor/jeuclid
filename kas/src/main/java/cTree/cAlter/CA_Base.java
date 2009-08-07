@@ -25,7 +25,7 @@ import cTree.adapter.C_Changer;
  * string which is displayed in the list. register(): a hashmap is find the
  * changer when the text is chosen.
  * 
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public abstract class CA_Base extends C_Changer {
 
