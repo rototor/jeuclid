@@ -30,7 +30,7 @@ import cTree.cDefence.DefHandler;
 /**
  * nur Splits der Form e(x-45) oder e(x+2) oder e(3x+2) sind möglich!
  * 
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public class CSplitterErweiternFences extends CSplitterBase {
 

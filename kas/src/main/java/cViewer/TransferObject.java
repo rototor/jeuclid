@@ -20,7 +20,7 @@ package cViewer;
  * Takes a list of Strings as options to a MyComboDialog. The ComboDialogs
  * writes the resultString.
  * 
- * @version $Revision: 001 $
+ * @version $Revision$
  */
 public class TransferObject {
 

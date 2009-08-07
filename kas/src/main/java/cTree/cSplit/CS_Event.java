@@ -23,7 +23,7 @@ import cTree.cDefence.CD_Event;
  * Transports an additional String which describes how to split the active
  * CElement
  * 
- * @version $Revision: 000 $
+ * @version $Revision$
  */
 public class CS_Event extends CD_Event {
 
