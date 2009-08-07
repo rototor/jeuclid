@@ -10,3 +10,4 @@ temp/
 \.checkstyle$
 \.fbprefs$
 ^jeuclid-mathviewer/keystore$
+\.patch$
