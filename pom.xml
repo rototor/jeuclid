@@ -208,9 +208,9 @@
     </contributor>
   </contributors>
   <scm>
-    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</connection>
-    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</developerConnection>
-    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</url>
+    <connection>scm:hg:http://jeuclid.hg.sourceforge.net:8000/hgroot/jeuclid</connection>
+    <developerConnection>scm:hg:ssh://jeuclid.hg.sourceforge.net/hgroot/jeuclid</developerConnection>
+    <url>http://jeuclid.hg.sourceforge.net/hgweb/jeuclid/</url>
   </scm>
   <build>
     <extensions>
