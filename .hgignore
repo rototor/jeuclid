@@ -2,9 +2,11 @@ syntax: regexp
 
 target/
 ^temp
+temp/
 ^test
 \.classpath$
 \.project$
 \.settings/
 \.checkstyle$
 \.fbprefs$
+^jeuclid-mathviewer/keystore$
