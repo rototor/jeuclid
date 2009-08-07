@@ -1,20 +1,23 @@
 /*
  * Copyright 2002 - 2009 JEuclid, http://jeuclid.sf.net
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-/* $Id$ */
+/*
+ * $Id: AbstractJEuclidElement.java,v 92569cce5dd6 2009/07/27 14:50:38 maxberger
+ * $
+ */
 
 package net.sourceforge.jeuclid.elements;
 
@@ -45,6 +48,7 @@ import net.sourceforge.jeuclid.layout.LayoutableNode;
 import org.apache.batik.dom.AbstractDocument;
 import org.apache.batik.dom.GenericElementNS;
 import org.apache.batik.dom.events.DOMMutationEvent;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.mathml.MathMLElement;
@@ -588,22 +592,20 @@ public abstract class AbstractJEuclidElement extends
      */
     protected String getMathAttribute(final String attrName,
             final boolean useDefault) {
-        String attrValue;
-        attrValue = this.getAttributeNS(AbstractJEuclidElement.URI, attrName)
-                .trim();
-        // TODO: Replace with .isEmpty when JEuclid moves to 1.6
-        if (attrValue.length() == 0) {
-            attrValue = this.getAttribute(attrName).trim();
-            if (attrValue.length() == 0) {
-                // CHECKSTYLE:OFF
-                // Third level here is no problem for readability.
-                if (useDefault) {
-                    // CHECKSTYLE:ON
-                    attrValue = this.defaultMathAttributes.get(attrName);
-                } else {
-                    attrValue = null;
-                }
+        final String attrValue;
+        Attr attr = this.getAttributeNodeNS(AbstractJEuclidElement.URI,
+                attrName);
+        if (attr == null) {
+            attr = this.getAttributeNode(attrName);
+        }
+        if (attr == null) {
+            if (useDefault) {
+                attrValue = this.defaultMathAttributes.get(attrName);
+            } else {
+                attrValue = null;
             }
+        } else {
+            attrValue = attr.getValue().trim();
         }
         return attrValue;
     }

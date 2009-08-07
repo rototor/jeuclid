@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -124,7 +124,7 @@ public final class Mfenced extends AbstractElementWithDelegates implements
         if (attValue != null) {
             for (int i = 0; i < attValue.length(); i++) {
                 final char c = attValue.charAt(i);
-                if (c >= AbstractJEuclidElement.TRIVIAL_SPACE_MAX) {
+                if (c > AbstractJEuclidElement.TRIVIAL_SPACE_MAX) {
                     retVal.append(c);
                 }
             }
