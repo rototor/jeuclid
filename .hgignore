@@ -1,0 +1,10 @@
+syntax: regexp
+
+target/
+^temp
+^test
+\.classpath$
+\.project$
+\.settings/
+\.checkstyle$
+\.fbprefs$
