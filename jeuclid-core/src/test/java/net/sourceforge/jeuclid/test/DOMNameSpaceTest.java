@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.test;
 
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathMLParserSupport;
-import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 import org.testng.Assert;
