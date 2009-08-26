@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,24 @@
 
 package net.sourceforge.jeuclid.swt;
 
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+
 /**
  * This class will contain a display component for SWT.
  * 
  * @todo actually implement SWT component
  * @version $Revision$
  */
-public final class MathView {
-    private MathView() {
+public final class MathView extends Canvas {
+    /**
+     * Create a new MathView Widget.
+     * 
+     * @param parent Parent component
+     * @param style SWT style attributes.
+     */
+    public MathView(final Composite parent, final int style) {
+        super(parent, style);
         // not implemented yet
     }
 }
