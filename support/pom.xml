@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sourceforge.jeuclid</groupId>
+  <artifactId>jeuclid-support</artifactId>
+  <name>JEuclid Support</name>
+  <version>1.0.1</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>build-tools</module>
+    <module>stix-fonts</module>
+    <module>dejavu-fonts</module>
+    <module>ams-fonts</module>
+  </modules>
+  <description>
+    JEuclid support module. This module contains all the dependencies of JEuclid which are released on a schedule independet of the main JEuclid releases.
+  </description>
+  <url>http://jeuclid.sourceforge.net/</url>
+  <issueManagement>
+    <system>SourceForge</system>
+    <url>https://sourceforge.net/tracker/?group_id=44862</url>
+  </issueManagement>
+  <inceptionYear>2002</inceptionYear>
+  <organization>
+    <name>The JEuclid project</name>
+    <url>http://jeuclid.sourceforge.net/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk/support</connection>
+    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk/support</developerConnection>
+    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk/support</url>
+  </scm>
+  <distributionManagement>
+    <repository>
+      <id>sourceforgejeuclid</id>
+      <name>SourceForge Final Repository</name>
+      <url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-release</url>
+    </repository>
+    <snapshotRepository>
+      <id>sourceforgejeuclid</id>
+      <name>SourceForge Snapshot Repository</name>
+      <url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-snap</url>
+    </snapshotRepository>
+    <site>
+      <id>sourceforgejeuclid</id>
+      <name>Website for JEuclid on SourceForge</name>
+      <url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/support</url>
+    </site>
+  </distributionManagement>
+</project>

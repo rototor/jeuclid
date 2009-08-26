@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
+<article>
+  <title></title>
+
+  <section>
+    <title>JEuclid Extensions to MathML</title>
+
+    <para>JEuclid Provides some extensions to MathML.</para>
+
+    <para>You can add additional attributes to the
+    <literal>&lt;math&gt;</literal> element to specify JEuclid layout
+    parameters. The attribute names are the same as given in the command line
+    tool, prefixed with the
+    <literal>http://jeuclid.sf.net/ns/context</literal> namespace.
+    Example:</para>
+
+    <para>Command line argument <literal>fontSize</literal> becomes:</para>
+
+    <literallayout>&lt;math xmlns="http://www.w3.org/1998/Math/MathML" 
+      xmlns:jeuclid="<literal>http://jeuclid.sf.net/ns/context</literal>"
+      jeuclid:fontSize="24"&gt;</literallayout>
+
+    <para>Check the command line tool for a list of possible parameters and
+    their values.</para>
+
+    <para><emphasis role="bold">Note:</emphasis> Rendering attributes given
+    for the <literal>math</literal> attribute can not be overwritten by the
+    external context. This means that if one of these attributes is set, it
+    will always overwrite the settings in the MathViewer.</para>
+
+    <para><emphasis role="bold">Note:</emphasis> Please note: In JEuclid
+    versions 3.1.2 - 3.1.5 the attributes where named by the internal name,
+    e.g. <literal>MATHSIZE</literal> instead of <literal>fontSize</literal>.
+    The older attribute names are still supported, but should not be used, as
+    they will be removed in a future version.</para>
+  </section>
+</article>
