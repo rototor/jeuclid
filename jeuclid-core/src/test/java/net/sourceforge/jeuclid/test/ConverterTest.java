@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.test;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 import net.sourceforge.jeuclid.MathMLParserSupport;
@@ -101,8 +102,8 @@ public class ConverterTest {
         final MutableLayoutContext params = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 25f);
-        Converter.getInstance().convert(doc, outFile, "application/pdf",
-                params);
+        Converter.getInstance()
+                .convert(doc, outFile, "application/pdf", params);
         Assert.assertTrue(outFile.exists(), "PDF file was not created");
         Assert.assertTrue(outFile.length() > 0, "PDF file is empty");
         Assert.assertTrue(outFile.length() > 2048, "PDF file is too small");
@@ -169,8 +170,8 @@ public class ConverterTest {
 
         for (int example = 1; example <= 10; example++) {
             final String exName = "example" + example + ".mml";
-            final File outFile = new File(this.getOutDir(), "example"
-                    + example + ".png");
+            final File outFile = new File(this.getOutDir(), "example" + example
+                    + ".png");
             final Document document = MathBaseTest.loadDocument(exName);
             Converter.getInstance().convert(document, outFile, "image/png",
                     params);
@@ -207,6 +208,29 @@ public class ConverterTest {
         Assert.assertTrue("png".equalsIgnoreCase(ConverterRegistry
                 .getInstance().getSuffixForMimeType("image/png")));
 
+    }
+
+    /**
+     * Tests if SVG converter is available and creates an output file.
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testConverterBufferedImage() throws Exception {
+        final Document doc = MathMLParserSupport
+                .parseString(ConverterTest.TEST1);
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
+        params.setParameter(Parameter.MATHSIZE, 25f);
+        BufferedImage bi = Converter.getInstance().render(doc, params);
+        Assert.assertTrue(bi.getWidth() > 10,
+                "Image Created was not wide enough");
+        Assert.assertTrue(bi.getHeight() > 10,
+                "Image Created was not tall enough");
+        int ltpixel = bi.getRGB(0, 0);
+        Assert.assertEquals(ltpixel, 0, "Expected Transparent Pixel, got "
+                + ltpixel);
     }
 
 }
