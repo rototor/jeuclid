@@ -147,8 +147,8 @@ public final class Converter {
     }
 
     /**
-     * Converts an existing document from MathML to the given type and store
-     * it in a file.
+     * Converts an existing document from MathML to the given type and store it
+     * in a file.
      * 
      * @param doc
      *            input document. See
@@ -188,8 +188,8 @@ public final class Converter {
     }
 
     /**
-     * Converts an existing document from MathML to the given XML based type
-     * and store it in a DOM document.
+     * Converts an existing document from MathML to the given XML based type and
+     * store it in a DOM document.
      * 
      * @param doc
      *            input document. See
@@ -200,8 +200,8 @@ public final class Converter {
      * @param params
      *            parameter set to use for conversion.
      * @return an instance of Document, or the appropriate subtype for this
-     *         format (e.g. SVGDocument). If conversion is not supported to
-     *         this type, it may return null.
+     *         format (e.g. SVGDocument). If conversion is not supported to this
+     *         type, it may return null.
      */
     public DocumentWithDimension convert(final Node doc,
             final String outFileType, final LayoutContext params) {
@@ -248,8 +248,8 @@ public final class Converter {
             try {
                 result = plugin.convert(doc, params, outStream);
             } catch (final IOException ex) {
-                Converter.LOGGER.fatal("Failed to process: "
-                        + ex.getMessage(), ex);
+                Converter.LOGGER.fatal("Failed to process: " + ex.getMessage(),
+                        ex);
             }
         }
         return result;
@@ -268,8 +268,25 @@ public final class Converter {
      */
     public BufferedImage render(final Node node, final LayoutContext context)
             throws IOException {
-        final Image tempimage = new BufferedImage(1, 1,
-                BufferedImage.TYPE_INT_ARGB);
+        return this.render(node, context, BufferedImage.TYPE_INT_ARGB);
+    }
+
+    /**
+     * Renders a document into an image.
+     * 
+     * @param node
+     *            Document / Node to render
+     * @param context
+     *            LayoutContext to use.
+     * @param imageType
+     *            ImageType as defined by {@link BufferedImage}
+     * @return the rendered image
+     * @throws IOException
+     *             if an I/O error occurred.
+     */
+    public BufferedImage render(final Node node, final LayoutContext context,
+            final int imageType) throws IOException {
+        final Image tempimage = new BufferedImage(1, 1, imageType);
         final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
 
         final JEuclidView view = new JEuclidView(node, context, tempg);
@@ -278,13 +295,16 @@ public final class Converter {
         final int ascent = (int) Math.ceil(view.getAscentHeight());
         final int height = (int) Math.ceil(view.getDescentHeight()) + ascent;
 
-        final BufferedImage image = new BufferedImage(width, height,
-                BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage image = new BufferedImage(width, height, imageType);
         final Graphics2D g = image.createGraphics();
 
-        final Color transparency = new Color(255, 255, 255, 0);
-
-        g.setColor(transparency);
+        final Color background;
+        if (image.getColorModel().hasAlpha()) {
+            background = new Color(255, 255, 255, 0);
+        } else {
+            background = Color.WHITE;
+        }
+        g.setColor(background);
         g.fillRect(0, 0, width, height);
         g.setColor(Color.black);
 

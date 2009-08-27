@@ -18,6 +18,7 @@
 
 package net.sourceforge.jeuclid.test;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -211,7 +212,7 @@ public class ConverterTest {
     }
 
     /**
-     * Tests if SVG converter is available and creates an output file.
+     * Tests if rendered creates a bufferd image with alpha values
      * 
      * @throws Exception
      *             if the test fails.
@@ -231,6 +232,31 @@ public class ConverterTest {
         int ltpixel = bi.getRGB(0, 0);
         Assert.assertEquals(ltpixel, 0, "Expected Transparent Pixel, got "
                 + ltpixel);
+    }
+
+    /**
+     * Tests if rendered creates a buffered image without alpha values
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testConverterBufferedImageNoAlpha() throws Exception {
+        final Document doc = MathMLParserSupport
+                .parseString(ConverterTest.TEST1);
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
+        params.setParameter(Parameter.MATHSIZE, 25f);
+        BufferedImage bi = Converter.getInstance().render(doc, params,
+                BufferedImage.TYPE_3BYTE_BGR);
+        Assert.assertTrue(bi.getWidth() > 10,
+                "Image Created was not wide enough");
+        Assert.assertTrue(bi.getHeight() > 10,
+                "Image Created was not tall enough");
+        int ltpixel = bi.getRGB(0, 0);
+        int white = Color.WHITE.getRGB();
+        Assert.assertEquals(ltpixel, white,
+                "Expected white Pixel ("+white+"), got " + ltpixel);
     }
 
 }
