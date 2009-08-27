@@ -42,17 +42,23 @@ public class ImageIOConverter implements ConverterPlugin {
 
     private final ImageWriter writer;
 
-    private final boolean removeAlpha;
+    private final int colorModel;
 
     /**
      * Default constructor.
      * 
      * @param iw
      *            ImageWrite instance to use for this converter.
+     * @param noAlpha
+     *            if true, this image format does not support alpha values.
      */
-    ImageIOConverter(final ImageWriter iw, final boolean remAlpha) {
+    ImageIOConverter(final ImageWriter iw, final boolean noAlpha) {
         this.writer = iw;
-        this.removeAlpha = remAlpha;
+        if (noAlpha) {
+            this.colorModel = BufferedImage.TYPE_INT_RGB;
+        } else {
+            this.colorModel = BufferedImage.TYPE_INT_ARGB;
+        }
     }
 
     /** {@inheritDoc} */
@@ -60,10 +66,8 @@ public class ImageIOConverter implements ConverterPlugin {
             final OutputStream outStream) throws IOException {
         final ImageOutputStream ios = new MemoryCacheImageOutputStream(
                 outStream);
-        BufferedImage image = Converter.getInstance().render(doc, context);
-        if (this.removeAlpha && image.getColorModel().hasAlpha()) {
-            image = this.removeAlpha(image);
-        }
+        final BufferedImage image = Converter.getInstance().render(doc,
+                context, this.colorModel);
         synchronized (this.writer) {
             this.writer.setOutput(ios);
             this.writer.write(image);
@@ -76,18 +80,6 @@ public class ImageIOConverter implements ConverterPlugin {
     public DocumentWithDimension convert(final Node doc,
             final LayoutContext context) {
         return null;
-    }
-
-    private BufferedImage removeAlpha(final BufferedImage image) {
-        final int width = image.getWidth();
-        final int height = image.getHeight();
-        final BufferedImage noAlpha = new BufferedImage(width, height,
-                BufferedImage.TYPE_INT_RGB);
-        final Graphics2D g = noAlpha.createGraphics();
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, width, height);
-        g.drawImage(image, 0, 0, null);
-        return noAlpha;
     }
 
 }
