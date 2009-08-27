@@ -48,6 +48,20 @@ public class ConverterTest {
             + "<mrow><munderover><mo>&#x0222B;</mo><mn>1</mn><mi>x</mi></munderover>"
             + "<mfrac><mi>dt</mi><mi>t</mi></mfrac></mrow></math>";
 
+    private void testConverterXXX(String ext, String mimeext) throws Exception {
+        final Document doc = MathMLParserSupport
+                .parseString(ConverterTest.TEST1);
+        final File outFile = new File(this.getOutDir(), "test1." + ext);
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
+        params.setParameter(Parameter.MATHSIZE, 25f);
+
+        Converter.getInstance().convert(doc, outFile, "image/" + mimeext,
+                params);
+        Assert.assertTrue(outFile.exists());
+        Assert.assertTrue(outFile.length() > 0);
+    }
+
     /**
      * Tests if PNG converter is available.
      * 
@@ -56,16 +70,29 @@ public class ConverterTest {
      */
     @Test
     public void testConverterPNG() throws Exception {
-        final Document doc = MathMLParserSupport
-                .parseString(ConverterTest.TEST1);
-        final File outFile = new File(this.getOutDir(), "test1.png");
-        final MutableLayoutContext params = new LayoutContextImpl(
-                LayoutContextImpl.getDefaultLayoutContext());
-        params.setParameter(Parameter.MATHSIZE, 25f);
+        this.testConverterXXX("png", "png");
+    }
 
-        Converter.getInstance().convert(doc, outFile, "image/png", params);
-        Assert.assertTrue(outFile.exists());
-        Assert.assertTrue(outFile.length() > 0);
+    /**
+     * Tests if JPEG converter is available.
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testConverterJPG() throws Exception {
+        this.testConverterXXX("jpg", "jpeg");
+    }
+
+    /**
+     * Tests if BMP converter is available.
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testConverterBMP() throws Exception {
+        this.testConverterXXX("bmp", "bmp");
     }
 
     /**
@@ -255,8 +282,8 @@ public class ConverterTest {
                 "Image Created was not tall enough");
         int ltpixel = bi.getRGB(0, 0);
         int white = Color.WHITE.getRGB();
-        Assert.assertEquals(ltpixel, white,
-                "Expected white Pixel ("+white+"), got " + ltpixel);
+        Assert.assertEquals(ltpixel, white, "Expected white Pixel (" + white
+                + "), got " + ltpixel);
     }
 
 }
