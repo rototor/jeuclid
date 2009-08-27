@@ -18,6 +18,10 @@
 
 package net.sourceforge.jeuclid.swt;
 
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
@@ -31,11 +35,30 @@ public final class MathView extends Canvas {
     /**
      * Create a new MathView Widget.
      * 
-     * @param parent Parent component
-     * @param style SWT style attributes.
+     * @param parent
+     *            Parent component
+     * @param style
+     *            SWT style attributes.
      */
     public MathView(final Composite parent, final int style) {
         super(parent, style);
-        // not implemented yet
+        this.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(final DisposeEvent e) {
+                MathView.this.widgetDisposed(e);
+            }
+        });
+        this.addPaintListener(new PaintListener() {
+            public void paintControl(final PaintEvent e) {
+                MathView.this.paintControl(e);
+            }
+        });
     }
+
+    private void paintControl(final PaintEvent e) {
+    }
+
+    private void widgetDisposed(final DisposeEvent e) {
+        // Nothing to do yet
+    }
+
 }
