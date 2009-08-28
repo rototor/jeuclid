@@ -29,6 +29,7 @@ import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
 import net.sourceforge.jeuclid.converter.ConverterPlugin.DocumentWithDimension;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -259,6 +260,22 @@ public class ConverterTest {
         int ltpixel = bi.getRGB(0, 0);
         Assert.assertEquals(ltpixel, 0, "Expected Transparent Pixel, got "
                 + ltpixel);
+    }
+
+    /**
+     * Tests if rendered creates a bufferd image for an empty document
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testConverterBufferedImageEmptyDoc() throws Exception {
+        final Document doc = new DocumentElement();
+
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
+        BufferedImage bi = Converter.getInstance().render(doc, params);
+        Assert.assertNotNull(bi);
     }
 
     /**
