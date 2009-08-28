@@ -61,6 +61,8 @@ public final class Converter {
 
     private static final String UNSUPPORTED_OUTPUT_TYPE = "Unsupported output type: ";
 
+    private static final int MAX_RGB_VALUE = 255;
+
     private static final class SingletonHolder {
         private static final Converter INSTANCE = new Converter();
 
@@ -291,16 +293,18 @@ public final class Converter {
 
         final JEuclidView view = new JEuclidView(node, context, tempg);
 
-        final int width = (int) Math.ceil(view.getWidth());
+        final int width = Math.max(1, (int) Math.ceil(view.getWidth()));
         final int ascent = (int) Math.ceil(view.getAscentHeight());
-        final int height = (int) Math.ceil(view.getDescentHeight()) + ascent;
+        final int height = Math.max(1, (int) Math.ceil(view.getDescentHeight())
+                + ascent);
 
         final BufferedImage image = new BufferedImage(width, height, imageType);
         final Graphics2D g = image.createGraphics();
 
         final Color background;
         if (image.getColorModel().hasAlpha()) {
-            background = new Color(255, 255, 255, 0);
+            background = new Color(Converter.MAX_RGB_VALUE,
+                    Converter.MAX_RGB_VALUE, Converter.MAX_RGB_VALUE, 0);
         } else {
             background = Color.WHITE;
         }
