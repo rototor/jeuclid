@@ -203,6 +203,8 @@ public class DOMModelTest {
                         + "<mo>&#x0007d;</mo>"
                         + "<mo>&#x02254;</mo>"
                         + "<mo>&#x0201d;</mo>"
+                        + "<mo stretchy='false'>)</mo>"
+                        + "<mo>)</mo>"
                         + "</math>");
         final MathMLDocument docElement = DOMBuilder.getInstance()
                 .createJeuclidDom(doc);
@@ -222,8 +224,12 @@ public class DOMModelTest {
         Assert.assertTrue(Boolean.parseBoolean(mo3.getStretchy()));
         final Mo mo4 = (Mo) mathElement.getChildNodes().item(3);
         Assert.assertFalse(Boolean.parseBoolean(mo4.getStretchy()));
-        final Mo mo5 = (Mo) mathElement.getChildNodes().item(2);
+        final Mo mo5 = (Mo) mathElement.getChildNodes().item(4);
         Assert.assertTrue(Boolean.parseBoolean(mo5.getStretchy()));
+        final Mo mo6 = (Mo) mathElement.getChildNodes().item(5);
+        Assert.assertFalse(Boolean.parseBoolean(mo6.getStretchy()));
+        final Mo mo7 = (Mo) mathElement.getChildNodes().item(6);
+        Assert.assertTrue(Boolean.parseBoolean(mo7.getStretchy()));
     }
 
     /**
