@@ -240,7 +240,7 @@ public class ConverterTest {
     }
 
     /**
-     * Tests if rendered creates a bufferd image with alpha values
+     * Tests if rendered creates a buffered image with alpha values
      * 
      * @throws Exception
      *             if the test fails.
@@ -263,7 +263,7 @@ public class ConverterTest {
     }
 
     /**
-     * Tests if rendered creates a bufferd image for an empty document
+     * Tests if rendered creates a buffered image for an empty document
      * 
      * @throws Exception
      *             if the test fails.
