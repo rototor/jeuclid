@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.7" date="TBD" description="TBD">
+      <action dev="maxberger" type="add">Basic SWT Widget is now implemented.</action>
       <action dev="maxberger" type="fix" issue="2833272">Restored functionality to get null value for attributes. Fixes mfence.</action>
       <action dev="maxberger" type="add">Better support for foreign elements in JEuclid DOM Tree.</action>
     </release>
