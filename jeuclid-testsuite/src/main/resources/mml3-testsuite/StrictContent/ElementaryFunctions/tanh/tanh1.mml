@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <csymbol cd="transc1">tanh</csymbol> 
+    <apply> 
+      <csymbol cd="arith1">plus</csymbol> 
+      <ci>a</ci>  
+      <ci>b</ci> 
+    </apply> 
+  </apply> 
+</math>

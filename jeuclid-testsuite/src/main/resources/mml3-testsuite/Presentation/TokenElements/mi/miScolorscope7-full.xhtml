@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  miScolorscope7</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../../Presentation/TokenElements/mi/miScolorname6-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/">Presentation</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/TokenElements/">TokenElements</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/TokenElements/mi/">mi</a> &gt; miScolorscope7
+   ) </td><td style="text-align: right"><a href="../../../Presentation/TokenElements/mi/miSfonts8-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="miScolorscope7.mml">mml file</a>)
+       (<a href="miScolorscope7-full.xhtml">full</a>) (<a href="miScolorscope7-simple.xhtml">simple</a>) (<a href="miScolorscope7-plain.xhtml">plain</a>) (<a href="miScolorscope7-form.xhtml">form</a>) (<a href="miScolorscope7-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>Presentation/TokenElements/mi/miScolorscope7</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Robert Miner and Jeff Schaefer, Geometry Technologies</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>Tests scoping of color attributes for &lt;mi&gt; with
+&lt;mstyle&gt;. Also tests some CSS color name attribute
+values.</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p><table><tr><td><img src="miScolorscope7.png" alt="Created by: webeq"></img></td></tr></table></td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <mtable> 
+        <mtr> 
+          <mtd> 
+            <mi fontsize="14pt">a</mi> 
+            <mo color="black">+</mo> 
+            <mstyle fontsize="24pt" color="GREEN"> 
+              <mi>a</mi> 
+              <mo color="red">+</mo> 
+              <mi color="red">a</mi> 
+            </mstyle> 
+            <mo>+</mo> 
+            <mi>a</mi> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mi mathsize="14pt">a</mi> 
+            <mo mathcolor="black">+</mo> 
+            <mstyle mathsize="24pt" mathcolor="GREEN"> 
+              <mi>a</mi> 
+              <mo mathcolor="red">+</mo> 
+              <mi mathcolor="red">a</mi> 
+            </mstyle> 
+            <mo>+</mo> 
+            <mi>a</mi> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mi mathsize="14pt">a</mi> 
+            <mo mathcolor="black">+</mo> 
+            <mstyle mathsize="24pt" mathcolor="GREEN"> 
+              <mi>a</mi> 
+              <mo color="red">+</mo> 
+              <mi fontsize="14pt">a</mi> 
+            </mstyle> 
+            <mo>+</mo> 
+            <mi>a</mi> 
+          </mtd> 
+        </mtr> 
+      </mtable> 
+    </math>
+  </span><hr></hr><p><b>Source Code</b>:</p><pre>
+    &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+      &lt;mtable&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mi fontsize='14pt'&gt;a&lt;/mi&gt; 
+            &lt;mo color='black'&gt;+&lt;/mo&gt; 
+            &lt;mstyle fontsize='24pt' color='GREEN'&gt; 
+              &lt;mi&gt;a&lt;/mi&gt; 
+              &lt;mo color='red'&gt;+&lt;/mo&gt; 
+              &lt;mi color='red'&gt;a&lt;/mi&gt; 
+            &lt;/mstyle&gt; 
+            &lt;mo&gt;+&lt;/mo&gt; 
+            &lt;mi&gt;a&lt;/mi&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mi mathsize='14pt'&gt;a&lt;/mi&gt; 
+            &lt;mo mathcolor='black'&gt;+&lt;/mo&gt; 
+            &lt;mstyle mathsize='24pt' mathcolor='GREEN'&gt; 
+              &lt;mi&gt;a&lt;/mi&gt; 
+              &lt;mo mathcolor='red'&gt;+&lt;/mo&gt; 
+              &lt;mi mathcolor='red'&gt;a&lt;/mi&gt; 
+            &lt;/mstyle&gt; 
+            &lt;mo&gt;+&lt;/mo&gt; 
+            &lt;mi&gt;a&lt;/mi&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mi mathsize='14pt'&gt;a&lt;/mi&gt; 
+            &lt;mo mathcolor='black'&gt;+&lt;/mo&gt; 
+            &lt;mstyle mathsize='24pt' mathcolor='GREEN'&gt; 
+              &lt;mi&gt;a&lt;/mi&gt; 
+              &lt;mo color='red'&gt;+&lt;/mo&gt; 
+              &lt;mi fontsize='14pt'&gt;a&lt;/mi&gt; 
+            &lt;/mstyle&gt; 
+            &lt;mo&gt;+&lt;/mo&gt; 
+            &lt;mi&gt;a&lt;/mi&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+      &lt;/mtable&gt; 
+    &lt;/math&gt;
+  </pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/TokenElements/mi/miScolorname6-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/TokenElements/mi/miScolorname6-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/TokenElements/mi/miSfonts8-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/TokenElements/mi/miSfonts8-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

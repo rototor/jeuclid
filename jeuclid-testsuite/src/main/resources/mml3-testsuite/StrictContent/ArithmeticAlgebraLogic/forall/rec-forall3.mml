@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <bind>
+    <csymbol cd="quant1">forall</csymbol>
+    <bvar>
+      <ci>p</ci>
+    </bvar>
+    <bvar>
+      <ci>q</ci>
+    </bvar>
+    <apply> 
+      <csymbol cd="relation1">lt</csymbol> 
+      <ci>p</ci> 
+      <apply>
+        <csymbol cd="arith1">power</csymbol>  
+        <ci>q</ci> 
+        <cn>2</cn> 
+      </apply>  
+    </apply>
+  </bind> 
+</math>

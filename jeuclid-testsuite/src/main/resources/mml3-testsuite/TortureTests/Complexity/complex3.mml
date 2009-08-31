@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <mrow>
+    <mstyle displaystyle="false" scriptlevel="0" mathcolor="red" mathbackground="transparent">
+      <mrow> 
+        <mn>2</mn> 
+        <mo>⁢</mo>  
+        <mrow>
+          <mo form="prefix" largeop="false" stretchy="false" lspace="0.166667em" rspace="0em">∑</mo>  
+          <mrow>
+            <mi>a</mi>  
+            <mo>⁢</mo>  
+            <mi>b</mi> 
+          </mrow>  
+        </mrow> 
+      </mrow> 
+    </mstyle>  
+  </mrow> 
+</math>

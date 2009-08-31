@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <bind>
+    <csymbol cd="quant1">forall</csymbol>
+    <bvar>
+      <ci>n</ci>
+    </bvar>
+    <bind>
+      <csymbol cd="quant1">exists</csymbol>
+      <bvar>
+        <ci>x</ci>
+      </bvar>
+      <bvar>
+        <ci>y</ci>
+      </bvar>
+      <bvar>
+        <ci>z</ci>
+      </bvar>
+      <apply>
+        <csymbol cd="relation1">eq</csymbol>  
+        <apply>
+          <csymbol cd="arith1">plus</csymbol>  
+          <apply>
+            <csymbol cd="arith1">power</csymbol>  
+            <ci>x</ci>  
+            <ci>n</ci> 
+          </apply>  
+          <apply>
+            <csymbol cd="arith1">power</csymbol>  
+            <ci>y</ci> 
+            <ci>n</ci> 
+          </apply> 
+        </apply>  
+        <apply>
+          <csymbol cd="arith1">power</csymbol> 
+          <ci>z</ci>  
+          <ci>n</ci> 
+        </apply> 
+      </apply>
+    </bind>
+  </bind>  
+</math>

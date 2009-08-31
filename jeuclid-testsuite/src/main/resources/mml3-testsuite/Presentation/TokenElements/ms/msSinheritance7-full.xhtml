@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  msSinheritance7</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../../Presentation/TokenElements/ms/msScolorscope6-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/">Presentation</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/TokenElements/">TokenElements</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/TokenElements/ms/">ms</a> &gt; msSinheritance7
+   ) </td><td style="text-align: right"><a href="../../../Presentation/TokenElements/ms/msSinheritance8-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="msSinheritance7.mml">mml file</a>)
+       (<a href="msSinheritance7-full.xhtml">full</a>) (<a href="msSinheritance7-simple.xhtml">simple</a>) (<a href="msSinheritance7-plain.xhtml">plain</a>) (<a href="msSinheritance7-form.xhtml">form</a>) (<a href="msSinheritance7-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>Presentation/TokenElements/ms/msSinheritance7</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Robert Miner and Jeff Schaefer, Geometry Technologies</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>Tests different CSS fontsize attribute value formats, and
+fontsize attribute inheritance with &lt;mstyle&gt; and &lt;ms&gt;</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p><table><tr><td><img src="msSinheritance7.png" alt="Created by: webeq"></img></td></tr></table></td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <mstyle fontweight="bold" color="#ff0000"> 
+        <mrow> 
+          <ms>big</ms> 
+          <mo>+</mo> 
+          <ms fontweight="normal" fontstyle="italic">bog 
+          </ms> 
+          <mo>+</mo> 
+          <mstyle fontsize="0.05in"> 
+            <ms>new</ms> 
+            <mo>+</mo> 
+            <ms fontsize="2em">net</ms> 
+            <mo>+</mo> 
+            <ms fontsize="36pt">nod</ms> 
+          </mstyle> 
+          <mo>+</mo> 
+          <ms fontsize="20mm">nix</ms> 
+        </mrow> 
+      </mstyle> 
+    </math>
+  </span><hr></hr><p><b>Source Code</b>:</p><pre>
+    &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+      &lt;mstyle fontweight='bold' color='#ff0000'&gt; 
+        &lt;mrow&gt; 
+          &lt;ms&gt;big&lt;/ms&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;ms fontweight='normal' fontstyle='italic'&gt;bog 
+          &lt;/ms&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;mstyle fontsize='0.05in'&gt; 
+            &lt;ms&gt;new&lt;/ms&gt; 
+            &lt;mo&gt;+&lt;/mo&gt; 
+            &lt;ms fontsize='2em'&gt;net&lt;/ms&gt; 
+            &lt;mo&gt;+&lt;/mo&gt; 
+            &lt;ms fontsize='36pt'&gt;nod&lt;/ms&gt; 
+          &lt;/mstyle&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;ms fontsize='20mm'&gt;nix&lt;/ms&gt; 
+        &lt;/mrow&gt; 
+      &lt;/mstyle&gt; 
+    &lt;/math&gt;
+  </pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/TokenElements/ms/msScolorscope6-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/TokenElements/ms/msScolorscope6-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/TokenElements/ms/msSinheritance8-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/TokenElements/ms/msSinheritance8-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

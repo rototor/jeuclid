@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  mpaddedAleft4</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../../Presentation/GeneralLayout/mpadded/mpaddedAheight3-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/">Presentation</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/GeneralLayout/">GeneralLayout</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/GeneralLayout/mpadded/">mpadded</a> &gt; mpaddedAleft4
+   ) </td><td style="text-align: right"><a href="../../../Presentation/GeneralLayout/mpadded/mpaddedAmixed5-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="mpaddedAleft4.mml">mml file</a>)
+       (<a href="mpaddedAleft4-full.xhtml">full</a>) (<a href="mpaddedAleft4-simple.xhtml">simple</a>) (<a href="mpaddedAleft4-plain.xhtml">plain</a>) (<a href="mpaddedAleft4-form.xhtml">form</a>) (<a href="mpaddedAleft4-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>Presentation/GeneralLayout/mpadded/mpaddedAleft4</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Robert Miner and Jeff Schaefer, Geometry Technologies</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>Basic test of padding on the left with &lt;mpadded&gt;.  This example
+    runs through all the formats for specifying &lt;mpadded&gt; attribute
+    values (except a pure percentage which doesn't show for &lt;i&gt;lspace&lt;/i&gt;).</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p><table><tr><td><img src="mpaddedAleft4.png" alt="Created by: webeq"></img></td></tr></table></td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <mrow> 
+        <mi>A</mi> 
+        <mpadded lspace=".5 height"> 
+          <mi>A</mi> 
+        </mpadded> 
+        <mi>A</mi> 
+        <mpadded lspace="3 width"> 
+          <mi>A</mi> 
+        </mpadded> 
+        <mi>A</mi> 
+        <mpadded lspace="50% width"> 
+          <mi>A</mi> 
+        </mpadded> 
+        <mi>A</mi> 
+        <mpadded lspace="2ex"> 
+          <mi>A</mi> 
+        </mpadded> 
+        <mi>A</mi> 
+        <mpadded lspace="-2pt"> 
+          <mi>A</mi> 
+        </mpadded> 
+        <mi>A</mi> 
+      </mrow> 
+    </math>
+  </span><hr></hr><p><b>Source Code</b>:</p><pre>
+    &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+      &lt;mrow&gt; 
+        &lt;mi&gt;A&lt;/mi&gt; 
+        &lt;mpadded lspace='.5 height'&gt; 
+          &lt;mi&gt;A&lt;/mi&gt; 
+        &lt;/mpadded&gt; 
+        &lt;mi&gt;A&lt;/mi&gt; 
+        &lt;mpadded lspace='3 width'&gt; 
+          &lt;mi&gt;A&lt;/mi&gt; 
+        &lt;/mpadded&gt; 
+        &lt;mi&gt;A&lt;/mi&gt; 
+        &lt;mpadded lspace='50% width'&gt; 
+          &lt;mi&gt;A&lt;/mi&gt; 
+        &lt;/mpadded&gt; 
+        &lt;mi&gt;A&lt;/mi&gt; 
+        &lt;mpadded lspace='2ex'&gt; 
+          &lt;mi&gt;A&lt;/mi&gt; 
+        &lt;/mpadded&gt; 
+        &lt;mi&gt;A&lt;/mi&gt; 
+        &lt;mpadded lspace='-2pt'&gt; 
+          &lt;mi&gt;A&lt;/mi&gt; 
+        &lt;/mpadded&gt; 
+        &lt;mi&gt;A&lt;/mi&gt; 
+      &lt;/mrow&gt; 
+    &lt;/math&gt;
+  </pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/GeneralLayout/mpadded/mpaddedAheight3-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/GeneralLayout/mpadded/mpaddedAheight3-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/GeneralLayout/mpadded/mpaddedAmixed5-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/GeneralLayout/mpadded/mpaddedAmixed5-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

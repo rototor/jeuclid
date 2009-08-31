@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <power></power> 
+    <apply> 
+      <divide></divide> 
+      <apply>
+        <sin></sin>  
+        <ci>x</ci> 
+      </apply>  
+      <apply>
+        <cos></cos> 
+        <ci>x</ci> 
+      </apply> 
+    </apply>  
+    <cn>2</cn> 
+  </apply> 
+</math>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics> 
+    <apply>
+      <plus></plus> 
+      <apply> 
+        <sin></sin> 
+        <ci>x</ci>  
+      </apply> 
+      <cn>5</cn>  
+    </apply> 
+    <annotation encoding="TeX">\sin x + 5</annotation> 
+  </semantics> 
+</math>

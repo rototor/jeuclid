@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="calculus1">partialnthdiff</csymbol>
+    <apply>
+      <csymbol cd="list1">list</csymbol>
+      <cn>1</cn>
+      <cn>1</cn>
+    </apply>
+    <bind>
+      <csymbol cd="funs1">lambda</csymbol>
+      <bvar>
+        <ci>x</ci>
+      </bvar>
+      <bvar>
+        <ci>y</ci>
+      </bvar>
+      <apply>
+        <ci>f</ci>  
+        <ci>x</ci> 
+        <ci>y</ci> 
+      </apply>
+    </bind>
+  </apply> 
+</math>

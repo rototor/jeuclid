@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" indentstyle="center" indentstylefirst="left" indentstylelast="right">
+  <mrow>
+    <mi>a</mi> 
+    <mi>b</mi>  
+    <mo>(</mo> 
+    <mi>x</mi> 
+    <mi>y</mi> 
+    <mi>z</mi>  
+    <mo>+</mo> 
+    <mi>y</mi> 
+    <mi>v</mi> 
+    <mi>w</mi>  
+    <mo>+</mo> 
+    <mi>q</mi> 
+    <mi>r</mi> 
+    <mi>s</mi>  
+    <mo>+</mo> 
+    <mi>u</mi> 
+    <mi>v</mi> 
+    <mo>)</mo>  
+    <mo linebreak="newline">+</mo> 
+    <mi>b</mi> 
+    <mi>c</mi> 
+    <mo>(</mo>  
+    <mi>x</mi> 
+    <mi>y</mi> 
+    <mi>z</mi> 
+    <mo>+</mo>  
+    <mi>y</mi> 
+    <mi>v</mi> 
+    <mo linebreak="newline" linebreakstyle="after">+</mo> 
+    <mi>c</mi>  
+    <mi>d</mi> 
+    <mrow>
+      <mo>(</mo> 
+      <mi>a</mi>  
+      <mi>b</mi> 
+      <mi>c</mi> 
+      <mo>+</mo> 
+      <mi>u</mi> 
+      <mi>v</mi> 
+      <mi>w</mi> 
+      <mo>)</mo> 
+      <mo>)</mo> 
+    </mrow>  
+  </mrow> </math>

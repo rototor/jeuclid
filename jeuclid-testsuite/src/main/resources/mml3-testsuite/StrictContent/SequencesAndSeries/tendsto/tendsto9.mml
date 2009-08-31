@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="limit1">tendsto</csymbol>
+    <csymbol cd="limit1">null</csymbol>
+    <apply>
+      <csymbol cd="arith1">power</csymbol> 
+      <ci>x</ci> 
+      <cn>2</cn> 
+    </apply>
+    <apply>
+      <csymbol cd="arith1">power</csymbol>  
+      <ci>a</ci> 
+      <cn>2</cn>  
+    </apply>
+  </apply> 
+</math>

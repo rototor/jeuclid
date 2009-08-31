@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  intDispStyle</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../../Topics/StretchyChars/Integrals/int9-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Topics/">Topics</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Topics/StretchyChars/">StretchyChars</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Topics/StretchyChars/Integrals/">Integrals</a> &gt; intDispStyle
+   ) </td><td style="text-align: right"><a href="../../../Topics/StretchyChars/Integrals/intNested3-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="intDispStyle.mml">mml file</a>)
+       (<a href="intDispStyle-full.xhtml">full</a>) (<a href="intDispStyle-simple.xhtml">simple</a>) (<a href="intDispStyle-plain.xhtml">plain</a>) (<a href="intDispStyle-form.xhtml">form</a>) (<a href="intDispStyle-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>Topics/StretchyChars/Integrals/intDispStyle</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Dave Doyle, Design Science</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>Tests how integrals render with different values of display style and other params.</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p><table><tr><td><img src="intDispStyle.png" alt="Created by: Created by: webeq"></img></td></tr></table></td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">  <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <mtable columnlines="solid" rowlines="solid"> 
+        <mtr>
+          <mtd></mtd>
+          <mtd>
+            <mtext>ds=true</mtext>
+          </mtd> 
+          <mtd>
+            <mtext>ds=false</mtext>
+          </mtd>
+        </mtr> 
+        <mtr>
+          <mtd>
+            <mtext>stretch=t, large=t</mtext>
+          </mtd>
+          <mtd>
+            <mstyle fontsize="150%" displaystyle="true"> 
+              <mrow> 
+                <mo stretchy="true" largeop="true">∫
+                </mo> 
+                <mfrac> 
+                  <mi>x</mi> 
+                  <mn>5</mn> 
+                </mfrac> 
+              </mrow> 
+              <mo>=</mo> 
+              <mrow> 
+                <mo stretchy="true" largeop="true">∫
+                </mo> 
+                <mi>x</mi> 
+              </mrow>
+            </mstyle> 
+          </mtd>
+          <mtd> 
+            <mstyle fontsize="150%" displaystyle="false"> 
+              <mrow> 
+                <mo stretchy="true" largeop="true">∫
+                </mo> 
+                <mfrac> 
+                  <mi>x</mi> 
+                  <mn>5</mn> 
+                </mfrac> 
+              </mrow> 
+              <mo>=</mo> 
+              <mrow> 
+                <mo stretchy="true" largeop="true">∫
+                </mo> 
+                <mi>x</mi> 
+              </mrow>
+            </mstyle> 
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd>
+            <mtext>stretch=f, large=t</mtext>
+          </mtd>
+          <mtd> 
+            <mstyle fontsize="150%" displaystyle="true"> 
+              <mrow> 
+                <mo stretchy="false" largeop="true">∫
+                </mo> 
+                <mfrac> 
+                  <mi>x</mi> 
+                  <mn>5</mn> 
+                </mfrac> 
+              </mrow> 
+              <mo>=</mo> 
+              <mrow> 
+                <mo stretchy="false" largeop="true">∫
+                </mo> 
+                <mi>x</mi> 
+              </mrow>
+            </mstyle> 
+          </mtd>
+          <mtd> 
+            <mstyle fontsize="150%" displaystyle="false"> 
+              <mrow> 
+                <mo stretchy="false" largeop="true">∫
+                </mo> 
+                <mfrac> 
+                  <mi>x</mi> 
+                  <mn>5</mn> 
+                </mfrac> 
+              </mrow> 
+              <mo>=</mo> 
+              <mrow> 
+                <mo stretchy="false" largeop="true">∫
+                </mo> 
+                <mi>x</mi> 
+              </mrow>
+            </mstyle> 
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd>
+            <mtext>stretch=t, large=f</mtext>
+          </mtd>
+          <mtd>
+            <mstyle fontsize="150%" displaystyle="true"> 
+              <mrow> 
+                <mo stretchy="true" largeop="false">∫
+                </mo> 
+                <mfrac> 
+                  <mi>x</mi> 
+                  <mn>5</mn> 
+                </mfrac> 
+              </mrow> 
+              <mo>=</mo> 
+              <mrow> 
+                <mo stretchy="true" largeop="false">∫
+                </mo> 
+                <mfrac> 
+                  <mi>A</mi> 
+                  <mn>5</mn> 
+                </mfrac> 
+              </mrow> 
+              <mo>=</mo> 
+              <mrow> 
+                <mo stretchy="true" largeop="false">∫
+                </mo> 
+                <mi>x</mi> 
+              </mrow>
+            </mstyle> 
+          </mtd>
+          <mtd> 
+            <mstyle fontsize="150%" displaystyle="false"> 
+              <mrow> 
+                <mo stretchy="true" largeop="false">∫
+                </mo> 
+                <mfrac> 
+                  <mi>x</mi> 
+                  <mn>5</mn> 
+                </mfrac> 
+              </mrow> 
+              <mo>=</mo> 
+              <mrow> 
+                <mo stretchy="true" largeop="false">∫
+                </mo> 
+                <mfrac> 
+                  <mi>A</mi> 
+                  <mn>5</mn> 
+                </mfrac> 
+              </mrow> 
+              <mo>=</mo> 
+              <mrow> 
+                <mo stretchy="true" largeop="false">∫
+                </mo> 
+                <mi>x</mi> 
+              </mrow>
+            </mstyle> 
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd>
+            <mtext>stretch=f, large=f</mtext>
+          </mtd>
+          <mtd> 
+            <mstyle fontsize="150%" displaystyle="true"> 
+              <mrow> 
+                <mo stretchy="false" largeop="false">∫
+                </mo> 
+                <mfrac> 
+                  <mi>x</mi> 
+                  <mn>5</mn> 
+                </mfrac> 
+              </mrow> 
+              <mo>=</mo> 
+              <mrow> 
+                <mo stretchy="false" largeop="false">∫
+                </mo> 
+                <mi>x</mi> 
+              </mrow>
+            </mstyle> 
+          </mtd>
+          <mtd> 
+            <mstyle fontsize="150%" displaystyle="false"> 
+              <mrow> 
+                <mo stretchy="false" largeop="false">∫
+                </mo> 
+                <mfrac> 
+                  <mi>x</mi> 
+                  <mn>5</mn> 
+                </mfrac> 
+              </mrow> 
+              <mo>=</mo> 
+              <mrow> 
+                <mo stretchy="false" largeop="false">∫
+                </mo> 
+                <mi>x</mi> 
+              </mrow>
+            </mstyle>
+          </mtd>
+        </mtr>
+      </mtable>
+    </math>
+</span><hr></hr><p><b>Source Code</b>:</p><pre></pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../../Topics/StretchyChars/Integrals/int9-full.xhtml";
+		} else {
+		window.location.href = "../../../Topics/StretchyChars/Integrals/int9-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../../Topics/StretchyChars/Integrals/intNested3-full.xhtml";
+		} else {
+		window.location.href = "../../../Topics/StretchyChars/Integrals/intNested3-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

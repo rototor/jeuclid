@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <sum></sum>  
+    <bvar>
+      <ci>x</ci> 
+    </bvar>  
+    <condition>
+      <reln> 
+        <in></in> 
+        <ci>x</ci> 
+        <ci type="set">B</ci> 
+      </reln> 
+    </condition>  
+    <apply>
+      <fn>
+        <ci>f</ci> 
+      </fn> 
+      <ci>x</ci>  
+    </apply> 
+  </apply> 
+</math>

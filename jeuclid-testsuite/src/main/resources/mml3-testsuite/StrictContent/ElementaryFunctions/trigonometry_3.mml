@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <csymbol cd="arith1">divide</csymbol> 
+    <apply> 
+      <csymbol cd="arith1">times</csymbol> 
+      <apply> 
+        <csymbol cd="transc1">sec</csymbol> 
+        <apply> 
+          <csymbol cd="arith1">times</csymbol> 
+          <ci>x</ci>  
+          <ci>y</ci> 
+        </apply>  
+      </apply> 
+      <apply>
+        <csymbol cd="arith1">times</csymbol> 
+        <cn>2</cn>  
+        <ci>b</ci> 
+      </apply> 
+    </apply>  
+    <apply>
+      <csymbol cd="transc1">tan</csymbol> 
+      <apply> 
+        <csymbol cd="arith1">plus</csymbol> 
+        <ci>x</ci>  
+        <ci>y</ci> 
+      </apply>  
+    </apply> 
+  </apply> 
+</math>
