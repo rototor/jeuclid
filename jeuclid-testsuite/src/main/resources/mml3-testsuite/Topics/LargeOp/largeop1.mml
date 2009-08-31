@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mtable> 
+    <mtr>
+      <mtd>
+        <mtext>displaystyle: false largeop: false</mtext> 
+      </mtd>  
+      <mtd>
+        <mstyle displaystyle="false"> 
+          <mo largeop="false">∧</mo> 
+          <mo largeop="false">∨</mo>  
+          <mo largeop="false">∫</mo> 
+          <mo largeop="false">∑</mo>  
+          <mo largeop="false">∏</mo> 
+          <mo largeop="false">∪</mo>  
+          <mo largeop="false">∩</mo> 
+        </mstyle>  
+      </mtd> 
+    </mtr> 
+    <mtr> 
+      <mtd>
+        <mtext>displaystyle:false largeop: true </mtext> 
+      </mtd> 
+      <mtd> 
+        <mstyle displaystyle="false">
+          <mo largeop="true">∧</mo>  
+          <mo largeop="true">∨</mo> 
+          <mo largeop="true">∫</mo>  
+          <mo largeop="true">∑</mo> 
+          <mo largeop="true">∏</mo>  
+          <mo largeop="true">∪</mo> 
+          <mo largeop="true">∩</mo>  
+        </mstyle> 
+      </mtd>  
+    </mtr> 
+    <mtr>
+      <mtd> 
+        <mtext>displaystyle: true largeop: false</mtext>  
+      </mtd> 
+      <mtd>
+        <mstyle displaystyle="true"> 
+          <mo largeop="false">∧</mo> 
+          <mo largeop="false">∨</mo>  
+          <mo largeop="false">∫</mo> 
+          <mo largeop="false">∑</mo> 
+          <mo largeop="false">∏</mo>  
+          <mo largeop="false">∪</mo> 
+          <mo largeop="false">∩</mo>  
+        </mstyle> 
+      </mtd> 
+    </mtr>  
+    <mtr>
+      <mtd>
+        <mtext>displaystyle: true largeop: true </mtext> 
+      </mtd>  
+      <mtd>
+        <mstyle displaystyle="true">
+          <mo largeop="true">∧</mo> 
+          <mo largeop="true">∨</mo>  
+          <mo largeop="true">∫</mo> 
+          <mo largeop="true">∑</mo>  
+          <mo largeop="true">∏</mo> 
+          <mo largeop="true">∪</mo>  
+          <mo largeop="true">∩</mo> 
+        </mstyle> 
+      </mtd> 
+    </mtr> 
+    <mtr>
+      <mtd>
+        <mtext>displaystyle: false largeop: default</mtext> 
+      </mtd> 
+      <mtd> 
+        <mstyle displaystyle="false">
+          <mo>∧</mo>  
+          <mo>∨</mo> 
+          <mo>∫</mo>  
+          <mo>∑</mo> 
+          <mo>∏</mo>  
+          <mo>∪</mo> 
+          <mo>∩</mo>  
+        </mstyle> 
+      </mtd>  
+    </mtr> 
+    <mtr>
+      <mtd> 
+        <mtext>displaystyle: true largeop:default</mtext>  
+      </mtd> 
+      <mtd>
+        <mstyle displaystyle="true"> 
+          <mo>∧</mo> 
+          <mo>∨</mo>  
+          <mo>∫</mo> 
+          <mo>∑</mo> 
+          <mo>∏</mo>  
+          <mo>∪</mo> 
+          <mo>∩</mo>  
+        </mstyle> 
+      </mtd> 
+    </mtr> 
+  </mtable>  
+</math>

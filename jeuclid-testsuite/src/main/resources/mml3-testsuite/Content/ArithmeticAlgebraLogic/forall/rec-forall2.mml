@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <forall></forall> 
+    <bvar>
+      <ci>x</ci>  
+    </bvar> 
+    <apply>
+      <eq></eq>  
+      <apply>
+        <minus></minus>  
+        <ci>x</ci> 
+        <ci>x</ci>  
+      </apply> 
+      <cn>0</cn> 
+    </apply>  
+  </apply> 
+</math>

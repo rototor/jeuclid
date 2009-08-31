@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="arith1">divide</csymbol> 
+    <apply>
+      <csymbol cd="transc1">cos</csymbol>  
+      <ci>t</ci> 
+    </apply> 
+    <apply> 
+      <csymbol cd="transc1">sin</csymbol> 
+      <ci>t</ci> 
+    </apply> 
+  </apply> 
+</math>

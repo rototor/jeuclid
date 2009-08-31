@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <declare>
+    <ci>v</ci>  
+    <vector>
+      <cn>1</cn> 
+      <cn> 2</cn> 
+      <cn>3</cn> 
+    </vector>  
+  </declare> 
+</math>

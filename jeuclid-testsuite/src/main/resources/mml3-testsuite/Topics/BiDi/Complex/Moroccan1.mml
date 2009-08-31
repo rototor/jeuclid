@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mrow>
+    <mrow>
+      <mi>f</mi> 
+      <mo>⁡</mo> 
+      <mrow>
+        <mo>(</mo> 
+        <mi>x</mi> 
+        <mo>)</mo> 
+      </mrow> 
+    </mrow>  
+    <mo>=</mo> 
+    <mrow>
+      <mo>{</mo> 
+      <mtable> 
+        <mtr>
+          <mtd> 
+            <mrow>
+              <munderover> 
+                <mo movablelimits="false">∑</mo> 
+                <mrow> 
+                  <mi>i</mi>  
+                  <mo>=</mo> 
+                  <mn>1</mn> 
+                </mrow>  
+                <mi>s</mi> 
+              </munderover>  
+              <mo>⁡</mo> 
+              <msup> 
+                <mi>x</mi>  
+                <mi>i</mi> 
+              </msup>  
+            </mrow> 
+          </mtd> 
+          <mtd> 
+            <mrow>
+              <mtext>إذاكان </mtext> 
+              <mi>x</mi>  
+              <mo>&gt;</mo> 
+              <mn>0</mn>  
+            </mrow> 
+          </mtd>  
+        </mtr> 
+        <mtr>
+          <mtd> 
+            <mrow>
+              <msubsup> 
+                <mo>∫</mo> 
+                <mn>1</mn> 
+                <mi>s</mi>  
+              </msubsup> 
+              <mo>⁡</mo>  
+              <mrow>
+                <msup> 
+                  <mi>x</mi>  
+                  <mi>i</mi> 
+                </msup>  
+                <mo>⁢</mo>  
+                <mi>d</mi> 
+                <mo>⁡</mo>  
+                <mi>x</mi> 
+              </mrow>  
+            </mrow> 
+          </mtd>  
+          <mtd>
+            <mrow> 
+              <mtext>إذاكان </mtext> 
+              <mi>x</mi>  
+              <mo>∈</mo>  
+              <mi mathvariant="normal">E</mi> 
+            </mrow> 
+          </mtd>  
+        </mtr> 
+        <mtr> 
+          <mtd>
+            <mrow> 
+              <mi>tg</mi> 
+              <mo>⁡</mo>  
+              <mi>π</mi> 
+            </mrow>  
+          </mtd> 
+          <mtd>
+            <mrow> 
+              <mtext>غيرذلك </mtext>  
+              <mrow>
+                <mo>(</mo>  
+                <mi>π</mi>  
+                <mo>≃</mo> 
+                <mn>3,141</mn>  
+                <mtext>مع</mtext>  
+                <mo>)</mo> 
+              </mrow>  
+            </mrow> 
+          </mtd> 
+        </mtr>  
+      </mtable> 
+    </mrow> 
+  </mrow> 
+</math>

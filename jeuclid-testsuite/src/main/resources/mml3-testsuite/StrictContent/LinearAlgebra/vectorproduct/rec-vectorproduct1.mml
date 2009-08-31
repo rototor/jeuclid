@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <csymbol cd="relation1">eq</csymbol> 
+    <apply>
+      <csymbol cd="linalg1">vectorproduct</csymbol> 
+      <ci>A</ci> 
+      <ci>B</ci> 
+    </apply> 
+    <apply> 
+      <csymbol cd="arith1">times</csymbol> 
+      <ci>a</ci> 
+      <ci>b</ci> 
+      <apply>
+        <csymbol cd="transc1">sin</csymbol>  
+        <ci>θ</ci> 
+      </apply>  
+      <ci>N</ci> 
+    </apply> 
+  </apply> 
+</math>

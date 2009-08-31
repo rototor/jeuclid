@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block" dir="rtl">
+  <mrow> 
+    <mrow>
+      <mover>
+        <mi>س</mi> 
+        <mo>¯</mo>  
+      </mover> 
+      <mo>=</mo> 
+    </mrow> 
+    <mfrac> 
+      <mrow>
+        <mn>٧</mn> 
+        <mo>+</mo>  
+        <mn>١١</mn> 
+        <mo>+</mo>  
+        <mn>٩</mn> 
+        <mo>+</mo>  
+        <mn>٥</mn> 
+      </mrow> 
+      <mrow> 
+        <mn>٤</mn> 
+      </mrow> 
+    </mfrac>  
+    <mo>=</mo> 
+    <mfrac>
+      <mrow> 
+        <mn>٣٢</mn> 
+      </mrow>  
+      <mrow>
+        <mn>٤</mn> 
+      </mrow>  
+    </mfrac> 
+    <mo>=</mo> 
+    <mn>٨</mn> 
+  </mrow>  
+</math>

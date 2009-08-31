@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="minmax1">min</csymbol>
+    <apply>
+      <csymbol cd="set1">map</csymbol>
+      <bind>
+        <csymbol cd="fns1">lambda</csymbol>
+        <bvar>
+          <ci>x</ci>
+        </bvar>
+        <apply> 
+          <csymbol cd="arith1">power</csymbol> 
+          <ci>x</ci>  
+          <cn>2</cn> 
+        </apply>
+      </bind>
+      <apply> 
+        <csymbol cd="set1">notin</csymbol> 
+        <ci>x</ci>  
+        <ci>B</ci> 
+      </apply>
+    </apply>
+  </apply> 
+</math>

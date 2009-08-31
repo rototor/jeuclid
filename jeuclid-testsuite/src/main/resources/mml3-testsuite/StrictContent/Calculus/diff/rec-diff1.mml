@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="calculus1">diff</csymbol>
+    <bind>
+      <csymbol cd="funs1">lambda</csymbol>
+      <ci>g</ci>
+    </bind>
+  </apply> 
+</math>

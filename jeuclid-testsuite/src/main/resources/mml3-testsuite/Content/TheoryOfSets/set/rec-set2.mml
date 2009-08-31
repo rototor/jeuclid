@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <set>
+    <bvar> 
+      <ci>x</ci> 
+    </bvar> 
+    <condition> 
+      <apply>
+        <and></and>  
+        <apply>
+          <lt></lt>  
+          <ci>x</ci> 
+          <cn>5</cn>  
+        </apply> 
+        <apply> 
+          <in></in> 
+          <ci>x</ci>  
+          <naturalnumbers></naturalnumbers> 
+        </apply>  
+      </apply> 
+    </condition> 
+    <ci>x</ci>  
+  </set> 
+</math>

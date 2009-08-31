@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="logic1">implies</csymbol>  
+    <apply>
+      <csymbol cd="relation1">eq</csymbol> 
+      <ci>A</ci> 
+      <ci>B</ci> 
+    </apply>  
+    <apply>
+      <csymbol cd="relation1">eq</csymbol> 
+      <apply> 
+        <csymbol cd="set1">union</csymbol> 
+        <ci>A</ci>  
+        <ci>C</ci> 
+      </apply>  
+      <apply>
+        <csymbol cd="set1">union</csymbol>  
+        <ci>B</ci> 
+        <ci>C</ci>  
+      </apply> 
+    </apply> 
+  </apply> 
+</math>

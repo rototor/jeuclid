@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <csymbol cd="transc1">cos</csymbol> 
+    <apply> 
+      <csymbol cd="arith1">divide</csymbol> 
+      <apply> 
+        <csymbol cd="arith1">times</csymbol> 
+        <cn>5</cn>  
+        <csymbol cd="nums1">pi</csymbol> 
+      </apply>  
+      <cn>6</cn> 
+    </apply> 
+  </apply> 
+</math>

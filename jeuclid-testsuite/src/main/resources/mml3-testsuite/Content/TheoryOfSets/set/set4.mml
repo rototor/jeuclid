@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <set>
+    <bvar>
+      <ci>x</ci>  
+    </bvar> 
+    <condition>
+      <reln> 
+        <lt></lt> 
+        <ci>x</ci>  
+        <cn>5</cn> 
+      </reln> 
+    </condition> 
+  </set> 
+</math>
