@@ -5,9 +5,11 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import net.sourceforge.jeuclid.*
 import net.sourceforge.jeuclid.context.*;
-import net.sourceforge.jeuclid.converter.Processor;
+import net.sourceforge.jeuclid.testsuite.TestSuiteProcessor;
 
-log.info("Converting testsuite...");
+TestSuiteProcessor p = TestSuiteProcessor.getInstance();
+
+log.info("Converting testsuite2...");
 
 scanner = ant.fileScanner {
   fileset(dir:"${project.basedir}/src/main/resources/mml2-testsuite") {
@@ -17,9 +19,6 @@ scanner = ant.fileScanner {
 
 def target = "target/site/svg"
 
-Processor p = Processor.getInstance();
-MutableLayoutContext l = LayoutContextImpl.getDefaultLayoutContext()
-l.setParameter(Parameter.MATHSIZE, 16)
 for (f in scanner) {
   f2 = new File(f.getPath().replace("src/main/resources/mml2-testsuite","target/site/svg"))
   ant.mkdir(dir: f2.getParent())
@@ -29,14 +28,7 @@ for (f in scanner) {
   if (f.getPath().endsWith(".xml")) {
     def inputSource = new StreamSource(f)
     def result = new StreamResult(f2)
-    try {
-      p.process(inputSource, result, l);
-      processed = true;
-    } catch (final TransformerException te) {
-      processed = false;
-    } catch (final NullPointerException npe) {
-      processed = false;
-    }
+    processed = p.process(inputSource,result,false)
   }
 
   if (!processed) {
