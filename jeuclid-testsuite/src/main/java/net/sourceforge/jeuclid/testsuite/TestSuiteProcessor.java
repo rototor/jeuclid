@@ -34,6 +34,8 @@ import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.converter.Processor;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
 
 /**
@@ -42,10 +44,17 @@ import org.w3c.dom.Node;
  * @version $Revision$
  */
 public final class TestSuiteProcessor {
+
     private static final float DISPLAY_SIZE = 16.0f;
+
     private static final Processor MML2SVGPROCESSOR = Processor.getInstance();
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory.getLog(Processor.class);
 
     private final Transformer modificationTransformer;
+
     private final MutableLayoutContext context;
 
     private static final class SingletonHolder {
@@ -108,7 +117,11 @@ public final class TestSuiteProcessor {
                         .process(inputSource, result);
             }
             processed = true;
+        } catch (final NullPointerException npe) {
+            TestSuiteProcessor.LOGGER.warn(npe.getMessage(), npe);
+            processed = false;
         } catch (final TransformerException te) {
+            TestSuiteProcessor.LOGGER.warn(te.getMessage(), te);
             processed = false;
         }
         return processed;
