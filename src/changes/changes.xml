@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.7" date="TBD" description="TBD">
+      <action dev="maxberger" type="add">MathML 3.0 Testsuite is now available on the website.</action>
       <action dev="maxberger" type="add">MathML 3.0 Testsuite can now be run internally.</action>
       <action dev="maxberger" type="add">Basic SWT Widget is now implemented.</action>
       <action dev="maxberger" type="fix" issue="2833272">Restored functionality to get null value for attributes. Fixes mfence.</action>

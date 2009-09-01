@@ -7,28 +7,29 @@ import net.sourceforge.jeuclid.*
 import net.sourceforge.jeuclid.context.*;
 import net.sourceforge.jeuclid.testsuite.TestSuiteProcessor;
 
-TestSuiteProcessor p = TestSuiteProcessor.getInstance();
+def doit(extension,sourcelast,targetlast,mod3) {
 
-log.info("Converting testsuite2...");
+def tsp = TestSuiteProcessor.getInstance();
+def source = "src/main/resources/"+sourcelast;
+def target = "target/site/"+targetlast;
+def ext = "."+extension;
 
 scanner = ant.fileScanner {
-  fileset(dir:"${project.basedir}/src/main/resources/mml2-testsuite") {
+  fileset(dir:"${project.basedir}/"+source) {
     include(name:"**/*")
   }
 }
 
-def target = "target/site/svg"
-
 for (f in scanner) {
-  f2 = new File(f.getPath().replace("src/main/resources/mml2-testsuite","target/site/svg"))
+  f2 = new File(f.getPath().replace(source,target))
   ant.mkdir(dir: f2.getParent())
 
   def processed = false;
 
-  if (f.getPath().endsWith(".xml")) {
+  if (f.getPath().endsWith(ext)) {
     def inputSource = new StreamSource(f)
     def result = new StreamResult(f2)
-    processed = p.process(inputSource,result,false)
+    processed = tsp.process(inputSource,result,mod3)
   }
 
   if (!processed) {
@@ -36,3 +37,9 @@ for (f in scanner) {
   }
 }
 
+}
+
+log.info("Converting testsuite2...");
+doit("xml","mml2-testsuite","svg",false);
+log.info("Converting testsuite3...");
+doit("xhtml","mml3-testsuite","svg3",true);
