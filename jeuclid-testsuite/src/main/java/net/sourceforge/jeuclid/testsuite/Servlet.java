@@ -28,14 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
-import net.sourceforge.jeuclid.MutableLayoutContext;
-import net.sourceforge.jeuclid.context.LayoutContextImpl;
-import net.sourceforge.jeuclid.context.Parameter;
-import net.sourceforge.jeuclid.converter.Processor;
 
 /**
  * Serve the W3C MathML Testsuite, rendering all formulas with JEuclid to SVG.
@@ -45,22 +39,18 @@ import net.sourceforge.jeuclid.converter.Processor;
 public class Servlet extends HttpServlet {
     private static final int BLOCK_SIZE = 4096;
 
-    private static final float DISPLAY_SIZE = 16.0f;
+    private static final TestSuiteProcessor TSP = TestSuiteProcessor
+            .getInstance();
 
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
 
-    private final MutableLayoutContext context;
-
     /**
      * Default Constructor.
      */
     public Servlet() {
-        this.context = new LayoutContextImpl(LayoutContextImpl
-                .getDefaultLayoutContext());
-        this.context.setParameter(Parameter.MATHSIZE, Servlet.DISPLAY_SIZE);
     }
 
     /** {@inheritDoc} */
@@ -72,8 +62,6 @@ public class Servlet extends HttpServlet {
         final InputStream stream = Thread.currentThread()
                 .getContextClassLoader().getResourceAsStream(
                         "mml2-testsuite/" + file);
-        // final InputStream stream = ClassLoader
-        // .getSystemResourceAsStream(file);
         if (stream == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, file);
         } else {
@@ -83,12 +71,7 @@ public class Servlet extends HttpServlet {
             if (file.endsWith(".xml")) {
                 final Source inputSource = new StreamSource(stream);
                 final Result result = new StreamResult(out);
-                try {
-                    Processor.getInstance().process(inputSource, result);
-                    processed = true;
-                } catch (final TransformerException te) {
-                    processed = false;
-                }
+                processed = Servlet.TSP.process(inputSource, result, false);
             }
             if (!processed) {
                 final byte[] buf = new byte[Servlet.BLOCK_SIZE];
