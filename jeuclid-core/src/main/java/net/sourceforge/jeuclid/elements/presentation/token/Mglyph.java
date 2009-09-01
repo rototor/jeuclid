@@ -120,7 +120,16 @@ public final class Mglyph extends AbstractTokenWithTextLayout implements
 
     /** {@inheritDoc} */
     public int getIndex() {
-        return Integer.parseInt(this.getMathAttribute(Mglyph.ATTR_INDEX));
+        int retVal = 0;
+        final String indexStr = this.getMathAttribute(Mglyph.ATTR_INDEX);
+        try {
+            if (indexStr != null) {
+                retVal = Integer.parseInt(indexStr);
+            }
+        } catch (final NumberFormatException e) {
+            retVal = 0;
+        }
+        return retVal;
     }
 
     /** {@inheritDoc} */
