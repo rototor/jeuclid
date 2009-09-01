@@ -36,7 +36,7 @@ import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
-import net.sourceforge.jeuclid.elements.support.text.CharConverter;
+import net.sourceforge.jeuclid.elements.support.text.TextContent;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
@@ -410,28 +410,7 @@ public abstract class AbstractJEuclidElement extends
      * @return Text content.
      */
     public String getText() {
-        final String theText = this.getTextContent();
-        if (theText == null) {
-            return "";
-        } else {
-
-            final StringBuilder newText = new StringBuilder();
-
-            // As seen in 2.4.6
-            newText.append(theText.trim());
-
-            for (int i = 0; i < newText.length() - 1; i++) {
-                if ((newText.charAt(i) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX)
-                        && (newText.charAt(i + 1) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX)) {
-                    newText.deleteCharAt(i);
-                    // CHECKSTYLE:OFF
-                    // This is intentional
-                    i--;
-                    // CHECKSTYLE:ON
-                }
-            }
-            return CharConverter.convertEarly(newText.toString());
-        }
+        return TextContent.getText(this);
     }
 
     /** {@inheritDoc} */
