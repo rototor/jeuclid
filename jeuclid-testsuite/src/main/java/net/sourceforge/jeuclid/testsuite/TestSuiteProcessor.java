@@ -22,7 +22,6 @@ import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
@@ -117,11 +116,10 @@ public final class TestSuiteProcessor {
                         .process(inputSource, result);
             }
             processed = true;
-        } catch (final NullPointerException npe) {
-            TestSuiteProcessor.LOGGER.warn(npe.getMessage(), npe);
-            processed = false;
-        } catch (final TransformerException te) {
-            TestSuiteProcessor.LOGGER.warn(te.getMessage(), te);
+            // CHECKSTYLE:OFF Here, catching all exceptions is intentional.
+        } catch (final Exception e) {
+            // CHECKSTYLE:ON
+            TestSuiteProcessor.LOGGER.warn(e.getMessage(), e);
             processed = false;
         }
         return processed;
