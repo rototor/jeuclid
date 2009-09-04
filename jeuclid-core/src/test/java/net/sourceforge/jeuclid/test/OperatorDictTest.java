@@ -19,7 +19,7 @@
 package net.sourceforge.jeuclid.test;
 
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
-import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary3;
+import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary2;
 import net.sourceforge.jeuclid.elements.support.operatordict.UnknownAttributeException;
 
 import org.testng.Assert;
@@ -46,8 +46,7 @@ public class OperatorDictTest {
      */
     @Test
     public void testAttrs() throws Exception {
-        final OperatorDictionary opDict = OperatorDictionary3.getInstance();
-/*
+        final OperatorDictionary opDict = OperatorDictionary2.getInstance();
         Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d", "infix",
                 "lspace"), "mediummathspace");
         Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d", "prefix",
@@ -72,6 +71,5 @@ public class OperatorDictTest {
         } catch (final UnknownAttributeException uae) {
             // Ignore
         }
-*/
     }
 }
