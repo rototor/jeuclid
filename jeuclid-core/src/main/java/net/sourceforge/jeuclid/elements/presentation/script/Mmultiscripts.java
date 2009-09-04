@@ -110,26 +110,26 @@ public final class Mmultiscripts extends AbstractScriptElement implements
         this.presuperscripts.clear();
         this.postsubscripts.clear();
         this.postsuperscripts.clear();
-        final org.w3c.dom.NodeList childList = this.getChildNodes();
+
+        final int count = this.getMathElementCount();
+
         int state = Mmultiscripts.STATE_POSTSUB;
-        final int len = childList.getLength();
-        for (int i = 1; i < len; i++) {
-            final Node child = childList.item(i);
+        for (int i = 1; i < count; i++) {
+            final JEuclidElement child = this.getMathElement(i);
             if (child instanceof Mprescripts) {
                 state = Mmultiscripts.STATE_PRESUB;
-            } else if (child instanceof JEuclidElement) {
-                final JEuclidElement jchild = (JEuclidElement) child;
+            } else {
                 if (state == Mmultiscripts.STATE_POSTSUB) {
-                    this.postsubscripts.add(jchild);
+                    this.postsubscripts.add(child);
                     state = Mmultiscripts.STATE_POSTSUPER;
                 } else if (state == Mmultiscripts.STATE_POSTSUPER) {
-                    this.postsuperscripts.add(jchild);
+                    this.postsuperscripts.add(child);
                     state = Mmultiscripts.STATE_POSTSUB;
                 } else if (state == Mmultiscripts.STATE_PRESUB) {
-                    this.presubscripts.add(jchild);
+                    this.presubscripts.add(child);
                     state = Mmultiscripts.STATE_PRESUPER;
                 } else {
-                    this.presuperscripts.add(jchild);
+                    this.presuperscripts.add(child);
                     state = Mmultiscripts.STATE_PRESUB;
                 }
             }

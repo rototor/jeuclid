@@ -69,4 +69,40 @@ public class MMultiTest {
                 "4");
 
     }
+
+    /**
+     * Tests Proper identification of sub and superscripts with whitespace.
+     * 
+     * @throws Exception
+     *             if anything goes wrong.
+     */
+    @Test
+    public void testIdentSpace() throws Exception {
+        final Document docWithID = MathMLParserSupport
+                .parseString("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
+                        + "<mmultiscripts>\n"
+                        + "  <mi>x</mi>\n"
+                        + "  <mn>1</mn>\n"
+                        + "  <mn>2</mn>\n"
+                        + "  <mprescripts/>\n"
+                        + "  <mn>3</mn>\n"
+                        + "  <mn>4</mn>\n" + "</mmultiscripts></math>");
+        final MathMLDocument docElement = DOMBuilder.getInstance()
+                .createJeuclidDom(docWithID);
+        final MathMLMathElement mathElement = (MathMLMathElement) docElement
+                .getFirstChild();
+        final MathMLMultiScriptsElement multiElement = (MathMLMultiScriptsElement) mathElement
+                .getFirstChild();
+
+        Assert.assertEquals(multiElement.getBase().getTextContent(), "x");
+        Assert.assertEquals(multiElement.getSubScript(1).getTextContent(), "1");
+        Assert.assertEquals(multiElement.getSuperScript(1).getTextContent(),
+                "2");
+        Assert.assertEquals(multiElement.getPreSubScript(1).getTextContent(),
+                "3");
+        Assert.assertEquals(multiElement.getPreSuperScript(1).getTextContent(),
+                "4");
+
+    }
+
 }
