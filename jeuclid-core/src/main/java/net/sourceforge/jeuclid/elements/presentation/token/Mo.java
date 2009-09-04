@@ -34,6 +34,7 @@ import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
+import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary2;
 import net.sourceforge.jeuclid.elements.support.operatordict.UnknownAttributeException;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil.TextLayoutInfo;
@@ -198,7 +199,7 @@ public final class Mo extends AbstractJEuclidElement implements
         this.setDefaultMathAttribute(Mo.ATTR_LARGEOP, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_ACCENT, Constants.FALSE);
-        this.opDict = OperatorDictionary.getInstance();
+        this.opDict = OperatorDictionary2.getInstance();
     }
 
     /** {@inheritDoc} */

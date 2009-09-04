@@ -8,7 +8,8 @@ import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
+import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary2;
+import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary3;
 import net.sourceforge.jeuclid.elements.support.text.CharacterMapping;
 
 File basedir = new File("${project.basedir}");
@@ -32,16 +33,27 @@ File basedir = new File("${project.basedir}");
 //  log.info("Reason: "+e.getMessage());
 //}
 
-log.info("Preloading operator dictionary...");
-File newDict = new File(basedir,"target/classes/net/sourceforge/jeuclid/moDictionary.ser");
-File oldDict = new File(basedir,"target/classes/net/sourceforge/jeuclid/moDictionary.xml");
-ant.delete(file:newDict);
-Object dict = OperatorDictionary.getInstance();
-os = new FileOutputStream(newDict);
+log.info("Preloading operator dictionary 2...");
+File newDict2 = new File(basedir,"target/classes/net/sourceforge/jeuclid/moDictionary.ser");
+File oldDict2 = new File(basedir,"target/classes/net/sourceforge/jeuclid/moDictionary.xml");
+ant.delete(file:newDict2);
+Object dict2 = OperatorDictionary2.getInstance();
+os = new FileOutputStream(newDict2);
 oo = new ObjectOutputStream(os);
-oo.writeObject(dict);
+oo.writeObject(dict2);
 oo.close();
-ant.delete(file:oldDict);
+ant.delete(file:oldDict2);
+
+log.info("Preloading operator dictionary 3...");
+File newDict3 = new File(basedir,"target/classes/net/sourceforge/jeuclid/appendixc.ser");
+File oldDict3 = new File(basedir,"target/classes/net/sourceforge/jeuclid/appendixc.xml");
+ant.delete(file:newDict3);
+Object dict3 = OperatorDictionary3.getInstance();
+os = new FileOutputStream(newDict3);
+oo = new ObjectOutputStream(os);
+oo.writeObject(dict3);
+oo.close();
+ant.delete(file:oldDict3);
 
 log.info("Preloading character mappings...");
 File newMap = new File(basedir,"target/classes/net/sourceforge/jeuclid/charmap.ser");
