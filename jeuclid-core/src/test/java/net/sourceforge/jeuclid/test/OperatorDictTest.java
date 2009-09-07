@@ -84,11 +84,11 @@ public class OperatorDictTest {
     public void testAttrs3() throws Exception {
         final OperatorDictionary opDict = OperatorDictionary3.getInstance();
         Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d", "infix",
-                "lspace"), "thickmathspace");
+                "lspace"), "mediummathspace");
         Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d", "prefix",
-                "lspace"), "thickmathspace");
+                "lspace"), "mediummathspace");
         Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d",
-                "postfix", "lspace"), "thickmathspace");
+                "postfix", "lspace"), "mediummathspace");
         Assert.assertEquals(opDict.getDefaultAttributeValue("\u0028", "prefix",
                 "lspace"), "0em");
         Assert.assertEquals(opDict.getDefaultAttributeValue("\u0028", "infix",
