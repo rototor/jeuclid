@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.test;
 
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary2;
+import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary3;
 import net.sourceforge.jeuclid.elements.support.operatordict.UnknownAttributeException;
 
 import org.testng.Assert;
@@ -45,7 +46,7 @@ public class OperatorDictTest {
      *             if the test fails.
      */
     @Test
-    public void testAttrs() throws Exception {
+    public void testAttrs2() throws Exception {
         final OperatorDictionary opDict = OperatorDictionary2.getInstance();
         Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d", "infix",
                 "lspace"), "mediummathspace");
@@ -53,6 +54,41 @@ public class OperatorDictTest {
                 "lspace"), "0em");
         Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d",
                 "postfix", "lspace"), "verythinmathspace");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u0028", "prefix",
+                "lspace"), "0em");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u0028", "infix",
+                "lspace"), "0em");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u0028",
+                "postfix", "lspace"), "0em");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u2063", "infix",
+                "rspace"), "0em");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u2063",
+                "postfix", "rspace"), "0em");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u2063", "infix",
+                "fence"), "false");
+        try {
+            opDict.getDefaultAttributeValue("\u2063", "infix", "foobar");
+            Assert.fail("foobar should throw UnknownAttributeException!");
+        } catch (final UnknownAttributeException uae) {
+            // Ignore
+        }
+    }
+
+    /**
+     * Test various operators for correct default values.
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testAttrs3() throws Exception {
+        final OperatorDictionary opDict = OperatorDictionary3.getInstance();
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d", "infix",
+                "lspace"), "thickmathspace");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d", "prefix",
+                "lspace"), "thickmathspace");
+        Assert.assertEquals(opDict.getDefaultAttributeValue("\u002d",
+                "postfix", "lspace"), "thickmathspace");
         Assert.assertEquals(opDict.getDefaultAttributeValue("\u0028", "prefix",
                 "lspace"), "0em");
         Assert.assertEquals(opDict.getDefaultAttributeValue("\u0028", "infix",
