@@ -298,19 +298,25 @@ public final class OperatorDictionary3 extends AbstractOperatorDictionary
                 retVal = OperatorDictionary3.NO_SPACE;
                 break;
             case 1:
-                retVal = OperatorDictionary.NAME_VERYTHINMATHSPACE;
+                retVal = OperatorDictionary.NAME_VERYVERYTHINMATHSPACE;
                 break;
             case 2:
-                retVal = OperatorDictionary.NAME_THINMATHSPACE;
+                retVal = OperatorDictionary.NAME_VERYTHINMATHSPACE;
                 break;
             case 3:
-                retVal = OperatorDictionary.NAME_MEDIUMMATHSPACE;
+                retVal = OperatorDictionary.NAME_THINMATHSPACE;
                 break;
             case 4:
-                retVal = OperatorDictionary.NAME_THICKMATHSPACE;
+                retVal = OperatorDictionary.NAME_MEDIUMMATHSPACE;
                 break;
             case 5:
+                retVal = OperatorDictionary.NAME_THICKMATHSPACE;
+                break;
+            case 6:
                 retVal = OperatorDictionary.NAME_VERYTHICKMATHSPACE;
+                break;
+            case 7:
+                retVal = OperatorDictionary.NAME_VERYVERYTHICKMATHSPACE;
                 break;
             default:
                 retVal = OperatorDictionary3.NO_SPACE;
