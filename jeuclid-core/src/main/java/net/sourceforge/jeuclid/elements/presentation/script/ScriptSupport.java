@@ -111,9 +111,9 @@ public final class ScriptSupport {
         final LayoutInfo subInfo = view.getInfo(sub);
         final LayoutInfo superInfo = view.getInfo(sup);
 
-        final ShiftInfo shiftInfo = ScriptSupport.calculateScriptShfits(
-                stage, now, subScriptShift, superScriptShift, baseInfo,
-                subInfo, superInfo);
+        final ShiftInfo shiftInfo = ScriptSupport.calculateScriptShfits(stage,
+                now, subScriptShift, superScriptShift, baseInfo, subInfo,
+                superInfo);
 
         if (subInfo != null) {
             subInfo.moveTo(width, shiftInfo.getSubShift(), stage);
@@ -126,6 +126,8 @@ public final class ScriptSupport {
         final Dimension2D borderRightBottom = new Dimension2DImpl(0.0f, 0.0f);
         ElementListSupport.fillInfoFromChildren(view, info, parent, stage,
                 borderLeftTop, borderRightBottom);
+        info.setStretchAscent(baseInfo.getStretchAscent());
+        info.setStretchDescent(baseInfo.getStretchDescent());
     }
 
     static ShiftInfo calculateScriptShfits(final LayoutStage stage,
@@ -137,9 +139,8 @@ public final class ScriptSupport {
         if (subInfo != null) {
             subShift = Math.max(baseInfo.getDescentHeight(stage)
                     + (subInfo.getAscentHeight(stage) - subInfo
-                            .getDescentHeight(stage)) / 2.0f,
-                    AttributesHelper.convertSizeToPt(subScriptShift, now,
-                            AttributesHelper.PT));
+                            .getDescentHeight(stage)) / 2.0f, AttributesHelper
+                    .convertSizeToPt(subScriptShift, now, AttributesHelper.PT));
         }
         if (superInfo != null) {
             superShift = Math.max(baseInfo.getAscentHeight(stage)

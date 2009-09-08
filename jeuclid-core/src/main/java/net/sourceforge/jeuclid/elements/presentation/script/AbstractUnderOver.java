@@ -225,6 +225,8 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
         ElementListSupport.fillInfoFromChildren(view, info, this, stage,
                 borderLeftTop, borderRightBottom);
         info.setStretchWidth(width);
+        info.setStretchAscent(baseInfo.getStretchAscent());
+        info.setStretchDescent(baseInfo.getStretchDescent());
     }
 
     private void positionUnder(final LayoutStage stage,

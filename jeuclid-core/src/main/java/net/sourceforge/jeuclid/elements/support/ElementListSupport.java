@@ -76,8 +76,7 @@ public final class ElementListSupport {
             final Node parent) {
         final org.w3c.dom.NodeList childList = parent.getChildNodes();
         final int len = childList.getLength();
-        final List<LayoutableNode> children = new ArrayList<LayoutableNode>(
-                len);
+        final List<LayoutableNode> children = new ArrayList<LayoutableNode>(len);
         for (int i = 0; i < len; i++) {
             final Node child = childList.item(i);
             if (child instanceof LayoutableNode) {
@@ -103,9 +102,8 @@ public final class ElementListSupport {
      *            border around element.
      */
     public static void fillInfoFromChildren(final LayoutView view,
-            final LayoutInfo info, final Node parent,
-            final LayoutStage stage, final Dimension2D borderLeftTop,
-            final Dimension2D borderRightBottom) {
+            final LayoutInfo info, final Node parent, final LayoutStage stage,
+            final Dimension2D borderLeftTop, final Dimension2D borderRightBottom) {
         float ascentHeight = (float) borderLeftTop.getHeight();
         float descentHeight = (float) borderRightBottom.getHeight();
         final float startX = (float) borderLeftTop.getWidth();
@@ -120,8 +118,8 @@ public final class ElementListSupport {
             width = Math.max(width, childInfo.getPosX(stage)
                     + childInfo.getWidth(stage));
         }
-        info.setAscentHeight(
-                ascentHeight + (float) borderLeftTop.getHeight(), stage);
+        info.setAscentHeight(ascentHeight + (float) borderLeftTop.getHeight(),
+                stage);
         info.setDescentHeight(descentHeight
                 + (float) borderRightBottom.getHeight(), stage);
         info.setHorizontalCenterOffset((width + startX) / 2.0f, stage);
@@ -144,6 +142,8 @@ public final class ElementListSupport {
         float ascentHeight = 0.0f;
         float descentHeight = 0.0f;
         float posX = 0.0f;
+        float stretchAscent = 0.0f;
+        float stretchDescent = 0.0f;
 
         for (final LayoutableNode child : children) {
             final LayoutInfo childInfo = view.getInfo(child);
@@ -151,11 +151,17 @@ public final class ElementListSupport {
                     .getAscentHeight(stage));
             descentHeight = Math.max(descentHeight, childInfo
                     .getDescentHeight(stage));
+            stretchAscent = Math.max(stretchAscent, childInfo
+                    .getStretchAscent());
+            stretchDescent = Math.max(stretchDescent, childInfo
+                    .getStretchDescent());
             childInfo.moveTo(posX, 0.0f, stage);
             posX += childInfo.getWidth(stage);
         }
         info.setAscentHeight(ascentHeight, stage);
         info.setDescentHeight(descentHeight, stage);
+        info.setStretchAscent(stretchAscent);
+        info.setStretchDescent(stretchDescent);
         info.setHorizontalCenterOffset(posX / 2.0f, stage);
         info.setWidth(posX, stage);
     }

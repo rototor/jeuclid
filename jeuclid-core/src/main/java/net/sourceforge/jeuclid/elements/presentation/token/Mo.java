@@ -51,6 +51,7 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.mathml.MathMLOperatorElement;
+import org.w3c.dom.mathml.MathMLScriptElement;
 import org.w3c.dom.mathml.MathMLUnderOverElement;
 
 /**
@@ -132,32 +133,6 @@ public final class Mo extends AbstractJEuclidElement implements
      * Event name for operator events.
      */
     public static final String MOEVENT = "MOEvent";
-
-    /**
-     * Horizontal delimiters.
-     * 
-     * @todo Check the uncommented ones, possibly add more / remove some?
-     */
-    public static final String HOR_DELIMITERS = /* _ */"\u005F"
-            + /* OverBar */"\u00AF" + /* UnderBar */"\u0332" + "\u0333"
-            + "\u033F" + "\u2190" + "\u2192" + "\u2194"
-            + /* OverBracket */"\u23B4" + /* UnderBracket */"\u23B5"
-            + /* OverParenthesis */"\uFE35" + /* UnderParenthesis */"\uFE36"
-            + /* OverBrace */"\uFE37" + /* UnderBrace */"\uFE38"
-            + /* Frown */"\u2322";
-
-    /**
-     * Vertical delimiters.
-     * 
-     * @todo Add others (?)
-     */
-    public static final String VER_DELIMITERS = "[{()}]|"
-            + /* Up Arrow */"\u2191" + /* Down Arrow */"\u2193" + /*
-                                                                   * Up Arrow
-                                                                   * Down Arrow
-                                                                   */"\u21C5"
-            + /* Up Arrow Up Arrow */"\u21C8" + /* Down Down Arrows */"\u21CA"
-            + /* Down Arrow Up Arrow */"\u21F5" + "\u2223\u2225\u2329\u232A";
 
     private static final long serialVersionUID = 1L;
 
@@ -290,17 +265,6 @@ public final class Mo extends AbstractJEuclidElement implements
      */
     public String getMinsize() {
         return this.getMathAttribute(Mo.ATTR_MINSIZE);
-    }
-
-    private boolean isVerticalDelimeter() {
-        return (this.getText().length() == 1)
-                && ((Mo.VER_DELIMITERS.indexOf(this.getText().charAt(0)) >= 0) || this
-                        .isFence());
-    }
-
-    private boolean isHorizontalDelimeter() {
-        return (this.getText().length() == 1)
-                && (Mo.HOR_DELIMITERS.indexOf(this.getText().charAt(0)) >= 0);
     }
 
     private TextLayout produceUnstrechtedLayout(final Graphics2D g,
@@ -496,6 +460,10 @@ public final class Mo extends AbstractJEuclidElement implements
         return this.getMathAttribute(Mo.ATTR_STRETCHY);
     }
 
+    private boolean isStretchy() {
+        return Boolean.parseBoolean(this.getStretchy());
+    }
+
     /** {@inheritDoc} */
     public String getAccent() {
         return this.getMathAttribute(Mo.ATTR_ACCENT);
@@ -539,9 +507,10 @@ public final class Mo extends AbstractJEuclidElement implements
         info.setHorizontalCenterOffset(lspace + contentWidth / 2.0f,
                 LayoutStage.STAGE1);
         info.setWidth(lspace + contentWidth + rspace, LayoutStage.STAGE1);
-        if (Boolean.parseBoolean(this.getStretchy())
-                || this.isVerticalDelimeter() || this.isHorizontalDelimeter()) {
+        if (this.isStretchy()) {
             info.setLayoutStage(LayoutStage.STAGE1);
+            info.setStretchAscent(0.0f);
+            info.setStretchDescent(0.0f);
         } else {
             info.setGraphicsObject(new TextObject(t, lspace + tli.getOffset(),
                     0, null, (Color) now.getParameter(Parameter.MATHCOLOR)));
@@ -561,13 +530,43 @@ public final class Mo extends AbstractJEuclidElement implements
         final float calcScaleY;
         final float calcScaleX;
         final float calcBaselineShift;
-        final boolean stretchVertically = this.isVerticalDelimeter();
-        JEuclidElement parent = this.getParent();
-        while ((((parent instanceof MathMLUnderOverElement) && stretchVertically) || ((parent instanceof Mrow) && (parent
-                .getMathElementCount() == 1)))
-                && (parent.getParent() != null)) {
+        boolean stretchVertically = this.isStretchy();
+        final boolean stretchHorizontally = stretchVertically;
+
+        JEuclidElement horizParent = null;
+        JEuclidElement parent = this;
+        JEuclidElement last;
+        boolean cont;
+        do {
+            last = parent;
             parent = parent.getParent();
+            cont = false;
+            if ((parent instanceof Mrow) && (parent.getMathElementCount() == 1)) {
+                // Ignore single element Mrows.
+                cont = true;
+            } else if ((parent instanceof MathMLUnderOverElement)
+                    || (parent instanceof MathMLScriptElement)) {
+                // Special Treatment for UnderOverElements to match stretchVert1
+                // test.
+                final boolean isBase;
+                if (parent instanceof MathMLUnderOverElement) {
+                    final MathMLUnderOverElement munderover = (MathMLUnderOverElement) parent;
+                    isBase = munderover.getBase() == last;
+                } else {
+                    final MathMLScriptElement munderover = (MathMLScriptElement) parent;
+                    isBase = munderover.getBase() == last;
+                }
+                if (!isBase) {
+                    stretchVertically = false;
+                }
+                horizParent = parent;
+                cont = true;
+            }
+        } while (cont);
+        if (horizParent == null) {
+            horizParent = parent;
         }
+
         final LayoutInfo parentInfo = view.getInfo(parent);
         final TextLayoutInfo textLayoutInfo = StringUtil.getTextLayoutInfo(t,
                 true);
@@ -585,8 +584,12 @@ public final class Mo extends AbstractJEuclidElement implements
                 calcScaleY = 1.0f;
                 calcBaselineShift = 0.0f;
             }
-            calcScaleX = this
-                    .calcXScaleFactor(info, parentInfo, textLayoutInfo);
+            if (stretchHorizontally) {
+                calcScaleX = this.calcXScaleFactor(info, view
+                        .getInfo(horizParent), textLayoutInfo);
+            } else {
+                calcScaleX = 1.0f;
+            }
         }
         info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(now)
                 + textLayoutInfo.getOffset() * calcScaleX, calcBaselineShift,
@@ -598,10 +601,11 @@ public final class Mo extends AbstractJEuclidElement implements
     private float calcXScaleFactor(final LayoutInfo info,
             final LayoutInfo parentInfo, final TextLayoutInfo textLayoutInfo) {
         final float calcScaleX;
-        final float stretchWidth = parentInfo.getStretchWidth();
-        if ((this.isHorizontalDelimeter()) && (stretchWidth > 0.0f)) {
+        final float rstretchWidth = parentInfo.getStretchWidth();
+        if (rstretchWidth > 0.0f) {
             final float realwidth = textLayoutInfo.getWidth();
             if (realwidth > 0) {
+                final float stretchWidth = Math.max(realwidth, rstretchWidth);
                 calcScaleX = stretchWidth / realwidth;
                 info.setWidth(stretchWidth, LayoutStage.STAGE2);
                 info.setHorizontalCenterOffset(stretchWidth / 2.0f,
@@ -620,13 +624,15 @@ public final class Mo extends AbstractJEuclidElement implements
             final LayoutContext now) {
         final float calcScaleY;
         final float calcBaselineShift;
-        final float targetNAscent = parentInfo.getStretchAscent();
-        final float targetNDescent = parentInfo.getStretchDescent();
+        final float realDescent = textLayoutInfo.getDescent();
+        final float realAscent = textLayoutInfo.getAscent();
+        final float targetNAscent = Math.max(parentInfo.getStretchAscent(),
+                realAscent);
+        final float targetNDescent = Math.max(parentInfo.getStretchDescent(),
+                realDescent);
 
         final float targetNHeight = targetNAscent + targetNDescent;
-
-        final float realDescent = textLayoutInfo.getDescent();
-        final float realHeight = textLayoutInfo.getAscent() + realDescent;
+        final float realHeight = realAscent + realDescent;
 
         // TODO: MaxSize / MinSize could also be inherited from MStyle.
         final float maxSize = AttributesHelper.parseRelativeSize(this
