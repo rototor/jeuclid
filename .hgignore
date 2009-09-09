@@ -11,3 +11,4 @@ temp/
 \.fbprefs$
 ^jeuclid-mathviewer/keystore$
 \.patch$
+^jeuclid-fop/src/site/apt/index.apt$
