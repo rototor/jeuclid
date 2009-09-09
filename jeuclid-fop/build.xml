@@ -93,16 +93,14 @@
       </src>
       <classpath refid="libs-build-classpath"/>
     </javac>
+    <copy todir="${build.output}">
+      <fileset dir="src/main/resources"/>
+    </copy>
     <copy file="README" todir="${build.output}"/>
   </target>
 
 
   <target name="jar" depends="compile" description="Create the JAR">
-    <jar jarfile="${build.directory}/${ant.project.name}.jar" basedir="${build.output}">
-      <service type="org.apache.fop.fo.ElementMapping" provider="net.sourceforge.jeuclid.fop.JEuclidElementMapping"/>
-      <service type="org.apache.fop.render.XMLHandler" provider="net.sourceforge.jeuclid.fop.JEuclidXMLHandler"/>
-      <service type="org.apache.xmlgraphics.image.loader.spi.ImageLoaderFactory" provider="net.sourceforge.jeuclid.xmlgraphics.ImageLoaderFactoryMathML"/>
-      <service type="org.apache.xmlgraphics.image.loader.spi.ImagePreloader" provider="net.sourceforge.jeuclid.xmlgraphics.PreloaderMathML"/>
-    </jar>
+    <jar jarfile="${build.directory}/${ant.project.name}.jar" basedir="${build.output}"/>
   </target>
 </project>
