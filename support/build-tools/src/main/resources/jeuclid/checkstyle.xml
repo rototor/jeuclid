@@ -31,10 +31,6 @@ Description:
       <property name="scope" value="protected"/>
       <property name="severity" value="error"/>
     </module>
-    <module name="RegexpHeader">
-      <property name="header" value="\/\*\n * Copyright \d\d\d\d( - \d\d\d\d)? JEuclid, http://jeuclid.sf.net\n *\n * Licensed under the Apache License, Version 2.0 \(the &quot;License&quot;\);\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n/\* .*\$Id.* \$ \*/\n\n"/>
-      <property name="severity" value="error"/>
-    </module>
     <module name="AbstractClassName"/>
     <module name="ConstantName"/>
     <module name="LocalFinalVariableName"/>
@@ -57,7 +53,6 @@ Description:
     <module name="AvoidStarImport"/>
     <module name="AnonInnerLength"/>
     <module name="ExecutableStatementCount"/>
-    <module name="FileLength"/>
     <module name="LineLength">
       <property name="severity" value="ignore"/>
     </module>
@@ -72,7 +67,6 @@ Description:
     <module name="OperatorWrap"/>
     <module name="MethodParamPad"/>
     <module name="ParenPad"/>
-    <module name="TabCharacter"/>
     <module name="TypecastParenPad"/>
     <module name="WhitespaceAfter"/>
     <module name="WhitespaceAround">
@@ -153,15 +147,35 @@ Description:
     <module name="TodoComment">
       <property name="severity" value="ignore"/>
     </module>
-    <module name="RequiredRegexp"/>
     <module name="FinalParameters"/>
     <module name="DescendantToken"/>
     <module name="ArrayTypeStyle"/>
-    <module name="GenericIllegalRegexp">
-      <property name="format" value="\@author"/>
-      <property name="severity" value="error"/>
+    <module name="AnnotationUseStyle"/>
+    <module name="MissingDeprecated"/>
+    <module name="MissingOverride">
+      <property name="javaFiveCompatibility" value="true"/>
     </module>
+    <module name="PackageAnnotation"/>
+    <module name="EqualsAvoidNull"/>
+    <module name="NoClone"/>
+    <module name="NoFinalizer"/>
+    <module name="AvoidStaticImport"/>
+    <module name="ClassTypeParameterName"/>
+    <module name="MethodTypeParameterName"/>
+    <module name="OuterTypeNumber"/>
+    <module name="GenericWhitespace"/>
   </module>
   <module name="Translation"/>
   <module name="NewlineAtEndOfFile"/>
+  <module name="FileLength"/>
+  <module name="FileTabCharacter"/>
+  <module name="RegexpHeader">
+    <property name="header" value="\/\*\n * Copyright \d\d\d\d( - \d\d\d\d)? JEuclid, http://jeuclid.sf.net\n *\n * Licensed under the Apache License, Version 2.0 \(the &quot;License&quot;\);\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n/\* .*\$Id.* \$ \*/\n\n"/>
+    <property name="severity" value="error"/>
+  </module>
+  <module name="RegexpSingleline">
+    <property name="format" value="\@author"/>
+    <property name="severity" value="error"/>
+  </module>
+  <module name="JavadocPackage"/>
 </module>
