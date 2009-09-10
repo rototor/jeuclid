@@ -34,10 +34,13 @@ import org.w3c.dom.mathml.MathMLGlyphElement;
 /**
  * Implements the mglyph element.
  * 
- * @todo FontFamliy gives a "deprecated attribute" warning due to the current
- *       design.
- * @todo other attributes (such as italic, bold, etc.) may be inherited from the
- *       context.
+ * <p>
+ * TODO: FontFamliy gives a "deprecated attribute" warning due to the current
+ * design.
+ * <p>
+ * TODO: other attributes (such as italic, bold, etc.) may be inherited from the
+ * context.
+ * 
  * @version $Revision$
  */
 public final class Mglyph extends AbstractTokenWithTextLayout implements
