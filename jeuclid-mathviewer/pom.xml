@@ -20,8 +20,8 @@
             <manifest>
               <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
               <addClasspath>true</addClasspath>
-              <addExtensions />
-              <classpathPrefix />
+              <addExtensions/>
+              <classpathPrefix/>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
@@ -239,6 +239,99 @@
       <groupId>com.apple</groupId>
       <artifactId>AppleJavaExtensions</artifactId>
       <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-svggen</artifactId>
+      <version>1.7</version>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis-ext</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xalan</groupId>
+          <artifactId>xalan</artifactId>
+        </exclusion>
+      </exclusions>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.freehep</groupId>
+      <artifactId>freehep-graphicsio-emf</artifactId>
+      <version>2.1.1</version>
+      <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.freehep</groupId>
+      <artifactId>freehep-graphicsio-gif</artifactId>
+      <version>1.2.3</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.freehep</groupId>
+      <artifactId>freehep-graphicsio-pdf</artifactId>
+      <version>2.1.1</version>
+      <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.freehep</groupId>
+      <artifactId>freehep-graphicsio-ps</artifactId>
+      <version>2.1.1</version>
+      <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.freehep</groupId>
+      <artifactId>freehep-graphicsio-swf</artifactId>
+      <version>2.1.1</version>
+      <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>dejavu-fonts</artifactId>
+      <version>2.29</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>stix-fonts</artifactId>
+      <version>1.0-beta-2</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>ams-fonts</artifactId>
+      <version>1.0</version>
     </dependency>
   </dependencies>
   <repositories>
