@@ -17,7 +17,7 @@
 
     <variablelist>
       <varlistentry>
-        <term>jeuclid-distribution</term>
+        <term>jeuclid-x.x.x-distribution</term>
 
         <listitem>
           <para>Contains the full JEuclid distribution with all supported
@@ -27,7 +27,7 @@
       </varlistentry>
 
       <varlistentry>
-        <term>jeuclid-minimal</term>
+        <term>jeuclid-x.x.x-minimal</term>
 
         <listitem>
           <para>Contains a minimal JEuclid distribution which supports only
@@ -39,16 +39,26 @@
       </varlistentry>
 
       <varlistentry>
-        <term>jeuclid-osx</term>
+        <term>jeuclid-mathviewer-x.x.x-osx</term>
 
         <listitem>
-          <para>Contains the MathViewer with all support functionality as an
-          application bundle for Mac OS X.</para>
+          <para>Contains the MathViewer as an application bundle for Mac OS
+          X.</para>
         </listitem>
       </varlistentry>
 
       <varlistentry>
-        <term>jeuclid-fop</term>
+        <term>jeuclid-mathviewer-x.x.x-win32</term>
+
+        <listitem>
+          <para>Contains the MathViewer as an application bundle for Windows.
+          It works both on 32bit and 64bit Windows, as long as a 32 bit JRE is
+          installed.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>jeuclid-fop-x.x.x-distribution</term>
 
         <listitem>
           <para>Contains only the plug-in for <ulink
@@ -164,8 +174,8 @@
     <command>mathviewer</command> or <command>mathviewer.bat</command> script
     from the <command>bin/</command> directory of the distribution.</para>
 
-    <para>If you use the OS X package, the MathViewer is included as an
-    application bundle.</para>
+    <para>If you use the one of the OS dependent packages, the MathViewer is
+    included as an application.</para>
   </section>
 
   <section id="cmdline">
