@@ -29,7 +29,7 @@ import java.util.Set;
 /**
  * Joins multiple {@link AttributedCharacterIterator}s into one.
  * 
- * @version $Revision $
+ * @version $Revision$
  */
 public class MultiAttributedCharacterIterator implements
         AttributedCharacterIterator {
@@ -198,7 +198,8 @@ public class MultiAttributedCharacterIterator implements
             prev = offset;
             final int beginIndex = ci.getBeginIndex();
             offset += ci.getEndIndex() - beginIndex;
-            if ((prev <= position) && (offset > position)) {
+            if (((prev <= position) && (offset > position))
+                    || ((offset == position) && (i == this.realIterators.size() - 1))) {
                 this.currentList = i;
                 return ci.setIndex(beginIndex + position - prev);
             }
