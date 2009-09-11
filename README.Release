@@ -27,9 +27,12 @@ fails half-way through due to missing dependencies, fix with
 mvn install
 mvn release:prepare -Dresume
 
-if you get a strange svn error, run
-svn update
+if you get a mercurial commit error:
+- edit release.properties, set completedPhase to scm-commit-release
+- resume
 mvn release:prepare -Dresume
+
+Then the same again, this time to scm-commit-development
 
 4. Perform the release
 
@@ -53,7 +56,7 @@ mvn install
 
 6. Deploy to m2-release (which is automatically synced to ibiblio)
 
-disable all modules except -mathviewer, -core, -core16 -cli (use only comments, do not delete lines!) currently: swt, fop, jeuclid, minimal, testsuite
+disable all modules except -mathviewer, -core, -core16 -cli -swt (use only comments, do not delete lines!) currently: fop, jeuclid, minimal, testsuite
 
 (edit pom.xml in target / checkout)
 
@@ -62,7 +65,7 @@ mvn deploy
 7. Re-enable distribution plugins (that where disabled in 1: none)
 Also, re-enable all modules ( still in target / checkout )
 
-svn revert pom.xml
+hg revert pom.xml
 
 build the real release packages:
 
@@ -77,16 +80,16 @@ upload to sf:
 VERSION=3.1.2  #replace with version
 USER=maxberger   #replace with your sf id
 cd jeuclid/target
-rsync -avP -e ssh jeuclid-$VERSION-distribution.zip ${USER}@frs.sourceforge.net:uploads/
+rsync -avP -e ssh jeuclid-$VERSION-distribution.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
 cd ../../jeuclid-mathviewer/target
-rsync -avP -e ssh jeuclid-mathviewer-$VERSION-osx.zip ${USER}@frs.sourceforge.net:uploads/
-rsync -avP -e ssh jeuclid-mathviewer-$VERSION-win32.zip ${USER}@frs.sourceforge.net:uploads/
+rsync -avP -e ssh jeuclid-mathviewer-$VERSION-osx.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
+rsync -avP -e ssh jeuclid-mathviewer-$VERSION-win32.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
 cd ../../jeuclid-minimal/target
-rsync -avP -e ssh  jeuclid-minimal-$VERSION-distribution.zip ${USER}@frs.sourceforge.net:uploads/
+rsync -avP -e ssh  jeuclid-minimal-$VERSION-distribution.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
 cd ../../jeuclid-fop/target
-rsync -avP -e ssh jeuclid-fop-$VERSION-distribution.zip ${USER}@frs.sourceforge.net:uploads/
+rsync -avP -e ssh jeuclid-fop-$VERSION-distribution.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
 cd ../../target/
-rsync -avP -e ssh jeuclid-parent-$VERSION-src.zip ${USER}@frs.sourceforge.net:uploads/
+rsync -avP -e ssh jeuclid-parent-$VERSION-src.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
 cd ..
 
 Log into SF website and use files. ( release )
