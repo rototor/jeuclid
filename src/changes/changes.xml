@@ -5,7 +5,7 @@
     <author>Max Berger</author>
   </properties>
   <body>
-    <release version="3.1.7" date="TBD" description="TBD">
+    <release version="3.1.7" date="2009-09-11" description="Bugfix release">
       <action dev="maxberger" type="fix">Reworked Token elements to support mglyhp in all cases.</action>
       <action dev="maxberger" type="fix">Reworked Stretchy operators.</action>
       <action dev="maxberger" type="fix">Fixed an error in mmultiscript containing whitespace.</action>
