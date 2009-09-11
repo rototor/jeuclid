@@ -150,7 +150,8 @@ public class TestTestSuiteRendering {
 
     private void saveCurrentRenderings() throws Exception {
         final ObjectOutputStream oo = new ObjectOutputStream(
-                new FileOutputStream(new File(this.tempDir, RENDER_NAME)));
+                new FileOutputStream(new File(this.tempDir,
+                        TestTestSuiteRendering.RENDER_NAME)));
         oo.writeObject(this.currentRendering);
         oo.close();
     }
@@ -160,7 +161,8 @@ public class TestTestSuiteRendering {
         Map<String, List<RenderInfo>> retVal = null;
         try {
             final ObjectInputStream oi = new ObjectInputStream(
-                    new FileInputStream(new File(this.tempDir, RENDER_NAME)));
+                    new FileInputStream(new File(this.tempDir,
+                            TestTestSuiteRendering.RENDER_NAME)));
             retVal = (Map<String, List<RenderInfo>>) oi.readObject();
             oi.close();
         } catch (final Exception e) {
@@ -185,6 +187,7 @@ public class TestTestSuiteRendering {
     private void compareRenderings(final String name,
             final List<RenderInfo> currentList, final List<RenderInfo> oldList,
             final List<String> failures) {
+        boolean have = false;
         if (oldList == null) {
             // TODO: Maybe log?
             return;
@@ -192,6 +195,7 @@ public class TestTestSuiteRendering {
         if (currentList.size() != oldList.size()) {
             failures.add(name + " has changed in number of elements! (old: "
                     + oldList.size() + " new: " + currentList.size() + ")");
+            have = true;
         }
         for (int i = 0; i < currentList.size(); i++) {
             final RenderInfo current = currentList.get(i);
@@ -200,7 +204,11 @@ public class TestTestSuiteRendering {
             if (similarities.length() > 0) {
                 failures.add(name + " differes for element "
                         + current.getElementName() + " in" + similarities);
+                have = true;
             }
+        }
+        if (have) {
+            failures.add("\n");
         }
     }
 
