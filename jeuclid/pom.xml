@@ -8,7 +8,7 @@
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
-    <version>3.1.7-SNAPSHOT</version>
+    <version>3.1.7</version>
   </parent>
   <description>This class handles the creation of the JEuclid distribution files.</description>
   <build>
@@ -105,27 +105,27 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core</artifactId>
-      <version>3.1.7-SNAPSHOT</version>
+      <version>3.1.7</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-swt</artifactId>
-      <version>3.1.7-SNAPSHOT</version>
+      <version>3.1.7</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-mathviewer</artifactId>
-      <version>3.1.7-SNAPSHOT</version>
+      <version>3.1.7</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-cli</artifactId>
-      <version>3.1.7-SNAPSHOT</version>
+      <version>3.1.7</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-fop</artifactId>
-      <version>3.1.7-SNAPSHOT</version>
+      <version>3.1.7</version>
       <exclusions>
         <exclusion>
           <groupId>org.apache.xmlgraphics</groupId>
