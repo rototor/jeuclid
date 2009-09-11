@@ -3,7 +3,7 @@
   <parent>
     <artifactId>jeuclid-parent</artifactId>
     <groupId>net.sourceforge.jeuclid</groupId>
-    <version>3.1.7-SNAPSHOT</version>
+    <version>3.1.7</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.jeuclid</groupId>
@@ -20,8 +20,8 @@
             <manifest>
               <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
               <addClasspath>true</addClasspath>
-              <addExtensions/>
-              <classpathPrefix/>
+              <addExtensions />
+              <classpathPrefix />
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
@@ -233,7 +233,7 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core</artifactId>
-      <version>3.1.7-SNAPSHOT</version>
+      <version>3.1.7</version>
     </dependency>
     <dependency>
       <groupId>com.apple</groupId>
