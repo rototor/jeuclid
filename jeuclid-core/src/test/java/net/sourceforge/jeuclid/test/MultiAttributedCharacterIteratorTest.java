@@ -29,7 +29,7 @@ import org.testng.annotations.Test;
 /**
  * Tests {@link MultiAttributedCharacterIterator}
  * 
- * @version $Revision $
+ * @version $Revision$
  */
 public class MultiAttributedCharacterIteratorTest {
 

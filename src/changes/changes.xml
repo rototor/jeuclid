@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.7" date="TBD" description="TBD">
+      <action dev="maxberger" type="fix">Reworked Token elements to support mglyhp in all cases.</action>
       <action dev="maxberger" type="fix">Reworked Stretchy operators.</action>
       <action dev="maxberger" type="fix">Fixed an error in mmultiscript containing whitespace.</action>
       <action dev="maxberger" type="add">MathML 3.0 Testsuite is now available on the website.</action>

@@ -723,7 +723,7 @@ public abstract class AbstractJEuclidElement extends
      *            external context.
      * @return the current layout context.
      */
-    protected LayoutContext applyLocalAttributesToContext(
+    public LayoutContext applyLocalAttributesToContext(
             final LayoutContext context) {
         // TODO: Theoretically this only applies all to presentation token
         // elements except mspace and mglyph, and on no other elements except

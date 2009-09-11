@@ -18,11 +18,14 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
-import java.text.AttributedString;
+import java.text.AttributedCharacterIterator;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
+import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
+import net.sourceforge.jeuclid.elements.support.text.MultiAttributedCharacterIterator;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
+import net.sourceforge.jeuclid.elements.support.text.TextContentModifier;
 
 import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
@@ -34,7 +37,7 @@ import org.w3c.dom.mathml.MathMLStringLitElement;
  * @version $Revision$
  */
 public final class Ms extends AbstractTokenWithTextLayout implements
-        MathMLStringLitElement {
+        MathMLStringLitElement, TextContentModifier {
 
     /**
      * The XML element from this class.
@@ -102,19 +105,23 @@ public final class Ms extends AbstractTokenWithTextLayout implements
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected AttributedString textContentAsAttributedString(
-            final LayoutContext now) {
-        return StringUtil.convertStringtoAttributedString(this.getLquote()
-                + this.getText() + this.getRquote(), this
-                .getMathvariantAsVariant(), GraphicsSupport
-                .getFontsizeInPoint(now), now);
-    }
+    public AttributedCharacterIterator modifyTextContent(
+            final AttributedCharacterIterator aci,
+            final LayoutContext layoutContext) {
 
-    /** {@inheritDoc} */
-    @Override
-    protected boolean isEmpty() {
-        return false;
+        final float fontSizeInPoint = GraphicsSupport
+                .getFontsizeInPoint(layoutContext);
+        final MathVariant variant = this.getMathvariantAsVariant();
+
+        final MultiAttributedCharacterIterator maci = new MultiAttributedCharacterIterator();
+        maci.appendAttributedCharacterIterator(StringUtil
+                .convertStringtoAttributedString(this.getLquote(), variant,
+                        fontSizeInPoint, layoutContext).getIterator());
+        maci.appendAttributedCharacterIterator(aci);
+        maci.appendAttributedCharacterIterator(StringUtil
+                .convertStringtoAttributedString(this.getRquote(), variant,
+                        fontSizeInPoint, layoutContext).getIterator());
+        return maci;
     }
 
 }

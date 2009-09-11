@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,10 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
+import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
+import java.util.Collections;
+import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Parameter;
@@ -30,6 +33,7 @@ import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 import net.sourceforge.jeuclid.layout.TextObject;
 
 import org.apache.batik.dom.AbstractDocument;
@@ -42,6 +46,8 @@ import org.w3c.dom.mathml.MathMLPresentationToken;
  */
 public abstract class AbstractTokenWithTextLayout extends
         AbstractJEuclidElement implements MathMLPresentationToken {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor. Sets MathML Namespace.
@@ -61,9 +67,9 @@ public abstract class AbstractTokenWithTextLayout extends
     public void layoutStageInvariant(final LayoutView view,
             final LayoutInfo info, final LayoutStage stage,
             final LayoutContext context) {
-        if (!this.isEmpty()) {
-            final Graphics2D g = view.getGraphics();
-            final TextLayout t = this.produceTextLayout(g, context);
+        final Graphics2D g = view.getGraphics();
+        final TextLayout t = this.produceTextLayout(g, context);
+        if (t != null) {
             final StringUtil.TextLayoutInfo tli = StringUtil.getTextLayoutInfo(
                     t, false);
             info.setAscentHeight(tli.getAscent(), stage);
@@ -77,38 +83,33 @@ public abstract class AbstractTokenWithTextLayout extends
         }
     }
 
-    /**
-     * Retrieve the text content as attributed string. Should be overridden
-     * 
-     * @param context
-     *            Current Layout Context
-     * @return an AttributedString
-     */
-    protected abstract AttributedString textContentAsAttributedString(
-            LayoutContext context);
-
-    /**
-     * Checks if this element is empty.
-     * 
-     * @return true if empty.
-     */
-    protected abstract boolean isEmpty();
-
     private TextLayout produceTextLayout(final Graphics2D g2d,
             final LayoutContext context) {
         TextLayout layout;
-
         final LayoutContext now = this.applyLocalAttributesToContext(context);
-        layout = StringUtil.createTextLayoutFromAttributedString(g2d, this
-                .textContentAsAttributedString(now), now);
-        // final Rectangle2D r2d = this.layout.getBounds();
-        // final float xo = (float) r2d.getX();
-        // if (xo < 0) {
-        // this.xOffset = -xo;
-        // } else {
-        // this.xOffset = 0.0f;
-        // }
-        return layout;
+
+        final AttributedCharacterIterator aci = StringUtil
+                .textContentAsAttributedCharacterIterator(now, this, this, 1.0f);
+
+        if (aci.getBeginIndex() == aci.getEndIndex()) {
+            return null;
+        } else {
+            layout = StringUtil.createTextLayoutFromAttributedString(g2d,
+                    new AttributedString(aci), now);
+            return layout;
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public List<LayoutableNode> getChildrenToLayout() {
+        return Collections.emptyList();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public List<LayoutableNode> getChildrenToDraw() {
+        return Collections.emptyList();
     }
 
 }
