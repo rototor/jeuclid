@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,14 @@ import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
+import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Utilities for String handling.
@@ -58,8 +65,8 @@ public final class StringUtil {
     }
 
     /**
-     * Converts a given String to an attributed string with the proper
-     * variants set.
+     * Converts a given String to an attributed string with the proper variants
+     * set.
      * 
      * @param inputString
      *            the string to convert.
@@ -119,6 +126,71 @@ public final class StringUtil {
             }
         }
         return aString;
+    }
+
+    /**
+     * Provide the text content of the current element as
+     * AttributedCharacterIterator.
+     * 
+     * @param contextNow
+     *            LayoutContext of the parent element.
+     * @param contextElement
+     *            Parent Element.
+     * @param node
+     *            Current node.
+     * @param corrector
+     *            Font-size corrector.
+     * @return An {@link AttributedCharacterIterator} over the text contents.
+     */
+    public static AttributedCharacterIterator textContentAsAttributedCharacterIterator(
+            final LayoutContext contextNow,
+            final JEuclidElement contextElement, final Node node,
+            final float corrector) {
+        AttributedCharacterIterator retVal;
+        if (node instanceof Element) {
+
+            final MultiAttributedCharacterIterator maci = new MultiAttributedCharacterIterator();
+            final NodeList children = node.getChildNodes();
+            AttributedCharacterIterator aci = null;
+            final int childCount = children.getLength();
+            for (int i = 0; i < childCount; i++) {
+                final LayoutContext subContext;
+                final Node child = children.item(i);
+                final JEuclidElement subContextElement;
+                if (child instanceof AbstractJEuclidElement) {
+                    subContext = ((AbstractJEuclidElement) child)
+                            .applyLocalAttributesToContext(contextNow);
+                    subContextElement = (JEuclidElement) child;
+                } else {
+                    subContext = contextNow;
+                    subContextElement = contextElement;
+                }
+                aci = StringUtil.textContentAsAttributedCharacterIterator(
+                        subContext, subContextElement, child, corrector);
+                maci.appendAttributedCharacterIterator(aci);
+            }
+
+            if (childCount != 1) {
+                aci = maci;
+            }
+
+            if (node instanceof TextContentModifier) {
+                final TextContentModifier t = (TextContentModifier) node;
+                retVal = t.modifyTextContent(aci, contextNow);
+            } else {
+                retVal = aci;
+            }
+        } else {
+            final String theText = TextContent.getText(node);
+            final float fontSizeInPoint = GraphicsSupport
+                    .getFontsizeInPoint(contextNow)
+                    * corrector;
+
+            retVal = StringUtil.convertStringtoAttributedString(theText,
+                    contextElement.getMathvariantAsVariant(), fontSizeInPoint,
+                    contextNow).getIterator();
+        }
+        return retVal;
     }
 
     private static Object[] mapCpavToCpaf(final CodePointAndVariant cpav1,
@@ -182,8 +254,7 @@ public final class StringUtil {
         }
 
         final FontRenderContext realFontRenderContext = new FontRenderContext(
-                suggestedFontRenderContext.getTransform(), antialiasing,
-                false);
+                suggestedFontRenderContext.getTransform(), antialiasing, false);
 
         final TextLayout theLayout;
         if (empty) {
@@ -241,9 +312,8 @@ public final class StringUtil {
          * @param newWidth
          *            text width.
          */
-        protected TextLayoutInfo(final float newAscent,
-                final float newDescent, final float newOffset,
-                final float newWidth) {
+        protected TextLayoutInfo(final float newAscent, final float newDescent,
+                final float newOffset, final float newWidth) {
             this.ascent = newAscent;
             this.descent = newDescent;
             this.offset = newOffset;
@@ -298,8 +368,8 @@ public final class StringUtil {
      *            Trim to actual content
      * @return a TextLayoutInfo.
      */
-    public static TextLayoutInfo getTextLayoutInfo(
-            final TextLayout textLayout, final boolean trim) {
+    public static TextLayoutInfo getTextLayoutInfo(final TextLayout textLayout,
+            final boolean trim) {
         final Rectangle2D textBounds = textLayout.getBounds();
         final float ascent = (float) (-textBounds.getY());
         final float descent = (float) (textBounds.getY() + textBounds

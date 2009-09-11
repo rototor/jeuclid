@@ -20,11 +20,13 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 
 import java.awt.Font;
 import java.awt.font.TextAttribute;
+import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
+import net.sourceforge.jeuclid.elements.support.text.TextContentModifier;
 import net.sourceforge.jeuclid.font.FontFactory;
 
 import org.apache.batik.dom.AbstractDocument;
@@ -44,7 +46,7 @@ import org.w3c.dom.mathml.MathMLGlyphElement;
  * @version $Revision$
  */
 public final class Mglyph extends AbstractTokenWithTextLayout implements
-        MathMLGlyphElement {
+        MathMLGlyphElement, TextContentModifier {
 
     /**
      * The XML element from this class.
@@ -78,9 +80,9 @@ public final class Mglyph extends AbstractTokenWithTextLayout implements
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected AttributedString textContentAsAttributedString(
-            final LayoutContext now) {
+
+    public AttributedCharacterIterator modifyTextContent(
+            final AttributedCharacterIterator aci, final LayoutContext now) {
         final AttributedString retVal;
         final String ffamily = this.getFontfamily();
         final String fontFamily;
@@ -92,7 +94,7 @@ public final class Mglyph extends AbstractTokenWithTextLayout implements
         final Font font = FontFactory.getInstance().getFont(fontFamily,
                 Font.PLAIN, GraphicsSupport.getFontsizeInPoint(now));
         final int codePoint = this.getIndex();
-        if ((font.getFamily().equalsIgnoreCase(fontFamily))
+        if ((codePoint > 0) && (font.getFamily().equalsIgnoreCase(fontFamily))
                 && (font.canDisplay(codePoint))) {
             retVal = new AttributedString(new String(new int[] { codePoint },
                     0, 1));
@@ -102,13 +104,7 @@ public final class Mglyph extends AbstractTokenWithTextLayout implements
                     this.getMathvariantAsVariant(), GraphicsSupport
                             .getFontsizeInPoint(now), now);
         }
-        return retVal;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected boolean isEmpty() {
-        return false;
+        return retVal.getIterator();
     }
 
     /** {@inheritDoc} */

@@ -28,7 +28,7 @@ import org.w3c.dom.Node;
  * 
  * @version $Revision$
  */
-public final class Mi extends AbstractTokenWithStandardLayout {
+public final class Mi extends AbstractTokenWithTextLayout {
     /**
      * The XML element from this class.
      */
