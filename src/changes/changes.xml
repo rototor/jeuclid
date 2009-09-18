@@ -150,6 +150,47 @@
 foprep: No uses percentage alignment-adjust instead of absolute baseline-shift
 </action>
     </release>
+    <release version="3.0.4" date="never" description="The unreleased release">
+      <action dev="maxberger" type="update" issue="1937524" due-to="Raphael Jolly">Better drawing of sqrt to fix font-issues in embedded environment.</action>
+      <action dev="maxberger" type="update" issue="1956099" due-to="jmclennan">Fixed list of symbol catch fonts</action>
+      <action dev="maxberger" type="update">Update after release</action>
+    </release>
+    <release version="3.0.3" date="2008-02-20" description="the last one?">
+      <action dev="maxberger" type="update">Fix attributes without namespaces.</action>
+      <action dev="maxberger" type="update">Fix for failure on xinclude feature.</action>
+      <action dev="maxberger" type="update" issue="1854211">Backported font-search from unstable.</action>
+      <action dev="maxberger" type="update" issue="1867094">Remove Alpha channel from BMP and JPG output.</action>
+      <action dev="maxberger" type="update">Update after release</action>
+    </release>
+    <release version="3.0.2" date="2007-12-12" description="smallBugs">
+      <action dev="maxberger" type="add">Support for Cambria Math (Windows Vista) and STIXGeneral fonts</action>
+      <action dev="maxberger" type="update" issue="1814499">ImageIOConvert.convert now returns proper height / width.</action>
+      <action dev="maxberger" type="update" issue="1797232">DOMBuilder now uses local names for attributes.</action>
+      <action dev="maxberger" type="update">osxappbundler now has a released version.</action>
+      <action dev="maxberger" type="update">fix for mfence with no separators</action>
+      <action dev="maxberger" type="update">Undid De-Anti-alias below 10pt</action>
+      <action dev="maxberger" type="update">Update after release</action>
+    </release>
+    <release version="3.0.1" date="2007-08-31" description="bugfix release">
+      <action dev="maxberger" type="update">MathBase now returns only full pixels height;
+		Disabled font-antialiasing below 10pt;
+		turned off fractional metrics</action>
+      <action dev="maxberger" type="update" due-to="Jean Roland">Removed potential memory leak from MathComponentUI</action>
+      <action dev="maxberger" type="update">updated fop-plugin for 0.94</action>
+      <action dev="maxberger" type="update">removed EXPERIMENTAL from all docs</action>
+      <action dev="maxberger" type="update">removed doctype in default document for JMathcomponent for performance reasons</action>
+      <action dev="maxberger" type="update">fixed setForegroundColor in JMathComponent</action>
+      <action dev="maxberger" type="update">Made sure changeHook is called after element construction</action>
+    </release>
+    <release version="3.0.0" date="2007-08-15" description="stable release">
+      <action dev="maxberger" type="update">JEuclid 3.0 Released!</action>
+      <action dev="maxberger" type="update">
+			merged 408:409 (ClassCastException fix)
+		</action>
+      <action dev="maxberger" type="update">
+			updated for 3.0 branch
+		</action>
+    </release>
     <release version="2.9.8" date="2007-07-05" description="almost there">
       <action dev="maxberger" type="update">CharConverter: Split into Early (parsing) and late conversion; Used this to keep information on mapped special chars, such as InvisibleTimes Created a safe "createTextLayout" function;</action>
       <action dev="maxberger" type="update">
