@@ -302,21 +302,7 @@ public final class Mo extends AbstractJEuclidElement implements
             this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS,
                     Constants.FALSE);
             // TODO: Load all.
-
-            JEuclidElement parent = this.getParent();
-            while (parent != null) {
-                if (parent instanceof EventTarget) {
-                    ((EventTarget) parent).addEventListener(
-                            "DOMSubtreeModified", this, false);
-                }
-                if ((parent instanceof Mrow)
-                        && (parent.getMathElementCount() > 1)) {
-                    parent = null;
-                } else {
-                    parent = parent.getParent();
-                }
-            }
-
+            this.registerWithParentsForEvents();
             if (this.isFence()) {
                 this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, Constants.TRUE);
             }
@@ -324,6 +310,21 @@ public final class Mo extends AbstractJEuclidElement implements
             evt.initCustomEventNS(null, Mo.MOEVENT, true, false, null);
             this.dispatchEvent(evt);
             this.inChangeHook = false;
+        }
+    }
+
+    private void registerWithParentsForEvents() {
+        JEuclidElement parent = this.getParent();
+        while (parent != null) {
+            if (parent instanceof EventTarget) {
+                ((EventTarget) parent).addEventListener("DOMSubtreeModified",
+                        this, false);
+            }
+            if ((parent instanceof Mrow) && (parent.getMathElementCount() > 1)) {
+                parent = null;
+            } else {
+                parent = parent.getParent();
+            }
         }
     }
 
