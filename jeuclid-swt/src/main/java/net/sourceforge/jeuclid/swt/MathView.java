@@ -37,8 +37,9 @@ import org.w3c.dom.Node;
 
 /**
  * Contains a display component for SWT.
+ * <p>
+ * TODO: This is a very basic implementation.
  * 
- * @todo improve.
  * @version $Revision$
  */
 public final class MathView extends Canvas {
