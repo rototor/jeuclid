@@ -309,7 +309,8 @@ public final class Mo extends AbstractJEuclidElement implements
                     ((EventTarget) parent).addEventListener(
                             "DOMSubtreeModified", this, false);
                 }
-                if (parent instanceof Mrow) {
+                if ((parent instanceof Mrow)
+                        && (parent.getMathElementCount() > 1)) {
                     parent = null;
                 } else {
                     parent = parent.getParent();
