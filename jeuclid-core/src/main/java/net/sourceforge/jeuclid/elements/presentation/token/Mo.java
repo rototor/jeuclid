@@ -45,6 +45,7 @@ import net.sourceforge.jeuclid.layout.TextObject;
 
 import org.apache.batik.dom.AbstractDocument;
 import org.apache.batik.dom.events.DOMCustomEvent;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.CustomEvent;
 import org.w3c.dom.events.Event;
@@ -457,13 +458,55 @@ public final class Mo extends AbstractJEuclidElement implements
         return this.getMathAttribute(Mo.ATTR_SEPARATOR);
     }
 
+    /**
+     * Retrieves the JEuclid specific extension of the stretch attribute. This
+     * method may return "true" "false" "horizontal", "vertical", or null.
+     * 
+     * @return an JEuclid stretchy attribute.
+     */
+    public String getExtendedStretchy() {
+        final String retVal;
+        final String mmlStretchy = this.getMathAttribute(Mo.ATTR_STRETCHY,
+                false);
+        if (mmlStretchy == null) {
+            final Attr attr = this.getAttributeNodeNS(Constants.NS_JEUCLID_EXT,
+                    Mo.ATTR_STRETCHY);
+            if (attr == null) {
+                retVal = this.getDefaultMathAttribute(Mo.ATTR_STRETCHY);
+            } else {
+                retVal = attr.getValue().trim();
+            }
+        } else {
+            retVal = mmlStretchy;
+        }
+        return retVal;
+    }
+
     /** {@inheritDoc} */
     public String getStretchy() {
-        return this.getMathAttribute(Mo.ATTR_STRETCHY);
+        final String stretchVal = this.getExtendedStretchy();
+        if (("horizontal".equalsIgnoreCase(stretchVal))
+                || ("vertical".equalsIgnoreCase(stretchVal))) {
+            return "true";
+        } else {
+            return stretchVal;
+        }
+    }
+
+    private boolean isStretchyHorizontal(String stretchValue) {
+        return "horizontal".equalsIgnoreCase(stretchValue)
+                || Boolean.parseBoolean(stretchValue);
+    }
+
+    private boolean isStretchyVertical(String stretchValue) {
+        return "vertical".equalsIgnoreCase(stretchValue)
+                || Boolean.parseBoolean(stretchValue);
     }
 
     private boolean isStretchy() {
-        return Boolean.parseBoolean(this.getStretchy());
+        final String stretchValue = this.getExtendedStretchy();
+        return this.isStretchyHorizontal(stretchValue)
+                || this.isStretchyVertical(stretchValue);
     }
 
     /** {@inheritDoc} */
@@ -532,8 +575,10 @@ public final class Mo extends AbstractJEuclidElement implements
         final float calcScaleY;
         final float calcScaleX;
         final float calcBaselineShift;
-        boolean stretchVertically = this.isStretchy();
-        final boolean stretchHorizontally = stretchVertically;
+        final String stretchValue = this.getExtendedStretchy();
+        boolean stretchVertically = this.isStretchyVertical(stretchValue);
+        final boolean stretchHorizontally = this
+                .isStretchyHorizontal(stretchValue);
 
         JEuclidElement horizParent = null;
         JEuclidElement parent = this;

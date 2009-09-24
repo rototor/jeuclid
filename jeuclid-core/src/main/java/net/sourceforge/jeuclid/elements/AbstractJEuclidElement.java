@@ -576,7 +576,7 @@ public abstract class AbstractJEuclidElement extends
         }
         if (attr == null) {
             if (useDefault) {
-                attrValue = this.defaultMathAttributes.get(attrName);
+                attrValue = this.getDefaultMathAttribute(attrName);
             } else {
                 attrValue = null;
             }
@@ -584,6 +584,18 @@ public abstract class AbstractJEuclidElement extends
             attrValue = attr.getValue().trim();
         }
         return attrValue;
+    }
+
+    /**
+     * Retrieves the previously stored default value for this attribute.
+     * 
+     * @param attrName
+     *            name of the Attribute
+     * @return value set by {@link #setDefaultMathAttribute(String, String)} or
+     *         null if not set.
+     */
+    protected String getDefaultMathAttribute(final String attrName) {
+        return this.defaultMathAttributes.get(attrName);
     }
 
     /**
