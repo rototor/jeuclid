@@ -166,7 +166,9 @@ Description:
     <module name="GenericWhitespace"/>
   </module>
   <module name="Translation"/>
+  <!-- Problems on windows  
   <module name="NewlineAtEndOfFile"/>
+  --> 
   <module name="FileLength"/>
   <module name="FileTabCharacter"/>
   <module name="RegexpHeader">
