@@ -626,11 +626,18 @@ public final class Mo extends AbstractJEuclidElement implements
         final float calcBaselineShift;
         final float realDescent = textLayoutInfo.getDescent();
         final float realAscent = textLayoutInfo.getAscent();
-        final float targetNAscent = Math.max(parentInfo.getStretchAscent(),
-                realAscent);
-        final float targetNDescent = Math.max(parentInfo.getStretchDescent(),
-                realDescent);
-
+        final float targetNAscent;
+        final float targetNDescent;
+        if (this.isFence()) {
+            targetNAscent = Math.max(parentInfo
+                    .getAscentHeight(LayoutStage.STAGE1), realAscent);
+            targetNDescent = Math.max(parentInfo
+                    .getDescentHeight(LayoutStage.STAGE1), realDescent);
+        } else {
+            targetNAscent = Math.max(parentInfo.getStretchAscent(), realAscent);
+            targetNDescent = Math.max(parentInfo.getStretchDescent(),
+                    realDescent);
+        }
         final float targetNHeight = targetNAscent + targetNDescent;
         final float realHeight = realAscent + realDescent;
 
