@@ -25,9 +25,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLPaddedElement;
 
 /**
- * This class implemented the mpadded element.
+ * This class implements the mpadded element.
+ * <p>
+ * TODO: none of the attributes are actually implemented yet.
  * 
- * @todo none of the attributes are actually implemented yet.
  * @version $Revision$
  */
 public final class Mpadded extends AbstractContainer implements

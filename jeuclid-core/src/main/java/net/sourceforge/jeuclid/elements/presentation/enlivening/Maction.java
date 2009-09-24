@@ -30,8 +30,9 @@ import org.w3c.dom.mathml.MathMLActionElement;
 
 /**
  * Represents an maction element.
+ * <p>
+ * TODO: This element does not actually implement any action.
  * 
- * @todo This element does not actually implement any action.
  * @version $Revision$
  */
 public final class Maction extends AbstractElementWithDelegates implements

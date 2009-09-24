@@ -26,7 +26,9 @@ import org.w3c.dom.mathml.MathMLLabeledRowElement;
 /**
  * This class represents the mlabeledtr tag.
  * 
- * @todo add proper support for labels. They are currently silently ignored.
+ * <p>
+ * TODO: add proper support for labels. They are currently silently ignored.
+ * 
  * @version $Revision$
  */
 public final class Mlabeledtr extends AbstractTableRow implements

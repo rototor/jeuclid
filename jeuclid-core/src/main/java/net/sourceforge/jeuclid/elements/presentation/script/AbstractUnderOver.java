@@ -41,9 +41,10 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
 
 /**
  * Implementation and helper methods for munder, mover, and munderover.
+ * <p>
+ * TODO: some operators should "default" to being an accent, but currently they
+ * don't
  * 
- * @todo some operators should "default" to being an accent, but currently they
- *       don't
  * @version $Revision$
  */
 public abstract class AbstractUnderOver extends AbstractJEuclidElement
@@ -62,6 +63,9 @@ public abstract class AbstractUnderOver extends AbstractJEuclidElement
 
     /** attribute for accentunder property. */
     public static final String ATTR_ACCENTUNDER = "accentunder";
+
+    /** No attributes, so just use 1. */
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor. Sets MathML Namespace.
