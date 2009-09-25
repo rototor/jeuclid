@@ -48,6 +48,25 @@ public abstract class AbstractOperatorDictionary implements OperatorDictionary,
         this.dict = new EnumMap<OperatorAttribute, Map<String, Map<OperatorForm, String>>>(
                 OperatorAttribute.class);
         this.initializeFromXML(this.dict);
+        this.overrideStretchy();
+    }
+
+    private void overrideStretchy() {
+        final Map<String, Map<OperatorForm, String>> opmap = this.dict
+                .get(OperatorAttribute.STRETCHY);
+        for (final Map.Entry<String, Map<OperatorForm, String>> e : opmap
+                .entrySet()) {
+            final String override = StretchOverride.getStretchOverride(e
+                    .getKey());
+            if (override != null) {
+                for (final Map.Entry<OperatorForm, String> e2 : e.getValue()
+                        .entrySet()) {
+                    if (Boolean.parseBoolean(e2.getValue())) {
+                        e2.setValue(override);
+                    }
+                }
+            }
+        }
     }
 
     /**
