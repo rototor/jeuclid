@@ -48,7 +48,7 @@ public final class Constants {
     /**
      * Name space for JEuclid specific context extension.
      */
-    public static final String NS_CONTEXT = "http://jeuclid.sf.net/ns/context";
+    public static final String NS_OLD_JEUCLID_EXT = "http://jeuclid.sf.net/ns/context";
 
     /**
      * Name space for JEuclid specific extensions.

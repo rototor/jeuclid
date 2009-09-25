@@ -128,6 +128,30 @@ public class LayoutContextParamTest {
      * Test parameter passing from String.
      */
     @Test
+    public void testParamFromOldNSProgrammatically() {
+        final MathImpl mi = new MathImpl(MathImpl.ELEMENT,
+                new DocumentElement());
+        final LayoutContext defaultContext = LayoutContextImpl
+                .getDefaultLayoutContext();
+        final LayoutContext testContext1 = mi.getChildLayoutContext(0,
+                defaultContext);
+        Assert.assertEquals(testContext1.getParameter(Parameter.MATHSIZE),
+                12.0f);
+        mi.setAttributeNS(Constants.NS_OLD_JEUCLID_EXT, "jeuclid:fontSize",
+                "13");
+        Assert.assertEquals(testContext1.getParameter(Parameter.MATHSIZE),
+                13.0f);
+        // Case sensitive!
+        mi.setAttributeNS(Constants.NS_OLD_JEUCLID_EXT, "jeuclid:fontsize",
+                "14");
+        Assert.assertEquals(testContext1.getParameter(Parameter.MATHSIZE),
+                13.0f);
+    }
+
+    /**
+     * Test parameter passing from String.
+     */
+    @Test
     public void testParamFromNSProgrammatically() {
         final MathImpl mi = new MathImpl(MathImpl.ELEMENT,
                 new DocumentElement());
@@ -137,11 +161,11 @@ public class LayoutContextParamTest {
                 defaultContext);
         Assert.assertEquals(testContext1.getParameter(Parameter.MATHSIZE),
                 12.0f);
-        mi.setAttributeNS(Constants.NS_CONTEXT, "jeuclid:fontSize", "13");
+        mi.setAttributeNS(Constants.NS_JEUCLID_EXT, "jeuclid:fontSize", "13");
         Assert.assertEquals(testContext1.getParameter(Parameter.MATHSIZE),
                 13.0f);
         // Case sensitive!
-        mi.setAttributeNS(Constants.NS_CONTEXT, "jeuclid:fontsize", "14");
+        mi.setAttributeNS(Constants.NS_JEUCLID_EXT, "jeuclid:fontsize", "14");
         Assert.assertEquals(testContext1.getParameter(Parameter.MATHSIZE),
                 13.0f);
     }
