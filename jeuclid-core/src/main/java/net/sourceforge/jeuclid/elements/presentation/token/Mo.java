@@ -115,6 +115,11 @@ public final class Mo extends AbstractJEuclidElement implements
      */
     public static final String ATTR_STRETCHY = "stretchy";
 
+    /** JEuclid extension to stretchy: stretch horizontal only. */
+    public static final String VALUE_STRETCHY_HORIZONTAL = "horizontal";
+
+    /** JEuclid extension to stretchy: stretch vertical only. */
+    public static final String VALUE_STRETCHY_VERTICAL = "vertical";
     /**
      * Attribute name of the largeop property.
      */
@@ -460,24 +465,20 @@ public final class Mo extends AbstractJEuclidElement implements
 
     /**
      * Retrieves the JEuclid specific extension of the stretch attribute. This
-     * method may return "true" "false" "horizontal", "vertical", or null.
+     * method may return {@link Constants#TRUE}, {@link Constants#FALSE},
+     * {@link #VALUE_STRETCHY_HORIZONTAL}, {@link #VALUE_STRETCHY_VERTICAL}, or
+     * null if no stretchy attribute is set.
      * 
      * @return an JEuclid stretchy attribute.
      */
     public String getExtendedStretchy() {
         final String retVal;
-        final String mmlStretchy = this.getMathAttribute(Mo.ATTR_STRETCHY,
-                false);
-        if (mmlStretchy == null) {
-            final Attr attr = this.getAttributeNodeNS(Constants.NS_JEUCLID_EXT,
-                    Mo.ATTR_STRETCHY);
-            if (attr == null) {
-                retVal = this.getDefaultMathAttribute(Mo.ATTR_STRETCHY);
-            } else {
-                retVal = attr.getValue().trim();
-            }
+        final Attr attr = this.getAttributeNodeNS(Constants.NS_JEUCLID_EXT,
+                Mo.ATTR_STRETCHY);
+        if (attr == null) {
+            retVal = this.getMathAttribute(Mo.ATTR_STRETCHY);
         } else {
-            retVal = mmlStretchy;
+            retVal = attr.getValue().trim();
         }
         return retVal;
     }
@@ -485,21 +486,21 @@ public final class Mo extends AbstractJEuclidElement implements
     /** {@inheritDoc} */
     public String getStretchy() {
         final String stretchVal = this.getExtendedStretchy();
-        if (("horizontal".equalsIgnoreCase(stretchVal))
-                || ("vertical".equalsIgnoreCase(stretchVal))) {
-            return "true";
+        if ((Mo.VALUE_STRETCHY_HORIZONTAL.equalsIgnoreCase(stretchVal))
+                || (Mo.VALUE_STRETCHY_VERTICAL.equalsIgnoreCase(stretchVal))) {
+            return Constants.TRUE;
         } else {
             return stretchVal;
         }
     }
 
-    private boolean isStretchyHorizontal(String stretchValue) {
-        return "horizontal".equalsIgnoreCase(stretchValue)
+    private boolean isStretchyHorizontal(final String stretchValue) {
+        return Mo.VALUE_STRETCHY_HORIZONTAL.equalsIgnoreCase(stretchValue)
                 || Boolean.parseBoolean(stretchValue);
     }
 
-    private boolean isStretchyVertical(String stretchValue) {
-        return "vertical".equalsIgnoreCase(stretchValue)
+    private boolean isStretchyVertical(final String stretchValue) {
+        return Mo.VALUE_STRETCHY_VERTICAL.equalsIgnoreCase(stretchValue)
                 || Boolean.parseBoolean(stretchValue);
     }
 

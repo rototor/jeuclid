@@ -594,7 +594,7 @@ public abstract class AbstractJEuclidElement extends
      * @return value set by {@link #setDefaultMathAttribute(String, String)} or
      *         null if not set.
      */
-    protected String getDefaultMathAttribute(final String attrName) {
+    private String getDefaultMathAttribute(final String attrName) {
         return this.defaultMathAttributes.get(attrName);
     }
 
