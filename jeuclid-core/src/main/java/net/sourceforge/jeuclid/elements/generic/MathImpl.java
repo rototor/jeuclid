@@ -55,17 +55,30 @@ public final class MathImpl extends AbstractContainer implements
                 retVal = MathImpl.this.applyLocalAttributesToContext(
                         this.context).getParameter(which);
             }
+            retVal = this.getParamValueFromJEuclidExt(which, retVal);
+            return retVal;
+        }
 
-            final String s = MathImpl.this.getAttributeNS(Constants.NS_CONTEXT,
-                    which.getOptionName());
-            if ((s != null) && (s.length() > 0)) {
-                retVal = which.fromString(s);
+        private Object getParamValueFromJEuclidExt(final Parameter which,
+                final Object currentValue) {
+            Object retVal = currentValue;
+            final String s0 = MathImpl.this.getAttributeNS(
+                    Constants.NS_JEUCLID_EXT, which.getOptionName());
+            if ((s0 != null) && (s0.length() > 0)) {
+                retVal = which.fromString(s0);
             } else {
-                // Support deprecated attributes
-                final String s2 = MathImpl.this.getAttributeNS(
-                        Constants.NS_CONTEXT, which.toString());
-                if ((s2 != null) && (s2.length() > 0)) {
-                    retVal = which.fromString(s2);
+                // Support old namespace
+                final String s = MathImpl.this.getAttributeNS(
+                        Constants.NS_OLD_JEUCLID_EXT, which.getOptionName());
+                if ((s != null) && (s.length() > 0)) {
+                    retVal = which.fromString(s);
+                } else {
+                    // Support deprecated attributes
+                    final String s2 = MathImpl.this.getAttributeNS(
+                            Constants.NS_OLD_JEUCLID_EXT, which.toString());
+                    if ((s2 != null) && (s2.length() > 0)) {
+                        retVal = which.fromString(s2);
+                    }
                 }
             }
             return retVal;
