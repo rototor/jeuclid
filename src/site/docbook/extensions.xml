@@ -7,33 +7,114 @@
   <section>
     <title>JEuclid Extensions to MathML</title>
 
-    <para>JEuclid Provides some extensions to MathML.</para>
+    <para>JEuclid Provides some extensions to MathML. These extensions allow
+    you to control the rendering in more detail than allowed by the MathML
+    specification.</para>
 
-    <para>You can add additional attributes to the
-    <literal>&lt;math&gt;</literal> element to specify JEuclid layout
-    parameters. The attribute names are the same as given in the command line
-    tool, prefixed with the
-    <literal>http://jeuclid.sf.net/ns/context</literal> namespace.
-    Example:</para>
+    <para>The extensions use a special JEuclid namespace, and should therefore
+    just be ignored by other MathML renderers.</para>
 
-    <para>Command line argument <literal>fontSize</literal> becomes:</para>
+    <section>
+      <title>Specifying rendering parameters (3.1.2+)</title>
 
-    <literallayout>&lt;math xmlns="http://www.w3.org/1998/Math/MathML" 
-      xmlns:jeuclid="<literal>http://jeuclid.sf.net/ns/context</literal>"
+      <para>You can add additional attributes to the
+      <literal>&lt;math&gt;</literal> element to specify JEuclid layout
+      parameters. The attribute names are the same as given in the command
+      line tool, prefixed with the
+      <literal>http://jeuclid.sf.net/ns/ext</literal> namespace.
+      Example:</para>
+
+      <para>Command line argument <literal>fontSize</literal> becomes:</para>
+
+      <literallayout>&lt;math xmlns="http://www.w3.org/1998/Math/MathML" 
+      xmlns:jeuclid="<literal>http://jeuclid.sf.net/ns/ext</literal>"
       jeuclid:fontSize="24"&gt;</literallayout>
 
-    <para>Check the command line tool for a list of possible parameters and
-    their values.</para>
+      <para>Check the command line tool for a list of possible parameters and
+      their values.</para>
 
-    <para><emphasis role="bold">Note:</emphasis> Rendering attributes given
-    for the <literal>math</literal> attribute can not be overwritten by the
-    external context. This means that if one of these attributes is set, it
-    will always overwrite the settings in the MathViewer.</para>
+      <para><emphasis role="bold">Note:</emphasis> Rendering attributes given
+      for the <literal>math</literal> attribute can not be overwritten by the
+      external context. This means that if one of these attributes is set, it
+      will always overwrite the settings in the MathViewer.</para>
 
-    <para><emphasis role="bold">Note:</emphasis> Please note: In JEuclid
-    versions 3.1.2 - 3.1.5 the attributes where named by the internal name,
-    e.g. <literal>MATHSIZE</literal> instead of <literal>fontSize</literal>.
-    The older attribute names are still supported, but should not be used, as
-    they will be removed in a future version.</para>
+      <para><emphasis role="bold">Note:</emphasis> Please note: In JEuclid
+      versions 3.1.2 - 3.1.7 the namespace was called
+      <literal>http://jeuclid.sf.net/ns/context</literal> instead of
+      <literal>http://jeuclid.sf.net/ns/ext</literal>. The old namespace is
+      still supported, but should not be used, as it will be removed in a
+      future version.</para>
+
+      <para><emphasis role="bold">Note:</emphasis> Please note: In JEuclid
+      versions 3.1.2 - 3.1.5 the attributes where named by the internal name,
+      e.g. <literal>MATHSIZE</literal> instead of <literal>fontSize</literal>.
+      The older attribute names are still supported (on the old namespace),
+      but should not be used, as they will be removed in a future
+      version.</para>
+    </section>
+
+    <section>
+      <title>Stretchy attribute (3.1.8+)</title>
+
+      <para>The <literal>stretchy</literal> attribute of the
+      <literal>mo</literal> element is extended to support two new
+      values:</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>true</term>
+
+          <listitem>
+            <para>will stretch the operator in both directions</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>false</term>
+
+          <listitem>
+            <para>will not stretch the operator </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>horizontal</term>
+
+          <listitem>
+            <para>will stretch the operator horizontaly only</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>vertical</term>
+
+          <listitem>
+            <para>will stretch the operator vertically only</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <para>To use the new stretchy attribute value, you
+      <emphasis>must</emphasis> put the stretchy attribute in the JEuclid
+      extension namespace (see above). Otherwise you will produce incorrect
+      MathML which will not work with other renderers. If both the JEuclid and
+      the default stretchy attribute are set, the JEuclid stretchy attribute
+      takes precedence.</para>
+
+      <para>Example (assuming <literal>jeuclid</literal> defined as the
+      extension namespace as above):</para>
+
+      <literallayout>&lt;mo stretchy="true" jeuclid:stretchy="horizontal"&gt;...&lt;/mo&gt;</literallayout>
+
+      <para>Will stretch the operator on other MathML renderers (depending on
+      their behavior) and horizontally in JEuclid, </para>
+
+      <para>Example 2:</para>
+
+      <literallayout>&lt;mo jeuclid:stretchy="vertical"&gt;...&lt;/mo&gt;</literallayout>
+
+      <para>Will not stretch the operator on other MathML renderers (unless
+      defined by the operator dictionary) and vertically in JEuclid,</para>
+    </section>
   </section>
 </article>
