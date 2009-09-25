@@ -310,7 +310,8 @@ public final class Mo extends AbstractJEuclidElement implements
             // TODO: Load all.
             this.registerWithParentsForEvents();
             if (this.isFence()) {
-                this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, Constants.TRUE);
+                this.setDefaultMathAttribute(Mo.ATTR_STRETCHY,
+                        Mo.VALUE_STRETCHY_VERTICAL);
             }
             final CustomEvent evt = new DOMCustomEvent();
             evt.initCustomEventNS(null, Mo.MOEVENT, true, false, null);
