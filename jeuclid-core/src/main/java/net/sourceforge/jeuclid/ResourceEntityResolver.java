@@ -121,6 +121,13 @@ public class ResourceEntityResolver implements EntityResolver {
                 ResourceEntityResolver.MML2_SYSTEMID);
 
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
+                "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN",
+                "/net/sourceforge/jeuclid/mathml.2.0/xhtml-math11-f.dtd");
+        ResourceEntityResolver.PUBLIC_ID_TO_SYSYEM.put(
+                "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN",
+                "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd");
+
+        ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL.put(
                 "-//W3C//ENTITIES MathML 2.0 Qualified Names 1.0//EN",
                 "/net/sourceforge/jeuclid/mathml.2.0/mathml2-qname-1.mod");
         ResourceEntityResolver.PUBLIC_ID_TO_INTERNAL
