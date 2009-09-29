@@ -521,6 +521,10 @@ public final class Mo extends AbstractJEuclidElement implements
         return this.getMathAttribute(Mo.ATTR_SYMMETRIC);
     }
 
+    private boolean isSymmetric() {
+        return Boolean.parseBoolean(this.getSymmetric());
+    }
+
     /** {@inheritDoc} */
     @Override
     public void layoutStage1(final LayoutView view, final LayoutInfo info,
@@ -626,7 +630,7 @@ public final class Mo extends AbstractJEuclidElement implements
         } else {
             if (stretchVertically) {
                 final float[] yf = this.calcYScaleFactorAndBaselineShift(info,
-                        parentInfo, textLayoutInfo, now);
+                        parentInfo, textLayoutInfo, now, g);
                 calcScaleY = yf[0];
                 calcBaselineShift = yf[1];
             } else {
@@ -670,13 +674,13 @@ public final class Mo extends AbstractJEuclidElement implements
 
     private float[] calcYScaleFactorAndBaselineShift(final LayoutInfo info,
             final LayoutInfo parentInfo, final TextLayoutInfo textLayoutInfo,
-            final LayoutContext now) {
+            final LayoutContext now, final Graphics2D g2d) {
         final float calcScaleY;
         final float calcBaselineShift;
         final float realDescent = textLayoutInfo.getDescent();
         final float realAscent = textLayoutInfo.getAscent();
-        final float targetNAscent;
-        final float targetNDescent;
+        float targetNAscent;
+        float targetNDescent;
         if (this.isFence()) {
             targetNAscent = Math.max(parentInfo
                     .getAscentHeight(LayoutStage.STAGE1), realAscent);
@@ -686,6 +690,15 @@ public final class Mo extends AbstractJEuclidElement implements
             targetNAscent = Math.max(parentInfo.getStretchAscent(), realAscent);
             targetNDescent = Math.max(parentInfo.getStretchDescent(),
                     realDescent);
+        }
+        if (this.isSymmetric()) {
+            final float middle = this.getMiddleShift(g2d, now);
+            final float ascentAboveMiddle = targetNAscent - middle;
+            final float descentBelowMiddle = targetNDescent + middle;
+            final float halfHeight = Math.max(ascentAboveMiddle,
+                    descentBelowMiddle);
+            targetNAscent = halfHeight + middle;
+            targetNDescent = halfHeight - middle;
         }
         final float targetNHeight = targetNAscent + targetNDescent;
         final float realHeight = realAscent + realDescent;
