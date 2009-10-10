@@ -37,7 +37,7 @@
     <title>Download</title>
 
     <para>You can <ulink
-    url="http://sourceforge.net/project/showfiles.php?group_id=44862">download
+    url="https://sourceforge.net/projects/jeuclid/files/3.1.x/">download
     JEuclid</ulink> from sourceforge.</para>
   </section>
 
@@ -46,13 +46,22 @@
 
     <itemizedlist>
       <listitem>
+        <para>JEuclid 3.1.8 Released!</para>
+
+        <para>Please see the <ulink url="./changes-report.html#a3.1.8">list of
+        changes for JEuclid 3.1.8</ulink>.</para>
+      </listitem>
+
+      <listitem>
         <para>JEuclid 3.1.7 Released!</para>
+
         <para>Please see the <ulink url="./changes-report.html#a3.1.7">list of
         changes for JEuclid 3.1.7</ulink>.</para>
       </listitem>
 
       <listitem>
         <para>JEuclid 3.1.6 Released!</para>
+
         <para>Please see the <ulink url="./changes-report.html#a3.1.6">list of
         changes for JEuclid 3.1.6</ulink>.</para>
       </listitem>
