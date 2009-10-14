@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="arith1">product</csymbol>
+    <apply>
+      <csymbol cd="">integer_interval</csymbol>
+      <ci>a</ci>
+      <ci>b</ci>
+    </apply>
+    <bind>
+      <csymbol cd="funs1">lambda</csymbol>
+      <bvar>
+        <ci>x</ci>
+      </bvar>
+      <apply>
+        <ci>f</ci>  
+        <ci>x</ci> 
+      </apply>
+    </bind>
+  </apply> 
+  <bind>
+    <csymbol cd="arith1">product</csymbol>
+    <bvar>
+      <ci>x</ci>
+    </bvar>
+    <apply>
+      <ci>f</ci> 
+      <ci>x</ci>  
+    </apply>
+  </bind> 
+</math>

@@ -1,0 +1,78 @@
+<project default="jar" basedir="." name="jeuclid-mathviewer">
+  <property name="build.directory" value="target"/>
+  <property name="build.output" value="${build.directory}/classes"/>
+  <property environment="env"/>
+
+
+  <path id="libs-build-classpath">
+    <fileset dir="${basedir}/lib">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+
+  <target name="init" description="Init dependencies">
+    <echo message="------------------- ${ant.project.name} ----------------"/>
+    <echo message="${ant.version}"/>
+    <echo message="VM: ${java.vm.version}, ${java.vm.vendor}"/>
+    <echo message="JAVA_HOME: ${env.JAVA_HOME}"/>
+
+    <available property="apple.present" classname="com.apple.eawt.Application" classpathref="libs-build-classpath"/>
+    <condition property="apple.message" value="Apple JAVA Extension Support PRESENT">
+      <equals arg1="${apple.present}" arg2="true"/>
+    </condition>
+    <condition property="apple.message" value="Apple JAVA Extension Support NOT Present">
+      <not>
+        <equals arg1="${apple.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${apple.message}"/>
+
+    <available property="logging.present" classname="org.apache.commons.logging.LogFactory" classpathref="libs-build-classpath"/>
+    <condition property="logging.message" value="commons-logging Support PRESENT">
+      <equals arg1="${logging.present}" arg2="true"/>
+    </condition>
+    <condition property="logging.message" value="commons-logging Support NOT Present">
+      <not>
+        <equals arg1="${logging.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${logging.message}"/>
+
+    <available property="jeuclidcore.present" classname="net.sourceforge.jeuclid.LayoutContext" classpathref="libs-build-classpath"/>
+    <condition property="jeuclidcore.message" value="jeuclid-core Support PRESENT">
+      <equals arg1="${jeuclidcore.present}" arg2="true"/>
+    </condition>
+    <condition property="jeuclidcore.message" value="jeuclid-core Support NOT Present">
+      <not>
+        <equals arg1="${jeuclidcore.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${jeuclidcore.message}"/>
+  </target>
+
+
+  <target name="compile" depends="init" description="Compile the code">
+    <mkdir dir="${build.output}"/>
+    <javac destdir="${build.output}" debug="true" deprecation="true" optimize="false">
+      <src>
+        <pathelement location="src/main/java"/>
+      </src>
+      <classpath refid="libs-build-classpath"/>
+    </javac>
+    <copy todir="${build.output}">
+      <fileset dir="src/main/assemblies"/>
+      <fileset dir="src/main/jnlp"/>
+      <fileset dir="src/main/resources"/>
+    </copy>
+  </target>
+
+
+  <target name="jar" depends="compile" description="Create the JAR">
+    <jar jarfile="${build.directory}/${ant.project.name}.jar" basedir="${build.output}">
+      <manifest>
+        <attribute name="Main-Class" value="net.sourceforge.jeuclid.app.mathviewer.MathViewer"/>
+      </manifest>
+    </jar>
+  </target>
+</project>

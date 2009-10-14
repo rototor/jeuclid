@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <max></max>  
+    <bvar>
+      <ci>x</ci> 
+    </bvar>  
+    <condition>
+      <apply>
+        <and></and>  
+        <reln>
+          <gt></gt>  
+          <ci>x</ci> 
+          <cn>0</cn>  
+        </reln> 
+        <reln> 
+          <lt></lt> 
+          <ci>x</ci>  
+          <cn>1</cn> 
+        </reln> 
+      </apply> 
+    </condition> 
+    <apply>
+      <minus></minus>  
+      <ci>x</ci> 
+      <apply> 
+        <sin></sin> 
+        <ci>x</ci> 
+      </apply>  
+    </apply> 
+  </apply> 
+</math>

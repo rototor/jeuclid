@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <selector></selector> 
+    <ci type="matrix">A</ci> 
+    <cn> 3</cn> 
+    <cn>2</cn> 
+  </apply> 
+</math>

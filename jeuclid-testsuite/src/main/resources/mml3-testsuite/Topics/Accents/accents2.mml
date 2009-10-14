@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <mtable>
+    <mtr>
+      <mtd columnalign="right"> 
+        <mtext>reference:</mtext>  
+      </mtd> 
+      <mtd>
+        <mstyle fontsize="150%"> 
+          <mn>2</mn> 
+          <mn>^</mn>  
+          <mn>′</mn> 
+          <mn>˙</mn>  
+        </mstyle> 
+      </mtd>  
+    </mtr> 
+    <mtr>
+      <mtd columnalign="right"> 
+        <mtext>operators:</mtext> 
+      </mtd>  
+      <mtd>
+        <mstyle fontsize="150%"> 
+          <mover>
+            <mi>x</mi>  
+            <mo>2</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover>
+            <mi>x</mi>  
+            <mo>^</mo> 
+          </mover>  
+          <mo>+</mo>  
+          <mover>
+            <mi>x</mi>  
+            <mo>′</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi>  
+            <mo>'˙</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi> 
+            <mo> ˙</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi> 
+            <mo>˙ ˙</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi> 
+            <mo>˙˙</mo>  
+          </mover> 
+        </mstyle>  
+      </mtd> 
+    </mtr> 
+    <mtr> 
+      <mtd columnalign="right">
+        <mtext>numbers:</mtext>  
+      </mtd> 
+      <mtd> 
+        <mstyle fontsize="150%">
+          <mover> 
+            <mi>x</mi> 
+            <mn>2</mn>  
+          </mover> 
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi> 
+            <mn>^</mn>  
+          </mover> 
+          <mo>+</mo>  
+          <mover>
+            <mi> x</mi> 
+            <mn>′</mn>  
+          </mover> 
+          <mo>+</mo>  
+          <mover>
+            <mi>x</mi>  
+            <mn>'˙</mn>  
+          </mover> 
+          <mo>+</mo>  
+          <mover>
+            <mi>x</mi>  
+            <mn>˙</mn> 
+          </mover>  
+          <mo>+</mo>  
+          <mover>
+            <mi>x</mi>  
+            <mn>˙ ˙</mn> 
+          </mover>  
+          <mo>+</mo> 
+          <mover>
+            <mi>x</mi>  
+            <mn>˙˙</mn> 
+          </mover>  
+        </mstyle> 
+      </mtd> 
+    </mtr>  
+    <mtr>
+      <mtd columnalign="right"> 
+        <mtext>mover accent=false:</mtext> 
+      </mtd> 
+      <mtd>
+        <mstyle fontsize="150%"> 
+          <mover accent="false">
+            <mi>x</mi>  
+            <mo>2</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover accent="false">
+            <mi>x</mi>  
+            <mo>^</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover accent="false">
+            <mi>x</mi>  
+            <mo>′</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover accent="false"> 
+            <mi>x</mi>  
+            <mo>'˙</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover accent="false"> 
+            <mi>x</mi>  
+            <mo>˙</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover accent="false"> 
+            <mi>x</mi> 
+            <mo> ˙ ˙</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover accent="false"> 
+            <mi>x</mi> 
+            <mo>˙˙</mo> 
+          </mover> 
+        </mstyle>  
+      </mtd> 
+    </mtr> 
+    <mtr> 
+      <mtd columnalign="right">
+        <mtext>mo accent=false:</mtext> 
+      </mtd> 
+      <mtd>
+        <mstyle fontsize="150%">
+          <mover> 
+            <mi>x</mi>  
+            <mo accent="false">2</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi>  
+            <mo accent="false">^</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi> 
+            <mo accent="false">′</mo> 
+          </mover> 
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi> 
+            <mo accent="false">'˙</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover> 
+            <mi>x</mi> 
+            <mo accent="false">˙</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover>
+            <mi>x</mi> 
+            <mo accent="false">˙ ˙</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover>
+            <mi>x</mi> 
+            <mo accent="false">˙˙</mo>  
+          </mover> 
+        </mstyle> 
+      </mtd>  
+    </mtr> 
+    <mtr>
+      <mtd columnalign="right"> 
+        <mtext>mover accent=true:</mtext>  
+      </mtd> 
+      <mtd> 
+        <mstyle fontsize="150%">
+          <mover accent="true"> 
+            <mi>x</mi> 
+            <mo>2</mo>  
+          </mover> 
+          <mo>+</mo> 
+          <mover accent="true"> 
+            <mi>x</mi> 
+            <mo>^</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover accent="true">
+            <mi>x</mi> 
+            <mo>′</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover accent="true">
+            <mi>x</mi>  
+            <mo>'˙</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover accent="true">
+            <mi>x</mi>  
+            <mo>˙</mo> 
+          </mover>  
+          <mo>+</mo>  
+          <mover accent="true">
+            <mi>x</mi>  
+            <mo>˙ ˙</mo> 
+          </mover>  
+          <mo>+</mo>  
+          <mover accent="true">
+            <mi>x</mi>  
+            <mo>˙˙</mo> 
+          </mover>  
+        </mstyle> 
+      </mtd> 
+    </mtr>  
+    <mtr>
+      <mtd columnalign="right"> 
+        <mtext>mo accent=true:</mtext> 
+      </mtd>  
+      <mtd>
+        <mstyle fontsize="150%"> 
+          <mover>
+            <mi>x</mi>  
+            <mo accent="true">2</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover>
+            <mi>x</mi>  
+            <mo accent="true">^</mo> 
+          </mover>  
+          <mo>+</mo>  
+          <mover>
+            <mi>x</mi>  
+            <mo accent="true">′</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi>  
+            <mo accent="true">'˙</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi> 
+            <mo accent="true"> ˙</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi> 
+            <mo accent="true">˙ ˙</mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi> 
+            <mo accent="true">˙˙</mo>  
+          </mover> 
+        </mstyle>  
+      </mtd> 
+    </mtr> 
+    <mtr> 
+      <mtd columnalign="right">
+        <mtext>mo accent=true, stretchy = false: </mtext> 
+      </mtd> 
+      <mtd> 
+        <mstyle fontsize="150%">
+          <mover> 
+            <mi>x</mi>  
+            <mo accent="true" stretchy="false">2</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover>
+            <mi>x</mi>  
+            <mo accent="true" stretchy="false">^ </mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi> 
+            <mo accent="true" stretchy="false">′ </mo> 
+          </mover> 
+          <mo>+</mo>  
+          <mover>
+            <mi>x</mi>  
+            <mo accent="true" stretchy="false">'˙</mo>  
+          </mover> 
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi> 
+            <mo accent="true" stretchy="false">˙ </mo> 
+          </mover>  
+          <mo>+</mo> 
+          <mover> 
+            <mi>x</mi>  
+            <mo accent="true" stretchy="false">˙ ˙</mo>  
+          </mover> 
+          <mo>+</mo>  
+          <mover> 
+            <mi>x</mi> 
+            <mo accent="true" stretchy="false">˙˙ </mo> 
+          </mover>  
+        </mstyle> 
+      </mtd> 
+    </mtr>  
+  </mtable> 
+</math>

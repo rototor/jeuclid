@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics>
+    <apply>
+      <csymbol cd="arith1">plus</csymbol>  
+      <apply>
+        <csymbol cd="transc1">sin</csymbol>  
+        <ci>x</ci> 
+      </apply>  
+      <cn>5</cn> 
+    </apply>
+    <attribution-xml cd="" encoding="TeX">
+      <OMSTR>\sin x + 5 </OMSTR>
+    </attribution-xml>
+  </semantics> 
+</math>

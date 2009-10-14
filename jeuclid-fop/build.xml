@@ -1,0 +1,106 @@
+<project default="jar" basedir="." name="jeuclid-fop">
+  <property name="build.directory" value="target"/>
+  <property name="build.output" value="${build.directory}/classes"/>
+  <property environment="env"/>
+
+
+  <path id="libs-build-classpath">
+    <fileset dir="${basedir}/lib">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+
+  <target name="init" description="Init dependencies">
+    <echo message="------------------- ${ant.project.name} ----------------"/>
+    <echo message="${ant.version}"/>
+    <echo message="VM: ${java.vm.version}, ${java.vm.vendor}"/>
+    <echo message="JAVA_HOME: ${env.JAVA_HOME}"/>
+
+    <available property="logging.present" classname="org.apache.commons.logging.LogFactory" classpathref="libs-build-classpath"/>
+    <condition property="logging.message" value="commons-logging Support PRESENT">
+      <equals arg1="${logging.present}" arg2="true"/>
+    </condition>
+    <condition property="logging.message" value="commons-logging Support NOT Present">
+      <not>
+        <equals arg1="${logging.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${logging.message}"/>
+
+    <available property="fop.present" classname="org.apache.fop.cli.Main" classpathref="libs-build-classpath"/>
+    <condition property="fop.message" value="FOP Support PRESENT">
+      <equals arg1="${fop.present}" arg2="true"/>
+    </condition>
+    <condition property="fop.message" value="FOP Support NOT Present">
+      <not>
+        <equals arg1="${fop.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${fop.message}"/>
+
+    <available property="batik.present" classname="org.apache.batik.dom.AbstractNode" classpathref="libs-build-classpath"/>
+    <condition property="batik.message" value="Batik Support PRESENT">
+      <equals arg1="${batik.present}" arg2="true"/>
+    </condition>
+    <condition property="batik.message" value="Batik Support NOT Present">
+      <not>
+        <equals arg1="${batik.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${batik.message}"/>
+
+    <available property="jeuclidcore.present" classname="net.sourceforge.jeuclid.LayoutContext" classpathref="libs-build-classpath"/>
+    <condition property="jeuclidcore.message" value="jeuclid-core Support PRESENT">
+      <equals arg1="${jeuclidcore.present}" arg2="true"/>
+    </condition>
+    <condition property="jeuclidcore.message" value="jeuclid-core Support NOT Present">
+      <not>
+        <equals arg1="${jeuclidcore.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${jeuclidcore.message}"/>
+
+    <available property="xmlext.present" classname="org.xml.sax.InputSource" classpathref="libs-build-classpath"/>
+    <condition property="xmlext.message" value="xml-commons-external Support PRESENT">
+      <equals arg1="${xmlext.present}" arg2="true"/>
+    </condition>
+    <condition property="xmlext.message" value="xml-commons-external Support NOT Present">
+      <not>
+        <equals arg1="${xmlext.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${xmlext.message}"/>
+
+    <available property="xmlgraphics.present" classname="org.apache.xmlgraphics.util.ClasspathResource" classpathref="libs-build-classpath"/>
+    <condition property="xmlgraphics.message" value="xmlgraphics-commons Support PRESENT">
+      <equals arg1="${xmlgraphics.present}" arg2="true"/>
+    </condition>
+    <condition property="xmlgraphics.message" value="xmlgraphics-commons Support NOT Present">
+      <not>
+        <equals arg1="${xmlgraphics.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${xmlgraphics.message}"/>
+  </target>
+
+
+  <target name="compile" depends="init" description="Compile the code">
+    <mkdir dir="${build.output}"/>
+    <javac destdir="${build.output}" debug="true" deprecation="true" optimize="false">
+      <src>
+        <pathelement location="src/main/java"/>
+      </src>
+      <classpath refid="libs-build-classpath"/>
+    </javac>
+    <copy todir="${build.output}">
+      <fileset dir="src/main/resources"/>
+    </copy>
+    <copy file="README" todir="${build.output}"/>
+  </target>
+
+
+  <target name="jar" depends="compile" description="Create the JAR">
+    <jar jarfile="${build.directory}/${ant.project.name}.jar" basedir="${build.output}"/>
+  </target>
+</project>

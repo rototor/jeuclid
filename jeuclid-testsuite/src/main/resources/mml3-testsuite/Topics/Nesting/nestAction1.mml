@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <maction xmlns:dsi="http://www.dessci.com/mathml" actiontype="tooltip">
+    <maction actiontype="statusline">
+      <apply> 
+        <gt></gt> 
+        <ci>x</ci>  
+        <cn>4</cn> 
+      </apply> 
+      <mtext>X is less than 4</mtext> 
+    </maction> 
+    <mtext>X is less than 4</mtext> 
+  </maction> 
+</math>

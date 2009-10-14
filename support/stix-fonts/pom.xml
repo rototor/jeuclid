@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sourceforge.jeuclid</groupId>
+  <artifactId>stix-fonts</artifactId>
+  <parent>
+    <groupId>net.sourceforge.jeuclid</groupId>
+    <artifactId>jeuclid-support</artifactId>
+    <version>1.0.1</version>
+  </parent>
+  <packaging>jar</packaging>
+  <name>STIX Fonts</name>
+  <version>1.0-beta-3</version>
+  <description>
+    This module contains the STIX Fonts for applications supporting fonts in classpath.
+  </description>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

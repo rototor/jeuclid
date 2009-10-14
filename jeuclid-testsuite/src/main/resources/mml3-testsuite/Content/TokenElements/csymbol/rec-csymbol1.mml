@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">  
+  <apply>
+    <csymbol encoding="OpenMath" definitionURL="http://www.openmath.org/cd/BesselFunctions.ocd">
+      <msub>
+        <mi>J</mi> 
+        <mn>0</mn>  
+      </msub> 
+    </csymbol> 
+    <ci>y</ci>  
+  </apply> 
+</math>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <minus></minus>  
+    <apply>
+      <power></power> 
+      <apply> 
+        <plus></plus> 
+        <ci>x</ci>  
+        <ci>y</ci> 
+      </apply>  
+      <apply>
+        <minus></minus> 
+        <cn>n</cn>  
+        <cn>3</cn> 
+      </apply>  
+    </apply> 
+  </apply> 
+</math>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <moment></moment> 
+    <degree> 
+      <cn>3</cn> 
+    </degree> 
+    <momentabout> 
+      <cn>0</cn> 
+    </momentabout> 
+    <ci>X</ci>  
+  </apply> 
+</math>

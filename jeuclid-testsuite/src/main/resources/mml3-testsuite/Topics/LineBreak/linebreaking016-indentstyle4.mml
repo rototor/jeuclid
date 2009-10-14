@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" indentstyle="id" indenttarget="threeysq">
+  <mrow>
+    <msup>
+      <mrow> 
+        <mi>x</mi> 
+      </mrow> 
+      <mrow> 
+        <mn>2</mn> 
+      </mrow> 
+    </msup> 
+    <mo>+</mo>  
+    <mphantom>
+      <mrow>
+        <mn id="threeysq">3</mn>  
+        <msup>
+          <mrow> 
+            <mi>y</mi> 
+          </mrow>  
+          <mrow>
+            <mn>2</mn>  
+          </mrow> 
+        </msup>  
+        <mo>+</mo> 
+      </mrow> 
+    </mphantom> 
+    <mn>2</mn>  
+    <mi>x</mi> 
+    <mo>−</mo> 
+    <mn>4</mn> 
+    <mi>y</mi>  
+    <mo>−</mo> 
+    <mn>8</mn> 
+    <mo>=</mo> 
+    <mn>0</mn>  
+    <mspace linebreak="newline"></mspace> 
+    <mn>3</mn> 
+    <msup>
+      <mrow> 
+        <mi>y</mi> 
+      </mrow> 
+      <mrow> 
+        <mn>2</mn> 
+      </mrow> 
+    </msup> 
+    <mo>−</mo> 
+    <mphantom>
+      <mrow>
+        <mn>2</mn> 
+      </mrow> 
+    </mphantom> 
+    <mi>x</mi> 
+    <mo>+</mo> 
+    <mn>2</mn> 
+    <mi>y</mi> 
+    <mo>−</mo> 
+    <mn>2</mn> 
+    <mo>=</mo> 
+    <mn>0</mn> 
+  </mrow> </math>

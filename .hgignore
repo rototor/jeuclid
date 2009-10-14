@@ -1,0 +1,14 @@
+syntax: regexp
+
+target/
+^temp
+temp/
+^test
+\.classpath$
+\.project$
+\.settings/
+\.checkstyle$
+\.fbprefs$
+^jeuclid-mathviewer/keystore$
+\.patch$
+^jeuclid-fop/src/site/apt/index.apt$
