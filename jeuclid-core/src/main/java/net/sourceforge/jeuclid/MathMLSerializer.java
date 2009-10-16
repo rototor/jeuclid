@@ -107,7 +107,7 @@ public final class MathMLSerializer {
                     OutputKeys.OMIT_XML_DECLARATION, transformer);
             transformer.transform(source, result);
         } catch (final TransformerException e) {
-            MathMLSerializer.LOGGER.warn(e);
+            MathMLSerializer.LOGGER.warn(e.getMessage(),e);
         }
         return writer.toString();
 
