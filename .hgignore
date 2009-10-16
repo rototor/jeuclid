@@ -12,3 +12,6 @@ temp/
 ^jeuclid-mathviewer/keystore$
 \.patch$
 ^jeuclid-fop/src/site/apt/index.apt$
+\.iml$
+\.ipr$
+\.iws$
