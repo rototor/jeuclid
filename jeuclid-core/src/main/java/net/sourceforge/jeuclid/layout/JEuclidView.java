@@ -97,7 +97,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      *            same.
      */
     public void draw(final Graphics2D g, final float x, final float y) {
-        this.layout(this.document, LayoutStage.STAGE2, this.context);
+        this.layout();
         final RenderingHints hints = g.getRenderingHints();
         if ((Boolean) (this.context.getParameter(Parameter.ANTIALIAS))) {
             hints.add(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
@@ -141,6 +141,10 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
             this.drawNode(child, g, x + childInfo.getPosX(LayoutStage.STAGE2),
                     y + childInfo.getPosY(LayoutStage.STAGE2), debug);
         }
+    }
+
+    private LayoutInfo layout() {
+        return this.layout(this.document, LayoutStage.STAGE2, this.context);
     }
 
     private LayoutInfo layout(final LayoutableNode node,
@@ -196,8 +200,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      * @return width of this view.
      */
     public float getWidth() {
-        final LayoutInfo info = this.layout(this.document, LayoutStage.STAGE2,
-                this.context);
+        final LayoutInfo info = this.layout();
         return info.getWidth(LayoutStage.STAGE2);
     }
 
@@ -205,8 +208,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      * @return ascent height.
      */
     public float getAscentHeight() {
-        final LayoutInfo info = this.layout(this.document, LayoutStage.STAGE2,
-                this.context);
+        final LayoutInfo info = this.layout();
         return info.getAscentHeight(LayoutStage.STAGE2);
     }
 
@@ -214,8 +216,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      * @return descent height.
      */
     public float getDescentHeight() {
-        final LayoutInfo info = this.layout(this.document, LayoutStage.STAGE2,
-                this.context);
+        final LayoutInfo info = this.layout();
         return info.getDescentHeight(LayoutStage.STAGE2);
     }
 
@@ -287,7 +288,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      */
     public List<JEuclidView.NodeRect> getNodesAt(final float x, final float y,
             final float offsetX, final float offsetY) {
-        this.layout(this.document, LayoutStage.STAGE2, this.context);
+        this.layout();
         final List<JEuclidView.NodeRect> nodes = new LinkedList<JEuclidView.NodeRect>();
         this.getNodesAtRec(x, y, offsetX, offsetY, this.document, nodes);
         return nodes;
@@ -361,8 +362,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      */
     public Rectangle2D getRect(final float offsetX, final float offsetY,
             final LayoutableNode node) {
-        // ensure Layout
-        this.layout(this.document, LayoutStage.STAGE2, this.context);
+        this.layout();
         final LayoutInfo info = this.layoutMap.get(node);
         final Rectangle2D retVal;
         if (info == null) {
