@@ -369,14 +369,13 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
             retVal = null;
         } else {
             LayoutableNode recNode = node;
-            LayoutInfo recInfo = info;
             float recInfoX = info.getPosX(LayoutStage.STAGE2) + offsetX;
             float recInfoY = info.getPosY(LayoutStage.STAGE2) + offsetY
                     - info.getAscentHeight(LayoutStage.STAGE2);
             while (recNode.getParentNode() != null
                     && recNode.getParentNode() instanceof LayoutableNode) {
                 recNode = (LayoutableNode) recNode.getParentNode();
-                recInfo = this.layoutMap.get(recNode);
+                final LayoutInfo recInfo = this.layoutMap.get(recNode);
                 recInfoX = recInfoX + recInfo.getPosX(LayoutStage.STAGE2);
                 recInfoY = recInfoY + recInfo.getPosY(LayoutStage.STAGE2);
             }
