@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
+<article>
+  <title></title>
+
+  <section>
+    <title>Programming with JEuclid</title>
+
+    <para>Most information can be found in the <ulink
+    url="./apidocs/index.html">JEuclid API Documentation</ulink>. This
+    document gives a short overview and pointers where to start.</para>
+
+    <para>If you program with JEuclid and you need to do more than simple
+    displaying / converting of math, you may be interested in the following
+    </para>
+
+    <section>
+      <title>Converting</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>If you need to convert from MathML to any image format, SVG,
+          SVG-DOM, or BufferedImage use the <ulink
+          url="./apidocs/net/sourceforge/jeuclid/converter/Converter.html">net.sourceforge.jeuclid.converter.Converter</ulink>
+          class.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Displaying</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>AWT</term>
+
+          <listitem>
+            <para><ulink
+            url="./apidocs/net/sourceforge/jeuclid/awt/MathComponent.html">net.sourceforge.jeuclid.awt.MathComponent</ulink></para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Swing</term>
+
+          <listitem>
+            <para><ulink
+            url="./apidocs/net/sourceforge/jeuclid/swing/JMathComponent.html">net.sourceforge.jeuclid.swing.JMathComponent</ulink></para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>SWT</term>
+
+          <listitem>
+            <para><ulink
+            url="./apidocs/net/sourceforge/jeuclid/swt/MathView.html">net.sourceforge.jeuclid.swt.MathView</ulink></para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
+
+    <section>
+      <title>JEuclid rendering pipeline</title>
+
+      <figure>
+        <title>JEuclids rendering pipeline</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/renderingPipeline.svg" width="80%" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <itemizedlist>
+        <listitem>
+          <para>To parse a String or File into DOM, use <ulink
+          url="./apidocs/net/sourceforge/jeuclid/parser/Parser.html">net.sourceforge.jeuclid.parser.Parser</ulink></para>
+        </listitem>
+
+        <listitem>
+          <para>To convert an arbitrary DOM tree into a JEuclid DOM tree use
+          <ulink
+          url="./apidocs/net/sourceforge/jeuclid/DOMBuilder.html">net.sourceforge.jeuclid.DOMBuilder</ulink></para>
+        </listitem>
+
+        <listitem>
+          <para>You can then create a <ulink
+          url="./apidocs/net/sourceforge/jeuclid/layout/JEuclidView.html">net.sourceforge.jeuclid.layout.JEuclidView</ulink>
+          which contains the layout information</para>
+        </listitem>
+
+        <listitem>
+          <para>To actually draw the formula, call the <ulink
+          url="./apidocs/net/sourceforge/jeuclid/layout/JEuclidView.html#draw(java.awt.Graphics2D,%20float,%20float)">JEuclidView#draw(Graphics2D
+          g, float x, float y)</ulink> method</para>
+        </listitem>
+      </itemizedlist>
+
+      <section>
+        <title>JEuclid DOM Model</title>
+
+        <para>The JEuclid DOM Tree conforms to the <ulink
+        url="http://www.w3.org/TR/MathML2/appendixe.html#dom-bindings.JavaBindings">MathML
+        Document Object Model Java Binding</ulink>. This means you can (and
+        should) use the methods defined there to modify the internal
+        tree.</para>
+      </section>
+
+      <section>
+        <title>JEuclid View</title>
+
+        <para>The JEuclid view registers for events with the JEuclid DOM
+        model. Changes in the JEuclid DOM are therefore noted in the
+        JEuclidView. This means that subsequent drawing operations will only
+        layout the modified part of the tree, saving rendering time.</para>
+      </section>
+    </section>
+  </section>
+</article>

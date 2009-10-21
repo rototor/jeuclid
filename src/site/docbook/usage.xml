@@ -313,11 +313,8 @@
   <section>
     <title>In your own App</title>
 
-    <para>Please look at the <ulink url="./apidocs/index.html">API
-    Documentation</ulink>. You may be interested in <ulink
-    url="./apidocs/net/sourceforge/jeuclid/awt/MathComponent.html">net.sourceforge.jeuclid.awt.MathComponent</ulink>
-    and <ulink
-    url="./apidocs/net/sourceforge/jeuclid/swing/JMathComponent.html">net.sourceforge.jeuclid.swing.JMathComponent</ulink>.</para>
+    <para>This information has moved to the <ulink
+    url="./programming.html">Programming with JEuclid</ulink> page.</para>
 
     <section>
       <title>Java 1.6</title>
