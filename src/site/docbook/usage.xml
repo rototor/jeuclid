@@ -313,11 +313,14 @@
   <section>
     <title>In your own App</title>
 
+    <section>
+      <title>Programming with JEuclid</title>
     <para>This information has moved to the <ulink
     url="./programming.html">Programming with JEuclid</ulink> page.</para>
+    </section>
 
     <section>
-      <title>Java 1.6</title>
+      <title>Java 1.6 extensions</title>
 
       <para>JEuclid contains additional functionality available on Java ≥ 1.6.
       To use this functionality you need to add
