@@ -372,7 +372,7 @@
         <version>2.5</version>
         <configuration>
           <linksource>true</linksource>
-          <aggregate>true</aggregate>
+          <stylesheet>maven</stylesheet>
           <keywords>true</keywords>
           <links>
             <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
@@ -380,13 +380,13 @@
             <link>http://jakarta.apache.org/commons/logging/apidocs/</link>
             <link>http://jcip.net/annotations/doc/</link>
           </links>
-          <tags>
-            <tag>
-              <name>todo</name>
-              <placement>a</placement>
-              <head>This needs to be done:</head>
-            </tag>
-          </tags>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>aggregate</report>
+              </reports>
+            </reportSet>
+          </reportSets>
         </configuration>
       </plugin>
       <plugin>
