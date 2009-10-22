@@ -12,8 +12,8 @@
     document gives a short overview and pointers where to start.</para>
 
     <para>If you program with JEuclid and you need to do more than simple
-    displaying / converting of math, you may be interested in the following
-    </para>
+    displaying / converting of math, you may be interested in the
+    following</para>
 
     <section>
       <title>Converting</title>
@@ -64,15 +64,11 @@
     <section>
       <title>JEuclid rendering pipeline</title>
 
-      <figure>
-        <title>JEuclids rendering pipeline</title>
-
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="images/renderingPipeline.svg" width="80%" />
-          </imageobject>
-        </mediaobject>
-      </figure>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="../resources/images/renderingPipeline.svg" width="80%" />
+        </imageobject>
+      </mediaobject>
 
       <itemizedlist>
         <listitem>
