@@ -49,13 +49,13 @@ import org.xml.sax.SAXException;
  * Displays MathML content in a Swing Component.
  * <p>
  * There are two properties which expose the actual content, accessible though
- * {@link #getDocument()} / {@link #setDocument(org.w3c.dom.Document)} for
+ * {@link #getDocument()} / {@link #setDocument(org.w3c.dom.Node)} for
  * content already available as a DOM model, and {@link #getContent()} and
  * {@link #setContent(String)} for content available as a String.
  * <p>
  * This class exposes most of the rendering parameters as standard bean
  * attributes. If you need to set additional attributes, you may use the
- * {@link #setParameter(Parameter, String)} function.
+ * {@link #setParameter(Parameter, Object)} function.
  * <p>
  * Please use only the attributes exposed through the attached
  * {@link JMathComponentBeanInfo} class. Additional attributes, such as
