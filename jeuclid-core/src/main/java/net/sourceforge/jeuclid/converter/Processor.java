@@ -104,7 +104,7 @@ public final class Processor {
      * @return see {@link #getInstance()}
      * @throws TransformerException
      *             see {@link #getInstance()}
-     * @deprecated
+     * @deprecated use {@link #getInstance()} instead.
      */
     @Deprecated
     public static Processor getProcessor() throws TransformerException {
