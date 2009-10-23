@@ -195,6 +195,7 @@ public class MainFrame extends JFrame {
             if (!MathViewer.OSX) {
                 this.fileMenu.add(this.getExitMenuItem());
             }
+            this.updateFromTextArea();
         }
         return this.fileMenu;
     }
@@ -434,9 +435,23 @@ public class MainFrame extends JFrame {
         if (this.xmlEditor == null) {
             this.xmlEditor = new XMLTextEditor();
             this.xmlEditor.setEditorKit(new XMLEditorKit(new XMLContext()));
-            this.xmlEditor.setText("<?xml version='1.0'?>\n"
+            /*this.xmlEditor.setText("<?xml version='1.0'?>\n"
                     + "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n"
+                    + "</math>");*/
+            this.xmlEditor.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                    //DOCTYPE for W3C compliance obviously not supported
+                    //+ "<!DOCTYPE math PUBLIC -//W3C//DTD MathML 2.0//EN' "
+                    //+ "'http://www.w3.org/Math/DTD/mathml2/mathml2.dtd'>\n"
+                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n"
+                    + "<mrow>\n"
+                    + "<mi>a</mi>\n"
+                    + "<msup><mi>x</mi><mn>2</mn></msup>\n"
+                    + "<mo>+</mo><mi>b</mi>\n"
+                    + "<mi>x</mi><mo>+</mo><mi>c</mi>\n"
+                    + "<mo>=</mo><mo>0</mo>\n"
+                    + "</mrow>\n"
                     + "</math>");
+
             this.xmlEditor.setEditable(true);
             this.xmlEditor.getDocument().addDocumentListener(
                     new DocumentListener() {
