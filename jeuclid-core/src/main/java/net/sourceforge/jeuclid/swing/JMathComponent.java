@@ -49,8 +49,8 @@ import org.xml.sax.SAXException;
  * Displays MathML content in a Swing Component.
  * <p>
  * There are two properties which expose the actual content, accessible though
- * {@link #getDocument()} / {@link #setDocument(org.w3c.dom.Node)} for
- * content already available as a DOM model, and {@link #getContent()} and
+ * {@link #getDocument()} / {@link #setDocument(org.w3c.dom.Node)} for content
+ * already available as a DOM model, and {@link #getContent()} and
  * {@link #setContent(String)} for content available as a String.
  * <p>
  * This class exposes most of the rendering parameters as standard bean
@@ -344,7 +344,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
     }
 
     /**
-     * Font emulator for standard component behaviour.
+     * Font emulator for standard component behavior.
      * <p>
      * Emulates the standard setFont function by setting the font Size and
      * adding the font to the front of the serif font list.
@@ -355,7 +355,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      *            font to set.
      * @see #setFontSize(float)
      * @see #setFontsSerif(String)
-     * @deprecated
+     * @deprecated use separate setters.
      */
     @Deprecated
     @Override

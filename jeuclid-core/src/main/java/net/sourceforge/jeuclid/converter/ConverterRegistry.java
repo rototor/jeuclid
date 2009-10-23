@@ -73,7 +73,7 @@ public final class ConverterRegistry {
      * use {@link #getInstance()} instead.
      * 
      * @return see {@link #getInstance()}
-     * @deprecated
+     * @deprecated use {@link #getInstance()} instead.
      */
     @Deprecated
     public static ConverterRegistry getRegisty() {
@@ -111,8 +111,8 @@ public final class ConverterRegistry {
      * This function is not fully implemented yet
      * 
      * @param mimeType
-     *            a mimetype, as returned by
-     *            {@link #getAvailableOutfileTypes()}, or null if unknown.
+     *            a mimetype, as returned by {@link #getAvailableOutfileTypes()}
+     *            , or null if unknown.
      * @return the three letter suffix common for this type.
      */
     public String getSuffixForMimeType(final String mimeType) {
@@ -182,7 +182,7 @@ public final class ConverterRegistry {
      * @return a Converter instance
      */
     public ConverterPlugin getConverter(final String mimeType) {
-        return this.mimetype2converter.get(mimeType
-                .toLowerCase(Locale.ENGLISH));
+        return this.mimetype2converter
+                .get(mimeType.toLowerCase(Locale.ENGLISH));
     }
 }

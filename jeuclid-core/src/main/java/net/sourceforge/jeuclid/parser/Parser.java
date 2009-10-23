@@ -86,8 +86,7 @@ public final class Parser {
         }
     }
 
-    private static final class UnclosableInputStream extends
-            FilterInputStream {
+    private static final class UnclosableInputStream extends FilterInputStream {
         protected UnclosableInputStream(final InputStream in) {
             super(in);
         }
@@ -148,8 +147,7 @@ public final class Parser {
             documentBuilder.setEntityResolver(new ResourceEntityResolver());
             documentBuilder.setErrorHandler(new LoggerErrorHandler());
         } catch (final ParserConfigurationException pce2) {
-            Parser.LOGGER.warn("Could not create Parser: "
-                    + pce2.getMessage());
+            Parser.LOGGER.warn("Could not create Parser: " + pce2.getMessage());
             assert false : "Could not create Parser";
             documentBuilder = null;
         }
@@ -184,7 +182,7 @@ public final class Parser {
      * @return see {@link #getInstance()}
      * @throws ParserConfigurationException
      *             see {@link #getInstance()}
-     * @deprecated
+     * @deprecated use {@link #getInstance()} instead.
      */
     @Deprecated
     public static Parser getParser() throws ParserConfigurationException {
@@ -351,8 +349,8 @@ public final class Parser {
      * Extract the top Node from a given Source.
      * 
      * @param source
-     *            the Source to use. Currently supported are {@link DOMSource}
-     *            , {@link StreamSource}
+     *            the Source to use. Currently supported are {@link DOMSource} ,
+     *            {@link StreamSource}
      * @return the top NODE.
      * @throws SAXException
      *             if a parse error occurred.
@@ -381,8 +379,8 @@ public final class Parser {
                 retVal = r.getNode();
             } catch (final TransformerException e) {
                 Parser.LOGGER.warn(e.getMessage());
-                throw new IllegalArgumentException(
-                        Parser.CANNOT_HANDLE_SOURCE + source, e);
+                throw new IllegalArgumentException(Parser.CANNOT_HANDLE_SOURCE
+                        + source, e);
             }
         }
         return retVal;

@@ -71,9 +71,11 @@ public final class DOMBuilder {
     protected DOMBuilder() {
         this.identityTransformer = this.createIdentityTransformer();
         this.contentTransformer = this.createTransformer(
-                "/net/sourceforge/jeuclid/content/mathmlc2p.xsl", this.identityTransformer);
+                "/net/sourceforge/jeuclid/content/mathmlc2p.xsl",
+                this.identityTransformer);
         this.namespaceTransformer = this.createTransformer(
-                "/net/sourceforge/jeuclid/addMathMLNamespace.xsl", this.identityTransformer);
+                "/net/sourceforge/jeuclid/addMathMLNamespace.xsl",
+                this.identityTransformer);
     }
 
     private Transformer createIdentityTransformer() {
@@ -94,8 +96,7 @@ public final class DOMBuilder {
         try {
             t = TransformerFactory.newInstance().newTemplates(
                     new StreamSource(DOMBuilder.class
-                            .getResourceAsStream(sourceFile)))
-                    .newTransformer();
+                            .getResourceAsStream(sourceFile))).newTransformer();
         } catch (final TransformerException e) {
             DOMBuilder.LOGGER.warn(e.getMessage());
             t = fallback;
@@ -114,7 +115,7 @@ public final class DOMBuilder {
      * use {@link #getInstance()} instead.
      * 
      * @return see {@link #getInstance()}
-     * @deprecated
+     * @deprecated use {@link #getInstance()} instead.
      */
     @Deprecated
     public static DOMBuilder getDOMBuilder() {
@@ -187,10 +188,8 @@ public final class DOMBuilder {
             }
             documentElement = child;
         } else {
-            throw new IllegalArgumentException(
-                    "Unsupported node: "
-                            + node
-                            + ". Expected either Document, Element or DocumentFragment");
+            throw new IllegalArgumentException("Unsupported node: " + node
+                    + ". Expected either Document, Element or DocumentFragment");
         }
 
         if (addNamespace) {
@@ -202,8 +201,7 @@ public final class DOMBuilder {
         if (supportContent) {
             d = this.applyTransform(documentElement, this.contentTransformer);
         } else {
-            d = this
-                    .applyTransform(documentElement, this.identityTransformer);
+            d = this.applyTransform(documentElement, this.identityTransformer);
         }
         return d;
     }
