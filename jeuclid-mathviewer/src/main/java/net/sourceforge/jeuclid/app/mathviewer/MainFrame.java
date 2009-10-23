@@ -603,8 +603,10 @@ public class MainFrame extends JFrame {
             this.biggerMenuItem.setText(Messages
                     .getString("MathViewer.textBigger")); //$NON-NLS-1$
             this.biggerMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-                    KeyEvent.VK_ADD, Toolkit.getDefaultToolkit()
-                            .getMenuShortcutKeyMask(), true));
+                    /*KeyEvent.VK_ADD, Toolkit.getDefaultToolkit()
+                            .getMenuShortcutKeyMask(), true));*/
+                    KeyEvent.VK_PLUS, Toolkit.getDefaultToolkit()
+                    .getMenuShortcutKeyMask(), true));
             this.biggerMenuItem
                     .addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(
@@ -630,7 +632,9 @@ public class MainFrame extends JFrame {
             this.smallerMenuItem.setText(Messages
                     .getString("MathViewer.textSmaller")); //$NON-NLS-1$
             this.smallerMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-                    KeyEvent.VK_SUBTRACT, Toolkit.getDefaultToolkit()
+                    /*KeyEvent.VK_SUBTRACT, Toolkit.getDefaultToolkit()
+                            .getMenuShortcutKeyMask(), true));*/
+                    KeyEvent.VK_MINUS, Toolkit.getDefaultToolkit()
                             .getMenuShortcutKeyMask(), true));
 
             this.smallerMenuItem
