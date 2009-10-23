@@ -35,6 +35,11 @@ import org.w3c.dom.Node;
 
 /**
  * Utility class to serialize DOM documents back into Strings.
+ * <p>
+ * This class can be used to generate String representations for an existing DOM
+ * Tree. The functionality is not restricted to JEuclid, and can be used for
+ * other DOM trees as well. In this case, you should set the addDoctype
+ * parameter to false.
  * 
  * @version $Revision$
  */
@@ -44,8 +49,7 @@ public final class MathMLSerializer {
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory
-            .getLog(MathMLSerializer.class);
+    private static final Log LOGGER = LogFactory.getLog(MathMLSerializer.class);
 
     private MathMLSerializer() {
         // empty on purpose
@@ -55,13 +59,15 @@ public final class MathMLSerializer {
      * Serialize a document back into a String.
      * 
      * @param doc
-     *            a DOM model of a document.
+     *            a DOM model of a document, or a node in a document
      * @param addDoctype
      *            if true, extra attributes such as docType will be set. This
-     *            ensures maximum MathML compatibility
+     *            ensures maximum MathML compatibility. Use only with MathML DOM
+     *            trees.
      * @param format
      *            if true, result will be nicely formatted.
-     * @return the document serialized as a string
+     * @return the document serialized to a string
+     * @see #serializeDocument(Node, boolean, boolean, boolean)
      */
     public static String serializeDocument(final Node doc,
             final boolean addDoctype, final boolean format) {
@@ -76,12 +82,13 @@ public final class MathMLSerializer {
      *            a DOM model of a document.
      * @param addDoctype
      *            if true, extra attributes such as docType will be set. This
-     *            ensures maximum MathML compatibility
+     *            ensures maximum MathML compatibility. Use only with MathML DOM
+     *            trees.
      * @param format
      *            if true, result will be nicely formatted.
      * @param omitXMLDecl
      *            if true, there will be no XML declaration.
-     * @return the document serialized as a string
+     * @return the document serialized to a string
      */
     public static String serializeDocument(final Node doc,
             final boolean addDoctype, final boolean format,
@@ -107,7 +114,7 @@ public final class MathMLSerializer {
                     OutputKeys.OMIT_XML_DECLARATION, transformer);
             transformer.transform(source, result);
         } catch (final TransformerException e) {
-            MathMLSerializer.LOGGER.warn(e.getMessage(),e);
+            MathMLSerializer.LOGGER.warn(e.getMessage(), e);
         }
         return writer.toString();
 
