@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="limit1">limit</csymbol>
+    <cn>0</cn>
+    <bind>
+      <csymbol cd="funs1">lambda</csymbol>
+      <bvar>
+        <ci>V</ci>
+      </bvar>
+      <apply>
+        <csymbol cd="arith1">divide</csymbol> 
+        <bind>
+          <csymbol cd="calculus1">int</csymbol>
+          <bvar>
+            <ci>S</ci>
+          </bvar>
+          <ci>a</ci>
+        </bind> 
+        <ci>V</ci>  
+      </apply>
+    </bind>
+  </apply> 
+</math>

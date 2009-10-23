@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="list1">list</csymbol>
+    <cn>12345.7</cn>
+    <cn> 12345</cn>
+    <apply>
+      <csymbol cd="nums1">based_integer</csymbol>
+      <cn>16</cn>
+    </apply>
+    <apply>
+      <csymbol cd="nums1">rational</csymbol>
+      <cn>12342</cn>
+      <cn>2342342</cn>
+    </apply>
+    <apply>
+      <csymbol cd="complex1">complex_cartesian</csymbol>
+      <cn>12.3</cn>
+      <cn>5</cn>
+    </apply>
+    <apply>
+      <csymbol cd="complex1">complex_polar</csymbol>
+      <cn>2</cn>
+      <cn>3.1415</cn>
+    </apply>
+    <csymbol cd="nums1">pi</csymbol>
+  </apply> 
+</math>

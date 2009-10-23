@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="linalg1">vector_selector</csymbol>
+    <cn>1</cn>
+    <apply>
+      <csymbol cd="linalg2">matrix</csymbol>
+      <apply>
+        <csymbol cd="linalg2">matrixrow</csymbol>
+        <cn>1</cn>
+        <cn>2</cn>
+      </apply>
+      <apply>
+        <csymbol cd="linalg2">matrixrow</csymbol>
+        <cn>3</cn>
+        <cn>4</cn>
+      </apply>
+    </apply>
+  </apply> 
+</math>

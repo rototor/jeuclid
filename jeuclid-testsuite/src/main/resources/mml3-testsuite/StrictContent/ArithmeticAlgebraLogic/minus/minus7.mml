@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <csymbol cd="arith1">unary_minus</csymbol>
+    <apply>
+      <csymbol cd="arith1">divide</csymbol> 
+      <apply>
+        <csymbol cd="arith1">plus</csymbol>  
+        <ci>a</ci> 
+        <ci>b</ci>  
+      </apply> 
+      <apply> 
+        <csymbol cd="arith1">minus</csymbol> 
+        <ci>a</ci>  
+        <ci>b</ci> 
+      </apply> 
+    </apply>
+  </apply>  
+</math>

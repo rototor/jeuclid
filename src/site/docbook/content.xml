@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
+<article>
+  <title>Content Math</title>
+
+  <section>
+    <title>Content Math</title>
+
+    <para>Content Math support is based on an XSLT transformation script.
+    Although this script is now integrated into JEuclid, it has its own
+    homepage at:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><ulink
+        url="http://www.lri.fr/~pietriga/mathmlc2p/mathmlc2p.html">MathMLc2p
+        Homepage</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para><ulink
+        url="http://sourceforge.net/tracker/?group_id=44862&amp;atid=1042625">MathMLc2p
+        Tracker</ulink></para>
+      </listitem>
+    </itemizedlist>
+
+    <para>At this point the content math support is to be considered
+    preliminary. Therefore feature wishes and bug fixes are greatly
+    appreciated!</para>
+
+    <para>Please note that content math <emphasis>only works if your document
+    is in the MathML namespace</emphasis>. Declaring the DTD is not
+    sufficient!</para>
+  </section>
+
+  <section>
+    <title>Hacking Content Math</title>
+
+    <para>Content MathML depends on an <ulink
+    url="http://en.wikipedia.org/wiki/XSL_Transformations">XSL
+    Transformation</ulink> Script which transforms content MathML into
+    presentation MathML. You can download the current version from the <ulink
+    url="./source-repository.html">JEuclid Source repository</ulink>.
+    Alternatively, you may try the following link:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><ulink
+        url="http://jeuclid.hg.sourceforge.net/hgweb/jeuclid/jeuclid/raw-file/tip/jeuclid-core/src/main/resources/net/sourceforge/jeuclid/content/mathmlc2p.xsl">Content
+        Math To Presentation Math XSLT Script</ulink></para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Once you have the script, please use it to manually transform your
+    content MathML to presentation MathML. You can use
+    <command>xsltproc</command> on Unix/Linux systems, or <ulink
+    url="http://xml.apache.org/xalan-j/">Apache Xalan</ulink> on all Java
+    platforms.</para>
+
+    <para>Make your modifications, test them manually, and submit a patch to
+    the Content Math Tracker (see link above). Please Note: <emphasis>In many
+    cases, the exact representation of content MathML is subjective. If your
+    modifications are something you "prefer", then please a parameter for it!
+    If it is something that you are sure everyone wants (because it is missing
+    or breaks semantics), feel free to just patch the affected
+    area.</emphasis></para>
+  </section>
+
+  <section>
+    <title>Passing parameters to the transformation</title>
+
+    <para>Is still unsupported, due to the lack of a good idea on how to
+    support it. It will likely be similar to the standard <ulink
+    url="./extensions.html">JEuclid extensions</ulink>.</para>
+  </section>
+</article>

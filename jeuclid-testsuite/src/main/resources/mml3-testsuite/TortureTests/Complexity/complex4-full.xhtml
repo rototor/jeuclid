@@ -1,0 +1,4768 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  complex4</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../TortureTests/Complexity/complex3-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../toc-full.xhtml#TortureTests/">TortureTests</a> &gt; <a target="toc_full" href="../../toc-full.xhtml#TortureTests/Complexity/">Complexity</a> &gt; complex4
+   ) </td><td style="text-align: right"><a href="../../TortureTests/Complexity/simplePres-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="complex4.mml">mml file</a>)
+       (<a href="complex4-full.xhtml">full</a>) (<a href="complex4-simple.xhtml">simple</a>) (<a href="complex4-plain.xhtml">plain</a>) (<a href="complex4-form.xhtml">form</a>) (<a href="complex4-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>TortureTests/Complexity/complex4</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Design Science, Inc. (D. Doyle, R. Miner)</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>Testing content tags.</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p>
+          N/A
+      </td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+    a + b - c 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <plus></plus> 
+          <ci>a</ci> 
+          <apply> 
+            <minus></minus> 
+            <ci>b</ci> 
+            <ci>c</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+x + yz + z 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <plus></plus> 
+          <ci>x</ci> 
+          <apply> 
+            <times></times> 
+            <ci>y</ci> 
+            <ci>z</ci> 
+          </apply> 
+          <ci>z</ci> 
+        </apply> 
+      </math> 
+     
+    
+x * (y + z) * z 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <times></times> 
+          <ci>x</ci> 
+          <apply> 
+            <plus></plus> 
+            <ci>y</ci> 
+            <ci>z</ci> 
+          </apply> 
+          <ci>z</ci> 
+        </apply> 
+      </math> 
+     
+    
+sin(a + b) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <sin></sin> 
+          <apply> 
+            <plus></plus> 
+            <ci>a</ci> 
+            <ci>b</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+sin(x(y + z)z) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <sin></sin> 
+          <apply> 
+            <times></times> 
+            <ci>x</ci> 
+            <apply> 
+              <plus></plus> 
+              <ci>y</ci> 
+              <ci>z</ci> 
+            </apply> 
+            <ci>z</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+sin(xy)2b 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <times></times> 
+          <apply> 
+            <sin></sin> 
+            <apply> 
+              <times></times> 
+              <ci>x</ci> 
+              <ci>y</ci> 
+            </apply> 
+          </apply> 
+          <apply> 
+            <times></times> 
+            <cn>2</cn> 
+            <ci>b</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+(x + y) ^ (n - 3) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <power></power> 
+          <apply> 
+            <plus></plus> 
+            <ci>x</ci> 
+            <ci>y</ci> 
+          </apply> 
+          <apply> 
+            <minus></minus> 
+            <cn>n</cn> 
+            <cn>3</cn> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+limit as x goes to a of sin x using &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <limit></limit> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <reln> 
+              <tendsto type="above"></tendsto> 
+              <ci>x</ci> 
+              <ci>a</ci> 
+            </reln> 
+          </condition> 
+          <apply> 
+            <sin></sin> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+limit as x goes to a of sin x using &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <limit></limit> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <apply> 
+              <tendsto type="above"></tendsto> 
+              <ci>x</ci> 
+              <ci>a</ci> 
+            </apply> 
+          </condition> 
+          <apply> 
+            <sin></sin> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+limit as x goes to a of sin(x + y) using &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <limit></limit> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <reln> 
+              <tendsto type="above"></tendsto> 
+              <ci>x</ci> 
+              <ci>a</ci> 
+            </reln> 
+          </condition> 
+          <apply> 
+            <sin></sin> 
+            <apply> 
+              <plus></plus> 
+              <ci>x</ci> 
+              <ci>y</ci> 
+            </apply> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+limit as x goes to a of sin(x + y) using &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <limit></limit> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <apply> 
+              <tendsto type="above"></tendsto> 
+              <ci>x</ci> 
+              <ci>a</ci> 
+            </apply> 
+          </condition> 
+          <apply> 
+            <sin></sin> 
+            <apply> 
+              <plus></plus> 
+              <ci>x</ci> 
+              <ci>y</ci> 
+            </apply> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+limit as x goes to a of sin(x + y)2b using &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <limit></limit> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <reln> 
+              <tendsto type="above"></tendsto> 
+              <ci>x</ci> 
+              <ci>a</ci> 
+            </reln> 
+          </condition> 
+          <apply> 
+            <times></times> 
+            <apply> 
+              <sin></sin> 
+              <apply> 
+                <times></times> 
+                <ci>x</ci> 
+                <ci>y</ci> 
+              </apply> 
+            </apply> 
+            <apply> 
+              <times></times> 
+              <cn>2</cn> 
+              <ci>b</ci> 
+            </apply> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+limit as x goes to a of sin(x + y)2b using &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <limit></limit> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <apply> 
+              <tendsto type="above"></tendsto> 
+              <ci>x</ci> 
+              <ci>a</ci> 
+            </apply> 
+          </condition> 
+          <apply> 
+            <times></times> 
+            <apply> 
+              <sin></sin> 
+              <apply> 
+                <times></times> 
+                <ci>x</ci> 
+                <ci>y</ci> 
+              </apply> 
+            </apply> 
+            <apply> 
+              <times></times> 
+              <cn>2</cn> 
+              <ci>b</ci> 
+            </apply> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+quotient 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <quotient></quotient> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+moment 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <moment></moment> 
+          <degree> 
+            <cn>3</cn> 
+          </degree> 
+          <ci>X</ci> 
+        </apply> 
+      </math> 
+     
+    
+selector 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <selector></selector> 
+          <matrix> 
+            <matrixrow> 
+              <cn>1</cn> 
+              <cn>2</cn> 
+            </matrixrow> 
+            <matrixrow> 
+              <cn>3</cn> 
+              <cn>4</cn> 
+            </matrixrow> 
+          </matrix> 
+          <cn>1</cn> 
+        </apply> 
+      </math> 
+     
+    
+factorial 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <factorial></factorial> 
+          <ci>n</ci> 
+        </apply> 
+      </math> 
+     
+    
+(a + b)! 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <factorial></factorial> 
+          <apply> 
+            <plus></plus> 
+            <apply> 
+              <plus></plus> 
+              <ci>n</ci> 
+              <ci>m</ci> 
+            </apply> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+inverse function 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <inverse></inverse> 
+          <ci>f</ci> 
+        </apply> 
+      </math> 
+     
+    
+inverse matrix 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <apply> 
+            <inverse></inverse> 
+            <ci type="matrix">a</ci> 
+          </apply> 
+          <ci>A</ci> 
+        </apply> 
+      </math> 
+     
+    
+conjugate 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <mrow> 
+          <apply> 
+            <conjugate></conjugate> 
+            <apply> 
+              <plus></plus> 
+              <ci>x</ci> 
+              <apply> 
+                <times></times> 
+                <cn>ⅈ</cn> 
+                <ci>y</ci> 
+              </apply> 
+            </apply> 
+          </apply> 
+        </mrow> 
+      </math> 
+     
+    
+a + b + c 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <plus></plus> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+          <ci>c</ci> 
+        </apply> 
+      </math> 
+     
+    
+integral (a + x)dx 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <int></int> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <lowlimit> 
+            <cn>0</cn> 
+          </lowlimit> 
+          <uplimit> 
+            <ci>a</ci> 
+          </uplimit> 
+          <apply> 
+            <plus></plus> 
+            <ci>a</ci> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+-1 + 7 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <plus></plus> 
+          <apply> 
+            <minus></minus> 
+            <cn>1</cn> 
+          </apply> 
+          <cn>7</cn> 
+        </apply> 
+      </math> 
+     
+    
+7 + (-1) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <plus></plus> 
+          <cn>7</cn> 
+          <apply> 
+            <minus></minus> 
+            <cn>1</cn> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+max 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <max></max> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <apply> 
+              <and></and> 
+              <reln> 
+                <gt></gt> 
+                <ci>x</ci> 
+                <cn>0</cn> 
+              </reln> 
+              <reln> 
+                <lt></lt> 
+                <ci>x</ci> 
+                <cn>1</cn> 
+              </reln> 
+            </apply> 
+          </condition> 
+          <apply> 
+            <minus></minus> 
+            <ci>x</ci> 
+            <apply> 
+              <sin></sin> 
+              <ci>x</ci> 
+            </apply> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+lambda sin(x + 1) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <lambda> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <apply> 
+            <sin></sin> 
+            <apply> 
+              <plus></plus> 
+              <ci>x</ci> 
+              <cn>1</cn> 
+            </apply> 
+          </apply> 
+        </lambda> 
+      </math> 
+     
+    
+lambda integral f(x)dx 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <lambda> 
+          <bvar> 
+            <ci>b</ci> 
+          </bvar> 
+          <apply> 
+            <int></int> 
+            <bvar> 
+              <ci>x</ci> 
+            </bvar> 
+            <lowlimit> 
+              <ci>a</ci> 
+            </lowlimit> 
+            <uplimit> 
+              <ci>b</ci> 
+            </uplimit> 
+            <apply> 
+              <fn> 
+                <ci>f</ci> 
+              </fn> 
+              <ci>x</ci> 
+            </apply> 
+          </apply> 
+        </lambda> 
+      </math> 
+     
+    
+compose f and g 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <compose></compose> 
+          <fn> 
+            <ci>f</ci> 
+          </fn> 
+          <fn> 
+            <ci>g</ci> 
+          </fn> 
+        </apply> 
+      </math> 
+     
+    
+compose f and g (x) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <apply> 
+            <compose></compose> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <fn> 
+              <ci>g</ci> 
+            </fn> 
+          </apply> 
+          <ci>x</ci> 
+        </apply> 
+      </math> 
+     
+    
+f(g(x)) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <fn> 
+            <ci>f</ci> 
+          </fn> 
+          <apply> 
+            <fn> 
+              <ci>g</ci> 
+            </fn> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+composition of f and inverse of f eq identity using &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <eq></eq> 
+          <apply> 
+            <compose></compose> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <apply> 
+              <inverse></inverse> 
+              <fn> 
+                <ci>f</ci> 
+              </fn> 
+            </apply> 
+          </apply> 
+          <ident></ident> 
+        </reln> 
+      </math> 
+     
+    
+composition of f and inverse of f eq identity using &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <eq></eq> 
+          <apply> 
+            <compose></compose> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <apply> 
+              <inverse></inverse> 
+              <fn> 
+                <ci>f</ci> 
+              </fn> 
+            </apply> 
+          </apply> 
+          <ident></ident> 
+        </apply> 
+      </math> 
+     
+    
+e^x 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <exp></exp> 
+          <ci>x</ci> 
+        </apply> 
+      </math> 
+     
+    
+min(x, x not in B, x^2) using &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <min></min> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <reln> 
+              <notin></notin> 
+              <ci>x</ci> 
+              <ci type="set">B</ci> 
+            </reln> 
+          </condition> 
+          <apply> 
+            <power></power> 
+            <ci>x</ci> 
+            <cn>2</cn> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+min(x, x not in B, x^2) using &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <min></min> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <apply> 
+              <notin></notin> 
+              <ci>x</ci> 
+              <ci type="set">B</ci> 
+            </apply> 
+          </condition> 
+          <apply> 
+            <power></power> 
+            <ci>x</ci> 
+            <cn>2</cn> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+a mod (b) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <rem></rem> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+ab 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <times></times> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+gcd(a b, c) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <gcd></gcd> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+          <ci>c</ci> 
+        </apply> 
+      </math> 
+     
+    
+integral 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <int></int> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <lowlimit> 
+            <cn>0</cn> 
+          </lowlimit> 
+          <uplimit> 
+            <ci>a</ci> 
+          </uplimit> 
+          <apply> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+abs(x) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <abs></abs> 
+          <ci>x</ci> 
+        </apply> 
+      </math> 
+     
+     tall abs(x) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <abs></abs> 
+          <apply> 
+            <divide></divide> 
+            <ci>H</ci> 
+            <ci>K</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+abs(x + y + z) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <abs></abs> 
+          <apply> 
+            <plus></plus> 
+            <ci>x</ci> 
+            <ci>y</ci> 
+            <ci>z</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+x &gt; 0 and z &lt; 1 as &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <and></and> 
+          <reln> 
+            <gt></gt> 
+            <ci>x</ci> 
+            <cn>0</cn> 
+          </reln> 
+          <reln> 
+            <lt></lt> 
+            <ci>x</ci> 
+            <cn>1</cn> 
+          </reln> 
+        </apply> 
+      </math> 
+     
+    
+x &gt; 0 and z &lt; 1 as &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <and></and> 
+          <apply> 
+            <gt></gt> 
+            <ci>x</ci> 
+            <cn>0</cn> 
+          </apply> 
+          <apply> 
+            <lt></lt> 
+            <ci>x</ci> 
+            <cn>1</cn> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+a and b 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <and></and> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+a or b 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <or></or> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+a xor b 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <xor></xor> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+a eq b with &lt;reln&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <eq></eq> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </reln> 
+      </math> 
+     
+    
+a eq b with &lt;apply&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <eq></eq> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+a neq b with &lt;reln&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <neq></neq> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </reln> 
+      </math> 
+     
+    
+a neq b with &lt;apply&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <neq></neq> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+a &gt; b with &lt;reln&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <gt></gt> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </reln> 
+      </math> 
+     
+    
+a &gt; b with &lt;apply&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <gt></gt> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+a &lt; b with &lt;reln&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <lt></lt> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </reln> 
+      </math> 
+     
+    
+a &lt; b with &lt;apply&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <lt></lt> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+a &lt;= b with &lt;reln&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <geq></geq> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </reln> 
+      </math> 
+     
+    
+a &gt;= b with &lt;apply&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <geq></geq> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+a &lt;= b with &lt;reln&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <leq></leq> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </reln> 
+      </math> 
+     
+    
+a &lt;= b with &lt;apply&gt; tag 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <leq></leq> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+set: {b, a, c} 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <set> 
+          <ci>b</ci> 
+          <ci>a</ci> 
+          <ci>c</ci> 
+        </set> 
+      </math> 
+     
+    
+set with condition 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <set> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <reln> 
+              <lt></lt> 
+              <ci>x</ci> 
+              <cn>5</cn> 
+            </reln> 
+          </condition> 
+        </set> 
+      </math> 
+     
+    
+list: {b, a, c} 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <list> 
+          <ci>b</ci> 
+          <ci>a</ci> 
+          <ci>c</ci> 
+        </list> 
+      </math> 
+     
+    
+list: {x|x &lt; 5} 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <list order="numeric"> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <reln> 
+              <lt></lt> 
+              <ci>x</ci> 
+              <cn>5</cn> 
+            </reln> 
+          </condition> 
+        </list> 
+      </math> 
+     
+    
+A union B 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <union></union> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </apply> 
+      </math> 
+     
+    
+A intersect B 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <intersect></intersect> 
+          <ci type="set">A</ci> 
+          <ci type="set">B</ci> 
+        </apply> 
+      </math> 
+     
+    
+A intersect (B union C) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <intersect></intersect> 
+          <ci type="set">A</ci> 
+          <apply> 
+            <union></union> 
+            <ci type="set">B</ci> 
+            <ci type="set">C</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    integral
+x in R as &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <in></in> 
+          <ci>x</ci> 
+          <ci type="set">R</ci> 
+        </reln> 
+      </math> 
+     
+    
+x in R as &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <in></in> 
+          <ci>x</ci> 
+          <ci type="set">R</ci> 
+        </apply> 
+      </math> 
+     
+    
+a in A 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <in></in> 
+          <ci>a</ci> 
+          <ci type="set">A</ci> 
+        </reln> 
+      </math> 
+     
+    
+a not in A as &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <notin></notin> 
+          <ci>a</ci> 
+          <ci>A</ci> 
+        </reln> 
+      </math> 
+     
+    
+a not in A as &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <notin></notin> 
+          <ci>a</ci> 
+          <ci>A</ci> 
+        </apply> 
+      </math> 
+     
+    
+not a 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <not></not> 
+          <ci>a</ci> 
+        </apply> 
+      </math> 
+     
+    
+not (a and b) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <not></not> 
+          <apply> 
+            <and></and> 
+            <ci>a</ci> 
+            <ci>b</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+A -&gt; B (reln) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <implies></implies> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </reln> 
+      </math> 
+     
+    
+A -&gt; B (apply) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <implies></implies> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </apply> 
+      </math> 
+     
+    
+forall 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <forall></forall> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <reln> 
+            <eq></eq> 
+            <apply> 
+              <minus></minus> 
+              <ci>x</ci> 
+              <ci>x</ci> 
+            </apply> 
+            <cn>0</cn> 
+          </reln> 
+        </apply> 
+      </math> 
+     
+    
+forall/and/lt/power 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <forall></forall> 
+          <bvar> 
+            <ci>p</ci> 
+          </bvar> 
+          <bvar> 
+            <ci>q</ci> 
+          </bvar> 
+          <condition> 
+            <apply> 
+              <and></and> 
+              <reln> 
+                <in></in> 
+                <ci>p</ci> 
+                <ci type="set">Q</ci> 
+              </reln> 
+              <reln> 
+                <in></in> 
+                <ci>q</ci> 
+                <ci type="set">Q</ci> 
+              </reln> 
+              <reln> 
+                <lt></lt> 
+                <ci>p</ci> 
+                <ci>q</ci> 
+              </reln> 
+            </apply> 
+          </condition> 
+          <reln> 
+            <lt></lt> 
+            <ci>p</ci> 
+            <apply> 
+              <power></power> 
+              <ci>q</ci> 
+              <cn>2</cn> 
+            </apply> 
+          </reln> 
+        </apply> 
+      </math> 
+     
+    
+forall/exists/and/plus 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <forall></forall> 
+          <bvar> 
+            <ci>n</ci> 
+          </bvar> 
+          <condition> 
+            <apply> 
+              <and></and> 
+              <reln> 
+                <in></in> 
+                <ci>n</ci> 
+                <ci type="set">Z</ci> 
+              </reln> 
+              <reln> 
+                <gt></gt> 
+                <ci>n</ci> 
+                <cn>0</cn> 
+              </reln> 
+            </apply> 
+          </condition> 
+          <apply> 
+            <exists></exists> 
+            <bvar> 
+              <ci>x</ci> 
+            </bvar> 
+            <bvar> 
+              <ci>y</ci> 
+            </bvar> 
+            <bvar> 
+              <ci>z</ci> 
+            </bvar> 
+            <condition> 
+              <apply> 
+                <and></and> 
+                <reln> 
+                  <in></in> 
+                  <ci>x</ci> 
+                  <ci type="set">Z</ci> 
+                </reln> 
+                <reln> 
+                  <in></in> 
+                  <ci>y</ci> 
+                  <ci type="set">Z</ci> 
+                </reln> 
+                <reln> 
+                  <in></in> 
+                  <ci>z</ci> 
+                  <ci type="set">Z</ci> 
+                </reln> 
+              </apply> 
+            </condition> 
+            <reln> 
+              <eq></eq> 
+              <apply> 
+                <plus></plus> 
+                <apply> 
+                  <power></power> 
+                  <ci>x</ci> 
+                  <ci>n</ci> 
+                </apply> 
+                <apply> 
+                  <power></power> 
+                  <ci>y</ci> 
+                  <ci>n</ci> 
+                </apply> 
+              </apply> 
+              <apply> 
+                <power></power> 
+                <ci>z</ci> 
+                <ci>n</ci> 
+              </apply> 
+            </reln> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+exists 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <exists></exists> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <reln> 
+            <eq></eq> 
+            <apply> 
+              <fn> 
+                <ci>f</ci> 
+              </fn> 
+              <ci>x</ci> 
+            </apply> 
+            <cn>0</cn> 
+          </reln> 
+        </apply> 
+      </math> 
+     
+    
+forall/exists/and/plus 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <forall></forall> 
+          <bvar> 
+            <ci>n</ci> 
+          </bvar> 
+          <condition> 
+            <apply> 
+              <and></and> 
+              <reln> 
+                <in></in> 
+                <ci>n</ci> 
+                <ci type="set">Z</ci> 
+              </reln> 
+              <reln> 
+                <gt></gt> 
+                <ci>n</ci> 
+                <cn>0</cn> 
+              </reln> 
+            </apply> 
+          </condition> 
+          <apply> 
+            <exists></exists> 
+            <bvar> 
+              <ci>x</ci> 
+            </bvar> 
+            <bvar> 
+              <ci>y</ci> 
+            </bvar> 
+            <bvar> 
+              <ci>z</ci> 
+            </bvar> 
+            <condition> 
+              <apply> 
+                <and></and> 
+                <reln> 
+                  <in></in> 
+                  <ci>x</ci> 
+                  <ci type="set">Z</ci> 
+                </reln> 
+                <reln> 
+                  <in></in> 
+                  <ci>y</ci> 
+                  <ci type="set">Z</ci> 
+                </reln> 
+                <reln> 
+                  <in></in> 
+                  <ci>z</ci> 
+                  <ci type="set">Z</ci> 
+                </reln> 
+              </apply> 
+            </condition> 
+            <reln> 
+              <eq></eq> 
+              <apply> 
+                <plus></plus> 
+                <apply> 
+                  <power></power> 
+                  <ci>x</ci> 
+                  <ci>n</ci> 
+                </apply> 
+                <apply> 
+                  <power></power> 
+                  <ci>y</ci> 
+                  <ci>n</ci> 
+                </apply> 
+              </apply> 
+              <apply> 
+                <power></power> 
+                <ci>z</ci> 
+                <ci>n</ci> 
+              </apply> 
+            </reln> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+ln a 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <ln></ln> 
+          <ci>a</ci> 
+        </apply> 
+      </math> 
+     
+    
+log base 3 of x 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <log></log> 
+          <logbase> 
+            <cn>3</cn> 
+          </logbase> 
+          <ci>x</ci> 
+        </apply> 
+      </math> 
+     
+    
+integer 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <int></int> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <reln> 
+              <in></in> 
+              <ci>x</ci> 
+              <ci type="set">D</ci> 
+            </reln> 
+          </condition> 
+          <apply> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+diff 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <diff></diff> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <apply> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+partialdiff 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <partialdiff></partialdiff> 
+          <bvar> 
+            <ci>x</ci> 
+            <degree> 
+              <cn>2</cn> 
+            </degree> 
+          </bvar> 
+          <bvar> 
+            <ci>y</ci> 
+          </bvar> 
+          <apply> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <ci>x</ci> 
+            <ci>y</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+integral 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <int></int> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <lowlimit> 
+            <ci>a</ci> 
+          </lowlimit> 
+          <uplimit> 
+            <ci>b</ci> 
+          </uplimit> 
+          <apply> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+partialdiff 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <partialdiff></partialdiff> 
+          <bvar> 
+            <ci>x</ci> 
+            <degree> 
+              <ci>n</ci> 
+            </degree> 
+          </bvar> 
+          <bvar> 
+            <ci>y</ci> 
+            <degree> 
+              <ci>m</ci> 
+            </degree> 
+          </bvar> 
+          <apply> 
+            <sin></sin> 
+            <apply> 
+              <times></times> 
+              <ci>x</ci> 
+              <ci>y</ci> 
+            </apply> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+divide 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <divide></divide> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </math> 
+     
+    
+divide/plus/minus 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <divide></divide> 
+          <apply> 
+            <plus></plus> 
+            <ci>a</ci> 
+            <ci>b</ci> 
+          </apply> 
+          <apply> 
+            <minus></minus> 
+            <ci>a</ci> 
+            <ci>b</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+divide/plus/divide 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <divide></divide> 
+          <apply> 
+            <plus></plus> 
+            <ci>a</ci> 
+            <ci>b</ci> 
+          </apply> 
+          <apply> 
+            <divide></divide> 
+            <ci>a</ci> 
+            <ci>b</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+A is subset of B as &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <subset></subset> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </reln> 
+      </math> 
+     
+    
+A is subset of B as &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <subset></subset> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </apply> 
+      </math> 
+     
+    
+A is proper subset of B as &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <prsubset></prsubset> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </reln> 
+      </math> 
+     
+    
+A is proper subset of B as &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <prsubset></prsubset> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </apply> 
+      </math> 
+     
+    
+A is not subset of B as &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <notsubset></notsubset> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </reln> 
+      </math> 
+     
+    
+A is not subset of B as &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <notsubset></notsubset> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </apply> 
+      </math> 
+     
+    
+A is not proper subset of B as &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <notprsubset></notprsubset> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </reln> 
+      </math> 
+     
+    
+A is not proper subset of B as &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <notprsubset></notprsubset> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </apply> 
+      </math> 
+     
+    
+Set difference 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <setdiff></setdiff> 
+          <ci>A</ci> 
+          <ci>B</ci> 
+        </apply> 
+      </math> 
+     
+    
+Log base 3 of x + y 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <log></log> 
+          <logbase> 
+            <cn>3</cn> 
+          </logbase> 
+          <apply> 
+            <plus></plus> 
+            <ci>x</ci> 
+            <ci>y</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+Sum as x goes from a to b of f(x) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <sum></sum> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <lowlimit> 
+            <ci>a</ci> 
+          </lowlimit> 
+          <uplimit> 
+            <ci>b</ci> 
+          </uplimit> 
+          <apply> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+sum 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <sum></sum> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <reln> 
+              <in></in> 
+              <ci>x</ci> 
+              <ci type="set">B</ci> 
+            </reln> 
+          </condition> 
+          <apply> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+product 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <product></product> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <lowlimit> 
+            <ci>a</ci> 
+          </lowlimit> 
+          <uplimit> 
+            <ci>b</ci> 
+          </uplimit> 
+          <apply> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+product 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <product></product> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <condition> 
+            <reln> 
+              <in></in> 
+              <ci>x</ci> 
+              <ci type="set">B</ci> 
+            </reln> 
+          </condition> 
+          <apply> 
+            <fn> 
+              <ci>f</ci> 
+            </fn> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+tendsto with &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <tendsto type="above"></tendsto> 
+          <apply> 
+            <power></power> 
+            <ci>x</ci> 
+            <cn>2</cn> 
+          </apply> 
+          <apply> 
+            <power></power> 
+            <ci>a</ci> 
+            <cn>2</cn> 
+          </apply> 
+        </reln> 
+      </math> 
+     
+    
+tendsto with &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <tendsto type="above"></tendsto> 
+          <apply> 
+            <power></power> 
+            <ci>x</ci> 
+            <cn>2</cn> 
+          </apply> 
+          <apply> 
+            <power></power> 
+            <ci>a</ci> 
+            <cn>2</cn> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+tendsto with &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <tendsto></tendsto> 
+          <vector> 
+            <ci>x</ci> 
+            <ci>y</ci> 
+          </vector> 
+          <vector> 
+            <apply> 
+              <fn> 
+                <ci>f</ci> 
+              </fn> 
+              <ci>x</ci> 
+              <ci>y</ci> 
+            </apply> 
+            <apply> 
+              <fn> 
+                <ci>g</ci> 
+              </fn> 
+              <ci>x</ci> 
+              <ci>y</ci> 
+            </apply> 
+          </vector> 
+        </reln> 
+      </math> 
+     
+    
+tendsto with &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <tendsto></tendsto> 
+          <vector> 
+            <ci>x</ci> 
+            <ci>y</ci> 
+          </vector> 
+          <vector> 
+            <apply> 
+              <fn> 
+                <ci>f</ci> 
+              </fn> 
+              <ci>x</ci> 
+              <ci>y</ci> 
+            </apply> 
+            <apply> 
+              <fn> 
+                <ci>g</ci> 
+              </fn> 
+              <ci>x</ci> 
+              <ci>y</ci> 
+            </apply> 
+          </vector> 
+        </apply> 
+      </math> 
+     
+    
+mean(X) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <mean></mean> 
+          <ci>X</ci> 
+        </apply> 
+      </math> 
+     
+    
+root(a + b) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <root></root> 
+          <degree> 
+            <ci>n</ci> 
+          </degree> 
+          <apply> 
+            <plus></plus> 
+            <ci>a</ci> 
+            <ci>b</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+standard deviation 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <sdev></sdev> 
+          <ci>X</ci> 
+        </apply> 
+      </math> 
+     
+    
+variance(X) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <variance></variance> 
+          <ci>X</ci> 
+        </apply> 
+      </math> 
+     
+    
+median(X) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <median></median> 
+          <ci>X</ci> 
+        </apply> 
+      </math> 
+     
+    
+mode(X) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <mode></mode> 
+          <ci>X</ci> 
+        </apply> 
+      </math> 
+     
+    
+degree 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <moment></moment> 
+          <degree> 
+            <cn>3</cn> 
+          </degree> 
+          <ci>X</ci> 
+        </apply> 
+      </math> 
+     
+    
+vector 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <vector> 
+          <cn>1</cn> 
+          <cn>2</cn> 
+          <cn>3</cn> 
+          <ci>x</ci> 
+        </vector> 
+      </math> 
+     
+    
+matrix 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <matrix> 
+          <matrixrow> 
+            <cn>0</cn> 
+            <cn>1</cn> 
+            <cn>0</cn> 
+            <cn>0</cn> 
+          </matrixrow> 
+          <matrixrow> 
+            <cn>0</cn> 
+            <cn>0</cn> 
+            <cn>1</cn> 
+            <cn>0</cn> 
+          </matrixrow> 
+          <matrixrow> 
+            <cn>1</cn> 
+            <cn>0</cn> 
+            <cn>0</cn> 
+            <cn>0</cn> 
+          </matrixrow> 
+        </matrix> 
+      </math> 
+     
+    
+determinant 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <determinant></determinant> 
+          <ci type="matrix">A</ci> 
+        </apply> 
+      </math> 
+     
+    
+transpose 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <transpose></transpose> 
+          <ci type="matrix">A</ci> 
+        </apply> 
+      </math> 
+     
+    
+semantics 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <semantics> 
+          <apply> 
+            <plus></plus> 
+            <apply> 
+              <sin></sin> 
+              <ci>x</ci> 
+            </apply> 
+            <cn>5</cn> 
+          </apply> 
+          <annotation encoding="TeX">\sin x + 5 
+          </annotation> 
+        </semantics> 
+      </math> 
+     
+    
+limit 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <limit></limit> 
+          <bvar> 
+            <ci>x</ci> 
+          </bvar> 
+          <lowlimit> 
+            <cn>0</cn> 
+          </lowlimit> 
+          <apply> 
+            <sin></sin> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+symbol check 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <plus></plus> 
+          <cn type="real">4.56</cn> 
+          <cn type="integer">4.56</cn> 
+          <cn type="rational">4 
+            <sep></sep>5 
+          </cn> 
+          <cn type="complex-cartesian">4 
+            <sep></sep>5 
+          </cn> 
+          <cn type="complex-polar">4.56 
+            <sep></sep>4.56 
+          </cn> 
+          <cn type="constant">π</cn> 
+          <cn>ⅇ</cn> 
+          <cn>ⅇ</cn> 
+          <cn>ⅈ</cn> 
+          <cn>ⅈ</cn> 
+          <cn>γ</cn> 
+          <cn>∞</cn> 
+          <cn>∞</cn> 
+        </apply> 
+      </math> 
+     
+    
+multiset 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <set type="multiset"> 
+          <cn type="real">4.56</cn> 
+          <cn type="integer">4.56</cn> 
+          <cn type="rational">4 
+            <sep></sep>5 
+          </cn> 
+          <cn type="complex-cartesian">4 
+            <sep></sep>5 
+          </cn> 
+          <cn type="complex-polar">4.56 
+            <sep></sep>4.56 
+          </cn> 
+          <cn type="constant">π</cn> 
+          <cn>ⅇ</cn> 
+          <cn>ⅇ</cn> 
+          <cn>ⅈ</cn> 
+          <cn>ⅈ</cn> 
+          <cn>γ</cn> 
+          <cn>∞</cn> 
+          <cn>∞</cn> 
+        </set> 
+      </math> 
+     
+    
+tendsto type = "above" with &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <tendsto type="above"></tendsto> 
+          <apply> 
+            <power></power> 
+            <ci>x</ci> 
+            <cn>2</cn> 
+          </apply> 
+          <apply> 
+            <power></power> 
+            <ci>a</ci> 
+            <cn>2</cn> 
+          </apply> 
+        </reln> 
+      </math> 
+     
+    
+tendsto type = "above" with &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <tendsto type="above"></tendsto> 
+          <apply> 
+            <power></power> 
+            <ci>x</ci> 
+            <cn>2</cn> 
+          </apply> 
+          <apply> 
+            <power></power> 
+            <ci>a</ci> 
+            <cn>2</cn> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+tendsto type = "below" with &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <tendsto type="below"></tendsto> 
+          <apply> 
+            <power></power> 
+            <ci>x</ci> 
+            <cn>2</cn> 
+          </apply> 
+          <apply> 
+            <power></power> 
+            <ci>a</ci> 
+            <cn>2</cn> 
+          </apply> 
+        </reln> 
+      </math> 
+     
+    
+tendsto type = "below" with &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <tendsto type="below"></tendsto> 
+          <apply> 
+            <power></power> 
+            <ci>x</ci> 
+            <cn>2</cn> 
+          </apply> 
+          <apply> 
+            <power></power> 
+            <ci>a</ci> 
+            <cn>2</cn> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+tendsto type = "two-sided" with &lt;reln&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <reln> 
+          <tendsto type="two-sided"></tendsto> 
+          <apply> 
+            <power></power> 
+            <ci>x</ci> 
+            <cn>2</cn> 
+          </apply> 
+          <apply> 
+            <power></power> 
+            <ci>a</ci> 
+            <cn>2</cn> 
+          </apply> 
+        </reln> 
+      </math> 
+     
+    
+tendsto type = "two-sided" with &lt;apply&gt; 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <tendsto type="two-sided"></tendsto> 
+          <apply> 
+            <power></power> 
+            <ci>x</ci> 
+            <cn>2</cn> 
+          </apply> 
+          <apply> 
+            <power></power> 
+            <ci>a</ci> 
+            <cn>2</cn> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+type check 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <plus></plus> 
+          <ci type="real">x</ci> 
+          <ci type="integer">x</ci> 
+          <ci type="rational">x</ci> 
+          <ci type="complex-cartesian">y</ci> 
+          <ci type="complex-polar">θ</ci> 
+          <ci type="vector">v</ci> 
+          <ci type="constant">π</ci> 
+          <ci>ⅇ</ci> 
+          <ci>ⅇ</ci> 
+          <ci>ⅈ</ci> 
+          <ci>ⅈ</ci> 
+          <ci>γ</ci> 
+          <ci>∞</ci> 
+          <ci>∞</ci> 
+        </apply> 
+      </math> 
+     
+    
+sin + cos 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <plus></plus> 
+          <apply> 
+            <sin></sin> 
+            <ci>x</ci> 
+          </apply> 
+          <apply> 
+            <cos></cos> 
+            <ci>x</ci> 
+          </apply> 
+        </apply> 
+      </math> 
+     
+    
+f(x) 
+      <br></br> 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+        <apply> 
+          <fn> 
+            <ci>f</ci> 
+          </fn> 
+          <ci>x</ci> 
+        </apply> 
+      </math> 
+    
+  </span><hr></hr><p><b>Source Code</b>:</p><pre>
+    &lt;p&gt;a + b - c 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;plus/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;apply&gt; 
+            &lt;minus/&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+            &lt;ci&gt;c&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+x + yz + z 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;plus/&gt; 
+          &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;apply&gt; 
+            &lt;times/&gt; 
+            &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;ci&gt;z&lt;/ci&gt; 
+          &lt;/apply&gt; 
+          &lt;ci&gt;z&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+x * (y + z) * z 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;times/&gt; 
+          &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;apply&gt; 
+            &lt;plus/&gt; 
+            &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;ci&gt;z&lt;/ci&gt; 
+          &lt;/apply&gt; 
+          &lt;ci&gt;z&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+sin(a + b) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;sin/&gt; 
+          &lt;apply&gt; 
+            &lt;plus/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+sin(x(y + z)z) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;sin/&gt; 
+          &lt;apply&gt; 
+            &lt;times/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;apply&gt; 
+              &lt;plus/&gt; 
+              &lt;ci&gt;y&lt;/ci&gt; 
+              &lt;ci&gt;z&lt;/ci&gt; 
+            &lt;/apply&gt; 
+            &lt;ci&gt;z&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+sin(xy)2b 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;times/&gt; 
+          &lt;apply&gt; 
+            &lt;sin/&gt; 
+            &lt;apply&gt; 
+              &lt;times/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;times/&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+(x + y) ^ (n - 3) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;power/&gt; 
+          &lt;apply&gt; 
+            &lt;plus/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;ci&gt;y&lt;/ci&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;minus/&gt; 
+            &lt;cn&gt;n&lt;/cn&gt; 
+            &lt;cn&gt;3&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+limit as x goes to a of sin x using &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;limit/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;reln&gt; 
+              &lt;tendsto type='above'/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;/reln&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;sin/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+limit as x goes to a of sin x using &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;limit/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;apply&gt; 
+              &lt;tendsto type='above'/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;sin/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+limit as x goes to a of sin(x + y) using &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;limit/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;reln&gt; 
+              &lt;tendsto type='above'/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;/reln&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;sin/&gt; 
+            &lt;apply&gt; 
+              &lt;plus/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+limit as x goes to a of sin(x + y) using &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;limit/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;apply&gt; 
+              &lt;tendsto type='above'/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;sin/&gt; 
+            &lt;apply&gt; 
+              &lt;plus/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+limit as x goes to a of sin(x + y)2b using &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;limit/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;reln&gt; 
+              &lt;tendsto type='above'/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;/reln&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;times/&gt; 
+            &lt;apply&gt; 
+              &lt;sin/&gt; 
+              &lt;apply&gt; 
+                &lt;times/&gt; 
+                &lt;ci&gt;x&lt;/ci&gt; 
+                &lt;ci&gt;y&lt;/ci&gt; 
+              &lt;/apply&gt; 
+            &lt;/apply&gt; 
+            &lt;apply&gt; 
+              &lt;times/&gt; 
+              &lt;cn&gt;2&lt;/cn&gt; 
+              &lt;ci&gt;b&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+limit as x goes to a of sin(x + y)2b using &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;limit/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;apply&gt; 
+              &lt;tendsto type='above'/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;times/&gt; 
+            &lt;apply&gt; 
+              &lt;sin/&gt; 
+              &lt;apply&gt; 
+                &lt;times/&gt; 
+                &lt;ci&gt;x&lt;/ci&gt; 
+                &lt;ci&gt;y&lt;/ci&gt; 
+              &lt;/apply&gt; 
+            &lt;/apply&gt; 
+            &lt;apply&gt; 
+              &lt;times/&gt; 
+              &lt;cn&gt;2&lt;/cn&gt; 
+              &lt;ci&gt;b&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+quotient 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;quotient/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+moment 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;moment/&gt; 
+          &lt;degree&gt; 
+            &lt;cn&gt;3&lt;/cn&gt; 
+          &lt;/degree&gt; 
+          &lt;ci&gt;X&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+selector 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;selector/&gt; 
+          &lt;matrix&gt; 
+            &lt;matrixrow&gt; 
+              &lt;cn&gt;1&lt;/cn&gt; 
+              &lt;cn&gt;2&lt;/cn&gt; 
+            &lt;/matrixrow&gt; 
+            &lt;matrixrow&gt; 
+              &lt;cn&gt;3&lt;/cn&gt; 
+              &lt;cn&gt;4&lt;/cn&gt; 
+            &lt;/matrixrow&gt; 
+          &lt;/matrix&gt; 
+          &lt;cn&gt;1&lt;/cn&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+factorial 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;factorial/&gt; 
+          &lt;ci&gt;n&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+(a + b)! 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;factorial/&gt; 
+          &lt;apply&gt; 
+            &lt;plus/&gt; 
+            &lt;apply&gt; 
+              &lt;plus/&gt; 
+              &lt;ci&gt;n&lt;/ci&gt; 
+              &lt;ci&gt;m&lt;/ci&gt; 
+            &lt;/apply&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+inverse function 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;inverse/&gt; 
+          &lt;ci&gt;f&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+inverse matrix 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;apply&gt; 
+            &lt;inverse/&gt; 
+            &lt;ci type='matrix'&gt;a&lt;/ci&gt; 
+          &lt;/apply&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+conjugate 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;mrow&gt; 
+          &lt;apply&gt; 
+            &lt;conjugate/&gt; 
+            &lt;apply&gt; 
+              &lt;plus/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;apply&gt; 
+                &lt;times/&gt; 
+                &lt;cn&gt;&amp;ImaginaryI;&lt;/cn&gt; 
+                &lt;ci&gt;y&lt;/ci&gt; 
+              &lt;/apply&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+        &lt;/mrow&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a + b + c 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;plus/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;ci&gt;c&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+integral (a + x)dx 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;int/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;lowlimit&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+          &lt;/lowlimit&gt; 
+          &lt;uplimit&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;/uplimit&gt; 
+          &lt;apply&gt; 
+            &lt;plus/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+-1 + 7 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;plus/&gt; 
+          &lt;apply&gt; 
+            &lt;minus/&gt; 
+            &lt;cn&gt;1&lt;/cn&gt; 
+          &lt;/apply&gt; 
+          &lt;cn&gt;7&lt;/cn&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+7 + (-1) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;plus/&gt; 
+          &lt;cn&gt;7&lt;/cn&gt; 
+          &lt;apply&gt; 
+            &lt;minus/&gt; 
+            &lt;cn&gt;1&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+max 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;max/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;apply&gt; 
+              &lt;and/&gt; 
+              &lt;reln&gt; 
+                &lt;gt/&gt; 
+                &lt;ci&gt;x&lt;/ci&gt; 
+                &lt;cn&gt;0&lt;/cn&gt; 
+              &lt;/reln&gt; 
+              &lt;reln&gt; 
+                &lt;lt/&gt; 
+                &lt;ci&gt;x&lt;/ci&gt; 
+                &lt;cn&gt;1&lt;/cn&gt; 
+              &lt;/reln&gt; 
+            &lt;/apply&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;minus/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;apply&gt; 
+              &lt;sin/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+lambda sin(x + 1) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;lambda&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;apply&gt; 
+            &lt;sin/&gt; 
+            &lt;apply&gt; 
+              &lt;plus/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;cn&gt;1&lt;/cn&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+        &lt;/lambda&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+lambda integral f(x)dx 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;lambda&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;apply&gt; 
+            &lt;int/&gt; 
+            &lt;bvar&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;/bvar&gt; 
+            &lt;lowlimit&gt; 
+              &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;/lowlimit&gt; 
+            &lt;uplimit&gt; 
+              &lt;ci&gt;b&lt;/ci&gt; 
+            &lt;/uplimit&gt; 
+            &lt;apply&gt; 
+              &lt;fn&gt; 
+                &lt;ci&gt;f&lt;/ci&gt; 
+              &lt;/fn&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+        &lt;/lambda&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+compose f and g 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;compose/&gt; 
+          &lt;fn&gt; 
+            &lt;ci&gt;f&lt;/ci&gt; 
+          &lt;/fn&gt; 
+          &lt;fn&gt; 
+            &lt;ci&gt;g&lt;/ci&gt; 
+          &lt;/fn&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+compose f and g (x) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;apply&gt; 
+            &lt;compose/&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;g&lt;/ci&gt; 
+            &lt;/fn&gt; 
+          &lt;/apply&gt; 
+          &lt;ci&gt;x&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+f(g(x)) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;fn&gt; 
+            &lt;ci&gt;f&lt;/ci&gt; 
+          &lt;/fn&gt; 
+          &lt;apply&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;g&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+composition of f and inverse of f eq identity using &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;eq/&gt; 
+          &lt;apply&gt; 
+            &lt;compose/&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;apply&gt; 
+              &lt;inverse/&gt; 
+              &lt;fn&gt; 
+                &lt;ci&gt;f&lt;/ci&gt; 
+              &lt;/fn&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+          &lt;ident/&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+composition of f and inverse of f eq identity using &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;eq/&gt; 
+          &lt;apply&gt; 
+            &lt;compose/&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;apply&gt; 
+              &lt;inverse/&gt; 
+              &lt;fn&gt; 
+                &lt;ci&gt;f&lt;/ci&gt; 
+              &lt;/fn&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+          &lt;ident/&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+e^x 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;exp/&gt; 
+          &lt;ci&gt;x&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+min(x, x not in B, x^2) using &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;min/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;reln&gt; 
+              &lt;notin/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci type='set'&gt;B&lt;/ci&gt; 
+            &lt;/reln&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+min(x, x not in B, x^2) using &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;min/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;apply&gt; 
+              &lt;notin/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci type='set'&gt;B&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a mod (b) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;rem/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+ab 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;times/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+gcd(a b, c) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;gcd/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;ci&gt;c&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+integral 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;int/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;lowlimit&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+          &lt;/lowlimit&gt; 
+          &lt;uplimit&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;/uplimit&gt; 
+          &lt;apply&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+abs(x) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;abs/&gt; 
+          &lt;ci&gt;x&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt; tall abs(x) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;abs/&gt; 
+          &lt;apply&gt; 
+            &lt;divide/&gt; 
+            &lt;ci&gt;H&lt;/ci&gt; 
+            &lt;ci&gt;K&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+abs(x + y + z) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;abs/&gt; 
+          &lt;apply&gt; 
+            &lt;plus/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;ci&gt;z&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+x &amp;gt; 0 and z &amp;lt; 1 as &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;and/&gt; 
+          &lt;reln&gt; 
+            &lt;gt/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+          &lt;/reln&gt; 
+          &lt;reln&gt; 
+            &lt;lt/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;1&lt;/cn&gt; 
+          &lt;/reln&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+x &amp;gt; 0 and z &amp;lt; 1 as &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;and/&gt; 
+          &lt;apply&gt; 
+            &lt;gt/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;lt/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;1&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a and b 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;and/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a or b 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;or/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a xor b 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;xor/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a eq b with &amp;lt;reln&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;eq/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a eq b with &amp;lt;apply&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;eq/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a neq b with &amp;lt;reln&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;neq/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a neq b with &amp;lt;apply&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;neq/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a &amp;gt; b with &amp;lt;reln&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;gt/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a &amp;gt; b with &amp;lt;apply&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;gt/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a &amp;lt; b with &amp;lt;reln&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;lt/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a &amp;lt; b with &amp;lt;apply&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;lt/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a &amp;lt;= b with &amp;lt;reln&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;geq/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a &amp;gt;= b with &amp;lt;apply&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;geq/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a &amp;lt;= b with &amp;lt;reln&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;leq/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a &amp;lt;= b with &amp;lt;apply&amp;gt; tag 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;leq/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+set: {b, a, c} 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;set&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;c&lt;/ci&gt; 
+        &lt;/set&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+set with condition 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;set&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;reln&gt; 
+              &lt;lt/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;cn&gt;5&lt;/cn&gt; 
+            &lt;/reln&gt; 
+          &lt;/condition&gt; 
+        &lt;/set&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+list: {b, a, c} 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;list&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;c&lt;/ci&gt; 
+        &lt;/list&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+list: {x|x &amp;lt; 5} 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;list order='numeric'&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;reln&gt; 
+              &lt;lt/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;cn&gt;5&lt;/cn&gt; 
+            &lt;/reln&gt; 
+          &lt;/condition&gt; 
+        &lt;/list&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A union B 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;union/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A intersect B 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;intersect/&gt; 
+          &lt;ci type='set'&gt;A&lt;/ci&gt; 
+          &lt;ci type='set'&gt;B&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A intersect (B union C) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;intersect/&gt; 
+          &lt;ci type='set'&gt;A&lt;/ci&gt; 
+          &lt;apply&gt; 
+            &lt;union/&gt; 
+            &lt;ci type='set'&gt;B&lt;/ci&gt; 
+            &lt;ci type='set'&gt;C&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;integral
+x in R as &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;in/&gt; 
+          &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;ci type='set'&gt;R&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+x in R as &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;in/&gt; 
+          &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;ci type='set'&gt;R&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a in A 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;in/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci type='set'&gt;A&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a not in A as &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;notin/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+a not in A as &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;notin/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+not a 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;not/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+not (a and b) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;not/&gt; 
+          &lt;apply&gt; 
+            &lt;and/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A -&amp;gt; B (reln) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;implies/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A -&amp;gt; B (apply) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;implies/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+forall 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;forall/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;reln&gt; 
+            &lt;eq/&gt; 
+            &lt;apply&gt; 
+              &lt;minus/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;/apply&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+          &lt;/reln&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+forall/and/lt/power 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;forall/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;p&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;q&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;apply&gt; 
+              &lt;and/&gt; 
+              &lt;reln&gt; 
+                &lt;in/&gt; 
+                &lt;ci&gt;p&lt;/ci&gt; 
+                &lt;ci type='set'&gt;Q&lt;/ci&gt; 
+              &lt;/reln&gt; 
+              &lt;reln&gt; 
+                &lt;in/&gt; 
+                &lt;ci&gt;q&lt;/ci&gt; 
+                &lt;ci type='set'&gt;Q&lt;/ci&gt; 
+              &lt;/reln&gt; 
+              &lt;reln&gt; 
+                &lt;lt/&gt; 
+                &lt;ci&gt;p&lt;/ci&gt; 
+                &lt;ci&gt;q&lt;/ci&gt; 
+              &lt;/reln&gt; 
+            &lt;/apply&gt; 
+          &lt;/condition&gt; 
+          &lt;reln&gt; 
+            &lt;lt/&gt; 
+            &lt;ci&gt;p&lt;/ci&gt; 
+            &lt;apply&gt; 
+              &lt;power/&gt; 
+              &lt;ci&gt;q&lt;/ci&gt; 
+              &lt;cn&gt;2&lt;/cn&gt; 
+            &lt;/apply&gt; 
+          &lt;/reln&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+forall/exists/and/plus 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;forall/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;n&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;apply&gt; 
+              &lt;and/&gt; 
+              &lt;reln&gt; 
+                &lt;in/&gt; 
+                &lt;ci&gt;n&lt;/ci&gt; 
+                &lt;ci type='set'&gt;Z&lt;/ci&gt; 
+              &lt;/reln&gt; 
+              &lt;reln&gt; 
+                &lt;gt/&gt; 
+                &lt;ci&gt;n&lt;/ci&gt; 
+                &lt;cn&gt;0&lt;/cn&gt; 
+              &lt;/reln&gt; 
+            &lt;/apply&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;exists/&gt; 
+            &lt;bvar&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;/bvar&gt; 
+            &lt;bvar&gt; 
+              &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;/bvar&gt; 
+            &lt;bvar&gt; 
+              &lt;ci&gt;z&lt;/ci&gt; 
+            &lt;/bvar&gt; 
+            &lt;condition&gt; 
+              &lt;apply&gt; 
+                &lt;and/&gt; 
+                &lt;reln&gt; 
+                  &lt;in/&gt; 
+                  &lt;ci&gt;x&lt;/ci&gt; 
+                  &lt;ci type='set'&gt;Z&lt;/ci&gt; 
+                &lt;/reln&gt; 
+                &lt;reln&gt; 
+                  &lt;in/&gt; 
+                  &lt;ci&gt;y&lt;/ci&gt; 
+                  &lt;ci type='set'&gt;Z&lt;/ci&gt; 
+                &lt;/reln&gt; 
+                &lt;reln&gt; 
+                  &lt;in/&gt; 
+                  &lt;ci&gt;z&lt;/ci&gt; 
+                  &lt;ci type='set'&gt;Z&lt;/ci&gt; 
+                &lt;/reln&gt; 
+              &lt;/apply&gt; 
+            &lt;/condition&gt; 
+            &lt;reln&gt; 
+              &lt;eq/&gt; 
+              &lt;apply&gt; 
+                &lt;plus/&gt; 
+                &lt;apply&gt; 
+                  &lt;power/&gt; 
+                  &lt;ci&gt;x&lt;/ci&gt; 
+                  &lt;ci&gt;n&lt;/ci&gt; 
+                &lt;/apply&gt; 
+                &lt;apply&gt; 
+                  &lt;power/&gt; 
+                  &lt;ci&gt;y&lt;/ci&gt; 
+                  &lt;ci&gt;n&lt;/ci&gt; 
+                &lt;/apply&gt; 
+              &lt;/apply&gt; 
+              &lt;apply&gt; 
+                &lt;power/&gt; 
+                &lt;ci&gt;z&lt;/ci&gt; 
+                &lt;ci&gt;n&lt;/ci&gt; 
+              &lt;/apply&gt; 
+            &lt;/reln&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+exists 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;exists/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;reln&gt; 
+            &lt;eq/&gt; 
+            &lt;apply&gt; 
+              &lt;fn&gt; 
+                &lt;ci&gt;f&lt;/ci&gt; 
+              &lt;/fn&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;/apply&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+          &lt;/reln&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+forall/exists/and/plus 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;forall/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;n&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;apply&gt; 
+              &lt;and/&gt; 
+              &lt;reln&gt; 
+                &lt;in/&gt; 
+                &lt;ci&gt;n&lt;/ci&gt; 
+                &lt;ci type='set'&gt;Z&lt;/ci&gt; 
+              &lt;/reln&gt; 
+              &lt;reln&gt; 
+                &lt;gt/&gt; 
+                &lt;ci&gt;n&lt;/ci&gt; 
+                &lt;cn&gt;0&lt;/cn&gt; 
+              &lt;/reln&gt; 
+            &lt;/apply&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;exists/&gt; 
+            &lt;bvar&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;/bvar&gt; 
+            &lt;bvar&gt; 
+              &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;/bvar&gt; 
+            &lt;bvar&gt; 
+              &lt;ci&gt;z&lt;/ci&gt; 
+            &lt;/bvar&gt; 
+            &lt;condition&gt; 
+              &lt;apply&gt; 
+                &lt;and/&gt; 
+                &lt;reln&gt; 
+                  &lt;in/&gt; 
+                  &lt;ci&gt;x&lt;/ci&gt; 
+                  &lt;ci type='set'&gt;Z&lt;/ci&gt; 
+                &lt;/reln&gt; 
+                &lt;reln&gt; 
+                  &lt;in/&gt; 
+                  &lt;ci&gt;y&lt;/ci&gt; 
+                  &lt;ci type='set'&gt;Z&lt;/ci&gt; 
+                &lt;/reln&gt; 
+                &lt;reln&gt; 
+                  &lt;in/&gt; 
+                  &lt;ci&gt;z&lt;/ci&gt; 
+                  &lt;ci type='set'&gt;Z&lt;/ci&gt; 
+                &lt;/reln&gt; 
+              &lt;/apply&gt; 
+            &lt;/condition&gt; 
+            &lt;reln&gt; 
+              &lt;eq/&gt; 
+              &lt;apply&gt; 
+                &lt;plus/&gt; 
+                &lt;apply&gt; 
+                  &lt;power/&gt; 
+                  &lt;ci&gt;x&lt;/ci&gt; 
+                  &lt;ci&gt;n&lt;/ci&gt; 
+                &lt;/apply&gt; 
+                &lt;apply&gt; 
+                  &lt;power/&gt; 
+                  &lt;ci&gt;y&lt;/ci&gt; 
+                  &lt;ci&gt;n&lt;/ci&gt; 
+                &lt;/apply&gt; 
+              &lt;/apply&gt; 
+              &lt;apply&gt; 
+                &lt;power/&gt; 
+                &lt;ci&gt;z&lt;/ci&gt; 
+                &lt;ci&gt;n&lt;/ci&gt; 
+              &lt;/apply&gt; 
+            &lt;/reln&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+ln a 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;ln/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+log base 3 of x 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;log/&gt; 
+          &lt;logbase&gt; 
+            &lt;cn&gt;3&lt;/cn&gt; 
+          &lt;/logbase&gt; 
+          &lt;ci&gt;x&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+integer 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;int/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;reln&gt; 
+              &lt;in/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci type='set'&gt;D&lt;/ci&gt; 
+            &lt;/reln&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+diff 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;diff/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;apply&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+partialdiff 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;partialdiff/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;degree&gt; 
+              &lt;cn&gt;2&lt;/cn&gt; 
+            &lt;/degree&gt; 
+          &lt;/bvar&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;y&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;apply&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;ci&gt;y&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+integral 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;int/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;lowlimit&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;/lowlimit&gt; 
+          &lt;uplimit&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/uplimit&gt; 
+          &lt;apply&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+partialdiff 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;partialdiff/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;degree&gt; 
+              &lt;ci&gt;n&lt;/ci&gt; 
+            &lt;/degree&gt; 
+          &lt;/bvar&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;degree&gt; 
+              &lt;ci&gt;m&lt;/ci&gt; 
+            &lt;/degree&gt; 
+          &lt;/bvar&gt; 
+          &lt;apply&gt; 
+            &lt;sin/&gt; 
+            &lt;apply&gt; 
+              &lt;times/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+divide 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;divide/&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+divide/plus/minus 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;divide/&gt; 
+          &lt;apply&gt; 
+            &lt;plus/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;minus/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+divide/plus/divide 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;divide/&gt; 
+          &lt;apply&gt; 
+            &lt;plus/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;divide/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A is subset of B as &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;subset/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A is subset of B as &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;subset/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A is proper subset of B as &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;prsubset/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A is proper subset of B as &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;prsubset/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A is not subset of B as &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;notsubset/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A is not subset of B as &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;notsubset/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A is not proper subset of B as &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;notprsubset/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+A is not proper subset of B as &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;notprsubset/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+Set difference 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;setdiff/&gt; 
+          &lt;ci&gt;A&lt;/ci&gt; 
+          &lt;ci&gt;B&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+Log base 3 of x + y 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;log/&gt; 
+          &lt;logbase&gt; 
+            &lt;cn&gt;3&lt;/cn&gt; 
+          &lt;/logbase&gt; 
+          &lt;apply&gt; 
+            &lt;plus/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;ci&gt;y&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+Sum as x goes from a to b of f(x) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;sum/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;lowlimit&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;/lowlimit&gt; 
+          &lt;uplimit&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/uplimit&gt; 
+          &lt;apply&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+sum 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;sum/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;reln&gt; 
+              &lt;in/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci type='set'&gt;B&lt;/ci&gt; 
+            &lt;/reln&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+product 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;product/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;lowlimit&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;/lowlimit&gt; 
+          &lt;uplimit&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/uplimit&gt; 
+          &lt;apply&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+product 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;product/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;condition&gt; 
+            &lt;reln&gt; 
+              &lt;in/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci type='set'&gt;B&lt;/ci&gt; 
+            &lt;/reln&gt; 
+          &lt;/condition&gt; 
+          &lt;apply&gt; 
+            &lt;fn&gt; 
+              &lt;ci&gt;f&lt;/ci&gt; 
+            &lt;/fn&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+tendsto with &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;tendsto type='above'/&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+tendsto with &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;tendsto type='above'/&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+tendsto with &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;tendsto/&gt; 
+          &lt;vector&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;ci&gt;y&lt;/ci&gt; 
+          &lt;/vector&gt; 
+          &lt;vector&gt; 
+            &lt;apply&gt; 
+              &lt;fn&gt; 
+                &lt;ci&gt;f&lt;/ci&gt; 
+              &lt;/fn&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;/apply&gt; 
+            &lt;apply&gt; 
+              &lt;fn&gt; 
+                &lt;ci&gt;g&lt;/ci&gt; 
+              &lt;/fn&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/vector&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+tendsto with &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;tendsto/&gt; 
+          &lt;vector&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;ci&gt;y&lt;/ci&gt; 
+          &lt;/vector&gt; 
+          &lt;vector&gt; 
+            &lt;apply&gt; 
+              &lt;fn&gt; 
+                &lt;ci&gt;f&lt;/ci&gt; 
+              &lt;/fn&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;/apply&gt; 
+            &lt;apply&gt; 
+              &lt;fn&gt; 
+                &lt;ci&gt;g&lt;/ci&gt; 
+              &lt;/fn&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;ci&gt;y&lt;/ci&gt; 
+            &lt;/apply&gt; 
+          &lt;/vector&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+mean(X) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;mean/&gt; 
+          &lt;ci&gt;X&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+root(a + b) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;root/&gt; 
+          &lt;degree&gt; 
+            &lt;ci&gt;n&lt;/ci&gt; 
+          &lt;/degree&gt; 
+          &lt;apply&gt; 
+            &lt;plus/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;ci&gt;b&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+standard deviation 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;sdev/&gt; 
+          &lt;ci&gt;X&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+variance(X) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;variance/&gt; 
+          &lt;ci&gt;X&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+median(X) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;median/&gt; 
+          &lt;ci&gt;X&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+mode(X) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;mode/&gt; 
+          &lt;ci&gt;X&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+degree 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;moment/&gt; 
+          &lt;degree&gt; 
+            &lt;cn&gt;3&lt;/cn&gt; 
+          &lt;/degree&gt; 
+          &lt;ci&gt;X&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+vector 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;vector&gt; 
+          &lt;cn&gt;1&lt;/cn&gt; 
+          &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;cn&gt;3&lt;/cn&gt; 
+          &lt;ci&gt;x&lt;/ci&gt; 
+        &lt;/vector&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+matrix 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;matrix&gt; 
+          &lt;matrixrow&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+            &lt;cn&gt;1&lt;/cn&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+          &lt;/matrixrow&gt; 
+          &lt;matrixrow&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+            &lt;cn&gt;1&lt;/cn&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+          &lt;/matrixrow&gt; 
+          &lt;matrixrow&gt; 
+            &lt;cn&gt;1&lt;/cn&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+          &lt;/matrixrow&gt; 
+        &lt;/matrix&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+determinant 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;determinant/&gt; 
+          &lt;ci type='matrix'&gt;A&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+transpose 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;transpose/&gt; 
+          &lt;ci type='matrix'&gt;A&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+semantics 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;semantics&gt; 
+          &lt;apply&gt; 
+            &lt;plus/&gt; 
+            &lt;apply&gt; 
+              &lt;sin/&gt; 
+              &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;/apply&gt; 
+            &lt;cn&gt;5&lt;/cn&gt; 
+          &lt;/apply&gt; 
+          &lt;annotation encoding='TeX'&gt;\sin x + 5 
+          &lt;/annotation&gt; 
+        &lt;/semantics&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+limit 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;limit/&gt; 
+          &lt;bvar&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/bvar&gt; 
+          &lt;lowlimit&gt; 
+            &lt;cn&gt;0&lt;/cn&gt; 
+          &lt;/lowlimit&gt; 
+          &lt;apply&gt; 
+            &lt;sin/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+symbol check 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;plus/&gt; 
+          &lt;cn type='real'&gt;4.56&lt;/cn&gt; 
+          &lt;cn type='integer'&gt;4.56&lt;/cn&gt; 
+          &lt;cn type='rational'&gt;4 
+            &lt;sep/&gt;5 
+          &lt;/cn&gt; 
+          &lt;cn type='complex-cartesian'&gt;4 
+            &lt;sep/&gt;5 
+          &lt;/cn&gt; 
+          &lt;cn type='complex-polar'&gt;4.56 
+            &lt;sep/&gt;4.56 
+          &lt;/cn&gt; 
+          &lt;cn type='constant'&gt;&amp;pi;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;ExponentialE;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;ee;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;ImaginaryI;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;ii;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;gamma;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;infin;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;infin;&lt;/cn&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+multiset 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;set type='multiset'&gt; 
+          &lt;cn type='real'&gt;4.56&lt;/cn&gt; 
+          &lt;cn type='integer'&gt;4.56&lt;/cn&gt; 
+          &lt;cn type='rational'&gt;4 
+            &lt;sep/&gt;5 
+          &lt;/cn&gt; 
+          &lt;cn type='complex-cartesian'&gt;4 
+            &lt;sep/&gt;5 
+          &lt;/cn&gt; 
+          &lt;cn type='complex-polar'&gt;4.56 
+            &lt;sep/&gt;4.56 
+          &lt;/cn&gt; 
+          &lt;cn type='constant'&gt;&amp;pi;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;ExponentialE;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;ee;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;ImaginaryI;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;ii;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;gamma;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;infin;&lt;/cn&gt; 
+          &lt;cn&gt;&amp;infin;&lt;/cn&gt; 
+        &lt;/set&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+tendsto type = "above" with &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;tendsto type='above'/&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+tendsto type = "above" with &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;tendsto type='above'/&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+tendsto type = "below" with &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;tendsto type='below'/&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+tendsto type = "below" with &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;tendsto type='below'/&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+tendsto type = "two-sided" with &amp;lt;reln&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;reln&gt; 
+          &lt;tendsto type='two-sided'/&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/reln&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+tendsto type = "two-sided" with &amp;lt;apply&amp;gt; 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;tendsto type='two-sided'/&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;power/&gt; 
+            &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;cn&gt;2&lt;/cn&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+type check 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;plus/&gt; 
+          &lt;ci type='real'&gt;x&lt;/ci&gt; 
+          &lt;ci type='integer'&gt;x&lt;/ci&gt; 
+          &lt;ci type='rational'&gt;x&lt;/ci&gt; 
+          &lt;ci type='complex-cartesian'&gt;y&lt;/ci&gt; 
+          &lt;ci type='complex-polar'&gt;&amp;theta;&lt;/ci&gt; 
+          &lt;ci type='vector'&gt;v&lt;/ci&gt; 
+          &lt;ci type='constant'&gt;&amp;pi;&lt;/ci&gt; 
+          &lt;ci&gt;&amp;ExponentialE;&lt;/ci&gt; 
+          &lt;ci&gt;&amp;ee;&lt;/ci&gt; 
+          &lt;ci&gt;&amp;ImaginaryI;&lt;/ci&gt; 
+          &lt;ci&gt;&amp;ii;&lt;/ci&gt; 
+          &lt;ci&gt;&amp;gamma;&lt;/ci&gt; 
+          &lt;ci&gt;&amp;infin;&lt;/ci&gt; 
+          &lt;ci&gt;&amp;infin;&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+sin + cos 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;plus/&gt; 
+          &lt;apply&gt; 
+            &lt;sin/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+          &lt;apply&gt; 
+            &lt;cos/&gt; 
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt; 
+    &lt;p&gt;
+f(x) 
+      &lt;br /&gt; 
+      &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+        &lt;apply&gt; 
+          &lt;fn&gt; 
+            &lt;ci&gt;f&lt;/ci&gt; 
+          &lt;/fn&gt; 
+          &lt;ci&gt;x&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/math&gt; 
+    &lt;/p&gt;
+  </pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../TortureTests/Complexity/complex3-full.xhtml";
+		} else {
+		window.location.href = "../../TortureTests/Complexity/complex3-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../TortureTests/Complexity/simplePres-full.xhtml";
+		} else {
+		window.location.href = "../../TortureTests/Complexity/simplePres-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

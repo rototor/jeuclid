@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="relation1">eq</csymbol> 
+    <apply> 
+      <csymbol cd="fns1">left_compose</csymbol>  
+      <ci>f</ci>  
+      <apply>
+        <csymbol cd="fns1">inverse</csymbol>  
+        <ci>f</ci>  
+      </apply>  
+    </apply> 
+    <csymbol cd="fns1">identity</csymbol> 
+  </apply>  
+</math>

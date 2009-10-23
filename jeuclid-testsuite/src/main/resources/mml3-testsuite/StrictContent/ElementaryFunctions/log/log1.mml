@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="transc1">log</csymbol>
+    <cn>3</cn>
+    <apply> 
+      <csymbol cd="arith1">plus</csymbol> 
+      <ci>x</ci> 
+      <ci>y</ci> 
+    </apply>
+  </apply> 
+</math>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="arith1">abs</csymbol>  
+    <apply>
+      <csymbol cd="arith1">plus</csymbol>  
+      <ci>x</ci> 
+      <ci>y</ci> 
+      <ci>z</ci> 
+    </apply> 
+  </apply> 
+</math>

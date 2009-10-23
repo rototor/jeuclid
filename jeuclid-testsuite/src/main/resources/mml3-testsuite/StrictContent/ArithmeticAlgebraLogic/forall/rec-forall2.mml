@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <bind>
+    <csymbol cd="quant1">forall</csymbol>
+    <bvar>
+      <ci>x</ci>
+    </bvar>
+    <apply>
+      <csymbol cd="relation1">eq</csymbol>  
+      <apply>
+        <csymbol cd="arith1">minus</csymbol>  
+        <ci>x</ci> 
+        <ci>x</ci>  
+      </apply> 
+      <cn>0</cn> 
+    </apply>
+  </bind>  
+</math>

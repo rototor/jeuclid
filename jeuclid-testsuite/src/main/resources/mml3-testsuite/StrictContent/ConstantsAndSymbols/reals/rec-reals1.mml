@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <csymbol cd="set1">in</csymbol> 
+    <cn>44.997</cn>  
+    <csymbol cd="setname1">R</csymbol> 
+  </apply> 
+</math>

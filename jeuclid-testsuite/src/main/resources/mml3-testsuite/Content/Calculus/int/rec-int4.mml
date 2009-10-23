@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <int></int>  
+    <bvar>
+      <ci>x</ci> 
+    </bvar>  
+    <interval>
+      <ci>a</ci>  
+      <ci>b</ci> 
+    </interval> 
+    <apply> 
+      <cos></cos> 
+      <ci>x</ci> 
+    </apply>  
+  </apply> 
+</math>

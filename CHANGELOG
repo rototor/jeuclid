@@ -1,0 +1,347 @@
+CHANGELOG
+---------
+
+changes are now in the src/changes/changes.xml file. Please edit there!
+
+02/04/07 Max
+* AbstractMathElementWithChildren: renamed paint to paintChildren
+* MathEnclose, MathPhantom, MathRow, MathSemantics, MathSqrt, MathStyle,
+  MathTableData: implemented paint (fixes bug ...)
+* SaxMathBuilder: Generified stack
+* OperatorDictionary: Generified dictionary
+* AbstractMathElement: Generified DEPRECATED_ATTRIBUTED
+* MathTable, MathAlignGroup: Generified List of elements
+* MathTable: Generified all ArrayLists
+* MathTableData, MathTable: Generified list of elements
+* MathText: Disabled logger (unused)
+* MathEnclose: Generified notations
+* MathBase: disabled logger (unused)
+* AbstractMathElement: Better debug output for deprecated elements
+* Checkstyle: added more tests
+
+02/02/07 Max
+* PartialElementImpl is now abstract
+* removed getTagName from PartialElementImpl
+* ChangeTrackingElement, AbstractInvisibleMathElement is now abstract
+* implemented getTagName in all the elements
+* PartialElementImpl: Now uses generics
+* PartialElementImpl: toString improved
+* PartialElementImpl: Implemented getNodeName, getNodeType
+* OperatorDictionary: Now lives outside of resources
+* ResourceEntityResolver: Now lives outside of resources
+
+02/02/07 Erik Putrycz (applied by Max)
+* Moved build system to maven
+* Removed support for GIFOutputStream, as it comes standard in JDK >= 1.6
+
+02/01/07 Max
+* JMathComponent: set single parameters instead of set
+* JMathComponent: added get/set FontSize
+* JMathComponent: added some annotations
+* JMathComponent: disabled logger
+* ParameterKey: added Javadoc
+
+02/01/07 Max
+* added DOMModelTests
+* added test for id attribute
+* DOMAttributeMap/getAsMap now uses generics
+* DOMAttributeMap/toString implemented
+* PartialElementImpl/toString partially implemented :)
+* Discovered bug in DOMModel
+
+01/31/07 Max
+* added formatting settings for Eclipse
+* added test-output to .cvsignore
+* updated copyright in all changes from prev. patch
+* organized imports / reformatted files from prev. patch
+
+01/31/07 Max (patch by Erik Putrycz)
+WARNING: this breaks the existing API!
+* move to jre >= 1.5
+* refactored to use commons-logging
+* removed many deprecated methods
+* parameters for MathML processing now use a key-value map
+* rendering is now down with anti-aliasing (MathRootElement)
+* converter and ODF support was cleaned up
+* testcases refactored to TestNG framework
+* testcases moved to test/src directory
+* example*.mml moved to test/src directory
+
+01/31/07 Max (addtl. changes inspired by Erik)
+* MathIdentifiers are now italic by default
+
+01/31/07 Max (addtl. changes)
+* updated build.xml to use new needed jars
+* updated jeuclid.mf to include needed jars
+* updated eclipse to 1.5
+* added resources to eclipse classpath for proper execution
+* deleted test/dtd, test/first-de and other stuff in test
+
+01/30/07 Max
+* Added commons-logging-1.1.jar, commons-logging-api-1.1.jar to repository 
+  (preparation for Erik's Patch)
+* Added testng-5.4-jdk15.jar to repository (prep for Erik's patch)
+
+11/17/06 Max
+* MathEnclose, MathRoot, MathSqrt: proper clipping save and restore
+  Thanks to: David Eisner
+  See: http://sourceforge.net/forum/forum.php?thread_id=1615102&forum_id=146978
+
+11/03/06 Max
+* Created DisplayableNode interface
+* AbstractMathElement now implements DisplayableNode
+* moved paint, getHeight, getAscentHeight, getDescentHeight, getWidth 
+  specifications to DisplayableNode
+* added getPaintedPositionX, Y to DisplayableNode
+* implemented s.o. in AbstractMathElement
+* implemented paint in AbstractMathElement
+* called super.paint in AbstractInvisibleMathElement, 
+  AbstractMathElementWithChildren, MathEnclose, MathFrac, MathMultiScripts,
+  MathOperator, MathOver, MathPhantom, MathRoot, MathRootElement, MathSpace,
+  MathSqrt, MathSub, MathSubSup, MathSup, MathTable, MathTableRow, MathText,
+  MathUnder, MathUnderOver
+* Moved getGlyphVector from MathText to MathOperator and made private
+
+09/15/06 Max
+* MathFenced: Now implements MathMLFencedElement
+* AbstractMathElementWithDelegate: now extends AbstractMathContainer
+
+09/14/06 Max
+* MathRootElement: Now implements MathMLMathElement
+* AbstractMathContainer: Added. (all functions are unimplemented)
+* MathRootElement: added get/setMacros
+
+09/12/06 Max
+* MathOperator: Properly uses inline now.
+* MathFrac, MathTable: implemented isChildBlock function
+* MathUnder, Over, UnderOver, Sup, Sub, SubSup: implemented isChildBlock 
+  function
+* AbstractMathElement: added isChildBlock function
+* MathRootElement: made display a string.
+* AbstractMathElement: removed display
+* AbstractMathElement: removed inheritDisplayStyle
+* AbstractMathElement: checks for to small fonts.
+* AttributesHelper: fontSize is now float
+* AttributeHelper: Big and small are now 68% and 147%
+* AbstractMathElement: use fontSize from MathBase
+* MathBase: Added fontSize attribute
+* MathVariant: Added more known fonts.
+
+09/12/06 Max
+* AbstractMathElement: now implements MathMLElement
+* added w3c DOM interfaces for 1.4 compatibility
+* added w3c DOM for MathML classes
+
+09/12/06 Max
+* MathTable, AbstractElementWithDelegate, AbstractMathElement,
+  AbstractMathElementWithChildren: Changed to use standard DOM interface.
+* PartialElementImpl: Unimplemented Methods throws UnsupportedOperationException
+* PartialElementImpl: implements org.w3c.dom.Element
+* TransitionElement: renamed to PartialElementImpl
+* TransitionElement: Moved to net.sf.jeuclid.com
+* ChangeTrackingElement: Moved to net.sf.jeuclid.dom
+
+09/10/06 Max
+* Updated script and build.xml to 2.9.3
+* Released 2.9.2
+* MathMultiScript, MathOperator: Javadoc fixes.
+* AbstractElementWithDelegate: fixed change track handling.
+* AbstractMathElement: Javadoc fixes.
+* Cleaned up Javadoc creation.
+* MathBase, SAXMathBuilder: deprecated constructor using Font.
+* MathMLConverter, MathBaseTest, ODFSupport : removed references to 
+  MathBase(Font)
+* MathComponent, JMathComponent: removed setFont
+
+09/10/06 Max
+* MathVariant: Added some extra fonts to list
+* MathVariant: Added proper search for Fonts
+* Removed all dependencies on Avalon, replaced by JDK 1.4 logger =>
+  The jar file is now clickable!
+* Converter: Modified settings for SVG files: Added comment, simplified output
+  filename, made textAsGlyphs default. (larger SVG file, but better 
+  compatibility for special fonts)
+* build.xml: added moDictionary to jar file
+
+09/10/06 Max
+* JMathComponent: repaint is necessary on windows.
+* MathComponent: Removed deprecated code
+* MathViewer: MenuBar is now more Mac friendly
+* JMathComponent: calls revalidate instead of repaint to make scrollpane
+  friendly
+* MathViewer: more userfriendly by displaying error messages.
+* MathViewer: more Mac friendly by using AWT filechooser
+* MathViewer: more Mac friendly by using default accelerators
+* Removed dependency on 1.5 in StringUtil
+
+09/08/06 Max
+* MathText now uses TextLayout for proper handling of text.
+* removed references to deprecated API from converters and components.
+* removed most font dependencies. Fonts are now specified through mathvariant 
+  alone.
+* Using generic MathVariant class to create strings according to given variant.
+* Added basic support for character in extended math codepoint space (>0x1d400)
+  through new StringUtil.java
+* Added generic class for MathVariant
+* fixed MathEnclose, MathOperator, MathRoot, MathSqrt to use proper existing 
+  AffineTransform (used in JScrollPane)
+* Moved moDictionary.xml to resources and made sure it can be loaded.
+
+09/08/06 Max
+* Created MathViewer Application
+* Made MathViewer the default app
+* Added dependent classpath to jeuclid.mf
+* Copy dependency (avalon) to correct path in build.xml
+
+09/07/06 Max
+* now supports deprecated fontsize attribute
+* added "big", "small", and "normal" mathsizes
+* provided standard getMathsize and setMathsize
+* added getFirstChild() and isSameNode() to TranstionElement
+* rewrote fontsize handling
+* implemented script level handling for msup, msub, msubsup, mmultiscript
+* introduced new scriptlevel handling
+* refactored scriptlevel to new attribute handling
+* refactored scriptminsize to new attribute handling
+
+09/07/06 Max
+* Created the DEV branch
+* Updated index.html to reflect that
+
+09/05/06 Max
+* fixed mml2xxx scripts to check for JEUCLID_HOME [bug 1548134]
+
+08/21/06 Max
+* updated buildfile and scripts for 2.9.2
+* released 2.9.1
+
+08/21/06 Max
+* added more generic getMathAttribute function
+* rewrote MathFenced to use generic Attributes
+* created ChangeTrackingElement and moved dirty functions there.
+* width / height calculations are now done in the Graphics context. Modified all 
+  MathElement classes to reflect that change
+* removed FontMetricsFactory. They are dependent on the Graphics context.
+* Rewrote MathOperator to use generic attributes for minsize, maxsize and 
+  calculate real size later.
+
+08/19/06 Max
+* created TransitionElement ( to become DOM compatible )
+* rewrote AbstractMathElement, AbstractMathElementWithChildren, MathTable to use
+  new interface
+* moved child and parent handling into TransitionElement
+* added attribute handling to TransitionElement
+* implemented color and background color based on new attribute handling.
+* added warning for deprecated (mathml 1) attributes.
+* implemented text handling in TransitionElement
+* reworked texthandling to use TransitionElement
+
+08/18/06 Max
+* Rewrote Fenced to use delegate object
+* created AbstractElementWithDelegate
+* Rewrote fenced to use AbstractElementWithDelegate
+* Changed checkstyle to check protected methods for javadoc comments.
+* made MathElement abstract
+* moved and renamed MathElement to generic.AbstractMathElement
+* created AbstractMathElementWithChildren
+* rewrote MathRow, MathEnclose, MathPhantom, MathSemantics, MathSqrt, MathStyle,
+  MathTableData to use AbstractMathElementWithChildren
+* created AbstractInvisibleMathElement
+* rewrote MathAlignMark, MathAlignGroup, MathAnnotation, MathPreScripts, 
+  to use AbstractInvisibleMathElement
+
+08/17/06 Max
+* Created generic attributeMap classes
+* Created specialized attrMap class for SAX
+* Created specialized attrMap class for DOM
+* rewrote SAX parser to use genric attribute classes
+* rewrote DOM parser to use genric attribute classes
+
+08/16/06 Max
+* Moved test examples into resource directory
+* fixed classpath for eclipse to include resources
+* rewrote MathBaseTest to be an actual JUnit test rendinging the examples.
+
+08/08/06 Max
+* MathBase constructor now accepts null as font.
+* Made JMathComponent a proper swing component with getters and setters.
+* moved main function from JMathComponent into test module
+* Made MathComponent a proper AWT component with getters and setters.
+* moved main function from MathComponent into test module
+
+08/07/06 Max
+* fixed mml scripts to use jar file
+* prepared build.xml for dist
+* updated INSTALL, removed readme
+* added Javadoc checks to checkstyle.
+* fixed some javadocs
+* made sure build is for 1.4
+* Released 2.9.0
+* updated version to 2.9.1
+
+08/06/06 Max
+* added serialVersionUID to Exception classes.
+* removed unused imports from MathEnclose
+* removed unused imports, variables from FontTest
+* fixed warnings on MathBaseTest
+* made MathBaseTest an actual JUnit Testcase
+* made sure every source file has actual Apache 2 license in it.
+* added basic checkstyle configuration.
+* repaired ant task
+* made sure license is apache 2 license
+* removed webapp directories (they are inactive anyways)
+* added support for ImageIO writers to Converter (requires JDK 1.4)
+
+08/01/06 Max
+* awt component now supportes ODF
+* swing component repaired (uses logger)
+
+08/01/06 Max
+* More generic entity resolver
+* Added entities for mml 1.0.1
+* Added entities for mml 2.0
+* removed debug entries in scripts.
+
+08/01/06 Max
+* Made ODF fail silently
+* Added support for "annotation" and "semantics" (both can be ignored) to 
+  DOMBuilder
+
+08/01/06 Max
+* Updated ANT to 1.6.5
+* Removed unused FileUtils from ANT task
+
+08/01/06 Max
+* Added mappings for Opendocument Formula
+
+08/01/06 Max
+* created resources
+* moved jeuclid.mf to resources
+* added DTD for MathML 1.0.1, OO-MathML 1.0.1 and MathML 2.0 to resources
+* include resources in jar file
+* first draft for EntityResolver
+
+07/31/06 Max
+* added util package
+* added (basic) support for ODF files
+* added support for command-line conversion
+* added scripts for command-line conversion
+
+07/31/06 Max
+* got developer access
+* removed old unused libraries
+* fixed libraries in eclipse .project file
+* fixed libraries in build.xml file
+* updated batik to 1.6
+* use standard XML handling routines (requires JDK 1.4 OR manual 
+  installation of XML API and parser)
+* updated TODO
+
+Major rework and improvements have been made in 2004-2005 connecting 
+to FOP integration.
+
+changes since "project start"
+------------------------------------
+* Project launch at sf.net
+* Added support for mphantom
+

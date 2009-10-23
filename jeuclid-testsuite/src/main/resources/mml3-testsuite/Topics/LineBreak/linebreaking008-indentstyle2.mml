@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" indentstyle="id" indenttarget="expression2">
+  <mrow> 
+    <msub id="expression1">
+      <mrow>
+        <mi>a</mi> 
+      </mrow> 
+      <mrow>
+        <mn>1</mn> 
+      </mrow>  
+    </msub> 
+    <mo id="plus1">+</mo> 
+    <msub id="expression2">
+      <mrow> 
+        <mi>a</mi> 
+      </mrow> 
+      <mrow> 
+        <mn>2</mn> 
+      </mrow> 
+    </msub>  
+    <mo id="plus2">+</mo> 
+    <msub id="expression3">
+      <mrow>
+        <mi>a</mi>  
+      </mrow> 
+      <mrow>
+        <mn>3</mn>  
+      </mrow> 
+    </msub> 
+    <mo id="plus3">+</mo> 
+    <msub id="expression4"> 
+      <mrow>
+        <mi>a</mi> 
+      </mrow>  
+      <mrow>
+        <mn>4</mn> 
+      </mrow>  
+    </msub> 
+    <mo id="plus4">+</mo> 
+    <msub id="expression5">
+      <mrow> 
+        <mi>a</mi> 
+      </mrow> 
+      <mrow> 
+        <mn>5</mn> 
+      </mrow> 
+    </msub> 
+    <mspace linebreak="newline"></mspace>  
+    <mo id="plus5">+</mo> 
+    <mstyle indenttarget="plus6">
+      <msub id="expression6">
+        <mrow> 
+          <mi>a</mi> 
+        </mrow> 
+        <mrow> 
+          <mn>6</mn> 
+        </mrow> 
+      </msub> 
+      <mo id="plus6">+</mo> 
+      <msub id="expression7">
+        <mrow>
+          <mi>a</mi>  
+        </mrow> 
+        <mrow>
+          <mn>7</mn>  
+        </mrow> 
+      </msub> 
+      <mo id="plus7">+</mo> 
+      <msub id="expression8"> 
+        <mrow>
+          <mi>a</mi> 
+        </mrow>  
+        <mrow>
+          <mn>8</mn> 
+        </mrow> 
+      </msub> 
+      <mo id="plus8">+</mo> 
+      <msub id="expression9">
+        <mrow> 
+          <mi>a</mi> 
+        </mrow> 
+        <mrow> 
+          <mn>9</mn> 
+        </mrow> 
+      </msub> 
+      <mo id="plus9">+</mo>  
+      <msub id="expression10">
+        <mrow>
+          <mi>a</mi>  
+        </mrow> 
+        <mrow>
+          <mn>10</mn>  
+        </mrow> 
+      </msub> 
+      <mspace linebreak="newline"></mspace> 
+      <mo id="plus10">+</mo> 
+      <msub id="expression11"> 
+        <mrow>
+          <mi>a</mi> 
+        </mrow>  
+        <mrow>
+          <mn>11</mn> 
+        </mrow>  
+      </msub> 
+      <mo id="plus11">+</mo> 
+      <msub id="expression12">
+        <mrow> 
+          <mi>a</mi> 
+        </mrow> 
+        <mrow> 
+          <mn>12</mn> 
+        </mrow> 
+      </msub>  
+      <mo id="plus12">+</mo> 
+      <msub id="expression13">
+        <mrow>
+          <mi>a</mi>  
+        </mrow> 
+        <mrow>
+          <mn>13</mn>  
+        </mrow> 
+      </msub> 
+      <mo id="plus13">+</mo> 
+      <msub id="expression14"> 
+        <mrow>
+          <mi>a</mi> 
+        </mrow>  
+        <mrow>
+          <mn>14</mn> 
+        </mrow>  
+      </msub> 
+      <mo id="plus14">+</mo> 
+      <msub id="expression15">
+        <mrow> 
+          <mi>a</mi> 
+        </mrow> 
+        <mrow> 
+          <mn>15</mn> 
+        </mrow> 
+      </msub> 
+      <mspace linebreak="newline" indenttarget="plus1"></mspace> 
+      <mo id="plus15">+</mo> 
+      <msub id="expression16">
+        <mrow> 
+          <mi>a</mi> 
+        </mrow> 
+        <mrow> 
+          <mn>16</mn> 
+        </mrow> 
+      </msub> 
+      <mo id="plus16">+</mo>  
+      <msub id="expression17">
+        <mrow>
+          <mi>a</mi>  
+        </mrow> 
+        <mrow>
+          <mn>17</mn>  
+        </mrow> 
+      </msub> 
+      <mo id="plus17">+</mo> 
+      <msub id="expression18"> 
+        <mrow>
+          <mi>a</mi> 
+        </mrow>  
+        <mrow>
+          <mn>18</mn> 
+        </mrow> 
+      </msub>  
+      <mo id="plus18">+</mo> 
+      <msub id="expression19">
+        <mrow> 
+          <mi>a</mi> 
+        </mrow> 
+        <mrow> 
+          <mn>19</mn> 
+        </mrow> 
+      </msub> 
+      <mo id="plus19">+</mo>  
+      <msub id="expression20">
+        <mrow>
+          <mi>a</mi>  
+        </mrow> 
+        <mrow>
+          <mn>20</mn>  
+        </mrow> 
+      </msub> 
+    </mstyle> 
+  </mrow> </math>

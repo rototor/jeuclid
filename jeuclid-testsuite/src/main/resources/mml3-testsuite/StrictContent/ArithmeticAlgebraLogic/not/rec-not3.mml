@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <csymbol cd="logic1">not</csymbol> 
+    <bind>
+      <csymbol cd="quant1">forall</csymbol>
+      <bvar>
+        <ci>s</ci>
+      </bvar>
+    </bind> 
+  </apply>  
+</math>
