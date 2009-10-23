@@ -41,7 +41,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
@@ -52,6 +51,9 @@ import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 
+import org.apache.batik.util.gui.xmleditor.XMLContext;
+import org.apache.batik.util.gui.xmleditor.XMLEditorKit;
+import org.apache.batik.util.gui.xmleditor.XMLTextEditor;
 import org.w3c.dom.Document;
 
 /**
@@ -62,9 +64,9 @@ import org.w3c.dom.Document;
 // CHECKSTYLE:OFF
 public class MainFrame extends JFrame {
     // CHECKSTYLE:ON
-    private static final int DEFAULT_HEIGHT = 200;
+    private static final int DEFAULT_HEIGHT = 400;
 
-    private static final int DEFAULT_WIDTH = 350;
+    private static final int DEFAULT_WIDTH = 700;
 
     private static final FileIO FILEIO = FileIO.getInstance();
 
@@ -108,7 +110,7 @@ public class MainFrame extends JFrame {
 
     private JScrollPane scrollPane2;
 
-    private JTextArea textArea;
+    private XMLTextEditor xmlEditor;
 
     private JMathComponent mathComponent;
 
@@ -394,7 +396,7 @@ public class MainFrame extends JFrame {
         final Document doc = MainFrame.FILEIO.loadFile(this, f);
         if (doc != null) {
             this.getMathComponent().setDocument(doc);
-            this.getTextArea().setText(
+            this.getXMLEditor().setText(
                     MathMLSerializer.serializeDocument(doc, false, false));
         }
 
@@ -424,18 +426,19 @@ public class MainFrame extends JFrame {
     }
 
     /**
-     * This method initializes textArea
+     * This method initializes xmlEditor
      * 
-     * @return {@link JTextArea}
+     * @return {@link XMLTextEditor}
      */
-    private JTextArea getTextArea() {
-        if (this.textArea == null) {
-            this.textArea = new JTextArea();
-            this.textArea.setText("<?xml version='1.0'?>\n"
+    private XMLTextEditor getXMLEditor() {
+        if (this.xmlEditor == null) {
+            this.xmlEditor = new XMLTextEditor();
+            this.xmlEditor.setEditorKit(new XMLEditorKit(new XMLContext()));
+            this.xmlEditor.setText("<?xml version='1.0'?>\n"
                     + "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n"
                     + "</math>");
-            this.textArea.setEditable(true);
-            this.textArea.getDocument().addDocumentListener(
+            this.xmlEditor.setEditable(true);
+            this.xmlEditor.getDocument().addDocumentListener(
                     new DocumentListener() {
 
                         public void changedUpdate(
@@ -453,21 +456,21 @@ public class MainFrame extends JFrame {
                             MainFrame.this.updateFromTextArea();
                         }
                     });
-            this.textArea.setBackground(Color.WHITE);
+            this.xmlEditor.setBackground(Color.WHITE);
         }
-        return this.textArea;
+        return this.xmlEditor;
     }
 
     private void updateFromTextArea() {
         try {
-            this.getMathComponent().setContent(this.getTextArea().getText());
-            this.textArea.setForeground(Color.BLACK);
+            this.getMathComponent().setContent(this.getXMLEditor().getText());
+            this.xmlEditor.setForeground(Color.BLACK);
             // CHECKSTYLE:OFF
             // in this case, we want to explicitly provide catch-all error
             // handling.
         } catch (final RuntimeException e) {
             // CHECKSTYLE:ON
-            this.textArea.setForeground(Color.RED);
+            this.xmlEditor.setForeground(Color.RED);
         }
     }
 
@@ -499,7 +502,7 @@ public class MainFrame extends JFrame {
     private JScrollPane getScrollPane2() {
         if (this.scrollPane2 == null) {
             this.scrollPane2 = new JScrollPane();
-            this.scrollPane2.setViewportView(this.getTextArea());
+            this.scrollPane2.setViewportView(this.getXMLEditor());
 
             if (MathViewer.OSX) {
                 this.scrollPane2
@@ -725,7 +728,7 @@ public class MainFrame extends JFrame {
                 final String newContent = (String) content
                         .getTransferData(DataFlavor.stringFlavor);
                 this.getMathComponent().setContent(newContent);
-                this.getTextArea().setText(newContent);
+                this.getXMLEditor().setText(newContent);
                 // CHECKSTYLE:OFF
                 // in this case, we want to explicitly provide catch-all error
                 // handling.
