@@ -23,6 +23,7 @@ import java.io.StringReader;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.sourceforge.jeuclid.DOMBuilder;
+import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
 
 import org.testng.Assert;
@@ -30,11 +31,11 @@ import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
+import org.w3c.dom.mathml.MathMLPresentationToken;
 import org.xml.sax.InputSource;
 
 /**
- * A JUnit test for DOMBuilder; in particular, the sources it can take as
- * input.
+ * A JUnit test for DOMBuilder; in particular, the sources it can take as input.
  * 
  * @version $Revision$
  */
@@ -64,8 +65,7 @@ public class DOMBuilderTest {
         final Node firstChild = jdoc.getFirstChild();
         Assert.assertEquals(firstChild.getNodeName(), "math");
         Assert.assertEquals(firstChild.getFirstChild().getNodeName(), "mn");
-        final DocumentFragment documentFragment = doc
-                .createDocumentFragment();
+        final DocumentFragment documentFragment = doc.createDocumentFragment();
         documentFragment.appendChild(doc.createElement(Mspace.ELEMENT));
         Assert.assertEquals(DOMBuilder.getInstance().createJeuclidDom(
                 documentFragment).getFirstChild().getNodeName(), "mspace");
@@ -80,6 +80,57 @@ public class DOMBuilderTest {
     private Document parse(final String text) throws Exception {
         return this.documentBuilderFactory.newDocumentBuilder().parse(
                 new InputSource(new StringReader(text)));
+    }
+
+    /**
+     * Tests for namespace issues with manual element construction in default
+     * namespace.
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testConstructionNSDefault() throws Exception {
+        final Document doc = this.parse("<math></math>");
+        final Document jdoc = DOMBuilder.getInstance().createJeuclidDom(doc);
+        final Node mathNode = jdoc.getFirstChild();
+        Assert.assertEquals(mathNode.getNodeName(), "math");
+        Assert.assertEquals(mathNode.getNamespaceURI(),
+                AbstractJEuclidElement.URI);
+        final MathMLPresentationToken mn = (MathMLPresentationToken) mathNode
+                .getOwnerDocument().createElement("mn");
+        mn.setTextContent("1");
+        mathNode.appendChild(mn);
+        Assert.assertSame(mn.getOwnerDocument(), mathNode.getOwnerDocument());
+        Assert.assertSame(mn.getOwnerMathElement(), mathNode);
+        Assert.assertEquals(mn.getNamespaceURI(), AbstractJEuclidElement.URI);
+    }
+
+    /**
+     * Tests for namespace issues with manual element construction in mml
+     * namespace.
+     * 
+     * @throws Exception
+     *             if the test fails.
+     */
+    @Test
+    public void testConstructionNSMml() throws Exception {
+        final Document doc = this.parse("<mml:math "
+                + "xmlns:mml='http://www.w3.org/1998/Math/MathML' "
+                + "xmlns='http://bla'></mml:math>");
+        final Document jdoc = DOMBuilder.getInstance().createJeuclidDom(doc);
+        final Node mathNode = jdoc.getFirstChild();
+        Assert.assertEquals(mathNode.getNodeName(), "mml:math");
+        Assert.assertEquals(mathNode.getLocalName(), "math");
+        Assert.assertEquals(mathNode.getNamespaceURI(),
+                AbstractJEuclidElement.URI);
+        final MathMLPresentationToken mn = (MathMLPresentationToken) mathNode
+                .getOwnerDocument().createElement("mn");
+        mn.setTextContent("1");
+        mathNode.appendChild(mn);
+        Assert.assertSame(mn.getOwnerDocument(), mathNode.getOwnerDocument());
+        Assert.assertSame(mn.getOwnerMathElement(), mathNode);
+        Assert.assertEquals(mn.getNamespaceURI(), AbstractJEuclidElement.URI);
     }
 
 }
