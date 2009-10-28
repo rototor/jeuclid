@@ -124,7 +124,7 @@ public final class AttributesHelper {
      * Value of EM (horizontal size).
      * <p>
      * Please note: This is a typical value, according to
-     * http://kb.mozillazine.org/Em_vs._ex It is not dependend on the actual
+     * http://kb.mozillazine.org/Em_vs._ex It is not dependent on the actual
      * font used, as it should be.
      */
     private static final float EM = 0.83888888888888888888f;
@@ -133,7 +133,7 @@ public final class AttributesHelper {
      * Value of EX (vertical size).
      * <p>
      * Please note: This is a typical value, according to
-     * http://kb.mozillazine.org/Em_vs._ex It is not dependend on the actual
+     * http://kb.mozillazine.org/Em_vs._ex It is not dependent on the actual
      * font used, as it should be.
      */
     private static final float EX = 0.5f;
@@ -210,8 +210,8 @@ public final class AttributesHelper {
             }
         } catch (final NumberFormatException nfe) {
             retVal = relativeTo;
-            AttributesHelper.LOGGER
-                    .warn(AttributesHelper.ERROR_PARSING_NUMBER + sizeString);
+            AttributesHelper.LOGGER.warn(AttributesHelper.ERROR_PARSING_NUMBER
+                    + sizeString);
         }
         return retVal;
     }
@@ -226,21 +226,16 @@ public final class AttributesHelper {
      *            context of the parent or the element itself.
      * @param defaultUnit
      *            default Unit to use in this context. May be px, pt, em, etc.
-     * @return Translated value of the size attribute into Point (=Java
-     *         Pixels).
+     * @return Translated value of the size attribute into Point (=Java Pixels).
      */
     public static float convertSizeToPt(final String sizeString,
             final LayoutContext context, final String defaultUnit) {
-        if (sizeString == null) {
-            return 0;
-        }
         final String tSize = AttributesHelper.prepareSizeString(sizeString);
         if (tSize.length() == 0) {
             return 0;
         }
         float retVal;
         try {
-
             final String unit;
             final float value;
             if (tSize.length() <= 2) {
@@ -269,15 +264,17 @@ public final class AttributesHelper {
             }
         } catch (final NumberFormatException nfe) {
             retVal = 1.0f;
-            AttributesHelper.LOGGER
-                    .warn(AttributesHelper.ERROR_PARSING_NUMBER + sizeString
-                            + " falling back to " + retVal
-                            + AttributesHelper.PT);
+            AttributesHelper.LOGGER.warn(AttributesHelper.ERROR_PARSING_NUMBER
+                    + sizeString + " falling back to " + retVal
+                    + AttributesHelper.PT);
         }
         return retVal;
     }
 
     private static String prepareSizeString(final String sizeString) {
+        if (sizeString == null) {
+            return "";
+        }
         String tSize = sizeString.trim().toLowerCase(Locale.ENGLISH);
 
         final String translatesTo = AttributesHelper.SIZETRANSLATIONS
@@ -357,7 +354,7 @@ public final class AttributesHelper {
         final Color parsedColor;
         final int poss = value.indexOf('[');
         final int pose = value.indexOf(']');
-        if (poss == -1 || pose == -1) {
+        if ((poss == -1) || (pose == -1)) {
             parsedColor = null;
         } else {
             parsedColor = AttributesHelper.parseCommaSeparatedString(value
@@ -377,7 +374,7 @@ public final class AttributesHelper {
         final Color parsedColor;
         final int poss = value.indexOf('(');
         final int pose = value.indexOf(')');
-        if (poss == -1 || pose == -1) {
+        if ((poss == -1) || (pose == -1)) {
             parsedColor = null;
         } else {
             parsedColor = AttributesHelper.parseCommaSeparatedString(value
@@ -420,8 +417,7 @@ public final class AttributesHelper {
             value = Float.parseFloat(str.substring(0, str.length() - 1))
                     / AttributesHelper.MAX_PERCENT_AS_FLOAT;
         } else {
-            value = Float.parseFloat(str)
-                    / AttributesHelper.MAX_BYTE_AS_FLOAT;
+            value = Float.parseFloat(str) / AttributesHelper.MAX_BYTE_AS_FLOAT;
         }
         if ((value < 0.0f) || (value > 1.0f)) {
             throw new NumberFormatException(str + " is out of Range");
@@ -494,9 +490,8 @@ public final class AttributesHelper {
     /**
      * Creates a re-parsable string representation of the given color.
      * <p>
-     * First, the color will be converted into the sRGB colorspace. It will
-     * then be printed as #rrggbb, or as #rrrggbbaa if an alpha value is
-     * present.
+     * First, the color will be converted into the sRGB colorspace. It will then
+     * be printed as #rrggbb, or as #rrrggbbaa if an alpha value is present.
      * 
      * @param color
      *            the color to represent.
@@ -559,8 +554,8 @@ public final class AttributesHelper {
         AttributesHelper.SIZETRANSLATIONS.put(
                 OperatorDictionary.NAME_VERYVERYTHICKMATHSPACE,
                 AttributesHelper.VERYVERYTHICKMATHSPACE);
-        AttributesHelper.SIZETRANSLATIONS.put(
-                OperatorDictionary.NAME_INFINITY, AttributesHelper.INFINITY);
+        AttributesHelper.SIZETRANSLATIONS.put(OperatorDictionary.NAME_INFINITY,
+                AttributesHelper.INFINITY);
         AttributesHelper.SIZETRANSLATIONS.put("small", "68%");
         AttributesHelper.SIZETRANSLATIONS.put("normal", "100%");
         AttributesHelper.SIZETRANSLATIONS.put("big", "147%");
@@ -589,8 +584,7 @@ public final class AttributesHelper {
         AttributesHelper.COLOR_MAPPINGS.put("aqua", new Color(0, 255, 255));
         AttributesHelper.COLOR_MAPPINGS.put("black", Color.BLACK);
         AttributesHelper.COLOR_MAPPINGS.put("blue", Color.BLUE);
-        AttributesHelper.COLOR_MAPPINGS
-                .put("fuchsia", new Color(255, 0, 255));
+        AttributesHelper.COLOR_MAPPINGS.put("fuchsia", new Color(255, 0, 255));
         AttributesHelper.COLOR_MAPPINGS.put("gray", Color.GRAY);
         AttributesHelper.COLOR_MAPPINGS.put("green", Color.GREEN);
         AttributesHelper.COLOR_MAPPINGS.put("lime", new Color(0, 255, 0));
@@ -599,15 +593,14 @@ public final class AttributesHelper {
         AttributesHelper.COLOR_MAPPINGS.put("olive", new Color(128, 128, 0));
         AttributesHelper.COLOR_MAPPINGS.put("purple", new Color(128, 0, 128));
         AttributesHelper.COLOR_MAPPINGS.put("red", Color.RED);
-        AttributesHelper.COLOR_MAPPINGS.put("silver",
-                new Color(192, 192, 192));
+        AttributesHelper.COLOR_MAPPINGS.put("silver", new Color(192, 192, 192));
         AttributesHelper.COLOR_MAPPINGS.put("teal", new Color(0, 128, 128));
         AttributesHelper.COLOR_MAPPINGS.put("white", Color.WHITE);
         AttributesHelper.COLOR_MAPPINGS.put("yellow", Color.YELLOW);
 
         // Additional colors
-        AttributesHelper.COLOR_MAPPINGS.put(
-                AttributesHelper.COLOR_TRANSPARENT, null);
+        AttributesHelper.COLOR_MAPPINGS.put(AttributesHelper.COLOR_TRANSPARENT,
+                null);
         AttributesHelper.COLOR_MAPPINGS.put("null", null);
         AttributesHelper.COLOR_MAPPINGS.put("", null);
     }
