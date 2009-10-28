@@ -67,18 +67,26 @@ public final class MathImpl extends AbstractContainer implements
             if ((s0 != null) && (s0.length() > 0)) {
                 retVal = which.fromString(s0);
             } else {
-                // Support old namespace
-                final String s = MathImpl.this.getAttributeNS(
-                        Constants.NS_OLD_JEUCLID_EXT, which.getOptionName());
-                if ((s != null) && (s.length() > 0)) {
-                    retVal = which.fromString(s);
-                } else {
-                    // Support deprecated attributes
-                    final String s2 = MathImpl.this.getAttributeNS(
-                            Constants.NS_OLD_JEUCLID_EXT, which.toString());
-                    if ((s2 != null) && (s2.length() > 0)) {
-                        retVal = which.fromString(s2);
-                    }
+                retVal = this.getDeprecatedParamValuesFromJEuclidExt(which,
+                        retVal);
+            }
+            return retVal;
+        }
+
+        private Object getDeprecatedParamValuesFromJEuclidExt(
+                final Parameter which, final Object currentValue) {
+            // old namespace
+            Object retVal = currentValue;
+            final String s = MathImpl.this.getAttributeNS(
+                    Constants.NS_OLD_JEUCLID_EXT, which.getOptionName());
+            if ((s != null) && (s.length() > 0)) {
+                retVal = which.fromString(s);
+            } else {
+                // Support deprecated attributes
+                final String s2 = MathImpl.this.getAttributeNS(
+                        Constants.NS_OLD_JEUCLID_EXT, which.toString());
+                if ((s2 != null) && (s2.length() > 0)) {
+                    retVal = which.fromString(s2);
                 }
             }
             return retVal;
