@@ -31,6 +31,9 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
+import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -44,16 +47,22 @@ import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentEvent.ElementChange;
 import javax.swing.event.DocumentListener;
 
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Element;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 
 import org.apache.batik.util.gui.xmleditor.XMLContext;
+import org.apache.batik.util.gui.xmleditor.XMLDocument;
 import org.apache.batik.util.gui.xmleditor.XMLEditorKit;
 import org.apache.batik.util.gui.xmleditor.XMLTextEditor;
+import org.apache.batik.util.gui.xmleditor.XMLToken;
 import org.w3c.dom.Document;
 
 /**
@@ -115,6 +124,8 @@ public class MainFrame extends JFrame {
     private JMathComponent mathComponent;
 
     private JMenu viewMenu;
+
+    private JMenuItem refreshMenuItem;
 
     private JMenuItem biggerMenuItem;
 
@@ -455,7 +466,6 @@ public class MainFrame extends JFrame {
             this.xmlEditor.setEditable(true);
             this.xmlEditor.getDocument().addDocumentListener(
                     new DocumentListener() {
-
                         public void changedUpdate(
                                 final DocumentEvent documentevent) {
                             MainFrame.this.updateFromTextArea();
@@ -479,13 +489,13 @@ public class MainFrame extends JFrame {
     private void updateFromTextArea() {
         try {
             this.getMathComponent().setContent(this.getXMLEditor().getText());
-            this.xmlEditor.setForeground(Color.BLACK);
+            this.xmlEditor.setBackground(Color.getHSBColor(0.3f, 0.2f, 1.0f));
             // CHECKSTYLE:OFF
             // in this case, we want to explicitly provide catch-all error
             // handling.
         } catch (final RuntimeException e) {
             // CHECKSTYLE:ON
-            this.xmlEditor.setForeground(Color.RED);
+            this.xmlEditor.setBackground(Color.getHSBColor(0f, 0.2f, 1.0f));
         }
     }
 
@@ -554,6 +564,7 @@ public class MainFrame extends JFrame {
         if (this.viewMenu == null) {
             this.viewMenu = new JMenu();
             this.viewMenu.setText(Messages.getString("MathViewer.viewMenu")); //$NON-NLS-1$
+            this.viewMenu.add(this.getRefreshMenuItem());
             this.viewMenu.add(this.getBiggerMenuItem());
             this.viewMenu.add(this.getSmallerMenuItem());
             this.viewMenu.add(this.getAliasMenuItem());
@@ -590,6 +601,31 @@ public class MainFrame extends JFrame {
                         .getParameters().getParameter(Parameter.ANTIALIAS))
                         .booleanValue());
 
+    }
+
+    /**
+     * This method initializes refreshMenuItem
+     *
+     * @return javax.swing.JMenuItem
+     */
+    private JMenuItem getRefreshMenuItem()
+    {
+        if(this.refreshMenuItem == null) {
+            this.refreshMenuItem = new JMenuItem();
+            this.refreshMenuItem.setText(Messages
+                    .getString("MathViewer.textRefresh"));
+            this.refreshMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_Y, Toolkit.getDefaultToolkit()
+                     .getMenuShortcutKeyMask(), true));
+            this.refreshMenuItem
+                    .addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(
+                                final java.awt.event.ActionEvent e) {
+                            MainFrame.this.updateFromTextArea();
+                        }
+                    });
+        }
+        return this.refreshMenuItem;
     }
 
     /**
