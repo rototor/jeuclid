@@ -31,9 +31,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
-import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -47,22 +44,16 @@ import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentEvent.ElementChange;
 import javax.swing.event.DocumentListener;
 
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Element;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 
 import org.apache.batik.util.gui.xmleditor.XMLContext;
-import org.apache.batik.util.gui.xmleditor.XMLDocument;
 import org.apache.batik.util.gui.xmleditor.XMLEditorKit;
 import org.apache.batik.util.gui.xmleditor.XMLTextEditor;
-import org.apache.batik.util.gui.xmleditor.XMLToken;
 import org.w3c.dom.Document;
 
 /**
@@ -83,7 +74,7 @@ public class MainFrame extends JFrame {
     // * Logger for this class
     // */
     // currently unused.
-    // private static final Log LOGGER = LogFactory.getLog(MathViewer.class);
+    // private static final Log LOGGER = LogFactory.getLog(MainFrame.class);
 
     private static final long serialVersionUID = 1L;
 
