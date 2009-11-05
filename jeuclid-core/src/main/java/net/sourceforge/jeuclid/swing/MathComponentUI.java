@@ -41,6 +41,11 @@ import net.sourceforge.jeuclid.layout.JEuclidView;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.traversal.DocumentTraversal;
+import org.w3c.dom.traversal.NodeFilter;
+import org.w3c.dom.traversal.TreeWalker;
 
 /**
  * See http://today.java.net/pub/a/today/2007/02/22/how-to-write-custom-swing-
@@ -194,30 +199,124 @@ public class MathComponentUI extends ComponentUI implements
         this.mathComponent = null;
     }
 
+    /**
+     * compare old and new document and get highest differnt nodes
+     * @param  oldDoc old Document
+     * @param  newDoc new Document
+     * @return highest 2 different nodes (node[0] is from old Document, node[1] from new), null if any Document is null
+     */
+    private static Node[] compareDocuments(Document oldDoc, Document newDoc) {
+        DocumentTraversal traversal1, traversal2;
+        TreeWalker walker1, walker2;
+        Node[] roots = null;
+
+        // abort if any document is null
+        if (oldDoc == null || newDoc == null || oldDoc.getDocumentElement() == null || newDoc.getDocumentElement() == null) {
+            return roots;
+        }
+
+        traversal1 = (DocumentTraversal) oldDoc;
+        traversal2 = (DocumentTraversal) newDoc;
+
+        walker1 = traversal1.createTreeWalker(oldDoc.getDocumentElement(), NodeFilter.SHOW_ALL, null, true);
+        walker2 = traversal2.createTreeWalker(newDoc.getDocumentElement(), NodeFilter.SHOW_ALL, null, true);
+
+        roots = traverseLevel(walker1, walker2);
+
+        return roots;
+    }
+
+    /**
+     * helper methode for comparing one level in the trees
+     * @param walkerOld Treewalker for old Document
+     * @param walkerNew Treewalker for new Document
+     * @return highest 2 different nodes (node[0] is from old Document, node[1] from new), null if any Document is null
+     */
+    private static final Node[] traverseLevel(TreeWalker walkerOld, TreeWalker walkerNew) {
+        Node parentOld, parentNew, nodeOld, nodeNew;
+        NodeList nlOld, nlNew;
+        Node[] roots, tmp;
+
+        parentOld = walkerOld.getCurrentNode();
+        parentNew = walkerNew.getCurrentNode();
+
+        nlOld = parentOld.getChildNodes();
+        nlNew = parentNew.getChildNodes();
+        roots = new Node[2];
+
+        // compare children number
+        if (nlOld.getLength() != nlNew.getLength()) {
+            roots[0] = parentOld;
+            roots[1] = parentNew;
+            //      System.out.println("-- CHILDRENS of " + roots[0] + " - "+roots[1]);
+        } else {
+
+            for (nodeOld = walkerOld.firstChild(), nodeNew = walkerNew.firstChild(); nodeOld != null && nodeNew != null; nodeOld = walkerOld.nextSibling(), nodeNew = walkerNew.nextSibling()) {
+
+                tmp = traverseLevel(walkerOld, walkerNew);
+
+                if (tmp[0] != null) {  // childrens are different
+
+                    // abort if more than 2 childs differ
+                    if (roots[0] != null) {
+                        roots[0] = parentOld;
+                        roots[1] = parentNew;
+                        //               System.out.println("-- 2 CHILDRENS of " + roots[0] + " - "+roots[1]);
+                        break;
+                    }
+
+                    roots[0] = tmp[0];
+                    roots[1] = tmp[1];
+                }
+            }
+
+            if (!parentOld.getNodeName().equals(parentNew.getNodeName())) {
+                roots[0] = parentOld;
+                roots[1] = parentNew;
+                //System.out.println("-- NODE " + roots[0] + " - "+roots[1]);
+            }
+
+            if (parentOld.getNodeType() == 3 && parentNew.getNodeType() == 3 && !parentOld.getTextContent().trim().equals(parentNew.getTextContent().trim())) {
+                roots[0] = parentOld.getParentNode();
+                roots[1] = parentNew.getParentNode();
+                //    System.out.println("-- NODE TEXT " + roots[0] + " - "+roots[1]);
+                //      System.out.println("["+parentOld.getTextContent() + "] - ["+parent2.getTextContent()+"]");
+            }
+        }
+
+        walkerOld.setCurrentNode(parentOld);
+        walkerNew.setCurrentNode(parentNew);
+        return roots;
+    }
+
     /** {@inheritDoc} */
     public void propertyChange(final PropertyChangeEvent evt) {
+        final Node[] roots;
         final String name = evt.getPropertyName();
+
         if ("document".equals(name) || "property".equals(name)) {
             final JMathComponent jc = (JMathComponent) evt.getSource();
             this.document = (Node) evt.getNewValue();
-            this.redo(jc.getParameters(), (Graphics2D) jc.getGraphics());
+            roots = compareDocuments((Document) evt.getOldValue(), (Document) this.document);
+
+            this.redo(roots, jc.getParameters(), (Graphics2D) jc.getGraphics());
             // jc.repaint();
         } else {
             try {
                 final JMathComponent jc = (JMathComponent) evt.getSource();
-                this.redo(jc.getParameters(), (Graphics2D) jc.getGraphics());
+                this.redo(null, jc.getParameters(), (Graphics2D) jc.getGraphics());
             } catch (final ClassCastException ia) {
                 MathComponentUI.LOGGER.debug(ia);
             }
         }
     }
 
-    private void redo(final MutableLayoutContext parameters,
+    private void redo(Node[] roots, final MutableLayoutContext parameters,
             final Graphics2D g2d) {
         if ((this.document == null) || (g2d == null)) {
             this.jEuclidView = null;
         } else {
-            this.jEuclidView = new JEuclidView(this.document, parameters, g2d);
+            this.jEuclidView = new JEuclidView(this.document, this.jEuclidView, roots, parameters, g2d);
         }
     }
 
