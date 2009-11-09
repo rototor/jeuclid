@@ -249,8 +249,22 @@ public class MathComponentUI extends ComponentUI implements
             roots[0] = parentOld;
             roots[1] = parentNew;
             //      System.out.println("-- CHILDRENS of " + roots[0] + " - "+roots[1]);
-        } else {
-
+        }
+        // compare node types and names
+        else if (parentOld.getNodeType() != parentNew.getNodeType() || !parentOld.getNodeName().equals(parentNew.getNodeName())) {
+            roots[0] = parentOld;
+            roots[1] = parentNew;
+            //System.out.println("-- NODE " + roots[0] + " - "+roots[1]);
+        }
+        // compare text of textnode
+        else if (parentOld.getNodeType() == 3 && parentNew.getNodeType() == 3 && !parentOld.getTextContent().trim().equals(parentNew.getTextContent().trim())) {
+            roots[0] = parentOld.getParentNode();
+            roots[1] = parentNew.getParentNode();
+            //    System.out.println("-- NODE TEXT " + roots[0] + " - "+roots[1]);
+            //      System.out.println("["+parentOld.getTextContent() + "] - ["+parent2.getTextContent()+"]");
+        }
+        // else compare children
+        else {
             for (nodeOld = walkerOld.firstChild(), nodeNew = walkerNew.firstChild(); nodeOld != null && nodeNew != null; nodeOld = walkerOld.nextSibling(), nodeNew = walkerNew.nextSibling()) {
 
                 tmp = traverseLevel(walkerOld, walkerNew);
@@ -269,20 +283,8 @@ public class MathComponentUI extends ComponentUI implements
                     roots[1] = tmp[1];
                 }
             }
-
-            if (!parentOld.getNodeName().equals(parentNew.getNodeName())) {
-                roots[0] = parentOld;
-                roots[1] = parentNew;
-                //System.out.println("-- NODE " + roots[0] + " - "+roots[1]);
-            }
-
-            if (parentOld.getNodeType() == 3 && parentNew.getNodeType() == 3 && !parentOld.getTextContent().trim().equals(parentNew.getTextContent().trim())) {
-                roots[0] = parentOld.getParentNode();
-                roots[1] = parentNew.getParentNode();
-                //    System.out.println("-- NODE TEXT " + roots[0] + " - "+roots[1]);
-                //      System.out.println("["+parentOld.getTextContent() + "] - ["+parent2.getTextContent()+"]");
-            }
         }
+        
 
         walkerOld.setCurrentNode(parentOld);
         walkerNew.setCurrentNode(parentNew);
