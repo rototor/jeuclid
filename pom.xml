@@ -314,9 +314,9 @@
       </releases>
     </pluginRepository>
     <pluginRepository>
-      <id>bitbucket-max</id>
-      <name>Max Bitbucket</name>
-      <url>http://bitbucket.org/maxberger/maven2/raw/tip</url>
+      <id>maxthird</id>
+      <name>Max Third Party Repo</name>
+      <url>http://m2.max.berger.name/content/repositories/thirdparty</url>
     </pluginRepository>
   </pluginRepositories>
   <repositories>
