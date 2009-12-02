@@ -119,9 +119,15 @@
   </developers>
   <contributors>
     <contributor>
+      <name>Gil</name>
+      <roles>
+        <role>Italian translation</role>
+      </roles>
+    </contributor>
+    <contributor>
       <name>Jean-Francois Maurel</name>
       <roles>
-        <role>french translation</role>
+        <role>French translation</role>
       </roles>
     </contributor>
     <contributor>
