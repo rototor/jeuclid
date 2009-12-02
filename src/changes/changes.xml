@@ -5,7 +5,11 @@
     <author>Max Berger</author>
   </properties>
   <body>
-    <release version="3.1.8" date="TBD" description="stretchy rework">
+    <release version="3.1.9" date="TBD" description="TBD">
+      <action dev="maxberger" type="add" due-to="Gil">Added Italian Translation</action>
+      <action dev="maxberger" type="add">Improved Documentation</action>
+    </release>
+    <release version="3.1.8" date="2009-10-09" description="stretchy rework">
       <action dev="maxberger" type="fix">Operator streching now honors symmetric</action>
       <action dev="maxberger" type="add">New extension for horizontal / vertical stretch</action>
       <action dev="maxberger" type="fix">Stretchy behaviour is reworked again</action>
