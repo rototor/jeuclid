@@ -88,9 +88,22 @@ public class ParametersDialog extends JDialog {
      * @param parent
      *            parent MainFrame
      */
+    public ParametersDialog(final MainFrameEx parent)
+    {
+        super(parent);
+        this.mathComponent = parent.getMathComponent();
+        init();
+    }
+    
     public ParametersDialog(final MainFrame parent) {
         super(parent);
         this.mathComponent = parent.getMathComponent();
+        init();
+    }
+
+    private void init()
+    {
+        
         this
                 .setTitle(Messages
                         .getString("MathViewer.ParametersDialog.title"));

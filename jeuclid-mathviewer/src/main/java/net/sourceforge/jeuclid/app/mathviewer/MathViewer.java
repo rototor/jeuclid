@@ -84,7 +84,8 @@ public final class MathViewer {
         }
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                final MainFrame mainFrame = new MainFrame();
+                //final MainFrame mainFrame = new MainFrame();
+                MainFrameEx mainFrame = new MainFrameEx();
                 mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 if (MathViewer.OSX) {
                     final Application a = Application.getApplication();
