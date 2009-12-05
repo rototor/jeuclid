@@ -28,7 +28,8 @@ import com.apple.eawt.ApplicationEvent;
  */
 public class MainFrameAppListener extends ApplicationAdapter {
 
-    private final MainFrame frame;
+    //private final MainFrame frame;
+    private final MainFrameEx frame;
 
     // /**
     // * Logger for this class
@@ -43,7 +44,7 @@ public class MainFrameAppListener extends ApplicationAdapter {
      * @param mainFrame
      *            MainFrame to use
      */
-    public MainFrameAppListener(final MainFrame mainFrame) {
+    public MainFrameAppListener(final MainFrameEx mainFrame) {
         this.frame = mainFrame;
     }
 
