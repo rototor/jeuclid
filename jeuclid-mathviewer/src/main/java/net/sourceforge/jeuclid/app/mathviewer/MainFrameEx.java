@@ -79,7 +79,7 @@ public class MainFrameEx extends javax.swing.JFrame {
         initComponents();
         this.setSize(MainFrameEx.DEFAULT_WIDTH, MainFrameEx.DEFAULT_HEIGHT);
         this.setTitle(Messages.getString("MathViewer.windowTitle")); //$NON-NLS-1$
-        this.jContentPane.add(this.splitPane, BorderLayout.CENTER);
+        //this.jContentPane.add(this.splitPane, BorderLayout.CENTER);
         this.setLocationByPlatform(true);
         this.updateFromTextArea();
     }
@@ -111,6 +111,13 @@ public class MainFrameEx extends javax.swing.JFrame {
         splitPane = new javax.swing.JSplitPane();
         scrollPane2 = new javax.swing.JScrollPane();
         scrollPane = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
@@ -120,23 +127,23 @@ public class MainFrameEx extends javax.swing.JFrame {
         formattedCopyMenuItem = new javax.swing.JMenuItem();
         pasteMenuItem = new javax.swing.JMenuItem();
         unformattedCopyMenuItem = new javax.swing.JMenuItem();
-        refreshMenuItem = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
         aliasMenuItem = new javax.swing.JCheckBoxMenuItem();
         smallerMenuItem = new javax.swing.JMenuItem();
         biggerMenuItem = new javax.swing.JMenuItem();
         debugMenuItem = new javax.swing.JCheckBoxMenuItem();
+        refreshMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("frameMain"); // NOI18N
 
-        jContentPane.setLayout(new java.awt.BorderLayout());
-
         splitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         splitPane.setResizeWeight(1.0);
         splitPane.setOneTouchExpandable(true);
+
+        scrollPane2.setMinimumSize(new java.awt.Dimension(50, 50));
         splitPane.setRightComponent(scrollPane2);
         scrollPane2.setViewportView(this.getXMLEditor());
 
@@ -152,7 +159,97 @@ public class MainFrameEx extends javax.swing.JFrame {
             scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         }
 
-        jContentPane.add(splitPane, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout jContentPaneLayout = new javax.swing.GroupLayout(jContentPane);
+        jContentPane.setLayout(jContentPaneLayout);
+        jContentPaneLayout.setHorizontalGroup(
+            jContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(splitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 898, Short.MAX_VALUE)
+        );
+        jContentPaneLayout.setVerticalGroup(
+            jContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(splitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jContentPane, java.awt.BorderLayout.CENTER);
+
+        jPanel1.setMaximumSize(new java.awt.Dimension(32767, 5032767));
+
+        jButton1.setText("Tabelle...");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("A ^ B");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("A v B");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("A x B");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("|X|");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("NOT A");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61)
+                .addComponent(jButton1)
+                .addContainerGap(425, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton5)
+                    .addComponent(jButton4)
+                    .addComponent(jButton6)
+                    .addComponent(jButton1))
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         fileMenu.setText(Messages.getString("MathViewer.FileMenu"));
 
@@ -239,23 +336,9 @@ pasteMenuItem.addActionListener(new ActionListener() {
         }
     });
 
-    refreshMenuItem.setText(Messages
-        .getString("MathViewer.textRefresh"));
-    editMenu.add(refreshMenuItem);
-    refreshMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-        KeyEvent.VK_Y, Toolkit.getDefaultToolkit()
-        .getMenuShortcutKeyMask(), true));
-refreshMenuItem
-.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(
-        final java.awt.event.ActionEvent e) {
-        MainFrameEx.this.updateFromTextArea();
-    }
-    });
-
     jMenuBar.add(editMenu);
 
-    viewMenu.setText(Messages.getString("MathViewer.vieMenu"));
+    viewMenu.setText(Messages.getString("MathViewer.viewMenu"));
 
     aliasMenuItem.setSelected(true);
     aliasMenuItem.setText(Messages.getString("MathViewer.alias"));
@@ -331,6 +414,20 @@ biggerMenuItem
         }
     });
 
+    refreshMenuItem.setText(Messages
+        .getString("MathViewer.textRefresh"));
+    viewMenu.add(refreshMenuItem);
+    refreshMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_Y, Toolkit.getDefaultToolkit()
+        .getMenuShortcutKeyMask(), true));
+refreshMenuItem
+.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(
+        final java.awt.event.ActionEvent e) {
+        MainFrameEx.this.updateFromTextArea();
+    }
+    });
+
     jMenuBar.add(viewMenu);
 
     helpMenu.setText(Messages.getString("MathViewer.helpMenu"));
@@ -348,19 +445,48 @@ biggerMenuItem
 
     setJMenuBar(jMenuBar);
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jContentPane, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-    );
-    layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jContentPane, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-    );
-
     pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void insertMacro(String text)
+    {
+        int pos = getXMLEditor().getCaretPosition();
+        String s1 = getXMLEditor().getText().substring(0,pos);
+        String s2 = getXMLEditor().getText().substring(pos);
+        s1 += text + s2;
+        getXMLEditor().setText(s1);
+        updateFromTextArea();
+    }
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        insertMacro("<apply><or/><ci>a</ci><ci>b</ci></apply>");
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        insertMacro("<apply><and/><ci>a</ci><ci>b</ci></apply>");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        insertMacro("<apply><abs/><ci>x</ci></apply>");
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        insertMacro("<apply><cartesianproduct/><ci>A</ci><ci>B</ci></apply>");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        insertMacro("<apply><not/><ci>a</ci></apply>");
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        InsertTableDialog dlg = new InsertTableDialog(this, true);
+        dlg.setVisible(true);
+
+        if(dlg.getMathMLText() != null)
+        {
+            insertMacro(dlg.getMathMLText());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     /**
     * @param args the command line arguments
@@ -436,14 +562,14 @@ biggerMenuItem
                     //+ "<!DOCTYPE math PUBLIC -//W3C//DTD MathML 2.0//EN' "
                     //+ "'http://www.w3.org/Math/DTD/mathml2/mathml2.dtd'>\n"
                     + "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n"
-                    + "<mrow>\n"
+                    //+ "<mrow>\n"
                     + "<mi>a</mi>\n"
-                    + "<msup><mi>x</mi><mn>2</mn></msup>\n"
+                    + /*"<msup><mi>x</mi><mn>2</mn></msup>\n"
                     + "<mo>+</mo><mi>b</mi>\n"
                     + "<mi>x</mi><mo>+</mo><mi>c</mi>\n"
                     + "<mo>=</mo><mo>0</mo>\n"
                     + "</mrow>\n"
-                    + "</math>");
+                    + */"</math>");
 
             this.xmlEditor.setEditable(true);
             this.xmlEditor.getDocument().addDocumentListener(
@@ -538,8 +664,15 @@ biggerMenuItem
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem formattedCopyMenuItem;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JPanel jContentPane;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem refreshMenuItem;
