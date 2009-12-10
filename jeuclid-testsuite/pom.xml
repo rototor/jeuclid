@@ -16,6 +16,7 @@
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.5</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
@@ -54,12 +55,12 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>stix-fonts</artifactId>
-      <version>1.0-beta-2</version>
+      <version>1.0-beta-3</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>ams-fonts</artifactId>
-      <version>1.0</version>
+      <version>1.0-2</version>
     </dependency>
   </dependencies>
   <build>
@@ -68,6 +69,7 @@
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>maven-jetty-plugin</artifactId>
+        <version>6.1.22</version>
         <configuration>
           <scanIntervalSeconds>5</scanIntervalSeconds>
         </configuration>
