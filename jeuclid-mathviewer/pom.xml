@@ -15,6 +15,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3</version>
         <configuration>
           <archive>
             <manifest>
@@ -112,10 +113,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.2</version>
         <executions>
           <execution>
-            <phase>package</phase>
+            <phase>prepare-package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
@@ -130,7 +131,7 @@
       <plugin>
         <groupId>com.akathist.maven.plugins.launch4j</groupId>
         <artifactId>launch4j-maven-plugin</artifactId>
-        <version>1.2</version>
+        <version>1.3</version>
         <executions>
           <execution>
             <id>l4j-clui</id>
@@ -167,7 +168,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-3</version>
+        <version>2.2-beta-4</version>
         <configuration>
           <descriptors>
             <descriptor>src/assemble/osx.xml</descriptor>
@@ -267,7 +268,7 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-emf</artifactId>
-      <version>2.1.1</version>
+      <version>2.1.3</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -285,7 +286,7 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-pdf</artifactId>
-      <version>2.1.1</version>
+      <version>2.1.3</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -297,7 +298,7 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-ps</artifactId>
-      <version>2.1.1</version>
+      <version>2.1.3</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -309,7 +310,7 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-swf</artifactId>
-      <version>2.1.1</version>
+      <version>2.1.3</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -326,12 +327,12 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>stix-fonts</artifactId>
-      <version>1.0-beta-2</version>
+      <version>1.0-beta-3</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>ams-fonts</artifactId>
-      <version>1.0</version>
+      <version>1.0-2</version>
     </dependency>
   </dependencies>
   <repositories>
