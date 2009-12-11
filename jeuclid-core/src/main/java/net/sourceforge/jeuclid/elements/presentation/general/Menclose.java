@@ -60,11 +60,26 @@ public final class Menclose extends AbstractElementWithDelegates implements
         MathMLEncloseElement {
 
     /**
+     * The XML element from this class.
+     */
+    public static final String ELEMENT = "menclose";
+
+    /** The notation attribute. */
+    public static final String ATTR_NOTATION = "notation";
+
+    private static final String LONGDIV = "longdiv";
+
+    /**
      * base class for all row-like notations.
      * 
      */
     private abstract static class AbstractRowLikeNotation extends
             AbstractContainer {
+
+        /**
+         * No data, so SUID is does not matter.
+         */
+        private static final long serialVersionUID = 1L;
 
         /**
          * Default constructor. Sets MathML Namespace.
@@ -319,14 +334,6 @@ public final class Menclose extends AbstractElementWithDelegates implements
     }
 
     /**
-     * The XML element from this class.
-     */
-    public static final String ELEMENT = "menclose";
-
-    /** The notation attribute. */
-    public static final String ATTR_NOTATION = "notation";
-
-    /**
      * Logger for this class
      */
     private static final Log LOGGER = LogFactory.getLog(Menclose.class);
@@ -346,7 +353,7 @@ public final class Menclose extends AbstractElementWithDelegates implements
     public Menclose(final String qname, final AbstractDocument odoc) {
         super(qname, odoc);
 
-        this.setDefaultMathAttribute(Menclose.ATTR_NOTATION, "");
+        this.setDefaultMathAttribute(Menclose.ATTR_NOTATION, Menclose.LONGDIV);
     }
 
     /** {@inheritDoc} */
@@ -447,7 +454,7 @@ public final class Menclose extends AbstractElementWithDelegates implements
         try {
             Menclose.IMPL_CLASSES.put("radical", Msqrt.class.getConstructor(
                     String.class, AbstractDocument.class));
-            Menclose.IMPL_CLASSES.put("longdiv", Menclose.Longdiv.class
+            Menclose.IMPL_CLASSES.put(Menclose.LONGDIV, Menclose.Longdiv.class
                     .getConstructor(String.class, AbstractDocument.class));
             Menclose.IMPL_CLASSES.put("updiagonalstrike",
                     Menclose.Updiagonalstrike.class.getConstructor(
