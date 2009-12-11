@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  msqrtSinheritance9</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../../Presentation/GeneralLayout/msqrt-mroot/msqrtBimplied8-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/">Presentation</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/GeneralLayout/">GeneralLayout</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/GeneralLayout/msqrt-mroot/">msqrt-mroot</a> &gt; msqrtSinheritance9
+   ) </td><td style="text-align: right"><a href="../../../Presentation/GeneralLayout/mstyle/mstyle1-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="msqrtSinheritance9.mml">mml file</a>)
+       (<a href="msqrtSinheritance9-full.xhtml">full</a>) (<a href="msqrtSinheritance9-simple.xhtml">simple</a>) (<a href="msqrtSinheritance9-plain.xhtml">plain</a>) (<a href="msqrtSinheritance9-form.xhtml">form</a>) (<a href="msqrtSinheritance9-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>Presentation/GeneralLayout/msqrt-mroot/msqrtSinheritance9</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Robert Miner and Jeff Schaefer, Geometry Technologies</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>This examples tests that &lt;msqrt&gt; inherits font attributes
+properly from &lt;mstyle&gt;.</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p><table><tr><td><img src="msqrtSinheritance9.png" alt="Created by: webeq"></img></td></tr></table></td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <mrow> 
+        <mstyle color="Blue" fontweight="bold"> 
+          <mfrac> 
+            <mstyle fontstyle="italic"> 
+              <msqrt> 
+                <mrow> 
+                  <mi>x</mi> 
+                  <mo>-</mo> 
+                  <mn>3</mn> 
+                </mrow> 
+              </msqrt> 
+            </mstyle> 
+            <mstyle fontweight="bold"> 
+              <msqrt> 
+                <mrow> 
+                  <mn>3</mn> 
+                  <mi>x</mi> 
+                </mrow> 
+              </msqrt> 
+            </mstyle> 
+          </mfrac> 
+        </mstyle> 
+        <mfrac> 
+          <mstyle fontstyle="italic"> 
+            <msqrt> 
+              <mn>2</mn> 
+              <mi>x</mi> 
+              <mo>-</mo> 
+              <mn>3</mn> 
+            </msqrt> 
+          </mstyle> 
+          <mstyle fontweight="bold"> 
+            <msqrt> 
+              <mrow> 
+                <mn>3</mn> 
+                <mi>x</mi> 
+              </mrow> 
+            </msqrt> 
+          </mstyle> 
+        </mfrac> 
+      </mrow> 
+    </math>
+  </span><hr></hr><p><b>Source Code</b>:</p><pre>
+    &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+      &lt;mrow&gt; 
+        &lt;mstyle color='Blue' fontweight='bold'&gt; 
+          &lt;mfrac&gt; 
+            &lt;mstyle fontstyle='italic'&gt; 
+              &lt;msqrt&gt; 
+                &lt;mrow&gt; 
+                  &lt;mi&gt;x&lt;/mi&gt; 
+                  &lt;mo&gt;-&lt;/mo&gt; 
+                  &lt;mn&gt;3&lt;/mn&gt; 
+                &lt;/mrow&gt; 
+              &lt;/msqrt&gt; 
+            &lt;/mstyle&gt; 
+            &lt;mstyle fontweight='bold'&gt; 
+              &lt;msqrt&gt; 
+                &lt;mrow&gt; 
+                  &lt;mn&gt;3&lt;/mn&gt; 
+                  &lt;mi&gt;x&lt;/mi&gt; 
+                &lt;/mrow&gt; 
+              &lt;/msqrt&gt; 
+            &lt;/mstyle&gt; 
+          &lt;/mfrac&gt; 
+        &lt;/mstyle&gt; 
+        &lt;mfrac&gt; 
+          &lt;mstyle fontstyle='italic'&gt; 
+            &lt;msqrt&gt; 
+              &lt;mn&gt;2&lt;/mn&gt; 
+              &lt;mi&gt;x&lt;/mi&gt; 
+              &lt;mo&gt;-&lt;/mo&gt; 
+              &lt;mn&gt;3&lt;/mn&gt; 
+            &lt;/msqrt&gt; 
+          &lt;/mstyle&gt; 
+          &lt;mstyle fontweight='bold'&gt; 
+            &lt;msqrt&gt; 
+              &lt;mrow&gt; 
+                &lt;mn&gt;3&lt;/mn&gt; 
+                &lt;mi&gt;x&lt;/mi&gt; 
+              &lt;/mrow&gt; 
+            &lt;/msqrt&gt; 
+          &lt;/mstyle&gt; 
+        &lt;/mfrac&gt; 
+      &lt;/mrow&gt; 
+    &lt;/math&gt;
+  </pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/GeneralLayout/msqrt-mroot/msqrtBimplied8-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/GeneralLayout/msqrt-mroot/msqrtBimplied8-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/GeneralLayout/mstyle/mstyle1-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/GeneralLayout/mstyle/mstyle1-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

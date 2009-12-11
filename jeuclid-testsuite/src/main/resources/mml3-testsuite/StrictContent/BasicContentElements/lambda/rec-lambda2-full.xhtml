@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  rec-lambda2</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../../StrictContent/BasicContentElements/lambda/rec-lambda1-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#StrictContent/">StrictContent</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#StrictContent/BasicContentElements/">BasicContentElements</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#StrictContent/BasicContentElements/lambda/">lambda</a> &gt; rec-lambda2
+   ) </td><td style="text-align: right"><a href="../../../StrictContent/BasicContentElements/lambda/rec-lambda3-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="rec-lambda2.mml">mml file</a>)
+       (<a href="rec-lambda2-full.xhtml">full</a>) (<a href="rec-lambda2-simple.xhtml">simple</a>) (<a href="rec-lambda2-plain.xhtml">plain</a>) (<a href="rec-lambda2-form.xhtml">form</a>) (<a href="rec-lambda2-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>StrictContent/BasicContentElements/lambda/rec-lambda2</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>MathML 2 Recommendation</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>lambda integral f(x)dx</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p><table><tr><td><img src="../../../Content/BasicContentElements/lambda/rec-lambda2.png" alt="Created by: webeq"></img></td></tr></table></td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+<math xmlns="http://www.w3.org/1998/Math/MathML">  
+      <bind><csymbol cd="fns1">lambda</csymbol><bvar><ci>b</ci></bvar><apply><csymbol cd="calculus1">defint</csymbol><apply><csymbol cd="interval1">interval</csymbol><ci>a</ci><ci>b</ci></apply><bind><csymbol cd="funs1">lambda</csymbol><bvar><ci>x</ci></bvar><apply> 
+             
+              <ci>f</ci> 
+             
+            <ci>x</ci> 
+          </apply></bind></apply></bind> 
+    </math>
+</span><hr></hr><p><b>Source Code</b>:</p><pre>&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+      &lt;bind&gt;&lt;csymbol cd="fns1"&gt;lambda&lt;/csymbol&gt;&lt;bvar&gt;&lt;ci&gt;b&lt;/ci&gt;&lt;/bvar&gt;&lt;apply&gt;&lt;csymbol cd="calculus1"&gt;defint&lt;/csymbol&gt;&lt;apply&gt;&lt;csymbol cd="interval1"&gt;interval&lt;/csymbol&gt;&lt;ci&gt;a&lt;/ci&gt;&lt;ci&gt;b&lt;/ci&gt;&lt;/apply&gt;&lt;bind&gt;&lt;csymbol cd="funs1"&gt;lambda&lt;/csymbol&gt;&lt;bvar&gt;&lt;ci&gt;x&lt;/ci&gt;&lt;/bvar&gt;&lt;apply&gt; 
+             
+              &lt;ci&gt;f&lt;/ci&gt; 
+             
+            &lt;ci&gt;x&lt;/ci&gt; 
+          &lt;/apply&gt;&lt;/bind&gt;&lt;/apply&gt;&lt;/bind&gt; 
+    &lt;/math&gt;</pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../../StrictContent/BasicContentElements/lambda/rec-lambda1-full.xhtml";
+		} else {
+		window.location.href = "../../../StrictContent/BasicContentElements/lambda/rec-lambda1-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../../StrictContent/BasicContentElements/lambda/rec-lambda3-full.xhtml";
+		} else {
+		window.location.href = "../../../StrictContent/BasicContentElements/lambda/rec-lambda3-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

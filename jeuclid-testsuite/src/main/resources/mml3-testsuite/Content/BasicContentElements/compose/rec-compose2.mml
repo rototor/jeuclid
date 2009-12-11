@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <compose></compose> 
+    <ci type="fn">f</ci> 
+    <ci type="fn">g</ci> 
+    <ci type="fn">h</ci>  
+  </apply> 
+</math>

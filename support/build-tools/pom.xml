@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sourceforge.jeuclid</groupId>
+  <artifactId>build-tools</artifactId>
+  <parent>
+    <groupId>net.sourceforge.jeuclid</groupId>
+    <artifactId>jeuclid-support</artifactId>
+    <version>1.0.1</version>
+  </parent>
+  <version>1.0.4</version>
+  <name>JEuclid Build Tools</name>
+  <description>This module contains files needed during JEuclids build.</description>
+  <packaging>jar</packaging>
+</project>

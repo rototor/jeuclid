@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN" "http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
+<article>
+  <title/>
+  <section id="testsuite">
+    <title>MathML Testsuite</title>
+    <para>This module contains the MathML testsuite from W3C, rendered to SVG</para>
+    <para>Please note: Although the testsuite may say "your browsers rendering" it acutally referrs to JEuclids rendering</para>
+    <para>You need a browser with SVG support, for example a recent version of Firefox, Safari, or Opera</para>
+    <para>Go on to <ulink url="svg/index.html">JEuclids rendering of the W3C MathML 2 testsuite</ulink> or to <ulink url="svg3/toc-full.xhtml">JEuclids rendering of the W3C MathML 3 testsuite</ulink>.</para>
+  </section>
+</article>

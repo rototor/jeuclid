@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <limit></limit>  
+    <bvar>
+      <ci>x</ci>  
+    </bvar> 
+    <lowlimit>
+      <cn>0</cn>  
+    </lowlimit> 
+    <apply>
+      <sin></sin>  
+      <ci>x</ci> 
+    </apply> 
+  </apply>  
+</math>

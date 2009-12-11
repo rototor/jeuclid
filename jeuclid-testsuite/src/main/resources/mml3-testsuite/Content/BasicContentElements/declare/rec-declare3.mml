@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <declare type="fn" nargs="2" scope="local">
+    <ci>f</ci>  
+    <apply>
+      <plus></plus> 
+      <ci>F</ci> 
+      <ci>G</ci> 
+    </apply>  
+  </declare> 
+</math>

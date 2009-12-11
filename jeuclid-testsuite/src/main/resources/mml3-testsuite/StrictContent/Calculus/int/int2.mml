@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="calculus1">defint</csymbol>
+    <apply>
+      <csymbol cd="interval1">interval</csymbol>
+      <cn>0</cn>
+      <ci>a</ci>
+    </apply>
+    <bind>
+      <csymbol cd="funs1">lambda</csymbol>
+      <bvar>
+        <ci>x</ci>
+      </bvar>
+      <apply>
+        <csymbol cd="arith1">plus</csymbol>  
+        <ci>a</ci> 
+        <ci>x</ci> 
+      </apply>
+    </bind>
+  </apply> 
+</math>

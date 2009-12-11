@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="relation1">eq</csymbol> 
+    <apply> 
+      <csymbol cd="arith1">divide</csymbol> 
+      <cn>0</cn>  
+      <cn>0</cn> 
+    </apply> 
+    <cn type="real">NaN</cn> 
+  </apply> 
+</math>

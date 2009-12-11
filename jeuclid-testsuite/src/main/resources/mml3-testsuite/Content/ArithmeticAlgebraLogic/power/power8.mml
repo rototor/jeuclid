@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <plus></plus> 
+    <apply>
+      <power></power>  
+      <sin></sin> 
+      <cn>2</cn> 
+    </apply>  
+    <apply>
+      <power></power> 
+      <cos></cos>  
+      <cn>2</cn> 
+    </apply> 
+  </apply>  
+</math>

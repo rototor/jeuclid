@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="relation1">eq</csymbol>  
+    <apply>
+      <csymbol cd="logic1">and</csymbol> 
+      <csymbol cd="logic1">false</csymbol> 
+      <ci>P</ci> 
+    </apply>  
+    <csymbol cd="logic1">false</csymbol> 
+  </apply> 
+</math>

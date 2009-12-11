@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  arcsin1</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../../StrictContent/ElementaryFunctions/arcsech/arcsech3-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#StrictContent/">StrictContent</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#StrictContent/ElementaryFunctions/">ElementaryFunctions</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#StrictContent/ElementaryFunctions/arcsin/">arcsin</a> &gt; arcsin1
+   ) </td><td style="text-align: right"><a href="../../../StrictContent/ElementaryFunctions/arcsin/arcsin2-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="arcsin1.mml">mml file</a>)
+       (<a href="arcsin1-full.xhtml">full</a>) (<a href="arcsin1-simple.xhtml">simple</a>) (<a href="arcsin1-plain.xhtml">plain</a>) (<a href="arcsin1-form.xhtml">form</a>) (<a href="arcsin1-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>StrictContent/ElementaryFunctions/arcsin/arcsin1</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Design Science, Inc. (E. Cannon, E. Tabacman, R.Miner)</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>arcsin(a + b)</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p><table><tr><td><img src="../../../Content/ElementaryFunctions/arcsin/arcsin1.png" alt="Created by: webeq"></img></td></tr></table></td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+<math xmlns="http://www.w3.org/1998/Math/MathML">  
+      <apply> 
+        <csymbol cd="transc1">arcsin</csymbol> 
+        <apply> 
+          <csymbol cd="arith1">plus</csymbol> 
+          <ci>a</ci> 
+          <ci>b</ci> 
+        </apply> 
+      </apply> 
+    </math>
+</span><hr></hr><p><b>Source Code</b>:</p><pre>&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+      &lt;apply&gt; 
+        &lt;csymbol cd="transc1"&gt;arcsin&lt;/csymbol&gt; 
+        &lt;apply&gt; 
+          &lt;csymbol cd="arith1"&gt;plus&lt;/csymbol&gt; 
+          &lt;ci&gt;a&lt;/ci&gt; 
+          &lt;ci&gt;b&lt;/ci&gt; 
+        &lt;/apply&gt; 
+      &lt;/apply&gt; 
+    &lt;/math&gt;</pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../../StrictContent/ElementaryFunctions/arcsech/arcsech3-full.xhtml";
+		} else {
+		window.location.href = "../../../StrictContent/ElementaryFunctions/arcsech/arcsech3-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../../StrictContent/ElementaryFunctions/arcsin/arcsin2-full.xhtml";
+		} else {
+		window.location.href = "../../../StrictContent/ElementaryFunctions/arcsin/arcsin2-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

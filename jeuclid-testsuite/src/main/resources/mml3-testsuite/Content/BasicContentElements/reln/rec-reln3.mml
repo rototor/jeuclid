@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <reln> 
+    <lt></lt> 
+    <ci>a</ci> 
+    <ci>b</ci>  
+    <ci>c</ci> 
+    <cn>10</cn>  
+  </reln> 
+</math>

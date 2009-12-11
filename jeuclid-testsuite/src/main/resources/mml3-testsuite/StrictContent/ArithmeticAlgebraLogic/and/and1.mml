@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <csymbol cd="logic1">and</csymbol> 
+    <apply> 
+      <csymbol cd="relation1">gt</csymbol> 
+      <ci>x</ci> 
+      <cn>0</cn>  
+    </apply> 
+    <apply>
+      <csymbol cd="relation1">lt</csymbol> 
+      <ci>x</ci> 
+      <cn>1</cn>  
+    </apply> 
+  </apply> 
+</math>

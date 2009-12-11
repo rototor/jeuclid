@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <csymbol cd="complex1">conjugate</csymbol> 
+    <apply>
+      <csymbol cd="arith1">plus</csymbol> 
+      <ci>x</ci>  
+      <apply>
+        <csymbol cd="arith1">times</csymbol>  
+        <csymbol cd="nums1">i</csymbol> 
+        <ci>y</ci>  
+      </apply> 
+    </apply> 
+  </apply> 
+</math>

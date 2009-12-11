@@ -1,0 +1,3 @@
+net.sourceforge.jeuclid.converter.ImageIODetector
+net.sourceforge.jeuclid.converter.BatikDetector
+net.sourceforge.jeuclid.converter.FreeHepDetector

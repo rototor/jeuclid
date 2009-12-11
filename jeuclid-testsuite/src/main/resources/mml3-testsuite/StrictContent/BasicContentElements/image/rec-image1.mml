@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <csymbol cd="relation1">eq</csymbol> 
+    <apply>
+      <csymbol cd="fns1">image</csymbol> 
+      <csymbol cd="transc1">sin</csymbol> 
+    </apply>  
+    <apply>
+      <csymbol cd="interval1">interval</csymbol>
+      <cn>-1</cn>
+      <cn>1</cn>
+    </apply> 
+  </apply> 
+</math>

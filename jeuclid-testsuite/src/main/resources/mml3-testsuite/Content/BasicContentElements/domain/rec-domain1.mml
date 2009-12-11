@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <eq></eq> 
+    <apply> 
+      <domain></domain> 
+      <fn>
+        <ci>f</ci>  
+      </fn> 
+    </apply> 
+    <reals></reals>  
+  </apply> 
+</math>

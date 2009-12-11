@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  tooFewContentContainer</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../ErrorHandling/NumChildren/singleBinary-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../toc-full.xhtml#ErrorHandling/">ErrorHandling</a> &gt; <a target="toc_full" href="../../toc-full.xhtml#ErrorHandling/NumChildren/">NumChildren</a> &gt; tooFewContentContainer
+   ) </td><td style="text-align: right"><a href="../../General/Clipboard/clipboard1-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="tooFewContentContainer.mml">mml file</a>)
+       (<a href="tooFewContentContainer-full.xhtml">full</a>) (<a href="tooFewContentContainer-simple.xhtml">simple</a>) (<a href="tooFewContentContainer-plain.xhtml">plain</a>) (<a href="tooFewContentContainer-form.xhtml">form</a>) (<a href="tooFewContentContainer-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>ErrorHandling/NumChildren/tooFewContentContainer</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Dave Doyle, Design Science</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>Tests what occurs when too few children are in content containers.</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p>
+          N/A
+      </td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <mtable> 
+        <mtr> 
+          <mtd> 
+            <mtext>reln</mtext> 
+          </mtd> 
+          <mtd> 
+            <reln> 
+              <lt></lt> 
+            </reln> 
+            <mo>,</mo> 
+            <reln> 
+              <lt></lt> 
+              <ci>a</ci> 
+            </reln> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>interval</mtext> 
+          </mtd> 
+          <mtd> 
+            <interval> 
+              <ci>2</ci> 
+            </interval> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>lambda</mtext> 
+          </mtd> 
+          <mtd> 
+            <lambda> 
+              <bvar> 
+                <ci>x</ci> 
+              </bvar> 
+            </lambda> 
+            <mo>,</mo> 
+            <lambda> 
+              <apply> 
+                <ci>x</ci> 
+              </apply> 
+            </lambda> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>bvar</mtext> 
+          </mtd> 
+          <mtd> 
+            <bvar> 
+              <degree> 
+                <cn>2</cn> 
+              </degree> 
+            </bvar> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>set</mtext> 
+          </mtd> 
+          <mtd> 
+            <set> 
+              <condition> 
+                <reln> 
+                  <lt></lt> 
+                  <ci> x </ci> 
+                  <cn> 5 </cn> 
+                </reln> 
+              </condition> 
+            </set> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>list</mtext> 
+          </mtd> 
+          <mtd> 
+            <list> 
+              <condition> 
+                <reln> 
+                  <lt></lt> 
+                  <ci> x </ci> 
+                  <cn> 5 </cn> 
+                </reln> 
+              </condition> 
+            </list> 
+          </mtd> 
+        </mtr> 
+      </mtable> 
+    </math>
+  </span><hr></hr><p><b>Source Code</b>:</p><pre>
+    &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+      &lt;mtable&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;reln&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;reln&gt; 
+              &lt;lt/&gt; 
+            &lt;/reln&gt; 
+            &lt;mo&gt;,&lt;/mo&gt; 
+            &lt;reln&gt; 
+              &lt;lt/&gt; 
+              &lt;ci&gt;a&lt;/ci&gt; 
+            &lt;/reln&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;interval&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;interval&gt; 
+              &lt;ci&gt;2&lt;/ci&gt; 
+            &lt;/interval&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;lambda&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;lambda&gt; 
+              &lt;bvar&gt; 
+                &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;/bvar&gt; 
+            &lt;/lambda&gt; 
+            &lt;mo&gt;,&lt;/mo&gt; 
+            &lt;lambda&gt; 
+              &lt;apply&gt; 
+                &lt;ci&gt;x&lt;/ci&gt; 
+              &lt;/apply&gt; 
+            &lt;/lambda&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;bvar&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;bvar&gt; 
+              &lt;degree&gt; 
+                &lt;cn&gt;2&lt;/cn&gt; 
+              &lt;/degree&gt; 
+            &lt;/bvar&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;set&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;set&gt; 
+              &lt;condition&gt; 
+                &lt;reln&gt; 
+                  &lt;lt/&gt; 
+                  &lt;ci&gt; x &lt;/ci&gt; 
+                  &lt;cn&gt; 5 &lt;/cn&gt; 
+                &lt;/reln&gt; 
+              &lt;/condition&gt; 
+            &lt;/set&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;list&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;list&gt; 
+              &lt;condition&gt; 
+                &lt;reln&gt; 
+                  &lt;lt/&gt; 
+                  &lt;ci&gt; x &lt;/ci&gt; 
+                  &lt;cn&gt; 5 &lt;/cn&gt; 
+                &lt;/reln&gt; 
+              &lt;/condition&gt; 
+            &lt;/list&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+      &lt;/mtable&gt; 
+    &lt;/math&gt;
+  </pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../ErrorHandling/NumChildren/singleBinary-full.xhtml";
+		} else {
+		window.location.href = "../../ErrorHandling/NumChildren/singleBinary-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../General/Clipboard/clipboard1-full.xhtml";
+		} else {
+		window.location.href = "../../General/Clipboard/clipboard1-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

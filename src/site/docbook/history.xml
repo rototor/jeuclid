@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
+<article>
+  <title></title>
+
+  <section id="history">
+    <title>History</title>
+
+    <para>This project started as a subproject from BMBF project(www.vs-c.de)
+    in Germany. One of the big problems from HTML is, that it isn't possible
+    to display mathematical equations in the browser. Since MathML initiative
+    started at w3 consortium, it is possible to store mathematical formulas in
+    XML documents, but there isn't a easy and cheap way to display this
+    formulas. So this project launched with the destination to fill this
+    gap.</para>
+
+    <para>The project started as a component for the Apache Cocoon
+    project(xml.apache.org). This component converted MathML documents to GIF
+    images or SVG. So the user could easy write documents with embedding
+    MathML fragments, and the component create in situ the GIF images. The SVG
+    converter was used to create documents with embedding SVG fragments for
+    e.g. the FOP to create PDF, or what else, documents.</para>
+
+    <para>After being dormant for some time, the project was picked up again
+    by Max in the summer of 2006. It has since then shifted its focus, away
+    from a cocoon component to a more generic MathML solution.</para>
+  </section>
+</article>
