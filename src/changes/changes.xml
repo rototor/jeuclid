@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.9" date="TBD" description="TBD">
+      <action dev="maxberger" type="add">Support Content Math without namespace</action>
       <action dev="maxberger" type="add" due-to="Gil">Added Italian Translation</action>
       <action dev="maxberger" type="add">Improved Documentation</action>
     </release>

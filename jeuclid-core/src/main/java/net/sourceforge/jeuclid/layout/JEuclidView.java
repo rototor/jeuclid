@@ -72,7 +72,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
         if (node instanceof LayoutableDocument) {
             this.document = (LayoutableDocument) node;
         } else {
-            this.document = DOMBuilder.getInstance().createJeuclidDom(node);
+            this.document = DOMBuilder.getInstance().createJeuclidDom(node,
+                    true, true);
         }
         this.graphics = layoutGraphics;
         this.context = layoutContext;
