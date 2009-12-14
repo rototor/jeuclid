@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -30,11 +31,16 @@ import java.util.Map;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
 import javax.xml.parsers.ParserConfigurationException;
 
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.MutableLayoutContext;
+import net.sourceforge.jeuclid.biparser.BiTree;
+import net.sourceforge.jeuclid.biparser.JEuclidSAXHandler;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
@@ -43,7 +49,10 @@ import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Displays MathML content in a Swing Component.
@@ -82,6 +91,8 @@ public final class JMathComponent extends JComponent implements SwingConstants {
     private static Class<?> mathComponentUIClass;
 
     private Node document;
+
+    private BiTree biTree;
 
     private int horizontalAlignment = SwingConstants.CENTER;
 
@@ -308,15 +319,146 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      *            the content to set.
      */
     public void setContent(final String contentString) {
+       long start, end;
+
+        start = System.nanoTime();
+/*
+        biTree = new BiTree();
+
+        // Use an instance of ourselves as the SAX event handler
+        DefaultHandler handler = new JEuclidSAXHandler(contentString, biTree);
+
+        // Use the default (non-validating) parser
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+
         try {
-            this.setDocument(MathMLParserSupport.parseString(contentString));
+            // Parse the input
+            SAXParser saxParser = factory.newSAXParser();
+            StringReader inStream = new StringReader(contentString);
+            InputSource inSource = new InputSource(inStream);
+            saxParser.parse(inSource, handler);
         } catch (final SAXException e) {
+            biTree = null;
             throw new RuntimeException(e);
         } catch (final ParserConfigurationException e) {
+            biTree = null;
             throw new RuntimeException(e);
         } catch (final IOException e) {
+            biTree = null;
             throw new RuntimeException(e);
         }
+
+        end = System.nanoTime();
+
+        // parse finished
+        if (biTree != null) {
+            JMathComponent.LOGGER.info(" -- parse="+((end-start)/1000000d)+"[ms]");
+            JMathComponent.LOGGER.info(biTree);
+            
+            JMathComponent.LOGGER.info(MathMLSerializer.serializeDocument(biTree.getDocument(), true, false));
+            JMathComponent.LOGGER.info(printTreeRec(biTree.getDocument(), 0));
+
+            this.setDocument(biTree.getDocument());
+        } else {
+*/
+            // ----------- old ------------
+            JMathComponent.LOGGER.info(" ---- setDocument with old DOM parser -----");
+            try {
+                Node n = MathMLParserSupport.parseString(contentString);
+
+                JMathComponent.LOGGER.info(MathMLSerializer.serializeDocument(n, true, false));
+                JMathComponent.LOGGER.info(printTreeRec(n, 0));
+                
+                end = System.nanoTime();
+
+            JMathComponent.LOGGER.info(" -- parse="+((end-start)/1000000d)+"[ms]");
+
+                this.setDocument(n);
+            } catch (final SAXException e) {
+                throw new RuntimeException(e);
+            } catch (final ParserConfigurationException e) {
+                throw new RuntimeException(e);
+            } catch (final IOException e) {
+                throw new RuntimeException(e);
+            }
+       //test }
+    }
+
+    private String printTreeRec(Node n, int level) {
+        int i;
+        StringBuffer sb = new StringBuffer();
+
+        for(i=0; i<level; i++) {
+            sb.append(" ");
+        }
+
+        sb.append("name='"+n.getNodeName()+"' "+n.getBaseURI()+" "+n.getNamespaceURI()+ " "+n.getLocalName());
+
+        if (n.getChildNodes() != null) {
+            sb.append(" childs="+n.getChildNodes().getLength());
+
+        }
+
+        if (n.getNodeType()==Node.TEXT_NODE) {
+            sb.append(" text='"+n.getTextContent().replaceAll("\n", "#")+"'");
+        }
+        sb.append("\n");
+        
+        if (n.getChildNodes() != null) {
+            NodeList nl = n.getChildNodes();
+            for(i=0; i<nl.getLength(); i++) {
+                sb.append(printTreeRec(nl.item(i), level+1));
+            }            
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Set the content from a String containing the MathML content.
+     *
+     * @param contentString
+     *            the content to set.
+     */
+    public void setContent(DocumentEvent documentEvent, String text) {
+        long start, end;
+        DocumentEvent.EventType type;
+
+        this.setContent(text);
+
+        /*
+        if (biTree == null) {
+            this.setContent(text);
+        } else {
+
+            start = System.nanoTime();
+            type = documentEvent.getType();
+
+            try {
+                text = documentEvent.getDocument().getText(documentEvent.getOffset(), documentEvent.getLength());
+            } catch (BadLocationException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            if (type == DocumentEvent.EventType.INSERT) {
+                biTree.insert(documentEvent.getOffset(), text);
+            } else if (type == DocumentEvent.EventType.REMOVE) {
+                biTree.remove(documentEvent.getOffset(), documentEvent.getLength());
+            } else {
+                // change event ????
+
+                throw new RuntimeException("change event.............");
+            }
+
+            end = System.nanoTime();
+
+            // parse finished
+            if (biTree != null) {
+                JMathComponent.LOGGER.info(" -- parse="+((end-start)/1000000d)+"[ms]");
+                JMathComponent.LOGGER.info(biTree);
+                this.setDocument(biTree.getDocument());
+            }
+        }*/
     }
 
     /**

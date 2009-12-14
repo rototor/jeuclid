@@ -11,7 +11,6 @@
         <Menu class="javax.swing.JMenu" name="insertMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Einfuegen"/>
-            <Property name="actionCommand" type="java.lang.String" value="Einfuegen"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="insertTableMenuItem">
@@ -349,7 +348,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="splitPane" alignment="0" pref="279" max="32767" attributes="0"/>
+              <Component id="splitPane" alignment="0" pref="277" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

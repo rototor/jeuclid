@@ -86,46 +86,6 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
     }
 
     /**
-     * Advanced Constructor, replace subtrees from old tree with new tree
-     *
-     * @param node
-     *            document to layout.
-     * @param oldView
-     *            previous JEuclidView
-     * @param roots
-     *            nodes at which the trees differ
-     * @param layoutGraphics
-     *            Graphics context to use for layout calculations. This should
-     *            be compatible to the context used for painting, but does not
-     *            have to be the same.
-     * @param layoutContext
-     *            layoutContext to use.
-     */
-    public JEuclidView(final Node node, final JEuclidView oldView, final Node[] roots, final LayoutContext layoutContext, final Graphics2D layoutGraphics) {
-        if (node instanceof LayoutableDocument) {
-            this.document = (LayoutableDocument) node;
-        } else {
-            // make a complete new JEuclid Dom Tree
-            if (oldView == null || oldView.document == null) {
-                this.document = DOMBuilder.getInstance().createJeuclidDom(node);
-                LOGGER.info("create new tree, no old exists");
-            } else if (roots == null) {
-                this.document = oldView.document;
-                LOGGER.info("keep old tree, no comparsion");
-            } else if (roots[0] == null || roots[1] == null) {
-                this.document = oldView.document;
-                LOGGER.info("keep old tree, equal");
-            } else {
-                this.document = replaceNodes((DocumentElement) oldView.document, roots[0], roots[1]);
-                LOGGER.info("update old tree");
-            }
-        }
-        this.graphics = layoutGraphics;
-        this.context = layoutContext;
-        this.layoutMap = new HashMap<Node, LayoutInfo>();
-    }
-
-    /**
      * replace old node with new node in JEuclid document
      *
      * @param jDocOld
