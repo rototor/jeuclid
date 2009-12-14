@@ -45,6 +45,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import javax.swing.text.BadLocationException;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
@@ -53,6 +54,8 @@ import net.sourceforge.jeuclid.swing.JMathComponent;
 import org.apache.batik.util.gui.xmleditor.XMLContext;
 import org.apache.batik.util.gui.xmleditor.XMLEditorKit;
 import org.apache.batik.util.gui.xmleditor.XMLTextEditor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 
 
@@ -74,6 +77,7 @@ public class MainFrameEx extends javax.swing.JFrame {
     private AboutDialog aboutDialog;
     private JMathComponent mathComponent;
 
+    private static final Log LOGGER = LogFactory.getLog(MainFrameEx.class);
     
     /** Creates new form MainFrameEx */
     public MainFrameEx() {
@@ -669,17 +673,17 @@ refreshMenuItem
                     new DocumentListener() {
                         public void changedUpdate(
                                 final DocumentEvent documentevent) {
-                            MainFrameEx.this.updateFromTextArea();
+                            MainFrameEx.this.updateFromTextArea(documentevent);
                         }
 
                         public void insertUpdate(
                                 final DocumentEvent documentevent) {
-                            MainFrameEx.this.updateFromTextArea();
+                            MainFrameEx.this.updateFromTextArea(documentevent);
                         }
 
                         public void removeUpdate(
                                 final DocumentEvent documentevent) {
-                            MainFrameEx.this.updateFromTextArea();
+                            MainFrameEx.this.updateFromTextArea(documentevent);
                         }
                     });
             this.xmlEditor.setBackground(Color.WHITE);
@@ -687,7 +691,45 @@ refreshMenuItem
         return this.xmlEditor;
     }
 
-        private void updateFromTextArea() {
+    /**
+     * print some usefull information to console about documentEvent
+     */
+    private void printInfo(DocumentEvent documentEvent) {
+        StringBuffer sb = new StringBuffer();
+        DocumentEvent.EventType type = documentEvent.getType();
+
+        if (type.equals(DocumentEvent.EventType.CHANGE)) {
+            sb.append("CHANGE ");
+        } else if (type.equals(DocumentEvent.EventType.INSERT)) {
+            sb.append("INSERT ");
+        } else if (type.equals(DocumentEvent.EventType.REMOVE)) {
+            sb.append("REMOVE ");
+        }
+
+        sb.append("[Offset: ");
+        sb.append(documentEvent.getOffset());
+        sb.append("] [Length: ");
+        sb.append(documentEvent.getLength());
+        sb.append("]");
+
+        if (type.equals(DocumentEvent.EventType.INSERT) && (documentEvent.getLength() < 20)) {
+            try {
+                sb.append(" '");
+                sb.append(documentEvent.getDocument().getText(documentEvent.getOffset(), documentEvent.getLength()));
+                sb.append("'");
+            } catch (BadLocationException ex) {
+                LOGGER.error(ex);
+            }
+        }
+
+        LOGGER.info(sb);
+    }
+
+    private void updateFromTextArea() {
+        long start, end;
+
+        start = System.nanoTime();
+
         try {
             this.getMathComponent().setContent(this.getXMLEditor().getText());
             this.xmlEditor.setBackground(Color.getHSBColor(0.3f, 0.2f, 1.0f));
@@ -698,6 +740,33 @@ refreshMenuItem
             // CHECKSTYLE:ON
             this.xmlEditor.setBackground(Color.getHSBColor(0f, 0.2f, 1.0f));
         }
+
+        end = System.nanoTime();
+
+        LOGGER.info(" --- draw="+(end-start)/1000000d+"[ms]");
+    }
+
+    private void updateFromTextArea(DocumentEvent documentevent) {
+        long start, end;
+
+        printInfo(documentevent);
+
+        start = System.nanoTime();
+
+        try {
+            this.getMathComponent().setContent(documentevent, this.getXMLEditor().getText());
+            this.xmlEditor.setBackground(Color.getHSBColor(0.3f, 0.2f, 1.0f));
+            // CHECKSTYLE:OFF
+            // in this case, we want to explicitly provide catch-all error
+            // handling.
+        } catch (final RuntimeException e) {
+            // CHECKSTYLE:ON
+            this.xmlEditor.setBackground(Color.getHSBColor(0f, 0.2f, 1.0f));
+        }
+
+        end = System.nanoTime();
+
+        LOGGER.info(" --- draw="+(end-start)/1000000d+"[ms]");
     }
 
     
