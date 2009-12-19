@@ -32,6 +32,7 @@ import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
+import javax.swing.text.BadLocationException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import javax.xml.parsers.SAXParser;
@@ -322,7 +323,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
        long start, end;
 
         start = System.nanoTime();
-/*
+
         biTree = new BiTree();
 
         // Use an instance of ourselves as the SAX event handler
@@ -360,7 +361,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
 
             this.setDocument(biTree.getDocument());
         } else {
-*/
+
             // ----------- old ------------
             JMathComponent.LOGGER.info(" ---- setDocument with old DOM parser -----");
             try {
@@ -381,7 +382,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
             } catch (final IOException e) {
                 throw new RuntimeException(e);
             }
-       //test }
+        }
     }
 
     private String printTreeRec(Node n, int level) {
@@ -392,7 +393,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
             sb.append(" ");
         }
 
-        sb.append("name='"+n.getNodeName()+"' "+n.getBaseURI()+" "+n.getNamespaceURI()+ " "+n.getLocalName());
+        sb.append("name='"+n.getNodeName()+"' "+n.getNamespaceURI());
 
         if (n.getChildNodes() != null) {
             sb.append(" childs="+n.getChildNodes().getLength());
@@ -424,9 +425,9 @@ public final class JMathComponent extends JComponent implements SwingConstants {
         long start, end;
         DocumentEvent.EventType type;
 
-        this.setContent(text);
+        //this.setContent(text);
 
-        /*
+        
         if (biTree == null) {
             this.setContent(text);
         } else {
@@ -441,9 +442,12 @@ public final class JMathComponent extends JComponent implements SwingConstants {
             }
 
             if (type == DocumentEvent.EventType.INSERT) {
-                biTree.insert(documentEvent.getOffset(), text);
+              //  biTree.insert(documentEvent.getOffset(), text);
+
+                this.setContent(text);
+
             } else if (type == DocumentEvent.EventType.REMOVE) {
-                biTree.remove(documentEvent.getOffset(), documentEvent.getLength());
+                biTree.remove(documentEvent.getOffset(), documentEvent.getLength(), text);
             } else {
                 // change event ????
 
@@ -456,9 +460,11 @@ public final class JMathComponent extends JComponent implements SwingConstants {
             if (biTree != null) {
                 JMathComponent.LOGGER.info(" -- parse="+((end-start)/1000000d)+"[ms]");
                 JMathComponent.LOGGER.info(biTree);
+                JMathComponent.LOGGER.info(biTree.toStringDOM());
+
                 this.setDocument(biTree.getDocument());
             }
-        }*/
+        }
     }
 
     /**
@@ -479,10 +485,10 @@ public final class JMathComponent extends JComponent implements SwingConstants {
         final Node oldValue = this.document;
         this.firePropertyChange("document", oldValue, doc);
         this.document = doc;
-        if (doc != oldValue) {
+       // if (doc != oldValue) {
             this.revalidate();
             this.repaint();
-        }
+        //}
     }
 
     /**

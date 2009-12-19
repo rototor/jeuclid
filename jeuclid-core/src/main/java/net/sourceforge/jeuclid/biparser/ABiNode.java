@@ -103,7 +103,13 @@ public abstract class ABiNode {
         return node;
     }
 
+    public void setNode(Node node) {
+        this.node = node;
+    }
+
     abstract public ABiNode getABiNodeAt(int offset, int length, int totalOffset);
+
+    abstract public void remove(BiTree biTree, int offset, int length, int totalOffset);
 
     @Override
     abstract public String toString();

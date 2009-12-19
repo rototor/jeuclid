@@ -40,7 +40,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
     private int previousPosition;
     private int lastLine;
     private int lastColumn;
-    private boolean debug = true;
+    private boolean debug = false;
 
     public JEuclidSAXHandler(String content, BiTree tree) {
         position = 0;
@@ -111,7 +111,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
         printElement(namespaceURI, eName, true, startPosition, attrs);
 
         // new node
-        tree.newElement(startPosition, position - startPosition, namespaceURI, eName);
+        tree.newElement(startPosition, position - startPosition, namespaceURI, eName, attrs);
     }
 
     @Override
@@ -217,7 +217,6 @@ public class JEuclidSAXHandler extends DefaultHandler {
                 sb.append(" ");
                 sb.append(aName + "=\"" + attrs.getValue(i) + "\"");
             }
-
         }
 
         sb.append(" ");

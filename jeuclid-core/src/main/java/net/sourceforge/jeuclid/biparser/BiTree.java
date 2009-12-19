@@ -2,11 +2,18 @@ package net.sourceforge.jeuclid.biparser;
 
 import java.util.ArrayList;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.Attributes;
 
 public class BiTree {
 
@@ -15,23 +22,52 @@ public class BiTree {
     private ABiNode currentBiTree;
     private ABiNode root;
     private ArrayList<Integer> startPositions;
+    private String text;
 
     public BiTree() {
         doc = new DocumentElement();
+/*
+        DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = null;
+
+        try {
+            docBuilder = dbfac.newDocumentBuilder();
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(BiTree.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        doc = docBuilder.newDocument();*/
         currentDOM = doc;
+
         startPositions = new ArrayList<Integer>();
     }
 
-    public void newElement(int offset, int childOffset, String namespaceURI, String eName) {
+    public void newElement(int offset, int childOffset, String namespaceURI, String eName, Attributes attrs) {
         Element element;
-        startPositions.add(offset);
+        int i;
 
+        startPositions.add(offset);
+        
+    /*   TODO???
         if ((namespaceURI == null || namespaceURI.equals("")) && doc != null && doc.getFirstChild() != null) {
             namespaceURI = doc.getFirstChild().getNamespaceURI();
-        }
+        } */
 
         element = doc.createElementNS(namespaceURI, eName);
 
+        // add attributes
+        if (attrs != null) {
+            for (i = 0; i < attrs.getLength(); i++) {
+                String aName = attrs.getLocalName(i); // Attr name
+
+                if ("".equals(aName)) {
+                    aName = attrs.getQName(i);
+                }
+
+                element.setAttribute(aName, attrs.getValue(i));
+            }
+        }
+        
         if (root == null) {                               // root
             root = new BiNode(childOffset, element);
             currentBiTree = root;
@@ -75,6 +111,16 @@ public class BiTree {
         ((BiNode) currentBiTree).addChild(new TextNode(nodeLength, t));
     }
 
+    public Node createInvalidNode() {
+        Element element;
+
+        element = doc.createElement("mi");
+        element.setAttribute("mathcolor", "#F00");
+        element.appendChild(doc.createTextNode("#"));
+
+        return element;
+    }
+
     public void newEmtpyNode(int offset, int length) {
         if (root == null) {                               // root
             root = new EmptyNode(length);
@@ -95,7 +141,7 @@ public class BiTree {
         Text t;
 
         node = root.getABiNodeAt(offset, 0, 0);
-
+/*
         System.out.println("-- insert at " + node);
 
         if (node == null) {         // new root empty node
@@ -127,23 +173,40 @@ public class BiTree {
 
                 // BiTree
                 ((BiNode) node).addChild(new TextNode(text.length(), t));
-                }*/
+                }
             }
-        }
+        }*/
     }
 
+    public void setRoot(ABiNode root) {
+
+        // check if root
+        if (root == null) {
+            doc = null;
+        }
+
+        this.root = root;
+    }
+
+    public String getText() {
+        return text;
+    }
+    
     /**
      * remove text  at offset
      */
-    public void remove(int offset, int length) {
+    public void remove(int offset, int length, String text) {
         int pos;
         ABiNode node;
         String oldText, newText;
 
-        node = root.getABiNodeAt(offset, length, 0);
+        //node = root.getABiNodeAt(offset, length, 0);
 
-        System.out.println("-- remove at " + node);
+        this.text = text;
+        root.remove(this, offset, length, 0);
 
+        //System.out.println("-- remove at " + node);
+/*
         if (node != null) {
             if (node.getType() == BiNode.Type.NODE) {
             } else {
@@ -180,19 +243,41 @@ public class BiTree {
             }
         } else {        // remove root ......
             throw new RuntimeException("todo... Null at remove");
-        }
+        }*/
     }
 
     public Node getDocument() {
-        if (doc != null) {
-            return doc;
-        }
-
-        return null;
+        return doc;
     }
 
     @Override
     public String toString() {
         return root.toString(0);
+    }
+
+    public String toStringDOM() {
+       return toStringDOM(0, doc.getDocumentElement());
+    }
+
+    private String toStringDOM(int level, Node n) {
+        int i;
+        NodeList nl;
+        StringBuilder sb = new StringBuilder();
+
+        for(i=0; i<level; i++) {
+            sb.append(" ");
+        }
+
+        sb.append(n.getNodeType());
+        sb.append(" ");
+        sb.append(n.getNodeName());
+        sb.append("\n");
+
+        nl = n.getChildNodes();
+        for (i=0; i<nl.getLength(); i++) {
+            sb.append(toStringDOM(level+1, nl.item(i)));
+        }
+
+        return sb.toString();
     }
 }
