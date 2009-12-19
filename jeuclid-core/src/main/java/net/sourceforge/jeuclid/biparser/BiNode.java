@@ -1,11 +1,13 @@
 package net.sourceforge.jeuclid.biparser;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 public class BiNode extends ABiNode {
 
     private ABiNode child;
     private int childOffset;
+    private boolean invalid;
 
     // Node
     public BiNode(int childOffset, Node node) {
@@ -39,7 +41,10 @@ public class BiNode extends ABiNode {
     }
 
     public ABiNode setChild(ABiNode abiNode) {
-        abiNode.setPrevious(this);
+        if (abiNode != null) {
+            abiNode.setPrevious(this);
+        }
+
         child = abiNode;
         return child;
     }
@@ -55,7 +60,7 @@ public class BiNode extends ABiNode {
 
     @Override
     public ABiNode getABiNodeAt(int offset, int length, int totalOffset) {
-        System.out.println("getABi Node offset=" + offset + " with length=" + length + " at node '" + getNodeName() + "' with length=" + getLength());
+        //       System.out.println("getABi Node offset=" + offset + " with length=" + length + " at node '" + getNodeName() + "' with length=" + getLength());
 
         ABiNode result;
 
@@ -64,10 +69,10 @@ public class BiNode extends ABiNode {
         if (offset == 0) {                      // position before node
 
 
-            return getParent();    
+            return getParent();
 
 
-         //   return getPrevious(); // ????
+            //   return getPrevious(); // ????
 
 
         } else if (offset < childOffset) {      // start position in open tag
@@ -101,8 +106,67 @@ public class BiNode extends ABiNode {
     }
 
     @Override
+    public void remove(BiTree biTree, int offset, int length, int totalOffset) {
+        Node parent;
+
+        setTotalOffset(totalOffset);
+
+        System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
+
+        // ---------------- SIBLING ----------------
+        if (offset >= getLength()) {
+            System.out.println("forward to sibling");
+
+            getSibling().remove(biTree, offset - getLength(), length, totalOffset + getLength());   // forward to sibling
+
+        } // ---------------- CHILDREN ----------------
+        else if (offset >= childOffset && offset + length <= childOffset + getLengthOfChildren()) {
+            System.out.println("forward to child");
+
+            child.remove(biTree, offset - childOffset, length, totalOffset + childOffset);
+        } else {
+
+            System.out.println("start & end positions in tags");
+
+            parent = getNode().getParentNode();
+
+          //          Node element;
+        //element = ((Document)biTree.getDocument()).createElement("mi");
+        //element.appendChild(((Document)biTree.getDocument()).createTextNode("#"));
+         //   parent.insertBefore(element, getNode());
+
+            parent.insertBefore(biTree.createInvalidNode(), getNode());
+
+
+            parent.removeChild(getNode());
+
+            invalid = true;
+            changeLengthRec(-length);
+        }
+    }
+
+    public int getLengthOfChildren() {
+        int length = 0;
+        ABiNode childTmp;
+
+        if (child != null) {
+            length += child.getLength();            // length of first child
+
+            childTmp = child.getSibling();
+            while (childTmp != null) { // length of 2nd - nth children
+                length += childTmp.getLength();
+                childTmp =
+                        childTmp.getSibling();
+            }
+
+        }
+
+        return length;
+    }
+
+    @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer("[NODE ");
+        StringBuffer sb = new StringBuffer("[" + (invalid == false ? "" : "INVALID ") + "NODE ");
 
         sb.append("length: ");
         sb.append(getLength());
@@ -119,10 +183,14 @@ public class BiNode extends ABiNode {
         String nl = System.getProperty("line.separator");
 
         sb.append(":");
-        for (int i = 0; i <= level; i++) {
+        for (int i = 0; i <=
+                level; i++) {
             sb.append(" ");
         }
 
+        if (invalid == true) {
+            sb.append("INVALID ");
+        }
         sb.append("<");
         sb.append(getNodeName());
         sb.append(">");
@@ -133,6 +201,7 @@ public class BiNode extends ABiNode {
             if (childOffset < 10) {
                 sb.append("0");
             }
+
         }
         sb.append(childOffset);
         sb.append(nl);
@@ -142,6 +211,7 @@ public class BiNode extends ABiNode {
             if (getSibling() != null) {
                 sb.append(nl);
             }
+
         }
 
         if (getSibling() != null) {

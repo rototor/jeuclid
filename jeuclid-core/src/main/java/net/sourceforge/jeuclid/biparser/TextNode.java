@@ -1,6 +1,5 @@
 package net.sourceforge.jeuclid.biparser;
 
-
 import org.w3c.dom.Node;
 
 public class TextNode extends ABiNode {
@@ -21,7 +20,7 @@ public class TextNode extends ABiNode {
         return Type.TEXT;
     }
 
-    public void updateText(String text, int change) {
+    private void updateText(String text, int change) {
         getNode().setTextContent(text);
         changeLengthRec(change);
     }
@@ -33,24 +32,53 @@ public class TextNode extends ABiNode {
         setTotalOffset(totalOffset);
 
         if (offset <= getLength()) {            // start position in this node
-            if (offset+length <= getLength()) {
+            if (offset + length <= getLength()) {
                 return this;                    // end position in this node
             }
 
             return getParent();                 // end position in following node(s)
-        } else {                                
+        } else {
             return null;                        // position is not in this node
+        }
+    }
+
+    private void remove(BiTree biTree) {
+        BiNode parent;
+
+        System.out.println("remove text node");
+
+        parent = (BiNode) getParent();
+        parent.getNode().removeChild(getNode());        // remove DOM node
+
+        parent.setChild(null);                          // remove from bitree
+        parent.changeLengthRec(-getLength());
+    }
+
+    @Override
+    public void remove(BiTree biTree, int offset, int length, int totalOffset) {
+        setTotalOffset(totalOffset);
+
+        System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
+
+        if (offset == 0 && length == getLength()) {     // remove this node
+
+            this.remove(biTree);
+
+        } else {                                        // change text & length
+
+            getNode().setTextContent(biTree.getText().substring(totalOffset, biTree.getText().indexOf("</", totalOffset)));
+            changeLengthRec(-length);
         }
     }
 
     @Override
     public ABiNode addSibling(ABiNode abiNode) {
-       throw new UnsupportedOperationException("addSibling at textnode not allowed");
+        throw new UnsupportedOperationException("addSibling at textnode not allowed");
     }
 
     @Override
     public ABiNode getSibling() {
-       throw new UnsupportedOperationException("getSibling at textnode not allowed");
+        return null;
     }
 
     public String getText() {
@@ -61,7 +89,7 @@ public class TextNode extends ABiNode {
     public String toString() {
         StringBuffer sb = new StringBuffer("[TEXT ");
 
-        sb.append("length:" );
+        sb.append("length:");
         sb.append(getLength());
         sb.append(" '");
         sb.append(getText().replaceAll(System.getProperty("line.separator"), "#"));
