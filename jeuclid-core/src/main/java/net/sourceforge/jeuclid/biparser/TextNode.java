@@ -1,13 +1,28 @@
 package net.sourceforge.jeuclid.biparser;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 public class TextNode extends ABiNode {
 
-    // text
-    public TextNode(int length, Node node) {
-        super(node);
+    private String text;
+
+    public TextNode(int length, String text) {
         setLength(length);
+        this.text = text;
+    }
+
+    @Override
+    public Node createDOMSubtree(Document doc) {
+        Text textNode;
+
+        textNode = doc.createTextNode(text);
+
+        text = null;
+
+        setNode(textNode);
+        return textNode;
     }
 
     @Override
@@ -26,23 +41,16 @@ public class TextNode extends ABiNode {
     }
 
     @Override
-    public ABiNode getABiNodeAt(int offset, int length, int totalOffset) {
-//        System.out.println("getABi Node offset=" + offset + " with length="+length+" at text node '" + getText()+"' with length="+this.length);
-
+    public void insert(BiTree biTree, int offset, int length, int totalOffset) {
         setTotalOffset(totalOffset);
 
-        if (offset <= getLength()) {            // start position in this node
-            if (offset + length <= getLength()) {
-                return this;                    // end position in this node
-            }
+        System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
 
-            return getParent();                 // end position in following node(s)
-        } else {
-            return null;                        // position is not in this node
-        }
+        getNode().setTextContent(biTree.getText().substring(totalOffset, biTree.getText().indexOf("</", totalOffset)));
+        changeLengthRec(length);
     }
 
-    private void remove(BiTree biTree) {
+    private void remove() {
         BiNode parent;
 
         System.out.println("remove text node");
@@ -62,7 +70,7 @@ public class TextNode extends ABiNode {
 
         if (offset == 0 && length == getLength()) {     // remove this node
 
-            this.remove(biTree);
+            this.remove();
 
         } else {                                        // change text & length
 
@@ -82,7 +90,13 @@ public class TextNode extends ABiNode {
     }
 
     public String getText() {
-        return getNode().getTextContent();
+        if (text != null) {
+            return text;
+        } else if (getNode() != null) {
+            return getNode().getTextContent();
+        } else {
+            return null;
+        }
     }
 
     @Override

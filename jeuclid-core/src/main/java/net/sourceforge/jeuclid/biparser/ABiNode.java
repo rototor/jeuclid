@@ -1,5 +1,6 @@
 package net.sourceforge.jeuclid.biparser;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 public abstract class ABiNode {
@@ -17,10 +18,6 @@ public abstract class ABiNode {
 
         NODE, EMPTY, TEXT
     };
-
-    public ABiNode(Node node) {
-        this.node = node;
-    }
 
     public int getTotalOffset() {
         return totalOffset;
@@ -107,9 +104,11 @@ public abstract class ABiNode {
         this.node = node;
     }
 
-    abstract public ABiNode getABiNodeAt(int offset, int length, int totalOffset);
+    abstract public void insert(BiTree biTree, int offset, int length, int totalOffset);
 
     abstract public void remove(BiTree biTree, int offset, int length, int totalOffset);
+
+    abstract public Node createDOMSubtree(Document doc);
 
     @Override
     abstract public String toString();
