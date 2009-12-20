@@ -92,7 +92,11 @@ public class JEuclidSAXHandler extends DefaultHandler {
         // check startposition of first tag
         if (previousPosition == 0) {
             startPosition = content.indexOf("<" + eName);
-            tree.newEmtpyNode(0, startPosition);
+            
+            if (startPosition > 0) {
+                tree.newEmtpyNode(0, startPosition);
+            }
+
             textBuffer = null;
         } else {
             startPosition = content.lastIndexOf("<" + eName, position);

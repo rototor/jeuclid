@@ -1,11 +1,18 @@
 package net.sourceforge.jeuclid.biparser;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
 public class EmptyNode extends ABiNode {
 
     // Node
     public EmptyNode(int length) {
-        super(null);
         setLength(length);
+    }
+
+    @Override
+    public Node createDOMSubtree(Document doc) {
+        return null;
     }
 
     @Override
@@ -14,23 +21,17 @@ public class EmptyNode extends ABiNode {
     }
 
     @Override
-    public ABiNode getABiNodeAt(int offset, int length, int totalOffset) {
-//        System.out.println("getABi Node offset=" + offset + " with length="+length+" at empty node with length=" + this.length);
-
+    public void insert(BiTree biTree, int offset, int length, int totalOffset) {
         setTotalOffset(totalOffset);
 
-        if (offset <= getLength()) {            // start position in this node
-            if (offset + length <= getLength()) {
-                return this;                    // end position in this node
-            }
+        System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
 
-            return getParent();                 // end position in following node(s)
+        if (offset <= getLength()) {            // start position in this node
+
+            changeLengthRec(length);
+
         } else {                                // start position outside this node
-            if (getSibling() != null) {
-                return getSibling().getABiNodeAt(offset - getLength(), length, totalOffset + getLength());   // forward to sibling
-            } else {
-                return null;                    // forward to parent
-            }
+            getSibling().insert(biTree, offset - getLength(), length, totalOffset + getLength());   // forward to sibling
         }
     }
 
@@ -54,13 +55,13 @@ public class EmptyNode extends ABiNode {
     public void remove(BiTree biTree, int offset, int length, int totalOffset) {
         setTotalOffset(totalOffset);
 
-        System.out.println("remove "+toString()+" offset=" + offset + " length=" + length);
+        System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
 
         if (offset <= getLength()) {            // start position in this node
 
             if (offset == 0 && length >= getLength()) {     // remove this node
 
-                this.remove(biTree);           
+                this.remove(biTree);
 
                 // forward remainder to sibling
                 if (length > getLength()) {
@@ -72,7 +73,7 @@ public class EmptyNode extends ABiNode {
                 if (offset + length <= getLength()) {   // end position in this node
 
                     changeLengthRec(-length);
-                
+
                 } else {                                // end position outside this node
 
                     changeLengthRec(offset - getLength());

@@ -1,22 +1,81 @@
 package net.sourceforge.jeuclid.biparser;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.xml.sax.Attributes;
 
 public class BiNode extends ABiNode {
 
     private ABiNode child;
     private int childOffset;
     private boolean invalid;
+    /** dom infos */
+    String namespaceURI;
+    String eName;
+    Attributes attrs;
 
     // Node
-    public BiNode(int childOffset, Node node) {
-        super(node);
+    public BiNode(int childOffset, String namespaceURI, String eName, Attributes attrs) {
         this.childOffset = childOffset;
+        this.namespaceURI = namespaceURI;
+        this.eName = eName;
+        this.attrs = attrs;
+    }
+
+    @Override
+    public Node createDOMSubtree(Document doc) {
+        Element element;
+        int i;
+        String aName;
+        ABiNode tmp;
+        Node childNode;
+
+        element = doc.createElementNS(namespaceURI, eName);
+
+        // add attributes
+        if (attrs != null) {
+            for (i = 0; i < attrs.getLength(); i++) {
+                aName = attrs.getLocalName(i); // Attr name
+
+                if ("".equals(aName)) {
+                    aName = attrs.getQName(i);
+                }
+
+                element.setAttribute(aName, attrs.getValue(i));
+            }
+        }
+
+        if (child != null) {
+            tmp = child;
+
+            while (tmp != null) {
+                childNode = tmp.createDOMSubtree(doc);
+
+                if (childNode != null) {
+                    element.appendChild(childNode);
+                }
+
+                tmp = tmp.getSibling();
+            }
+        }
+
+        namespaceURI = null;
+        eName = null;
+        attrs = null;
+
+        setNode(element);
+        return element;
     }
 
     public String getNodeName() {
-        return getNode().getNodeName();
+        if (eName != null) {
+            return eName;
+        } else if (getNode() != null) {
+            return getNode().getNodeName();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -40,17 +99,21 @@ public class BiNode extends ABiNode {
         }
     }
 
-    public ABiNode setChild(ABiNode abiNode) {
-        if (abiNode != null) {
-            abiNode.setPrevious(this);
+    public ABiNode setChild(ABiNode child) {
+        if (child != null) {
+            child.setPrevious(this);
         }
 
-        child = abiNode;
+        this.child = child;
         return child;
     }
 
     public boolean hasChild() {
         return child != null;
+    }
+
+    public ABiNode getChild() {
+        return child;
     }
 
     @Override
@@ -59,56 +122,36 @@ public class BiNode extends ABiNode {
     }
 
     @Override
-    public ABiNode getABiNodeAt(int offset, int length, int totalOffset) {
-        //       System.out.println("getABi Node offset=" + offset + " with length=" + length + " at node '" + getNodeName() + "' with length=" + getLength());
-
-        ABiNode result;
-
+    public void insert(BiTree biTree, int offset, int length, int totalOffset) {
         setTotalOffset(totalOffset);
 
-        if (offset == 0) {                      // position before node
+        System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
 
+        // ---------------- SIBLING ----------------
+        if (offset >= getLength()) {
+            System.out.println("forward to sibling");
 
-            return getParent();
+            getSibling().insert(biTree, offset - getLength(), length, totalOffset + getLength());   // forward to sibling
 
+        } // ---------------- CHILDREN ----------------
+        else if (offset >= childOffset && offset <= childOffset + getLengthOfChildren()) {
+            System.out.println("forward to child");
 
-            //   return getPrevious(); // ????
+            child.insert(biTree, offset - childOffset, length, totalOffset + childOffset);
+        } else {
 
+            System.out.println("start position in tags");
 
-        } else if (offset < childOffset) {      // start position in open tag
-            if (offset + length < childOffset) {
-                return this;                    // end position in open tag
-            }
-
-            return getParent();                 // end position outside open tag
-        }
-
-        if (offset < getLength()) {                 // start position in a child node or this
-
-            if (offset + length < getLength()) {    // end position in a child node or this
-                result = child.getABiNodeAt(offset - childOffset, length, totalOffset + childOffset);
-
-                if (result == null) {               // position not in (text-) child
-                    return this;
-                }
-
-                return result;
-            }
-
-            return getParent();                     // end position in close tag
-        } else {                                    // start position not in this node
-            if (getSibling() != null) {
-                return getSibling().getABiNodeAt(offset - getLength(), length, totalOffset + getLength());   // forward to sibling
+            if (invalid == true) {
+                reparse(biTree, biTree.getText().substring(totalOffset, totalOffset+getLength()+length));
             } else {
-                return null;                        // position is not in this node
+                addInvalidTextNode(biTree, length);
             }
         }
     }
 
     @Override
     public void remove(BiTree biTree, int offset, int length, int totalOffset) {
-        Node parent;
-
         setTotalOffset(totalOffset);
 
         System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
@@ -128,21 +171,75 @@ public class BiNode extends ABiNode {
 
             System.out.println("start & end positions in tags");
 
-            parent = getNode().getParentNode();
-
-          //          Node element;
-        //element = ((Document)biTree.getDocument()).createElement("mi");
-        //element.appendChild(((Document)biTree.getDocument()).createTextNode("#"));
-         //   parent.insertBefore(element, getNode());
-
-            parent.insertBefore(biTree.createInvalidNode(), getNode());
-
-
-            parent.removeChild(getNode());
-
-            invalid = true;
-            changeLengthRec(-length);
+            if (invalid == true) {
+                reparse(biTree, biTree.getText().substring(totalOffset, totalOffset+getLength()-length));
+            } else {
+                addInvalidTextNode(biTree, -length);
+            }
         }
+    }
+
+    private void addInvalidTextNode(BiTree biTree, int length) {
+        Node parent;
+        Element element;
+
+        // add INVALID-textnode to DOM tree
+        element = ((Document)biTree.getDocument()).createElement("mi");
+        element.setAttribute("mathcolor", "#F00");
+        element.appendChild(((Document)biTree.getDocument()).createTextNode("#"));
+
+        // insert INVALID-textnode, remove invalid subtree in DOM tree
+        parent = getNode().getParentNode();
+        parent.insertBefore(element, getNode());
+        parent.removeChild(getNode());
+
+        setNode(element);
+
+        // remove bi-subtree
+        child = null;
+        invalid = true;
+        changeLengthRec(length);
+
+        System.out.println("add invalid: parebt"+getParent());
+    }
+
+    private void reparse(BiTree biTree, String text) {
+        BiTree treePart;
+        Node domValid;
+        BiNode parent;
+
+        System.out.println("INVALID TAG - reparse '"+text.replaceAll("\n", "#")+"'");
+
+        treePart = SAXBiParser.getInstance().parse(text);
+
+        if (treePart != null) {
+            parent = (BiNode) getParent();
+
+            treePart.getRoot().addSibling(getSibling());
+
+            if (getPrevious() == parent) {             // invalid node is 1st child
+                ((BiNode)getParent()).setChild(treePart.getRoot());
+            } else {                                        // 2nd - nth child
+                getPrevious().setSibling(treePart.getRoot());
+            }
+
+            domValid = treePart.getRoot().createDOMSubtree((Document) biTree.getDocument());
+
+            parent.getNode().insertBefore(domValid, getNode());
+            parent.getNode().removeChild(getNode());
+
+            parent.changeLengthRec(treePart.getRoot().getLength() - getLength());
+
+            invalid = false;
+        }
+    }
+
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
+    }
+
+    public boolean isInvalid() {
+        return invalid;
     }
 
     public int getLengthOfChildren() {
@@ -191,19 +288,23 @@ public class BiNode extends ABiNode {
         if (invalid == true) {
             sb.append("INVALID ");
         }
-        sb.append("<");
-        sb.append(getNodeName());
-        sb.append(">");
 
-        sb.append(" tag: ");
-        if (childOffset < 100) {
-            sb.append("0");
-            if (childOffset < 10) {
+        if (invalid == false) {
+            sb.append("<");
+            sb.append(getNodeName());
+            sb.append(">");
+            
+            sb.append(" tag: ");
+            if (childOffset < 100) {
                 sb.append("0");
-            }
+                if (childOffset < 10) {
+                    sb.append("0");
+                }
 
+            }
+            sb.append(childOffset);
         }
-        sb.append(childOffset);
+
         sb.append(nl);
 
         if (child != null) {
