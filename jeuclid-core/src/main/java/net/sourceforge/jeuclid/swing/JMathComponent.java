@@ -321,7 +321,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      *            the content to set.
      */
     public void setContent(final String contentString) {
-       long start, end;
+        long start, end;
 
         start = System.nanoTime();
         biTree = SAXBiParser.getInstance().parse(contentString);
@@ -329,6 +329,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
         // parse finished
         if (biTree != null) {
             biTree.createDOMTree();       // create DOM tree
+
             end = System.nanoTime();
 
             JMathComponent.LOGGER.info(" -- parse="+((end-start)/1000000d)+"[ms]");
@@ -337,10 +338,13 @@ public final class JMathComponent extends JComponent implements SwingConstants {
             //JMathComponent.LOGGER.info(MathMLSerializer.serializeDocument(biTree.getDocument(), true, false));
             //JMathComponent.LOGGER.info(printTreeRec(biTree.getDocument(), 0));
 
+        //    JMathComponent.LOGGER.info(biTree.toString());
+
             this.setDocument(biTree.getDocument());
         } else {
 
-            throw new RuntimeException("SAX Parse problem");
+            // can be if text is to long (> 4096 chars)
+            //throw new RuntimeException("SAX Parse problem");
             /*
             // ----------- old ------------
             JMathComponent.LOGGER.info(" ---- setDocument with old DOM parser -----");

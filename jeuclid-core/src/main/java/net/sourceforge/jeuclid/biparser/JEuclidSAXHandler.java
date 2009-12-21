@@ -89,23 +89,14 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
         contentPosition();
 
-        // check startposition of first tag
-        if (previousPosition == 0) {
-            startPosition = content.indexOf("<" + eName);
-            
-            if (startPosition > 0) {
-                tree.newEmtpyNode(0, startPosition);
-            }
+        // get startposition of tag
+        startPosition = content.lastIndexOf("<" + eName, position);
 
-            textBuffer = null;
-        } else {
-            startPosition = content.lastIndexOf("<" + eName, position);
-        }
-
-        debug("---- start="+startPosition+" pos="+position+ " buffer="+(startPosition-previousPosition)+nl());
+        debug("tag-start="+startPosition+" tag-end="+position+ " buffer="+(startPosition-previousPosition)+
+                " textbuffer="+(textBuffer==null?0:textBuffer.length())+nl());
 
         // unnecessary text
-        if (textBuffer != null && textBuffer.length() > 0) {
+        if (previousPosition == 0 || startPosition-previousPosition > 0) {
             tree.newEmtpyNode(previousPosition, startPosition - previousPosition);
 
             debug("empty length=" + (startPosition - previousPosition) + nl());
@@ -130,17 +121,18 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
         contentPosition();      // calc end-position of close tag
 
-        if (textBuffer != null && textBuffer.length() > 0) {
+        // textnode
+        if (textBuffer != null && textBuffer.length() > 0 && tree.allowNewTextNode()) {
+
             text = new String(textBuffer);
-            
-            if (tree.allowNewTextNode()) {      // create new text element
-                tree.newTextNode(previousPosition, content.lastIndexOf("</", position) - previousPosition, text);
-            } else {                            // create new empty element
-                tree.newEmtpyNode(previousPosition, content.lastIndexOf("</", position) - previousPosition);
-            }
+            tree.newTextNode(previousPosition, content.lastIndexOf("</", position) - previousPosition, text);
+            textBuffer = null;
 
             debug("'" + text.replaceAll(System.getProperty("line.separator"), "#") + "'" + nl());
-            textBuffer = null;
+
+        }  // empty - textnode
+        else if (!tree.allowNewTextNode()) {
+            tree.newEmtpyNode(previousPosition, content.lastIndexOf("</", position) - previousPosition);
         }
 
         tree.closeElement(position);
@@ -157,7 +149,6 @@ public class JEuclidSAXHandler extends DefaultHandler {
         } else {
             textBuffer.append(s);
         }
-
     }
 
     public BiTree getTree() {
@@ -172,8 +163,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
         int column = locator.getColumnNumber();
         int l;
 
-        previousPosition =
-                position;
+        previousPosition = position;
 
         debug("old line=" + lastLine);
         for (l = lastLine; l <
