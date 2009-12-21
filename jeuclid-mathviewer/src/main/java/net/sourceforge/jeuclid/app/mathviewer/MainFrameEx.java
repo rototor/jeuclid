@@ -691,40 +691,6 @@ refreshMenuItem
         return this.xmlEditor;
     }
 
-    /**
-     * print some usefull information to console about documentEvent
-     */
-    private void printInfo(DocumentEvent documentEvent) {
-        StringBuffer sb = new StringBuffer();
-        DocumentEvent.EventType type = documentEvent.getType();
-
-        if (type.equals(DocumentEvent.EventType.CHANGE)) {
-            sb.append("CHANGE ");
-        } else if (type.equals(DocumentEvent.EventType.INSERT)) {
-            sb.append("INSERT ");
-        } else if (type.equals(DocumentEvent.EventType.REMOVE)) {
-            sb.append("REMOVE ");
-        }
-
-        sb.append("[Offset: ");
-        sb.append(documentEvent.getOffset());
-        sb.append("] [Length: ");
-        sb.append(documentEvent.getLength());
-        sb.append("]");
-
-        if (type.equals(DocumentEvent.EventType.INSERT) && (documentEvent.getLength() < 20)) {
-            try {
-                sb.append(" '");
-                sb.append(documentEvent.getDocument().getText(documentEvent.getOffset(), documentEvent.getLength()));
-                sb.append("'");
-            } catch (BadLocationException ex) {
-                LOGGER.error(ex);
-            }
-        }
-
-        LOGGER.info(sb);
-    }
-
     private void updateFromTextArea() {
         long start, end;
 
@@ -749,8 +715,6 @@ refreshMenuItem
     private void updateFromTextArea(DocumentEvent documentevent) {
         long start, end;
 
-        printInfo(documentevent);
-
         start = System.nanoTime();
 
         try {
@@ -761,6 +725,7 @@ refreshMenuItem
             // handling.
         } catch (final RuntimeException e) {
             // CHECKSTYLE:ON
+            e.printStackTrace();
             this.xmlEditor.setBackground(Color.getHSBColor(0f, 0.2f, 1.0f));
         }
 
@@ -791,7 +756,6 @@ refreshMenuItem
             try {
                 final String newContent = (String) content
                         .getTransferData(DataFlavor.stringFlavor);
-                this.getMathComponent().setContent(newContent);
                 this.getXMLEditor().setText(newContent);
                 // CHECKSTYLE:OFF
                 // in this case, we want to explicitly provide catch-all error
