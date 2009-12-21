@@ -25,11 +25,11 @@ public class BiNode extends ABiNode {
 
     @Override
     public Node createDOMSubtree(Document doc) {
-        Element element;
         int i;
         String aName;
-        ABiNode tmp;
         Node childNode;
+        Element element;
+        ABiNode tmp;
 
         element = doc.createElementNS(namespaceURI, eName);
 
@@ -45,6 +45,7 @@ public class BiNode extends ABiNode {
                 element.setAttribute(aName, attrs.getValue(i));
             }
         }
+
 
         if (child != null) {
             tmp = child;
@@ -142,7 +143,6 @@ public class BiNode extends ABiNode {
 
         } // ---------------- CHILDREN ----------------
         else if (!invalid && offset >= childOffset && offset <= childOffset + getLengthOfChildren()) {
-            System.out.println("forward to child");
 
             // new textchild
             if (child == null) {
@@ -152,7 +152,6 @@ public class BiNode extends ABiNode {
             }
         } // ---------------- THIS ----------------
         else {
-
             System.out.println("start position in tags, invalid=" + invalid);
 
             reparseResult = reparse(biTree, biTree.getText().substring(totalOffset, totalOffset + getLength() + length), length);
@@ -283,7 +282,7 @@ public class BiNode extends ABiNode {
 
             parent = (BiNode) getParent();
 
-            domValid = treePart.getRoot().createDOMSubtree((Document) biTree.getDocument());
+            domValid = treePart.getDOMTree((Document) biTree.getDocument());
 
             treePart.getRoot().addSibling(getSibling());
 

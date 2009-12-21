@@ -28,10 +28,12 @@ public class BiTree {
         startPositions = new ArrayList<Integer>();
     }
 
+    /** create a dom tree from bitree and append to doc */
     public void createDOMTree() {
-        Node rootChild;
+        Node subtree;
 
         doc = new DocumentElement();
+
         /*
         DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = null;
@@ -41,8 +43,19 @@ public class BiTree {
         } catch (ParserConfigurationException ex) {
         Logger.getLogger(BiTree.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         doc = docBuilder.newDocument();*/
+
+        subtree = getDOMTree(doc);
+
+        if (subtree != null) {
+            doc.appendChild(subtree);
+        }
+    }
+
+    /** create a dom tree from bitree */
+    public Node getDOMTree(Document doc) {
+        Node rootChild;
 
         if (root.getType() == ABiNode.Type.EMPTY) {
             rootChild = root.getSibling().createDOMSubtree(doc);
@@ -50,9 +63,7 @@ public class BiTree {
             rootChild = root.createDOMSubtree(doc);
         }
 
-        if (rootChild != null) {
-            doc.appendChild(rootChild);
-        }
+        return rootChild;
     }
 
     public ABiNode getRoot() {
@@ -112,13 +123,18 @@ public class BiTree {
     public void insert(int offset, int length, String text) {
         this.text = text;
         root.insert(this, offset, length, 0);
-        System.out.println(toString());
+     //   System.out.println(toString());
     }
 
     public void remove(int offset, int length, String text) {
         this.text = text;
+
+        if (length > text.length()) {      // remove all
+            // reparse exception
+        }
+
         root.remove(this, offset, length, 0);
-        System.out.println(toString());
+       // System.out.println(toString());
     }
 
     public void setRoot(ABiNode root) {

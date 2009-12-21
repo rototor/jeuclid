@@ -83,7 +83,13 @@ public class EmptyNode extends ABiNode {
                 }
             }
         } else {                                // start position outside this node
-            getSibling().remove(biTree, offset - getLength(), length, totalOffset + getLength());   // forward to sibling
+
+            if (getSibling() == null) {
+                // ??
+                // new empty node
+            } else {
+                getSibling().remove(biTree, offset - getLength(), length, totalOffset + getLength());   // forward to sibling
+            }
         }
     }
 
