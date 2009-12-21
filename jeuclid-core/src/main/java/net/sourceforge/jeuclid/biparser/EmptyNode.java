@@ -70,11 +70,11 @@ public class EmptyNode extends ABiNode {
 
             } else {                                        // change length
 
-                if (offset + length <= getLength()) {   // end position in this node
+                if (offset + length <= getLength()) {       // end position in this node
 
                     changeLengthRec(-length);
 
-                } else {                                // end position outside this node
+                } else {                                    // end position outside this node
 
                     changeLengthRec(offset - getLength());
 

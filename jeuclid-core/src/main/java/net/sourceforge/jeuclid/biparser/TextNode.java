@@ -42,11 +42,16 @@ public class TextNode extends ABiNode {
 
     @Override
     public void insert(BiTree biTree, int offset, int length, int totalOffset) {
+        String newText;
+
         setTotalOffset(totalOffset);
 
         System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
 
-        getNode().setTextContent(biTree.getText().substring(totalOffset, biTree.getText().indexOf("</", totalOffset)));
+        newText = biTree.getText();
+        newText = newText.substring(totalOffset, newText.indexOf("</", totalOffset));
+        getNode().setNodeValue(newText);
+
         changeLengthRec(length);
     }
 
@@ -64,6 +69,8 @@ public class TextNode extends ABiNode {
 
     @Override
     public void remove(BiTree biTree, int offset, int length, int totalOffset) {
+        String newText;
+
         setTotalOffset(totalOffset);
 
         System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
@@ -73,8 +80,10 @@ public class TextNode extends ABiNode {
             this.remove();
 
         } else {                                        // change text & length
+            newText = biTree.getText();
+            newText = newText.substring(totalOffset, newText.indexOf("</", totalOffset));
+            getNode().setNodeValue(newText);
 
-            getNode().setTextContent(biTree.getText().substring(totalOffset, biTree.getText().indexOf("</", totalOffset)));
             changeLengthRec(-length);
         }
     }

@@ -123,6 +123,8 @@ public class BiNode extends ABiNode {
 
     @Override
     public void insert(BiTree biTree, int offset, int length, int totalOffset) {
+        boolean reparseResult;
+
         setTotalOffset(totalOffset);
 
         System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
@@ -131,106 +133,190 @@ public class BiNode extends ABiNode {
         if (offset >= getLength()) {
             System.out.println("forward to sibling");
 
-            getSibling().insert(biTree, offset - getLength(), length, totalOffset + getLength());   // forward to sibling
+            if (getSibling() == null) {
+                // ??
+                // new empty node
+            } else {
+                getSibling().insert(biTree, offset - getLength(), length, totalOffset + getLength());   // forward to sibling
+            }
 
         } // ---------------- CHILDREN ----------------
-        else if (offset >= childOffset && offset <= childOffset + getLengthOfChildren()) {
+        else if (!invalid && offset >= childOffset && offset <= childOffset + getLengthOfChildren()) {
             System.out.println("forward to child");
 
-            child.insert(biTree, offset - childOffset, length, totalOffset + childOffset);
-        } else {
-
-            System.out.println("start position in tags");
-
-            if (invalid == true) {
-                reparse(biTree, biTree.getText().substring(totalOffset, totalOffset+getLength()+length));
+            // new textchild
+            if (child == null) {
+                // reparse ??
             } else {
-                addInvalidTextNode(biTree, length);
+                child.insert(biTree, offset - childOffset, length, totalOffset + childOffset);
+            }
+        } // ---------------- THIS ----------------
+        else {
+
+            System.out.println("start position in tags, invalid=" + invalid);
+
+            reparseResult = reparse(biTree, biTree.getText().substring(totalOffset, totalOffset + getLength() + length), length);
+
+            if (invalid == false && reparseResult == false) {
+                addInvalidTextNode(biTree);
             }
         }
     }
 
     @Override
     public void remove(BiTree biTree, int offset, int length, int totalOffset) {
+        boolean reparseResult;
+
         setTotalOffset(totalOffset);
 
         System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
 
-        // ---------------- SIBLING ----------------
-        if (offset >= getLength()) {
+        // ---------------- remove node ----------------
+        if (offset == 0 && length >= getLength()) {
+
+            this.remove(biTree);
+
+            // concat empty nodes
+            if (getPrevious() != null && getSibling() != null &&
+                    getPrevious().getType() == ABiNode.Type.EMPTY &&
+                    getSibling().getType() == ABiNode.Type.EMPTY) {
+
+
+                System.out.println("concat empty nodes " + getPrevious() + " / " + getSibling());
+
+                getPrevious().setLength(getSibling().getLength() + getPrevious().getLength());
+                getPrevious().setSibling(getSibling().getSibling());
+
+                // forward remainder to 'new sibling'
+                if (length > getLength()) {
+                    getPrevious().remove(biTree, 0, length - getLength(), totalOffset);
+                }
+            } else {
+                // forward remainder to sibling
+                if (length > getLength()) {
+                    getSibling().remove(biTree, 0, length - getLength(), totalOffset);
+                }
+            }
+        } // ---------------- SIBLING ----------------
+        else if (offset >= getLength()) {
             System.out.println("forward to sibling");
 
-            getSibling().remove(biTree, offset - getLength(), length, totalOffset + getLength());   // forward to sibling
-
+            // new textchild
+            if (getSibling() == null) {
+                // reparse ??
+            } else {
+                getSibling().remove(biTree, offset - getLength(), length, totalOffset + getLength());   // forward to sibling
+            }
         } // ---------------- CHILDREN ----------------
-        else if (offset >= childOffset && offset + length <= childOffset + getLengthOfChildren()) {
-            System.out.println("forward to child");
-
+        else if (!invalid && offset >= childOffset && offset + length <= childOffset + getLengthOfChildren()) {
             child.remove(biTree, offset - childOffset, length, totalOffset + childOffset);
-        } else {
+        } // ---------------- THIS ----------------
+        else {
 
             System.out.println("start & end positions in tags");
 
-            if (invalid == true) {
-                reparse(biTree, biTree.getText().substring(totalOffset, totalOffset+getLength()-length));
-            } else {
-                addInvalidTextNode(biTree, -length);
+            reparseResult = reparse(biTree, biTree.getText().substring(totalOffset, totalOffset + getLength() - length), -length);
+
+            if (invalid == false && reparseResult == false) {
+                addInvalidTextNode(biTree);
             }
         }
     }
 
-    private void addInvalidTextNode(BiTree biTree, int length) {
-        Node parent;
-        Element element;
+    private void remove(BiTree biTree) {
+        System.out.println("remove node " + toString() + " parent=" + getParent() + " previous=" + getPrevious() + " sibling=" + getSibling());
 
-        // add INVALID-textnode to DOM tree
-        element = ((Document)biTree.getDocument()).createElement("mi");
-        element.setAttribute("mathcolor", "#F00");
-        element.appendChild(((Document)biTree.getDocument()).createTextNode("#"));
+        if (getParent() == null) {          // node is root
 
-        // insert INVALID-textnode, remove invalid subtree in DOM tree
-        parent = getNode().getParentNode();
-        parent.insertBefore(element, getNode());
-        parent.removeChild(getNode());
+            if (getPrevious() == null) {        // no emtpy text on left side
+                biTree.setRoot(getSibling());
+            } else {                            // empty text on left side
+                getPrevious().setSibling(getSibling());
+            }
 
-        setNode(element);
+        } else {
+            getParent().changeLengthRec(-getLength());
 
-        // remove bi-subtree
-        child = null;
-        invalid = true;
-        changeLengthRec(length);
-
-        System.out.println("add invalid: parebt"+getParent());
+            if (getPrevious() == getParent()) {      // node is 1st child
+                ((BiNode) getParent()).setChild(getSibling());
+            } else {                                        // node is 2nd - nth child
+                getPrevious().setSibling(getSibling());
+            }
+        }
     }
 
-    private void reparse(BiTree biTree, String text) {
+    private void addInvalidTextNode(BiTree biTree) {
+        Document doc;
+        Element element;
+
+        // create INVALID-textnode in DOM tree
+        doc = (Document) biTree.getDocument();
+        element = doc.createElement("mi");
+        element.setAttribute("mathcolor", "#F00");
+        element.appendChild(doc.createTextNode("#"));
+
+        if (getNode().getParentNode() == null) {
+            biTree.getDocument().replaceChild(element, getNode());
+        } else {
+            getNode().getParentNode().replaceChild(element, getNode());
+        }
+
+        // remove bi-subtree
+        setNode(element);
+        child = null;
+        invalid = true;
+    }
+
+    private boolean reparse(BiTree biTree, String text, int length) {
         BiTree treePart;
         Node domValid;
         BiNode parent;
 
-        System.out.println("INVALID TAG - reparse '"+text.replaceAll("\n", "#")+"'");
+        System.out.println("INVALID TAG - reparse '" + text.replaceAll("\n", "#") + "'");
 
         treePart = SAXBiParser.getInstance().parse(text);
 
+        // parse successfull
         if (treePart != null) {
+
+            System.out.println("reparse successfull");
+
             parent = (BiNode) getParent();
-
-            treePart.getRoot().addSibling(getSibling());
-
-            if (getPrevious() == parent) {             // invalid node is 1st child
-                ((BiNode)getParent()).setChild(treePart.getRoot());
-            } else {                                        // 2nd - nth child
-                getPrevious().setSibling(treePart.getRoot());
-            }
 
             domValid = treePart.getRoot().createDOMSubtree((Document) biTree.getDocument());
 
-            parent.getNode().insertBefore(domValid, getNode());
-            parent.getNode().removeChild(getNode());
+            treePart.getRoot().addSibling(getSibling());
 
-            parent.changeLengthRec(treePart.getRoot().getLength() - getLength());
+            if (parent == null) {          // node is root
+
+                if (getPrevious() == null) {    // no emtpy text
+                    biTree.setRoot(treePart.getRoot());
+                } else {                        // empty text on left side of root
+                    getPrevious().setSibling(treePart.getRoot());
+                }
+
+                // replace invalid DOM node
+                biTree.getDocument().replaceChild(domValid, getNode());
+
+            } else {
+                if (getPrevious() == parent) {                      // invalid node is 1st child
+                    ((BiNode) getParent()).setChild(treePart.getRoot());
+                } else {                                            // 2nd - nth child
+                    getPrevious().setSibling(treePart.getRoot());
+                }
+
+                // replace invalid DOM node
+                parent.getNode().replaceChild(domValid, getNode());
+                parent.changeLengthRec(length);
+            }
 
             invalid = false;
+            return true;
+        } else {
+            System.out.println("reparse not successfull");
+
+            changeLengthRec(length);
+            return false;
         }
     }
 
@@ -249,7 +335,8 @@ public class BiNode extends ABiNode {
         if (child != null) {
             length += child.getLength();            // length of first child
 
-            childTmp = child.getSibling();
+            childTmp =
+                    child.getSibling();
             while (childTmp != null) { // length of 2nd - nth children
                 length += childTmp.getLength();
                 childTmp =
@@ -267,15 +354,21 @@ public class BiNode extends ABiNode {
 
         sb.append("length: ");
         sb.append(getLength());
-        sb.append(" <");
-        sb.append(getNodeName());
-        sb.append(">]");
+
+        if (!invalid) {
+            sb.append(" <");
+            sb.append(getNodeName());
+            sb.append(">");
+        }
+
+        sb.append("]");
 
         return sb.toString();
     }
 
     @Override
-    public String toString(int level) {
+    public String toString(
+            int level) {
         StringBuffer sb = new StringBuffer(formatLength());
         String nl = System.getProperty("line.separator");
 
@@ -293,7 +386,7 @@ public class BiNode extends ABiNode {
             sb.append("<");
             sb.append(getNodeName());
             sb.append(">");
-            
+
             sb.append(" tag: ");
             if (childOffset < 100) {
                 sb.append("0");

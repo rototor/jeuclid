@@ -326,14 +326,13 @@ public final class JMathComponent extends JComponent implements SwingConstants {
         start = System.nanoTime();
         biTree = SAXBiParser.getInstance().parse(contentString);
 
-
         // parse finished
         if (biTree != null) {
             biTree.createDOMTree();       // create DOM tree
             end = System.nanoTime();
 
             JMathComponent.LOGGER.info(" -- parse="+((end-start)/1000000d)+"[ms]");
-            JMathComponent.LOGGER.info(biTree);
+      //      JMathComponent.LOGGER.info(biTree);
             
             //JMathComponent.LOGGER.info(MathMLSerializer.serializeDocument(biTree.getDocument(), true, false));
             //JMathComponent.LOGGER.info(printTreeRec(biTree.getDocument(), 0));
@@ -341,7 +340,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
             this.setDocument(biTree.getDocument());
         } else {
 
-            throw new RuntimeException("SAX PArse problem");
+            throw new RuntimeException("SAX Parse problem");
             /*
             // ----------- old ------------
             JMathComponent.LOGGER.info(" ---- setDocument with old DOM parser -----");
@@ -406,7 +405,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
         long start, end;
         DocumentEvent.EventType type;
 
-        if (biTree == null) {
+        if (biTree == null || biTree.getRoot() == null) {
             setContent(text);
         } else {
 
@@ -414,9 +413,11 @@ public final class JMathComponent extends JComponent implements SwingConstants {
             type = documentEvent.getType();
 
             if (type == DocumentEvent.EventType.INSERT) {
+
                 biTree.insert(documentEvent.getOffset(), documentEvent.getLength(), text);
 
             } else if (type == DocumentEvent.EventType.REMOVE) {
+
                 biTree.remove(documentEvent.getOffset(), documentEvent.getLength(), text);
 
             } else {
@@ -427,8 +428,8 @@ public final class JMathComponent extends JComponent implements SwingConstants {
 
             end = System.nanoTime();
             JMathComponent.LOGGER.info(" -- parse="+((end-start)/1000000d)+"[ms]");
-            JMathComponent.LOGGER.info(biTree);
-            JMathComponent.LOGGER.info(biTree.toStringDOM());
+       //     JMathComponent.LOGGER.info(biTree);
+      //      JMathComponent.LOGGER.info(biTree.toStringDOM());
 
             this.setDocument(biTree.getDocument());
         }

@@ -65,13 +65,15 @@ public abstract class ABiNode {
      */
     public ABiNode addSibling(ABiNode abiNode) {
         if (sibling == null) {                   // 2nd child
-            abiNode.previous = this;
+            if (abiNode != null) {
+                abiNode.previous = this;
+            }
             sibling = abiNode;
         } else {                                 // 3rd - nth child
             sibling.addSibling(abiNode);
         }
 
-        if (abiNode.getType() == Type.NODE) {
+        if (abiNode != null && abiNode.getType() == Type.NODE) {
             return abiNode;
         } else {
             return this;
