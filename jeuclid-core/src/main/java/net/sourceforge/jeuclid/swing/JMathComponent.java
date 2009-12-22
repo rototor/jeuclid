@@ -28,6 +28,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -42,6 +44,7 @@ import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.biparser.BiTree;
 import net.sourceforge.jeuclid.biparser.JEuclidSAXHandler;
+import net.sourceforge.jeuclid.biparser.ReparseException;
 import net.sourceforge.jeuclid.biparser.SAXBiParser;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
@@ -417,13 +420,17 @@ public final class JMathComponent extends JComponent implements SwingConstants {
             type = documentEvent.getType();
 
             if (type == DocumentEvent.EventType.INSERT) {
-
-                biTree.insert(documentEvent.getOffset(), documentEvent.getLength(), text);
-
+                try {
+                    biTree.insert(documentEvent.getOffset(), documentEvent.getLength(), text);
+                } catch (ReparseException ex) {
+                    setContent(text);
+                }
             } else if (type == DocumentEvent.EventType.REMOVE) {
-
-                biTree.remove(documentEvent.getOffset(), documentEvent.getLength(), text);
-
+                try {
+                    biTree.remove(documentEvent.getOffset(), documentEvent.getLength(), text);
+                } catch (ReparseException ex) {
+                    setContent(text);
+                }
             } else {
 
                 // change event ????

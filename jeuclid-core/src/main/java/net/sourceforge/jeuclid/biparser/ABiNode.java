@@ -31,7 +31,7 @@ public abstract class ABiNode {
         return previous;
     }
 
-    public ABiNode getParent() {
+    public BiNode getParent() {
         if (previous == null) {
             return null;                     // root
         }
@@ -39,7 +39,7 @@ public abstract class ABiNode {
         if (previous.sibling == this) {      // check if previous isn't a "real parent"
             return previous.getParent();
         } else {                             // previous is "real parent"
-            return previous;
+            return (BiNode) previous;
         }
     }
 
@@ -106,9 +106,9 @@ public abstract class ABiNode {
         this.node = node;
     }
 
-    abstract public void insert(BiTree biTree, int offset, int length, int totalOffset);
+    abstract public void insert(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException;
 
-    abstract public void remove(BiTree biTree, int offset, int length, int totalOffset);
+    abstract public void remove(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException;
 
     abstract public Node createDOMSubtree(Document doc);
 
