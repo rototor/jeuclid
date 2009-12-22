@@ -21,12 +21,23 @@ public class EmptyNode extends ABiNode {
     }
 
     @Override
-    public void insert(BiTree biTree, int offset, int length, int totalOffset) {
-        setTotalOffset(totalOffset);
+    public void insert(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
+        int position;
+        String insert;
 
         System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
 
+        setTotalOffset(totalOffset);
+
         if (offset <= getLength()) {            // start position in this node
+
+            position = totalOffset + offset;
+            insert = biTree.getText().substring(position, position + length);
+
+            // check for reparsing
+            if (insert.contains("<") || insert.contains(">")) {
+                throw new ReparseException();
+            }
 
             changeLengthRec(length);
 
@@ -39,8 +50,15 @@ public class EmptyNode extends ABiNode {
         System.out.println("remove empty node");
 
         if (getParent() == null) {
-            biTree.setRoot(getSibling());                   // node is root
+
+            if (getPrevious() == null) {            // node is root
+                biTree.setRoot(getSibling());
+            } else {                                // node is at root level
+                getPrevious().setSibling(getSibling());
+            }
+            
         } else {
+
             getParent().changeLengthRec(-getLength());
 
             if (getPrevious() == getParent()) {             // node is 1st child
@@ -52,7 +70,7 @@ public class EmptyNode extends ABiNode {
     }
 
     @Override
-    public void remove(BiTree biTree, int offset, int length, int totalOffset) {
+    public void remove(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
         setTotalOffset(totalOffset);
 
         System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
@@ -64,7 +82,7 @@ public class EmptyNode extends ABiNode {
                 this.remove(biTree);
 
                 // forward remainder to sibling
-                if (length > getLength()) {
+                if (length > getLength() && getSibling() != null) {
                     getSibling().remove(biTree, 0, length - getLength(), totalOffset);
                 }
 

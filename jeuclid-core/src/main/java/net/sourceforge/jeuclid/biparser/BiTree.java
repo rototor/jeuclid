@@ -92,7 +92,7 @@ public class BiTree {
     }
 
     public void closeElement(int end) {
-        ABiNode parent;
+        BiNode parent;
         ((BiNode) currentBiTree).setLength(end - startPositions.get(startPositions.size() - 1));
 
         parent = currentBiTree.getParent();
@@ -120,21 +120,16 @@ public class BiTree {
         }
     }
 
-    public void insert(int offset, int length, String text) {
+    public void insert(int offset, int length, String text) throws ReparseException {
         this.text = text;
         root.insert(this, offset, length, 0);
-     //   System.out.println(toString());
+  //      System.out.println(toString());
     }
 
-    public void remove(int offset, int length, String text) {
+    public void remove(int offset, int length, String text) throws ReparseException {
         this.text = text;
-
-        if (length > text.length()) {      // remove all
-            // reparse exception
-        }
-
         root.remove(this, offset, length, 0);
-       // System.out.println(toString());
+//        System.out.println(toString());
     }
 
     public void setRoot(ABiNode root) {

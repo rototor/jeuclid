@@ -90,19 +90,19 @@ public class JEuclidSAXHandler extends DefaultHandler {
         contentPosition();
 
         // get startposition of tag
-        startPosition = content.lastIndexOf("<" + eName, position);
+        startPosition = content.lastIndexOf("<" + eName, position-1);
 
         debug("tag-start="+startPosition+" tag-end="+position+ " buffer="+(startPosition-previousPosition)+
                 " textbuffer="+(textBuffer==null?0:textBuffer.length())+nl());
 
         // unnecessary text
-        if (previousPosition == 0 || startPosition-previousPosition > 0) {
-            tree.newEmtpyNode(previousPosition, startPosition - previousPosition);
-
+        if (startPosition-previousPosition > 0) {
             debug("empty length=" + (startPosition - previousPosition) + nl());
+
+            tree.newEmtpyNode(previousPosition, startPosition - previousPosition);
             textBuffer = null;
         }
-        
+
         printElement(namespaceURI, eName, true, startPosition, attrs);
 
         // new node
@@ -111,28 +111,29 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
     @Override
     public void endElement(String namespaceURI, String sName, String qName) {
-
         String eName = sName; // element name
         String text;
+        int emptyLength;
 
         if ("".equals(eName)) {
             eName = qName; // not namespaceAware
         }
 
         contentPosition();      // calc end-position of close tag
+        emptyLength = content.lastIndexOf("</", position-1) - previousPosition;
 
         // textnode
         if (textBuffer != null && textBuffer.length() > 0 && tree.allowNewTextNode()) {
 
             text = new String(textBuffer);
-            tree.newTextNode(previousPosition, content.lastIndexOf("</", position) - previousPosition, text);
+            tree.newTextNode(previousPosition, emptyLength, text);
             textBuffer = null;
 
             debug("'" + text.replaceAll(System.getProperty("line.separator"), "#") + "'" + nl());
 
         }  // empty - textnode
-        else if (!tree.allowNewTextNode()) {
-            tree.newEmtpyNode(previousPosition, content.lastIndexOf("</", position) - previousPosition);
+        else if (!tree.allowNewTextNode() &&  emptyLength > 0) {
+            tree.newEmtpyNode(previousPosition, emptyLength);
         }
 
         tree.closeElement(position);
@@ -166,8 +167,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
         previousPosition = position;
 
         debug("old line=" + lastLine);
-        for (l = lastLine; l <
-                line; l++) {
+        for (l = lastLine; l < line; l++) {
             position = 1 + content.indexOf(System.getProperty("line.separator"), position);
         }
 
@@ -178,8 +178,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
         }
 
         lastLine = line;
-        lastColumn =
-                column;
+        lastColumn = column;
         debug(" - new line=" + lastLine + " - old pos=" + previousPosition + " new pos=" + position + nl());
 
         return position;
@@ -213,8 +212,10 @@ public class JEuclidSAXHandler extends DefaultHandler {
             }
         }
 
-        sb.append(" ");
-        sb.append(namespaceURI);
+        if (namespaceURI != null && namespaceURI.length() > 0) {
+            sb.append(" ");
+            sb.append(namespaceURI);
+        }
         sb.append(">");
         sb.append(System.getProperty("line.separator"));
 

@@ -26,8 +26,8 @@ public class TextNode extends ABiNode {
     }
 
     @Override
-    public ABiNode getParent() {
-        return getPrevious();
+    public BiNode getParent() {
+        return (BiNode) getPrevious();
     }
 
     @Override
@@ -35,57 +35,14 @@ public class TextNode extends ABiNode {
         return Type.TEXT;
     }
 
-    private void updateText(String text, int change) {
-        getNode().setTextContent(text);
-        changeLengthRec(change);
+    @Override
+    public void insert(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
+        throw new ReparseException();
     }
 
     @Override
-    public void insert(BiTree biTree, int offset, int length, int totalOffset) {
-        String newText;
-
-        setTotalOffset(totalOffset);
-
-        System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
-
-        newText = biTree.getText();
-        newText = newText.substring(totalOffset, newText.indexOf("</", totalOffset));
-        getNode().setNodeValue(newText);
-
-        changeLengthRec(length);
-    }
-
-    private void remove() {
-        BiNode parent;
-
-        System.out.println("remove text node");
-
-        parent = (BiNode) getParent();
-        parent.getNode().removeChild(getNode());        // remove DOM node
-
-        parent.setChild(null);                          // remove from bitree
-        parent.changeLengthRec(-getLength());
-    }
-
-    @Override
-    public void remove(BiTree biTree, int offset, int length, int totalOffset) {
-        String newText;
-
-        setTotalOffset(totalOffset);
-
-        System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
-
-        if (offset == 0 && length == getLength()) {     // remove this node
-
-            this.remove();
-
-        } else {                                        // change text & length
-            newText = biTree.getText();
-            newText = newText.substring(totalOffset, newText.indexOf("</", totalOffset));
-            getNode().setNodeValue(newText);
-
-            changeLengthRec(-length);
-        }
+    public void remove(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException  {
+        throw new ReparseException();
     }
 
     @Override
