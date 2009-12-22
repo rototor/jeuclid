@@ -1,5 +1,7 @@
 package net.sourceforge.jeuclid.biparser;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -123,29 +125,28 @@ public class BiNode extends ABiNode {
     }
 
     @Override
-    public void insert(BiTree biTree, int offset, int length, int totalOffset) {
+    public void insert(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
         int position;
         String insert;
         ABiNode newChild;
         BiNode parent;
 
-        System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
+        // System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
 
         setTotalOffset(totalOffset);
 
-        // ---------------- SIBLING ----------------
+        // ---------------- after this or SIBLING ----------------
         if (offset >= getLength()) {
 
+            position = totalOffset + getLength();
+
             // append new empty node or reparse
-            if (getSibling() == null) {
+            if (getSibling() == null && !invalid) {
                 System.out.println("new sibling");
 
-                position = totalOffset + getLength();
                 insert = biTree.getText().substring(position, position + length);
 
                 if (insert.contains("<") || insert.contains(">")) {
-
-                    // parse
                     parseAndReplace(biTree, biTree.getText().substring(totalOffset, position + length), length);
                 } else {
 
@@ -156,20 +157,24 @@ public class BiNode extends ABiNode {
                         parent.changeLengthRec(length);
                     }
                 }
-            } // forward to sibling
+            } // reparse of forward to sibling
             else {
-                System.out.println("forward to sibling");
-                try {
+                // reparse if node is invalid
+                if (offset == getLength() && invalid) {
+                   // System.out.println("reparse invalid");
+                    parseAndReplace(biTree, biTree.getText().substring(totalOffset, position + length), length);
+
+                }// forward to sibling
+                else {
+                   // System.out.println("forward to sibling");
                     getSibling().insert(biTree, offset - getLength(), length, totalOffset + getLength()); // forward to sibling
-                } catch (ReparseException ex) {
-                    throw new RuntimeException(ex);
                 }
             }
 
         } // ---------------- CHILDREN ----------------
         else if (child != null && !invalid && offset >= childOffset && offset <= childOffset + getLengthOfChildren()) {
 
-            System.out.println("forward to child");
+            // System.out.println("forward to child");
 
             try {
                 child.insert(biTree, offset - childOffset, length, totalOffset + childOffset);
@@ -180,19 +185,14 @@ public class BiNode extends ABiNode {
             }
         } // ---------------- before THIS ----------------
         else if (offset == 0 && !invalid) {
-            System.out.print("before this");
+            // System.out.print("before this");
 
             // put new empty node in front or reparse
             insert = biTree.getText().substring(totalOffset, totalOffset + length);
 
-            // parse
             if (insert.contains("<") || insert.contains(">")) {
-                System.out.println(" - parse");
-
                 parseAndReplace(biTree, biTree.getText().substring(totalOffset, totalOffset + getLength() + length), length);
             } else {
-                System.out.println(" - new empty");
-
                 // add new empty in front
                 parent = getParent();
                 newChild = new EmptyNode(length);
@@ -208,21 +208,24 @@ public class BiNode extends ABiNode {
             }
         } // ---------------- THIS ----------------
         else {
-            System.out.println("start position in tags, invalid=" + invalid);
+            // System.out.println("start position in tags, invalid=" + invalid);
+            if (invalid) {
+                throw new ReparseException();
+            }
 
             parseAndReplace(biTree, biTree.getText().substring(totalOffset, totalOffset + getLength() + length), length);
         }
     }
 
     @Override
-    public void remove(BiTree biTree, int offset, int length, int totalOffset) {
+    public void remove(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
         ABiNode sibling;
 
-        System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
+        // System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
 
         setTotalOffset(totalOffset);
 
-        // ---------------- remove node ----------------
+        // ---------------- REMOVE THIS ----------------
         if (offset == 0 && length >= getLength()) {
 
             this.remove(biTree);
@@ -232,39 +235,30 @@ public class BiNode extends ABiNode {
                     getPrevious().getType() == ABiNode.Type.EMPTY &&
                     getSibling().getType() == ABiNode.Type.EMPTY) {
 
-                System.out.println("concat empty nodes " + getPrevious() + " / " + getSibling());
+                // System.out.println("concat empty nodes " + getPrevious() + " / " + getSibling());
 
                 // set length and sibling of concated empty node
                 getPrevious().setLength(getSibling().getLength() + getPrevious().getLength());
                 getPrevious().setSibling(getSibling().getSibling());
 
                 sibling = getPrevious();
-            } // don' concat empty nodes
-            else {
+            } else {
                 sibling = getSibling();
             }
 
             // forward remainder to sibling
             if (length > getLength() && sibling != null) {
-                try {
-                    sibling.remove(biTree, 0, length - getLength(), totalOffset);
-                } catch (ReparseException ex) {
-                    throw new RuntimeException(ex);
-                }
+                sibling.remove(biTree, 0, length - getLength(), totalOffset);
             }
         } // ---------------- SIBLING ----------------
         else if (offset >= getLength()) {
-            System.out.println("forward to sibling");
-
-            try {
-                getSibling().remove(biTree, offset - getLength(), length, totalOffset + getLength()); // forward to sibling
-            } catch (ReparseException ex) {
-                throw new RuntimeException(ex);
-            }
+            // System.out.println("forward to sibling");
+            
+            getSibling().remove(biTree, offset - getLength(), length, totalOffset + getLength()); // forward to sibling
 
         } // ---------------- CHILDREN ----------------
         else if (child != null && !invalid && offset >= childOffset && offset + length <= childOffset + getLengthOfChildren()) {
-            System.out.println("forward to child");
+            // System.out.println("forward to child");
 
             try {
                 child.remove(biTree, offset - childOffset, length, totalOffset + childOffset);
@@ -274,14 +268,37 @@ public class BiNode extends ABiNode {
 
         } // ---------------- THIS ----------------
         else {
-            System.out.println("reparse this node");
+            // System.out.println("reparse this node");
 
             parseAndReplace(biTree, biTree.getText().substring(totalOffset, totalOffset + getLength() - length), -length);
+
+            // if node and previous are invalid, concat them
+            if (invalid && getPrevious() != null &&
+                getPrevious().getType() == ABiNode.Type.NODE && ((BiNode)getPrevious()).invalid) {
+
+                changeLengthRec(length);    // revert length chance, chance length next at upper leven
+                throw new ReparseException();
+            }
+
+            // if node and sibling are invalid, concat them
+            if (invalid && getSibling() != null &&
+                getSibling().getType() == ABiNode.Type.NODE && ((BiNode)getSibling()).invalid) {
+                
+                changeLengthRec(length);    // revert length chance, chance length next at upper leven
+                throw new ReparseException();
+            }
         }
     }
 
     private void remove(BiTree biTree) {
-        System.out.println("remove node " + toString() + " parent=" + getParent() + " previous=" + getPrevious() + " sibling=" + getSibling());
+        // System.out.println("remove node " + toString() + " parent=" + getParent() + " previous=" + getPrevious() + " sibling=" + getSibling());
+
+         // remove dom subtree
+        if (getNode().getParentNode() == null) {
+            biTree.getDocument().removeChild(getNode());
+        } else {
+            getNode().getParentNode().removeChild(getNode());
+        }
 
         if (getParent() == null) {          // node is root
 
@@ -329,18 +346,16 @@ public class BiNode extends ABiNode {
         Node domValid;
         BiNode parent;
 
-        System.out.print("parse '" + text.replaceAll("\n", "#") + "'");
+         System.out.print("parse '" + text.replaceAll("\n", "#") + "'");
 
         treePart = SAXBiParser.getInstance().parse(text);
 
         // parse successfull
         if (treePart != null) {
 
-            System.out.println(" - successfull");
+           System.out.println(" - successfull");
 
             parent = (BiNode) getParent();
-
-            System.out.println(treePart.toString());
 
             domValid = treePart.getDOMTree((Document) biTree.getDocument());
 

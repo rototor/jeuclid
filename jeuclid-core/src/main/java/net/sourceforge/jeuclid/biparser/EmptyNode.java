@@ -25,7 +25,7 @@ public class EmptyNode extends ABiNode {
         int position;
         String insert;
 
-        System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
+        // // System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
 
         setTotalOffset(totalOffset);
 
@@ -47,7 +47,7 @@ public class EmptyNode extends ABiNode {
     }
 
     private void remove(BiTree biTree) {
-        System.out.println("remove empty node");
+        // // System.out.println("remove empty node");
 
         if (getParent() == null) {
 
@@ -73,7 +73,7 @@ public class EmptyNode extends ABiNode {
     public void remove(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
         setTotalOffset(totalOffset);
 
-        System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
+        // System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
 
         if (offset <= getLength()) {            // start position in this node
 

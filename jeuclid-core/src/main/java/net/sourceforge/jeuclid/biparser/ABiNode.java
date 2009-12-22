@@ -85,6 +85,8 @@ public abstract class ABiNode {
     }
 
     public void changeLengthRec(int change) {
+        if (change == 0) return;
+
         length += change;
 
         if (getParent() != null) {
