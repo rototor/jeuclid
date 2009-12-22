@@ -324,82 +324,14 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      *            the content to set.
      */
     public void setContent(final String contentString) {
-        long start, end;
 
-        start = System.nanoTime();
         biTree = SAXBiParser.getInstance().parse(contentString);
 
         // parse finished
         if (biTree != null) {
             biTree.createDOMTree();       // create DOM tree
-
-            end = System.nanoTime();
-
-            JMathComponent.LOGGER.info(" -- parse="+((end-start)/1000000d)+"[ms]");
-      //      JMathComponent.LOGGER.info(biTree);
-            
-            //JMathComponent.LOGGER.info(MathMLSerializer.serializeDocument(biTree.getDocument(), true, false));
-            //JMathComponent.LOGGER.info(printTreeRec(biTree.getDocument(), 0));
-
-        //    JMathComponent.LOGGER.info(biTree.toString());
-
             this.setDocument(biTree.getDocument());
-        } else {
-
-            // can be if text is to long (> 4096 chars)
-            //throw new RuntimeException("SAX Parse problem");
-            /*
-            // ----------- old ------------
-            JMathComponent.LOGGER.info(" ---- setDocument with old DOM parser -----");
-            try {
-                Node n = MathMLParserSupport.parseString(contentString);
-
-                JMathComponent.LOGGER.info(MathMLSerializer.serializeDocument(n, true, false));
-                JMathComponent.LOGGER.info(printTreeRec(n, 0));
-                
-                end = System.nanoTime();
-
-            JMathComponent.LOGGER.info(" -- parse="+((end-start)/1000000d)+"[ms]");
-
-                this.setDocument(n);
-            } catch (final SAXException e) {
-                throw new RuntimeException(e);
-            } catch (final ParserConfigurationException e) {
-                throw new RuntimeException(e);
-            } catch (final IOException e) {
-                throw new RuntimeException(e);
-            }*/
         }
-    }
-
-    private String printTreeRec(Node n, int level) {
-        int i;
-        StringBuffer sb = new StringBuffer();
-
-        for(i=0; i<level; i++) {
-            sb.append(" ");
-        }
-
-        sb.append("name='"+n.getNodeName()+"' "+n.getNamespaceURI());
-
-        if (n.getChildNodes() != null) {
-            sb.append(" childs="+n.getChildNodes().getLength());
-
-        }
-
-        if (n.getNodeType()==Node.TEXT_NODE) {
-            sb.append(" text='"+n.getTextContent().replaceAll("\n", "#")+"'");
-        }
-        sb.append("\n");
-        
-        if (n.getChildNodes() != null) {
-            NodeList nl = n.getChildNodes();
-            for(i=0; i<nl.getLength(); i++) {
-                sb.append(printTreeRec(nl.item(i), level+1));
-            }            
-        }
-
-        return sb.toString();
     }
 
     /**
@@ -409,14 +341,12 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      *            the content to set.
      */
     public void setContent(DocumentEvent documentEvent, String text) {
-        long start, end;
         DocumentEvent.EventType type;
 
         if (biTree == null || biTree.getRoot() == null) {
             setContent(text);
         } else {
 
-            start = System.nanoTime();
             type = documentEvent.getType();
 
             if (type == DocumentEvent.EventType.INSERT) {
@@ -437,12 +367,9 @@ public final class JMathComponent extends JComponent implements SwingConstants {
                 throw new RuntimeException("change event.............");
             }
 
-            end = System.nanoTime();
-            JMathComponent.LOGGER.info(" -- parse="+((end-start)/1000000d)+"[ms]");
-       //     JMathComponent.LOGGER.info(biTree);
-      //      JMathComponent.LOGGER.info(biTree.toStringDOM());
-
-            this.setDocument(biTree.getDocument());
+            if (biTree.getDocument() != null) {
+                this.setDocument(biTree.getDocument());
+            }
         }
     }
 

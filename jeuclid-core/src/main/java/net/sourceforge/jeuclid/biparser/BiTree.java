@@ -123,13 +123,13 @@ public class BiTree {
     public void insert(int offset, int length, String text) throws ReparseException {
         this.text = text;
         root.insert(this, offset, length, 0);
-  //      System.out.println(toString());
+        System.out.println(toString());
     }
 
     public void remove(int offset, int length, String text) throws ReparseException {
         this.text = text;
         root.remove(this, offset, length, 0);
-//        System.out.println(toString());
+        System.out.println(toString());
     }
 
     public void setRoot(ABiNode root) {
