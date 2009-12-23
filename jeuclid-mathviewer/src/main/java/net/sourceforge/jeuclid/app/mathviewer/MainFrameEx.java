@@ -706,10 +706,6 @@ refreshMenuItem
     }
 
     private void updateFromTextArea(DocumentEvent documentevent) {
-        long start, end;
-
-        start = System.nanoTime();
-
         try {
             this.getMathComponent().setContent(documentevent, this.getXMLEditor().getText());
             this.xmlEditor.setBackground(Color.getHSBColor(0.3f, 0.2f, 1.0f));
@@ -721,10 +717,6 @@ refreshMenuItem
             e.printStackTrace();
             this.xmlEditor.setBackground(Color.getHSBColor(0f, 0.2f, 1.0f));
         }
-
-        end = System.nanoTime();
-
-        LOGGER.info(" --- draw="+(end-start)/1000000d+"[ms]");
     }
 
     
