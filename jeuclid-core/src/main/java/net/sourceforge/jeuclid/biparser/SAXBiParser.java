@@ -30,16 +30,22 @@ public class SAXBiParser {
         BiTree tree;
         DefaultHandler handler;
         SAXParserFactory factory;
+        SAXParser saxParser;
+        StringReader inStream;
+        InputSource inSource;
 
         tree = new BiTree();
         handler = new JEuclidSAXHandler(text, tree);
         factory = SAXParserFactory.newInstance();
+        inStream = new StringReader(text);
+        inSource = new InputSource(inStream);
 
         try {
-            SAXParser saxParser = factory.newSAXParser();
             factory.setNamespaceAware(true);
-            StringReader inStream = new StringReader(text);
-            InputSource inSource = new InputSource(inStream);
+            factory.setValidating(false);
+            factory.setFeature("http://xml.org/sax/features/validation", false);
+            
+            saxParser = factory.newSAXParser();            
             saxParser.parse(inSource, handler);
         } catch (SAXParseException e) {
             tree = null;

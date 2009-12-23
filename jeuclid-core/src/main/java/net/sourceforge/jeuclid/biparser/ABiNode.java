@@ -3,34 +3,42 @@ package net.sourceforge.jeuclid.biparser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+/**
+ * this class is used to store typcial information about a xml-node
+ *
+ * @author dominik
+ */
 public abstract class ABiNode {
 
+    /** previous node, null if node is root */
     private ABiNode previous;
+    /** sibling node, can be null */
     private ABiNode sibling;
+    /** reference to node in DOM-tree */
     private Node node;
-    /** total offset to root (not always correct) */
-    private int totalOffset;
-    /** maximum length, only for formatted output (debugging) */
-    private static int maxLength = 3;
+    /** length of node in characters */
     private int length;
 
-    public enum Type {
-
-        NODE, EMPTY, TEXT
-    };
-
-    public int getTotalOffset() {
-        return totalOffset;
-    }
-
-    public void setTotalOffset(int totalOffset) {
-        this.totalOffset = totalOffset;
-    }
-
+    /**
+     * get previous node, null if node is root
+     * @return previous
+     */
     public ABiNode getPrevious() {
         return previous;
     }
 
+    /**
+     * set previous for this node
+     * @param previous previous node for this node
+     */
+    public void setPrevious(ABiNode previous) {
+        this.previous = previous;
+    }
+
+    /**
+     * get parent node, null if node is root
+     * @return parent
+     */
     public BiNode getParent() {
         if (previous == null) {
             return null;                     // root
@@ -43,49 +51,79 @@ public abstract class ABiNode {
         }
     }
 
+    /**
+     * get sibling node, can be null
+     * @return sibling
+     */
     public ABiNode getSibling() {
         return sibling;
     }
 
-    public ABiNode setSibling(ABiNode sibling) {
+    /**
+     * set sibling for this node, and set previous of sibling to this
+     * @param sibling new sibling for this node
+     */
+    public void setSibling(ABiNode sibling) {
         if (sibling != null) {
-            sibling.previous = this;        
+            sibling.previous = this;
         }
+
         this.sibling = sibling;
-
-        return this.sibling;
-    }
-
-    public void setPrevious(ABiNode previous) {
-        this.previous = previous;
     }
 
     /**
-     * @param offset to parent
+     * add sibling to a node, not possible at a textnode
+     * if node already has a sibling, forward to sibling
+     * @param sibling new sibling for this node
      */
-    public ABiNode addSibling(ABiNode abiNode) {
-        if (sibling == null) {                   // 2nd child
-            if (abiNode != null) {
-                abiNode.previous = this;
-            }
-            sibling = abiNode;
-        } else {                                 // 3rd - nth child
-            sibling.addSibling(abiNode);
-        }
-
-        if (abiNode != null && abiNode.getType() == Type.NODE) {
-            return abiNode;
-        } else {
-            return this;
+    public void addSibling(ABiNode sibling) {
+        if (this.sibling == null) {                 // 2nd child
+            setSibling(sibling);
+        } else {                                    // forward(3rd - nth child)
+            this.sibling.addSibling(sibling);
         }
     }
 
+    /**
+     * get reference to node in DOM-tree
+     * @return node in DOM-tree
+     */
+    public Node getNode() {
+        return node;
+    }
+
+    /**
+     * set reference to node in DOM-tree
+     * @param node reference in DOM-tree
+     */
+    public void setNode(Node node) {
+        this.node = node;
+    }
+
+    /**
+     * get length of node (number of characters)
+     * @return length of node
+     */
     public int getLength() {
         return length;
     }
 
+    /**
+     * set length of node
+     * @param length to set
+     */
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    /**
+     * change length of node and recursive of all parents
+     * @param change changevalue (can be positive or negative)
+     */
     public void changeLengthRec(int change) {
-        if (change == 0) return;
+        if (change == 0) {
+            return;
+        }
 
         length += change;
 
@@ -94,24 +132,59 @@ public abstract class ABiNode {
         }
     }
 
-    public void setLength(int length) {
-        this.length = length;
-    }
+    /**
+     * get the type of node, can be BiNode, EmptyNode or TextNode
+     */
+    abstract public BiType getType();
 
-    abstract public Type getType();
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void setNode(Node node) {
-        this.node = node;
-    }
-
+    /**
+     * insert characters to node
+     * @param biTree reference to BiTree to which this node contains
+     * @param offset position to insert characters
+     * @param length number of characters to insert
+     * @param totalOffset offset of node to begin of text
+     * @throws ReparseException
+     *
+     */
     abstract public void insert(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException;
 
+    /**
+     * remove characters from node
+     * @param biTree reference to BiTree to which this node contains
+     * @param offset position to remove characters
+     * @param length number of characters to remove
+     * @param totalOffset offset of node to begin of text
+     * @throws ReparseException
+     *
+     */
     abstract public void remove(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException;
 
+    /**
+     * helper method to insert or remove characters
+     * @param insert if true call insert-method else remove-method
+     * @param biTree reference to BiTree to which this node contains
+     * @param offset position to insert/remove characters
+     * @param length number of characters to insert/remove
+     * @param totalOffset offset of node to begin of text
+     * @throws ReparseException
+     */
+    protected void forwardToSibling(boolean insert, BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
+        if (getSibling() == null) {
+            throw new ReparseException();   // reparsing
+        } else {
+            if (insert) {
+                getSibling().insert(biTree, offset, length, totalOffset);
+            } else {
+                getSibling().remove(biTree, offset, length, totalOffset);
+            }
+        }
+    }
+
+    /**
+     * create a DOM-tree from node and all childrens
+     * @param doc Document to create DOM-tree
+     * @return root of DOM-tree
+     */
     abstract public Node createDOMSubtree(Document doc);
 
     @Override
@@ -119,8 +192,12 @@ public abstract class ABiNode {
 
     abstract public String toString(int level);
 
+    /**
+     * helper method for outputting the length of node
+     */
     public String formatLength() {
         int i;
+        int maxLength = 3;
         StringBuffer sb = new StringBuffer();
 
         for (i = 1; i <= maxLength && 1 > getLength() / (Math.pow(10, maxLength - i)); i++) {
