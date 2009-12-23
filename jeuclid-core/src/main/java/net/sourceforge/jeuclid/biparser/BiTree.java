@@ -57,7 +57,7 @@ public class BiTree {
     public Node getDOMTree(Document doc) {
         Node rootChild;
 
-        if (root.getType() == ABiNode.Type.EMPTY) {
+        if (root.getType() == BiType.EMPTY) {
             rootChild = root.getSibling().createDOMSubtree(doc);
         } else {
             rootChild = root.createDOMSubtree(doc);
@@ -71,6 +71,7 @@ public class BiTree {
     }
 
     public void newElement(int offset, int childOffset, String namespaceURI, String eName, Attributes attrs) {
+        BiNode biNode;
 
         /*   TODO???
         if ((namespaceURI == null || namespaceURI.equals("")) && doc != null && doc.getFirstChild() != null) {
@@ -83,8 +84,15 @@ public class BiTree {
             root = new BiNode(childOffset, namespaceURI, eName, attrs);     // new root node
             currentBiTree = root;
         } else {
-            if (currentBiTree.getType() == ABiNode.Type.EMPTY) {        // node is empty node, only possible at start
-                currentBiTree = currentBiTree.addSibling(new BiNode(childOffset, namespaceURI, eName, attrs));
+            if (currentBiTree.getType() == BiType.EMPTY) {        // node is empty node, only possible at start
+
+
+                //currentBiTree = currentBiTree.addSibling(new BiNode(childOffset, namespaceURI, eName, attrs));
+                biNode = new BiNode(childOffset, namespaceURI, eName, attrs);
+                currentBiTree.addSibling(biNode);
+                currentBiTree = biNode;
+
+
             } else {                                                    // node (default case)
                 currentBiTree = ((BiNode) currentBiTree).addChild(new BiNode(childOffset, namespaceURI, eName, attrs));
             }
@@ -123,13 +131,11 @@ public class BiTree {
     public void insert(int offset, int length, String text) throws ReparseException {
         this.text = text;
         root.insert(this, offset, length, 0);
-        System.out.println(toString());
     }
 
     public void remove(int offset, int length, String text) throws ReparseException {
         this.text = text;
         root.remove(this, offset, length, 0);
-        System.out.println(toString());
     }
 
     public void setRoot(ABiNode root) {

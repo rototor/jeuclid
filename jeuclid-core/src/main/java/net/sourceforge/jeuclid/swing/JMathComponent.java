@@ -367,7 +367,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
                 throw new RuntimeException("change event.............");
             }
 
-            if (biTree.getDocument() != null) {
+            if (biTree != null && biTree.getDocument() != null) {
                 this.setDocument(biTree.getDocument());
             }
         }

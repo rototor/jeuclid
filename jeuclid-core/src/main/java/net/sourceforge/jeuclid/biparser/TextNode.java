@@ -31,8 +31,8 @@ public class TextNode extends ABiNode {
     }
 
     @Override
-    public Type getType() {
-        return Type.TEXT;
+    public BiType getType() {
+        return BiType.TEXT;
     }
 
     @Override
@@ -46,7 +46,12 @@ public class TextNode extends ABiNode {
     }
 
     @Override
-    public ABiNode addSibling(ABiNode abiNode) {
+    protected void forwardToSibling(boolean insert, BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
+        throw new UnsupportedOperationException("forwardToSibling at textnode not allowed");
+    }
+
+    @Override
+    public void addSibling(ABiNode abiNode) {
         throw new UnsupportedOperationException("addSibling at textnode not allowed");
     }
 

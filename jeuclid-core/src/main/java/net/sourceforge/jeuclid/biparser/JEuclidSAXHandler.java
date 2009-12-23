@@ -26,7 +26,7 @@ package net.sourceforge.jeuclid.biparser;
  * sont des marques de fabrique ou des marques deposees de Sun
  * Microsystems, Inc. aux Etats-Unis et dans d'autres pays.
  */
-
+import java.io.StringReader;
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -57,6 +57,12 @@ public class JEuclidSAXHandler extends DefaultHandler {
     @Override
     public void setDocumentLocator(Locator locator) {
         this.locator = locator;
+    }
+
+    @Override
+    public InputSource resolveEntity(String publicId, String systemId) {
+        System.out.println("Ignoring " + publicId + ", " + systemId);
+        return new InputSource(new StringReader(""));
     }
 
     // ===========================================================
@@ -90,13 +96,13 @@ public class JEuclidSAXHandler extends DefaultHandler {
         contentPosition();
 
         // get startposition of tag
-        startPosition = content.lastIndexOf("<" + eName, position-1);
+        startPosition = content.lastIndexOf("<" + eName, position - 1);
 
-        debug("tag-start="+startPosition+" tag-end="+position+ " buffer="+(startPosition-previousPosition)+
-                " textbuffer="+(textBuffer==null?0:textBuffer.length())+nl());
+        debug("tag-start=" + startPosition + " tag-end=" + position + " buffer=" + (startPosition - previousPosition) +
+                " textbuffer=" + (textBuffer == null ? 0 : textBuffer.length()) + nl());
 
         // unnecessary text
-        if (startPosition-previousPosition > 0) {
+        if (startPosition - previousPosition > 0) {
             debug("empty length=" + (startPosition - previousPosition) + nl());
 
             tree.newEmtpyNode(previousPosition, startPosition - previousPosition);
@@ -120,7 +126,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
         }
 
         contentPosition();      // calc end-position of close tag
-        emptyLength = content.lastIndexOf("</", position-1) - previousPosition;
+        emptyLength = content.lastIndexOf("</", position - 1) - previousPosition;
 
         // textnode
         if (textBuffer != null && textBuffer.length() > 0 && tree.allowNewTextNode()) {
@@ -131,8 +137,8 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
             debug("'" + text.replaceAll(System.getProperty("line.separator"), "#") + "'" + nl());
 
-        }  // empty - textnode
-        else if (!tree.allowNewTextNode() &&  emptyLength > 0) {
+        } // empty - textnode
+        else if (!tree.allowNewTextNode() && emptyLength > 0) {
             tree.newEmtpyNode(previousPosition, emptyLength);
         }
 
