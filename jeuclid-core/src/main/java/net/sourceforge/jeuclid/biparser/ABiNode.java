@@ -134,6 +134,7 @@ public abstract class ABiNode {
 
     /**
      * get the type of node, can be BiNode, EmptyNode or TextNode
+     * @return type of node
      */
     abstract public BiType getType();
 
@@ -181,11 +182,26 @@ public abstract class ABiNode {
     }
 
     /**
-     * create a DOM-tree from node and all childrens
+     * create a DOM-tree from node
      * @param doc Document to create DOM-tree
      * @return root of DOM-tree
      */
     abstract public Node createDOMSubtree(Document doc);
+
+     /**
+     * search a DOM node in this node
+     * if nodes are equal return offset to begin of inputtext, else -1
+     * @param node DOM node to search for
+     * @param totalOffset offset of node to begin of inputtext
+     * @return position of node in inputtext
+     */
+    public int searchNode(Node node, int totalOffset) {
+        if (this.node != null && this.node == node) {
+            return totalOffset;
+        }
+
+        return -1;
+    }
 
     @Override
     abstract public String toString();

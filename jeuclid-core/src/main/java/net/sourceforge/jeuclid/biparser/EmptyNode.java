@@ -3,29 +3,42 @@ package net.sourceforge.jeuclid.biparser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+/**
+ * this class is used to store specific information about a empty node
+ * the node cannot have children, but a sibling
+ *
+ * @author dominik
+ */
 public class EmptyNode extends ABiNode {
 
-    // Node
+    /**
+     * create a new EmptyNode
+     * @param length of EmptyNode
+     */
     public EmptyNode(int length) {
         setLength(length);
     }
 
-    @Override
-    public Node createDOMSubtree(Document doc) {
-        return null;
-    }
-
+    /**
+     * get the type of node
+     * @return EMPTY
+     */
     @Override
     public BiType getType() {
         return BiType.EMPTY;
     }
 
+    /** 
+     * insert characters in EmptyNode, reparse if characters contain '<' or '>'
+     * else change length of EmptyNode
+     * {@inheritDoc}
+     */
     @Override
     public void insert(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
         int position;
         String insert;
 
-        // // System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
+        // System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
 
         if (offset <= getLength()) {            // start position in this node
 
@@ -43,6 +56,10 @@ public class EmptyNode extends ABiNode {
         }
     }
 
+    /**
+     * remove characters from EmptyNode, reparse if length gets 0
+     * {@inheritDoc}
+     */
     @Override
     public void remove(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
         // System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
@@ -66,6 +83,27 @@ public class EmptyNode extends ABiNode {
         } else {                                // start position outside this node
             forwardToSibling(false, biTree, offset - getLength(), length, totalOffset + getLength());
         }
+    }
+
+    /**
+     * don't create a DOM-tree from EmptyNode (EmptyNode has no DOM node)
+     * @param doc Document to create DOM-tree
+     * @return null
+     */
+    @Override
+    public Node createDOMSubtree(Document doc) {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int searchNode(Node node, int totalOffset) {
+        // forward to sibling
+        if (getSibling() != null) {
+            return getSibling().searchNode(node, totalOffset + getLength());
+        }
+
+        return -1;
     }
 
     @Override

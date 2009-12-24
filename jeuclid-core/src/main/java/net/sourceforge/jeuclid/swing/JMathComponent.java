@@ -21,29 +21,19 @@ package net.sourceforge.jeuclid.swing;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
-import javax.swing.text.BadLocationException;
-import javax.xml.parsers.ParserConfigurationException;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.biparser.BiTree;
-import net.sourceforge.jeuclid.biparser.JEuclidSAXHandler;
 import net.sourceforge.jeuclid.biparser.ReparseException;
 import net.sourceforge.jeuclid.biparser.SAXBiParser;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
@@ -54,10 +44,6 @@ import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Displays MathML content in a Swing Component.
