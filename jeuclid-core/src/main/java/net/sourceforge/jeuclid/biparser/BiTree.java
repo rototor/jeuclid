@@ -2,49 +2,36 @@ package net.sourceforge.jeuclid.biparser;
 
 import java.util.ArrayList;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 import org.xml.sax.Attributes;
 
 public class BiTree {
 
+    /** document (DOM-tree) */
     private Document doc;
+    /** current position in tree */
     private ABiNode currentBiTree;
+    /** root of tree */
     private ABiNode root;
     /** save positions of open tags */
     private ArrayList<Integer> startPositions;
+    /** text of tree */
     private String text;
 
     public BiTree() {
         startPositions = new ArrayList<Integer>();
     }
 
-    /** create a dom tree from bitree and append to doc */
+    /**
+     * create a new DOM tree from bitree and save it
+     */
     public void createDOMTree() {
         Node subtree;
 
         doc = new DocumentElement();
-
-        /*
-        DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = null;
-
-        try {
-        docBuilder = dbfac.newDocumentBuilder();
-        } catch (ParserConfigurationException ex) {
-        Logger.getLogger(BiTree.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        doc = docBuilder.newDocument();*/
 
         subtree = getDOMTree(doc);
 
@@ -53,56 +40,70 @@ public class BiTree {
         }
     }
 
-    /** create a dom tree from bitree */
+    /**
+     * create a dom tree from bitree and return root
+     * @param doc document to create DOM tree
+     * @return root of DOM tree
+     */
     public Node getDOMTree(Document doc) {
-        Node rootChild;
+        Node treeRoot;
 
         if (root.getType() == BiType.EMPTY) {
-            rootChild = root.getSibling().createDOMSubtree(doc);
+            treeRoot = root.getSibling().createDOMSubtree(doc);
         } else {
-            rootChild = root.createDOMSubtree(doc);
+            treeRoot = root.createDOMSubtree(doc);
         }
 
-        return rootChild;
+        return treeRoot;
     }
 
+    /**
+     * get root of BiTree
+     * @return root of BiTree
+     */
     public ABiNode getRoot() {
         return root;
     }
 
-    public void newElement(int offset, int childOffset, String namespaceURI, String eName, Attributes attrs) {
+    /**
+     * create and append a new BiNode at current position in BiTree
+     * @param totalOffset of node in text
+     * @param childOffset position of first child (length of open tag)
+     * @param namespaceURI
+     * @param eName name of node
+     * @param attrs attributes of node
+     */
+    public void createBiNode(int totalOffset, int childOffset, String namespaceURI, String eName, Attributes attrs) {
         BiNode biNode;
 
-        /*   TODO???
-        if ((namespaceURI == null || namespaceURI.equals("")) && doc != null && doc.getFirstChild() != null) {
-        namespaceURI = doc.getFirstChild().getNamespaceURI();
-        } */
-
-        startPositions.add(offset);
+        startPositions.add(totalOffset);
 
         if (root == null) {
             root = new BiNode(childOffset, namespaceURI, eName, attrs);     // new root node
             currentBiTree = root;
         } else {
-            if (currentBiTree.getType() == BiType.EMPTY) {        // node is empty node, only possible at start
+            biNode = new BiNode(childOffset, namespaceURI, eName, attrs);
 
-
-                //currentBiTree = currentBiTree.addSibling(new BiNode(childOffset, namespaceURI, eName, attrs));
-                biNode = new BiNode(childOffset, namespaceURI, eName, attrs);
+            if (currentBiTree.getType() == BiType.EMPTY) {        // append child (only possible at start
                 currentBiTree.addSibling(biNode);
-                currentBiTree = biNode;
-
-
-            } else {                                                    // node (default case)
-                currentBiTree = ((BiNode) currentBiTree).addChild(new BiNode(childOffset, namespaceURI, eName, attrs));
+            } else {                                              // add child (default case)
+                ((BiNode) currentBiTree).addChild(biNode);
             }
+
+            currentBiTree = biNode;
         }
     }
 
-    public void closeElement(int end) {
+    /**
+     * close BiNode (set length of node)
+     * @param length length of node
+     */
+    public void closeBiNode(int length) {
         BiNode parent;
-        ((BiNode) currentBiTree).setLength(end - startPositions.get(startPositions.size() - 1));
 
+        currentBiTree.setLength(length - startPositions.get(startPositions.size() - 1));
+
+        // move current position to parent
         parent = currentBiTree.getParent();
         if (parent != null) {
             currentBiTree = parent;
@@ -111,16 +112,29 @@ public class BiTree {
         startPositions.remove(startPositions.size() - 1);
     }
 
+    /**
+     * check if currentposition in BiTree allows a TextNode as child
+     * @return true if a TextNode is allowed
+     */
     public boolean allowNewTextNode() {
-        return !((BiNode) currentBiTree).hasChild();
+        return ((BiNode) currentBiTree).getChild() == null;
     }
 
-    public void newTextNode(int offset, int nodeLength, String text) {
-        ((BiNode) currentBiTree).addChild(new TextNode(nodeLength, text));
+    /**
+     * create a new TextNode at current position
+     * @param length length of TextNode
+     * @param text text of TextNode
+     */
+    public void createTextNode(int length, String text) {
+        ((BiNode) currentBiTree).addChild(new TextNode(length, text));
     }
 
-    public void newEmtpyNode(int offset, int length) {
-        if (root == null) {                               // root
+    /**
+     * create a new EmptyNode at current position in BiTree
+     * @param length length of EmtpyNode
+     */
+    public void createEmtpyNode(int length) {
+        if (root == null) {                               // EmptyNode is new root
             root = new EmptyNode(length);
             currentBiTree = root;
         } else {
@@ -128,19 +142,36 @@ public class BiTree {
         }
     }
 
+    /**
+     * insert characters into BiTree
+     * @param offset insert position in text
+     * @param length number of characters to insert
+     * @param text text where characters were inserted
+     * @throws ReparseException
+     */
     public void insert(int offset, int length, String text) throws ReparseException {
         this.text = text;
         root.insert(this, offset, length, 0);
     }
 
+    /**
+     * remove characters from BiTree
+     * @param offset remove position in text
+     * @param length number of characters to remove
+     * @param text text where characters were removed
+     * @throws ReparseException
+     */
     public void remove(int offset, int length, String text) throws ReparseException {
         this.text = text;
         root.remove(this, offset, length, 0);
     }
 
+    /**
+     * set a new root in BiTree
+     * @param root new root of BiTree
+     */
     public void setRoot(ABiNode root) {
 
-        // check if root
         if (root == null) {
             doc = null;
         } else {
@@ -150,14 +181,39 @@ public class BiTree {
         this.root = root;
     }
 
+    /**
+     * get text of BiTree
+     * @return text of BiTree
+     */
     public String getText() {
         return text;
     }
 
+    /**
+     * get document of DOM Tree
+     * @return document of DOM Tree
+     */
     public Node getDocument() {
         return doc;
     }
 
+    /**
+     * search a DOM node in BiTree and return position of node, if not found return -1
+     * @param node DOM node to search for
+     * @return position of node in inputtext
+     */
+    public int searchNode(Node node) {
+        if (root == null) {
+            return -1;
+        } else {
+            return root.searchNode(node, 0);
+        }
+    }
+
+    /**
+     * get a formatted output of BiTree
+     * @return formatted output of BiTree
+     */
     @Override
     public String toString() {
         if (root != null) {
@@ -167,6 +223,10 @@ public class BiTree {
         }
     }
 
+    /**
+     * get formatted output of DOM Tree (for debugging)
+     * @return formatted ouput of DOM Tree
+     */
     public String toStringDOM() {
         return toStringDOM(0, doc.getDocumentElement());
     }

@@ -7,7 +7,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-
+/**
+ * this class is creates a SAXParser as singleton
+  *
+ * @author dominik
+ */
 public class SAXBiParser {
     private SAXBiParser() {
     }
@@ -20,12 +24,18 @@ public class SAXBiParser {
     }
 
     /**
-     * @return the singleton instance of the DOMBuilder
+     * get the instance of the SAXParser
+     * @return the singleton instance of the SAXParser
      */
     public static SAXBiParser getInstance() {
         return SAXBiParser.SingletonHolder.INSTANCE;
     }
 
+    /**
+     * parse a text with SAXParser
+     * @param text inputtext to parse
+     * @return result BiTree of parsed inputtext
+     */
     public BiTree parse(String text) {
         BiTree tree;
         DefaultHandler handler;
@@ -43,7 +53,6 @@ public class SAXBiParser {
         try {
             factory.setNamespaceAware(true);
             factory.setValidating(false);
-            factory.setFeature("http://xml.org/sax/features/validation", false);
             
             saxParser = factory.newSAXParser();            
             saxParser.parse(inSource, handler);
