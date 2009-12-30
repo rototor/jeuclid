@@ -16,7 +16,7 @@ public class BiNode extends ABiNode {
     /** child node. */
     private ABiNode child;
     /** offset to child from node begin (length of open tag). */
-    private int childOffset;
+    private final int childOffset;
     /** if false, node is a valid xml-node. */
     private boolean invalid;
     /** DOM-info: namespaceURI. */
