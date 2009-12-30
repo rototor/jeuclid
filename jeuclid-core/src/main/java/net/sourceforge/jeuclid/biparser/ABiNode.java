@@ -4,47 +4,48 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
- * this class is used to store typcial information about a xml-node
+ * this class is used to store typcial information about a xml-node.
  *
  * @author dominik
  */
 public abstract class ABiNode {
 
-    /** previous node, null if node is root */
+    /** previous node, null if node is root. */
     private ABiNode previous;
-    /** sibling node, can be null */
+    /** sibling node, can be null. */
     private ABiNode sibling;
-    /** reference to node in DOM-tree */
+    /** reference to node in DOM-tree. */
     private Node node;
-    /** length of node in characters */
+    /** length of node in characters. */
     private int length;
 
     /**
-     * get previous node, null if node is root
+     * get previous node, null if node is root.
      * @return previous
      */
-    public ABiNode getPrevious() {
+    public final ABiNode getPrevious() {
         return previous;
     }
 
     /**
-     * set previous for this node
-     * @param previous previous node for this node
+     * set previous for this node.
+     * @param prev  previous node for this node
      */
-    public void setPrevious(ABiNode previous) {
-        this.previous = previous;
+    public final void setPrevious(final ABiNode prev) {
+        previous = prev;
     }
 
     /**
-     * get parent node, null if node is root
+     * get parent node, null if node is root.
      * @return parent
      */
-    public BiNode getParent() {
+    public final BiNode getParent() {
         if (previous == null) {
             return null;                     // root
         }
 
-        if (previous.sibling == this) {      // check if previous isn't a "real parent"
+        // check if previous isn't a "real parent"
+        if (previous.sibling == this) {
             return previous.getParent();
         } else {                             // previous is "real parent"
             return (BiNode) previous;
@@ -52,75 +53,75 @@ public abstract class ABiNode {
     }
 
     /**
-     * get sibling node, can be null
+     * get sibling node, can be null.
      * @return sibling
      */
-    public ABiNode getSibling() {
+    public final ABiNode getSibling() {
         return sibling;
     }
 
     /**
-     * set sibling for this node, and set previous of sibling to this
-     * @param sibling new sibling for this node
+     * set sibling for this node and set previous of sibling to this.
+     * @param sibl new sibling for this node
      */
-    public void setSibling(ABiNode sibling) {
-        if (sibling != null) {
-            sibling.previous = this;
+    public final void setSibling(final ABiNode sibl) {
+        if (sibl != null) {
+            sibl.previous = this;
         }
 
-        this.sibling = sibling;
+        sibling = sibl;
     }
 
     /**
-     * add sibling to a node, not possible at a textnode
-     * if node already has a sibling, forward to sibling
-     * @param sibling new sibling for this node
+     * add sibling to a node, not possible at a textnode.
+     * if node already has a sibling, forward to sibling.
+     * @param sibl new sibling for this node
      */
-    public void addSibling(ABiNode sibling) {
-        if (this.sibling == null) {                 // 2nd child
-            setSibling(sibling);
+    public final void addSibling(final ABiNode sibl) {
+        if (sibling == null) {                 // 2nd child
+            setSibling(sibl);
         } else {                                    // forward(3rd - nth child)
-            this.sibling.addSibling(sibling);
+            sibling.addSibling(sibl);
         }
     }
 
     /**
-     * get reference to node in DOM-tree
+     * get reference to node in DOM-tree.
      * @return node in DOM-tree
      */
-    public Node getNode() {
+    public final Node getNode() {
         return node;
     }
 
     /**
-     * set reference to node in DOM-tree
-     * @param node reference in DOM-tree
+     * set reference to node in DOM-tree.
+     * @param n reference in DOM-tree
      */
-    public void setNode(Node node) {
-        this.node = node;
+    public final void setNode(final Node n) {
+        node = n;
     }
 
     /**
-     * get length of node (number of characters)
+     * get length of node (number of characters).
      * @return length of node
      */
-    public int getLength() {
+    public final int getLength() {
         return length;
     }
 
     /**
-     * set length of node
-     * @param length to set
+     * set length of node.
+     * @param len to set
      */
-    public void setLength(int length) {
-        this.length = length;
+    public final void setLength(final int len) {
+        length = len;
     }
 
     /**
-     * change length of node and recursive of all parents
+     * change length of node and recursive of all parents.
      * @param change changevalue (can be positive or negative)
      */
-    public void changeLengthRec(int change) {
+    public final void changeLengthRec(final int change) {
         if (change == 0) {
             return;
         }
@@ -133,43 +134,50 @@ public abstract class ABiNode {
     }
 
     /**
-     * get the type of node, can be BiNode, EmptyNode or TextNode
+     * get the type of node, can be BiNode, EmptyNode or TextNode.
      * @return type of node
      */
-    abstract public BiType getType();
+    abstract BiType getType();
 
     /**
-     * insert characters to node
+     * insert characters to node.
      * @param biTree reference to BiTree to which this node contains
      * @param offset position to insert characters
      * @param length number of characters to insert
      * @param totalOffset offset of node to begin of text
-     * @throws ReparseException
+     * @throws ReparseException if a reparse at upper level is needed
      *
      */
-    abstract public void insert(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException;
+    abstract public void insert(BiTree biTree, int offset, int length,
+            int totalOffset)
+            throws ReparseException;
 
     /**
-     * remove characters from node
+     * remove characters from node.
      * @param biTree reference to BiTree to which this node contains
      * @param offset position to remove characters
      * @param length number of characters to remove
      * @param totalOffset offset of node to begin of text
-     * @throws ReparseException
+     * @throws ReparseException if a reparse at upper level is needed
      *
      */
-    abstract public void remove(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException;
+    abstract public void remove(BiTree biTree, int offset, int length,
+            int totalOffset)
+            throws ReparseException;
 
     /**
-     * helper method to insert or remove characters
+     * helper method to insert or remove characters.
      * @param insert if true call insert-method else remove-method
      * @param biTree reference to BiTree to which this node contains
      * @param offset position to insert/remove characters
      * @param length number of characters to insert/remove
      * @param totalOffset offset of node to begin of text
-     * @throws ReparseException
+     * @throws ReparseException if a reparse at upper level is needed
      */
-    protected void forwardToSibling(boolean insert, BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
+    protected void forwardToSibling(final boolean insert, final BiTree biTree,
+            final int offset, final int length, final int totalOffset)
+            throws ReparseException {
+
         if (getSibling() == null) {
             throw new ReparseException();   // reparsing
         } else {
@@ -182,21 +190,21 @@ public abstract class ABiNode {
     }
 
     /**
-     * create a DOM-tree from node
+     * create a DOM-tree from node.
      * @param doc Document to create DOM-tree
      * @return root of DOM-tree
      */
     abstract public Node createDOMSubtree(Document doc);
 
-     /**
-     * search a DOM node in this node
+    /**
+     * search a DOM node in this node.
      * if nodes are equal return offset to begin of inputtext, else -1
-     * @param node DOM node to search for
+     * @param n DOM node to search for
      * @param totalOffset offset of node to begin of inputtext
      * @return position of node in inputtext
      */
-    public int searchNode(Node node, int totalOffset) {
-        if (this.node != null && this.node == node) {
+    public int searchNode(final Node n, final int totalOffset) {
+        if (node != null && node.equals(n)) {
             return totalOffset;
         }
 
@@ -209,18 +217,21 @@ public abstract class ABiNode {
     abstract public String toString(int level);
 
     /**
-     * helper method for outputting the length of node
+     * helper method for outputting the length of node.
      */
     public String formatLength() {
         int i;
-        int maxLength = 3;
-        StringBuffer sb = new StringBuffer();
+        final int max = 3;
+        final StringBuffer sb = new StringBuffer();
 
-        for (i = 1; i <= maxLength && 1 > getLength() / (Math.pow(10, maxLength - i)); i++) {
+        for (i = 1;
+                i <= max && 1 > getLength() / (Math.pow(10, max - i));
+                i++) {
+
             if (i == 1 && getLength() == 0) {
                 continue;
             }
-            sb.append(" ");
+            sb.append(' ');
         }
 
         sb.append(length);

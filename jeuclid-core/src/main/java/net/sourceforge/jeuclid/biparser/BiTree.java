@@ -8,27 +8,33 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
 
+/**
+ * this class if for creating a BiTree with ABiNodes while parsing a text.
+ */
 public class BiTree {
 
-    /** document (DOM-tree) */
+    /** document (DOM-tree). */
     private Document doc;
-    /** current position in tree */
+    /** current position in tree. */
     private ABiNode currentBiTree;
-    /** root of tree */
+    /** root of tree. */
     private ABiNode root;
-    /** save positions of open tags */
-    private ArrayList<Integer> startPositions;
-    /** text of tree */
+    /** save positions of open tags. */
+    private final ArrayList<Integer> startPositions;
+    /** text of tree. */
     private String text;
 
+    /**
+     * create a new BiTree.
+     */
     public BiTree() {
         startPositions = new ArrayList<Integer>();
     }
 
     /**
-     * create a new DOM tree from bitree and save it
+     * create a new DOM tree from bitree and save it.
      */
-    public void createDOMTree() {
+    public final void createDOMTree() {
         Node subtree;
 
         doc = new DocumentElement();
@@ -41,52 +47,57 @@ public class BiTree {
     }
 
     /**
-     * create a dom tree from bitree and return root
-     * @param doc document to create DOM tree
+     * create a dom tree from bitree and return root.
+     * @param d document to create DOM tree
      * @return root of DOM tree
      */
-    public Node getDOMTree(Document doc) {
+    public final Node getDOMTree(final Document d) {
         Node treeRoot;
 
         if (root.getType() == BiType.EMPTY) {
-            treeRoot = root.getSibling().createDOMSubtree(doc);
+            treeRoot = root.getSibling().createDOMSubtree(d);
         } else {
-            treeRoot = root.createDOMSubtree(doc);
+            treeRoot = root.createDOMSubtree(d);
         }
 
         return treeRoot;
     }
 
     /**
-     * get root of BiTree
+     * get root of BiTree.
      * @return root of BiTree
      */
-    public ABiNode getRoot() {
+    public final ABiNode getRoot() {
         return root;
     }
 
     /**
-     * create and append a new BiNode at current position in BiTree
+     * create and append a new BiNode at current position in BiTree.
      * @param totalOffset of node in text
      * @param childOffset position of first child (length of open tag)
-     * @param namespaceURI
+     * @param namespaceURI namespace
      * @param eName name of node
      * @param attrs attributes of node
      */
-    public void createBiNode(int totalOffset, int childOffset, String namespaceURI, String eName, Attributes attrs) {
+    public final void createBiNode(final int totalOffset, final int childOffset,
+            final String namespaceURI, final String eName,
+            final Attributes attrs) {
+
         BiNode biNode;
 
         startPositions.add(totalOffset);
 
+        // new root node
         if (root == null) {
-            root = new BiNode(childOffset, namespaceURI, eName, attrs);     // new root node
+            root = new BiNode(childOffset, namespaceURI, eName, attrs);
             currentBiTree = root;
         } else {
             biNode = new BiNode(childOffset, namespaceURI, eName, attrs);
 
-            if (currentBiTree.getType() == BiType.EMPTY) {        // append child (only possible at start
+            // append child (only possible at start
+            if (currentBiTree.getType() == BiType.EMPTY) {
                 currentBiTree.addSibling(biNode);
-            } else {                                              // add child (default case)
+            } else { // add child (default case)
                 ((BiNode) currentBiTree).addChild(biNode);
             }
 
@@ -95,13 +106,14 @@ public class BiTree {
     }
 
     /**
-     * close BiNode (set length of node)
+     * close BiNode (set length of node).
      * @param length length of node
      */
-    public void closeBiNode(int length) {
+    public final void closeBiNode(final int length) {
         BiNode parent;
 
-        currentBiTree.setLength(length - startPositions.get(startPositions.size() - 1));
+        currentBiTree.setLength(length
+                - startPositions.get(startPositions.size() - 1));
 
         // move current position to parent
         parent = currentBiTree.getParent();
@@ -113,28 +125,29 @@ public class BiTree {
     }
 
     /**
-     * check if currentposition in BiTree allows a TextNode as child
+     * check if currentposition in BiTree allows a TextNode as child.
      * @return true if a TextNode is allowed
      */
-    public boolean allowNewTextNode() {
+    public final boolean allowNewTextNode() {
         return ((BiNode) currentBiTree).getChild() == null;
     }
 
     /**
-     * create a new TextNode at current position
+     * create a new TextNode at current position.
      * @param length length of TextNode
-     * @param text text of TextNode
+     * @param t text of TextNode
      */
-    public void createTextNode(int length, String text) {
-        ((BiNode) currentBiTree).addChild(new TextNode(length, text));
+    public final void createTextNode(final int length, final String t) {
+        ((BiNode) currentBiTree).addChild(new TextNode(length, t));
     }
 
     /**
-     * create a new EmptyNode at current position in BiTree
+     * create a new EmptyNode at current position in BiTree.
      * @param length length of EmtpyNode
      */
-    public void createEmtpyNode(int length) {
-        if (root == null) {                               // EmptyNode is new root
+    public final void createEmtpyNode(final int length) {
+        // EmptyNode is new root
+        if (root == null) {
             root = new EmptyNode(length);
             currentBiTree = root;
         } else {
@@ -143,46 +156,48 @@ public class BiTree {
     }
 
     /**
-     * insert characters into BiTree
+     * insert characters into BiTree.
      * @param offset insert position in text
      * @param length number of characters to insert
-     * @param text text where characters were inserted
-     * @throws ReparseException
+     * @param t text where characters were inserted
+     * @throws ReparseException if a sax parse exception occurs
      */
-    public void insert(int offset, int length, String text) throws ReparseException {
-        this.text = text;
+    public final void insert(final int offset, final int length,
+            final String t) throws ReparseException {
+        text = t;
         root.insert(this, offset, length, 0);
     }
 
     /**
-     * remove characters from BiTree
+     * remove characters from BiTree.
      * @param offset remove position in text
      * @param length number of characters to remove
-     * @param text text where characters were removed
+     * @param t text where characters were removed
      * @throws ReparseException
      */
-    public void remove(int offset, int length, String text) throws ReparseException {
-        this.text = text;
+    public final void remove(final int offset, final int length,
+            final String t) throws ReparseException {
+        text = t;
         root.remove(this, offset, length, 0);
     }
 
     /**
-     * set a new root in BiTree
+     * set a new root in BiTree.
      * @param root new root of BiTree
      */
-    public void setRoot(ABiNode root) {
+    public final void setRoot(final ABiNode r) {
 
-        if (root == null) {
+        if (r == null) {
             doc = null;
         } else {
             root.setPrevious(null);
         }
 
-        this.root = root;
+        root = r;
     }
 
     /**
-     * get text of BiTree
+     * get text of BiTree.
      * @return text of BiTree
      */
     public String getText() {
@@ -190,7 +205,7 @@ public class BiTree {
     }
 
     /**
-     * get document of DOM Tree
+     * get document of DOM Tree.
      * @return document of DOM Tree
      */
     public Node getDocument() {
@@ -198,11 +213,12 @@ public class BiTree {
     }
 
     /**
-     * search a DOM node in BiTree and return position of node, if not found return -1
+     * search a DOM node in BiTree and return position of node.
+     * if node is not found return -1
      * @param node DOM node to search for
      * @return position of node in inputtext
      */
-    public int searchNode(Node node) {
+    public int searchNode(final Node node) {
         if (root == null) {
             return -1;
         } else {
@@ -216,10 +232,10 @@ public class BiTree {
      */
     @Override
     public String toString() {
-        if (root != null) {
-            return root.toString(0);
-        } else {
+        if (root == null) {
             return "root is null";
+        } else {
+            return root.toString(0);
         }
     }
 
@@ -231,10 +247,10 @@ public class BiTree {
         return toStringDOM(0, doc.getDocumentElement());
     }
 
-    private String toStringDOM(int level, Node n) {
+    private String toStringDOM(final int level, final Node n) {
         int i;
         NodeList nl;
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder(128);
 
         if (n == null) {
             return "node is null";

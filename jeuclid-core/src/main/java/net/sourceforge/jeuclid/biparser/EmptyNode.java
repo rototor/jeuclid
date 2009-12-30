@@ -4,7 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
- * this class is used to store specific information about a empty node
+ * this class is used to store specific information about a empty node.
  * the node cannot have children, but a sibling
  *
  * @author dominik
@@ -12,33 +12,35 @@ import org.w3c.dom.Node;
 public class EmptyNode extends ABiNode {
 
     /**
-     * create a new EmptyNode
+     * create a new EmptyNode.
      * @param length of EmptyNode
      */
-    public EmptyNode(int length) {
+    public EmptyNode(final int length) {
         setLength(length);
     }
 
     /**
-     * get the type of node
+     * get the type of node.
      * @return EMPTY
      */
     @Override
-    public BiType getType() {
+    public final BiType getType() {
         return BiType.EMPTY;
     }
 
-    /** 
-     * insert characters in EmptyNode, reparse if characters contain '<' or '>'
+    /**
+     * insert characters in EmptyNode, reparse if characters contain '<' or '>'.
      * else change length of EmptyNode
      * {@inheritDoc}
      */
     @Override
-    public void insert(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
+    public final void insert(final BiTree biTree, final int offset,
+            final int length, final int totalOffset) throws ReparseException {
         int position;
         String insert;
 
-        // System.out.println("insert " + toString() + " offset=" + offset + " length=" + length);
+        // System.out.println("insert " + toString() + " offset=" +
+        // offset + " length=" + length);
 
         if (offset <= getLength()) {            // start position in this node
 
@@ -51,8 +53,9 @@ public class EmptyNode extends ABiNode {
 
             changeLengthRec(length);
 
-        } else {                                // start position outside this node
-            forwardToSibling(true, biTree, offset - getLength(), length, totalOffset + getLength());
+        } else {                             // start position outside this node
+            forwardToSibling(true, biTree, offset - getLength(), length,
+                    totalOffset + getLength());
         }
     }
 
@@ -61,8 +64,10 @@ public class EmptyNode extends ABiNode {
      * {@inheritDoc}
      */
     @Override
-    public void remove(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
-        // System.out.println("remove " + toString() + " offset=" + offset + " length=" + length);
+    public final void remove(final BiTree biTree, final int offset,
+            final int length, final int totalOffset) throws ReparseException {
+        // System.out.println("remove " + toString() + " offset=" +
+        // offset + " length=" + length);
 
         if (offset <= getLength()) {            // start position in this node
 
@@ -70,18 +75,22 @@ public class EmptyNode extends ABiNode {
                 throw new ReparseException();
 
             } else {                                        // change length
-                if (offset + length <= getLength()) {       // end position in this node
+                // end position in this node
+                if (offset + length <= getLength()) {
                     changeLengthRec(-length);
 
-                } else {                                    // end position outside this node
+                } else { // end position outside this node
                     changeLengthRec(offset - getLength());
 
                     // forward remainder to sibling
-                    forwardToSibling(false, biTree, 0, offset + length - getLength(), totalOffset + getLength());
+                    forwardToSibling(false, biTree, 0,
+                            offset + length - getLength(),
+                            totalOffset + getLength());
                 }
             }
-        } else {                                // start position outside this node
-            forwardToSibling(false, biTree, offset - getLength(), length, totalOffset + getLength());
+        } else {                             // start position outside this node
+            forwardToSibling(false, biTree, offset - getLength(), length,
+                    totalOffset + getLength());
         }
     }
 
@@ -91,13 +100,13 @@ public class EmptyNode extends ABiNode {
      * @return null
      */
     @Override
-    public Node createDOMSubtree(Document doc) {
+    public final Node createDOMSubtree(final Document doc) {
         return null;
     }
 
     /** {@inheritDoc} */
     @Override
-    public int searchNode(Node node, int totalOffset) {
+    public final int searchNode(final Node node, final int totalOffset) {
         // forward to sibling
         if (getSibling() != null) {
             return getSibling().searchNode(node, totalOffset + getLength());
@@ -108,25 +117,25 @@ public class EmptyNode extends ABiNode {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer("[EMTPY ");
+        final StringBuffer sb = new StringBuffer(32);
 
-        sb.append("length: ");
+        sb.append("[EMTPY length: ");
         sb.append(getLength());
-        sb.append("]");
+        sb.append(']');
 
         return sb.toString();
     }
 
     @Override
-    public String toString(
-            int level) {
-        StringBuffer sb = new StringBuffer(formatLength());
-        String nl = System.getProperty("line.separator");
+    public String toString(final int level) {
+        final StringBuffer sb = new StringBuffer(32);
+        final String nl = System.getProperty("line.separator");
 
-        sb.append(":");
+        sb.append(formatLength());
+        sb.append(':');
         for (int i = 0; i <=
                 level; i++) {
-            sb.append(" ");
+            sb.append(' ');
         }
 
         sb.append("EMTPY");

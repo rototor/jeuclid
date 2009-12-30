@@ -8,23 +8,29 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * this class is creates a SAXParser as singleton
-  *
+ * this class is creates a SAXParser as singleton.
+ *
  * @author dominik
  */
-public class SAXBiParser {
+public final class SAXBiParser {
+
+    /** hide constructor. */
     private SAXBiParser() {
     }
 
+    /** make a new SAXBiParser object as singleton. */
     private static final class SingletonHolder {
+
+        /** make only one instance of SAXBiParser. */
         private static final SAXBiParser INSTANCE = new SAXBiParser();
 
+        /** hide constructor. */
         private SingletonHolder() {
         }
     }
 
     /**
-     * get the instance of the SAXParser
+     * get the instance of the SAXParser.
      * @return the singleton instance of the SAXParser
      */
     public static SAXBiParser getInstance() {
@@ -32,11 +38,11 @@ public class SAXBiParser {
     }
 
     /**
-     * parse a text with SAXParser
+     * parse a text with SAXParser.
      * @param text inputtext to parse
      * @return result BiTree of parsed inputtext
      */
-    public BiTree parse(String text) {
+    public BiTree parse(final String text) {
         BiTree tree;
         DefaultHandler handler;
         SAXParserFactory factory;
@@ -53,8 +59,8 @@ public class SAXBiParser {
         try {
             factory.setNamespaceAware(true);
             factory.setValidating(false);
-            
-            saxParser = factory.newSAXParser();            
+
+            saxParser = factory.newSAXParser();
             saxParser.parse(inSource, handler);
         } catch (SAXParseException e) {
             tree = null;

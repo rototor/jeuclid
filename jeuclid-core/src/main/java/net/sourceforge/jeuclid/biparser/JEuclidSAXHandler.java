@@ -1,99 +1,105 @@
 package net.sourceforge.jeuclid.biparser;
 
 import java.io.StringReader;
-import org.xml.sax.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * this class is used for SAX parsing, it builds a BiTree out of a text while parsing
+ * this class is used for SAX parsing.
+ * it builds a BiTree out of a text while parsing
  *
  * @author dominik
  */
 public class JEuclidSAXHandler extends DefaultHandler {
 
-    /** stores characters while parsing (text of TextNodes) */
+    /** stores characters while parsing (text of TextNodes). */
     private StringBuffer textBuffer;
-    /** locater for X&Y-position in inputtext */
+    /** locater for X&Y-position in inputtext. */
     private Locator locator;
-    /** result BiTree */
+    /** result BiTree. */
     private BiTree tree;
-    /** inputtext to parse */
+    /** inputtext to parse. */
     private String content;
-    /** current position in inputtext */
+    /** current position in inputtext. */
     private int position;
-    /** previous position in inputtext */
+    /** previous position in inputtext. */
     private int previousPosition;
-    /** last line (y-position) in inputtext */
+    /** last line (y-position) in inputtext. */
     private int lastLine;
-    /** last column (x-position) in inputtext */
+    /** last column (x-position) in inputtext. */
     private int lastColumn;
-    /** set true for debugging */
-    private boolean debug = false;
 
     /**
-     * create a new SAX-Handler for parsing and creating a BiTree
-     * @param content inputtext to parse
-     * @param tree BiTree for constructing
+     * create a new SAX-Handler for parsing and creating a BiTree.
+     * @param c inputtext to parse
+     * @param t BiTree for constructing
      */
-    public JEuclidSAXHandler(String content, BiTree tree) {
+    public JEuclidSAXHandler(final String c, final BiTree t) {
         position = 0;
         previousPosition = 0;
         lastLine = 1;
         lastColumn = 1;
 
-        this.content = content;
-        this.tree = tree;
+        content = c;
+        tree = t;
     }
 
     /**
-     * set the document locator
-     * @param locator
+     * set the document locator.
+     * @param l locator
      */
     @Override
-    public void setDocumentLocator(Locator locator) {
-        this.locator = locator;
+    public final void setDocumentLocator(final Locator l) {
+        locator = l;
     }
 
     /**
-     * stop resolving of entities (dtd)
-     * @param publicId
-     * @param systemId
+     * stop resolving of entities (dtd).
+     * @param publicId publicId
+     * @param systemId systemId
      * @return empty InputSource
      */
     @Override
-    public InputSource resolveEntity(String publicId, String systemId) {
+    public final InputSource resolveEntity(final String publicId,
+            final String systemId) {
         return new InputSource(new StringReader(""));
     }
 
     // ===========================================================
     // SAX DocumentHandler methods
     // ===========================================================
-
     /**
-     * start document
+     * start document.
      */
     @Override
-    public void startDocument() {
+    public final void startDocument() {
         debug("SAX start document, length=" + content.length() + nl());
     }
 
     /**
-     * end document
+     * end document.
+     * @throws SAXException if a sax parse exception occurs
      */
     @Override
-    public void endDocument() throws SAXException {
+    public final void endDocument() throws SAXException {
         debug("SAX end document" + nl());
     }
 
     /**
-     * start element, called at end of every new open tag (e.g. <tag>)
-     * @param namespaceURI
+     * start element, called at end of every new open tag.
+     * @param namespaceURI namespace
      * @param sName simple name
      * @param qName qulified name
      * @param attrs attributes of node
+     * @throws SAXException if a sax parse exception occurs
      */
     @Override
-    public void startElement(String namespaceURI, String sName, String qName, Attributes attrs) throws SAXException {
+    public final void startElement(final String namespaceURI,
+            final String sName, final String qName, final Attributes attrs)
+            throws SAXException {
         int startPosition;
         String eName;                   // element name
 
@@ -107,8 +113,10 @@ public class JEuclidSAXHandler extends DefaultHandler {
         // get startposition of tag
         startPosition = content.lastIndexOf("<" + eName, position - 1);
 
-        debug("tag-start=" + startPosition + " tag-end=" + position + " buffer=" + (startPosition - previousPosition) +
-                " textbuffer=" + (textBuffer == null ? 0 : textBuffer.length()) + nl());
+        debug("tag-start=" + startPosition + " tag-end=" + position
+                + " buffer=" + (startPosition - previousPosition)
+                + " textbuffer="
+                + (textBuffer == null ? 0 : textBuffer.length()) + nl());
 
         // create a EmptyNode if text is before this element
         if (startPosition - previousPosition > 0) {
@@ -121,17 +129,19 @@ public class JEuclidSAXHandler extends DefaultHandler {
         printElement(namespaceURI, eName, true, startPosition, attrs);
 
         // create new BiNode
-        tree.createBiNode(startPosition, position - startPosition, namespaceURI, eName, attrs);
+        tree.createBiNode(startPosition, position - startPosition,
+                namespaceURI, eName, attrs);
     }
 
     /**
-     * end element, called at end of every close tag (e.g. </tag>)
-     * @param namespaceURI
+     * end element, called at end of every close tag.
+     * @param namespaceURI namespace
      * @param sName simple name
      * @param qName qulified name
      */
     @Override
-    public void endElement(String namespaceURI, String sName, String qName) {
+    public final void endElement(final String namespaceURI, final String sName,
+            final String qName) {
         String eName = sName;       // element name
         String text;                // text of a TextNode before close tag
         int textLength;             // length of TextNode of EmptyNode
@@ -140,22 +150,24 @@ public class JEuclidSAXHandler extends DefaultHandler {
             eName = qName;          // not namespaceAware
         }
 
-        contentPosition();              // get current position in inputtext (end-position of close tag)
+        // get current position in inputtext (end-position of close tag)
+        contentPosition();
 
         // length of text before close tag
         textLength = content.lastIndexOf("</", position - 1) - previousPosition;
 
         // create a new TextNode
-        if (textBuffer != null && textBuffer.length() > 0 && tree.allowNewTextNode()) {
+        if (textBuffer != null && textBuffer.length() > 0
+                && tree.allowNewTextNode()) {
 
             text = new String(textBuffer);
             tree.createTextNode(textLength, text);
             textBuffer = null;
 
-            debug("'" + text.replaceAll(System.getProperty("line.separator"), "#") + "'" + nl());
+            debug("'" + text.replaceAll(nl(), "#") + "'" + nl());
 
-        } // or create a new EmptyNode
-        else if (!tree.allowNewTextNode() && textLength > 0) {
+        } else if (!tree.allowNewTextNode() && textLength > 0) {
+            // or create a new EmptyNode
             tree.createEmtpyNode(textLength);
         }
 
@@ -166,14 +178,16 @@ public class JEuclidSAXHandler extends DefaultHandler {
     }
 
     /**
-     * concat characters while parsing
+     * concat characters while parsing.
      * @param buf inputtext
      * @param offset offset of characters to inputtext
      * @param len number of characters
+     * @throws SAXException if a sax parse exception occurs
      */
     @Override
-    public void characters(char[] buf, int offset, int len) throws SAXException {
-        String s = new String(buf, offset, len);
+    public final void characters(final char[] buf, final int offset,
+            final int len) throws SAXException {
+        final String s = new String(buf, offset, len);
 
         if (textBuffer == null) {
             textBuffer = new StringBuffer(s);
@@ -183,57 +197,60 @@ public class JEuclidSAXHandler extends DefaultHandler {
     }
 
     /**
-     * get the (final-) BiTree
+     * get the (final-) BiTree.
      * @return BiTree
      */
-    public BiTree getTree() {
+    public final BiTree getTree() {
         return tree;
     }
 
     // ===========================================================
     // Utility Methods ...
     // ===========================================================
-
     /**
-     * calculate current position in inputtext
+     * calculate current position in inputtext.
      */
     private void contentPosition() {
-        int line = locator.getLineNumber();
-        int column = locator.getColumnNumber();
+        final int line = locator.getLineNumber();
+        final int column = locator.getColumnNumber();
         int l;
 
         previousPosition = position;
 
         debug("old line=" + lastLine);
         for (l = lastLine; l < line; l++) {
-            position = 1 + content.indexOf(System.getProperty("line.separator"), position);
+            position = 1 + content.indexOf(nl(), position);
         }
 
         if (lastLine == line) {
-            position += (column - lastColumn);  // tag is in same line as previous
+            // tag is in same line as previous
+            position += (column - lastColumn);
         } else {
             position += column - 1;
         }
 
         lastLine = line;
         lastColumn = column;
-        debug(" - new line=" + lastLine + " - old pos=" + previousPosition + " new pos=" + position + nl());
+        debug(" - new line=" + lastLine + " - old pos="
+                + previousPosition + " new pos=" + position + nl());
     }
 
     /**
-     * print information about an elment
-     * @param namespaceURI
+     * print information about an elment.
+     * @param namespaceURI namespace
      * @param name of tag
      * @param open if true output an open tag, else close tag
-     * @param position position of tag
+     * @param pos position of tag
      * @param attrs attributes of tag
      *
      */
-    private void printElement(String namespaceURI, String name, boolean open, int position, Attributes attrs) {
-        StringBuffer sb = new StringBuffer(position());
+    private void printElement(final String namespaceURI, final String name,
+            final boolean open, final int pos, final Attributes attrs) {
+        final StringBuffer sb = new StringBuffer(32);
 
+        sb.append(position());
         sb.append(" - ");
-        sb.append(position);
+        sb.append(pos);
 
         if (open) {
             sb.append(" <");
@@ -244,43 +261,45 @@ public class JEuclidSAXHandler extends DefaultHandler {
         sb.append(name);
 
         if (attrs != null) {
-            for (int i = 0; i <
-                    attrs.getLength(); i++) {
+            for (int i = 0; i < attrs.getLength(); i++) {
                 String aName = attrs.getLocalName(i); // Attr name
 
                 if ("".equals(aName)) {
                     aName = attrs.getQName(i);
                 }
 
-                sb.append(" ");
+                sb.append(' ');
                 sb.append(aName + "=\"" + attrs.getValue(i) + "\"");
             }
         }
 
         if (namespaceURI != null && namespaceURI.length() > 0) {
-            sb.append(" ");
+            sb.append(' ');
             sb.append(namespaceURI);
         }
-        sb.append(">");
-        sb.append(System.getProperty("line.separator"));
+        sb.append('>');
+        sb.append(nl());
 
         debug(sb.toString());
     }
 
     /**
-     * output a debug message if debugging is enabled
+     * output a debug message if debugging is enabled.
      * @param message string to ouput
      */
-    private void debug(String message) {
+    private void debug(final String message) {
+        final boolean debug = false;
+
         if (!debug) {
             return;
         }
+        
         System.out.print(message);
         System.out.flush();
     }
 
     /**
-     * get newline character
+     * get newline character.
      * @return newline
      */
     private String nl() {
@@ -288,26 +307,27 @@ public class JEuclidSAXHandler extends DefaultHandler {
     }
 
     /**
-     * print current x/y-position
+     * print current x/y-position.
      * @return current x/y-position
      */
     private String position() {
-        int line = locator.getLineNumber();
-        int column = locator.getColumnNumber();
-        StringBuffer sb = new StringBuffer();
+        final int line = locator.getLineNumber();
+        final int column = locator.getColumnNumber();
+        final StringBuffer sb = new StringBuffer();
+        final int dez = 10;
 
-        if (line < 10) {
-            sb.append("0");
+        if (line < dez) {
+            sb.append('0');
         }
 
         sb.append(line);
-        sb.append("/");
-        if (column < 10) {
-            sb.append("0");
+        sb.append('/');
+        if (column < dez) {
+            sb.append('0');
         }
 
         sb.append(column);
-        sb.append(":");
+        sb.append(':');
 
         return sb.toString();
     }
