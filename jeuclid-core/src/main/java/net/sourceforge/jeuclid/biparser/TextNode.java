@@ -5,99 +5,92 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 /**
- * this class is used to store specific information about a text node
+ * this class is used to store specific information about a text node.
  * the node cannot have a child nor a sibling
  *
  * @author dominik
  */
 public class TextNode extends ABiNode {
 
-    /** DOM-info: text of node */
+    /** DOM-info: text of node. */
     private String text;
 
     /**
-     * creates a new TextNode, constructor does not create a DOM-node
-     * @param childOffset offset to child from node begin (length of open tag)
-     * @param text DOM-info
+     * creates a new TextNode, constructor does not create a DOM-node.
+     * @param length length of child
+     * @param t DOM-info
      */
-    public TextNode(int length, String text) {
+    public TextNode(final int length, final String t) {
         setLength(length);
-        this.text = text;
+        text = t;
     }
 
     /**
-     * get parent of TextNode, same as previous
-     * @return parent of TextNode
-     */
-    @Override
-    public BiNode getParent() {
-        return (BiNode) getPrevious();
-    }
-
-    /**
-     * get the type of node
+     * get the type of node.
      * @return TEXT
      */
     @Override
-    public BiType getType() {
+    public final BiType getType() {
         return BiType.TEXT;
     }
 
      /**
-     * insert characters in TextNode, always reparse parent node
+     * insert characters in TextNode, always reparse parent node.
      * {@inheritDoc}
      */
     @Override
-    public void insert(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
+    public final void insert(final BiTree biTree, final int offset,
+            final int length, final int totalOffset)
+            throws ReparseException {
         throw new ReparseException();
     }
 
      /**
-     * remove characters in TextNode, always reparse parent node
+     * remove characters in TextNode, always reparse parent node.
      * {@inheritDoc}
      */
     @Override
-    public void remove(BiTree biTree, int offset, int length, int totalOffset) throws ReparseException  {
+    public final void remove(final BiTree biTree, final int offset,
+            final int length, final int totalOffset)
+            throws ReparseException  {
         throw new ReparseException();
     }
 
     /**
-     * forward insert/remove to sibling not allowed at a TextNode
+     * forward insert/remove to sibling not allowed at a TextNode.
      */
     @Override
-    protected void forwardToSibling(boolean insert, BiTree biTree, int offset, int length, int totalOffset) throws ReparseException {
-        throw new UnsupportedOperationException("forwardToSibling at textnode not allowed");
+    protected final void forwardToSibling(final boolean insert,
+            final BiTree biTree, final int offset, final int length,
+            final int totalOffset)
+            throws ReparseException {
+        throw new UnsupportedOperationException("forwardToSibling " +
+                "at textnode not allowed");
     }
 
     /**
-     * add a sibling not allowed at a TextNode
-     */
-    @Override
-    public void addSibling(ABiNode abiNode) {
-        throw new UnsupportedOperationException("addSibling at textnode not allowed");
-    }
-
-    /**
-     * get the text of TextNode
+     * get the text of TextNode.
      * @return text of TextNode
      */
     public String getText() {
-        if (text != null) {
-            return text;
-        } else if (getNode() != null) {
-            return getNode().getTextContent();
+        if (text == null) {
+           if (getNode() == null) {
+                return null;
+            } else {
+                return getNode().getTextContent();
+            }
         } else {
-            return null;
+            return text;
         }
     }
 
     /**
-     * create a DOM-textnode
+     * create a DOM-textnode.
      * @param doc Document to create DOM-tree
      * @return DOM-textnode
      */
     @Override
-    public Node createDOMSubtree(Document doc) {
+    public Node createDOMSubtree(final Document doc) {
         Text textNode;
 
         textNode = doc.createTextNode(text);
@@ -109,35 +102,38 @@ public class TextNode extends ABiNode {
 
     /** {@inheritDoc} */
     @Override
-    public int searchNode(Node node, int totalOffset) {
+    public int searchNode(final Node node, final int totalOffset) {
         return super.searchNode(node, totalOffset);
     }
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer("[TEXT ");
+        final StringBuffer sb = new StringBuffer(32);
+        final String nl = System.getProperty("line.separator");
 
-        sb.append("length:");
+        sb.append("[TEXT length:");
         sb.append(getLength());
         sb.append(" '");
-        sb.append(getText().replaceAll(System.getProperty("line.separator"), "#"));
+        sb.append(getText().replaceAll(nl, "#"));
         sb.append("']");
 
         return sb.toString();
     }
 
     @Override
-    public String toString(int level) {
-        StringBuffer sb = new StringBuffer(formatLength());
+    public String toString(final int level) {
+        final StringBuffer sb = new StringBuffer();
+        final String nl = System.getProperty("line.separator");
 
-        sb.append(":");
+        sb.append(formatLength());
+        sb.append(':');
         for (int i = 0; i <= level; i++) {
-            sb.append(" ");
+            sb.append(' ');
         }
 
-        sb.append("'");
-        sb.append(getText().replaceAll(System.getProperty("line.separator"), "#"));
-        sb.append("'");
+        sb.append('\'');
+        sb.append(getText().replaceAll(nl, "#"));
+        sb.append('\'');
 
         return sb.toString();
     }
