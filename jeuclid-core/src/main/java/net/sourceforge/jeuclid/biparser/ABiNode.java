@@ -36,9 +36,10 @@ public abstract class ABiNode {
     }
 
     /**
-     * {@inheritDoc}
+     * get parent node for this node.
+     * @return parent
      */
-    public BiNode getParent() {
+    public final BiNode getParent() {
         if (previous == null) {
             return null;                     // root
         }

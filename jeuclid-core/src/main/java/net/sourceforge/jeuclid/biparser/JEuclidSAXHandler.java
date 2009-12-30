@@ -19,10 +19,10 @@ public class JEuclidSAXHandler extends DefaultHandler {
     private StringBuffer textBuffer;
     /** locater for X&Y-position in inputtext. */
     private Locator locator;
-    /** BiTreeCreationHelper */
-    final private BiTreeCreationHelper treeHelper;
+    /** BiTreeCreationHelper. */
+    private final BiTreeCreationHelper treeHelper;
     /** inputtext to parse. */
-    final private String content;
+    private final String content;
     /** current position in inputtext. */
     private int position;
     /** previous position in inputtext. */
@@ -32,7 +32,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
     /** last column (x-position) in inputtext. */
     private int lastColumn;
     /** BiTree to construct. */
-    private BiTree tree;
+    private final BiTree tree;
 
     /**
      * create a new SAX-Handler for parsing and creating a BiTree.

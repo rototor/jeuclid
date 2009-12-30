@@ -17,8 +17,8 @@ public class BiTreeCreationHelper {
     private final ArrayList<Integer> startPositions;
 
     /**
-     * create a new BiTree.
-     * @param t BiTree to create
+     * create a new BiTreeHelper.
+     * get result (tree of ABiNodes) with getRoot()
      */
     public BiTreeCreationHelper() {
         startPositions = new ArrayList<Integer>();
