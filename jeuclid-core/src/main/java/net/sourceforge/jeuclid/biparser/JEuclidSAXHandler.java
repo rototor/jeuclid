@@ -19,10 +19,10 @@ public class JEuclidSAXHandler extends DefaultHandler {
     private StringBuffer textBuffer;
     /** locater for X&Y-position in inputtext. */
     private Locator locator;
-    /** result BiTree. */
-    private BiTree tree;
+    /** BiTreeCreationHelper */
+    final private BiTreeCreationHelper treeHelper;
     /** inputtext to parse. */
-    private String content;
+    final private String content;
     /** current position in inputtext. */
     private int position;
     /** previous position in inputtext. */
@@ -31,11 +31,13 @@ public class JEuclidSAXHandler extends DefaultHandler {
     private int lastLine;
     /** last column (x-position) in inputtext. */
     private int lastColumn;
+    /** BiTree to construct. */
+    private BiTree tree;
 
     /**
      * create a new SAX-Handler for parsing and creating a BiTree.
      * @param c inputtext to parse
-     * @param t BiTree for constructing
+     * @param t BiTree to construct
      */
     public JEuclidSAXHandler(final String c, final BiTree t) {
         position = 0;
@@ -45,6 +47,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
         content = c;
         tree = t;
+        treeHelper = new BiTreeCreationHelper();
     }
 
     /**
@@ -85,6 +88,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
      */
     @Override
     public final void endDocument() throws SAXException {
+        tree.setRoot(treeHelper.getRoot());
         debug("SAX end document" + nl());
     }
 
@@ -100,7 +104,9 @@ public class JEuclidSAXHandler extends DefaultHandler {
     public final void startElement(final String namespaceURI,
             final String sName, final String qName, final Attributes attrs)
             throws SAXException {
+
         int startPosition;
+        int length;
         String eName;                   // element name
 
         eName = sName;
@@ -113,23 +119,28 @@ public class JEuclidSAXHandler extends DefaultHandler {
         // get startposition of tag
         startPosition = content.lastIndexOf("<" + eName, position - 1);
 
+        if (textBuffer == null) {
+            length = 0;
+        } else {
+            length = textBuffer.length();
+        }
+
         debug("tag-start=" + startPosition + " tag-end=" + position
                 + " buffer=" + (startPosition - previousPosition)
-                + " textbuffer="
-                + (textBuffer == null ? 0 : textBuffer.length()) + nl());
+                + " textbuffer=" + length + nl());
 
         // create a EmptyNode if text is before this element
         if (startPosition - previousPosition > 0) {
             debug("empty length=" + (startPosition - previousPosition) + nl());
 
-            tree.createEmtpyNode(startPosition - previousPosition);
+            treeHelper.createEmtpyNode(startPosition - previousPosition);
             textBuffer = null;
         }
 
         printElement(namespaceURI, eName, true, startPosition, attrs);
 
         // create new BiNode
-        tree.createBiNode(startPosition, position - startPosition,
+        treeHelper.createBiNode(startPosition, position - startPosition,
                 namespaceURI, eName, attrs);
     }
 
@@ -158,21 +169,21 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
         // create a new TextNode
         if (textBuffer != null && textBuffer.length() > 0
-                && tree.allowNewTextNode()) {
+                && treeHelper.allowNewTextNode()) {
 
             text = new String(textBuffer);
-            tree.createTextNode(textLength, text);
+            treeHelper.createTextNode(textLength, text);
             textBuffer = null;
 
             debug("'" + text.replaceAll(nl(), "#") + "'" + nl());
 
-        } else if (!tree.allowNewTextNode() && textLength > 0) {
+        } else if (!treeHelper.allowNewTextNode() && textLength > 0) {
             // or create a new EmptyNode
-            tree.createEmtpyNode(textLength);
+            treeHelper.createEmtpyNode(textLength);
         }
 
         /** close current BiNode in tree (set length of node) */
-        tree.closeBiNode(position);
+        treeHelper.closeBiNode(position);
 
         printElement(namespaceURI, eName, false, position, null);
     }
@@ -194,14 +205,6 @@ public class JEuclidSAXHandler extends DefaultHandler {
         } else {
             textBuffer.append(s);
         }
-    }
-
-    /**
-     * get the (final-) BiTree.
-     * @return BiTree
-     */
-    public final BiTree getTree() {
-        return tree;
     }
 
     // ===========================================================
@@ -293,7 +296,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
         if (!debug) {
             return;
         }
-        
+
         System.out.print(message);
         System.out.flush();
     }

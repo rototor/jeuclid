@@ -39,8 +39,8 @@ public class EmptyNode extends ABiNode {
         int position;
         String insert;
 
-        // System.out.println("insert " + toString() + " offset=" +
-        // offset + " length=" + length);
+      //   System.out.println("insert " + toString() + " offset=" +
+       //  offset + " length=" + length);
 
         if (offset <= getLength()) {            // start position in this node
 
