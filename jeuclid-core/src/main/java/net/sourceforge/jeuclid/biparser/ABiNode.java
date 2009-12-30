@@ -36,10 +36,9 @@ public abstract class ABiNode {
     }
 
     /**
-     * get parent node, null if node is root.
-     * @return parent
+     * {@inheritDoc}
      */
-    public final BiNode getParent() {
+    public BiNode getParent() {
         if (previous == null) {
             return null;                     // root
         }
@@ -224,8 +223,7 @@ public abstract class ABiNode {
         final int max = 3;
         final StringBuffer sb = new StringBuffer();
 
-        for (i = 1;
-                i <= max && 1 > getLength() / (Math.pow(10, max - i));
+        for (i = 1; i <= max && 1 > getLength() / (Math.pow(10, max - i));
                 i++) {
 
             if (i == 1 && getLength() == 0) {

@@ -84,18 +84,10 @@ public class BiNode extends ABiNode {
      */
     public final void setChild(final ABiNode c) {
         if (c != null) {
-            setPrevious(this);
+            c.setPrevious(this);
         }
 
         child = c;
-    }
-
-    /**
-     * set the childOffset for this node.
-     * @param c new childOffset for this node
-     */
-    public final void setChildOffset(final int c) {
-        childOffset = c;
     }
 
     /**
@@ -112,8 +104,9 @@ public class BiNode extends ABiNode {
     public final void insert(final BiTree biTree, final int offset,
             final int length, final int totalOffset)
             throws ReparseException {
-        // System.out.println("insert " + toString() + " offset=" + offset +
-        // " length=" + length);
+       //  System.out.println("insert " + toString() + " offset=" + offset +
+         //" length=" + length);
+
 
         // ---------------- end of this or SIBLING ----------------
         if (offset >= getLength()) {
@@ -128,8 +121,8 @@ public class BiNode extends ABiNode {
                     totalOffset + getLength());
 
         } // ---------------- CHILDREN ----------------
-        else if (child != null && !invalid && offset >= childOffset &&
-                offset <= childOffset + getLengthOfChildren()) {
+        else if (child != null && !invalid && offset >= childOffset
+                 && offset <= childOffset + getLengthOfChildren()) {
             try {
                 child.insert(biTree, offset - childOffset, length,
                         totalOffset + childOffset);
@@ -151,8 +144,8 @@ public class BiNode extends ABiNode {
     @Override
     public final void remove(final BiTree biTree, final int offset,
             final int length, final int totalOffset) throws ReparseException {
-        // System.out.println("remove " + toString() + " offset=" +
-        // offset + " length=" + length);
+       //  System.out.println("remove " + toString() + " offset=" +
+         //offset + " length=" + length);
 
         // ---------------- REMOVE THIS ----------------
         if (offset == 0 && length >= getLength()) {
@@ -212,7 +205,7 @@ public class BiNode extends ABiNode {
      * @param text to parse
      * @param length change length of this node
      */
-    private void parseAndReplace(final BiTree biTree, final String text,
+    private final void parseAndReplace(final BiTree biTree, final String text,
             final int length)
             throws ReparseException {
         BiTree treePart;
@@ -221,7 +214,7 @@ public class BiNode extends ABiNode {
 
         treePart = SAXBiParser.getInstance().parse(text);
 
-        // parse successfull
+        // parse unsuccessfull
         if (treePart == null) {
             // if node & previous or node & sibling are invalid - reparse parent
             if ((getPrevious() != null &&
@@ -240,7 +233,7 @@ public class BiNode extends ABiNode {
             changeLengthRec(length);
 
         } else {
-            
+
             parent = (BiNode) getParent();
             domValid = treePart.getDOMTree((Document) biTree.getDocument());
             treePart.getRoot().addSibling(getSibling());
