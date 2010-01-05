@@ -45,163 +45,163 @@ public class InsertTableDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jSpinner2 = new javax.swing.JSpinner();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        buttonGroupType = new javax.swing.ButtonGroup();
+        tableRadioButton = new javax.swing.JRadioButton();
+        matrixRadioButton = new javax.swing.JRadioButton();
+        determinantRadioButton = new javax.swing.JRadioButton();
+        cancelButton = new javax.swing.JButton();
+        okButton = new javax.swing.JButton();
+        columnsLabel = new javax.swing.JLabel();
+        rowsSpinner = new javax.swing.JSpinner();
+        columnsSpinner = new javax.swing.JSpinner();
+        typeLabel = new javax.swing.JLabel();
+        rowsLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton2.setText("Abbrechen");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroupType.add(tableRadioButton);
+        tableRadioButton.setText("Tabelle");
+
+        buttonGroupType.add(matrixRadioButton);
+        matrixRadioButton.setSelected(true);
+        matrixRadioButton.setText("Matrix");
+
+        buttonGroupType.add(determinantRadioButton);
+        determinantRadioButton.setText("Determinante");
+
+        cancelButton.setText("Abbrechen");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                cancelButtonActionPerformed(evt);
             }
         });
 
-        jButton1.setText("OK");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        okButton.setText("OK");
+        okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                okButtonActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Spalten");
+        columnsLabel.setText("Spalten");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(3, 1, 99, 1));
+        rowsSpinner.setModel(new javax.swing.SpinnerNumberModel(3, 1, 99, 1));
 
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(3, 1, 99, 1));
+        columnsSpinner.setModel(new javax.swing.SpinnerNumberModel(3, 1, 99, 1));
 
-        jLabel3.setText("Typ");
+        typeLabel.setText("Typ");
 
-        jLabel1.setText("Zeilen");
-
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Matrix");
-
-        jRadioButton2.setText("Determinante");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
-                .addContainerGap(59, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jRadioButton1)
-                .addGap(11, 11, 11)
-                .addComponent(jRadioButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        rowsLabel.setText("Zeilen");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(typeLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tableRadioButton)
+                            .addComponent(matrixRadioButton)
+                            .addComponent(determinantRadioButton)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addGap(24, 24, 24)
+                        .addComponent(rowsLabel)
+                        .addGap(14, 14, 14)
+                        .addComponent(rowsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(columnsLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(columnsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(51, 51, 51))
+                        .addGap(39, 39, 39)
+                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cancelButton)))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rowsLabel)
+                    .addComponent(columnsLabel)
+                    .addComponent(rowsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(columnsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addComponent(typeLabel)
+                    .addComponent(matrixRadioButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tableRadioButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(determinantRadioButton)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelButton)
+                    .addComponent(okButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         mathMLText = null;
         this.setVisible(false);
-}//GEN-LAST:event_jButton2ActionPerformed
+}//GEN-LAST:event_cancelButtonActionPerformed
 
 
     public String getMathMLText()
     {
         return mathMLText;
     }
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
 
         this.updateMathMLText();
         this.setVisible(false);
-}//GEN-LAST:event_jButton1ActionPerformed
+}//GEN-LAST:event_okButtonActionPerformed
 
-        private String buildText(int lines, int columns, String type)
-    {
-        String s = "<" + type + ">\n";
+    private String buildText(int lines, int columns, String type) {
+        //String s = "<" + type + ">\n";
+        String s = "<mrow>\r\n<mfenced" + type + ">\r\n<mtable>\r\n";
 
-        for(int i=0; i<lines;++i)
-        {
-            s += "<matrixrow>\n";
-            for(int j=0; j<columns;++j)
-            {
-                s+="\t<cn>1</cn>\n";
+        for (int i = 0; i < lines; ++i) {
+            //s += "<matrixrow>\n";
+            s += "<mtr>\r\n";
+            for (int j = 0; j < columns; ++j) {
+                s += "<mtd><mn>1</mn></mtd>\r\n";
+                //s+="\t<cn>1</cn>\n";
             }
-            s+= "</matrixrow>\n";
+            //s+= "</matrixrow>\n";
+            s += "</mtr>\r\n";
         }
-        s+="</" + type + ">\n";
+        //s+="</" + type + ">\n";
+        s += "</mtable>\r\n</mfenced>\r\n</mrow>\r\n";
         return s;
     }
+
     private void updateMathMLText()
     {
-        int m = (Integer)this.jSpinner1.getValue();
-        int n = (Integer)this.jSpinner2.getValue();
+        int m = (Integer)this.rowsSpinner.getValue();
+        int n = (Integer)this.columnsSpinner.getValue();
 
         //matrix
-        if(jRadioButton1.isSelected())
+        if(matrixRadioButton.isSelected())
         {
-            this.mathMLText = buildText(m,n,"matrix");
+            this.mathMLText = buildText(m,n,"");
         }
-        else if(jRadioButton2.isSelected())
+        else if(determinantRadioButton.isSelected())
         {
-            this.mathMLText = buildText(m,n,"determinant");
+            this.mathMLText = buildText(m,n," open=\"|\" close=\"|\"");
+        }
+        else if(tableRadioButton.isSelected())
+        {
+            this.mathMLText = buildText(m, n, " open=\"\" close=\"\"");
         }
         else
             mathMLText = null;
@@ -225,16 +225,17 @@ public class InsertTableDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
+    private javax.swing.ButtonGroup buttonGroupType;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel columnsLabel;
+    private javax.swing.JSpinner columnsSpinner;
+    private javax.swing.JRadioButton determinantRadioButton;
+    private javax.swing.JRadioButton matrixRadioButton;
+    private javax.swing.JButton okButton;
+    private javax.swing.JLabel rowsLabel;
+    private javax.swing.JSpinner rowsSpinner;
+    private javax.swing.JRadioButton tableRadioButton;
+    private javax.swing.JLabel typeLabel;
     // End of variables declaration//GEN-END:variables
 
 }

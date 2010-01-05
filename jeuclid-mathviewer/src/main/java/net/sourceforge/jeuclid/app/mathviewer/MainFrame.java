@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.app.mathviewer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
@@ -39,6 +40,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
@@ -128,6 +130,48 @@ public class MainFrame extends JFrame {
 
     private JCheckBoxMenuItem debugMenuItem;
 
+    //==================================================
+    // context menu elements
+    //==================================================
+    
+    private JPopupMenu contextPopupMenu;
+    
+    private JMenu insertMenu;
+
+    private JMenu greekMenu;
+
+    private JMenu logicsMenu;
+
+    private JMenu symbolsMenu;
+
+    private JMenuItem c_refreshMenuItem;
+
+    private JMenuItem tableMenuItem;
+
+    private JMenuItem polynomMenuItem;
+
+    private JMenuItem contentMLMenuItem;
+
+    private JMenuItem orMenuItem;
+
+    private JMenuItem andMenuItem;
+
+    private JMenuItem notMenuItem;
+
+    private JMenuItem alphaMenuItem;
+
+    private JMenuItem betaMenuItem;
+
+    private JMenuItem gammaMenuItem;
+
+    private JMenuItem deltaMenuItem;
+
+    private JMenuItem omegaMenuItem;
+
+    private JMenuItem existsMenuItem;
+
+    private JMenuItem forallMenuItem;
+
     /**
      * This is the default constructor.
      */
@@ -197,7 +241,6 @@ public class MainFrame extends JFrame {
             if (!MathViewer.OSX) {
                 this.fileMenu.add(this.getExitMenuItem());
             }
-            this.updateFromTextArea();
         }
         return this.fileMenu;
     }
@@ -455,6 +498,7 @@ public class MainFrame extends JFrame {
                     + "</math>");
 
             this.xmlEditor.setEditable(true);
+            this.xmlEditor.setComponentPopupMenu(this.getContextPopupMenu());
             this.xmlEditor.getDocument().addDocumentListener(
                     new DocumentListener() {
                         public void changedUpdate(
@@ -796,4 +840,281 @@ public class MainFrame extends JFrame {
                 null);
     }
 
+    private JMenuItem getCRefreshMenuItem() {
+        if (this.c_refreshMenuItem == null) {
+            this.c_refreshMenuItem = new JMenuItem();
+            this.c_refreshMenuItem.setText(Messages
+                    .getString("MathViewer.cRefreshMenuItem")); //$NON-NLS-1$
+            this.c_refreshMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    MainFrame.this.updateFromTextArea();
+                }
+            });
+        }
+        return this.c_refreshMenuItem;
+    }
+
+    private JMenuItem getTableMenuItem() {
+        if (this.tableMenuItem == null) {
+            this.tableMenuItem = new JMenuItem();
+            this.tableMenuItem.setText(Messages
+                    .getString("MathViewer.tableMenuItem")); //$NON-NLS-1$
+            this.tableMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    InsertTableDialog dlg = new InsertTableDialog(MainFrame.this, true);
+                    dlg.setVisible(true);
+
+                    if(dlg.getMathMLText() != null) {
+                        insertMacro(dlg.getMathMLText());
+                    }
+                }
+            });
+        }
+        return this.tableMenuItem;
+    }
+
+    private JMenuItem getPolynomMenuItem() {
+        if (this.polynomMenuItem == null) {
+            this.polynomMenuItem = new JMenuItem();
+            this.polynomMenuItem.setText(Messages
+                    .getString("MathViewer.polynomMenuItem")); //$NON-NLS-1$
+            this.polynomMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    InsertPolynomDialog dlg = new InsertPolynomDialog(MainFrame.this, true);
+                    dlg.setVisible(true);
+                    if(dlg.getMathMLText() != null) {
+                        insertMacro(dlg.getMathMLText());
+                    }
+                }
+            });
+        }
+        return this.polynomMenuItem;
+    }
+
+    private JMenuItem getContentMLMenuItem() {
+        if (this.contentMLMenuItem == null) {
+            this.contentMLMenuItem = new JMenuItem();
+            this.contentMLMenuItem.setText(Messages
+                    .getString("MathViewer.contentMLMenuItem")); //$NON-NLS-1$
+            this.contentMLMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    InsertCMLDialog dlg = new InsertCMLDialog(MainFrame.this, true);
+                    dlg.setVisible(true);
+
+                    if(dlg.getMathMLText() != null) {
+                        insertMacro(dlg.getMathMLText());
+                    }
+                }
+            });
+        }
+        return this.contentMLMenuItem;
+    }
+
+    private JMenuItem getOrMenuItem() {
+        if (this.orMenuItem == null) {
+            this.orMenuItem = new JMenuItem();
+            this.orMenuItem.setText(Messages
+                    .getString("MathViewer.orMenuItem")); //$NON-NLS-1$
+            this.orMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<apply><or/><ci>a</ci><ci>b</ci></apply>");
+                }
+            });
+        }
+        return this.orMenuItem;
+    }
+
+    private JMenuItem getAndMenuItem() {
+        if (this.andMenuItem == null) {
+            this.andMenuItem = new JMenuItem();
+            this.andMenuItem.setText(Messages
+                    .getString("MathViewer.andMenuItem")); //$NON-NLS-1$
+            this.andMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<apply><and/><ci>a</ci><ci>b</ci></apply>");
+                }
+            });
+        }
+        return this.andMenuItem;
+    }
+
+    private JMenuItem getNotMenuItem() {
+        if (this.notMenuItem == null) {
+            this.notMenuItem = new JMenuItem();
+            this.notMenuItem.setText(Messages
+                    .getString("MathViewer.notMenuItem")); //$NON-NLS-1$
+            this.notMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<apply><not/><ci>a</ci></apply>");
+                }
+            });
+        }
+        return this.notMenuItem;
+    }
+
+
+    private JMenuItem getAlphaMenuItem() {
+        if (this.alphaMenuItem == null) {
+            this.alphaMenuItem = new JMenuItem();
+            this.alphaMenuItem.setText(Messages
+                    .getString("MathViewer.alphaMenuItem")); //$NON-NLS-1$
+            this.alphaMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<mi>&#x003b1;</mi>");
+                }
+            });
+        }
+        return this.alphaMenuItem;
+    }
+
+    private JMenuItem getBetaMenuItem() {
+        if (this.betaMenuItem == null) {
+            this.betaMenuItem = new JMenuItem();
+            this.betaMenuItem.setText(Messages
+                    .getString("MathViewer.betaMenuItem")); //$NON-NLS-1$
+            this.betaMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<mi>&#x003b2;</mi>");
+                }
+            });
+        }
+        return this.betaMenuItem;
+    }
+
+    private JMenuItem getGammaMenuItem() {
+        if (this.gammaMenuItem == null) {
+            this.gammaMenuItem = new JMenuItem();
+            this.gammaMenuItem.setText(Messages
+                    .getString("MathViewer.gammaMenuItem")); //$NON-NLS-1$
+            this.gammaMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<mi>&#x003b3;</mi>");
+                }
+            });
+        }
+        return this.gammaMenuItem;
+    }
+
+    private JMenuItem getDeltaMenuItem() {
+        if (this.deltaMenuItem == null) {
+            this.deltaMenuItem = new JMenuItem();
+            this.deltaMenuItem.setText(Messages
+                    .getString("MathViewer.deltaMenuItem")); //$NON-NLS-1$
+            this.deltaMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<mi>&#x003b4;</mi>");
+                }
+            });
+        }
+        return this.deltaMenuItem;
+    }
+
+    private JMenuItem getOmegaMenuItem() {
+        if (this.omegaMenuItem == null) {
+            this.omegaMenuItem = new JMenuItem();
+            this.omegaMenuItem.setText(Messages
+                    .getString("MathViewer.omegaMenuItem")); //$NON-NLS-1$
+            this.omegaMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<mi>&#x003c9;</mi>");
+                }
+            });
+        }
+        return this.omegaMenuItem;
+    }
+
+    private JMenuItem getExistsMenuItem() {
+        if (this.existsMenuItem == null) {
+            this.existsMenuItem = new JMenuItem();
+            this.existsMenuItem.setText(Messages
+                    .getString("MathViewer.existsMenuItem")); //$NON-NLS-1$
+            this.existsMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<apply><exists/></apply>");
+                }
+            });
+        }
+        return this.existsMenuItem;
+    }
+
+    private JMenuItem getForAllMenuItem() {
+        if (this.forallMenuItem == null) {
+            this.forallMenuItem = new JMenuItem();
+            this.forallMenuItem.setText(Messages
+                    .getString("MathViewer.forallMenuItem")); //$NON-NLS-1$
+            this.forallMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<apply><forall/></apply>");
+                }
+            });
+        }
+        return this.forallMenuItem;
+    }
+
+    private JMenu getGreekMenu() {
+        if (this.greekMenu == null) {
+            this.greekMenu = new JMenu();
+            this.greekMenu.setText(Messages.getString("MathViewer.GreekMenu")); //$NON-NLS-1$
+            this.greekMenu.add(this.getAlphaMenuItem());
+            this.greekMenu.add(this.getBetaMenuItem());
+            this.greekMenu.add(this.getGammaMenuItem());
+            this.greekMenu.add(this.getDebugMenuItem());
+            this.greekMenu.add(this.getOmegaMenuItem());
+        }
+        return this.greekMenu;
+    }
+
+    private JMenu getLogicsMenu() {
+        if(this.logicsMenu == null) {
+            this.logicsMenu = new JMenu();
+            this.logicsMenu.setText(Messages.getString("MathViewer.LogicsMenu")); //$NON-NLS-1$
+            this.logicsMenu.add(this.getAndMenuItem());
+            this.logicsMenu.add(this.getOrMenuItem());
+            this.logicsMenu.add(this.getNotMenuItem());
+        }
+        return this.logicsMenu;
+    }
+
+    private JMenu getSymbolsMenu() {
+        if(this.symbolsMenu == null) {
+            this.symbolsMenu = new JMenu();
+            this.symbolsMenu.setText(Messages.getString("MathViewer.SymbolsMenu")); //$NON-NLS-1$
+            this.symbolsMenu.add(this.getForAllMenuItem());
+            this.symbolsMenu.add(this.getExistsMenuItem());
+        }
+        return this.symbolsMenu;
+    }
+
+    private JMenu getInsertMenu() {
+        if (this.insertMenu == null) {
+            this.insertMenu = new JMenu();
+            this.insertMenu.setText(Messages.getString("MathViewer.InsertMenu")); //$NON-NLS-1$
+            this.insertMenu.add(this.getTableMenuItem());
+            this.insertMenu.add(this.getPolynomMenuItem());
+            this.insertMenu.add(this.getContentMLMenuItem());
+            this.insertMenu.add(this.getGreekMenu());
+            this.insertMenu.add(this.getLogicsMenu());
+            this.insertMenu.add(this.getSymbolsMenu());
+        }
+        return this.insertMenu;
+    }
+
+    private JPopupMenu getContextPopupMenu() {
+        if(this.contextPopupMenu == null) {
+            this.contextPopupMenu = new JPopupMenu();
+            this.contextPopupMenu.add(this.getCRefreshMenuItem());
+            this.contextPopupMenu.add(this.getInsertMenu());
+        }
+        return this.contextPopupMenu;
+    }
+
+    private void insertMacro(final String macroText)
+    {
+        int pos = getXMLEditor().getCaretPosition();
+        String s1 = getXMLEditor().getText().substring(0,pos);
+        String s2 = getXMLEditor().getText().substring(pos);
+        s1 += macroText + s2;
+        getXMLEditor().setText(s1);
+        updateFromTextArea();
+    }
 }
