@@ -57,4 +57,13 @@ public class SearchResult {
     public void setLength(int length) {
         this.length = length;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Offset=");
+        sb.append(this.totalOffset);
+        sb.append(", Length=");
+        sb.append(this.length);
+        return sb.toString();
+    }
 }

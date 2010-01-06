@@ -21,6 +21,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import net.sourceforge.jeuclid.biparser.BiTree;
+import net.sourceforge.jeuclid.biparser.SearchResult;
 import net.sourceforge.jeuclid.layout.JEuclidView.NodeRect;
 import org.w3c.dom.Node;
 
@@ -45,13 +46,14 @@ public class JMathComponentMouseListener implements MouseListener {
             
             Node lastNode = rectList.get(rectList.size()-1).getNode();
             
-            int pos = tree.searchNode(lastNode);
+            SearchResult result = tree.searchNode(lastNode);
             System.out.println("cursor node text: " + lastNode.getTextContent());
 
-            this.mathComponent.getCursorListener().updateCursorPosition(pos);
+            this.mathComponent.getCursorListener().updateCursorPosition(result);
         }
     }
 
+    //obsolete with marker-feature
     private void drawCursor(final double x, final double y, final double height)
     {
         MathComponentUI ui = this.mathComponent.getUI();
