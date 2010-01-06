@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.app.mathviewer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
@@ -516,21 +515,30 @@ public class MainFrame extends JFrame {
                             MainFrame.this.updateFromTextArea();
                         }
                     });
-            this.xmlEditor.setBackground(Color.WHITE);
+            this.updateFromTextArea();
         }
+
         return this.xmlEditor;
+    }
+
+    private void setValid(boolean isValid) {
+        if(isValid)
+            this.xmlEditor.setBackground(Color.getHSBColor(0.3f, 0.2f, 1.0f));
+        else
+            this.xmlEditor.setBackground(Color.getHSBColor(0f, 0.2f, 1.0f));
     }
 
     private void updateFromTextArea() {
         try {
             this.getMathComponent().setContent(this.getXMLEditor().getText());
-            this.xmlEditor.setBackground(Color.getHSBColor(0.3f, 0.2f, 1.0f));
+                
+            this.setValid(this.getMathComponent().isDocumentValid());
+                
             // CHECKSTYLE:OFF
             // in this case, we want to explicitly provide catch-all error
             // handling.
         } catch (final RuntimeException e) {
             // CHECKSTYLE:ON
-            this.xmlEditor.setBackground(Color.getHSBColor(0f, 0.2f, 1.0f));
         }
     }
 

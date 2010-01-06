@@ -33,6 +33,7 @@ public class JMathComponentMouseListener implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
+        JOptionPane.showMessageDialog(this.mathComponent, "test");
         MathComponentUI ui = mathComponent.getUI();
         List<NodeRect> rectList = ui.getNodesAt(e.getX(), e.getY());
         
