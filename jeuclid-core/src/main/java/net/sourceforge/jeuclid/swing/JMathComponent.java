@@ -94,10 +94,14 @@ public final class JMathComponent extends JComponent implements SwingConstants {
 
     private boolean isDocumentValid;
 
+    private CursorListener cursorListener;
+
     /**
      * Default constructor.
      */
-    public JMathComponent() {
+    public JMathComponent(CursorListener cursorListener) {
+        this.cursorListener = cursorListener;
+        
         JMathComponentMouseListener mouseListener =
                 new JMathComponentMouseListener(this);
         this.addMouseListener(mouseListener);
@@ -111,6 +115,10 @@ public final class JMathComponent extends JComponent implements SwingConstants {
         return this.isDocumentValid;
     }
 
+    public CursorListener getCursorListener() {
+        return this.cursorListener;
+    }
+
     /**
      * Provide compatibility for standard get/setFont() operations.
      */
@@ -119,6 +127,10 @@ public final class JMathComponent extends JComponent implements SwingConstants {
                 JMathComponent.FONT_SEPARATOR)[0];
         final float fontSize = this.getFontSize();
         super.setFont(new Font(fontName, 0, (int) fontSize));
+    }
+
+    public BiTree getBiTree() {
+        return this.biTree;
     }
 
     /**

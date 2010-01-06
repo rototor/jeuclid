@@ -50,6 +50,7 @@ import javax.swing.event.DocumentListener;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.swing.CursorListener;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 
 import org.apache.batik.util.gui.xmleditor.XMLContext;
@@ -63,7 +64,7 @@ import org.w3c.dom.Document;
  * @version $Revision$
  */
 // CHECKSTYLE:OFF
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements CursorListener {
     // CHECKSTYLE:ON
     private static final int DEFAULT_HEIGHT = 400;
 
@@ -178,6 +179,17 @@ public class MainFrame extends JFrame {
         super();
         this.initialize();
     }
+
+    @Override
+    public void updateCursorPosition(final int position) {
+        System.out.println("update cursor: " + position);
+        if(position != -1 && position < this.getXMLEditor().getText().length()) {
+            this.getXMLEditor().requestFocusInWindow();
+            this.getXMLEditor().setCaretPosition(position);
+        }
+    }
+
+
 
     /**
      * This method initializes this
@@ -589,7 +601,7 @@ public class MainFrame extends JFrame {
      */
     public JMathComponent getMathComponent() {
         if (this.mathComponent == null) {
-            this.mathComponent = new JMathComponent();
+            this.mathComponent = new JMathComponent(this);
             this.mathComponent
                     .setContent("<math><mtext>" //$NON-NLS-1$
                             + Messages.getString("MathViewer.noFileLoaded") + "</mtext></math>"); //$NON-NLS-1$ //$NON-NLS-2$
