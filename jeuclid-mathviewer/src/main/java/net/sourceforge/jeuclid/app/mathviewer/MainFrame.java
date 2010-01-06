@@ -514,23 +514,36 @@ public class MainFrame extends JFrame implements CursorListener {
                     new DocumentListener() {
                         public void changedUpdate(
                                 final DocumentEvent documentevent) {
-                            MainFrame.this.updateFromTextArea();
+                            MainFrame.this.updateFromTextArea(documentevent);
                         }
 
                         public void insertUpdate(
                                 final DocumentEvent documentevent) {
-                            MainFrame.this.updateFromTextArea();
+                            MainFrame.this.updateFromTextArea(documentevent);
                         }
 
                         public void removeUpdate(
                                 final DocumentEvent documentevent) {
-                            MainFrame.this.updateFromTextArea();
+                            MainFrame.this.updateFromTextArea(documentevent);
                         }
                     });
             this.updateFromTextArea();
         }
 
         return this.xmlEditor;
+    }
+
+    private void updateFromTextArea(DocumentEvent documentevent) {
+        try {
+            this.getMathComponent().setContent(documentevent, this.getXMLEditor().getText());
+            this.setValid(true);
+            // CHECKSTYLE:OFF
+            // in this case, we want to explicitly provide catch-all error
+            // handling.
+        } catch (final RuntimeException e) {
+            // CHECKSTYLE:ON
+            this.setValid(false);
+        }
     }
 
     private void setValid(boolean isValid) {
