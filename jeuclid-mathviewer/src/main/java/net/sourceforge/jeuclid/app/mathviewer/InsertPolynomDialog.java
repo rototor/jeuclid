@@ -131,15 +131,15 @@ public class InsertPolynomDialog extends javax.swing.JDialog {
         String s = "";
         char c = 'a';
         for (int i = degree; i >= 0; --i) {
-            s += "<mi>" + c + "</mi>\r\n";
+            s += "<mi>" + c + "</mi>" + Helper.nl();
 
             if (i > 0) {
                 if (i != 1) {
-                    s += "<msup><mi>x</mi><mn>" + i + "</mn></msup>\r\n";
+                    s += "<msup><mi>x</mi><mn>" + i + "</mn></msup>" + Helper.nl();
                 } else {
-                    s += "<mi>x</mi>\r\n";
+                    s += "<mi>x</mi>" + Helper.nl();
                 }
-                s += "<mo>+</mo>\r\n";
+                s += "<mo>+</mo>" + Helper.nl();
             }
             c++;
         }

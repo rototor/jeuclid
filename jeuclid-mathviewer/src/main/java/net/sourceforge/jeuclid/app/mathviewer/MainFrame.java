@@ -495,21 +495,21 @@ public class MainFrame extends JFrame implements CursorListener {
         if (this.xmlEditor == null) {
             this.xmlEditor = new XMLTextEditor();
             this.xmlEditor.setEditorKit(new XMLEditorKit(new XMLContext()));
-            /*this.xmlEditor.setText("<?xml version='1.0'?>\n"
-                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n"
+            /*this.xmlEditor.setText("<?xml version='1.0'?>" + Helper.nl()
+                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>" + Helper.nl()
                     + "</math>");*/
-            this.xmlEditor.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + nl()
+            this.xmlEditor.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Helper.nl()
                     //DOCTYPE for W3C compliance obviously not supported
                     //+ "<!DOCTYPE math PUBLIC -//W3C//DTD MathML 2.0//EN' "
-                    //+ "'http://www.w3.org/Math/DTD/mathml2/mathml2.dtd'>\n"
-                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>" + nl()
-                    + "<mrow>" + nl()
-                    + "<mi>a</mi>" + nl()
-                    + "<msup><mi>x</mi><mn>2</mn></msup>" + nl()
-                    + "<mo>+</mo><mi>b</mi>" + nl()
-                    + "<mi>x</mi><mo>+</mo><mi>c</mi>" + nl()
-                    + "<mo>=</mo><mo>0</mo>" + nl()
-                    + "</mrow>" + nl()
+                    //+ "'http://www.w3.org/Math/DTD/mathml2/mathml2.dtd'>" + Helper.nl()
+                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>" + Helper.nl()
+                    + "<mrow>" + Helper.nl()
+                    + "<mi>a</mi>" + Helper.nl()
+                    + "<msup><mi>x</mi><mn>2</mn></msup>" + Helper.nl()
+                    + "<mo>+</mo><mi>b</mi>" + Helper.nl()
+                    + "<mi>x</mi><mo>+</mo><mi>c</mi>" + Helper.nl()
+                    + "<mo>=</mo><mo>0</mo>" + Helper.nl()
+                    + "</mrow>" + Helper.nl()
                     + "</math>");
 
             this.xmlEditor.setEditable(true);
