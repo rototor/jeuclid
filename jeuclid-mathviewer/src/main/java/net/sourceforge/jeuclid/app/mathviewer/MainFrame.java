@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.app.mathviewer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
@@ -47,7 +48,11 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Caret;
+import javax.swing.text.Highlighter;
 import net.sourceforge.jeuclid.MathMLSerializer;
+import net.sourceforge.jeuclid.biparser.SearchResult;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.swing.CursorListener;
@@ -181,11 +186,13 @@ public class MainFrame extends JFrame implements CursorListener {
     }
 
     @Override
-    public void updateCursorPosition(final int position) {
-        System.out.println("update cursor: " + position);
-        if(position != -1 && position < this.getXMLEditor().getText().length()) {
+    public void updateCursorPosition(final SearchResult result) {
+        System.out.println("SearchResult: " + result);
+        if(result != null && result.getTotalOffset() < this.getXMLEditor().getText().length()) {
             this.getXMLEditor().requestFocusInWindow();
-            this.getXMLEditor().setCaretPosition(position);
+            this.getXMLEditor().setCaretPosition(result.getTotalOffset());
+            this.getXMLEditor().setSelectionStart(result.getTotalOffset());
+            this.getXMLEditor().setSelectionEnd(result.getTotalOffset()+result.getLength());
         }
     }
 
@@ -482,10 +489,6 @@ public class MainFrame extends JFrame implements CursorListener {
         return this.splitPane;
     }
 
-    private String nl() {
-        return System.getProperty("line.separator");
-    }
-
     /**
      * This method initializes xmlEditor
      * 
@@ -537,9 +540,21 @@ public class MainFrame extends JFrame implements CursorListener {
         return this.xmlEditor;
     }
 
+    private String normalize(final String text) {
+        //workaround for some problems with OS dependency
+        //
+        //pane.getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
+        return text.replace("\r\n", "\n");
+    }
+
     private void updateFromTextArea(DocumentEvent documentevent) {
         try {
-            this.getMathComponent().setContent(documentevent, this.getXMLEditor().getText());
+            String txt = normalize(this.getXMLEditor().getText());
+            this.getMathComponent().setContent(documentevent,txt);
+
+            /*this.getMathComponent().setContent(
+                    documentevent, this.getXMLEditor().getDocument().getText(
+                    0, this.getXMLEditor().getDocument().getLength()));*/
             this.setValid(this.getMathComponent().isDocumentValid());
 
             System.out.println(this.getMathComponent().getBiTree());
@@ -562,9 +577,13 @@ public class MainFrame extends JFrame implements CursorListener {
 
     private void updateFromTextArea() {
         try {
-            this.getMathComponent().setContent(this.getXMLEditor().getText());
+            String txt = normalize(this.getXMLEditor().getText());
+            this.getMathComponent().setContent(txt);
+            //this.getMathComponent().setContent(this.getXMLEditor().getDocument().getText(0, this.getXMLEditor().getDocument().getLength()));
             this.setValid(this.getMathComponent().isDocumentValid());
-                
+
+            System.out.println(this.getMathComponent().getBiTree());
+            
             // CHECKSTYLE:OFF
             // in this case, we want to explicitly provide catch-all error
             // handling.
@@ -572,7 +591,6 @@ public class MainFrame extends JFrame implements CursorListener {
             // CHECKSTYLE:ON
             this.setValid(this.getMathComponent().isDocumentValid());
         }
-        System.out.println("text length=====" + this.getXMLEditor().getText().length());
     }
 
     /**
@@ -886,6 +904,9 @@ public class MainFrame extends JFrame implements CursorListener {
             this.c_refreshMenuItem = new JMenuItem();
             this.c_refreshMenuItem.setText(Messages
                     .getString("MathViewer.cRefreshMenuItem")); //$NON-NLS-1$
+            this.c_refreshMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_F10, Toolkit.getDefaultToolkit()
+                    .getMenuShortcutKeyMask(), true));
             this.c_refreshMenuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
                     MainFrame.this.updateFromTextArea();

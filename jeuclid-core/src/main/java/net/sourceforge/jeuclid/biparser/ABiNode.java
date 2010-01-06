@@ -1,3 +1,19 @@
+/*
+ * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package net.sourceforge.jeuclid.biparser;
 
 import org.w3c.dom.Document;
@@ -6,7 +22,6 @@ import org.w3c.dom.Node;
 /**
  * this class is used to store typcial information about a xml-node.
  *
- * @author dominik
  */
 public abstract class ABiNode {
 
@@ -198,17 +213,17 @@ public abstract class ABiNode {
 
     /**
      * search a DOM node in this node.
-     * if nodes are equal return offset to begin of inputtext, else -1
+     * if nodes are equal return offset to begin of inputtext, else null
      * @param n DOM node to search for
      * @param totalOffset offset of node to begin of inputtext
      * @return position of node in inputtext
      */
-    public int searchNode(final Node n, final int totalOffset) {
+    public SearchResult searchNode(final Node n, final int totalOffset) {
         if (node != null && node.equals(n)) {
-            return totalOffset;
+            return new SearchResult(totalOffset,this.length);
         }
 
-        return -1;
+        return null;
     }
 
     @Override

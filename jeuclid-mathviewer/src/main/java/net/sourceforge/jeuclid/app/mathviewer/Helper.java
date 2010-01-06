@@ -23,7 +23,9 @@ package net.sourceforge.jeuclid.app.mathviewer;
  */
 public class Helper {
     public static String nl() {
-        return System.getProperty("line.separator");
+        //workaround for some problems with OS dependency
+        return "\n";
+        //return System.getProperty("line.separator");
     }
 
 }

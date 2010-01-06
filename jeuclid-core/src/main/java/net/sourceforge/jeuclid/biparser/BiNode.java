@@ -1,3 +1,20 @@
+/*
+ * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package net.sourceforge.jeuclid.biparser;
 
 import org.w3c.dom.Document;
@@ -9,7 +26,6 @@ import org.xml.sax.Attributes;
  * this class is used to store specific information about a composite xml-node.
  * the node can have one child, many attributes and can be invalid
  *
- * @author dominik
  */
 public class BiNode extends ABiNode {
 
@@ -340,19 +356,19 @@ public class BiNode extends ABiNode {
 
     /** {@inheritDoc} */
     @Override
-    public final int searchNode(final Node node, final int totalOffset) {
-        int result;
+    public final SearchResult searchNode(final Node node, final int totalOffset) {
+        SearchResult result;
 
         // check if node is this
         result = super.searchNode(node, totalOffset);
-        if (result >= 0) {
+        if (result != null) {
             return result;
         }
 
         // forward to child
         if (child != null) {
             result = child.searchNode(node, totalOffset + childOffset);
-            if (result >= 0) {
+            if (result != null) {
                 return result;
             }
         }
@@ -362,7 +378,7 @@ public class BiNode extends ABiNode {
             return getSibling().searchNode(node, totalOffset + getLength());
         }
 
-        return -1;
+        return null;
     }
 
     @Override

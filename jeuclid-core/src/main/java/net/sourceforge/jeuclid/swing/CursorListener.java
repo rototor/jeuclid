@@ -16,8 +16,10 @@
 
 package net.sourceforge.jeuclid.swing;
 
+import net.sourceforge.jeuclid.biparser.SearchResult;
+
 
 public interface CursorListener {
-    public void updateCursorPosition(final int position);
+    public void updateCursorPosition(final SearchResult result);
 
 }
