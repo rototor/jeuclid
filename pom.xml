@@ -207,10 +207,15 @@
       </roles>
     </contributor>
   </contributors>
-  <scm>
+  <!--<scm>
     <connection>scm:hg:http://jeuclid.hg.sourceforge.net:8000/hgroot/jeuclid/jeuclid</connection>
     <developerConnection>scm:hg:ssh://jeuclid.hg.sourceforge.net/hgroot/jeuclid/jeuclid</developerConnection>
     <url>http://jeuclid.hg.sourceforge.net/hgweb/jeuclid/jeuclid/</url>
+  </scm>-->
+  <scm>
+  <connection>scm:hg:ssh://dps005@goedis.dps.uibk.ac.at/hg</connection>
+  <developerConnection>scm:hg:ssh://dps005@goedis.dps.uibk.ac.at/hg</developerConnection>
+  <url>http://goedis.dps.uibk.ac.at/~dps005/</url>
   </scm>
   <build>
     <extensions>
@@ -481,7 +486,7 @@
     </plugins>
   </reporting>
   <distributionManagement>
-    <repository>
+    <!--<repository>
       <id>sourceforgejeuclid</id>
       <name>SourceForge Final Repository</name>
       <url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-release</url>
@@ -495,6 +500,21 @@
       <id>sourceforgejeuclid</id>
       <name>Website for JEuclid on SourceForge</name>
       <url>scp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs</url>
+    </site>-->
+    <!--<repository>
+      <id>sourceforgejeuclid</id>
+      <name>SourceForge Final Repository</name>
+      <url>sftp://goedis.dps.uibk.ac.at/~dps005/public_html/m2-release</url>
+    </repository>-->
+    <!--<snapshotRepository>
+      <id>sourceforgejeuclid</id>
+      <name>SourceForge Snapshot Repository</name>
+      <url>sftp://goedis.dps.uibk.ac.at/~dps005/public_html/m2-snap</url>
+    </snapshotRepository>-->
+    <site>
+      <id>sourceforgejeuclid</id>
+      <name>Website for JEuclid on SourceForge</name>
+      <url>sftp://goedis.dps.uibk.ac.at/home/dps005/public_html</url>
     </site>
   </distributionManagement>
   <properties>
