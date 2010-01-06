@@ -379,6 +379,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
 
             if (this.biTree != null && this.biTree.getDocument() != null) {
                 this.setDocument(this.biTree.getDocument());
+                LOGGER.debug(this.biTree);
             }
         }
     }
