@@ -482,6 +482,10 @@ public class MainFrame extends JFrame implements CursorListener {
         return this.splitPane;
     }
 
+    private String nl() {
+        return System.getProperty("line.separator");
+    }
+
     /**
      * This method initializes xmlEditor
      * 
@@ -494,18 +498,18 @@ public class MainFrame extends JFrame implements CursorListener {
             /*this.xmlEditor.setText("<?xml version='1.0'?>\n"
                     + "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n"
                     + "</math>");*/
-            this.xmlEditor.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            this.xmlEditor.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + nl()
                     //DOCTYPE for W3C compliance obviously not supported
                     //+ "<!DOCTYPE math PUBLIC -//W3C//DTD MathML 2.0//EN' "
                     //+ "'http://www.w3.org/Math/DTD/mathml2/mathml2.dtd'>\n"
-                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n"
-                    + "<mrow>\n"
-                    + "<mi>a</mi>\n"
-                    + "<msup><mi>x</mi><mn>2</mn></msup>\n"
-                    + "<mo>+</mo><mi>b</mi>\n"
-                    + "<mi>x</mi><mo>+</mo><mi>c</mi>\n"
-                    + "<mo>=</mo><mo>0</mo>\n"
-                    + "</mrow>\n"
+                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>" + nl()
+                    + "<mrow>" + nl()
+                    + "<mi>a</mi>" + nl()
+                    + "<msup><mi>x</mi><mn>2</mn></msup>" + nl()
+                    + "<mo>+</mo><mi>b</mi>" + nl()
+                    + "<mi>x</mi><mo>+</mo><mi>c</mi>" + nl()
+                    + "<mo>=</mo><mo>0</mo>" + nl()
+                    + "</mrow>" + nl()
                     + "</math>");
 
             this.xmlEditor.setEditable(true);
@@ -536,14 +540,16 @@ public class MainFrame extends JFrame implements CursorListener {
     private void updateFromTextArea(DocumentEvent documentevent) {
         try {
             this.getMathComponent().setContent(documentevent, this.getXMLEditor().getText());
-            this.setValid(true);
+            this.setValid(this.getMathComponent().isDocumentValid());
+
+            System.out.println(this.getMathComponent().getBiTree());
             
             // CHECKSTYLE:OFF
             // in this case, we want to explicitly provide catch-all error
             // handling.
         } catch (final RuntimeException e) {
             // CHECKSTYLE:ON
-            this.setValid(false);
+            this.setValid(this.getMathComponent().isDocumentValid());
         }
     }
 
@@ -564,8 +570,9 @@ public class MainFrame extends JFrame implements CursorListener {
             // handling.
         } catch (final RuntimeException e) {
             // CHECKSTYLE:ON
-            this.setValid(false);
+            this.setValid(this.getMathComponent().isDocumentValid());
         }
+        System.out.println("text length=====" + this.getXMLEditor().getText().length());
     }
 
     /**
