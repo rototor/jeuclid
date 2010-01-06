@@ -291,7 +291,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
      * @param message string to ouput
      */
     private void debug(final String message) {
-        final boolean debug = false;
+        final boolean debug = true;
 
         if (!debug) {
             return;
