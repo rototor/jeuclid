@@ -537,6 +537,7 @@ public class MainFrame extends JFrame implements CursorListener {
         try {
             this.getMathComponent().setContent(documentevent, this.getXMLEditor().getText());
             this.setValid(true);
+            
             // CHECKSTYLE:OFF
             // in this case, we want to explicitly provide catch-all error
             // handling.
@@ -556,7 +557,6 @@ public class MainFrame extends JFrame implements CursorListener {
     private void updateFromTextArea() {
         try {
             this.getMathComponent().setContent(this.getXMLEditor().getText());
-                
             this.setValid(this.getMathComponent().isDocumentValid());
                 
             // CHECKSTYLE:OFF
@@ -564,6 +564,7 @@ public class MainFrame extends JFrame implements CursorListener {
             // handling.
         } catch (final RuntimeException e) {
             // CHECKSTYLE:ON
+            this.setValid(false);
         }
     }
 
