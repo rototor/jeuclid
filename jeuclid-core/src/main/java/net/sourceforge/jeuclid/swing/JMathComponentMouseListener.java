@@ -1,18 +1,17 @@
 /*
- *  Copyright 2009 Mario.
- * 
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- * 
- *       http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *  under the License.
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package net.sourceforge.jeuclid.swing;
@@ -21,8 +20,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
-import javax.swing.JOptionPane;
+import net.sourceforge.jeuclid.biparser.BiTree;
 import net.sourceforge.jeuclid.layout.JEuclidView.NodeRect;
+import org.w3c.dom.Node;
 
 
 public class JMathComponentMouseListener implements MouseListener {
@@ -33,14 +33,22 @@ public class JMathComponentMouseListener implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-        JOptionPane.showMessageDialog(this.mathComponent, "test");
+        //JOptionPane.showMessageDialog(this.mathComponent, "test");
         MathComponentUI ui = mathComponent.getUI();
         List<NodeRect> rectList = ui.getNodesAt(e.getX(), e.getY());
         
         if(rectList != null && rectList.size() > 0) {
             NodeRect lastRect = rectList.get(rectList.size()-1);
             Rectangle2D r = lastRect.getRect();
-            drawCursor(r.getX()+r.getWidth(),r.getY(),r.getHeight());
+            //drawCursor(r.getX()+r.getWidth(),r.getY(),r.getHeight());
+            BiTree tree = this.mathComponent.getBiTree();
+            
+            Node lastNode = rectList.get(rectList.size()-1).getNode();
+            
+            int pos = tree.searchNode(lastNode);
+            System.out.println("cursor node text: " + lastNode.getTextContent());
+
+            this.mathComponent.getCursorListener().updateCursorPosition(pos);
         }
     }
 

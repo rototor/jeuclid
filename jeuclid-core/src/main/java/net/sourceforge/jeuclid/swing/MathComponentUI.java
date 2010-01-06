@@ -55,6 +55,7 @@ public class MathComponentUI extends ComponentUI implements
     public static class Cursor {
         private double x;
         private double y;
+        private double width;
         private double height;
 
         public void setX(double x) {
@@ -63,6 +64,10 @@ public class MathComponentUI extends ComponentUI implements
 
         public void setY(double y) {
             this.y = y;
+        }
+
+        public void setWidth(double width) {
+            this.width = width;
         }
 
         public void setHeight(double height) {
