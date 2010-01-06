@@ -167,21 +167,21 @@ public class InsertTableDialog extends javax.swing.JDialog {
 }//GEN-LAST:event_okButtonActionPerformed
 
     private String buildText(int lines, int columns, String type) {
-        //String s = "<" + type + ">\n";
-        String s = "<mrow>\r\n<mfenced" + type + ">\r\n<mtable>\r\n";
+        //String s = "<" + type + ">" + Helper.nl();
+        String s = "<mrow>" + Helper.nl() + "<mfenced" + type + ">" + Helper.nl() +"<mtable>" + Helper.nl();
 
         for (int i = 0; i < lines; ++i) {
-            //s += "<matrixrow>\n";
-            s += "<mtr>\r\n";
+            //s += "<matrixrow>" + Helper.nl();
+            s += "<mtr>" + Helper.nl();
             for (int j = 0; j < columns; ++j) {
-                s += "<mtd><mn>1</mn></mtd>\r\n";
-                //s+="\t<cn>1</cn>\n";
+                s += "<mtd><mn>1</mn></mtd>" + Helper.nl();
+                //s+="\t<cn>1</cn>" + Helper.nl();
             }
-            //s+= "</matrixrow>\n";
-            s += "</mtr>\r\n";
+            //s+= "</matrixrow>" + Helper.nl();
+            s += "</mtr>" + Helper.nl();
         }
-        //s+="</" + type + ">\n";
-        s += "</mtable>\r\n</mfenced>\r\n</mrow>\r\n";
+        //s+="</" + type + ">" + Helper.nl();
+        s += "</mtable>" + Helper.nl() + "</mfenced>" + Helper.nl() + "</mrow>" + Helper.nl();
         return s;
     }
 
