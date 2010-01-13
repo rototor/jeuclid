@@ -20,6 +20,7 @@
     <src>images/logo.png</src>
     <href>http://jeuclid.sourceforge.net/</href>
   </bannerLeft>
+  <version position="left"/>
   <poweredBy>
     <logo name="Get JEuclid at SourceForge.net. Fast, secure and Free Open Source software downloads" href="http://sourceforge.net/projects/jeuclid" img="http://sflogo.sourceforge.net/sflogo.php?group_id=44862&amp;type=13"/>
     <logo name="Build with Maven 2" href="http://maven.apache.org" img="images/logos/maven-feather.png"/>
@@ -33,6 +34,7 @@
     <menu ref="parent"/>
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
+      <item name="Download" href="http://sourceforge.net/projects/jeuclid/files/3.1.x/"/>
       <item name="History" href="history.html"/>
       <item name="Usage" href="usage.html"/>
       <item name="Programming" href="programming.html"/>
