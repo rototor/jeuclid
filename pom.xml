@@ -232,12 +232,12 @@
         <!-- This is necessary for docbook sites on OS X -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>2.0.1</version>
+        <version>2.1</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.maven.doxia</groupId>
             <artifactId>doxia-module-docbook-simple</artifactId>
-            <version>1.0</version>
+            <version>1.1.2</version>
           </dependency>
         </dependencies>
       </plugin>
