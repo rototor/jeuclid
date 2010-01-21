@@ -19,7 +19,6 @@
 package net.sourceforge.jeuclid.app.mathviewer;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
@@ -184,7 +183,6 @@ public class MainFrame extends JFrame implements CursorListener {
 
     @Override
     public void updateCursorPosition(final SearchResult result) {
-        System.out.println("SearchResult: " + result);
         if(result != null && result.getTotalOffset() < this.getXMLEditor().getText().length()) {
             this.getXMLEditor().requestFocusInWindow();
             this.getXMLEditor().setCaretPosition(result.getTotalOffset());
