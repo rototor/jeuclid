@@ -239,7 +239,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
         debug("old line=" + lastLine);
         for (l = lastLine; l < line; l++) {
             position = 1 + content.indexOf(nl(), position);
-            System.out.println(" position = " + position + " ");
+            //System.out.println(" position = " + position + " ");
         }
 
         if (lastLine == line) {
