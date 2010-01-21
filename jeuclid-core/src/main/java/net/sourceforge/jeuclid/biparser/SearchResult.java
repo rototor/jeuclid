@@ -17,49 +17,69 @@
 package net.sourceforge.jeuclid.biparser;
 
 
+/**
+ * Tree search result (used for the cursor).
+ */
 public class SearchResult {
+
+    /**
+     * total position index (offset).
+     */
     private int totalOffset;
+
+    /**
+     * node length.
+     */
     private int length;
 
-    public SearchResult() {
-
-    }
-
-    public SearchResult(final int totalOffset, final int length) {
-        this.totalOffset = totalOffset;
-        this.length = length;
-    }
-    
     /**
+     * standard constructor.
+     * @param offset total position index
+     * @param len node length
+     */
+    public SearchResult(final int offset, final int len) {
+        this.totalOffset = offset;
+        this.length = len;
+    }
+
+    /**
+     * gets total offset.
      * @return the totalOffset
      */
-    public int getTotalOffset() {
+    public final int getTotalOffset() {
         return totalOffset;
     }
 
     /**
-     * @param totalOffset the totalOffset to set
+     * sets total offset.
+     * @param offset the totalOffset to set
      */
-    public void setTotalOffset(int totalOffset) {
-        this.totalOffset = totalOffset;
+    public final void setTotalOffset(final int offset) {
+        this.totalOffset = offset;
     }
 
     /**
+     * gets length.
      * @return the length
      */
-    public int getLength() {
+    public final int getLength() {
         return length;
     }
 
     /**
-     * @param length the length to set
+     * sets length.
+     * @param len the length to set
      */
-    public void setLength(int length) {
-        this.length = length;
+    public final void setLength(final int len) {
+        this.length = len;
     }
 
+    /**
+     * gets search result's string representation.
+     * @return string representation
+     */
     @Override
-    public String toString() {
+    public final String toString() {
         StringBuilder sb = new StringBuilder("Offset=");
         sb.append(this.totalOffset);
         sb.append(", Length=");

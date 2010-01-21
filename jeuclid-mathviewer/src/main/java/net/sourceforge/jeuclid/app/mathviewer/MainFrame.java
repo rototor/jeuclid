@@ -20,7 +20,6 @@ package net.sourceforge.jeuclid.app.mathviewer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
@@ -48,9 +47,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Caret;
-import javax.swing.text.Highlighter;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.biparser.SearchResult;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
@@ -70,7 +66,8 @@ import org.w3c.dom.Document;
  */
 // CHECKSTYLE:OFF
 public class MainFrame extends JFrame implements CursorListener {
-    // CHECKSTYLE:ON
+    // CHECKSTYLE:OFF
+
     private static final int DEFAULT_HEIGHT = 400;
 
     private static final int DEFAULT_WIDTH = 700;
@@ -542,7 +539,6 @@ public class MainFrame extends JFrame implements CursorListener {
 
     private String normalize(final String text) {
         //workaround for some problems with OS dependency
-        //
         //pane.getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
         return text.replace("\r\n", "\n");
     }
@@ -551,45 +547,25 @@ public class MainFrame extends JFrame implements CursorListener {
         try {
             String txt = normalize(this.getXMLEditor().getText());
             this.getMathComponent().setContent(documentevent,txt);
-
-            /*this.getMathComponent().setContent(
-                    documentevent, this.getXMLEditor().getDocument().getText(
-                    0, this.getXMLEditor().getDocument().getLength()));*/
-            this.setValid(this.getMathComponent().isDocumentValid());
-
-            System.out.println(this.getMathComponent().getBiTree());
             
             // CHECKSTYLE:OFF
             // in this case, we want to explicitly provide catch-all error
             // handling.
         } catch (final RuntimeException e) {
             // CHECKSTYLE:ON
-            this.setValid(this.getMathComponent().isDocumentValid());
         }
-    }
-
-    private void setValid(boolean isValid) {
-        if(isValid)
-            this.xmlEditor.setBackground(Color.getHSBColor(0.3f, 0.2f, 1.0f));
-        else
-            this.xmlEditor.setBackground(Color.getHSBColor(0f, 0.2f, 1.0f));
     }
 
     private void updateFromTextArea() {
         try {
             String txt = normalize(this.getXMLEditor().getText());
             this.getMathComponent().setContent(txt);
-            //this.getMathComponent().setContent(this.getXMLEditor().getDocument().getText(0, this.getXMLEditor().getDocument().getLength()));
-            this.setValid(this.getMathComponent().isDocumentValid());
-
-            System.out.println(this.getMathComponent().getBiTree());
             
             // CHECKSTYLE:OFF
             // in this case, we want to explicitly provide catch-all error
             // handling.
         } catch (final RuntimeException e) {
             // CHECKSTYLE:ON
-            this.setValid(this.getMathComponent().isDocumentValid());
         }
     }
 

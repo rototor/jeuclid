@@ -23,13 +23,14 @@
 
 package net.sourceforge.jeuclid.app.mathviewer;
 
-/**
- *
- * @author Mario
- */
+// CHECKSTYLE:OFF
 public class InsertPolynomDialog extends javax.swing.JDialog {
-
+    // CHECKSTYLE:OFF
+    /**
+     * Current mathML text.
+     */
     private String mathMLText;
+
     /** Creates new form InsertTableDialog */
     public InsertPolynomDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
