@@ -151,8 +151,6 @@ public class MainFrame extends JFrame implements CursorListener {
 
     private JMenuItem polynomMenuItem;
 
-    private JMenuItem contentMLMenuItem;
-
     private JMenuItem orMenuItem;
 
     private JMenuItem andMenuItem;
@@ -190,8 +188,6 @@ public class MainFrame extends JFrame implements CursorListener {
             this.getXMLEditor().setSelectionEnd(result.getTotalOffset()+result.getLength());
         }
     }
-
-
 
     /**
      * This method initializes this
@@ -927,25 +923,6 @@ public class MainFrame extends JFrame implements CursorListener {
         return this.polynomMenuItem;
     }
 
-    private JMenuItem getContentMLMenuItem() {
-        if (this.contentMLMenuItem == null) {
-            this.contentMLMenuItem = new JMenuItem();
-            this.contentMLMenuItem.setText(Messages
-                    .getString("MathViewer.contentMLMenuItem")); //$NON-NLS-1$
-            this.contentMLMenuItem.addActionListener(new ActionListener() {
-                public void actionPerformed(final ActionEvent e) {
-                    InsertCMLDialog dlg = new InsertCMLDialog(MainFrame.this, true);
-                    dlg.setVisible(true);
-
-                    if(dlg.getMathMLText() != null) {
-                        insertMacro(dlg.getMathMLText());
-                    }
-                }
-            });
-        }
-        return this.contentMLMenuItem;
-    }
-
     private JMenuItem getOrMenuItem() {
         if (this.orMenuItem == null) {
             this.orMenuItem = new JMenuItem();
@@ -1127,7 +1104,6 @@ public class MainFrame extends JFrame implements CursorListener {
             this.insertMenu.setText(Messages.getString("MathViewer.InsertMenu")); //$NON-NLS-1$
             this.insertMenu.add(this.getTableMenuItem());
             this.insertMenu.add(this.getPolynomMenuItem());
-            this.insertMenu.add(this.getContentMLMenuItem());
             this.insertMenu.add(this.getGreekMenu());
             this.insertMenu.add(this.getLogicsMenu());
             this.insertMenu.add(this.getSymbolsMenu());
