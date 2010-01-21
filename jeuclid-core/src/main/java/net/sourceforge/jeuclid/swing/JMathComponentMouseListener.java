@@ -18,68 +18,68 @@ package net.sourceforge.jeuclid.swing;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Rectangle2D;
 import java.util.List;
 import net.sourceforge.jeuclid.biparser.BiTree;
 import net.sourceforge.jeuclid.biparser.SearchResult;
 import net.sourceforge.jeuclid.layout.JEuclidView.NodeRect;
 import org.w3c.dom.Node;
 
-
+/**
+ * A simple mouse listener for Graphics<=>Text association.
+ */
 public class JMathComponentMouseListener implements MouseListener {
 
-    private JMathComponent mathComponent;
-    public JMathComponentMouseListener(JMathComponent mathComponent) {
-        this.mathComponent = mathComponent;
+    /**
+     * math component instance.
+     */
+    private final JMathComponent mathComponent;
+
+    /**
+     * standard constructor.
+     * @param mathComponentInstance math component instance
+     */
+    public JMathComponentMouseListener(
+            final JMathComponent mathComponentInstance) {
+        this.mathComponent = mathComponentInstance;
     }
 
-    public void mouseClicked(MouseEvent e) {
-        //JOptionPane.showMessageDialog(this.mathComponent, "test");
+    /**
+     * mouse click event handler.
+     * @param e mouse event
+     */
+    public final void mouseClicked(final MouseEvent e) {
         MathComponentUI ui = mathComponent.getUI();
         List<NodeRect> rectList = ui.getNodesAt(e.getX(), e.getY());
-        
-        if(rectList != null && rectList.size() > 0) {
-            NodeRect lastRect = rectList.get(rectList.size()-1);
-            Rectangle2D r = lastRect.getRect();
-            //drawCursor(r.getX()+r.getWidth(),r.getY(),r.getHeight());
+        if (rectList != null && rectList.size() > 0) {
             BiTree tree = this.mathComponent.getBiTree();
-            
-            Node lastNode = rectList.get(rectList.size()-1).getNode();
-            
+            Node lastNode = rectList.get(rectList.size() - 1).getNode();
             SearchResult result = tree.searchNode(lastNode);
-            System.out.println("cursor node text: " + lastNode.getTextContent());
 
             this.mathComponent.getCursorListener().updateCursorPosition(result);
         }
     }
 
-    //obsolete with marker-feature
-    private void drawCursor(final double x, final double y, final double height)
-    {
-        MathComponentUI ui = this.mathComponent.getUI();
-        MathComponentUI.Cursor cursor = ui.getCursor();
-        if(cursor == null)
-            cursor = new MathComponentUI.Cursor();
-        cursor.setX(x);
-        cursor.setY(y);
-        cursor.setHeight(height);
-        ui.setCursor(cursor);
-    }
+    /**
+     * mouse pressed event (unused).
+     * @param e mouse event
+     */
+    public final void mousePressed(final MouseEvent e) {   }
 
-    public void mousePressed(MouseEvent e) {
-        
-    }
+    /**
+     * mouse pressed event (unused).
+     * @param e mouse event
+     */
+    public final void mouseReleased(final MouseEvent e) {   }
 
-    public void mouseReleased(MouseEvent e) {
-        
-    }
+    /**
+     * mouse pressed event (unused).
+     * @param e mouse event
+     */
+    public final void mouseEntered(final MouseEvent e) {    }
 
-    public void mouseEntered(MouseEvent e) {
-        
-    }
-
-    public void mouseExited(MouseEvent e) {
-    }
-    
-
+    /**
+     * mouse pressed event (unused).
+     * @param e mouse event
+     */
+    public final void mouseExited(final MouseEvent e) {     }
 }

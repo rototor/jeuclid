@@ -23,12 +23,9 @@
 
 package net.sourceforge.jeuclid.app.mathviewer;
 
-/**
- *
- * @author Mario
- */
+// CHECKSTYLE:OFF
 public class InsertTableDialog extends javax.swing.JDialog {
-
+    // CHECKSTYLE:OFF
     private String mathMLText;
     /** Creates new form InsertTableDialog */
     public InsertTableDialog(java.awt.Frame parent, boolean modal) {

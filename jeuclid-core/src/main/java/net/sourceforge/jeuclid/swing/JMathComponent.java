@@ -92,16 +92,18 @@ public final class JMathComponent extends JComponent implements SwingConstants {
 
     private int verticalAlignment = SwingConstants.CENTER;
 
-    private boolean isDocumentValid;
-
+    /**
+     * cursor listener instance.
+     */
     private CursorListener cursorListener;
 
     /**
      * Default constructor.
+     * @param listener cursor listener instance
      */
-    public JMathComponent(CursorListener cursorListener) {
-        this.cursorListener = cursorListener;
-        
+    public JMathComponent(final CursorListener listener) {
+        this.cursorListener = listener;
+
         JMathComponentMouseListener mouseListener =
                 new JMathComponentMouseListener(this);
         this.addMouseListener(mouseListener);
@@ -111,10 +113,10 @@ public final class JMathComponent extends JComponent implements SwingConstants {
         this.setDocument(new DocumentElement());
     }
 
-    public boolean isDocumentValid() {
-        return this.isDocumentValid;
-    }
-
+    /**
+     * gets cursor listener instance.
+     * @return cursor listener instance
+     */
     public CursorListener getCursorListener() {
         return this.cursorListener;
     }
@@ -129,6 +131,10 @@ public final class JMathComponent extends JComponent implements SwingConstants {
         super.setFont(new Font(fontName, 0, (int) fontSize));
     }
 
+    /**
+     * gets tree instance.
+     * @return tree instance
+     */
     public BiTree getBiTree() {
         return this.biTree;
     }
@@ -333,8 +339,6 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      */
     public void setContent(final String contentString) {
         this.biTree = SAXBiParser.getInstance().parse(contentString);
-
-        this.isDocumentValid = (this.biTree != null);
 
         // parse finished
         if (this.biTree != null) {

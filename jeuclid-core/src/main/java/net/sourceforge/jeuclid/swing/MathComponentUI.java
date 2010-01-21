@@ -52,39 +52,6 @@ import org.w3c.dom.Node;
 public class MathComponentUI extends ComponentUI implements
         PropertyChangeListener {
 
-    public static class Cursor {
-        private double x;
-        private double y;
-        private double width;
-        private double height;
-
-        public void setX(double x) {
-            this.x = x;
-        }
-
-        public void setY(double y) {
-            this.y = y;
-        }
-
-        public void setWidth(double width) {
-            this.width = width;
-        }
-
-        public void setHeight(double height) {
-            this.height = height;
-        }
-    }
-
-    public Cursor cursor;
-
-    public void setCursor(Cursor cursor) {
-        this.cursor = cursor;
-    }
-
-    public Cursor getCursor() {
-        return this.cursor;
-    }
-
     /**
      * Logger for this class
      */
@@ -123,14 +90,7 @@ public class MathComponentUI extends ComponentUI implements
             final Point2D alignOffset = this.calculateAlignmentOffset(dim);
             this.jEuclidView.draw((Graphics2D) g, (float) alignOffset.getX()
                     + start.x, (float) alignOffset.getY() + start.y);
-            //NEW
-            if(this.cursor != null) {
-                g.setColor(Color.red);
-                g.drawLine((int)cursor.x, (int)cursor.y, (int)cursor.x, (int)(cursor.y+cursor.height));
-                this.jEuclidView.draw((Graphics2D) g, (float) alignOffset.getX() + start.x, (float) alignOffset.getY() + start.y);
-            }            
         }
-        
     }
 
     /** {@inheritDoc} */
