@@ -310,7 +310,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
      * @param message string to ouput
      */
     private void debug(final String message) {
-        final boolean debug = true;
+        final boolean debug = false;
 
         if (!debug) {
             return;
