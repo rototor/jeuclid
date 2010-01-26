@@ -19,6 +19,7 @@ package net.sourceforge.jeuclid.biparser;
 
 /**
  * Tree search result (used for the cursor).
+ * @version $Revision$
  */
 public class SearchResult {
 
@@ -47,7 +48,7 @@ public class SearchResult {
      * @return the totalOffset
      */
     public final int getTotalOffset() {
-        return totalOffset;
+        return this.totalOffset;
     }
 
     /**
@@ -63,7 +64,7 @@ public class SearchResult {
      * @return the length
      */
     public final int getLength() {
-        return length;
+        return this.length;
     }
 
     /**
@@ -80,7 +81,8 @@ public class SearchResult {
      */
     @Override
     public final String toString() {
-        StringBuilder sb = new StringBuilder("Offset=");
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Offset=");
         sb.append(this.totalOffset);
         sb.append(", Length=");
         sb.append(this.length);

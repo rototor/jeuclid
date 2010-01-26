@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package net.sourceforge.jeuclid.biparser;
 
 import java.io.StringReader;
@@ -27,6 +25,8 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * this class is used for SAX parsing.
  * it builds a BiTree out of a text while parsing
+ *
+ * @version $Revision$
  *
  */
 public class JEuclidSAXHandler extends DefaultHandler {
@@ -56,14 +56,14 @@ public class JEuclidSAXHandler extends DefaultHandler {
      * @param t BiTree to construct
      */
     public JEuclidSAXHandler(final String c, final BiTree t) {
-        position = 0;
-        previousPosition = 0;
-        lastLine = 1;
-        lastColumn = 1;
+        this.position = 0;
+        this.previousPosition = 0;
+        this.lastLine = 1;
+        this.lastColumn = 1;
 
-        content = c;
-        tree = t;
-        treeHelper = new BiTreeCreationHelper();
+        this.content = c;
+        this.tree = t;
+        this.treeHelper = new BiTreeCreationHelper();
     }
 
     /**
@@ -72,7 +72,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
      */
     @Override
     public final void setDocumentLocator(final Locator l) {
-        locator = l;
+        this.locator = l;
     }
 
     /**
@@ -95,7 +95,8 @@ public class JEuclidSAXHandler extends DefaultHandler {
      */
     @Override
     public final void startDocument() {
-        debug("SAX start document, length=" + content.length() + nl());
+        this.debug("SAX start document, length=" + this.content.length()
+                + this.nl());
     }
 
     /**
@@ -104,8 +105,8 @@ public class JEuclidSAXHandler extends DefaultHandler {
      */
     @Override
     public final void endDocument() throws SAXException {
-        tree.setRoot(treeHelper.getRoot());
-        debug("SAX end document" + nl());
+        this.tree.setRoot(this.treeHelper.getRoot());
+        this.debug("SAX end document" + this.nl());
     }
 
     /**
@@ -123,41 +124,47 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
         int startPosition;
         int length;
-        String eName;                   // element name
+        // element name
+        String eName;
 
         eName = sName;
         if ("".equals(eName)) {
-            eName = qName;              // not namespaceAware
+            // not namespaceAware
+            eName = qName;
         }
 
-        contentPosition();              // get current position in inputtext
+        // get current position in inputtext
+        this.contentPosition();
 
         // get startposition of tag
-        startPosition = content.lastIndexOf("<" + eName, position - 1);
+        startPosition = this.content.lastIndexOf("<" + eName,
+                this.position - 1);
 
-        if (textBuffer == null) {
+        if (this.textBuffer == null) {
             length = 0;
         } else {
-            length = textBuffer.length();
+            length = this.textBuffer.length();
         }
 
-        debug("tag-start=" + startPosition + " tag-end=" + position
-                + " buffer=" + (startPosition - previousPosition)
-                + " textbuffer=" + length + nl());
+        this.debug("tag-start=" + startPosition + " tag-end=" + this.position
+                + " buffer=" + (startPosition - this.previousPosition)
+                + " textbuffer=" + length + this.nl());
 
         // create a EmptyNode if text is before this element
-        if (startPosition - previousPosition > 0) {
-            debug("empty length=" + (startPosition - previousPosition) + nl());
+        if (startPosition - this.previousPosition > 0) {
+            this.debug("empty length=" + (startPosition
+                    - this.previousPosition) + this.nl());
 
-            treeHelper.createEmtpyNode(startPosition - previousPosition);
-            textBuffer = null;
+            this.treeHelper.createEmtpyNode(startPosition
+                    - this.previousPosition);
+            this.textBuffer = null;
         }
 
-        printElement(namespaceURI, eName, true, startPosition, attrs);
+        this.printElement(namespaceURI, eName, true, startPosition, attrs);
 
         // create new BiNode
-        treeHelper.createBiNode(startPosition, position - startPosition,
-                namespaceURI, eName, attrs);
+        this.treeHelper.createBiNode(startPosition,
+                this.position - startPosition, namespaceURI, eName, attrs);
     }
 
     /**
@@ -169,39 +176,45 @@ public class JEuclidSAXHandler extends DefaultHandler {
     @Override
     public final void endElement(final String namespaceURI, final String sName,
             final String qName) {
-        String eName = sName;       // element name
-        String text;                // text of a TextNode before close tag
-        int textLength;             // length of TextNode of EmptyNode
+        // element name
+        String eName = sName;
+        // text of a TextNode before close tag
+        String text;
+        // length of TextNode of EmptyNode
+        int textLength;
+        final String apo = "'";
 
         if ("".equals(eName)) {
-            eName = qName;          // not namespaceAware
+            // not namespaceAware
+            eName = qName;          
         }
 
         // get current position in inputtext (end-position of close tag)
-        contentPosition();
+        this.contentPosition();
 
         // length of text before close tag
-        textLength = content.lastIndexOf("</", position - 1) - previousPosition;
+        textLength = this.content.lastIndexOf("</", this.position - 1)
+                - this.previousPosition;
 
         // create a new TextNode
-        if (textBuffer != null && textBuffer.length() > 0
-                && treeHelper.allowNewTextNode()) {
+        if (this.textBuffer != null && this.textBuffer.length() > 0
+                && this.treeHelper.allowNewTextNode()) {
 
-            text = new String(textBuffer);
-            treeHelper.createTextNode(textLength, text);
-            textBuffer = null;
+            text = new String(this.textBuffer);
+            this.treeHelper.createTextNode(textLength, text);
+            this.textBuffer = null;
 
-            debug("'" + text.replaceAll(nl(), "#") + "'" + nl());
+            this.debug(apo + text.replaceAll(this.nl(), "#") + apo + this.nl());
 
-        } else if (!treeHelper.allowNewTextNode() && textLength > 0) {
+        } else if (!this.treeHelper.allowNewTextNode() && textLength > 0) {
             // or create a new EmptyNode
-            treeHelper.createEmtpyNode(textLength);
+            this.treeHelper.createEmtpyNode(textLength);
         }
 
         /** close current BiNode in tree (set length of node) */
-        treeHelper.closeBiNode(position);
+        this.treeHelper.closeBiNode(this.position);
 
-        printElement(namespaceURI, eName, false, position, null);
+        this.printElement(namespaceURI, eName, false, this.position, null);
     }
 
     /**
@@ -216,10 +229,10 @@ public class JEuclidSAXHandler extends DefaultHandler {
             final int len) throws SAXException {
         final String s = new String(buf, offset, len);
 
-        if (textBuffer == null) {
-            textBuffer = new StringBuffer(s);
+        if (this.textBuffer == null) {
+            this.textBuffer = new StringBuffer(s);
         } else {
-            textBuffer.append(s);
+            this.textBuffer.append(s);
         }
     }
 
@@ -230,31 +243,32 @@ public class JEuclidSAXHandler extends DefaultHandler {
      * calculate current position in inputtext.
      */
     private void contentPosition() {
-        final int line = locator.getLineNumber();
-        final int column = locator.getColumnNumber();
+        final int line = this.locator.getLineNumber();
+        final int column = this.locator.getColumnNumber();
         int l;
 
-        previousPosition = position;
+        this.previousPosition = this.position;
 
-        debug("old line=" + lastLine);
-        for (l = lastLine; l < line; l++) {
-            position = 1 + content.indexOf(nl(), position);
+        this.debug("old line=" + this.lastLine);
+        for (l = this.lastLine; l < line; l = l + 1) {
+            this.position = 1 + this.content.indexOf(this.nl(), this.position);
             //System.out.println(" position = " + position + " ");
         }
 
-        if (lastLine == line) {
+        if (this.lastLine == line) {
             // tag is in same line as previous
-            position += (column - lastColumn);
+            this.position += column - this.lastColumn;
         } else {
             //position += column - 1;
             //position += column - nl().length();
-            position += column - 2 + nl().length();
+            this.position += column - 2 + this.nl().length();
         }
 
-        lastLine = line;
-        lastColumn = column;
-        debug(" - new line=" + lastLine + " - old pos="
-                + previousPosition + " new pos=" + position + nl());
+        this.lastLine = line;
+        this.lastColumn = column;
+        this.debug(" - new line=" + this.lastLine + " - old pos="
+                + this.previousPosition + " new pos=" + this.position
+                + this.nl());
     }
 
     /**
@@ -270,7 +284,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
             final boolean open, final int pos, final Attributes attrs) {
         final StringBuffer sb = new StringBuffer(32);
 
-        sb.append(position());
+        sb.append(this.position());
         sb.append(" - ");
         sb.append(pos);
 
@@ -283,8 +297,9 @@ public class JEuclidSAXHandler extends DefaultHandler {
         sb.append(name);
 
         if (attrs != null) {
-            for (int i = 0; i < attrs.getLength(); i++) {
-                String aName = attrs.getLocalName(i); // Attr name
+            for (int i = 0; i < attrs.getLength(); i = i + 1) {
+                // Attr name
+                String aName = attrs.getLocalName(i); 
 
                 if ("".equals(aName)) {
                     aName = attrs.getQName(i);
@@ -300,9 +315,9 @@ public class JEuclidSAXHandler extends DefaultHandler {
             sb.append(namespaceURI);
         }
         sb.append('>');
-        sb.append(nl());
+        sb.append(this.nl());
 
-        debug(sb.toString());
+        this.debug(sb.toString());
     }
 
     /**
@@ -335,8 +350,8 @@ public class JEuclidSAXHandler extends DefaultHandler {
      * @return current x/y-position
      */
     private String position() {
-        final int line = locator.getLineNumber();
-        final int column = locator.getColumnNumber();
+        final int line = this.locator.getLineNumber();
+        final int column = this.locator.getColumnNumber();
         final StringBuffer sb = new StringBuffer();
         final int dez = 10;
 

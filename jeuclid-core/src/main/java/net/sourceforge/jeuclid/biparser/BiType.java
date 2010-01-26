@@ -24,6 +24,7 @@ package net.sourceforge.jeuclid.biparser;
  * EMTPY:   no valid text node (e.g. between two open tags)
  * TEXT:    text node
  *
+ * @version $Revision$
  */
 public enum BiType {
 

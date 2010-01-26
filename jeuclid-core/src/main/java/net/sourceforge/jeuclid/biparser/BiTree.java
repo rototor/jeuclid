@@ -25,15 +25,23 @@ import org.w3c.dom.NodeList;
 /**
  * this class if for creating a BiTree with ABiNodes while parsing a text.
  *
-*/
+ * @version $Revision$
+ */
 public class BiTree {
 
     /** document (DOM-tree). */
     private Document doc;
     /** root of tree. */
-    private ABiNode root;
+    private AbstractBiNode root;
     /** text of tree. */
     private String text;
+
+    /**
+     * create a new instance of BiTree.
+     */
+    public BiTree() {
+
+    }
 
     /**
      * create a new DOM tree from bitree and save it.
@@ -41,12 +49,12 @@ public class BiTree {
     public final void createDOMTree() {
         Node subtree;
 
-        doc = new DocumentElement();
+        this.doc = new DocumentElement();
 
-        subtree = getDOMTree(doc);
+        subtree = this.getDOMTree(this.doc);
 
         if (subtree != null) {
-            doc.appendChild(subtree);
+            this.doc.appendChild(subtree);
         }
     }
 
@@ -58,10 +66,10 @@ public class BiTree {
     public final Node getDOMTree(final Document d) {
         Node treeRoot;
 
-        if (root.getType() == BiType.EMPTY) {
-            treeRoot = root.getSibling().createDOMSubtree(d);
+        if (this.root.getType() == BiType.EMPTY) {
+            treeRoot = this.root.getSibling().createDOMSubtree(d);
         } else {
-            treeRoot = root.createDOMSubtree(d);
+            treeRoot = this.root.createDOMSubtree(d);
         }
 
         return treeRoot;
@@ -71,8 +79,8 @@ public class BiTree {
      * get root of BiTree.
      * @return root of BiTree
      */
-    public final ABiNode getRoot() {
-        return root;
+    public final AbstractBiNode getRoot() {
+        return this.root;
     }
 
     /**
@@ -85,7 +93,7 @@ public class BiTree {
     public final void insert(final int offset, final int length,
             final String t) throws ReparseException {
         text = t;
-        root.insert(this, offset, length, 0);
+        this.root.insert(this, offset, length, 0);
     }
 
     /**
@@ -98,14 +106,14 @@ public class BiTree {
     public final void remove(final int offset, final int length,
             final String t) throws ReparseException {
         text = t;
-        root.remove(this, offset, length, 0);
+        this.root.remove(this, offset, length, 0);
     }
 
     /**
      * set a new root in BiTree.
      * @param root new root of BiTree
      */
-    public final void setRoot(final ABiNode r) {
+    public final void setRoot(final AbstractBiNode r) {
 
         if (r == null) {
             doc = null;
@@ -113,7 +121,7 @@ public class BiTree {
             r.setPrevious(null);
         }
 
-        root = r;
+        this.root = r;
     }
 
     /**

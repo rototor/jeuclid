@@ -25,12 +25,14 @@ import org.w3c.dom.Text;
  * this class is used to store specific information about a text node.
  * the node cannot have a child nor a sibling
  *
- * @author dominik
+ * @version $Revision$
  */
-public class TextNode extends ABiNode {
+public final class TextNode extends AbstractBiNode {
 
     /** DOM-info: text of node. */
     private String text;
+    /** new line. */
+    private final String nl = System.getProperty("line.separator");
 
     /**
      * creates a new TextNode, constructor does not create a DOM-node.
@@ -38,8 +40,8 @@ public class TextNode extends ABiNode {
      * @param t DOM-info
      */
     public TextNode(final int length, final String t) {
-        setLength(length);
-        text = t;
+        this.setLength(length);
+        this.text = t;
     }
 
     /**
@@ -47,7 +49,7 @@ public class TextNode extends ABiNode {
      * @return TEXT
      */
     @Override
-    public final BiType getType() {
+    public BiType getType() {
         return BiType.TEXT;
     }
 
@@ -56,7 +58,7 @@ public class TextNode extends ABiNode {
      * {@inheritDoc}
      */
     @Override
-    public final void insert(final BiTree biTree, final int offset,
+    public void insert(final BiTree biTree, final int offset,
             final int length, final int totalOffset)
             throws ReparseException {
         throw new ReparseException();
@@ -67,7 +69,7 @@ public class TextNode extends ABiNode {
      * {@inheritDoc}
      */
     @Override
-    public final void remove(final BiTree biTree, final int offset,
+    public void remove(final BiTree biTree, final int offset,
             final int length, final int totalOffset)
             throws ReparseException  {
         throw new ReparseException();
@@ -75,14 +77,15 @@ public class TextNode extends ABiNode {
 
     /**
      * forward insert/remove to sibling not allowed at a TextNode.
+     * {@inheritDoc}
      */
     @Override
-    protected final void forwardToSibling(final boolean insert,
+    protected void forwardToSibling(final boolean insert,
             final BiTree biTree, final int offset, final int length,
             final int totalOffset)
             throws ReparseException {
-        throw new UnsupportedOperationException("forwardToSibling " +
-                "at textnode not allowed");
+        throw new UnsupportedOperationException("forwardToSibling "
+                + "at textnode not allowed");
     }
 
     /**
@@ -90,14 +93,14 @@ public class TextNode extends ABiNode {
      * @return text of TextNode
      */
     public String getText() {
-        if (text == null) {
+        if (this.text == null) {
            if (getNode() == null) {
                 return null;
             } else {
                 return getNode().getTextContent();
             }
         } else {
-            return text;
+            return this.text;
         }
     }
 
@@ -110,10 +113,10 @@ public class TextNode extends ABiNode {
     public Node createDOMSubtree(final Document doc) {
         Text textNode;
 
-        textNode = doc.createTextNode(text);
-        text = null;
+        textNode = doc.createTextNode(this.text);
+        this.text = null;
 
-        setNode(textNode);
+        this.setNode(textNode);
         return textNode;
     }
 
@@ -126,7 +129,6 @@ public class TextNode extends ABiNode {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer(32);
-        final String nl = System.getProperty("line.separator");
 
         sb.append("[TEXT length:");
         sb.append(getLength());
@@ -140,16 +142,15 @@ public class TextNode extends ABiNode {
     @Override
     public String toString(final int level) {
         final StringBuffer sb = new StringBuffer();
-        final String nl = System.getProperty("line.separator");
 
-        sb.append(formatLength());
+        sb.append(this.formatLength());
         sb.append(':');
         for (int i = 0; i <= level; i++) {
             sb.append(' ');
         }
 
         sb.append('\'');
-        sb.append(getText().replaceAll(nl, "#"));
+        sb.append(this.getText().replaceAll(nl, "#"));
         sb.append('\'');
 
         return sb.toString();

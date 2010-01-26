@@ -20,7 +20,14 @@ package net.sourceforge.jeuclid.biparser;
 /**
  * this exception class signals a reparse of a text.
  *
+ * @version $Revision$
  */
 public class ReparseException extends Exception {
 
+    /**
+     * create a new ReparseException.
+     */
+    public ReparseException() {
+
+    }
 }
