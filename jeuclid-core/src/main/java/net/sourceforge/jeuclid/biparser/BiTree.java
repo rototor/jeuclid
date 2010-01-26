@@ -92,7 +92,7 @@ public class BiTree {
      */
     public final void insert(final int offset, final int length,
             final String t) throws ReparseException {
-        text = t;
+        this.text = t;
         this.root.insert(this, offset, length, 0);
     }
 
@@ -101,22 +101,22 @@ public class BiTree {
      * @param offset remove position in text
      * @param length number of characters to remove
      * @param t text where characters were removed
-     * @throws ReparseException
+     * @throws ReparseException if a sax parse exception occurs
      */
     public final void remove(final int offset, final int length,
             final String t) throws ReparseException {
-        text = t;
+        this.text = t;
         this.root.remove(this, offset, length, 0);
     }
 
     /**
      * set a new root in BiTree.
-     * @param root new root of BiTree
+     * @param r new root of BiTree
      */
     public final void setRoot(final AbstractBiNode r) {
 
         if (r == null) {
-            doc = null;
+            this.doc = null;
         } else {
             r.setPrevious(null);
         }
@@ -129,7 +129,7 @@ public class BiTree {
      * @return text of BiTree
      */
     public String getText() {
-        return text;
+        return this.text;
     }
 
     /**
@@ -137,7 +137,7 @@ public class BiTree {
      * @return document of DOM Tree
      */
     public Node getDocument() {
-        return doc;
+        return this.doc;
     }
 
     /**
@@ -147,20 +147,20 @@ public class BiTree {
      * @return search result of node in inputtext
      */
     public SearchResult searchNode(final Node node) {
-        if (root == null) {
+        if (this.root == null) {
             return null;
         } else {
-            return root.searchNode(node, 0);
+            return this.root.searchNode(node, 0);
         }
     }
 
     /**
-     * get a formatted output of BiTree
+     * get a formatted output of BiTree.
      * @return formatted output of BiTree
      */
     @Override
     public String toString() {
-        if (root == null) {
+        if (this.root == null) {
             return "root is null";
         } else {
             return root.toString(0);
@@ -168,11 +168,11 @@ public class BiTree {
     }
 
     /**
-     * get formatted output of DOM Tree (for debugging)
+     * get formatted output of DOM Tree (for debugging).
      * @return formatted ouput of DOM Tree
      */
     public String toStringDOM() {
-        return toStringDOM(0, doc.getDocumentElement());
+        return toStringDOM(0, this.doc.getDocumentElement());
     }
 
     private String toStringDOM(final int level, final Node n) {
@@ -198,7 +198,7 @@ public class BiTree {
 
         nl = n.getChildNodes();
         for (i = 0; i < nl.getLength(); i++) {
-            sb.append(toStringDOM(level + 1, nl.item(i)));
+            sb.append(this.toStringDOM(level + 1, nl.item(i)));
         }
 
         return sb.toString();

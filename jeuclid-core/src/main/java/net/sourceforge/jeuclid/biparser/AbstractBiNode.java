@@ -162,7 +162,7 @@ public abstract class AbstractBiNode {
      * @throws ReparseException if a reparse at upper level is needed
      *
      */
-    abstract protected void insert(BiTree biTree, int offset, int len,
+    abstract void insert(BiTree biTree, int offset, int len,
             int totalOffset)
             throws ReparseException;
 
@@ -175,7 +175,7 @@ public abstract class AbstractBiNode {
      * @throws ReparseException if a reparse at upper level is needed
      *
      */
-    abstract protected void remove(BiTree biTree, int offset, int len,
+    abstract void remove(BiTree biTree, int offset, int len,
             int totalOffset)
             throws ReparseException;
 
@@ -209,7 +209,7 @@ public abstract class AbstractBiNode {
      * @param doc Document to create DOM-tree
      * @return root of DOM-tree
      */
-    abstract protected Node createDOMSubtree(Document doc);
+    abstract Node createDOMSubtree(Document doc);
 
     /**
      * search a DOM node in this node.
@@ -229,7 +229,11 @@ public abstract class AbstractBiNode {
     @Override
     abstract public String toString();
 
-    abstract protected String toString(int level);
+    /**
+     * print biNode.
+     * @return biNode
+     */
+    abstract String toString(int level);
 
     /**
      * helper method for outputting the length of node.
