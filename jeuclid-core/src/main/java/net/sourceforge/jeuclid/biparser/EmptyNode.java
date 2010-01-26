@@ -24,15 +24,16 @@ import org.w3c.dom.Node;
  * this class is used to store specific information about a empty node.
  * the node cannot have children, but a sibling
  *
+ * @version $Revision$
  */
-public class EmptyNode extends ABiNode {
+public final class EmptyNode extends AbstractBiNode {
 
     /**
      * create a new EmptyNode.
      * @param length of EmptyNode
      */
     public EmptyNode(final int length) {
-        setLength(length);
+        this.setLength(length);
     }
 
     /**
@@ -40,7 +41,7 @@ public class EmptyNode extends ABiNode {
      * @return EMPTY
      */
     @Override
-    public final BiType getType() {
+    public BiType getType() {
         return BiType.EMPTY;
     }
 
@@ -55,21 +56,24 @@ public class EmptyNode extends ABiNode {
         int position;
         String insert;
 
-      //   System.out.println("insert " + toString() + " offset=" +
+       //   System.out.println("insert " + toString() + " offset=" +
        //  offset + " length=" + length);
 
-        if (offset <= getLength()) {            // start position in this node
+        // start position in this node
+        if (offset <= getLength()) {            
 
             position = totalOffset + offset;
             insert = biTree.getText().substring(position, position + length);
 
             if (insert.contains("<") || insert.contains(">")) {
-                throw new ReparseException();                       // reparsing
+                // reparsing
+                throw new ReparseException();                       
             }
 
             changeLengthRec(length);
 
-        } else {                             // start position outside this node
+        } else {
+            // start position outside this node
             forwardToSibling(true, biTree, offset - getLength(), length,
                     totalOffset + getLength());
         }
@@ -85,17 +89,21 @@ public class EmptyNode extends ABiNode {
         // System.out.println("remove " + toString() + " offset=" +
         // offset + " length=" + length);
 
-        if (offset <= getLength()) {            // start position in this node
+        // start position in this node
+        if (offset <= getLength()) {            
 
-            if (offset == 0 && length >= getLength()) {     // remove this node
+            if (offset == 0 && length >= getLength()) {
+                // remove this node
                 throw new ReparseException();
 
-            } else {                                        // change length
+            } else {
+                // change length
                 // end position in this node
                 if (offset + length <= getLength()) {
                     changeLengthRec(-length);
 
-                } else { // end position outside this node
+                } else {
+                    // end position outside this node
                     changeLengthRec(offset - getLength());
 
                     // forward remainder to sibling
@@ -104,7 +112,8 @@ public class EmptyNode extends ABiNode {
                             totalOffset + getLength());
                 }
             }
-        } else {                             // start position outside this node
+        } else {
+            // start position outside this node
             forwardToSibling(false, biTree, offset - getLength(), length,
                     totalOffset + getLength());
         }
@@ -122,7 +131,8 @@ public class EmptyNode extends ABiNode {
 
     /** {@inheritDoc} */
     @Override
-    public final SearchResult searchNode(final Node node, final int totalOffset) {
+    public final SearchResult searchNode(final Node node,
+            final int totalOffset) {
         // forward to sibling
         if (getSibling() != null) {
             return getSibling().searchNode(node, totalOffset + getLength());

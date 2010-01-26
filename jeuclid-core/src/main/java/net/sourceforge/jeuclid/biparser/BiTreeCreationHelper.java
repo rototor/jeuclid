@@ -14,39 +14,40 @@
  * limitations under the License.
  */
 
-
 package net.sourceforge.jeuclid.biparser;
 
 import java.util.ArrayList;
-
+import java.util.List;
 import org.xml.sax.Attributes;
 
 /**
  * this class if for creating a BiTree with ABiNodes while parsing a text.
+ *
+ * @version $Revision$
  */
 public class BiTreeCreationHelper {
 
     /** current position in tree. */
-    private ABiNode currentBiNode;
+    private AbstractBiNode currentBiNode;
     /** root of tree. */
-    private ABiNode root;
+    private AbstractBiNode root;
     /** save positions of open tags. */
-    private final ArrayList<Integer> startPositions;
+    private final List<Integer> startPositions;
 
     /**
      * create a new BiTreeHelper.
      * get result (tree of ABiNodes) with getRoot()
      */
     public BiTreeCreationHelper() {
-        startPositions = new ArrayList<Integer>();
+        this.startPositions = new ArrayList<Integer>();
     }
 
     /**
      * get root of BiTree.
      * @return root of BiTree
      */
-    public final ABiNode getRoot() {
-        return root;
+    public final AbstractBiNode getRoot() {
+        return this.root;
     }
 
     /**
@@ -63,23 +64,24 @@ public class BiTreeCreationHelper {
 
         BiNode biNode;
 
-        startPositions.add(totalOffset);
+        this.startPositions.add(totalOffset);
 
         // new root node
-        if (root == null) {
-            root = new BiNode(childOffset, namespaceURI, eName, attrs);
-            currentBiNode = root;
+        if (this.root == null) {
+            this.root = new BiNode(childOffset, namespaceURI, eName, attrs);
+            this.currentBiNode = this.root;
         } else {
             biNode = new BiNode(childOffset, namespaceURI, eName, attrs);
 
             // append child (only possible at start
-            if (currentBiNode.getType() == BiType.EMPTY) {
-                currentBiNode.addSibling(biNode);
-            } else { // add child (default case)
-                ((BiNode) currentBiNode).addChild(biNode);
+            if (this.currentBiNode.getType() == BiType.EMPTY) {
+                this.currentBiNode.addSibling(biNode);
+            } else {
+                // add child (default case)
+                ((BiNode) this.currentBiNode).addChild(biNode);
             }
 
-            currentBiNode = biNode;
+            this.currentBiNode = biNode;
         }
     }
 
@@ -89,17 +91,17 @@ public class BiTreeCreationHelper {
      */
     public final void closeBiNode(final int length) {
         BiNode parent;
-        final int last = startPositions.size() - 1;
+        final int last = this.startPositions.size() - 1;
 
-        currentBiNode.setLength(length - startPositions.get(last));
+        this.currentBiNode.setLength(length - this.startPositions.get(last));
 
         // move current position to parent
-        parent = currentBiNode.getParent();
+        parent = this.currentBiNode.getParent();
         if (parent != null) {
-            currentBiNode = parent;
+            this.currentBiNode = parent;
         }
 
-        startPositions.remove(last);
+        this.startPositions.remove(last);
     }
 
     /**
@@ -107,7 +109,7 @@ public class BiTreeCreationHelper {
      * @return true if a TextNode is allowed
      */
     public final boolean allowNewTextNode() {
-        return ((BiNode) currentBiNode).getChild() == null;
+        return ((BiNode) this.currentBiNode).getChild() == null;
     }
 
     /**
@@ -116,7 +118,7 @@ public class BiTreeCreationHelper {
      * @param t text of TextNode
      */
     public final void createTextNode(final int length, final String t) {
-        ((BiNode) currentBiNode).addChild(new TextNode(length, t));
+        ((BiNode) this.currentBiNode).addChild(new TextNode(length, t));
     }
 
     /**
@@ -125,11 +127,11 @@ public class BiTreeCreationHelper {
      */
     public final void createEmtpyNode(final int length) {
         // EmptyNode is new root
-        if (root == null) {
-            root = new EmptyNode(length);
-            currentBiNode = root;
+        if (this.root == null) {
+            this.root = new EmptyNode(length);
+            this.currentBiNode = this.root;
         } else {
-            ((BiNode) currentBiNode).addChild(new EmptyNode(length));
+            ((BiNode) this.currentBiNode).addChild(new EmptyNode(length));
         }
     }
 }

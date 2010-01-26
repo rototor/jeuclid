@@ -26,11 +26,12 @@ import org.xml.sax.Attributes;
  * this class is used to store specific information about a composite xml-node.
  * the node can have one child, many attributes and can be invalid
  *
+ * @version $Revision$
  */
-public class BiNode extends ABiNode {
+public final class BiNode extends AbstractBiNode {
 
     /** child node. */
-    private ABiNode child;
+    private AbstractBiNode child;
     /** offset to child from node begin (length of open tag). */
     private final int childOffset;
     /** if false, node is a valid xml-node. */
@@ -52,10 +53,10 @@ public class BiNode extends ABiNode {
      */
     public BiNode(final int co, final String ns, final String n,
             final Attributes a) {
-        childOffset = co;
-        namespaceURI = ns;
-        eName = n;
-        attrs = a;
+        this.childOffset = co;
+        this.namespaceURI = ns;
+        this.eName = n;
+        this.attrs = a;
     }
 
     /**
@@ -63,14 +64,14 @@ public class BiNode extends ABiNode {
      * @return nodename
      */
     public final String getNodeName() {
-        if (eName == null) {
-            if (getNode() == null) {
+        if (this.eName == null) {
+            if (this.getNode() == null) {
                 return null;
             } else {
-                return getNode().getNodeName();
+                return this.getNode().getNodeName();
             }
         } else {
-            return eName;
+            return this.eName;
         }
     }
 
@@ -78,11 +79,13 @@ public class BiNode extends ABiNode {
      * add a child to this node, if node has already a child, forward to child.
      * @param c new child for this node
      */
-    public final void addChild(final ABiNode c) {
-        if (child == null) {                    // 1st child
-            setChild(c);
-        } else {                                // 2nd - nth child
-            child.addSibling(c);
+    public void addChild(final AbstractBiNode c) {
+        // 1st child
+        if (this.child == null) {                    
+            this.setChild(c);
+        } else {
+            // 2nd - nth child
+            this.child.addSibling(c);
         }
     }
 
@@ -90,20 +93,20 @@ public class BiNode extends ABiNode {
      * get the child of the node.
      * @return child
      */
-    public final ABiNode getChild() {
-        return child;
+    public final AbstractBiNode getChild() {
+        return this.child;
     }
 
     /**
      * set child for this node.
      * @param c new child for this node
      */
-    public final void setChild(final ABiNode c) {
+    public final void setChild(final AbstractBiNode c) {
         if (c != null) {
             c.setPrevious(this);
         }
 
-        child = c;
+        this.child = c;
     }
 
     /**
@@ -111,13 +114,13 @@ public class BiNode extends ABiNode {
      * @return NODE
      */
     @Override
-    public final BiType getType() {
+    public BiType getType() {
         return BiType.NODE;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final void insert(final BiTree biTree, final int offset,
+    public void insert(final BiTree biTree, final int offset,
             final int length, final int totalOffset)
             throws ReparseException {
        //  System.out.println("insert " + toString() + " offset=" + offset +
@@ -125,15 +128,15 @@ public class BiNode extends ABiNode {
 
 
         // ---------------- end of this or SIBLING ----------------
-        if (offset >= getLength()) {
+        if (offset >= this.getLength()) {
 
             // reparse if node is invalid and start position is at node-end
-            if (offset == getLength() && invalid) {
+            if (offset == this.getLength() && invalid) {
                 throw new ReparseException();
             }
 
             // forward to sibling
-            forwardToSibling(true, biTree, offset - getLength(), length,
+            forwardToSibling(true, biTree, offset - this.getLength(), length,
                     totalOffset + getLength());
 
         } // ---------------- CHILDREN ----------------
@@ -144,7 +147,7 @@ public class BiNode extends ABiNode {
                         totalOffset + childOffset);
             } catch (ReparseException ex) {
                 parseAndReplace(biTree, biTree.getText().substring(totalOffset,
-                        totalOffset + getLength() + length), length);
+                        totalOffset + this.getLength() + length), length);
             }
         } // ---------------- before THIS ----------------
         else if (offset == 0) {
@@ -152,40 +155,41 @@ public class BiNode extends ABiNode {
         } // ---------------- THIS ----------------
         else {
             parseAndReplace(biTree, biTree.getText().substring(totalOffset,
-                    totalOffset + getLength() + length), length);
+                    totalOffset + this.getLength() + length), length);
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public final void remove(final BiTree biTree, final int offset,
+    public void remove(final BiTree biTree, final int offset,
             final int length, final int totalOffset) throws ReparseException {
        //  System.out.println("remove " + toString() + " offset=" +
          //offset + " length=" + length);
 
         // ---------------- REMOVE THIS ----------------
-        if (offset == 0 && length >= getLength()) {
+        if (offset == 0 && length >= this.getLength()) {
             throw new ReparseException();
 
         } // ---------------- SIBLING ----------------
         else if (offset >= getLength()) {
-            forwardToSibling(false, biTree, offset - getLength(), length,
-                    totalOffset + getLength());
+            forwardToSibling(false, biTree, offset - this.getLength(), length,
+                    totalOffset + this.getLength());
 
         } // ---------------- CHILDREN ----------------
-        else if (child != null && !invalid && offset >= childOffset &&
-                offset + length <= childOffset + getLengthOfChildren()) {
+        else if (this.child != null && !this.invalid &&
+                offset >= this.childOffset &&
+                offset + length <= this.childOffset + getLengthOfChildren()) {
             try {
-                child.remove(biTree, offset - childOffset, length,
-                        totalOffset + childOffset);
+                this.child.remove(biTree, offset - this.childOffset, length,
+                        totalOffset + this.childOffset);
             } catch (ReparseException ex) {
                 parseAndReplace(biTree, biTree.getText().substring(totalOffset,
-                        totalOffset + getLength() - length), -length);
+                        totalOffset + this.getLength() - length), -length);
             }
         } // ---------------- THIS ----------------
         else {
             parseAndReplace(biTree, biTree.getText().substring(totalOffset,
-                    totalOffset + getLength() - length), -length);
+                    totalOffset + this.getLength() - length), -length);
         }
     }
 
@@ -202,10 +206,11 @@ public class BiNode extends ABiNode {
         element.setAttribute("mathcolor", "#F00");
         element.appendChild(doc.createTextNode("#"));
 
-        if (getNode().getParentNode() == null) {
-            doc.replaceChild(element, getNode());
+        if (this.getNode().getParentNode() == null) {
+            doc.replaceChild(element, this.getNode());
         } else {
-            getNode().getParentNode().replaceChild(element, getNode());
+            this.getNode().getParentNode().replaceChild(element,
+                    this.getNode());
         }
 
         // remove bi-subtree
@@ -221,7 +226,7 @@ public class BiNode extends ABiNode {
      * @param text to parse
      * @param length change length of this node
      */
-    private final void parseAndReplace(final BiTree biTree, final String text,
+    private void parseAndReplace(final BiTree biTree, final String text,
             final int length)
             throws ReparseException {
         BiTree treePart;
@@ -233,12 +238,12 @@ public class BiNode extends ABiNode {
         // parse unsuccessfull
         if (treePart == null) {
             // if node & previous or node & sibling are invalid - reparse parent
-            if ((getPrevious() != null &&
-                    getPrevious().getType() == BiType.NODE &&
-                    ((BiNode) getPrevious()).invalid) ||
-                    (getSibling() != null &&
-                    getSibling().getType() == BiType.NODE &&
-                    ((BiNode) getSibling()).invalid)) {
+            if ((this.getPrevious() != null &&
+                    this.getPrevious().getType() == BiType.NODE &&
+                    ((BiNode) this.getPrevious()).invalid) ||
+                    (this.getSibling() != null &&
+                    this.getSibling().getType() == BiType.NODE &&
+                    ((BiNode) this.getSibling()).invalid)) {
                 throw new ReparseException();
             }
 
@@ -246,30 +251,35 @@ public class BiNode extends ABiNode {
                 makeInvalidNode((Document) biTree.getDocument());
             }
 
-            changeLengthRec(length);
+            this.changeLengthRec(length);
 
         } else {
 
-            parent = (BiNode) getParent();
+            parent = (BiNode) this.getParent();
             domValid = treePart.getDOMTree((Document) biTree.getDocument());
             treePart.getRoot().addSibling(getSibling());
 
-            if (parent == null) {          // node is root
+            // node is root
+            if (parent == null) {          
 
-                if (getPrevious() == null) { // no emtpy text
+                // no emtpy text
+                if (this.getPrevious() == null) {
                     biTree.setRoot(treePart.getRoot());
-                } else {                     // empty text on left side of root
-                    getPrevious().setSibling(treePart.getRoot());
+                } else {
+                    // empty text on left side of root
+                    this.getPrevious().setSibling(treePart.getRoot());
                 }
 
                 // replace invalid DOM node
                 biTree.getDocument().replaceChild(domValid, getNode());
 
             } else {
-                if (getPrevious() == parent) {      // invalid node is 1st child
-                    ((BiNode) getParent()).setChild(treePart.getRoot());
-                } else {                            // 2nd - nth child
-                    getPrevious().setSibling(treePart.getRoot());
+                if (this.getPrevious() == parent) {
+                    // invalid node is 1st child
+                    ((BiNode) this.getParent()).setChild(treePart.getRoot());
+                } else {
+                    // 2nd - nth child
+                    this.getPrevious().setSibling(treePart.getRoot());
                 }
 
                 // replace invalid DOM node
@@ -277,7 +287,7 @@ public class BiNode extends ABiNode {
                 parent.changeLengthRec(length);
             }
 
-            invalid = false;
+            this.invalid = false;
         }
     }
 
@@ -287,13 +297,15 @@ public class BiNode extends ABiNode {
      */
     public int getLengthOfChildren() {
         int length = 0;
-        ABiNode childTmp;
+        AbstractBiNode childTmp;
 
-        if (child != null) {
-            length += child.getLength();        // length of first child
+        if (this.child != null) {
+            // length of first child
+            length += this.child.getLength();
 
-            childTmp = child.getSibling();
-            while (childTmp != null) {          // length of 2nd - nth children
+            childTmp = this.child.getSibling();
+            while (childTmp != null) {
+                // length of 2nd - nth children
                 length += childTmp.getLength();
                 childTmp = childTmp.getSibling();
             }
@@ -314,14 +326,14 @@ public class BiNode extends ABiNode {
         String aName;
         Node childNode;
         Element element;
-        ABiNode tmp;
+        AbstractBiNode tmp;
 
         element = doc.createElementNS(namespaceURI, eName);
 
         // add attributes
         if (attrs != null) {
             for (i = 0; i < attrs.getLength(); i++) {
-                aName = attrs.getLocalName(i); // Attr name
+                aName = attrs.getLocalName(i);
 
                 if ("".equals(aName)) {
                     aName = attrs.getQName(i);
@@ -356,7 +368,8 @@ public class BiNode extends ABiNode {
 
     /** {@inheritDoc} */
     @Override
-    public final SearchResult searchNode(final Node node, final int totalOffset) {
+    public final SearchResult searchNode(final Node node,
+            final int totalOffset) {
         SearchResult result;
 
         // check if node is this

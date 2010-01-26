@@ -13,20 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package net.sourceforge.jeuclid.biparser;
 
+import java.io.IOException;
 import java.io.StringReader;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * this class is creates a SAXParser as singleton.
  *
+ * @version $Revision$
  */
 public final class SAXBiParser {
 
@@ -80,11 +82,16 @@ public final class SAXBiParser {
             saxParser.parse(inSource, handler);
         } catch (SAXParseException e) {
             tree = null;
-        } catch (Throwable t) {
-            t.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+            tree = null;
+        } catch (SAXException e) {
+            e.printStackTrace();
+            tree = null;
+        } catch (IOException e) {
+            e.printStackTrace();
             tree = null;
         }
-
         return tree;
     }
 }
