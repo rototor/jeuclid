@@ -163,7 +163,7 @@ public class BiTree {
         if (this.root == null) {
             return "root is null";
         } else {
-            return root.toString(0);
+            return this.root.toString(0);
         }
     }
 
@@ -172,7 +172,7 @@ public class BiTree {
      * @return formatted ouput of DOM Tree
      */
     public String toStringDOM() {
-        return toStringDOM(0, this.doc.getDocumentElement());
+        return this.toStringDOM(0, this.doc.getDocumentElement());
     }
 
     private String toStringDOM(final int level, final Node n) {

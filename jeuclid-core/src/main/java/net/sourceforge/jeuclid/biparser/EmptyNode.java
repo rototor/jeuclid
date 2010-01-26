@@ -147,7 +147,7 @@ public final class EmptyNode extends AbstractBiNode {
         final StringBuffer sb = new StringBuffer(32);
 
         sb.append("[EMTPY length: ");
-        sb.append(getLength());
+        sb.append(this.getLength());
         sb.append(']');
 
         return sb.toString();
@@ -158,7 +158,7 @@ public final class EmptyNode extends AbstractBiNode {
         final StringBuffer sb = new StringBuffer(32);
         final String nl = System.getProperty("line.separator");
 
-        sb.append(formatLength());
+        sb.append(this.formatLength());
         sb.append(':');
         for (int i = 0; i <= level; i++) {
             sb.append(' ');

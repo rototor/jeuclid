@@ -136,18 +136,19 @@ public final class BiNode extends AbstractBiNode {
             }
 
             // forward to sibling
-            forwardToSibling(true, biTree, offset - this.getLength(), length,
-                    totalOffset + getLength());
+            this.forwardToSibling(true, biTree, offset - this.getLength(),
+                    length, totalOffset + this.getLength());
 
         } else if (this.child != null && !this.invalid
                 && offset >= this.childOffset
-                && offset <= this.childOffset + getLengthOfChildren()) {
+                && offset <= this.childOffset + this.getLengthOfChildren()) {
                 // ---------------- CHILDREN ----------------
             try {
                 this.child.insert(biTree, offset - this.childOffset, length,
                         totalOffset + this.childOffset);
             } catch (ReparseException ex) {
-                this.parseAndReplace(biTree, biTree.getText().substring(totalOffset,
+                this.parseAndReplace(biTree,
+                        biTree.getText().substring(totalOffset,
                         totalOffset + this.getLength() + length), length);
             }
         } else if (offset == 0) {
@@ -171,10 +172,10 @@ public final class BiNode extends AbstractBiNode {
         if (offset == 0 && length >= this.getLength()) {
             throw new ReparseException();
 
-        } else if (offset >= getLength()) {
+        } else if (offset >= this.getLength()) {
             // ---------------- SIBLING ----------------
-            forwardToSibling(false, biTree, offset - this.getLength(), length,
-                    totalOffset + this.getLength());
+            this.forwardToSibling(false, biTree, offset - this.getLength(),
+                    length, totalOffset + this.getLength());
 
         } else if (this.child != null && !this.invalid
                 && offset >= this.childOffset
@@ -364,13 +365,13 @@ public final class BiNode extends AbstractBiNode {
         this.eName = null;
         this.attrs = null;
 
-        setNode(element);
+        this.setNode(element);
         return element;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final SearchResult searchNode(final Node node,
+    public SearchResult searchNode(final Node node,
             final int totalOffset) {
         SearchResult result;
 
@@ -390,8 +391,9 @@ public final class BiNode extends AbstractBiNode {
         }
 
         // forward to sibling
-        if (getSibling() != null) {
-            return getSibling().searchNode(node, totalOffset + getLength());
+        if (this.getSibling() != null) {
+            return this.getSibling().searchNode(node,
+                    totalOffset + this.getLength());
         }
 
         return null;
@@ -404,11 +406,11 @@ public final class BiNode extends AbstractBiNode {
         sb.append('[');
         sb.append(this.invalid ? "INVALID " : "");
         sb.append("NODE length: ");
-        sb.append(getLength());
+        sb.append(this.getLength());
 
         if (!this.invalid) {
             sb.append(" <");
-            sb.append(getNodeName());
+            sb.append(this.getNodeName());
             sb.append("> tag: ");
             sb.append(this.childOffset);
         }
@@ -423,7 +425,7 @@ public final class BiNode extends AbstractBiNode {
         final StringBuffer sb = new StringBuffer(32);
         final String nl = System.getProperty("line.separator");
 
-        sb.append(formatLength());
+        sb.append(this.formatLength());
         sb.append(':');
         for (int i = 0; i <= level; i++) {
             sb.append(' ');
@@ -435,7 +437,7 @@ public final class BiNode extends AbstractBiNode {
 
         if (!invalid) {
             sb.append('<');
-            sb.append(getNodeName());
+            sb.append(this.getNodeName());
             sb.append("> tag: ");
             if (this.childOffset < 100) {
                 sb.append('0');
@@ -457,7 +459,7 @@ public final class BiNode extends AbstractBiNode {
 
         }
 
-        if (getSibling() != null) {
+        if (this.getSibling() != null) {
             sb.append(this.getSibling().toString(level));
         }
 
