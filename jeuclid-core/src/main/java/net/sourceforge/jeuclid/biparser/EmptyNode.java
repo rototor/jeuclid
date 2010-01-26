@@ -51,7 +51,7 @@ public final class EmptyNode extends AbstractBiNode {
      * {@inheritDoc}
      */
     @Override
-    public final void insert(final BiTree biTree, final int offset,
+    public void insert(final BiTree biTree, final int offset,
             final int length, final int totalOffset) throws ReparseException {
         int position;
         String insert;
@@ -60,7 +60,7 @@ public final class EmptyNode extends AbstractBiNode {
        //  offset + " length=" + length);
 
         // start position in this node
-        if (offset <= getLength()) {            
+        if (offset <= this.getLength()) {
 
             position = totalOffset + offset;
             insert = biTree.getText().substring(position, position + length);
@@ -70,72 +70,73 @@ public final class EmptyNode extends AbstractBiNode {
                 throw new ReparseException();                       
             }
 
-            changeLengthRec(length);
+            this.changeLengthRec(length);
 
         } else {
             // start position outside this node
-            forwardToSibling(true, biTree, offset - getLength(), length,
-                    totalOffset + getLength());
+            this.forwardToSibling(true, biTree, offset - this.getLength(),
+                    length, totalOffset + this.getLength());
         }
     }
 
     /**
-     * remove characters from EmptyNode, reparse if length gets 0
+     * remove characters from EmptyNode, reparse if length gets 0.
      * {@inheritDoc}
      */
     @Override
-    public final void remove(final BiTree biTree, final int offset,
+    public void remove(final BiTree biTree, final int offset,
             final int length, final int totalOffset) throws ReparseException {
         // System.out.println("remove " + toString() + " offset=" +
         // offset + " length=" + length);
 
         // start position in this node
-        if (offset <= getLength()) {            
+        if (offset <= this.getLength()) {
 
-            if (offset == 0 && length >= getLength()) {
+            if (offset == 0 && length >= this.getLength()) {
                 // remove this node
                 throw new ReparseException();
 
             } else {
                 // change length
                 // end position in this node
-                if (offset + length <= getLength()) {
-                    changeLengthRec(-length);
+                if (offset + length <= this.getLength()) {
+                    this.changeLengthRec(-length);
 
                 } else {
                     // end position outside this node
-                    changeLengthRec(offset - getLength());
+                    this.changeLengthRec(offset - this.getLength());
 
                     // forward remainder to sibling
-                    forwardToSibling(false, biTree, 0,
-                            offset + length - getLength(),
-                            totalOffset + getLength());
+                    this.forwardToSibling(false, biTree, 0,
+                            offset + length - this.getLength(),
+                            totalOffset + this.getLength());
                 }
             }
         } else {
             // start position outside this node
-            forwardToSibling(false, biTree, offset - getLength(), length,
-                    totalOffset + getLength());
+            this.forwardToSibling(false, biTree, offset - this.getLength(),
+                    length, totalOffset + this.getLength());
         }
     }
 
     /**
-     * don't create a DOM-tree from EmptyNode (EmptyNode has no DOM node)
+     * don't create a DOM-tree from EmptyNode (EmptyNode has no DOM node).
      * @param doc Document to create DOM-tree
      * @return null
      */
     @Override
-    public final Node createDOMSubtree(final Document doc) {
+    public Node createDOMSubtree(final Document doc) {
         return null;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final SearchResult searchNode(final Node node,
+    public SearchResult searchNode(final Node node,
             final int totalOffset) {
         // forward to sibling
-        if (getSibling() != null) {
-            return getSibling().searchNode(node, totalOffset + getLength());
+        if (this.getSibling() != null) {
+            return this.getSibling().searchNode(node,
+                    totalOffset + this.getLength());
         }
 
         return null;
@@ -159,16 +160,15 @@ public final class EmptyNode extends AbstractBiNode {
 
         sb.append(formatLength());
         sb.append(':');
-        for (int i = 0; i <=
-                level; i++) {
+        for (int i = 0; i <= level; i++) {
             sb.append(' ');
         }
 
         sb.append("EMTPY");
 
-        if (getSibling() != null) {
+        if (this.getSibling() != null) {
             sb.append(nl);
-            sb.append(getSibling().toString(level));
+            sb.append(this.getSibling().toString(level));
         }
 
         return sb.toString();

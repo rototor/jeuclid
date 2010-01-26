@@ -33,6 +33,9 @@ public final class TextNode extends AbstractBiNode {
     private String text;
     /** new line. */
     private final String nl = System.getProperty("line.separator");
+    /** ladder #. */
+    private final String ladder = "#";
+
 
     /**
      * creates a new TextNode, constructor does not create a DOM-node.
@@ -94,10 +97,10 @@ public final class TextNode extends AbstractBiNode {
      */
     public String getText() {
         if (this.text == null) {
-           if (getNode() == null) {
+           if (this.getNode() == null) {
                 return null;
             } else {
-                return getNode().getTextContent();
+                return this.getNode().getTextContent();
             }
         } else {
             return this.text;
@@ -131,9 +134,9 @@ public final class TextNode extends AbstractBiNode {
         final StringBuffer sb = new StringBuffer(32);
 
         sb.append("[TEXT length:");
-        sb.append(getLength());
+        sb.append(this.getLength());
         sb.append(" '");
-        sb.append(getText().replaceAll(nl, "#"));
+        sb.append(this.getText().replaceAll(this.nl, this.ladder));
         sb.append("']");
 
         return sb.toString();
@@ -150,7 +153,7 @@ public final class TextNode extends AbstractBiNode {
         }
 
         sb.append('\'');
-        sb.append(this.getText().replaceAll(nl, "#"));
+        sb.append(this.getText().replaceAll(this.nl, this.ladder));
         sb.append('\'');
 
         return sb.toString();
