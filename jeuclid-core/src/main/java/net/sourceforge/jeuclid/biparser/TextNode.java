@@ -83,7 +83,7 @@ public final class TextNode extends AbstractBiNode {
      * {@inheritDoc}
      */
     @Override
-    protected void forwardToSibling(final boolean insert,
+    public void forwardToSibling(final boolean insert,
             final BiTree biTree, final int offset, final int length,
             final int totalOffset)
             throws ReparseException {

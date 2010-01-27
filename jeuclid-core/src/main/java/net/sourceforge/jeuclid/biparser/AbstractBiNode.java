@@ -23,12 +23,12 @@ import org.w3c.dom.Node;
  * @version $Revision$
  *
  */
-public abstract class AbstractBiNode {
+public abstract class AbstractBiNode implements IBiNode {
 
     /** previous node, null if node is root. */
-    private AbstractBiNode previous;
+    private IBiNode previous;
     /** sibling node, can be null. */
-    private AbstractBiNode sibling;
+    private IBiNode sibling;
     /** reference to node in DOM-tree. */
     private Node node;
     /** length of node in characters. */
@@ -38,7 +38,7 @@ public abstract class AbstractBiNode {
      * get previous node, null if node is root.
      * @return previous
      */
-    public final AbstractBiNode getPrevious() {
+    public final IBiNode getPrevious() {
         return this.previous;
     }
 
@@ -46,7 +46,7 @@ public abstract class AbstractBiNode {
      * set previous for this node.
      * @param prev  previous node for this node
      */
-    public final void setPrevious(final AbstractBiNode prev) {
+    public final void setPrevious(final IBiNode prev) {
         this.previous = prev;
     }
 
@@ -56,7 +56,7 @@ public abstract class AbstractBiNode {
      */
     public final BiNode getParent() {
         // check if previous isn't a "real parent"
-        if (this.previous != null && this.previous.sibling == this) {
+        if (this.previous != null && this.previous.getSibling() == this) {
             return this.previous.getParent();
         } else {
             // previous is "real parent" or null
@@ -68,7 +68,7 @@ public abstract class AbstractBiNode {
      * get sibling node, can be null.
      * @return sibling
      */
-    public final AbstractBiNode getSibling() {
+    public final IBiNode getSibling() {
         return this.sibling;
     }
 
@@ -76,9 +76,9 @@ public abstract class AbstractBiNode {
      * set sibling for this node and set previous of sibling to this.
      * @param sibl new sibling for this node
      */
-    public final void setSibling(final AbstractBiNode sibl) {
+    public final void setSibling(final IBiNode sibl) {
         if (sibl != null) {
-            sibl.previous = this;
+            sibl.setPrevious(this);
         }
 
         this.sibling = sibl;
@@ -89,7 +89,7 @@ public abstract class AbstractBiNode {
      * if node already has a sibling, forward to sibling.
      * @param sibl new sibling for this node
      */
-    public final void addSibling(final AbstractBiNode sibl) {
+    public final void addSibling(final IBiNode sibl) {
         if (this.sibling == null) {                 
             // 2nd child
             this.setSibling(sibl);
@@ -148,38 +148,6 @@ public abstract class AbstractBiNode {
     }
 
     /**
-     * get the type of node, can be BiNode, EmptyNode or TextNode.
-     * @return type of node
-     */
-    abstract BiType getType();
-
-    /**
-     * insert characters to node.
-     * @param biTree reference to BiTree to which this node contains
-     * @param offset position to insert characters
-     * @param len number of characters to insert
-     * @param totalOffset offset of node to begin of text
-     * @throws ReparseException if a reparse at upper level is needed
-     *
-     */
-    abstract void insert(BiTree biTree, int offset, int len,
-            int totalOffset)
-            throws ReparseException;
-
-    /**
-     * remove characters from node.
-     * @param biTree reference to BiTree to which this node contains
-     * @param offset position to remove characters
-     * @param len number of characters to remove
-     * @param totalOffset offset of node to begin of text
-     * @throws ReparseException if a reparse at upper level is needed
-     *
-     */
-    abstract void remove(BiTree biTree, int offset, int len,
-            int totalOffset)
-            throws ReparseException;
-
-    /**
      * helper method to insert or remove characters.
      * @param insert if true call insert-method else remove-method
      * @param biTree reference to BiTree to which this node contains
@@ -188,7 +156,7 @@ public abstract class AbstractBiNode {
      * @param totalOffset offset of node to begin of text
      * @throws ReparseException if a reparse at upper level is needed
      */
-    protected void forwardToSibling(final boolean insert, final BiTree biTree,
+    public void forwardToSibling(final boolean insert, final BiTree biTree,
             final int offset, final int len, final int totalOffset)
             throws ReparseException {
 
@@ -203,13 +171,6 @@ public abstract class AbstractBiNode {
             }
         }
     }
-
-    /**
-     * create a DOM-tree from node.
-     * @param doc Document to create DOM-tree
-     * @return root of DOM-tree
-     */
-    abstract Node createDOMSubtree(Document doc);
 
     /**
      * search a DOM node in this node.
@@ -228,12 +189,6 @@ public abstract class AbstractBiNode {
 
     @Override
     abstract public String toString();
-
-    /**
-     * print biNode.
-     * @return biNode
-     */
-    abstract String toString(int level);
 
     /**
      * helper method for outputting the length of node.
