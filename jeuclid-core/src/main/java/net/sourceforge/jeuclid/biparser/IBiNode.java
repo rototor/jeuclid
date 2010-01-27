@@ -29,71 +29,73 @@ public interface IBiNode {
      * get previous node, null if node is root.
      * @return previous
      */
-    public IBiNode getPrevious();
+    IBiNode getPrevious();
 
     /**
      * set previous for this node.
      * @param prev  previous node for this node
      */
-    public void setPrevious(final IBiNode prev);
+    void setPrevious(final IBiNode prev);
 
     /**
      * get parent node for this node.
      * @return parent
      */
-    public BiNode getParent();
+    BiNode getParent();
 
     /**
      * get sibling node, can be null.
      * @return sibling
      */
-    public IBiNode getSibling();
+    IBiNode getSibling();
 
     /**
      * set sibling for this node and set previous of sibling to this.
      * @param sibl new sibling for this node
      */
-    public void setSibling(final IBiNode sibl);
+    void setSibling(final IBiNode sibl);
 
     /**
      * add sibling to a node, not possible at a textnode.
      * if node already has a sibling, forward to sibling.
      * @param sibl new sibling for this node
      */
-    public void addSibling(final IBiNode sibl);
+    void addSibling(final IBiNode sibl);
 
     /**
      * get reference to node in DOM-tree.
      * @return node in DOM-tree
      */
-    public Node getNode();
+    Node getNode();
 
     /**
      * set reference to node in DOM-tree.
      * @param n reference in DOM-tree
      */
-    public void setNode(final Node n);
+    void setNode(final Node n);
+
     /**
      * get length of node (number of characters).
      * @return length of node
      */
-    public int getLength();
+    int getLength();
     /**
      * set length of node.
      * @param len to set
      */
-    public void setLength(final int len);
+    void setLength(final int len);
 
     /**
      * change length of node and recursive of all parents.
      * @param change changevalue (can be positive or negative)
      */
-    public void changeLengthRec(final int change);
+    void changeLengthRec(final int change);
+
     /**
      * get the type of node, can be BiNode, EmptyNode or TextNode.
      * @return type of node
      */
-    public BiType getType();
+    BiType getType();
 
     /**
      * insert characters to node.
@@ -104,7 +106,7 @@ public interface IBiNode {
      * @throws ReparseException if a reparse at upper level is needed
      *
      */
-    public void insert(BiTree biTree, int offset, int len, int totalOffset)
+    void insert(BiTree biTree, int offset, int len, int totalOffset)
             throws ReparseException;
 
     /**
@@ -116,7 +118,7 @@ public interface IBiNode {
      * @throws ReparseException if a reparse at upper level is needed
      *
      */
-    public void remove(BiTree biTree, int offset, int len, int totalOffset)
+    void remove(BiTree biTree, int offset, int len, int totalOffset)
             throws ReparseException;
 
     /**
@@ -128,7 +130,7 @@ public interface IBiNode {
      * @param totalOffset offset of node to begin of text
      * @throws ReparseException if a reparse at upper level is needed
      */
-    public void forwardToSibling(final boolean insert, final BiTree biTree,
+    void forwardToSibling(final boolean insert, final BiTree biTree,
             final int offset, final int len, final int totalOffset)
             throws ReparseException;
 
@@ -137,7 +139,7 @@ public interface IBiNode {
      * @param doc Document to create DOM-tree
      * @return root of DOM-tree
      */
-    public Node createDOMSubtree(Document doc);
+    Node createDOMSubtree(Document doc);
 
     /**
      * search a DOM node in this node.
@@ -146,20 +148,18 @@ public interface IBiNode {
      * @param totalOffset offset of node to begin of inputtext
      * @return position of node in inputtext
      */
-    public SearchResult searchNode(final Node n, final int totalOffset);
-
-    @Override
-    public String toString();
+    SearchResult searchNode(final Node n, final int totalOffset);
 
     /**
      * print biNode.
+     * @param level level of recursion tree
      * @return biNode
      */
-    public String toString(int level);
+    String toString(int level);
 
     /**
      * helper method for outputting the length of node.
      * @return formatted output of length
      */
-    public String formatLength();
+    String formatLength();
 }

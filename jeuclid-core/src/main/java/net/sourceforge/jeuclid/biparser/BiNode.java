@@ -64,15 +64,19 @@ public final class BiNode extends AbstractBiNode {
      * @return nodename
      */
     public String getNodeName() {
+        final String ret;
+
         if (this.eName == null) {
             if (this.getNode() == null) {
-                return null;
+                ret = null;
             } else {
-                return this.getNode().getNodeName();
+                ret = this.getNode().getNodeName();
             }
         } else {
-            return this.eName;
+            ret = this.eName;
         }
+
+        return ret;
     }
 
     /**
@@ -180,7 +184,7 @@ public final class BiNode extends AbstractBiNode {
         } else if (this.child != null && !this.invalid
                 && offset >= this.childOffset
                 && offset + length <= this.childOffset
-                + getLengthOfChildren()) {
+                + this.getLengthOfChildren()) {
                 // ---------------- CHILDREN ----------------
             try {
                 this.child.remove(biTree, offset - this.childOffset, length,
@@ -235,18 +239,23 @@ public final class BiNode extends AbstractBiNode {
         BiTree treePart;
         Node domValid;
         BiNode parent;
+        final boolean invalidSibling;
+        final boolean invalidPrevious;
 
         treePart = SAXBiParser.getInstance().parse(text);
 
         // parse unsuccessfull
         if (treePart == null) {
-            // if node & previous or node & sibling are invalid - reparse parent
-            if ((this.getPrevious() != null
-                    && this.getPrevious().getType() == BiType.NODE
-                    && ((BiNode) this.getPrevious()).invalid)
-                    || (this.getSibling() != null
+            invalidSibling = this.getSibling() != null
                     && this.getSibling().getType() == BiType.NODE
-                    && ((BiNode) this.getSibling()).invalid)) {
+                    && ((BiNode) this.getSibling()).invalid;
+            
+            invalidPrevious = this.getPrevious() != null
+                    && this.getPrevious().getType() == BiType.NODE
+                    && ((BiNode) this.getPrevious()).invalid;
+
+            // if node & previous or node & sibling are invalid - reparse parent
+            if (invalidPrevious || invalidSibling) {
                 throw new ReparseException();
             }
 
@@ -377,26 +386,20 @@ public final class BiNode extends AbstractBiNode {
 
         // check if node is this
         result = super.searchNode(node, totalOffset);
-        if (result != null) {
-            return result;
-        }
 
         // forward to child
-        if (this.child != null) {
+        if (result == null && this.child != null) {
             result = this.child.searchNode(node, totalOffset
                     + this.childOffset);
-            if (result != null) {
-                return result;
-            }
         }
 
         // forward to sibling
-        if (this.getSibling() != null) {
-            return this.getSibling().searchNode(node,
+        if (result == null && this.getSibling() != null) {
+            result = this.getSibling().searchNode(node,
                     totalOffset + this.getLength());
         }
 
-        return null;
+        return result;
     }
 
     @Override
@@ -435,16 +438,15 @@ public final class BiNode extends AbstractBiNode {
             sb.append("INVALID ");
         }
 
-        if (!invalid) {
+        if (!this.invalid) {
             sb.append('<');
             sb.append(this.getNodeName());
             sb.append("> tag: ");
             if (this.childOffset < 100) {
                 sb.append('0');
-                if (this.childOffset < 10) {
-                    sb.append('0');
-                }
-
+            }
+            if (this.childOffset < 10) {
+                sb.append('0');
             }
             sb.append(this.childOffset);
         }
