@@ -96,15 +96,19 @@ public final class TextNode extends AbstractBiNode {
      * @return text of TextNode
      */
     public String getText() {
+        final String ret;
+
         if (this.text == null) {
            if (this.getNode() == null) {
-                return null;
+                ret = null;
             } else {
-                return this.getNode().getTextContent();
+                ret = this.getNode().getTextContent();
             }
         } else {
-            return this.text;
+            ret = this.text;
         }
+
+        return ret;
     }
 
     /**

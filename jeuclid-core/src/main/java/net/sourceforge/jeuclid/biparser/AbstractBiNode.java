@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package net.sourceforge.jeuclid.biparser;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
@@ -186,9 +186,6 @@ public abstract class AbstractBiNode implements IBiNode {
 
         return null;
     }
-
-    @Override
-    abstract public String toString();
 
     /**
      * helper method for outputting the length of node.

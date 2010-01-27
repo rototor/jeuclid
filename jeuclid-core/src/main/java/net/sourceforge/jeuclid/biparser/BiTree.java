@@ -32,7 +32,7 @@ public class BiTree {
     /** document (DOM-tree). */
     private Document doc;
     /** root of tree. */
-    private AbstractBiNode root;
+    private IBiNode root;
     /** text of tree. */
     private String text;
 
@@ -79,7 +79,7 @@ public class BiTree {
      * get root of BiTree.
      * @return root of BiTree
      */
-    public final AbstractBiNode getRoot() {
+    public final IBiNode getRoot() {
         return this.root;
     }
 
@@ -113,7 +113,7 @@ public class BiTree {
      * set a new root in BiTree.
      * @param r new root of BiTree
      */
-    public final void setRoot(final AbstractBiNode r) {
+    public final void setRoot(final IBiNode r) {
 
         if (r == null) {
             this.doc = null;

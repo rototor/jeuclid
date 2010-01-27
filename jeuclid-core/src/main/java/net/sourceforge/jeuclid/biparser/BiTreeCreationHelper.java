@@ -28,9 +28,9 @@ import org.xml.sax.Attributes;
 public class BiTreeCreationHelper {
 
     /** current position in tree. */
-    private AbstractBiNode currentBiNode;
+    private IBiNode currentBiNode;
     /** root of tree. */
-    private AbstractBiNode root;
+    private IBiNode root;
     /** save positions of open tags. */
     private final List<Integer> startPositions;
 
@@ -46,7 +46,7 @@ public class BiTreeCreationHelper {
      * get root of BiTree.
      * @return root of BiTree
      */
-    public final AbstractBiNode getRoot() {
+    public final IBiNode getRoot() {
         return this.root;
     }
 
