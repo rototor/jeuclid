@@ -31,7 +31,7 @@ import org.xml.sax.Attributes;
 public final class BiNode extends AbstractBiNode {
 
     /** child node. */
-    private AbstractBiNode child;
+    private IBiNode child;
     /** offset to child from node begin (length of open tag). */
     private final int childOffset;
     /** if false, node is a valid xml-node. */
@@ -79,7 +79,7 @@ public final class BiNode extends AbstractBiNode {
      * add a child to this node, if node has already a child, forward to child.
      * @param c new child for this node
      */
-    public void addChild(final AbstractBiNode c) {
+    public void addChild(final IBiNode c) {
         // 1st child
         if (this.child == null) {                    
             this.setChild(c);
@@ -93,7 +93,7 @@ public final class BiNode extends AbstractBiNode {
      * get the child of the node.
      * @return child
      */
-    public AbstractBiNode getChild() {
+    public IBiNode getChild() {
         return this.child;
     }
 
@@ -101,7 +101,7 @@ public final class BiNode extends AbstractBiNode {
      * set child for this node.
      * @param c new child for this node
      */
-    public void setChild(final AbstractBiNode c) {
+    public void setChild(final IBiNode c) {
         if (c != null) {
             c.setPrevious(this);
         }
@@ -300,7 +300,7 @@ public final class BiNode extends AbstractBiNode {
      */
     public int getLengthOfChildren() {
         int length = 0;
-        AbstractBiNode childTmp;
+        IBiNode childTmp;
 
         if (this.child != null) {
             // length of first child
@@ -329,7 +329,7 @@ public final class BiNode extends AbstractBiNode {
         String aName;
         Node childNode;
         Element element;
-        AbstractBiNode tmp;
+        IBiNode tmp;
 
         element = doc.createElementNS(this.namespaceURI, this.eName);
 
