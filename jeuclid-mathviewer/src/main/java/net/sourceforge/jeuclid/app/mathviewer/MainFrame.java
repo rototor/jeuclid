@@ -1071,7 +1071,7 @@ public class MainFrame extends JFrame implements CursorListener {
             this.greekMenu.add(this.getAlphaMenuItem());
             this.greekMenu.add(this.getBetaMenuItem());
             this.greekMenu.add(this.getGammaMenuItem());
-            this.greekMenu.add(this.getDebugMenuItem());
+            this.greekMenu.add(this.getDeltaMenuItem());
             this.greekMenu.add(this.getOmegaMenuItem());
         }
         return this.greekMenu;
@@ -1123,7 +1123,7 @@ public class MainFrame extends JFrame implements CursorListener {
     private void insertMacro(final String macroText)
     {
         int pos = getXMLEditor().getCaretPosition();
-        String s1 = getXMLEditor().getText().substring(0,pos);
+        String s1 = getXMLEditor().getText().substring(0, pos);
         String s2 = getXMLEditor().getText().substring(pos);
         s1 += macroText + s2;
         getXMLEditor().setText(s1);
