@@ -98,7 +98,14 @@ public final class JMathComponent extends JComponent implements SwingConstants {
     private CursorListener cursorListener;
 
     /**
-     * Default constructor.
+     * Default constructor
+     */
+    public JMathComponent() {
+        this(null);
+    }
+
+    /**
+     * Default constructor with cursor listener
      * @param listener cursor listener instance
      */
     public JMathComponent(final CursorListener listener) {
