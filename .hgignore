@@ -15,8 +15,3 @@ temp/
 \.iml$
 \.ipr$
 \.iws$
-\.orig\..*$
-\.orig$
-\.chg\..*$
-\.rej$
-\.conflict\~$
