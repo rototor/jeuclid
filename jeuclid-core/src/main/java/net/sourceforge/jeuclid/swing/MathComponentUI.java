@@ -91,6 +91,7 @@ public class MathComponentUI extends ComponentUI implements
             this.jEuclidView.draw((Graphics2D) g, (float) alignOffset.getX()
                     + start.x, (float) alignOffset.getY() + start.y);
         }
+
     }
 
     /** {@inheritDoc} */
@@ -196,7 +197,6 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     public void propertyChange(final PropertyChangeEvent evt) {
         final String name = evt.getPropertyName();
-
         if ("document".equals(name) || "property".equals(name)) {
             final JMathComponent jc = (JMathComponent) evt.getSource();
             this.document = (Node) evt.getNewValue();
