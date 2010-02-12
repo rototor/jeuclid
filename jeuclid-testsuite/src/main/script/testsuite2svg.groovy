@@ -8,6 +8,8 @@ import net.sourceforge.jeuclid.context.*;
 import net.sourceforge.jeuclid.testsuite.TestSuiteProcessor;
 import java.util.concurrent.*;
 
+def es;
+
 class TheTask implements Runnable {
 
   def f;
@@ -62,12 +64,24 @@ def doit(extension,sourcelast,targetlast,mod3) {
   }
 
   for (f in scanner) {
-    new TheTask(f,tsp,source,target,ext,ant,mod3).run();
+    es.submit(new TheTask(f,tsp,source,target,ext,ant,mod3));
   }
 
 }
+
+int numberOfProcessors = runtime.availableProcessors();
+es = Executors.newFixedThreadPool(numberOfProcessors)+1;
 
 log.info("Converting testsuite2...");
 doit("xml","mml2-testsuite","svg",false);
 log.info("Converting testsuite3...");
 doit("xhtml","mml3-testsuite","svg3",true);
+
+es.shutdown();
+while (!es.isTerminated()) {
+  try {
+    es.awaitTermination(99, TimeUnit.DAYS);
+  } catch (InterruptedException ex) {
+    ex.printStackTrace();
+  }
+}
