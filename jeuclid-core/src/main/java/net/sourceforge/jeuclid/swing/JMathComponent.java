@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.swing;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -30,11 +29,13 @@ import java.util.Map;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.swing.event.DocumentEvent;
 
-import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.MutableLayoutContext;
+import net.sourceforge.jeuclid.biparser.BiTree;
+import net.sourceforge.jeuclid.biparser.ReparseException;
+import net.sourceforge.jeuclid.biparser.SAXBiParser;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
@@ -43,7 +44,6 @@ import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 /**
  * Displays MathML content in a Swing Component.
@@ -83,6 +83,8 @@ public final class JMathComponent extends JComponent implements SwingConstants {
 
     private Node document;
 
+    private BiTree biTree;
+
     private int horizontalAlignment = SwingConstants.CENTER;
 
     private final MutableLayoutContext parameters = new LayoutContextImpl(
@@ -91,12 +93,39 @@ public final class JMathComponent extends JComponent implements SwingConstants {
     private int verticalAlignment = SwingConstants.CENTER;
 
     /**
-     * Default constructor.
+     * cursor listener instance.
+     */
+    private CursorListener cursorListener;
+
+    /**
+     * Default constructor
      */
     public JMathComponent() {
+        this(null);
+    }
+
+    /**
+     * Default constructor with cursor listener
+     * @param listener cursor listener instance
+     */
+    public JMathComponent(final CursorListener listener) {
+        this.cursorListener = listener;
+
+        JMathComponentMouseListener mouseListener =
+                new JMathComponentMouseListener(this);
+        this.addMouseListener(mouseListener);
+
         this.updateUI();
         this.fontCompat();
         this.setDocument(new DocumentElement());
+    }
+
+    /**
+     * gets cursor listener instance.
+     * @return cursor listener instance
+     */
+    public CursorListener getCursorListener() {
+        return this.cursorListener;
     }
 
     /**
@@ -107,6 +136,14 @@ public final class JMathComponent extends JComponent implements SwingConstants {
                 JMathComponent.FONT_SEPARATOR)[0];
         final float fontSize = this.getFontSize();
         super.setFont(new Font(fontName, 0, (int) fontSize));
+    }
+
+    /**
+     * gets tree instance.
+     * @return tree instance
+     */
+    public BiTree getBiTree() {
+        return this.biTree;
     }
 
     /**
@@ -308,14 +345,53 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      *            the content to set.
      */
     public void setContent(final String contentString) {
-        try {
-            this.setDocument(MathMLParserSupport.parseString(contentString));
-        } catch (final SAXException e) {
-            throw new RuntimeException(e);
-        } catch (final ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
+        this.biTree = SAXBiParser.getInstance().parse(contentString);
+
+        // parse finished
+        if (this.biTree != null) {
+            this.biTree.createDOMTree();       // create DOM tree
+            this.setDocument(this.biTree.getDocument());
+            LOGGER.debug(this.biTree);
+        }
+    }
+
+    /**
+     * Set the content from a String containing the MathML content.
+     *
+     * @param contentString
+     *            the content to set.
+     */
+    public void setContent(DocumentEvent documentEvent, String text) {
+        DocumentEvent.EventType type;
+
+        if (this.biTree == null || this.biTree.getRoot() == null) {
+            setContent(text);
+        } else {
+
+            type = documentEvent.getType();
+
+            if (type == DocumentEvent.EventType.INSERT) {
+                try {
+                    this.biTree.insert(documentEvent.getOffset(), documentEvent.getLength(), text);
+                } catch (ReparseException ex) {
+                    this.setContent(text);
+                }
+            } else if (type == DocumentEvent.EventType.REMOVE) {
+                try {
+                    this.biTree.remove(documentEvent.getOffset(), documentEvent.getLength(), text);
+                } catch (ReparseException ex) {
+                    this.setContent(text);
+                }
+            } else {
+
+                // change event ????
+                throw new RuntimeException("change event.............");
+            }
+
+            if (this.biTree != null && this.biTree.getDocument() != null) {
+                this.setDocument(this.biTree.getDocument());
+                LOGGER.debug(this.biTree);
+            }
         }
     }
 
@@ -330,17 +406,16 @@ public final class JMathComponent extends JComponent implements SwingConstants {
     }
 
     /**
-     * @param doc
-     *            the document to set
+     * @param doc the document to set
      */
     public void setDocument(final Node doc) {
         final Node oldValue = this.document;
         this.firePropertyChange("document", oldValue, doc);
         this.document = doc;
-        if (doc != oldValue) {
+ //       if (doc != oldValue) {
             this.revalidate();
             this.repaint();
-        }
+   //     }
     }
 
     /**

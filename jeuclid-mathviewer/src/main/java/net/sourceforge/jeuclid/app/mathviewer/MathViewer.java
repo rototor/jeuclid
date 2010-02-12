@@ -34,7 +34,7 @@ import com.apple.eawt.Application;
 
 /**
  * A simple application for viewing MathML documents.
- * 
+
  * @version $Revision$
  */
 public final class MathViewer {
@@ -42,22 +42,28 @@ public final class MathViewer {
     /**
      * Set to true if we're running under Mac OS X.
      */
-    public static final boolean OSX = System.getProperty("mrj.version") != null; //$NON-NLS-1$
+    public static final boolean OSX =
+            System.getProperty("mrj.version") != null; //$NON-NLS-1$
 
     /**
-     * Logger for this class
+     * Logger for this class.
      */
     private static final Log LOGGER = LogFactory.getLog(MathViewer.class);
 
+    /**
+     * Source file.
+     */
     private static File source;
 
+    /**
+     * Default constructor.
+     */
     private MathViewer() {
         // Empty on purpose
     }
 
     /**
      * Launches this application.
-     * 
      * @param args
      *            command line arguments. Ignored.
      */
@@ -67,7 +73,8 @@ public final class MathViewer {
             MathViewer.source = new File(args[0]);
         }
         if (MathViewer.OSX) {
-            System.setProperty("apple.laf.useScreenMenuBar", Constants.TRUE); //$NON-NLS-1$ //$NON-NLS-2$
+            System.setProperty("apple.laf.useScreenMenuBar",
+                    Constants.TRUE); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         try {

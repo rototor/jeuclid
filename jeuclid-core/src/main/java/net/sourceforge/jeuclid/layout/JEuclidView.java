@@ -24,6 +24,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,8 +33,11 @@ import java.util.Map;
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
@@ -46,6 +50,8 @@ import org.w3c.dom.views.DocumentView;
  * @version $Revision$
  */
 public class JEuclidView implements AbstractView, LayoutView, EventListener {
+
+    private static final Log LOGGER = LogFactory.getLog(JEuclidView.class);
 
     private final LayoutableDocument document;
 
@@ -78,6 +84,62 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
         this.graphics = layoutGraphics;
         this.context = layoutContext;
         this.layoutMap = new HashMap<Node, LayoutInfo>();
+    }
+
+    /**
+     * replace old node with new node in JEuclid document
+     *
+     * @param jDocOld
+     *            old JEuclid document
+     * @param oldNode
+     *            Node to remove
+     * @param newNode
+     *            Node to insert
+     *
+     * @return new JEuclid Document
+     */
+    public static DocumentElement replaceNodes(DocumentElement jDocOld, Node oldNode, Node newNode) {
+        DocumentElement jDocNew;
+        Node imported, parent;
+        ArrayList<Integer> path;
+        int i;
+
+        // create jeuclid dom of node
+        jDocNew = DOMBuilder.getInstance().createJeuclidDom(newNode);
+
+        // check if newNode is root of new tree
+        if ((newNode.getParentNode()).getParentNode() == null) {
+            return jDocNew;
+        } else {
+            imported = jDocOld.importNode(jDocNew.getDocumentElement(), true);  // import
+
+            path = new ArrayList<Integer>();
+            parent = oldNode;
+
+            while (parent.getParentNode() != null) {
+                i = 0;
+                while (parent.getPreviousSibling() != null) {
+                    parent = parent.getPreviousSibling();
+                    i--;
+                }
+                path.add(-i);
+                parent = parent.getParentNode();
+            }
+
+            parent = jDocOld.getDocumentElement();
+            for (i = path.size() - 2; i > 0; i--) {
+                parent = parent.getChildNodes().item(path.get(i));
+            }
+
+            oldNode = parent.getChildNodes().item(path.get(0));
+
+            JEuclidView.LOGGER.info("replace " + oldNode.getNodeName() + " with "+ imported.getNodeName() + " under "+parent.getNodeName());
+
+            parent.insertBefore(imported, oldNode);                             // insert
+            parent.removeChild(oldNode);                                        // remove
+
+            return jDocOld;
+        }
     }
 
     /** {@inheritDoc} */

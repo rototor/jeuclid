@@ -19,7 +19,6 @@
 package net.sourceforge.jeuclid.app.mathviewer;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
@@ -39,19 +38,24 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import net.sourceforge.jeuclid.MathMLSerializer;
+import net.sourceforge.jeuclid.biparser.SearchResult;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.swing.CursorListener;
 import net.sourceforge.jeuclid.swing.JMathComponent;
 
+import org.apache.batik.util.gui.xmleditor.XMLContext;
+import org.apache.batik.util.gui.xmleditor.XMLEditorKit;
+import org.apache.batik.util.gui.xmleditor.XMLTextEditor;
 import org.w3c.dom.Document;
 
 /**
@@ -60,11 +64,12 @@ import org.w3c.dom.Document;
  * @version $Revision$
  */
 // CHECKSTYLE:OFF
-public class MainFrame extends JFrame {
-    // CHECKSTYLE:ON
-    private static final int DEFAULT_HEIGHT = 200;
+public class MainFrame extends JFrame implements CursorListener {
+    // CHECKSTYLE:OFF
 
-    private static final int DEFAULT_WIDTH = 350;
+    private static final int DEFAULT_HEIGHT = 400;
+
+    private static final int DEFAULT_WIDTH = 700;
 
     private static final FileIO FILEIO = FileIO.getInstance();
 
@@ -72,7 +77,7 @@ public class MainFrame extends JFrame {
     // * Logger for this class
     // */
     // currently unused.
-    // private static final Log LOGGER = LogFactory.getLog(MathViewer.class);
+    // private static final Log LOGGER = LogFactory.getLog(MainFrame.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -108,11 +113,13 @@ public class MainFrame extends JFrame {
 
     private JScrollPane scrollPane2;
 
-    private JTextArea textArea;
+    private XMLTextEditor xmlEditor;
 
     private JMathComponent mathComponent;
 
     private JMenu viewMenu;
+
+    private JMenuItem refreshMenuItem;
 
     private JMenuItem biggerMenuItem;
 
@@ -124,12 +131,62 @@ public class MainFrame extends JFrame {
 
     private JCheckBoxMenuItem debugMenuItem;
 
+    //==================================================
+    // context menu elements
+    //==================================================
+    
+    private JPopupMenu contextPopupMenu;
+    
+    private JMenu insertMenu;
+
+    private JMenu greekMenu;
+
+    private JMenu logicsMenu;
+
+    private JMenu symbolsMenu;
+
+    private JMenuItem c_refreshMenuItem;
+
+    private JMenuItem tableMenuItem;
+
+    private JMenuItem polynomMenuItem;
+
+    private JMenuItem orMenuItem;
+
+    private JMenuItem andMenuItem;
+
+    private JMenuItem notMenuItem;
+
+    private JMenuItem alphaMenuItem;
+
+    private JMenuItem betaMenuItem;
+
+    private JMenuItem gammaMenuItem;
+
+    private JMenuItem deltaMenuItem;
+
+    private JMenuItem omegaMenuItem;
+
+    private JMenuItem existsMenuItem;
+
+    private JMenuItem forallMenuItem;
+
     /**
      * This is the default constructor.
      */
     public MainFrame() {
         super();
         this.initialize();
+    }
+
+    @Override
+    public void updateCursorPosition(final SearchResult result) {
+        if(result != null && result.getTotalOffset() < this.getXMLEditor().getText().length()) {
+            this.getXMLEditor().requestFocusInWindow();
+            this.getXMLEditor().setCaretPosition(result.getTotalOffset());
+            this.getXMLEditor().setSelectionStart(result.getTotalOffset());
+            this.getXMLEditor().setSelectionEnd(result.getTotalOffset()+result.getLength());
+        }
     }
 
     /**
@@ -394,7 +451,7 @@ public class MainFrame extends JFrame {
         final Document doc = MainFrame.FILEIO.loadFile(this, f);
         if (doc != null) {
             this.getMathComponent().setDocument(doc);
-            this.getTextArea().setText(
+            this.getXMLEditor().setText(
                     MathMLSerializer.serializeDocument(doc, false, false));
         }
 
@@ -424,50 +481,85 @@ public class MainFrame extends JFrame {
     }
 
     /**
-     * This method initializes textArea
+     * This method initializes xmlEditor
      * 
-     * @return {@link JTextArea}
+     * @return {@link XMLTextEditor}
      */
-    private JTextArea getTextArea() {
-        if (this.textArea == null) {
-            this.textArea = new JTextArea();
-            this.textArea.setText("<?xml version='1.0'?>\n"
-                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n"
+    private XMLTextEditor getXMLEditor() {
+        if (this.xmlEditor == null) {
+            this.xmlEditor = new XMLTextEditor();
+            this.xmlEditor.setEditorKit(new XMLEditorKit(new XMLContext()));
+            /*this.xmlEditor.setText("<?xml version='1.0'?>" + Helper.nl()
+                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>" + Helper.nl()
+                    + "</math>");*/
+            this.xmlEditor.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Helper.nl()
+                    //DOCTYPE for W3C compliance obviously not supported
+                    //+ "<!DOCTYPE math PUBLIC -//W3C//DTD MathML 2.0//EN' "
+                    //+ "'http://www.w3.org/Math/DTD/mathml2/mathml2.dtd'>" + Helper.nl()
+                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>" + Helper.nl()
+                    + "<mrow>" + Helper.nl()
+                    + "<mi>a</mi>" + Helper.nl()
+                    + "<msup><mi>x</mi><mn>2</mn></msup>" + Helper.nl()
+                    + "<mo>+</mo><mi>b</mi>" + Helper.nl()
+                    + "<mi>x</mi><mo>+</mo><mi>c</mi>" + Helper.nl()
+                    + "<mo>=</mo><mo>0</mo>" + Helper.nl()
+                    + "</mrow>" + Helper.nl()
                     + "</math>");
-            this.textArea.setEditable(true);
-            this.textArea.getDocument().addDocumentListener(
-                    new DocumentListener() {
 
+            this.xmlEditor.setEditable(true);
+            this.xmlEditor.setComponentPopupMenu(this.getContextPopupMenu());
+            this.xmlEditor.getDocument().addDocumentListener(
+                    new DocumentListener() {
                         public void changedUpdate(
                                 final DocumentEvent documentevent) {
-                            MainFrame.this.updateFromTextArea();
+                            MainFrame.this.updateFromTextArea(documentevent);
                         }
 
                         public void insertUpdate(
                                 final DocumentEvent documentevent) {
-                            MainFrame.this.updateFromTextArea();
+                            MainFrame.this.updateFromTextArea(documentevent);
                         }
 
                         public void removeUpdate(
                                 final DocumentEvent documentevent) {
-                            MainFrame.this.updateFromTextArea();
+                            MainFrame.this.updateFromTextArea(documentevent);
                         }
                     });
-            this.textArea.setBackground(Color.WHITE);
+            this.updateFromTextArea();
         }
-        return this.textArea;
+
+        return this.xmlEditor;
     }
 
-    private void updateFromTextArea() {
+    private String normalize(final String text) {
+        //workaround for some problems with OS dependency
+        //pane.getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
+        return text.replace("\r\n", "\n");
+    }
+
+    private void updateFromTextArea(DocumentEvent documentevent) {
         try {
-            this.getMathComponent().setContent(this.getTextArea().getText());
-            this.textArea.setForeground(Color.BLACK);
+            String txt = normalize(this.getXMLEditor().getText());
+            this.getMathComponent().setContent(documentevent,txt);
+            
             // CHECKSTYLE:OFF
             // in this case, we want to explicitly provide catch-all error
             // handling.
         } catch (final RuntimeException e) {
             // CHECKSTYLE:ON
-            this.textArea.setForeground(Color.RED);
+        }
+    }
+
+    private void updateFromTextArea() {
+        try {
+            String txt = normalize(this.getXMLEditor().getText());
+            this.getMathComponent().setContent(txt);
+            
+            // CHECKSTYLE:OFF
+            // in this case, we want to explicitly provide catch-all error
+            // handling.
+        } catch (final RuntimeException e) {
+            // CHECKSTYLE:ON
         }
     }
 
@@ -499,7 +591,7 @@ public class MainFrame extends JFrame {
     private JScrollPane getScrollPane2() {
         if (this.scrollPane2 == null) {
             this.scrollPane2 = new JScrollPane();
-            this.scrollPane2.setViewportView(this.getTextArea());
+            this.scrollPane2.setViewportView(this.getXMLEditor());
 
             if (MathViewer.OSX) {
                 this.scrollPane2
@@ -518,7 +610,7 @@ public class MainFrame extends JFrame {
      */
     public JMathComponent getMathComponent() {
         if (this.mathComponent == null) {
-            this.mathComponent = new JMathComponent();
+            this.mathComponent = new JMathComponent(this);
             this.mathComponent
                     .setContent("<math><mtext>" //$NON-NLS-1$
                             + Messages.getString("MathViewer.noFileLoaded") + "</mtext></math>"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -536,6 +628,7 @@ public class MainFrame extends JFrame {
         if (this.viewMenu == null) {
             this.viewMenu = new JMenu();
             this.viewMenu.setText(Messages.getString("MathViewer.viewMenu")); //$NON-NLS-1$
+            this.viewMenu.add(this.getRefreshMenuItem());
             this.viewMenu.add(this.getBiggerMenuItem());
             this.viewMenu.add(this.getSmallerMenuItem());
             this.viewMenu.add(this.getAliasMenuItem());
@@ -575,6 +668,31 @@ public class MainFrame extends JFrame {
     }
 
     /**
+     * This method initializes refreshMenuItem
+     *
+     * @return javax.swing.JMenuItem
+     */
+    private JMenuItem getRefreshMenuItem()
+    {
+        if(this.refreshMenuItem == null) {
+            this.refreshMenuItem = new JMenuItem();
+            this.refreshMenuItem.setText(Messages
+                    .getString("MathViewer.textRefresh"));
+            this.refreshMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_Y, Toolkit.getDefaultToolkit()
+                     .getMenuShortcutKeyMask(), true));
+            this.refreshMenuItem
+                    .addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(
+                                final java.awt.event.ActionEvent e) {
+                            MainFrame.this.updateFromTextArea();
+                        }
+                    });
+        }
+        return this.refreshMenuItem;
+    }
+
+    /**
      * This method initializes biggerMenuItem
      * 
      * @return javax.swing.JMenuItem
@@ -585,8 +703,10 @@ public class MainFrame extends JFrame {
             this.biggerMenuItem.setText(Messages
                     .getString("MathViewer.textBigger")); //$NON-NLS-1$
             this.biggerMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-                    KeyEvent.VK_ADD, Toolkit.getDefaultToolkit()
-                            .getMenuShortcutKeyMask(), true));
+                    /*KeyEvent.VK_ADD, Toolkit.getDefaultToolkit()
+                            .getMenuShortcutKeyMask(), true));*/
+                    KeyEvent.VK_PLUS, Toolkit.getDefaultToolkit()
+                    .getMenuShortcutKeyMask(), true));
             this.biggerMenuItem
                     .addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(
@@ -612,7 +732,9 @@ public class MainFrame extends JFrame {
             this.smallerMenuItem.setText(Messages
                     .getString("MathViewer.textSmaller")); //$NON-NLS-1$
             this.smallerMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-                    KeyEvent.VK_SUBTRACT, Toolkit.getDefaultToolkit()
+                    /*KeyEvent.VK_SUBTRACT, Toolkit.getDefaultToolkit()
+                            .getMenuShortcutKeyMask(), true));*/
+                    KeyEvent.VK_MINUS, Toolkit.getDefaultToolkit()
                             .getMenuShortcutKeyMask(), true));
 
             this.smallerMenuItem
@@ -725,7 +847,7 @@ public class MainFrame extends JFrame {
                 final String newContent = (String) content
                         .getTransferData(DataFlavor.stringFlavor);
                 this.getMathComponent().setContent(newContent);
-                this.getTextArea().setText(newContent);
+                this.getXMLEditor().setText(newContent);
                 // CHECKSTYLE:OFF
                 // in this case, we want to explicitly provide catch-all error
                 // handling.
@@ -747,4 +869,264 @@ public class MainFrame extends JFrame {
                 null);
     }
 
+    private JMenuItem getCRefreshMenuItem() {
+        if (this.c_refreshMenuItem == null) {
+            this.c_refreshMenuItem = new JMenuItem();
+            this.c_refreshMenuItem.setText(Messages
+                    .getString("MathViewer.cRefreshMenuItem")); //$NON-NLS-1$
+            this.c_refreshMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_F10, Toolkit.getDefaultToolkit()
+                    .getMenuShortcutKeyMask(), true));
+            this.c_refreshMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    MainFrame.this.updateFromTextArea();
+                }
+            });
+        }
+        return this.c_refreshMenuItem;
+    }
+
+    private JMenuItem getTableMenuItem() {
+        if (this.tableMenuItem == null) {
+            this.tableMenuItem = new JMenuItem();
+            this.tableMenuItem.setText(Messages
+                    .getString("MathViewer.tableMenuItem")); //$NON-NLS-1$
+            this.tableMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    InsertTableDialog dlg = new InsertTableDialog(MainFrame.this, true);
+                    dlg.setVisible(true);
+
+                    if(dlg.getMathMLText() != null) {
+                        insertMacro(dlg.getMathMLText());
+                    }
+                }
+            });
+        }
+        return this.tableMenuItem;
+    }
+
+    private JMenuItem getPolynomMenuItem() {
+        if (this.polynomMenuItem == null) {
+            this.polynomMenuItem = new JMenuItem();
+            this.polynomMenuItem.setText(Messages
+                    .getString("MathViewer.polynomMenuItem")); //$NON-NLS-1$
+            this.polynomMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    InsertPolynomDialog dlg = new InsertPolynomDialog(MainFrame.this, true);
+                    dlg.setVisible(true);
+                    if(dlg.getMathMLText() != null) {
+                        insertMacro(dlg.getMathMLText());
+                    }
+                }
+            });
+        }
+        return this.polynomMenuItem;
+    }
+
+    private JMenuItem getOrMenuItem() {
+        if (this.orMenuItem == null) {
+            this.orMenuItem = new JMenuItem();
+            this.orMenuItem.setText(Messages
+                    .getString("MathViewer.orMenuItem")); //$NON-NLS-1$
+            this.orMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<apply><or/><ci>a</ci><ci>b</ci></apply>");
+                }
+            });
+        }
+        return this.orMenuItem;
+    }
+
+    private JMenuItem getAndMenuItem() {
+        if (this.andMenuItem == null) {
+            this.andMenuItem = new JMenuItem();
+            this.andMenuItem.setText(Messages
+                    .getString("MathViewer.andMenuItem")); //$NON-NLS-1$
+            this.andMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<apply><and/><ci>a</ci><ci>b</ci></apply>");
+                }
+            });
+        }
+        return this.andMenuItem;
+    }
+
+    private JMenuItem getNotMenuItem() {
+        if (this.notMenuItem == null) {
+            this.notMenuItem = new JMenuItem();
+            this.notMenuItem.setText(Messages
+                    .getString("MathViewer.notMenuItem")); //$NON-NLS-1$
+            this.notMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<apply><not/><ci>a</ci></apply>");
+                }
+            });
+        }
+        return this.notMenuItem;
+    }
+
+
+    private JMenuItem getAlphaMenuItem() {
+        if (this.alphaMenuItem == null) {
+            this.alphaMenuItem = new JMenuItem();
+            this.alphaMenuItem.setText(Messages
+                    .getString("MathViewer.alphaMenuItem")); //$NON-NLS-1$
+            this.alphaMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<mi>&#x003b1;</mi>");
+                }
+            });
+        }
+        return this.alphaMenuItem;
+    }
+
+    private JMenuItem getBetaMenuItem() {
+        if (this.betaMenuItem == null) {
+            this.betaMenuItem = new JMenuItem();
+            this.betaMenuItem.setText(Messages
+                    .getString("MathViewer.betaMenuItem")); //$NON-NLS-1$
+            this.betaMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<mi>&#x003b2;</mi>");
+                }
+            });
+        }
+        return this.betaMenuItem;
+    }
+
+    private JMenuItem getGammaMenuItem() {
+        if (this.gammaMenuItem == null) {
+            this.gammaMenuItem = new JMenuItem();
+            this.gammaMenuItem.setText(Messages
+                    .getString("MathViewer.gammaMenuItem")); //$NON-NLS-1$
+            this.gammaMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<mi>&#x003b3;</mi>");
+                }
+            });
+        }
+        return this.gammaMenuItem;
+    }
+
+    private JMenuItem getDeltaMenuItem() {
+        if (this.deltaMenuItem == null) {
+            this.deltaMenuItem = new JMenuItem();
+            this.deltaMenuItem.setText(Messages
+                    .getString("MathViewer.deltaMenuItem")); //$NON-NLS-1$
+            this.deltaMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<mi>&#x003b4;</mi>");
+                }
+            });
+        }
+        return this.deltaMenuItem;
+    }
+
+    private JMenuItem getOmegaMenuItem() {
+        if (this.omegaMenuItem == null) {
+            this.omegaMenuItem = new JMenuItem();
+            this.omegaMenuItem.setText(Messages
+                    .getString("MathViewer.omegaMenuItem")); //$NON-NLS-1$
+            this.omegaMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<mi>&#x003c9;</mi>");
+                }
+            });
+        }
+        return this.omegaMenuItem;
+    }
+
+    private JMenuItem getExistsMenuItem() {
+        if (this.existsMenuItem == null) {
+            this.existsMenuItem = new JMenuItem();
+            this.existsMenuItem.setText(Messages
+                    .getString("MathViewer.existsMenuItem")); //$NON-NLS-1$
+            this.existsMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<apply><exists/></apply>");
+                }
+            });
+        }
+        return this.existsMenuItem;
+    }
+
+    private JMenuItem getForAllMenuItem() {
+        if (this.forallMenuItem == null) {
+            this.forallMenuItem = new JMenuItem();
+            this.forallMenuItem.setText(Messages
+                    .getString("MathViewer.forallMenuItem")); //$NON-NLS-1$
+            this.forallMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    insertMacro("<apply><forall/></apply>");
+                }
+            });
+        }
+        return this.forallMenuItem;
+    }
+
+    private JMenu getGreekMenu() {
+        if (this.greekMenu == null) {
+            this.greekMenu = new JMenu();
+            this.greekMenu.setText(Messages.getString("MathViewer.GreekMenu")); //$NON-NLS-1$
+            this.greekMenu.add(this.getAlphaMenuItem());
+            this.greekMenu.add(this.getBetaMenuItem());
+            this.greekMenu.add(this.getGammaMenuItem());
+            this.greekMenu.add(this.getDeltaMenuItem());
+            this.greekMenu.add(this.getOmegaMenuItem());
+        }
+        return this.greekMenu;
+    }
+
+    private JMenu getLogicsMenu() {
+        if(this.logicsMenu == null) {
+            this.logicsMenu = new JMenu();
+            this.logicsMenu.setText(Messages.getString("MathViewer.LogicsMenu")); //$NON-NLS-1$
+            this.logicsMenu.add(this.getAndMenuItem());
+            this.logicsMenu.add(this.getOrMenuItem());
+            this.logicsMenu.add(this.getNotMenuItem());
+        }
+        return this.logicsMenu;
+    }
+
+    private JMenu getSymbolsMenu() {
+        if(this.symbolsMenu == null) {
+            this.symbolsMenu = new JMenu();
+            this.symbolsMenu.setText(Messages.getString("MathViewer.SymbolsMenu")); //$NON-NLS-1$
+            this.symbolsMenu.add(this.getForAllMenuItem());
+            this.symbolsMenu.add(this.getExistsMenuItem());
+        }
+        return this.symbolsMenu;
+    }
+
+    private JMenu getInsertMenu() {
+        if (this.insertMenu == null) {
+            this.insertMenu = new JMenu();
+            this.insertMenu.setText(Messages.getString("MathViewer.InsertMenu")); //$NON-NLS-1$
+            this.insertMenu.add(this.getTableMenuItem());
+            this.insertMenu.add(this.getPolynomMenuItem());
+            this.insertMenu.add(this.getGreekMenu());
+            this.insertMenu.add(this.getLogicsMenu());
+            this.insertMenu.add(this.getSymbolsMenu());
+        }
+        return this.insertMenu;
+    }
+
+    private JPopupMenu getContextPopupMenu() {
+        if(this.contextPopupMenu == null) {
+            this.contextPopupMenu = new JPopupMenu();
+            this.contextPopupMenu.add(this.getCRefreshMenuItem());
+            this.contextPopupMenu.add(this.getInsertMenu());
+        }
+        return this.contextPopupMenu;
+    }
+
+    private void insertMacro(final String macroText)
+    {
+        int pos = getXMLEditor().getCaretPosition();
+        String s1 = getXMLEditor().getText().substring(0, pos);
+        String s2 = getXMLEditor().getText().substring(pos);
+        s1 += macroText + s2;
+        getXMLEditor().setText(s1);
+        updateFromTextArea();
+    }
 }
