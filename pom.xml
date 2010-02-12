@@ -4,7 +4,7 @@
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-parent</artifactId>
   <name>JEuclid</name>
-  <version>3.1.9-SNAPSHOT</version>
+  <version>3.1.10-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
     <module>jeuclid-core</module>
@@ -119,9 +119,15 @@
   </developers>
   <contributors>
     <contributor>
+      <name>Gil</name>
+      <roles>
+        <role>Italian translation</role>
+      </roles>
+    </contributor>
+    <contributor>
       <name>Jean-Francois Maurel</name>
       <roles>
-        <role>french translation</role>
+        <role>French translation</role>
       </roles>
     </contributor>
     <contributor>
@@ -207,15 +213,10 @@
       </roles>
     </contributor>
   </contributors>
-  <!--<scm>
+  <scm>
     <connection>scm:hg:http://jeuclid.hg.sourceforge.net:8000/hgroot/jeuclid/jeuclid</connection>
     <developerConnection>scm:hg:ssh://jeuclid.hg.sourceforge.net/hgroot/jeuclid/jeuclid</developerConnection>
     <url>http://jeuclid.hg.sourceforge.net/hgweb/jeuclid/jeuclid/</url>
-  </scm>-->
-  <scm>
-  <connection>scm:hg:ssh://dps005@goedis.dps.uibk.ac.at/hg</connection>
-  <developerConnection>scm:hg:ssh://dps005@goedis.dps.uibk.ac.at/hg</developerConnection>
-  <url>http://goedis.dps.uibk.ac.at/~dps005/</url>
   </scm>
   <build>
     <extensions>
@@ -231,12 +232,17 @@
         <!-- This is necessary for docbook sites on OS X -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>2.0</version>
+        <version>2.1</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.maven.doxia</groupId>
             <artifactId>doxia-module-docbook-simple</artifactId>
-            <version>1.0</version>
+            <version>1.1.2</version>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.maven.doxia</groupId>
+            <artifactId>doxia-module-xhtml</artifactId>
+            <version>1.1.2</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -268,7 +274,7 @@
       <plugin>
         <groupId>com.pyx4me</groupId>
         <artifactId>proguard-maven-plugin</artifactId>
-        <version>2.0.3</version>
+        <version>2.0.4</version>
         <configuration>
           <libs>
             <lib>${runtime.lib}</lib>
@@ -279,7 +285,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.3</version>
         <executions>
           <execution>
             <id>validate-changes</id>
@@ -319,9 +325,9 @@
       </releases>
     </pluginRepository>
     <pluginRepository>
-      <id>bitbucket-max</id>
-      <name>Max Bitbucket</name>
-      <url>http://bitbucket.org/maxberger/maven2/raw/tip</url>
+      <id>maxthird</id>
+      <name>Max Third Party Repo</name>
+      <url>http://m2.max.berger.name/content/repositories/thirdparty</url>
     </pluginRepository>
   </pluginRepositories>
   <repositories>
@@ -346,7 +352,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.1.1</version>
+        <version>2.1.2</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -374,7 +380,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.6</version>
+        <version>2.6.1</version>
         <configuration>
           <linksource>true</linksource>
           <stylesheet>maven</stylesheet>
@@ -433,7 +439,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.3</version>
         <configuration>
           <threshold>Low</threshold>
           <effort>Max</effort>
@@ -486,7 +492,7 @@
     </plugins>
   </reporting>
   <distributionManagement>
-    <!--<repository>
+    <repository>
       <id>sourceforgejeuclid</id>
       <name>SourceForge Final Repository</name>
       <url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-release</url>
@@ -500,21 +506,6 @@
       <id>sourceforgejeuclid</id>
       <name>Website for JEuclid on SourceForge</name>
       <url>scp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs</url>
-    </site>-->
-    <!--<repository>
-      <id>sourceforgejeuclid</id>
-      <name>SourceForge Final Repository</name>
-      <url>sftp://goedis.dps.uibk.ac.at/~dps005/public_html/m2-release</url>
-    </repository>-->
-    <!--<snapshotRepository>
-      <id>sourceforgejeuclid</id>
-      <name>SourceForge Snapshot Repository</name>
-      <url>sftp://goedis.dps.uibk.ac.at/~dps005/public_html/m2-snap</url>
-    </snapshotRepository>-->
-    <site>
-      <id>sourceforgejeuclid</id>
-      <name>Website for JEuclid on SourceForge</name>
-      <url>sftp://goedis.dps.uibk.ac.at/home/dps005/public_html</url>
     </site>
   </distributionManagement>
   <properties>
