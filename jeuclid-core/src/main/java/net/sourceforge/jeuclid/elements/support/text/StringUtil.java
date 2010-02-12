@@ -261,8 +261,12 @@ public final class StringUtil {
             theLayout = new TextLayout(" ", new Font("", 0, 0),
                     realFontRenderContext);
         } else {
-            theLayout = new TextLayout(aString.getIterator(),
-                    realFontRenderContext);
+            synchronized (TextLayout.class) {
+                // Catches a rare NullPointerException in
+                // sun.font.FileFontStrike.getCachedGlyphPtr(FileFontStrike.java:448)
+                theLayout = new TextLayout(aString.getIterator(),
+                        realFontRenderContext);
+            }
         }
         return theLayout;
     }
