@@ -34,6 +34,9 @@ mvn release:prepare -Dresume
 
 Then the same again, this time to scm-commit-development
 
+ensure the changes are pushed to the main repo:
+hg push
+
 4. Perform the release
 
 Ensure that you have a shell at sourceforge:
