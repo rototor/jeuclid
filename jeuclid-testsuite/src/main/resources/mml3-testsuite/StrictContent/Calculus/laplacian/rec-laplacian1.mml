@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <csymbol cd="relation1">eq</csymbol> 
+    <apply> 
+      <csymbol cd="veccalc1">Laplacian</csymbol> 
+      <ci>f</ci>  
+    </apply> 
+    <apply>
+      <csymbol cd="veccalc1">divergence</csymbol> 
+      <apply>
+        <csymbol cd="veccalc1">grad</csymbol> 
+        <ci>f</ci> 
+      </apply>  
+    </apply> 
+  </apply> 
+</math>

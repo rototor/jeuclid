@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="calculus1">partialnthdiff</csymbol>
+    <apply>
+      <csymbol cd="list1">list</csymbol>
+      <cn>1</cn>
+      <cn>1</cn>
+      <cn>3</cn>
+    </apply>
+    <ci>f</ci>
+  </apply> 
+</math>

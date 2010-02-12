@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <partialdiff></partialdiff> 
+    <bvar>
+      <ci>x</ci>  
+      <degree>
+        <ci>m</ci>  
+      </degree> 
+    </bvar> 
+    <bvar> 
+      <ci>y</ci> 
+      <degree> 
+        <ci>n</ci> 
+      </degree> 
+    </bvar>  
+    <degree>
+      <ci>k</ci>  
+    </degree> 
+    <apply>
+      <ci type="fn">f</ci>  
+      <ci>x</ci> 
+      <ci>y</ci>  
+    </apply> 
+  </apply> 
+</math>

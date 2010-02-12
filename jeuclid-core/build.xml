@@ -1,0 +1,127 @@
+<project default="jar" basedir="." name="jeuclid-core">
+  <property name="build.directory" value="target"/>
+  <property name="build.output" value="${build.directory}/classes"/>
+  <property environment="env"/>
+
+
+  <path id="libs-build-classpath">
+    <fileset dir="${basedir}/lib">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+
+  <target name="init" description="Init dependencies">
+    <echo message="------------------- ${ant.project.name} ----------------"/>
+    <echo message="${ant.version}"/>
+    <echo message="VM: ${java.vm.version}, ${java.vm.vendor}"/>
+    <echo message="JAVA_HOME: ${env.JAVA_HOME}"/>
+
+    <available property="ant.present" classname="org.apache.tools.ant.BuildException" classpathref="libs-build-classpath"/>
+    <condition property="ant.message" value="ANT Support PRESENT">
+      <equals arg1="${ant.present}" arg2="true"/>
+    </condition>
+    <condition property="ant.message" value="ANT Support NOT Present">
+      <not>
+        <equals arg1="${ant.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${ant.message}"/>
+
+    <available property="batik.present" classname="org.apache.batik.dom.AbstractNode" classpathref="libs-build-classpath"/>
+    <condition property="batik.message" value="Batik Support PRESENT">
+      <equals arg1="${batik.present}" arg2="true"/>
+    </condition>
+    <condition property="batik.message" value="Batik Support NOT Present">
+      <not>
+        <equals arg1="${batik.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${batik.message}"/>
+
+    <available property="jcip.present" classname="net.jcip.annotations.ThreadSafe" classpathref="libs-build-classpath"/>
+    <condition property="jcip.message" value="jcip-annotations Support PRESENT">
+      <equals arg1="${jcip.present}" arg2="true"/>
+    </condition>
+    <condition property="jcip.message" value="jcip-annotations Support NOT Present">
+      <not>
+        <equals arg1="${jcip.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${jcip.message}"/>
+
+    <available property="logging.present" classname="org.apache.commons.logging.LogFactory" classpathref="libs-build-classpath"/>
+    <condition property="logging.message" value="commons-logging Support PRESENT">
+      <equals arg1="${logging.present}" arg2="true"/>
+    </condition>
+    <condition property="logging.message" value="commons-logging Support NOT Present">
+      <not>
+        <equals arg1="${logging.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${logging.message}"/>
+
+    <available property="freeheputil.present" classname="org.freehep.util.export.ExportFileType" classpathref="libs-build-classpath"/>
+    <condition property="freeheputil.message" value="FreeHep Util Support PRESENT">
+      <equals arg1="${freeheputil.present}" arg2="true"/>
+    </condition>
+    <condition property="freeheputil.message" value="FreeHep Util Support NOT Present">
+      <not>
+        <equals arg1="${freeheputil.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${freeheputil.message}"/>
+
+    <available property="freehepgraph.present" classname="org.freehep.graphics2d.VectorGraphics" classpathref="libs-build-classpath"/>
+    <condition property="freehepgraph.message" value="FreeHep Graphics2D Support PRESENT">
+      <equals arg1="${freehepgraph.present}" arg2="true"/>
+    </condition>
+    <condition property="freehepgraph.message" value="FreeHep Graphics2D Support NOT Present">
+      <not>
+        <equals arg1="${freehepgraph.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${freehepgraph.message}"/>
+
+    <available property="xmlext.present" classname="org.xml.sax.InputSource" classpathref="libs-build-classpath"/>
+    <condition property="xmlext.message" value="xml-commons-external Support PRESENT">
+      <equals arg1="${xmlext.present}" arg2="true"/>
+    </condition>
+    <condition property="xmlext.message" value="xml-commons-external Support NOT Present">
+      <not>
+        <equals arg1="${xmlext.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${xmlext.message}"/>
+
+    <available property="xmlgraphics.present" classname="org.apache.xmlgraphics.util.ClasspathResource" classpathref="libs-build-classpath"/>
+    <condition property="xmlgraphics.message" value="xmlgraphics-commons Support PRESENT">
+      <equals arg1="${xmlgraphics.present}" arg2="true"/>
+    </condition>
+    <condition property="xmlgraphics.message" value="xmlgraphics-commons Support NOT Present">
+      <not>
+        <equals arg1="${xmlgraphics.present}" arg2="true"/>
+      </not>
+    </condition>
+    <echo message="${xmlgraphics.message}"/>
+  </target>
+
+
+  <target name="compile" depends="init" description="Compile the code">
+    <mkdir dir="${build.output}"/>
+    <javac destdir="${build.output}" debug="true" deprecation="true" optimize="false">
+      <src>
+        <pathelement location="src/main/java"/>
+      </src>
+      <classpath refid="libs-build-classpath"/>
+    </javac>
+    <copy todir="${build.output}">
+      <fileset dir="src/main/resources"/>
+    </copy>
+  </target>
+
+
+  <target name="jar" depends="compile" description="Create the JAR">
+    <jar jarfile="${build.directory}/${ant.project.name}.jar" basedir="${build.output}"/>
+  </target>
+</project>

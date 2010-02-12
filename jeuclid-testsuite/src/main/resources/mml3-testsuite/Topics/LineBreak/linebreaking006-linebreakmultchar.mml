@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" linebreakmultchar="⋅">
+  <mrow>
+    <mi>a</mi> 
+    <mo></mo> 
+    <mi>b</mi> 
+    <mo></mo> 
+    <mo>(</mo> 
+    <mi>x</mi> 
+    <mo></mo> 
+    <mi>y</mi> 
+    <mo></mo> 
+    <mi>z</mi> 
+    <mo>+</mo> 
+    <mi>y</mi> 
+    <mo></mo> 
+    <mi>v</mi> 
+    <mo linebreak="newline"></mo> 
+    <mi>w</mi> 
+    <mo>+</mo> 
+    <mi>q</mi> 
+    <mo></mo> 
+    <mi>r</mi> 
+    <mo></mo> 
+    <mi>s</mi> 
+    <mo>+</mo> 
+    <mi>u</mi> 
+    <mo></mo> 
+    <mi>v</mi> 
+    <mo>)</mo> 
+    <mstyle linebreakmultchar="·"> 
+      <mo>+</mo> 
+      <mi>b</mi> 
+      <mo></mo> 
+      <mi>c</mi>  
+      <mo linebreak="newline"></mo> 
+      <mo>(</mo> 
+      <mi>x</mi> 
+      <mo></mo>  
+      <mi>y</mi> 
+      <mo></mo> 
+      <mi>z</mi> 
+      <mo>+</mo>  
+      <mi>y</mi> 
+      <mo></mo> 
+      <mi>v</mi> 
+      <mo>+</mo>  
+      <mi>c</mi> 
+      <mo linebreak="newline" linebreakmultchar="×"></mo> 
+      <mi>d</mi> 
+      <mo></mo>  
+      <mrow>
+        <mo>(</mo> 
+        <mi>a</mi>  
+        <mo></mo> 
+        <mi>b</mi> 
+        <mo></mo>  
+        <mi>c</mi> 
+        <mo>+</mo> 
+        <mi>u</mi>  
+        <mo></mo> 
+        <mi>v</mi> 
+        <mo></mo>  
+        <mi>w</mi> 
+        <mo>)</mo> 
+        <mo>)</mo>  
+      </mrow> 
+    </mstyle> 
+  </mrow> </math>

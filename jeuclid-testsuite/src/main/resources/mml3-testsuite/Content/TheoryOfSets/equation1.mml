@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <implies></implies> 
+    <apply>
+      <eq></eq>  
+      <ci>A</ci> 
+      <ci>B</ci> 
+    </apply>  
+    <apply>
+      <eq></eq> 
+      <apply> 
+        <union></union> 
+        <ci>A</ci>  
+        <ci>C</ci> 
+      </apply>  
+      <apply>
+        <union></union> 
+        <ci>B</ci>  
+        <ci>C</ci> 
+      </apply>  
+    </apply> 
+  </apply> 
+</math>

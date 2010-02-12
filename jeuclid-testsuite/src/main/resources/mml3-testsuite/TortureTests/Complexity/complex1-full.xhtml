@@ -1,0 +1,2694 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  complex1</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../Topics/WhiteSpace/white9-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../toc-full.xhtml#TortureTests/">TortureTests</a> &gt; <a target="toc_full" href="../../toc-full.xhtml#TortureTests/Complexity/">Complexity</a> &gt; complex1
+   ) </td><td style="text-align: right"><a href="../../TortureTests/Complexity/complex2-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="complex1.mml">mml file</a>)
+       (<a href="complex1-full.xhtml">full</a>) (<a href="complex1-simple.xhtml">simple</a>) (<a href="complex1-plain.xhtml">plain</a>) (<a href="complex1-form.xhtml">form</a>) (<a href="complex1-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>TortureTests/Complexity/complex1</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Design Science, Inc. (D. Doyle, E. Cannon, E. Tabacman, R.Miner)</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>short complexity test</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p>
+          N/A
+      </td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <mtable xmlns:dsi="http://www.dessci.com/mathml"> 
+        <mtr> 
+          <mtd> 
+            <mtext>Bernoulli Trials</mtext> 
+          </mtd> 
+          <mtd> 
+            <mrow> 
+              <maction actiontype="statusline"> 
+                <mrow> 
+                  <mi>P</mi> 
+                  <mo stretchy="false">(</mo> 
+                  <mi>E</mi> 
+                  <mo stretchy="false">)</mo> 
+                </mrow> 
+                <mtext>Probability of event E: Get exactly k heads in n coin flips. 
+                </mtext> 
+              </maction> 
+              <mo>=</mo> 
+              <maction actiontype="statusline"> 
+                <mrow> 
+                  <mo>(</mo> 
+                  <mfrac linethickness="0"> 
+                    <mi>n</mi> 
+                    <mi>k</mi> 
+                  </mfrac> 
+                  <mo>)</mo> 
+                </mrow> 
+                <mtext>Number of ways to get exactly k heads in n coin flips 
+                </mtext> 
+              </maction> 
+              <msubsup> 
+                <maction actiontype="statusline"> 
+                  <mi>p</mi> 
+                  <mtext>Probability of getting heads in one flip 
+                  </mtext> 
+                </maction> 
+                <mrow></mrow> 
+                <maction actiontype="statusline"> 
+                  <mi>k</mi> 
+                  <mtext>Number of heads</mtext> 
+                </maction> 
+              </msubsup> 
+              <msubsup> 
+                <maction actiontype="statusline"> 
+                  <mrow> 
+                    <mo stretchy="false">(</mo> 
+                    <mn>1</mn> 
+                    <mo>-</mo> 
+                    <mi>p</mi> 
+                    <mo stretchy="false">)</mo> 
+                  </mrow> 
+                  <mtext>Probability of getting tails in one flip 
+                  </mtext> 
+                </maction> 
+                <mrow></mrow> 
+                <maction actiontype="statusline"> 
+                  <mrow> 
+                    <mi>n</mi> 
+                    <mo>-</mo> 
+                    <mi>k</mi> 
+                  </mrow> 
+                  <mtext>Number of tails</mtext> 
+                </maction> 
+              </msubsup> 
+            </mrow> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>Cauchy-Schwarz Inequality</mtext> 
+          </mtd> 
+          <mtd> 
+            <mstyle displaystyle="true"> 
+              <mrow> 
+                <msubsup> 
+                  <mrow> 
+                    <mo>(</mo> 
+                    <munderover> 
+                      <mo>∑</mo> 
+                      <mrow> 
+                        <mi>k</mi> 
+                        <mo>=</mo> 
+                        <mn>1</mn> 
+                      </mrow> 
+                      <mi>n</mi> 
+                    </munderover> 
+                    <msubsup> 
+                      <mi>a</mi> 
+                      <mi>k</mi> 
+                      <mrow></mrow> 
+                    </msubsup> 
+                    <msubsup> 
+                      <mi>b</mi> 
+                      <mi>k</mi> 
+                      <mrow></mrow> 
+                    </msubsup> 
+                    <mo>)</mo> 
+                  </mrow> 
+                  <mrow></mrow> 
+                  <mn>2</mn> 
+                </msubsup> 
+                <mo>≤</mo> 
+                <mrow> 
+                  <mo>(</mo> 
+                  <munderover> 
+                    <mo>∑</mo> 
+                    <mrow> 
+                      <mi>k</mi> 
+                      <mo>=</mo> 
+                      <mn>1</mn> 
+                    </mrow> 
+                    <mi>n</mi> 
+                  </munderover> 
+                  <msubsup> 
+                    <mi>a</mi> 
+                    <mi>k</mi> 
+                    <mn>2</mn> 
+                  </msubsup> 
+                  <mo>)</mo> 
+                </mrow> 
+                <mrow> 
+                  <mo>(</mo> 
+                  <munderover> 
+                    <mo>∑</mo> 
+                    <mrow> 
+                      <mi>k</mi> 
+                      <mo>=</mo> 
+                      <mn>1</mn> 
+                    </mrow> 
+                    <mi>n</mi> 
+                  </munderover> 
+                  <msubsup> 
+                    <mi>b</mi> 
+                    <mi>k</mi> 
+                    <mn>2</mn> 
+                  </msubsup> 
+                  <mo>)</mo> 
+                </mrow> 
+              </mrow> 
+            </mstyle> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>Cauchy Formula</mtext> 
+          </mtd> 
+          <mtd> 
+            <mstyle displaystyle="true"> 
+              <mrow> 
+                <mi>f</mi> 
+                <mo stretchy="false">(</mo> 
+                <mi>z</mi> 
+                <mo stretchy="false">)</mo> 
+                <mtext> </mtext> 
+                <mo>·</mo> 
+                <msubsup> 
+                  <mstyle fontstyle="normal"> 
+                    <mrow> 
+                      <mi>I</mi> 
+                      <mi>n</mi> 
+                      <mi>d</mi> 
+                    </mrow> 
+                  </mstyle> 
+                  <mi>γ</mi> 
+                  <mrow></mrow> 
+                </msubsup> 
+                <mo stretchy="false">(</mo> 
+                <mi>z</mi> 
+                <mo stretchy="false">)</mo> 
+                <mo>=</mo> 
+                <mfrac> 
+                  <mn>1</mn> 
+                  <mrow> 
+                    <mn>2</mn> 
+                    <mi>π</mi> 
+                    <mi>i</mi> 
+                  </mrow> 
+                </mfrac> 
+                <munderover> 
+                  <mo>∮</mo> 
+                  <mi>γ</mi> 
+                  <mrow></mrow> 
+                </munderover> 
+                <mfrac> 
+                  <mrow> 
+                    <mi>f</mi> 
+                    <mo stretchy="false">(</mo> 
+                    <mstyle scriptlevel="1"> 
+                      <mi>ξ</mi> 
+                    </mstyle> 
+                    <mo stretchy="false">)</mo> 
+                  </mrow> 
+                  <mrow> 
+                    <mstyle scriptlevel="1"> 
+                      <mi>ξ</mi> 
+                    </mstyle> 
+                    <mo>-</mo> 
+                    <mi>z</mi> 
+                  </mrow> 
+                </mfrac> 
+                <mtext> </mtext> 
+                <mi>d</mi> 
+                <mstyle scriptlevel="1"> 
+                  <mi>ξ</mi> 
+                </mstyle> 
+              </mrow> 
+            </mstyle> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>Cross Product</mtext> 
+          </mtd> 
+          <mtd> 
+            <mrow> 
+              <msubsup> 
+                <mstyle fontweight="bold"> 
+                  <mi>V</mi> 
+                </mstyle> 
+                <mn>1</mn> 
+                <mrow></mrow> 
+              </msubsup> 
+              <mo>×</mo> 
+              <msubsup> 
+                <mstyle fontweight="bold"> 
+                  <mi>V</mi> 
+                </mstyle> 
+                <mn>2</mn> 
+                <mrow></mrow> 
+              </msubsup> 
+              <mo>=</mo> 
+              <mrow> 
+                <mo>|</mo> 
+                <mtable equalrows="false"> 
+                  <mtr> 
+                    <mtd> 
+                      <mstyle fontweight="bold"> 
+                        <mi>i</mi> 
+                      </mstyle> 
+                    </mtd> 
+                    <mtd> 
+                      <mstyle fontweight="bold"> 
+                        <mi>j</mi> 
+                      </mstyle> 
+                    </mtd> 
+                    <mtd> 
+                      <mstyle fontweight="bold"> 
+                        <mi>k</mi> 
+                      </mstyle> 
+                    </mtd> 
+                  </mtr> 
+                  <mtr> 
+                    <mtd> 
+                      <mfrac> 
+                        <mrow> 
+                          <mo>∂</mo> 
+                          <mi>X</mi> 
+                        </mrow> 
+                        <mrow> 
+                          <mo>∂</mo> 
+                          <mi>u</mi> 
+                        </mrow> 
+                      </mfrac> 
+                    </mtd> 
+                    <mtd> 
+                      <mfrac> 
+                        <mrow> 
+                          <mo>∂</mo> 
+                          <mi>Y</mi> 
+                        </mrow> 
+                        <mrow> 
+                          <mo>∂</mo> 
+                          <mi>u</mi> 
+                        </mrow> 
+                      </mfrac> 
+                    </mtd> 
+                    <mtd> 
+                      <mn>0</mn> 
+                    </mtd> 
+                  </mtr> 
+                  <mtr> 
+                    <mtd> 
+                      <mfrac> 
+                        <mrow> 
+                          <mo>∂</mo> 
+                          <mi>X</mi> 
+                        </mrow> 
+                        <mrow> 
+                          <mo>∂</mo> 
+                          <mi>v</mi> 
+                        </mrow> 
+                      </mfrac> 
+                    </mtd> 
+                    <mtd> 
+                      <mfrac> 
+                        <mrow> 
+                          <mo>∂</mo> 
+                          <mi>Y</mi> 
+                        </mrow> 
+                        <mrow> 
+                          <mo>∂</mo> 
+                          <mi>v</mi> 
+                        </mrow> 
+                      </mfrac> 
+                    </mtd> 
+                    <mtd> 
+                      <mn>0</mn> 
+                    </mtd> 
+                  </mtr> 
+                </mtable> 
+                <mo>|</mo> 
+              </mrow> 
+            </mrow> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>Vandermonde Determinant</mtext> 
+          </mtd> 
+          <mtd> 
+            <mstyle displaystyle="true"> 
+              <mrow> 
+                <mrow> 
+                  <mo>|</mo> 
+                  <mtable equalrows="false"> 
+                    <mtr> 
+                      <mtd> 
+                        <mn>1</mn> 
+                      </mtd> 
+                      <mtd> 
+                        <mn>1</mn> 
+                      </mtd> 
+                      <mtd> 
+                        <mo>⋯</mo> 
+                      </mtd> 
+                      <mtd> 
+                        <mn>1</mn> 
+                      </mtd> 
+                    </mtr> 
+                    <mtr> 
+                      <mtd> 
+                        <msubsup> 
+                          <mi>v</mi> 
+                          <mn>1</mn> 
+                          <mrow></mrow> 
+                        </msubsup> 
+                      </mtd> 
+                      <mtd> 
+                        <msubsup> 
+                          <mi>v</mi> 
+                          <mn>2</mn> 
+                          <mrow></mrow> 
+                        </msubsup> 
+                      </mtd> 
+                      <mtd> 
+                        <mo>⋯</mo> 
+                      </mtd> 
+                      <mtd> 
+                        <msubsup> 
+                          <mi>v</mi> 
+                          <mi>n</mi> 
+                          <mrow></mrow> 
+                        </msubsup> 
+                      </mtd> 
+                    </mtr> 
+                    <mtr> 
+                      <mtd> 
+                        <msubsup> 
+                          <mi>v</mi> 
+                          <mn>1</mn> 
+                          <mn>2</mn> 
+                        </msubsup> 
+                      </mtd> 
+                      <mtd> 
+                        <msubsup> 
+                          <mi>v</mi> 
+                          <mn>2</mn> 
+                          <mn>2</mn> 
+                        </msubsup> 
+                      </mtd> 
+                      <mtd> 
+                        <mo>⋯</mo> 
+                      </mtd> 
+                      <mtd> 
+                        <msubsup> 
+                          <mi>v</mi> 
+                          <mi>n</mi> 
+                          <mn>2</mn> 
+                        </msubsup> 
+                      </mtd> 
+                    </mtr> 
+                    <mtr> 
+                      <mtd> 
+                        <mo>⋮</mo> 
+                      </mtd> 
+                      <mtd> 
+                        <mo>⋮</mo> 
+                      </mtd> 
+                      <mtd> 
+                        <mo>⋱</mo> 
+                      </mtd> 
+                      <mtd> 
+                        <mo>⋮</mo> 
+                      </mtd> 
+                    </mtr> 
+                    <mtr> 
+                      <mtd> 
+                        <msubsup> 
+                          <mi>v</mi> 
+                          <mn>1</mn> 
+                          <mrow> 
+                            <mi>n</mi> 
+                            <mo>-</mo> 
+                            <mn>1</mn> 
+                          </mrow> 
+                        </msubsup> 
+                      </mtd> 
+                      <mtd> 
+                        <msubsup> 
+                          <mi>v</mi> 
+                          <mn>2</mn> 
+                          <mrow> 
+                            <mi>n</mi> 
+                            <mo>-</mo> 
+                            <mn>1</mn> 
+                          </mrow> 
+                        </msubsup> 
+                      </mtd> 
+                      <mtd> 
+                        <mo>⋯</mo> 
+                      </mtd> 
+                      <mtd> 
+                        <msubsup> 
+                          <mi>v</mi> 
+                          <mi>n</mi> 
+                          <mrow> 
+                            <mi>n</mi> 
+                            <mo>-</mo> 
+                            <mn>1</mn> 
+                          </mrow> 
+                        </msubsup> 
+                      </mtd> 
+                    </mtr> 
+                  </mtable> 
+                  <mo>|</mo> 
+                </mrow> 
+                <mo>=</mo> 
+                <munderover> 
+                  <mo>∏</mo> 
+                  <mrow> 
+                    <mn>1</mn> 
+                    <mo>≤</mo> 
+                    <mi>i</mi> 
+                    <mo>&lt;</mo> 
+                    <mi>j</mi> 
+                    <mo>≤</mo> 
+                    <mi>n</mi> 
+                  </mrow> 
+                  <mrow></mrow> 
+                </munderover> 
+                <mo stretchy="false">(</mo> 
+                <msubsup> 
+                  <mi>v</mi> 
+                  <mi>j</mi> 
+                  <mrow></mrow> 
+                </msubsup> 
+                <mo>-</mo> 
+                <msubsup> 
+                  <mi>v</mi> 
+                  <mi>i</mi> 
+                  <mrow></mrow> 
+                </msubsup> 
+                <mo stretchy="false">)</mo> 
+              </mrow> 
+            </mstyle> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>Lorenz Equations</mtext> 
+          </mtd> 
+          <mtd> 
+            <mtable columnalign="right center left" equalcolumns="false"> 
+              <mtr> 
+                <mtd> 
+                  <munderover accent="true"> 
+                    <mi>x</mi> 
+                    <mrow></mrow> 
+                    <mo>˙</mo> 
+                  </munderover> 
+                </mtd> 
+                <mtd> 
+                  <mo>=</mo> 
+                </mtd> 
+                <mtd> 
+                  <mrow> 
+                    <mi>σ</mi> 
+                    <mo stretchy="false">(</mo> 
+                    <mi>y</mi> 
+                    <mo>-</mo> 
+                    <mi>x</mi> 
+                    <mo stretchy="false">)</mo> 
+                  </mrow> 
+                </mtd> 
+              </mtr> 
+              <mtr> 
+                <mtd> 
+                  <munderover accent="true"> 
+                    <mi>y</mi> 
+                    <mrow></mrow> 
+                    <mo>˙</mo> 
+                  </munderover> 
+                </mtd> 
+                <mtd> 
+                  <mo>=</mo> 
+                </mtd> 
+                <mtd> 
+                  <mrow> 
+                    <mi>ρ</mi> 
+                    <mi>x</mi> 
+                    <mo>-</mo> 
+                    <mi>y</mi> 
+                    <mo>-</mo> 
+                    <mi>x</mi> 
+                    <mi>z</mi> 
+                  </mrow> 
+                </mtd> 
+              </mtr> 
+              <mtr> 
+                <mtd> 
+                  <munderover accent="true"> 
+                    <mi>z</mi> 
+                    <mrow></mrow> 
+                    <mo>˙</mo> 
+                  </munderover> 
+                </mtd> 
+                <mtd> 
+                  <mo>=</mo> 
+                </mtd> 
+                <mtd> 
+                  <mrow> 
+                    <mo>-</mo> 
+                    <mi>β</mi> 
+                    <mi>z</mi> 
+                    <mo>+</mo> 
+                    <mi>x</mi> 
+                    <mi>y</mi> 
+                  </mrow> 
+                </mtd> 
+              </mtr> 
+            </mtable> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>Maxwell's Equations</mtext> 
+          </mtd> 
+          <mtd> 
+            <mstyle displaystyle="true"> 
+              <mrow> 
+                <mo>{</mo> 
+                <mtable columnalign="right center left" equalrows="false" equalcolumns="false"> 
+                  <mtr> 
+                    <mtd> 
+                      <mrow> 
+                        <mo>∇</mo> 
+                        <mtext>​</mtext> 
+                        <mo>×</mo> 
+                        <munderover accent="true"> 
+                          <mstyle fontweight="bold"> 
+                            <mi>B</mi> 
+                          </mstyle> 
+                          <mrow></mrow> 
+                          <mo stretchy="true">↼</mo> 
+                        </munderover> 
+                        <mo>-</mo> 
+                        <mtext> </mtext> 
+                        <mfrac> 
+                          <mn>1</mn> 
+                          <mi>c</mi> 
+                        </mfrac> 
+                        <mtext> </mtext> 
+                        <mfrac> 
+                          <mrow> 
+                            <mo>∂</mo> 
+                            <mtext>​</mtext> 
+                            <munderover accent="true"> 
+                              <mstyle fontweight="bold"> 
+                                <mi>E</mi> 
+                              </mstyle> 
+                              <mrow></mrow> 
+                              <mo stretchy="true">↼</mo> 
+                            </munderover> 
+                          </mrow> 
+                          <mrow> 
+                            <mo>∂</mo> 
+                            <mtext>​</mtext> 
+                            <mi>t</mi> 
+                          </mrow> 
+                        </mfrac> 
+                      </mrow> 
+                    </mtd> 
+                    <mtd> 
+                      <mo>=</mo> 
+                    </mtd> 
+                    <mtd> 
+                      <mrow> 
+                        <mfrac> 
+                          <mrow> 
+                            <mn>4</mn> 
+                            <mi>π</mi> 
+                          </mrow> 
+                          <mi>c</mi> 
+                        </mfrac> 
+                        <mtext> </mtext> 
+                        <munderover accent="true"> 
+                          <mstyle fontweight="bold"> 
+                            <mi>j</mi> 
+                          </mstyle> 
+                          <mrow></mrow> 
+                          <mo stretchy="true">↼</mo> 
+                        </munderover> 
+                      </mrow> 
+                    </mtd> 
+                  </mtr> 
+                  <mtr> 
+                    <mtd> 
+                      <mrow> 
+                        <mo>∇</mo> 
+                        <mtext>​</mtext> 
+                        <mo>·</mo> 
+                        <munderover accent="true"> 
+                          <mstyle fontweight="bold"> 
+                            <mi>E</mi> 
+                          </mstyle> 
+                          <mrow></mrow> 
+                          <mo stretchy="true">↼</mo> 
+                        </munderover> 
+                      </mrow> 
+                    </mtd> 
+                    <mtd> 
+                      <mo>=</mo> 
+                    </mtd> 
+                    <mtd> 
+                      <mrow> 
+                        <mn>4</mn> 
+                        <mi>π</mi> 
+                        <mi>ρ</mi> 
+                      </mrow> 
+                    </mtd> 
+                  </mtr> 
+                  <mtr> 
+                    <mtd> 
+                      <mrow> 
+                        <mo>∇</mo> 
+                        <mtext>​</mtext> 
+                        <mo>×</mo> 
+                        <munderover accent="true"> 
+                          <mstyle fontweight="bold"> 
+                            <mi>E</mi> 
+                          </mstyle> 
+                          <mrow></mrow> 
+                          <mo stretchy="true">↼</mo> 
+                        </munderover> 
+                        <mtext> </mtext> 
+                        <mo>+</mo> 
+                        <mtext> </mtext> 
+                        <mfrac> 
+                          <mn>1</mn> 
+                          <mi>c</mi> 
+                        </mfrac> 
+                        <mtext> </mtext> 
+                        <mfrac> 
+                          <mrow> 
+                            <mo>∂</mo> 
+                            <mtext>​</mtext> 
+                            <munderover accent="true"> 
+                              <mstyle fontweight="bold"> 
+                                <mi>B</mi> 
+                              </mstyle> 
+                              <mrow></mrow> 
+                              <mo stretchy="true">↼</mo> 
+                            </munderover> 
+                          </mrow> 
+                          <mrow> 
+                            <mo>∂</mo> 
+                            <mtext>​</mtext> 
+                            <mi>t</mi> 
+                          </mrow> 
+                        </mfrac> 
+                      </mrow> 
+                    </mtd> 
+                    <mtd> 
+                      <mo>=</mo> 
+                    </mtd> 
+                    <mtd> 
+                      <munderover accent="true"> 
+                        <mstyle fontweight="bold"> 
+                          <mn>0</mn> 
+                        </mstyle> 
+                        <mrow></mrow> 
+                        <mo stretchy="true">↼</mo> 
+                      </munderover> 
+                    </mtd> 
+                  </mtr> 
+                  <mtr> 
+                    <mtd> 
+                      <mrow> 
+                        <mo>∇</mo> 
+                        <mtext>​</mtext> 
+                        <mo>·</mo> 
+                        <munderover accent="true"> 
+                          <mstyle fontweight="bold"> 
+                            <mi>B</mi> 
+                          </mstyle> 
+                          <mrow></mrow> 
+                          <mo stretchy="true">↼</mo> 
+                        </munderover> 
+                      </mrow> 
+                    </mtd> 
+                    <mtd> 
+                      <mo>=</mo> 
+                    </mtd> 
+                    <mtd> 
+                      <mn>0</mn> 
+                    </mtd> 
+                  </mtr> 
+                </mtable> 
+              </mrow> 
+            </mstyle> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>Einstein Field Equations</mtext> 
+          </mtd> 
+          <mtd> 
+            <mstyle displaystyle="true"> 
+              <mrow> 
+                <msubsup> 
+                  <mstyle fontstyle="normal"> 
+                    <mi>R</mi> 
+                  </mstyle> 
+                  <mstyle scriptlevel="1"> 
+                    <mrow> 
+                      <mi>μ</mi> 
+                      <mi>ν</mi> 
+                    </mrow> 
+                  </mstyle> 
+                  <mrow></mrow> 
+                </msubsup> 
+                <mo>-</mo> 
+                <mfrac> 
+                  <mn>1</mn> 
+                  <mn>2</mn> 
+                </mfrac> 
+                <mtext> </mtext> 
+                <msubsup> 
+                  <mi>g</mi> 
+                  <mstyle scriptlevel="1"> 
+                    <mrow> 
+                      <mi>μ</mi> 
+                      <mi>ν</mi> 
+                    </mrow> 
+                  </mstyle> 
+                  <mrow></mrow> 
+                </msubsup> 
+                <mtext> </mtext> 
+                <mstyle fontstyle="normal"> 
+                  <mi>R</mi> 
+                </mstyle> 
+                <mo>=</mo> 
+                <mfrac> 
+                  <mrow> 
+                    <mn>8</mn> 
+                    <mi>π</mi> 
+                    <mstyle fontstyle="normal"> 
+                      <mi>G</mi> 
+                    </mstyle> 
+                  </mrow> 
+                  <msubsup> 
+                    <mi>c</mi> 
+                    <mrow></mrow> 
+                    <mn>4</mn> 
+                  </msubsup> 
+                </mfrac> 
+                <mtext> </mtext> 
+                <msubsup> 
+                  <mstyle fontstyle="normal"> 
+                    <mi>T</mi> 
+                  </mstyle> 
+                  <mstyle scriptlevel="1"> 
+                    <mrow> 
+                      <mi>μ</mi> 
+                      <mi>ν</mi> 
+                    </mrow> 
+                  </mstyle> 
+                  <mrow></mrow> 
+                </msubsup> 
+              </mrow> 
+            </mstyle> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>Ramanujan Identity</mtext> 
+          </mtd> 
+          <mtd> 
+            <mrow> 
+              <mfrac> 
+                <mn>1</mn> 
+                <mrow> 
+                  <mo stretchy="false">(</mo> 
+                  <msqrt> 
+                    <mrow> 
+                      <mi>ϕ</mi> 
+                      <msqrt> 
+                        <mn>5</mn> 
+                      </msqrt> 
+                    </mrow> 
+                  </msqrt> 
+                  <mo>-</mo> 
+                  <mi>ϕ</mi> 
+                  <mo stretchy="false">)</mo> 
+                  <msubsup> 
+                    <mi>e</mi> 
+                    <mrow></mrow> 
+                    <mfrac> 
+                      <mn>25</mn> 
+                      <mi>π</mi> 
+                    </mfrac> 
+                  </msubsup> 
+                </mrow> 
+              </mfrac> 
+              <mo>=</mo> 
+              <mn>1</mn> 
+              <mo>+</mo> 
+              <mstyle scriptlevel="1"> 
+                <mfrac> 
+                  <msubsup> 
+                    <mi>e</mi> 
+                    <mrow></mrow> 
+                    <mstyle scriptlevel="2"> 
+                      <mrow> 
+                        <mo>-</mo> 
+                        <mn>2</mn> 
+                        <mi>π</mi> 
+                      </mrow> 
+                    </mstyle> 
+                  </msubsup> 
+                  <mrow> 
+                    <mn>1</mn> 
+                    <mo>+</mo> 
+                    <mfrac> 
+                      <msubsup> 
+                        <mi>e</mi> 
+                        <mrow></mrow> 
+                        <mstyle scriptlevel="2"> 
+                          <mrow> 
+                            <mo>-</mo> 
+                            <mn>4</mn> 
+                            <mi>π</mi> 
+                          </mrow> 
+                        </mstyle> 
+                      </msubsup> 
+                      <mrow> 
+                        <mn>1</mn> 
+                        <mo>+</mo> 
+                        <mfrac> 
+                          <msubsup> 
+                            <mi>e</mi> 
+                            <mrow></mrow> 
+                            <mstyle scriptlevel="2"> 
+                              <mrow> 
+                                <mo>-</mo> 
+                                <mn>6</mn> 
+                                <mi>π</mi> 
+                              </mrow> 
+                            </mstyle> 
+                          </msubsup> 
+                          <mrow> 
+                            <mn>1</mn> 
+                            <mo>+</mo> 
+                            <mfrac> 
+                              <msubsup> 
+                                <mi>e</mi> 
+                                <mrow></mrow> 
+                                <mstyle scriptlevel="2"> 
+                                  <mrow> 
+                                    <mo>-</mo> 
+                                    <mn>8</mn> 
+                                    <mi>π</mi> 
+                                  </mrow> 
+                                </mstyle> 
+                              </msubsup> 
+                              <mrow> 
+                                <mn>1</mn> 
+                                <mo>+</mo> 
+                                <mo>…</mo> 
+                              </mrow> 
+                            </mfrac> 
+                          </mrow> 
+                        </mfrac> 
+                      </mrow> 
+                    </mfrac> 
+                  </mrow> 
+                </mfrac> 
+              </mstyle> 
+            </mrow> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>Another Ramanujan identity</mtext> 
+          </mtd> 
+          <mtd> 
+            <mstyle displaystyle="true"> 
+              <mrow> 
+                <munderover> 
+                  <mo>∑</mo> 
+                  <mrow> 
+                    <mi>k</mi> 
+                    <mo>=</mo> 
+                    <mn>1</mn> 
+                  </mrow> 
+                  <mi>∞</mi> 
+                </munderover> 
+                <mfrac> 
+                  <mn>1</mn> 
+                  <msubsup> 
+                    <mn>2</mn> 
+                    <mrow></mrow> 
+                    <mrow> 
+                      <mo stretchy="false">⌊</mo> 
+                      <mi>k</mi> 
+                      <mo>·</mo> 
+                      <mtext>​</mtext> 
+                      <mi>ϕ</mi> 
+                      <mo stretchy="false">⌋</mo> 
+                    </mrow> 
+                  </msubsup> 
+                </mfrac> 
+                <mo>=</mo> 
+                <mstyle scriptlevel="1"> 
+                  <mfrac> 
+                    <mn>1</mn> 
+                    <mrow> 
+                      <msubsup> 
+                        <mn>2</mn> 
+                        <mrow></mrow> 
+                        <mstyle scriptlevel="2"> 
+                          <mn>0</mn> 
+                        </mstyle> 
+                      </msubsup> 
+                      <mo>+</mo> 
+                      <mfrac> 
+                        <mn>1</mn> 
+                        <mrow> 
+                          <msubsup> 
+                            <mn>2</mn> 
+                            <mrow></mrow> 
+                            <mstyle scriptlevel="2"> 
+                              <mn>1</mn> 
+                            </mstyle> 
+                          </msubsup> 
+                          <mo>+</mo> 
+                          <maction actiontype="toggle"> 
+                            <mo>⋯</mo> 
+                            <mfrac> 
+                              <mn>1</mn> 
+                              <mrow> 
+                                <msubsup> 
+                                  <mn>2</mn> 
+                                  <mrow></mrow> 
+                                  <mstyle scriptlevel="2"> 
+                                    <mn>1</mn> 
+                                  </mstyle> 
+                                </msubsup> 
+                                <mo>+</mo> 
+                                <mfrac> 
+                                  <mn>1</mn> 
+                                  <mrow> 
+                                    <msubsup> 
+                                      <mn>2</mn> 
+                                      <mrow></mrow> 
+                                      <mstyle scriptlevel="2"> 
+                                        <mn>2</mn> 
+                                      </mstyle> 
+                                    </msubsup> 
+                                    <mo>+</mo> 
+                                    <maction actiontype="toggle"> 
+                                      <mo>⋯</mo> 
+                                      <mfrac> 
+                                        <mn>1</mn> 
+                                        <mrow> 
+                                          <msubsup> 
+                                            <mn>2</mn> 
+                                            <mrow></mrow> 
+                                            <mstyle scriptlevel="2"> 
+                                              <mn>3</mn> 
+                                            </mstyle> 
+                                          </msubsup> 
+                                          <mo>+</mo> 
+                                          <mfrac> 
+                                            <mn>1</mn> 
+                                            <mrow> 
+                                              <msubsup> 
+                                                <mn>2</mn> 
+                                                <mrow></mrow> 
+                                                <mstyle scriptlevel="2"> 
+                                                  <mn>5</mn> 
+                                                </mstyle> 
+                                              </msubsup> 
+                                              <mo>+</mo> 
+                                              <mo>…</mo> 
+                                            </mrow> 
+                                          </mfrac> 
+                                        </mrow> 
+                                      </mfrac> 
+                                    </maction> 
+                                  </mrow> 
+                                </mfrac> 
+                              </mrow> 
+                            </mfrac> 
+                          </maction> 
+                        </mrow> 
+                      </mfrac> 
+                    </mrow> 
+                  </mfrac> 
+                </mstyle> 
+              </mrow> 
+            </mstyle> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>Rogers-Ramanujan Identity</mtext> 
+          </mtd> 
+          <mtd> 
+            <mstyle displaystyle="true"> 
+              <mrow> 
+                <mn>1</mn> 
+                <mo>+</mo> 
+                <maction actiontype="highlight" dsi:background="#0000ff"> 
+                  <maction actiontype="toggle"> 
+                    <mrow> 
+                      <munderover> 
+                        <mo>∑</mo> 
+                        <mrow> 
+                          <mi>k</mi> 
+                          <mo>=</mo> 
+                          <mn>1</mn> 
+                        </mrow> 
+                        <mi>∞</mi> 
+                      </munderover> 
+                      <mfrac> 
+                        <msubsup> 
+                          <mi>q</mi> 
+                          <mrow></mrow> 
+                          <mrow> 
+                            <msubsup> 
+                              <mi>k</mi> 
+                              <mrow></mrow> 
+                              <mn>2</mn> 
+                            </msubsup> 
+                            <mo>+</mo> 
+                            <mi>k</mi> 
+                          </mrow> 
+                        </msubsup> 
+                        <mrow> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <mi>q</mi> 
+                          <mo stretchy="false">)</mo> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <msubsup> 
+                            <mi>q</mi> 
+                            <mrow></mrow> 
+                            <mn>2</mn> 
+                          </msubsup> 
+                          <mo stretchy="false">)</mo> 
+                          <mo>⋯</mo> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <msubsup> 
+                            <mi>q</mi> 
+                            <mrow></mrow> 
+                            <mi>k</mi> 
+                          </msubsup> 
+                          <mo stretchy="false">)</mo> 
+                        </mrow> 
+                      </mfrac> 
+                    </mrow> 
+                    <mrow> 
+                      <mfrac> 
+                        <msubsup> 
+                          <mi>q</mi> 
+                          <mrow></mrow> 
+                          <mn>2</mn> 
+                        </msubsup> 
+                        <mrow> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <mi>q</mi> 
+                          <mo stretchy="false">)</mo> 
+                        </mrow> 
+                      </mfrac> 
+                      <mo>+</mo> 
+                      <mfrac> 
+                        <msubsup> 
+                          <mi>q</mi> 
+                          <mrow></mrow> 
+                          <mn>6</mn> 
+                        </msubsup> 
+                        <mrow> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <mi>q</mi> 
+                          <mo stretchy="false">)</mo> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <msubsup> 
+                            <mi>q</mi> 
+                            <mrow></mrow> 
+                            <mn>2</mn> 
+                          </msubsup> 
+                          <mo stretchy="false">)</mo> 
+                        </mrow> 
+                      </mfrac> 
+                      <mo>+</mo> 
+                      <mo>⋯</mo> 
+                    </mrow> 
+                  </maction> 
+                </maction> 
+                <mo>=</mo> 
+                <maction actiontype="highlight" dsi:background="#0000ff"> 
+                  <maction actiontype="toggle"> 
+                    <mrow> 
+                      <munderover> 
+                        <mo>∏</mo> 
+                        <mrow> 
+                          <mi>j</mi> 
+                          <mo>=</mo> 
+                          <mn>0</mn> 
+                        </mrow> 
+                        <mi>∞</mi> 
+                      </munderover> 
+                      <mfrac> 
+                        <mn>1</mn> 
+                        <mrow> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <msubsup> 
+                            <mi>q</mi> 
+                            <mrow></mrow> 
+                            <mrow> 
+                              <mn>5</mn> 
+                              <mi>j</mi> 
+                              <mo>+</mo> 
+                              <mn>2</mn> 
+                            </mrow> 
+                          </msubsup> 
+                          <mo stretchy="false">)</mo> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <msubsup> 
+                            <mi>q</mi> 
+                            <mrow></mrow> 
+                            <mrow> 
+                              <mn>5</mn> 
+                              <mi>j</mi> 
+                              <mo>+</mo> 
+                              <mn>3</mn> 
+                            </mrow> 
+                          </msubsup> 
+                          <mo stretchy="false">)</mo> 
+                        </mrow> 
+                      </mfrac> 
+                    </mrow> 
+                    <mrow> 
+                      <mfrac> 
+                        <mn>1</mn> 
+                        <mrow> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <msubsup> 
+                            <mi>q</mi> 
+                            <mrow></mrow> 
+                            <mn>2</mn> 
+                          </msubsup> 
+                          <mo stretchy="false">)</mo> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <msubsup> 
+                            <mi>q</mi> 
+                            <mrow></mrow> 
+                            <mn>3</mn> 
+                          </msubsup> 
+                          <mo stretchy="false">)</mo> 
+                        </mrow> 
+                      </mfrac> 
+                      <mo>×</mo> 
+                      <mfrac> 
+                        <mn>1</mn> 
+                        <mrow> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <msubsup> 
+                            <mi>q</mi> 
+                            <mrow></mrow> 
+                            <mn>7</mn> 
+                          </msubsup> 
+                          <mo stretchy="false">)</mo> 
+                          <mo stretchy="false">(</mo> 
+                          <mn>1</mn> 
+                          <mo>-</mo> 
+                          <msubsup> 
+                            <mi>q</mi> 
+                            <mrow></mrow> 
+                            <mn>8</mn> 
+                          </msubsup> 
+                          <mo stretchy="false">)</mo> 
+                        </mrow> 
+                      </mfrac> 
+                      <mo>×</mo> 
+                      <mo>⋯</mo> 
+                    </mrow> 
+                  </maction> 
+                </maction> 
+                <mo>,</mo> 
+                <mtext>   </mtext> 
+                <mtext>   </mtext> 
+                <mstyle fontstyle="normal"> 
+                  <mrow> 
+                    <mi>f</mi> 
+                    <mi>o</mi> 
+                    <mi>r</mi> 
+                  </mrow> 
+                </mstyle> 
+                <mtext> </mtext> 
+                <mo stretchy="false">|</mo> 
+                <mi>q</mi> 
+                <mo stretchy="false">|</mo> 
+                <mo>&lt;</mo> 
+                <mn>1</mn> 
+                <mi>.</mi> 
+              </mrow> 
+            </mstyle> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mtext>Commutative Diagram</mtext> 
+          </mtd> 
+          <mtd> 
+            <mtable equalcolumns="false" equalrows="false"> 
+              <mtr> 
+                <mtd> 
+                  <mi>H</mi> 
+                </mtd> 
+                <mtd> 
+                  <mo>←</mo> 
+                </mtd> 
+                <mtd> 
+                  <mi>K</mi> 
+                </mtd> 
+              </mtr> 
+              <mtr> 
+                <mtd> 
+                  <mo>↓</mo> 
+                </mtd> 
+                <mtd> 
+                  <mspace height="100px" width="150px"></mspace> 
+                </mtd> 
+                <mtd> 
+                  <mo>↑</mo> 
+                </mtd> 
+              </mtr> 
+              <mtr> 
+                <mtd> 
+                  <mi>H</mi> 
+                </mtd> 
+                <mtd> 
+                  <mo>→</mo> 
+                </mtd> 
+                <mtd> 
+                  <mi>K</mi> 
+                </mtd> 
+              </mtr> 
+            </mtable> 
+          </mtd> 
+        </mtr> 
+      </mtable> 
+    </math>
+  </span><hr></hr><p><b>Source Code</b>:</p><pre>
+    &lt;math xmlns:dsi="http://www.dessci.com/mathml"&gt; 
+      &lt;mtable&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Bernoulli Trials&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mrow&gt; 
+              &lt;maction actiontype='statusline'&gt; 
+                &lt;mrow&gt; 
+                  &lt;mi&gt;P&lt;/mi&gt; 
+                  &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                  &lt;mi&gt;E&lt;/mi&gt; 
+                  &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                &lt;/mrow&gt; 
+                &lt;mtext&gt;Probability of event E: Get exactly k heads in n coin flips. 
+                &lt;/mtext&gt; 
+              &lt;/maction&gt; 
+              &lt;mo&gt;=&lt;/mo&gt; 
+              &lt;maction actiontype='statusline'&gt; 
+                &lt;mrow&gt; 
+                  &lt;mo&gt;(&lt;/mo&gt; 
+                  &lt;mfrac linethickness='0'&gt; 
+                    &lt;mi&gt;n&lt;/mi&gt; 
+                    &lt;mi&gt;k&lt;/mi&gt; 
+                  &lt;/mfrac&gt; 
+                  &lt;mo&gt;)&lt;/mo&gt; 
+                &lt;/mrow&gt; 
+                &lt;mtext&gt;Number of ways to get exactly k heads in n coin flips 
+                &lt;/mtext&gt; 
+              &lt;/maction&gt; 
+              &lt;msubsup&gt; 
+                &lt;maction actiontype='statusline'&gt; 
+                  &lt;mi&gt;p&lt;/mi&gt; 
+                  &lt;mtext&gt;Probability of getting heads in one flip 
+                  &lt;/mtext&gt; 
+                &lt;/maction&gt; 
+                &lt;mrow&gt;&lt;/mrow&gt; 
+                &lt;maction actiontype='statusline'&gt; 
+                  &lt;mi&gt;k&lt;/mi&gt; 
+                  &lt;mtext&gt;Number of heads&lt;/mtext&gt; 
+                &lt;/maction&gt; 
+              &lt;/msubsup&gt; 
+              &lt;msubsup&gt; 
+                &lt;maction actiontype='statusline'&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                    &lt;mn&gt;1&lt;/mn&gt; 
+                    &lt;mo&gt;-&lt;/mo&gt; 
+                    &lt;mi&gt;p&lt;/mi&gt; 
+                    &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                  &lt;/mrow&gt; 
+                  &lt;mtext&gt;Probability of getting tails in one flip 
+                  &lt;/mtext&gt; 
+                &lt;/maction&gt; 
+                &lt;mrow&gt;&lt;/mrow&gt; 
+                &lt;maction actiontype='statusline'&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mi&gt;n&lt;/mi&gt; 
+                    &lt;mo&gt;-&lt;/mo&gt; 
+                    &lt;mi&gt;k&lt;/mi&gt; 
+                  &lt;/mrow&gt; 
+                  &lt;mtext&gt;Number of tails&lt;/mtext&gt; 
+                &lt;/maction&gt; 
+              &lt;/msubsup&gt; 
+            &lt;/mrow&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Cauchy-Schwarz Inequality&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mstyle displaystyle='true'&gt; 
+              &lt;mrow&gt; 
+                &lt;msubsup&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mo&gt;(&lt;/mo&gt; 
+                    &lt;munderover&gt; 
+                      &lt;mo&gt;&amp;sum;&lt;/mo&gt; 
+                      &lt;mrow&gt; 
+                        &lt;mi&gt;k&lt;/mi&gt; 
+                        &lt;mo&gt;=&lt;/mo&gt; 
+                        &lt;mn&gt;1&lt;/mn&gt; 
+                      &lt;/mrow&gt; 
+                      &lt;mi&gt;n&lt;/mi&gt; 
+                    &lt;/munderover&gt; 
+                    &lt;msubsup&gt; 
+                      &lt;mi&gt;a&lt;/mi&gt; 
+                      &lt;mi&gt;k&lt;/mi&gt; 
+                      &lt;mrow&gt;&lt;/mrow&gt; 
+                    &lt;/msubsup&gt; 
+                    &lt;msubsup&gt; 
+                      &lt;mi&gt;b&lt;/mi&gt; 
+                      &lt;mi&gt;k&lt;/mi&gt; 
+                      &lt;mrow&gt;&lt;/mrow&gt; 
+                    &lt;/msubsup&gt; 
+                    &lt;mo&gt;)&lt;/mo&gt; 
+                  &lt;/mrow&gt; 
+                  &lt;mrow&gt;&lt;/mrow&gt; 
+                  &lt;mn&gt;2&lt;/mn&gt; 
+                &lt;/msubsup&gt; 
+                &lt;mo&gt;&amp;leq;&lt;/mo&gt; 
+                &lt;mrow&gt; 
+                  &lt;mo&gt;(&lt;/mo&gt; 
+                  &lt;munderover&gt; 
+                    &lt;mo&gt;&amp;sum;&lt;/mo&gt; 
+                    &lt;mrow&gt; 
+                      &lt;mi&gt;k&lt;/mi&gt; 
+                      &lt;mo&gt;=&lt;/mo&gt; 
+                      &lt;mn&gt;1&lt;/mn&gt; 
+                    &lt;/mrow&gt; 
+                    &lt;mi&gt;n&lt;/mi&gt; 
+                  &lt;/munderover&gt; 
+                  &lt;msubsup&gt; 
+                    &lt;mi&gt;a&lt;/mi&gt; 
+                    &lt;mi&gt;k&lt;/mi&gt; 
+                    &lt;mn&gt;2&lt;/mn&gt; 
+                  &lt;/msubsup&gt; 
+                  &lt;mo&gt;)&lt;/mo&gt; 
+                &lt;/mrow&gt; 
+                &lt;mrow&gt; 
+                  &lt;mo&gt;(&lt;/mo&gt; 
+                  &lt;munderover&gt; 
+                    &lt;mo&gt;&amp;sum;&lt;/mo&gt; 
+                    &lt;mrow&gt; 
+                      &lt;mi&gt;k&lt;/mi&gt; 
+                      &lt;mo&gt;=&lt;/mo&gt; 
+                      &lt;mn&gt;1&lt;/mn&gt; 
+                    &lt;/mrow&gt; 
+                    &lt;mi&gt;n&lt;/mi&gt; 
+                  &lt;/munderover&gt; 
+                  &lt;msubsup&gt; 
+                    &lt;mi&gt;b&lt;/mi&gt; 
+                    &lt;mi&gt;k&lt;/mi&gt; 
+                    &lt;mn&gt;2&lt;/mn&gt; 
+                  &lt;/msubsup&gt; 
+                  &lt;mo&gt;)&lt;/mo&gt; 
+                &lt;/mrow&gt; 
+              &lt;/mrow&gt; 
+            &lt;/mstyle&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Cauchy Formula&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mstyle displaystyle='true'&gt; 
+              &lt;mrow&gt; 
+                &lt;mi&gt;f&lt;/mi&gt; 
+                &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                &lt;mi&gt;z&lt;/mi&gt; 
+                &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                &lt;mtext&gt;&amp;thinsp;&lt;/mtext&gt; 
+                &lt;mo&gt;&amp;centerdot;&lt;/mo&gt; 
+                &lt;msubsup&gt; 
+                  &lt;mstyle fontstyle='normal'&gt; 
+                    &lt;mrow&gt; 
+                      &lt;mi&gt;I&lt;/mi&gt; 
+                      &lt;mi&gt;n&lt;/mi&gt; 
+                      &lt;mi&gt;d&lt;/mi&gt; 
+                    &lt;/mrow&gt; 
+                  &lt;/mstyle&gt; 
+                  &lt;mi&gt;&amp;gamma;&lt;/mi&gt; 
+                  &lt;mrow&gt;&lt;/mrow&gt; 
+                &lt;/msubsup&gt; 
+                &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                &lt;mi&gt;z&lt;/mi&gt; 
+                &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                &lt;mo&gt;=&lt;/mo&gt; 
+                &lt;mfrac&gt; 
+                  &lt;mn&gt;1&lt;/mn&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mn&gt;2&lt;/mn&gt; 
+                    &lt;mi&gt;&amp;pi;&lt;/mi&gt; 
+                    &lt;mi&gt;i&lt;/mi&gt; 
+                  &lt;/mrow&gt; 
+                &lt;/mfrac&gt; 
+                &lt;munderover&gt; 
+                  &lt;mo&gt;&amp;oint;&lt;/mo&gt; 
+                  &lt;mi&gt;&amp;gamma;&lt;/mi&gt; 
+                  &lt;mrow&gt;&lt;/mrow&gt; 
+                &lt;/munderover&gt; 
+                &lt;mfrac&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mi&gt;f&lt;/mi&gt; 
+                    &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                    &lt;mstyle scriptlevel='1'&gt; 
+                      &lt;mi&gt;&amp;xi;&lt;/mi&gt; 
+                    &lt;/mstyle&gt; 
+                    &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                  &lt;/mrow&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mstyle scriptlevel='1'&gt; 
+                      &lt;mi&gt;&amp;xi;&lt;/mi&gt; 
+                    &lt;/mstyle&gt; 
+                    &lt;mo&gt;-&lt;/mo&gt; 
+                    &lt;mi&gt;z&lt;/mi&gt; 
+                  &lt;/mrow&gt; 
+                &lt;/mfrac&gt; 
+                &lt;mtext&gt;&amp;ThinSpace;&lt;/mtext&gt; 
+                &lt;mi&gt;d&lt;/mi&gt; 
+                &lt;mstyle scriptlevel='1'&gt; 
+                  &lt;mi&gt;&amp;xi;&lt;/mi&gt; 
+                &lt;/mstyle&gt; 
+              &lt;/mrow&gt; 
+            &lt;/mstyle&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Cross Product&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mrow&gt; 
+              &lt;msubsup&gt; 
+                &lt;mstyle fontweight='bold'&gt; 
+                  &lt;mi&gt;V&lt;/mi&gt; 
+                &lt;/mstyle&gt; 
+                &lt;mn&gt;1&lt;/mn&gt; 
+                &lt;mrow&gt;&lt;/mrow&gt; 
+              &lt;/msubsup&gt; 
+              &lt;mo&gt;&amp;times;&lt;/mo&gt; 
+              &lt;msubsup&gt; 
+                &lt;mstyle fontweight='bold'&gt; 
+                  &lt;mi&gt;V&lt;/mi&gt; 
+                &lt;/mstyle&gt; 
+                &lt;mn&gt;2&lt;/mn&gt; 
+                &lt;mrow&gt;&lt;/mrow&gt; 
+              &lt;/msubsup&gt; 
+              &lt;mo&gt;=&lt;/mo&gt; 
+              &lt;mrow&gt; 
+                &lt;mo&gt;|&lt;/mo&gt; 
+                &lt;mtable equalrows='false'&gt; 
+                  &lt;mtr&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mstyle fontweight='bold'&gt; 
+                        &lt;mi&gt;i&lt;/mi&gt; 
+                      &lt;/mstyle&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mstyle fontweight='bold'&gt; 
+                        &lt;mi&gt;j&lt;/mi&gt; 
+                      &lt;/mstyle&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mstyle fontweight='bold'&gt; 
+                        &lt;mi&gt;k&lt;/mi&gt; 
+                      &lt;/mstyle&gt; 
+                    &lt;/mtd&gt; 
+                  &lt;/mtr&gt; 
+                  &lt;mtr&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mfrac&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                          &lt;mi&gt;X&lt;/mi&gt; 
+                        &lt;/mrow&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                          &lt;mi&gt;u&lt;/mi&gt; 
+                        &lt;/mrow&gt; 
+                      &lt;/mfrac&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mfrac&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                          &lt;mi&gt;Y&lt;/mi&gt; 
+                        &lt;/mrow&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                          &lt;mi&gt;u&lt;/mi&gt; 
+                        &lt;/mrow&gt; 
+                      &lt;/mfrac&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mn&gt;0&lt;/mn&gt; 
+                    &lt;/mtd&gt; 
+                  &lt;/mtr&gt; 
+                  &lt;mtr&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mfrac&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                          &lt;mi&gt;X&lt;/mi&gt; 
+                        &lt;/mrow&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                          &lt;mi&gt;v&lt;/mi&gt; 
+                        &lt;/mrow&gt; 
+                      &lt;/mfrac&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mfrac&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                          &lt;mi&gt;Y&lt;/mi&gt; 
+                        &lt;/mrow&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                          &lt;mi&gt;v&lt;/mi&gt; 
+                        &lt;/mrow&gt; 
+                      &lt;/mfrac&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mn&gt;0&lt;/mn&gt; 
+                    &lt;/mtd&gt; 
+                  &lt;/mtr&gt; 
+                &lt;/mtable&gt; 
+                &lt;mo&gt;|&lt;/mo&gt; 
+              &lt;/mrow&gt; 
+            &lt;/mrow&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Vandermonde Determinant&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mstyle displaystyle='true'&gt; 
+              &lt;mrow&gt; 
+                &lt;mrow&gt; 
+                  &lt;mo&gt;|&lt;/mo&gt; 
+                  &lt;mtable equalrows='false'&gt; 
+                    &lt;mtr&gt; 
+                      &lt;mtd&gt; 
+                        &lt;mn&gt;1&lt;/mn&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;mn&gt;1&lt;/mn&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;mo&gt;&amp;ctdot;&lt;/mo&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;mn&gt;1&lt;/mn&gt; 
+                      &lt;/mtd&gt; 
+                    &lt;/mtr&gt; 
+                    &lt;mtr&gt; 
+                      &lt;mtd&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;v&lt;/mi&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mrow&gt;&lt;/mrow&gt; 
+                        &lt;/msubsup&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;v&lt;/mi&gt; 
+                          &lt;mn&gt;2&lt;/mn&gt; 
+                          &lt;mrow&gt;&lt;/mrow&gt; 
+                        &lt;/msubsup&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;mo&gt;&amp;ctdot;&lt;/mo&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;v&lt;/mi&gt; 
+                          &lt;mi&gt;n&lt;/mi&gt; 
+                          &lt;mrow&gt;&lt;/mrow&gt; 
+                        &lt;/msubsup&gt; 
+                      &lt;/mtd&gt; 
+                    &lt;/mtr&gt; 
+                    &lt;mtr&gt; 
+                      &lt;mtd&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;v&lt;/mi&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mn&gt;2&lt;/mn&gt; 
+                        &lt;/msubsup&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;v&lt;/mi&gt; 
+                          &lt;mn&gt;2&lt;/mn&gt; 
+                          &lt;mn&gt;2&lt;/mn&gt; 
+                        &lt;/msubsup&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;mo&gt;&amp;ctdot;&lt;/mo&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;v&lt;/mi&gt; 
+                          &lt;mi&gt;n&lt;/mi&gt; 
+                          &lt;mn&gt;2&lt;/mn&gt; 
+                        &lt;/msubsup&gt; 
+                      &lt;/mtd&gt; 
+                    &lt;/mtr&gt; 
+                    &lt;mtr&gt; 
+                      &lt;mtd&gt; 
+                        &lt;mo&gt;&amp;vellip;&lt;/mo&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;mo&gt;&amp;vellip;&lt;/mo&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;mo&gt;&amp;dtdot;&lt;/mo&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;mo&gt;&amp;vellip;&lt;/mo&gt; 
+                      &lt;/mtd&gt; 
+                    &lt;/mtr&gt; 
+                    &lt;mtr&gt; 
+                      &lt;mtd&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;v&lt;/mi&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mrow&gt; 
+                            &lt;mi&gt;n&lt;/mi&gt; 
+                            &lt;mo&gt;-&lt;/mo&gt; 
+                            &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;/mrow&gt; 
+                        &lt;/msubsup&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;v&lt;/mi&gt; 
+                          &lt;mn&gt;2&lt;/mn&gt; 
+                          &lt;mrow&gt; 
+                            &lt;mi&gt;n&lt;/mi&gt; 
+                            &lt;mo&gt;-&lt;/mo&gt; 
+                            &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;/mrow&gt; 
+                        &lt;/msubsup&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;mo&gt;&amp;ctdot;&lt;/mo&gt; 
+                      &lt;/mtd&gt; 
+                      &lt;mtd&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;v&lt;/mi&gt; 
+                          &lt;mi&gt;n&lt;/mi&gt; 
+                          &lt;mrow&gt; 
+                            &lt;mi&gt;n&lt;/mi&gt; 
+                            &lt;mo&gt;-&lt;/mo&gt; 
+                            &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;/mrow&gt; 
+                        &lt;/msubsup&gt; 
+                      &lt;/mtd&gt; 
+                    &lt;/mtr&gt; 
+                  &lt;/mtable&gt; 
+                  &lt;mo&gt;|&lt;/mo&gt; 
+                &lt;/mrow&gt; 
+                &lt;mo&gt;=&lt;/mo&gt; 
+                &lt;munderover&gt; 
+                  &lt;mo&gt;&amp;prod;&lt;/mo&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mn&gt;1&lt;/mn&gt; 
+                    &lt;mo&gt;&amp;leq;&lt;/mo&gt; 
+                    &lt;mi&gt;i&lt;/mi&gt; 
+                    &lt;mo&gt;&amp;lt;&lt;/mo&gt; 
+                    &lt;mi&gt;j&lt;/mi&gt; 
+                    &lt;mo&gt;&amp;leq;&lt;/mo&gt; 
+                    &lt;mi&gt;n&lt;/mi&gt; 
+                  &lt;/mrow&gt; 
+                  &lt;mrow&gt;&lt;/mrow&gt; 
+                &lt;/munderover&gt; 
+                &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                &lt;msubsup&gt; 
+                  &lt;mi&gt;v&lt;/mi&gt; 
+                  &lt;mi&gt;j&lt;/mi&gt; 
+                  &lt;mrow&gt;&lt;/mrow&gt; 
+                &lt;/msubsup&gt; 
+                &lt;mo&gt;-&lt;/mo&gt; 
+                &lt;msubsup&gt; 
+                  &lt;mi&gt;v&lt;/mi&gt; 
+                  &lt;mi&gt;i&lt;/mi&gt; 
+                  &lt;mrow&gt;&lt;/mrow&gt; 
+                &lt;/msubsup&gt; 
+                &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+              &lt;/mrow&gt; 
+            &lt;/mstyle&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Lorenz Equations&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mtable columnalign='right center left' equalcolumns='false'&gt; 
+              &lt;mtr&gt; 
+                &lt;mtd&gt; 
+                  &lt;munderover accent='true'&gt; 
+                    &lt;mi&gt;x&lt;/mi&gt; 
+                    &lt;mrow&gt;&lt;/mrow&gt; 
+                    &lt;mo&gt;&amp;dot;&lt;/mo&gt; 
+                  &lt;/munderover&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mo&gt;=&lt;/mo&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mi&gt;&amp;sigma;&lt;/mi&gt; 
+                    &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                    &lt;mi&gt;y&lt;/mi&gt; 
+                    &lt;mo&gt;-&lt;/mo&gt; 
+                    &lt;mi&gt;x&lt;/mi&gt; 
+                    &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                  &lt;/mrow&gt; 
+                &lt;/mtd&gt; 
+              &lt;/mtr&gt; 
+              &lt;mtr&gt; 
+                &lt;mtd&gt; 
+                  &lt;munderover accent='true'&gt; 
+                    &lt;mi&gt;y&lt;/mi&gt; 
+                    &lt;mrow&gt;&lt;/mrow&gt; 
+                    &lt;mo&gt;&amp;dot;&lt;/mo&gt; 
+                  &lt;/munderover&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mo&gt;=&lt;/mo&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mi&gt;&amp;rho;&lt;/mi&gt; 
+                    &lt;mi&gt;x&lt;/mi&gt; 
+                    &lt;mo&gt;-&lt;/mo&gt; 
+                    &lt;mi&gt;y&lt;/mi&gt; 
+                    &lt;mo&gt;-&lt;/mo&gt; 
+                    &lt;mi&gt;x&lt;/mi&gt; 
+                    &lt;mi&gt;z&lt;/mi&gt; 
+                  &lt;/mrow&gt; 
+                &lt;/mtd&gt; 
+              &lt;/mtr&gt; 
+              &lt;mtr&gt; 
+                &lt;mtd&gt; 
+                  &lt;munderover accent='true'&gt; 
+                    &lt;mi&gt;z&lt;/mi&gt; 
+                    &lt;mrow&gt;&lt;/mrow&gt; 
+                    &lt;mo&gt;&amp;dot;&lt;/mo&gt; 
+                  &lt;/munderover&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mo&gt;=&lt;/mo&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mo&gt;-&lt;/mo&gt; 
+                    &lt;mi&gt;&amp;beta;&lt;/mi&gt; 
+                    &lt;mi&gt;z&lt;/mi&gt; 
+                    &lt;mo&gt;+&lt;/mo&gt; 
+                    &lt;mi&gt;x&lt;/mi&gt; 
+                    &lt;mi&gt;y&lt;/mi&gt; 
+                  &lt;/mrow&gt; 
+                &lt;/mtd&gt; 
+              &lt;/mtr&gt; 
+            &lt;/mtable&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Maxwell's Equations&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mstyle displaystyle='true'&gt; 
+              &lt;mrow&gt; 
+                &lt;mo&gt;{&lt;/mo&gt; 
+                &lt;mtable columnalign='right center left' equalrows='false' equalcolumns='false'&gt; 
+                  &lt;mtr&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mrow&gt; 
+                        &lt;mo&gt;&amp;nabla;&lt;/mo&gt; 
+                        &lt;mtext&gt;&amp;NegativeThinSpace;&lt;/mtext&gt; 
+                        &lt;mo&gt;&amp;times;&lt;/mo&gt; 
+                        &lt;munderover accent='true'&gt; 
+                          &lt;mstyle fontweight='bold'&gt; 
+                            &lt;mi&gt;B&lt;/mi&gt; 
+                          &lt;/mstyle&gt; 
+                          &lt;mrow&gt;&lt;/mrow&gt; 
+                          &lt;mo stretchy='true'&gt;&amp;lharu;&lt;/mo&gt; 
+                        &lt;/munderover&gt; 
+                        &lt;mo&gt;-&lt;/mo&gt; 
+                        &lt;mtext&gt;&amp;ThinSpace;&lt;/mtext&gt; 
+                        &lt;mfrac&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mi&gt;c&lt;/mi&gt; 
+                        &lt;/mfrac&gt; 
+                        &lt;mtext&gt;&amp;ThinSpace;&lt;/mtext&gt; 
+                        &lt;mfrac&gt; 
+                          &lt;mrow&gt; 
+                            &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                            &lt;mtext&gt;&amp;NegativeThinSpace;&lt;/mtext&gt; 
+                            &lt;munderover accent='true'&gt; 
+                              &lt;mstyle fontweight='bold'&gt; 
+                                &lt;mi&gt;E&lt;/mi&gt; 
+                              &lt;/mstyle&gt; 
+                              &lt;mrow&gt;&lt;/mrow&gt; 
+                              &lt;mo stretchy='true'&gt;&amp;lharu;&lt;/mo&gt; 
+                            &lt;/munderover&gt; 
+                          &lt;/mrow&gt; 
+                          &lt;mrow&gt; 
+                            &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                            &lt;mtext&gt;&amp;NegativeThinSpace;&lt;/mtext&gt; 
+                            &lt;mi&gt;t&lt;/mi&gt; 
+                          &lt;/mrow&gt; 
+                        &lt;/mfrac&gt; 
+                      &lt;/mrow&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mo&gt;=&lt;/mo&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mrow&gt; 
+                        &lt;mfrac&gt; 
+                          &lt;mrow&gt; 
+                            &lt;mn&gt;4&lt;/mn&gt; 
+                            &lt;mi&gt;&amp;pi;&lt;/mi&gt; 
+                          &lt;/mrow&gt; 
+                          &lt;mi&gt;c&lt;/mi&gt; 
+                        &lt;/mfrac&gt; 
+                        &lt;mtext&gt;&amp;ThinSpace;&lt;/mtext&gt; 
+                        &lt;munderover accent='true'&gt; 
+                          &lt;mstyle fontweight='bold'&gt; 
+                            &lt;mi&gt;j&lt;/mi&gt; 
+                          &lt;/mstyle&gt; 
+                          &lt;mrow&gt;&lt;/mrow&gt; 
+                          &lt;mo stretchy='true'&gt;&amp;lharu;&lt;/mo&gt; 
+                        &lt;/munderover&gt; 
+                      &lt;/mrow&gt; 
+                    &lt;/mtd&gt; 
+                  &lt;/mtr&gt; 
+                  &lt;mtr&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mrow&gt; 
+                        &lt;mo&gt;&amp;nabla;&lt;/mo&gt; 
+                        &lt;mtext&gt;&amp;NegativeThinSpace;&lt;/mtext&gt; 
+                        &lt;mo&gt;&amp;centerdot;&lt;/mo&gt; 
+                        &lt;munderover accent='true'&gt; 
+                          &lt;mstyle fontweight='bold'&gt; 
+                            &lt;mi&gt;E&lt;/mi&gt; 
+                          &lt;/mstyle&gt; 
+                          &lt;mrow&gt;&lt;/mrow&gt; 
+                          &lt;mo stretchy='true'&gt;&amp;lharu;&lt;/mo&gt; 
+                        &lt;/munderover&gt; 
+                      &lt;/mrow&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mo&gt;=&lt;/mo&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mrow&gt; 
+                        &lt;mn&gt;4&lt;/mn&gt; 
+                        &lt;mi&gt;&amp;pi;&lt;/mi&gt; 
+                        &lt;mi&gt;&amp;rho;&lt;/mi&gt; 
+                      &lt;/mrow&gt; 
+                    &lt;/mtd&gt; 
+                  &lt;/mtr&gt; 
+                  &lt;mtr&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mrow&gt; 
+                        &lt;mo&gt;&amp;nabla;&lt;/mo&gt; 
+                        &lt;mtext&gt;&amp;NegativeThinSpace;&lt;/mtext&gt; 
+                        &lt;mo&gt;&amp;times;&lt;/mo&gt; 
+                        &lt;munderover accent='true'&gt; 
+                          &lt;mstyle fontweight='bold'&gt; 
+                            &lt;mi&gt;E&lt;/mi&gt; 
+                          &lt;/mstyle&gt; 
+                          &lt;mrow&gt;&lt;/mrow&gt; 
+                          &lt;mo stretchy='true'&gt;&amp;lharu;&lt;/mo&gt; 
+                        &lt;/munderover&gt; 
+                        &lt;mtext&gt;&amp;ThinSpace;&lt;/mtext&gt; 
+                        &lt;mo&gt;+&lt;/mo&gt; 
+                        &lt;mtext&gt;&amp;ThinSpace;&lt;/mtext&gt; 
+                        &lt;mfrac&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mi&gt;c&lt;/mi&gt; 
+                        &lt;/mfrac&gt; 
+                        &lt;mtext&gt;&amp;ThinSpace;&lt;/mtext&gt; 
+                        &lt;mfrac&gt; 
+                          &lt;mrow&gt; 
+                            &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                            &lt;mtext&gt;&amp;NegativeThinSpace;&lt;/mtext&gt; 
+                            &lt;munderover accent='true'&gt; 
+                              &lt;mstyle fontweight='bold'&gt; 
+                                &lt;mi&gt;B&lt;/mi&gt; 
+                              &lt;/mstyle&gt; 
+                              &lt;mrow&gt;&lt;/mrow&gt; 
+                              &lt;mo stretchy='true'&gt;&amp;lharu;&lt;/mo&gt; 
+                            &lt;/munderover&gt; 
+                          &lt;/mrow&gt; 
+                          &lt;mrow&gt; 
+                            &lt;mo&gt;&amp;PartialD;&lt;/mo&gt; 
+                            &lt;mtext&gt;&amp;NegativeThinSpace;&lt;/mtext&gt; 
+                            &lt;mi&gt;t&lt;/mi&gt; 
+                          &lt;/mrow&gt; 
+                        &lt;/mfrac&gt; 
+                      &lt;/mrow&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mo&gt;=&lt;/mo&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;munderover accent='true'&gt; 
+                        &lt;mstyle fontweight='bold'&gt; 
+                          &lt;mn&gt;0&lt;/mn&gt; 
+                        &lt;/mstyle&gt; 
+                        &lt;mrow&gt;&lt;/mrow&gt; 
+                        &lt;mo stretchy='true'&gt;&amp;lharu;&lt;/mo&gt; 
+                      &lt;/munderover&gt; 
+                    &lt;/mtd&gt; 
+                  &lt;/mtr&gt; 
+                  &lt;mtr&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mrow&gt; 
+                        &lt;mo&gt;&amp;nabla;&lt;/mo&gt; 
+                        &lt;mtext&gt;&amp;NegativeThinSpace;&lt;/mtext&gt; 
+                        &lt;mo&gt;&amp;centerdot;&lt;/mo&gt; 
+                        &lt;munderover accent='true'&gt; 
+                          &lt;mstyle fontweight='bold'&gt; 
+                            &lt;mi&gt;B&lt;/mi&gt; 
+                          &lt;/mstyle&gt; 
+                          &lt;mrow&gt;&lt;/mrow&gt; 
+                          &lt;mo stretchy='true'&gt;&amp;lharu;&lt;/mo&gt; 
+                        &lt;/munderover&gt; 
+                      &lt;/mrow&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mo&gt;=&lt;/mo&gt; 
+                    &lt;/mtd&gt; 
+                    &lt;mtd&gt; 
+                      &lt;mn&gt;0&lt;/mn&gt; 
+                    &lt;/mtd&gt; 
+                  &lt;/mtr&gt; 
+                &lt;/mtable&gt; 
+              &lt;/mrow&gt; 
+            &lt;/mstyle&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Einstein Field Equations&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mstyle displaystyle='true'&gt; 
+              &lt;mrow&gt; 
+                &lt;msubsup&gt; 
+                  &lt;mstyle fontstyle='normal'&gt; 
+                    &lt;mi&gt;R&lt;/mi&gt; 
+                  &lt;/mstyle&gt; 
+                  &lt;mstyle scriptlevel='1'&gt; 
+                    &lt;mrow&gt; 
+                      &lt;mi&gt;&amp;mu;&lt;/mi&gt; 
+                      &lt;mi&gt;&amp;nu;&lt;/mi&gt; 
+                    &lt;/mrow&gt; 
+                  &lt;/mstyle&gt; 
+                  &lt;mrow&gt;&lt;/mrow&gt; 
+                &lt;/msubsup&gt; 
+                &lt;mo&gt;-&lt;/mo&gt; 
+                &lt;mfrac&gt; 
+                  &lt;mn&gt;1&lt;/mn&gt; 
+                  &lt;mn&gt;2&lt;/mn&gt; 
+                &lt;/mfrac&gt; 
+                &lt;mtext&gt;&amp;ThinSpace;&lt;/mtext&gt; 
+                &lt;msubsup&gt; 
+                  &lt;mi&gt;g&lt;/mi&gt; 
+                  &lt;mstyle scriptlevel='1'&gt; 
+                    &lt;mrow&gt; 
+                      &lt;mi&gt;&amp;mu;&lt;/mi&gt; 
+                      &lt;mi&gt;&amp;nu;&lt;/mi&gt; 
+                    &lt;/mrow&gt; 
+                  &lt;/mstyle&gt; 
+                  &lt;mrow&gt;&lt;/mrow&gt; 
+                &lt;/msubsup&gt; 
+                &lt;mtext&gt;&amp;ThinSpace;&lt;/mtext&gt; 
+                &lt;mstyle fontstyle='normal'&gt; 
+                  &lt;mi&gt;R&lt;/mi&gt; 
+                &lt;/mstyle&gt; 
+                &lt;mo&gt;=&lt;/mo&gt; 
+                &lt;mfrac&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mn&gt;8&lt;/mn&gt; 
+                    &lt;mi&gt;&amp;pi;&lt;/mi&gt; 
+                    &lt;mstyle fontstyle='normal'&gt; 
+                      &lt;mi&gt;G&lt;/mi&gt; 
+                    &lt;/mstyle&gt; 
+                  &lt;/mrow&gt; 
+                  &lt;msubsup&gt; 
+                    &lt;mi&gt;c&lt;/mi&gt; 
+                    &lt;mrow&gt;&lt;/mrow&gt; 
+                    &lt;mn&gt;4&lt;/mn&gt; 
+                  &lt;/msubsup&gt; 
+                &lt;/mfrac&gt; 
+                &lt;mtext&gt;&amp;ThinSpace;&lt;/mtext&gt; 
+                &lt;msubsup&gt; 
+                  &lt;mstyle fontstyle='normal'&gt; 
+                    &lt;mi&gt;T&lt;/mi&gt; 
+                  &lt;/mstyle&gt; 
+                  &lt;mstyle scriptlevel='1'&gt; 
+                    &lt;mrow&gt; 
+                      &lt;mi&gt;&amp;mu;&lt;/mi&gt; 
+                      &lt;mi&gt;&amp;nu;&lt;/mi&gt; 
+                    &lt;/mrow&gt; 
+                  &lt;/mstyle&gt; 
+                  &lt;mrow&gt;&lt;/mrow&gt; 
+                &lt;/msubsup&gt; 
+              &lt;/mrow&gt; 
+            &lt;/mstyle&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Ramanujan Identity&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mrow&gt; 
+              &lt;mfrac&gt; 
+                &lt;mn&gt;1&lt;/mn&gt; 
+                &lt;mrow&gt; 
+                  &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                  &lt;msqrt&gt; 
+                    &lt;mrow&gt; 
+                      &lt;mi&gt;&amp;phi;&lt;/mi&gt; 
+                      &lt;msqrt&gt; 
+                        &lt;mn&gt;5&lt;/mn&gt; 
+                      &lt;/msqrt&gt; 
+                    &lt;/mrow&gt; 
+                  &lt;/msqrt&gt; 
+                  &lt;mo&gt;-&lt;/mo&gt; 
+                  &lt;mi&gt;&amp;phi;&lt;/mi&gt; 
+                  &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                  &lt;msubsup&gt; 
+                    &lt;mi&gt;e&lt;/mi&gt; 
+                    &lt;mrow&gt;&lt;/mrow&gt; 
+                    &lt;mfrac&gt; 
+                      &lt;mn&gt;25&lt;/mn&gt; 
+                      &lt;mi&gt;&amp;pi;&lt;/mi&gt; 
+                    &lt;/mfrac&gt; 
+                  &lt;/msubsup&gt; 
+                &lt;/mrow&gt; 
+              &lt;/mfrac&gt; 
+              &lt;mo&gt;=&lt;/mo&gt; 
+              &lt;mn&gt;1&lt;/mn&gt; 
+              &lt;mo&gt;+&lt;/mo&gt; 
+              &lt;mstyle scriptlevel='1'&gt; 
+                &lt;mfrac&gt; 
+                  &lt;msubsup&gt; 
+                    &lt;mi&gt;e&lt;/mi&gt; 
+                    &lt;mrow&gt;&lt;/mrow&gt; 
+                    &lt;mstyle scriptlevel='2'&gt; 
+                      &lt;mrow&gt; 
+                        &lt;mo&gt;-&lt;/mo&gt; 
+                        &lt;mn&gt;2&lt;/mn&gt; 
+                        &lt;mi&gt;&amp;pi;&lt;/mi&gt; 
+                      &lt;/mrow&gt; 
+                    &lt;/mstyle&gt; 
+                  &lt;/msubsup&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mn&gt;1&lt;/mn&gt; 
+                    &lt;mo&gt;+&lt;/mo&gt; 
+                    &lt;mfrac&gt; 
+                      &lt;msubsup&gt; 
+                        &lt;mi&gt;e&lt;/mi&gt; 
+                        &lt;mrow&gt;&lt;/mrow&gt; 
+                        &lt;mstyle scriptlevel='2'&gt; 
+                          &lt;mrow&gt; 
+                            &lt;mo&gt;-&lt;/mo&gt; 
+                            &lt;mn&gt;4&lt;/mn&gt; 
+                            &lt;mi&gt;&amp;pi;&lt;/mi&gt; 
+                          &lt;/mrow&gt; 
+                        &lt;/mstyle&gt; 
+                      &lt;/msubsup&gt; 
+                      &lt;mrow&gt; 
+                        &lt;mn&gt;1&lt;/mn&gt; 
+                        &lt;mo&gt;+&lt;/mo&gt; 
+                        &lt;mfrac&gt; 
+                          &lt;msubsup&gt; 
+                            &lt;mi&gt;e&lt;/mi&gt; 
+                            &lt;mrow&gt;&lt;/mrow&gt; 
+                            &lt;mstyle scriptlevel='2'&gt; 
+                              &lt;mrow&gt; 
+                                &lt;mo&gt;-&lt;/mo&gt; 
+                                &lt;mn&gt;6&lt;/mn&gt; 
+                                &lt;mi&gt;&amp;pi;&lt;/mi&gt; 
+                              &lt;/mrow&gt; 
+                            &lt;/mstyle&gt; 
+                          &lt;/msubsup&gt; 
+                          &lt;mrow&gt; 
+                            &lt;mn&gt;1&lt;/mn&gt; 
+                            &lt;mo&gt;+&lt;/mo&gt; 
+                            &lt;mfrac&gt; 
+                              &lt;msubsup&gt; 
+                                &lt;mi&gt;e&lt;/mi&gt; 
+                                &lt;mrow&gt;&lt;/mrow&gt; 
+                                &lt;mstyle scriptlevel='2'&gt; 
+                                  &lt;mrow&gt; 
+                                    &lt;mo&gt;-&lt;/mo&gt; 
+                                    &lt;mn&gt;8&lt;/mn&gt; 
+                                    &lt;mi&gt;&amp;pi;&lt;/mi&gt; 
+                                  &lt;/mrow&gt; 
+                                &lt;/mstyle&gt; 
+                              &lt;/msubsup&gt; 
+                              &lt;mrow&gt; 
+                                &lt;mn&gt;1&lt;/mn&gt; 
+                                &lt;mo&gt;+&lt;/mo&gt; 
+                                &lt;mo&gt;&amp;hellip;&lt;/mo&gt; 
+                              &lt;/mrow&gt; 
+                            &lt;/mfrac&gt; 
+                          &lt;/mrow&gt; 
+                        &lt;/mfrac&gt; 
+                      &lt;/mrow&gt; 
+                    &lt;/mfrac&gt; 
+                  &lt;/mrow&gt; 
+                &lt;/mfrac&gt; 
+              &lt;/mstyle&gt; 
+            &lt;/mrow&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Another Ramanujan identity&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mstyle displaystyle='true'&gt; 
+              &lt;mrow&gt; 
+                &lt;munderover&gt; 
+                  &lt;mo&gt;&amp;sum;&lt;/mo&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mi&gt;k&lt;/mi&gt; 
+                    &lt;mo&gt;=&lt;/mo&gt; 
+                    &lt;mn&gt;1&lt;/mn&gt; 
+                  &lt;/mrow&gt; 
+                  &lt;mi&gt;&amp;infin;&lt;/mi&gt; 
+                &lt;/munderover&gt; 
+                &lt;mfrac&gt; 
+                  &lt;mn&gt;1&lt;/mn&gt; 
+                  &lt;msubsup&gt; 
+                    &lt;mn&gt;2&lt;/mn&gt; 
+                    &lt;mrow&gt;&lt;/mrow&gt; 
+                    &lt;mrow&gt; 
+                      &lt;mo stretchy='false'&gt;&amp;lfloor;&lt;/mo&gt; 
+                      &lt;mi&gt;k&lt;/mi&gt; 
+                      &lt;mo&gt;&amp;centerdot;&lt;/mo&gt; 
+                      &lt;mtext&gt;&amp;NegativeThinSpace;&lt;/mtext&gt; 
+                      &lt;mi&gt;&amp;phi;&lt;/mi&gt; 
+                      &lt;mo stretchy='false'&gt;&amp;rfloor;&lt;/mo&gt; 
+                    &lt;/mrow&gt; 
+                  &lt;/msubsup&gt; 
+                &lt;/mfrac&gt; 
+                &lt;mo&gt;=&lt;/mo&gt; 
+                &lt;mstyle scriptlevel='1'&gt; 
+                  &lt;mfrac&gt; 
+                    &lt;mn&gt;1&lt;/mn&gt; 
+                    &lt;mrow&gt; 
+                      &lt;msubsup&gt; 
+                        &lt;mn&gt;2&lt;/mn&gt; 
+                        &lt;mrow&gt;&lt;/mrow&gt; 
+                        &lt;mstyle scriptlevel='2'&gt; 
+                          &lt;mn&gt;0&lt;/mn&gt; 
+                        &lt;/mstyle&gt; 
+                      &lt;/msubsup&gt; 
+                      &lt;mo&gt;+&lt;/mo&gt; 
+                      &lt;mfrac&gt; 
+                        &lt;mn&gt;1&lt;/mn&gt; 
+                        &lt;mrow&gt; 
+                          &lt;msubsup&gt; 
+                            &lt;mn&gt;2&lt;/mn&gt; 
+                            &lt;mrow&gt;&lt;/mrow&gt; 
+                            &lt;mstyle scriptlevel='2'&gt; 
+                              &lt;mn&gt;1&lt;/mn&gt; 
+                            &lt;/mstyle&gt; 
+                          &lt;/msubsup&gt; 
+                          &lt;mo&gt;+&lt;/mo&gt; 
+                          &lt;maction actiontype='toggle'&gt; 
+                            &lt;mo&gt;&amp;ctdot;&lt;/mo&gt; 
+                            &lt;mfrac&gt; 
+                              &lt;mn&gt;1&lt;/mn&gt; 
+                              &lt;mrow&gt; 
+                                &lt;msubsup&gt; 
+                                  &lt;mn&gt;2&lt;/mn&gt; 
+                                  &lt;mrow&gt;&lt;/mrow&gt; 
+                                  &lt;mstyle scriptlevel='2'&gt; 
+                                    &lt;mn&gt;1&lt;/mn&gt; 
+                                  &lt;/mstyle&gt; 
+                                &lt;/msubsup&gt; 
+                                &lt;mo&gt;+&lt;/mo&gt; 
+                                &lt;mfrac&gt; 
+                                  &lt;mn&gt;1&lt;/mn&gt; 
+                                  &lt;mrow&gt; 
+                                    &lt;msubsup&gt; 
+                                      &lt;mn&gt;2&lt;/mn&gt; 
+                                      &lt;mrow&gt;&lt;/mrow&gt; 
+                                      &lt;mstyle scriptlevel='2'&gt; 
+                                        &lt;mn&gt;2&lt;/mn&gt; 
+                                      &lt;/mstyle&gt; 
+                                    &lt;/msubsup&gt; 
+                                    &lt;mo&gt;+&lt;/mo&gt; 
+                                    &lt;maction actiontype='toggle'&gt; 
+                                      &lt;mo&gt;&amp;ctdot;&lt;/mo&gt; 
+                                      &lt;mfrac&gt; 
+                                        &lt;mn&gt;1&lt;/mn&gt; 
+                                        &lt;mrow&gt; 
+                                          &lt;msubsup&gt; 
+                                            &lt;mn&gt;2&lt;/mn&gt; 
+                                            &lt;mrow&gt;&lt;/mrow&gt; 
+                                            &lt;mstyle scriptlevel='2'&gt; 
+                                              &lt;mn&gt;3&lt;/mn&gt; 
+                                            &lt;/mstyle&gt; 
+                                          &lt;/msubsup&gt; 
+                                          &lt;mo&gt;+&lt;/mo&gt; 
+                                          &lt;mfrac&gt; 
+                                            &lt;mn&gt;1&lt;/mn&gt; 
+                                            &lt;mrow&gt; 
+                                              &lt;msubsup&gt; 
+                                                &lt;mn&gt;2&lt;/mn&gt; 
+                                                &lt;mrow&gt;&lt;/mrow&gt; 
+                                                &lt;mstyle scriptlevel='2'&gt; 
+                                                  &lt;mn&gt;5&lt;/mn&gt; 
+                                                &lt;/mstyle&gt; 
+                                              &lt;/msubsup&gt; 
+                                              &lt;mo&gt;+&lt;/mo&gt; 
+                                              &lt;mo&gt;&amp;hellip;&lt;/mo&gt; 
+                                            &lt;/mrow&gt; 
+                                          &lt;/mfrac&gt; 
+                                        &lt;/mrow&gt; 
+                                      &lt;/mfrac&gt; 
+                                    &lt;/maction&gt; 
+                                  &lt;/mrow&gt; 
+                                &lt;/mfrac&gt; 
+                              &lt;/mrow&gt; 
+                            &lt;/mfrac&gt; 
+                          &lt;/maction&gt; 
+                        &lt;/mrow&gt; 
+                      &lt;/mfrac&gt; 
+                    &lt;/mrow&gt; 
+                  &lt;/mfrac&gt; 
+                &lt;/mstyle&gt; 
+              &lt;/mrow&gt; 
+            &lt;/mstyle&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Rogers-Ramanujan Identity&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mstyle displaystyle='true'&gt; 
+              &lt;mrow&gt; 
+                &lt;mn&gt;1&lt;/mn&gt; 
+                &lt;mo&gt;+&lt;/mo&gt; 
+                &lt;maction actiontype='highlight' dsi:background='#0000ff'&gt; 
+                  &lt;maction actiontype='toggle'&gt; 
+                    &lt;mrow&gt; 
+                      &lt;munderover&gt; 
+                        &lt;mo&gt;&amp;sum;&lt;/mo&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mi&gt;k&lt;/mi&gt; 
+                          &lt;mo&gt;=&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                        &lt;/mrow&gt; 
+                        &lt;mi&gt;&amp;infin;&lt;/mi&gt; 
+                      &lt;/munderover&gt; 
+                      &lt;mfrac&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;q&lt;/mi&gt; 
+                          &lt;mrow&gt;&lt;/mrow&gt; 
+                          &lt;mrow&gt; 
+                            &lt;msubsup&gt; 
+                              &lt;mi&gt;k&lt;/mi&gt; 
+                              &lt;mrow&gt;&lt;/mrow&gt; 
+                              &lt;mn&gt;2&lt;/mn&gt; 
+                            &lt;/msubsup&gt; 
+                            &lt;mo&gt;+&lt;/mo&gt; 
+                            &lt;mi&gt;k&lt;/mi&gt; 
+                          &lt;/mrow&gt; 
+                        &lt;/msubsup&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;mi&gt;q&lt;/mi&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;msubsup&gt; 
+                            &lt;mi&gt;q&lt;/mi&gt; 
+                            &lt;mrow&gt;&lt;/mrow&gt; 
+                            &lt;mn&gt;2&lt;/mn&gt; 
+                          &lt;/msubsup&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                          &lt;mo&gt;&amp;ctdot;&lt;/mo&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;msubsup&gt; 
+                            &lt;mi&gt;q&lt;/mi&gt; 
+                            &lt;mrow&gt;&lt;/mrow&gt; 
+                            &lt;mi&gt;k&lt;/mi&gt; 
+                          &lt;/msubsup&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                        &lt;/mrow&gt; 
+                      &lt;/mfrac&gt; 
+                    &lt;/mrow&gt; 
+                    &lt;mrow&gt; 
+                      &lt;mfrac&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;q&lt;/mi&gt; 
+                          &lt;mrow&gt;&lt;/mrow&gt; 
+                          &lt;mn&gt;2&lt;/mn&gt; 
+                        &lt;/msubsup&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;mi&gt;q&lt;/mi&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                        &lt;/mrow&gt; 
+                      &lt;/mfrac&gt; 
+                      &lt;mo&gt;+&lt;/mo&gt; 
+                      &lt;mfrac&gt; 
+                        &lt;msubsup&gt; 
+                          &lt;mi&gt;q&lt;/mi&gt; 
+                          &lt;mrow&gt;&lt;/mrow&gt; 
+                          &lt;mn&gt;6&lt;/mn&gt; 
+                        &lt;/msubsup&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;mi&gt;q&lt;/mi&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;msubsup&gt; 
+                            &lt;mi&gt;q&lt;/mi&gt; 
+                            &lt;mrow&gt;&lt;/mrow&gt; 
+                            &lt;mn&gt;2&lt;/mn&gt; 
+                          &lt;/msubsup&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                        &lt;/mrow&gt; 
+                      &lt;/mfrac&gt; 
+                      &lt;mo&gt;+&lt;/mo&gt; 
+                      &lt;mo&gt;&amp;ctdot;&lt;/mo&gt; 
+                    &lt;/mrow&gt; 
+                  &lt;/maction&gt; 
+                &lt;/maction&gt; 
+                &lt;mo&gt;=&lt;/mo&gt; 
+                &lt;maction actiontype="highlight" dsi:background='#0000ff'&gt; 
+                  &lt;maction actiontype='toggle'&gt; 
+                    &lt;mrow&gt; 
+                      &lt;munderover&gt; 
+                        &lt;mo&gt;&amp;prod;&lt;/mo&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mi&gt;j&lt;/mi&gt; 
+                          &lt;mo&gt;=&lt;/mo&gt; 
+                          &lt;mn&gt;0&lt;/mn&gt; 
+                        &lt;/mrow&gt; 
+                        &lt;mi&gt;&amp;infin;&lt;/mi&gt; 
+                      &lt;/munderover&gt; 
+                      &lt;mfrac&gt; 
+                        &lt;mn&gt;1&lt;/mn&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;msubsup&gt; 
+                            &lt;mi&gt;q&lt;/mi&gt; 
+                            &lt;mrow&gt;&lt;/mrow&gt; 
+                            &lt;mrow&gt; 
+                              &lt;mn&gt;5&lt;/mn&gt; 
+                              &lt;mi&gt;j&lt;/mi&gt; 
+                              &lt;mo&gt;+&lt;/mo&gt; 
+                              &lt;mn&gt;2&lt;/mn&gt; 
+                            &lt;/mrow&gt; 
+                          &lt;/msubsup&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;msubsup&gt; 
+                            &lt;mi&gt;q&lt;/mi&gt; 
+                            &lt;mrow&gt;&lt;/mrow&gt; 
+                            &lt;mrow&gt; 
+                              &lt;mn&gt;5&lt;/mn&gt; 
+                              &lt;mi&gt;j&lt;/mi&gt; 
+                              &lt;mo&gt;+&lt;/mo&gt; 
+                              &lt;mn&gt;3&lt;/mn&gt; 
+                            &lt;/mrow&gt; 
+                          &lt;/msubsup&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                        &lt;/mrow&gt; 
+                      &lt;/mfrac&gt; 
+                    &lt;/mrow&gt; 
+                    &lt;mrow&gt; 
+                      &lt;mfrac&gt; 
+                        &lt;mn&gt;1&lt;/mn&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;msubsup&gt; 
+                            &lt;mi&gt;q&lt;/mi&gt; 
+                            &lt;mrow&gt;&lt;/mrow&gt; 
+                            &lt;mn&gt;2&lt;/mn&gt; 
+                          &lt;/msubsup&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;msubsup&gt; 
+                            &lt;mi&gt;q&lt;/mi&gt; 
+                            &lt;mrow&gt;&lt;/mrow&gt; 
+                            &lt;mn&gt;3&lt;/mn&gt; 
+                          &lt;/msubsup&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                        &lt;/mrow&gt; 
+                      &lt;/mfrac&gt; 
+                      &lt;mo&gt;&amp;times;&lt;/mo&gt; 
+                      &lt;mfrac&gt; 
+                        &lt;mn&gt;1&lt;/mn&gt; 
+                        &lt;mrow&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;msubsup&gt; 
+                            &lt;mi&gt;q&lt;/mi&gt; 
+                            &lt;mrow&gt;&lt;/mrow&gt; 
+                            &lt;mn&gt;7&lt;/mn&gt; 
+                          &lt;/msubsup&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                          &lt;mo stretchy='false'&gt;(&lt;/mo&gt; 
+                          &lt;mn&gt;1&lt;/mn&gt; 
+                          &lt;mo&gt;-&lt;/mo&gt; 
+                          &lt;msubsup&gt; 
+                            &lt;mi&gt;q&lt;/mi&gt; 
+                            &lt;mrow&gt;&lt;/mrow&gt; 
+                            &lt;mn&gt;8&lt;/mn&gt; 
+                          &lt;/msubsup&gt; 
+                          &lt;mo stretchy='false'&gt;)&lt;/mo&gt; 
+                        &lt;/mrow&gt; 
+                      &lt;/mfrac&gt; 
+                      &lt;mo&gt;&amp;times;&lt;/mo&gt; 
+                      &lt;mo&gt;&amp;ctdot;&lt;/mo&gt; 
+                    &lt;/mrow&gt; 
+                  &lt;/maction&gt; 
+                &lt;/maction&gt; 
+                &lt;mo&gt;,&lt;/mo&gt; 
+                &lt;mtext&gt;&amp;ThickSpace;&lt;/mtext&gt; 
+                &lt;mtext&gt;&amp;ThickSpace;&lt;/mtext&gt; 
+                &lt;mstyle fontstyle='normal'&gt; 
+                  &lt;mrow&gt; 
+                    &lt;mi&gt;f&lt;/mi&gt; 
+                    &lt;mi&gt;o&lt;/mi&gt; 
+                    &lt;mi&gt;r&lt;/mi&gt; 
+                  &lt;/mrow&gt; 
+                &lt;/mstyle&gt; 
+                &lt;mtext&gt;&amp;MediumSpace;&lt;/mtext&gt; 
+                &lt;mo stretchy='false'&gt;|&lt;/mo&gt; 
+                &lt;mi&gt;q&lt;/mi&gt; 
+                &lt;mo stretchy='false'&gt;|&lt;/mo&gt; 
+                &lt;mo&gt;&amp;lt;&lt;/mo&gt; 
+                &lt;mn&gt;1&lt;/mn&gt; 
+                &lt;mi&gt;.&lt;/mi&gt; 
+              &lt;/mrow&gt; 
+            &lt;/mstyle&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mtext&gt;Commutative Diagram&lt;/mtext&gt; 
+          &lt;/mtd&gt; 
+          &lt;mtd&gt; 
+            &lt;mtable equalcolumns='false' equalrows='false'&gt; 
+              &lt;mtr&gt; 
+                &lt;mtd&gt; 
+                  &lt;mi&gt;H&lt;/mi&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mo&gt;&amp;larr;&lt;/mo&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mi&gt;K&lt;/mi&gt; 
+                &lt;/mtd&gt; 
+              &lt;/mtr&gt; 
+              &lt;mtr&gt; 
+                &lt;mtd&gt; 
+                  &lt;mo&gt;&amp;darr;&lt;/mo&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mspace height='100px' width='150px' /&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mo&gt;&amp;uarr;&lt;/mo&gt; 
+                &lt;/mtd&gt; 
+              &lt;/mtr&gt; 
+              &lt;mtr&gt; 
+                &lt;mtd&gt; 
+                  &lt;mi&gt;H&lt;/mi&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mo&gt;&amp;rarr;&lt;/mo&gt; 
+                &lt;/mtd&gt; 
+                &lt;mtd&gt; 
+                  &lt;mi&gt;K&lt;/mi&gt; 
+                &lt;/mtd&gt; 
+              &lt;/mtr&gt; 
+            &lt;/mtable&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+      &lt;/mtable&gt; 
+    &lt;/math&gt;
+  </pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../Topics/WhiteSpace/white9-full.xhtml";
+		} else {
+		window.location.href = "../../Topics/WhiteSpace/white9-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../TortureTests/Complexity/complex2-full.xhtml";
+		} else {
+		window.location.href = "../../TortureTests/Complexity/complex2-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" indentstylefirst="right" indentstylelast="center">
+  <mrow>
+    <mi>y</mi>  
+    <mo>=</mo> 
+    <msup>
+      <mrow> 
+        <mi>x</mi> 
+      </mrow> 
+      <mrow>
+        <mn>2</mn> 
+      </mrow> 
+    </msup> 
+    <mo>+</mo> 
+    <mfrac>
+      <mrow>
+        <mi>x</mi>  
+      </mrow> 
+      <mrow>
+        <mn>3</mn>  
+      </mrow> 
+    </mfrac> 
+  </mrow> </math>

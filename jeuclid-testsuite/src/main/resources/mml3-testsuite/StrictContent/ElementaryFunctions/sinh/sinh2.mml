@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="transc1">sinh</csymbol>  
+    <apply>
+      <csymbol cd="arith1">times</csymbol>  
+      <ci>x</ci> 
+      <apply>
+        <csymbol cd="arith1">plus</csymbol> 
+        <ci>y</ci> 
+        <ci>z</ci>  
+      </apply> 
+      <ci>z</ci>  
+    </apply> 
+  </apply> 
+</math>

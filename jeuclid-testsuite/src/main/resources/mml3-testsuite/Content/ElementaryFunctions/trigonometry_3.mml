@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <divide></divide> 
+    <apply> 
+      <times></times> 
+      <apply> 
+        <sec></sec> 
+        <apply> 
+          <times></times> 
+          <ci>x</ci>  
+          <ci>y</ci> 
+        </apply>  
+      </apply> 
+      <apply>
+        <times></times>  
+        <cn>2</cn> 
+        <ci>b</ci>  
+      </apply> 
+    </apply> 
+    <apply> 
+      <tan></tan> 
+      <apply> 
+        <plus></plus> 
+        <cn>x</cn> 
+        <cn>y</cn>  
+      </apply> 
+    </apply> 
+  </apply>  
+</math>

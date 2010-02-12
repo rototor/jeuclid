@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <tendsto type="below"></tendsto> 
+    <apply>
+      <power></power>  
+      <ci>x</ci> 
+      <cn>2</cn>  
+    </apply> 
+    <apply>
+      <power></power>  
+      <ci>a</ci> 
+      <cn>2</cn>  
+    </apply> 
+  </apply> 
+</math>

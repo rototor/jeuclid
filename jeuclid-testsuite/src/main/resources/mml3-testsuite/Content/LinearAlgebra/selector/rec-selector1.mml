@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <selector></selector> 
+    <matrix> 
+      <matrixrow>
+        <cn>1</cn>  
+        <cn>2</cn> 
+      </matrixrow> 
+      <matrixrow>
+        <cn>3</cn> 
+        <cn> 4</cn> 
+      </matrixrow> 
+    </matrix>  
+    <cn>1</cn> 
+  </apply> 
+</math>
