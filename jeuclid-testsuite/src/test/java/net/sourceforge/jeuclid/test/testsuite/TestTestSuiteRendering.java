@@ -196,7 +196,7 @@ public class TestTestSuiteRendering {
             failures.add(name + " has changed in number of elements! (old: "
                     + oldList.size() + " new: " + currentList.size() + ")");
             have = true;
-        }
+        } else
         for (int i = 0; i < currentList.size(); i++) {
             final RenderInfo current = currentList.get(i);
             final RenderInfo old = oldList.get(i);
