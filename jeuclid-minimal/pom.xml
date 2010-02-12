@@ -8,7 +8,7 @@
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
-    <version>3.1.9</version>
+    <version>3.1.10-SNAPSHOT</version>
   </parent>
   <description>This class handles the creation of the minimal JEuclid distribution files.</description>
   <build>
@@ -99,17 +99,17 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core</artifactId>
-      <version>3.1.9</version>
+      <version>3.1.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-cli</artifactId>
-      <version>3.1.9</version>
+      <version>3.1.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-mathviewer</artifactId>
-      <version>3.1.9</version>
+      <version>3.1.10-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
