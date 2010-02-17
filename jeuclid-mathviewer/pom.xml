@@ -14,6 +14,13 @@
     <defaultGoal>package</defaultGoal>
     <plugins>
       <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.3</version>
         <configuration>
@@ -72,7 +79,7 @@
           <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
           <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
           <iconFile>${basedir}/src/main/app-resources/jeuclid.icns</iconFile>
-          <jvmVersion>1.5+</jvmVersion>
+          <jvmVersion>1.6+</jvmVersion>
           <bundleName>JEuclid MathViewer</bundleName>
         </configuration>
         <executions>
@@ -149,7 +156,7 @@
               </classPath>
               <errTitle>JEuclid Mathviewer</errTitle>
               <jre>
-                <minVersion>1.5.0</minVersion>
+                <minVersion>1.6.0</minVersion>
               </jre>
               <versionInfo>
                 <fileVersion>0.0.0.0</fileVersion>
@@ -235,6 +242,11 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core</artifactId>
+      <version>3.1.10-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>jeuclid-core16</artifactId>
       <version>3.1.10-SNAPSHOT</version>
     </dependency>
     <dependency>
