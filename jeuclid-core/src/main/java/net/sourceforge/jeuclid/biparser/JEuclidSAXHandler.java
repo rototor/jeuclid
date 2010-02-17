@@ -45,20 +45,28 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
     /** stores characters while parsing (text of TextNodes). */
     private StringBuffer textBuffer;
+
     /** locater for X&Y-position in inputtext. */
     private Locator locator;
+
     /** BiTreeCreationHelper. */
     private final BiTreeCreationHelper treeHelper;
+
     /** inputtext to parse. */
     private final String content;
+
     /** current position in inputtext. */
     private int position;
+
     /** previous position in inputtext. */
     private int previousPosition;
+
     /** last line (y-position) in inputtext. */
     private int lastLine;
+
     /** last column (x-position) in inputtext. */
     private int lastColumn;
+
     /** BiTree to construct. */
     private final BiTree tree;
 
@@ -115,7 +123,8 @@ public class JEuclidSAXHandler extends DefaultHandler {
      */
     @Override
     public final void startDocument() {
-        LOGGER.debug("SAX start document, length=" + this.content.length());
+        JEuclidSAXHandler.LOGGER.debug("SAX start document, length="
+                + this.content.length());
     }
 
     /**
@@ -127,7 +136,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
     @Override
     public final void endDocument() throws SAXException {
         this.tree.setRoot(this.treeHelper.getRoot());
-        LOGGER.debug("SAX end document");
+        JEuclidSAXHandler.LOGGER.debug("SAX end document");
     }
 
     /**
@@ -164,8 +173,8 @@ public class JEuclidSAXHandler extends DefaultHandler {
         this.contentPosition();
 
         // get startposition of tag
-        startPosition = this.content
-                .lastIndexOf("<" + eName, this.position - 1);
+        startPosition = this.content.lastIndexOf("<" + eName,
+                this.position - 1);
 
         if (this.textBuffer == null) {
             length = 0;
@@ -173,13 +182,14 @@ public class JEuclidSAXHandler extends DefaultHandler {
             length = this.textBuffer.length();
         }
 
-        LOGGER.debug("tag-start=" + startPosition + " tag-end=" + this.position
-                + " buffer=" + (startPosition - this.previousPosition)
-                + " textbuffer=" + length);
+        JEuclidSAXHandler.LOGGER.debug("tag-start=" + startPosition
+                + " tag-end=" + this.position + " buffer="
+                + (startPosition - this.previousPosition) + " textbuffer="
+                + length);
 
         // create a EmptyNode if text is before this element
         if (startPosition - this.previousPosition > 0) {
-            LOGGER.debug("empty length="
+            JEuclidSAXHandler.LOGGER.debug("empty length="
                     + (startPosition - this.previousPosition));
 
             this.treeHelper.createEmtpyNode(startPosition
@@ -205,8 +215,8 @@ public class JEuclidSAXHandler extends DefaultHandler {
      *            qulified name
      */
     @Override
-    public final void endElement(final String namespaceURI, final String sName,
-            final String qName) {
+    public final void endElement(final String namespaceURI,
+            final String sName, final String qName) {
         // element name
         String eName = sName;
         // text of a TextNode before close tag
@@ -228,16 +238,17 @@ public class JEuclidSAXHandler extends DefaultHandler {
                 - this.previousPosition;
 
         // create a new TextNode
-        if ((this.textBuffer != null) && (this.textBuffer.length() > 0)
+        if (this.textBuffer != null && this.textBuffer.length() > 0
                 && this.treeHelper.allowNewTextNode()) {
 
             text = this.textBuffer.toString();
             this.treeHelper.createTextNode(textLength, text);
             this.textBuffer = null;
 
-            LOGGER.debug(apo + text.replaceAll(this.nl(), "#") + apo);
+            JEuclidSAXHandler.LOGGER.debug(apo
+                    + text.replaceAll(this.nl(), "#") + apo);
 
-        } else if (!this.treeHelper.allowNewTextNode() && (textLength > 0)) {
+        } else if (!this.treeHelper.allowNewTextNode() && textLength > 0) {
             // or create a new EmptyNode
             this.treeHelper.createEmtpyNode(textLength);
         }
@@ -285,9 +296,10 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
         this.previousPosition = this.position;
 
-        LOGGER.debug("old line=" + this.lastLine);
+        JEuclidSAXHandler.LOGGER.debug("old line=" + this.lastLine);
         for (l = this.lastLine; l < line; l = l + 1) {
-            this.position = 1 + this.content.indexOf(this.nl(), this.position);
+            this.position = 1 + this.content
+                    .indexOf(this.nl(), this.position);
             // System.out.println(" position = " + position + " ");
         }
 
@@ -302,8 +314,9 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
         this.lastLine = line;
         this.lastColumn = column;
-        LOGGER.debug(" - new line=" + this.lastLine + " - old pos="
-                + this.previousPosition + " new pos=" + this.position);
+        JEuclidSAXHandler.LOGGER.debug(" - new line=" + this.lastLine
+                + " - old pos=" + this.previousPosition + " new pos="
+                + this.position);
     }
 
     /**
@@ -351,14 +364,14 @@ public class JEuclidSAXHandler extends DefaultHandler {
             }
         }
 
-        if ((namespaceURI != null) && (namespaceURI.length() > 0)) {
+        if (namespaceURI != null && namespaceURI.length() > 0) {
             sb.append(' ');
             sb.append(namespaceURI);
         }
         sb.append('>');
         sb.append(this.nl());
 
-        LOGGER.debug(sb.toString());
+        JEuclidSAXHandler.LOGGER.debug(sb.toString());
     }
 
     /**

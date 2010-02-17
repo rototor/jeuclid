@@ -109,7 +109,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
         jDocNew = DOMBuilder.getInstance().createJeuclidDom(newNode);
 
         // check if newNode is root of new tree
-        if ((newNode.getParentNode()).getParentNode() == null) {
+        if (newNode.getParentNode().getParentNode() == null) {
             return jDocNew;
         } else {
             imported = jDocOld.importNode(jDocNew.getDocumentElement(), true); // import
@@ -159,13 +159,13 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      *            y-offset for baseline
      * @param g
      *            Graphics context for painting. Should be compatible to the
-     *            context used during construction, but does not have to be the
-     *            same.
+     *            context used during construction, but does not have to be
+     *            the same.
      */
     public void draw(final Graphics2D g, final float x, final float y) {
         this.layout();
         final RenderingHints hints = g.getRenderingHints();
-        if ((Boolean) (this.context.getParameter(Parameter.ANTIALIAS))) {
+        if ((Boolean) this.context.getParameter(Parameter.ANTIALIAS)) {
             hints.add(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON));
         }
@@ -175,8 +175,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
                 RenderingHints.VALUE_RENDER_QUALITY));
         g.setRenderingHints(hints);
 
-        final boolean debug = (Boolean) (this.context
-                .getParameter(Parameter.DEBUG));
+        final boolean debug = (Boolean) this.context
+                .getParameter(Parameter.DEBUG);
         this.drawNode(this.document, g, x, y, debug);
 
     }
@@ -204,8 +204,9 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
 
         for (final LayoutableNode child : node.getChildrenToDraw()) {
             final LayoutInfo childInfo = this.getInfo(child);
-            this.drawNode(child, g, x + childInfo.getPosX(LayoutStage.STAGE2),
-                    y + childInfo.getPosY(LayoutStage.STAGE2), debug);
+            this.drawNode(child, g,
+                    x + childInfo.getPosX(LayoutStage.STAGE2), y
+                            + childInfo.getPosY(LayoutStage.STAGE2), debug);
         }
     }
 
@@ -240,8 +241,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
                 && LayoutStage.STAGE2.equals(toStage)) {
             int count = 0;
             for (final LayoutableNode l : node.getChildrenToLayout()) {
-                this.layout(l, LayoutStage.STAGE2, node.getChildLayoutContext(
-                        count, parentContext));
+                this.layout(l, LayoutStage.STAGE2, node
+                        .getChildLayoutContext(count, parentContext));
                 count++;
             }
             node.layoutStage2(this, info, parentContext);
@@ -352,8 +353,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      *            starting y position offset
      * @return list of nodes with rendering information
      */
-    public List<JEuclidView.NodeRect> getNodesAt(final float x, final float y,
-            final float offsetX, final float offsetY) {
+    public List<JEuclidView.NodeRect> getNodesAt(final float x,
+            final float y, final float offsetX, final float offsetY) {
         this.layout();
         final List<JEuclidView.NodeRect> nodes = new LinkedList<JEuclidView.NodeRect>();
         this.getNodesAtRec(x, y, offsetX, offsetY, this.document, nodes);
@@ -412,8 +413,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
     }
 
     /**
-     * Gets the absolute Bounds for a given node and offset. May return null if
-     * the node could not be found.
+     * Gets the absolute Bounds for a given node and offset. May return null
+     * if the node could not be found.
      * 
      * @param offsetX
      *            x position offset to node
@@ -422,8 +423,8 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      * 
      * @param node
      *            A layoutable node which was layouted in the current view.
-     * @return the rectangle with the absolute bounds or null if the given node
-     *         was not layouted in this view.
+     * @return the rectangle with the absolute bounds or null if the given
+     *         node was not layouted in this view.
      * 
      */
     public Rectangle2D getRect(final float offsetX, final float offsetY,
