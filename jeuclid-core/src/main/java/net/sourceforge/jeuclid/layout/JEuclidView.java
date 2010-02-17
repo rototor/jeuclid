@@ -87,18 +87,19 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
     }
 
     /**
-     * replace old node with new node in JEuclid document
-     *
+     * replace old node with new node in JEuclid document.
+     * 
      * @param jDocOld
      *            old JEuclid document
      * @param oldNode
      *            Node to remove
      * @param newNode
      *            Node to insert
-     *
+     * 
      * @return new JEuclid Document
      */
-    public static DocumentElement replaceNodes(DocumentElement jDocOld, Node oldNode, Node newNode) {
+    public static DocumentElement replaceNodes(final DocumentElement jDocOld,
+            Node oldNode, final Node newNode) {
         DocumentElement jDocNew;
         Node imported, parent;
         ArrayList<Integer> path;
@@ -111,7 +112,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
         if ((newNode.getParentNode()).getParentNode() == null) {
             return jDocNew;
         } else {
-            imported = jDocOld.importNode(jDocNew.getDocumentElement(), true);  // import
+            imported = jDocOld.importNode(jDocNew.getDocumentElement(), true); // import
 
             path = new ArrayList<Integer>();
             parent = oldNode;
@@ -133,10 +134,12 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
 
             oldNode = parent.getChildNodes().item(path.get(0));
 
-            JEuclidView.LOGGER.info("replace " + oldNode.getNodeName() + " with "+ imported.getNodeName() + " under "+parent.getNodeName());
+            JEuclidView.LOGGER.info("replace " + oldNode.getNodeName()
+                    + " with " + imported.getNodeName() + " under "
+                    + parent.getNodeName());
 
-            parent.insertBefore(imported, oldNode);                             // insert
-            parent.removeChild(oldNode);                                        // remove
+            parent.insertBefore(imported, oldNode); // insert
+            parent.removeChild(oldNode); // remove
 
             return jDocOld;
         }

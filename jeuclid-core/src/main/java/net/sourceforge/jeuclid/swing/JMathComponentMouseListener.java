@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,24 @@
  * limitations under the License.
  */
 
+/* $Id $ */
+
 package net.sourceforge.jeuclid.swing;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
+
 import net.sourceforge.jeuclid.biparser.BiTree;
 import net.sourceforge.jeuclid.biparser.SearchResult;
 import net.sourceforge.jeuclid.layout.JEuclidView.NodeRect;
+
 import org.w3c.dom.Node;
 
 /**
  * A simple mouse listener for Graphics<=>Text association.
+ * 
+ * @version $Revision: $
  */
 public class JMathComponentMouseListener implements MouseListener {
 
@@ -36,7 +42,9 @@ public class JMathComponentMouseListener implements MouseListener {
 
     /**
      * standard constructor.
-     * @param mathComponentInstance math component instance
+     * 
+     * @param mathComponentInstance
+     *            math component instance
      */
     public JMathComponentMouseListener(
             final JMathComponent mathComponentInstance) {
@@ -45,15 +53,17 @@ public class JMathComponentMouseListener implements MouseListener {
 
     /**
      * mouse click event handler.
-     * @param e mouse event
+     * 
+     * @param e
+     *            mouse event
      */
     public final void mouseClicked(final MouseEvent e) {
-        MathComponentUI ui = mathComponent.getUI();
-        List<NodeRect> rectList = ui.getNodesAt(e.getX(), e.getY());
-        if (rectList != null && rectList.size() > 0) {
-            BiTree tree = this.mathComponent.getBiTree();
-            Node lastNode = rectList.get(rectList.size() - 1).getNode();
-            SearchResult result = tree.searchNode(lastNode);
+        final MathComponentUI ui = this.mathComponent.getUI();
+        final List<NodeRect> rectList = ui.getNodesAt(e.getX(), e.getY());
+        if ((rectList != null) && (rectList.size() > 0)) {
+            final BiTree tree = this.mathComponent.getBiTree();
+            final Node lastNode = rectList.get(rectList.size() - 1).getNode();
+            final SearchResult result = tree.searchNode(lastNode);
 
             this.mathComponent.getCursorListener().updateCursorPosition(result);
         }
@@ -61,25 +71,37 @@ public class JMathComponentMouseListener implements MouseListener {
 
     /**
      * mouse pressed event (unused).
-     * @param e mouse event
+     * 
+     * @param e
+     *            mouse event
      */
-    public final void mousePressed(final MouseEvent e) {   }
+    public final void mousePressed(final MouseEvent e) {
+    }
 
     /**
      * mouse pressed event (unused).
-     * @param e mouse event
+     * 
+     * @param e
+     *            mouse event
      */
-    public final void mouseReleased(final MouseEvent e) {   }
+    public final void mouseReleased(final MouseEvent e) {
+    }
 
     /**
      * mouse pressed event (unused).
-     * @param e mouse event
+     * 
+     * @param e
+     *            mouse event
      */
-    public final void mouseEntered(final MouseEvent e) {    }
+    public final void mouseEntered(final MouseEvent e) {
+    }
 
     /**
      * mouse pressed event (unused).
-     * @param e mouse event
+     * 
+     * @param e
+     *            mouse event
      */
-    public final void mouseExited(final MouseEvent e) {     }
+    public final void mouseExited(final MouseEvent e) {
+    }
 }

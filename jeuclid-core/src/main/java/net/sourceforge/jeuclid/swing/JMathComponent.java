@@ -95,24 +95,26 @@ public final class JMathComponent extends JComponent implements SwingConstants {
     /**
      * cursor listener instance.
      */
-    private CursorListener cursorListener;
+    private final CursorListener cursorListener;
 
     /**
-     * Default constructor
+     * Default constructor.
      */
     public JMathComponent() {
         this(null);
     }
 
     /**
-     * Default constructor with cursor listener
-     * @param listener cursor listener instance
+     * Default constructor with cursor listener.
+     * 
+     * @param listener
+     *            cursor listener instance
      */
     public JMathComponent(final CursorListener listener) {
         this.cursorListener = listener;
 
-        JMathComponentMouseListener mouseListener =
-                new JMathComponentMouseListener(this);
+        final JMathComponentMouseListener mouseListener = new JMathComponentMouseListener(
+                this);
         this.addMouseListener(mouseListener);
 
         this.updateUI();
@@ -122,6 +124,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
 
     /**
      * gets cursor listener instance.
+     * 
      * @return cursor listener instance
      */
     public CursorListener getCursorListener() {
@@ -140,6 +143,7 @@ public final class JMathComponent extends JComponent implements SwingConstants {
 
     /**
      * gets tree instance.
+     * 
      * @return tree instance
      */
     public BiTree getBiTree() {
@@ -349,37 +353,40 @@ public final class JMathComponent extends JComponent implements SwingConstants {
 
         // parse finished
         if (this.biTree != null) {
-            this.biTree.createDOMTree();       // create DOM tree
+            this.biTree.createDOMTree(); // create DOM tree
             this.setDocument(this.biTree.getDocument());
-            LOGGER.debug(this.biTree);
+            JMathComponent.LOGGER.debug(this.biTree);
         }
     }
 
     /**
      * Set the content from a String containing the MathML content.
-     *
-     * @param contentString
+     * 
+     * @param text
      *            the content to set.
+     * @param documentEvent
+     *            documentEvent which triggered the change.
      */
-    public void setContent(DocumentEvent documentEvent, String text) {
+    public void setContent(final DocumentEvent documentEvent, final String text) {
         DocumentEvent.EventType type;
-
-        if (this.biTree == null || this.biTree.getRoot() == null) {
-            setContent(text);
+        if ((this.biTree == null) || (this.biTree.getRoot() == null)) {
+            this.setContent(text);
         } else {
 
             type = documentEvent.getType();
 
             if (type == DocumentEvent.EventType.INSERT) {
                 try {
-                    this.biTree.insert(documentEvent.getOffset(), documentEvent.getLength(), text);
-                } catch (ReparseException ex) {
+                    this.biTree.insert(documentEvent.getOffset(), documentEvent
+                            .getLength(), text);
+                } catch (final ReparseException ex) {
                     this.setContent(text);
                 }
             } else if (type == DocumentEvent.EventType.REMOVE) {
                 try {
-                    this.biTree.remove(documentEvent.getOffset(), documentEvent.getLength(), text);
-                } catch (ReparseException ex) {
+                    this.biTree.remove(documentEvent.getOffset(), documentEvent
+                            .getLength(), text);
+                } catch (final ReparseException ex) {
                     this.setContent(text);
                 }
             } else {
@@ -388,9 +395,9 @@ public final class JMathComponent extends JComponent implements SwingConstants {
                 throw new RuntimeException("change event.............");
             }
 
-            if (this.biTree != null && this.biTree.getDocument() != null) {
+            if ((this.biTree != null) && (this.biTree.getDocument() != null)) {
                 this.setDocument(this.biTree.getDocument());
-                LOGGER.debug(this.biTree);
+                JMathComponent.LOGGER.debug(this.biTree);
             }
         }
     }
@@ -406,16 +413,17 @@ public final class JMathComponent extends JComponent implements SwingConstants {
     }
 
     /**
-     * @param doc the document to set
+     * @param doc
+     *            the document to set
      */
     public void setDocument(final Node doc) {
         final Node oldValue = this.document;
         this.firePropertyChange("document", oldValue, doc);
         this.document = doc;
- //       if (doc != oldValue) {
-            this.revalidate();
-            this.repaint();
-   //     }
+        // if (doc != oldValue) {
+        this.revalidate();
+        this.repaint();
+        // }
     }
 
     /**

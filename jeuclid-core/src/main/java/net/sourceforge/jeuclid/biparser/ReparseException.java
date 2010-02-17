@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2009 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
+/* $Id $ */
 
 package net.sourceforge.jeuclid.biparser;
 
 /**
  * this exception class signals a reparse of a text.
- *
+ * 
  * @version $Revision$
  */
 public class ReparseException extends Exception {

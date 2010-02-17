@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2009 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+/* $Id $ */
 
 package net.sourceforge.jeuclid.biparser;
 
@@ -21,16 +22,18 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
- * this class is used to store specific information about a empty node.
- * the node cannot have children, but a sibling
- *
+ * this class is used to store specific information about a empty node. the node
+ * cannot have children, but a sibling
+ * 
  * @version $Revision$
  */
 public final class EmptyNode extends AbstractBiNode {
 
     /**
      * create a new EmptyNode.
-     * @param length of EmptyNode
+     * 
+     * @param length
+     *            of EmptyNode
      */
     public EmptyNode(final int length) {
         this.setLength(length);
@@ -38,26 +41,25 @@ public final class EmptyNode extends AbstractBiNode {
 
     /**
      * get the type of node.
+     * 
      * @return EMPTY
      */
-    @Override
     public BiType getType() {
         return BiType.EMPTY;
     }
 
-    /**
+/**
      * insert characters in EmptyNode, reparse if characters contain '<' or '>'.
      * else change length of EmptyNode
      * {@inheritDoc}
      */
-    @Override
-    public void insert(final BiTree biTree, final int offset,
-            final int length, final int totalOffset) throws ReparseException {
+    public void insert(final BiTree biTree, final int offset, final int length,
+            final int totalOffset) throws ReparseException {
         int position;
         String insert;
 
-       //   System.out.println("insert " + toString() + " offset=" +
-       //  offset + " length=" + length);
+        // System.out.println("insert " + toString() + " offset=" +
+        // offset + " length=" + length);
 
         // start position in this node
         if (offset <= this.getLength()) {
@@ -67,7 +69,7 @@ public final class EmptyNode extends AbstractBiNode {
 
             if (insert.contains("<") || insert.contains(">")) {
                 // reparsing
-                throw new ReparseException();                       
+                throw new ReparseException();
             }
 
             this.changeLengthRec(length);
@@ -80,19 +82,17 @@ public final class EmptyNode extends AbstractBiNode {
     }
 
     /**
-     * remove characters from EmptyNode, reparse if length gets 0.
-     * {@inheritDoc}
+     * remove characters from EmptyNode, reparse if length gets 0. {@inheritDoc}
      */
-    @Override
-    public void remove(final BiTree biTree, final int offset,
-            final int length, final int totalOffset) throws ReparseException {
+    public void remove(final BiTree biTree, final int offset, final int length,
+            final int totalOffset) throws ReparseException {
         // System.out.println("remove " + toString() + " offset=" +
         // offset + " length=" + length);
 
         // start position in this node
         if (offset <= this.getLength()) {
 
-            if (offset == 0 && length >= this.getLength()) {
+            if ((offset == 0) && (length >= this.getLength())) {
                 // remove this node
                 throw new ReparseException();
 
@@ -107,9 +107,8 @@ public final class EmptyNode extends AbstractBiNode {
                     this.changeLengthRec(offset - this.getLength());
 
                     // forward remainder to sibling
-                    this.forwardToSibling(false, biTree, 0,
-                            offset + length - this.getLength(),
-                            totalOffset + this.getLength());
+                    this.forwardToSibling(false, biTree, 0, offset + length
+                            - this.getLength(), totalOffset + this.getLength());
                 }
             }
         } else {
@@ -121,18 +120,18 @@ public final class EmptyNode extends AbstractBiNode {
 
     /**
      * don't create a DOM-tree from EmptyNode (EmptyNode has no DOM node).
-     * @param doc Document to create DOM-tree
+     * 
+     * @param doc
+     *            Document to create DOM-tree
      * @return null
      */
-    @Override
     public Node createDOMSubtree(final Document doc) {
         return null;
     }
 
     /** {@inheritDoc} */
     @Override
-    public SearchResult searchNode(final Node node,
-            final int totalOffset) {
+    public SearchResult searchNode(final Node node, final int totalOffset) {
         // forward to sibling
         if (this.getSibling() != null) {
             return this.getSibling().searchNode(node,
@@ -153,7 +152,7 @@ public final class EmptyNode extends AbstractBiNode {
         return sb.toString();
     }
 
-    @Override
+    /** {@inheritDoc} */
     public String toString(final int level) {
         final StringBuffer sb = new StringBuffer(32);
         final String nl = System.getProperty("line.separator");

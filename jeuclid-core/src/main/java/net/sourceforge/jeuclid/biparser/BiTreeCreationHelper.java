@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2009 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
+/* $Id $ */
+
 package net.sourceforge.jeuclid.biparser;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.xml.sax.Attributes;
 
 /**
  * this class if for creating a BiTree with ABiNodes while parsing a text.
- *
+ * 
  * @version $Revision$
  */
 public class BiTreeCreationHelper {
@@ -35,8 +38,7 @@ public class BiTreeCreationHelper {
     private final List<Integer> startPositions;
 
     /**
-     * create a new BiTreeHelper.
-     * get result (tree of ABiNodes) with getRoot()
+     * create a new BiTreeHelper. get result (tree of ABiNodes) with getRoot()
      */
     public BiTreeCreationHelper() {
         this.startPositions = new ArrayList<Integer>();
@@ -44,6 +46,7 @@ public class BiTreeCreationHelper {
 
     /**
      * get root of BiTree.
+     * 
      * @return root of BiTree
      */
     public final IBiNode getRoot() {
@@ -52,15 +55,21 @@ public class BiTreeCreationHelper {
 
     /**
      * create and append a new BiNode at current position in BiTree.
-     * @param totalOffset of node in text
-     * @param childOffset position of first child (length of open tag)
-     * @param namespaceURI namespace
-     * @param eName name of node
-     * @param attrs attributes of node
+     * 
+     * @param totalOffset
+     *            of node in text
+     * @param childOffset
+     *            position of first child (length of open tag)
+     * @param namespaceURI
+     *            namespace
+     * @param eName
+     *            name of node
+     * @param attrs
+     *            attributes of node
      */
-    public final void createBiNode(final int totalOffset, final int childOffset,
-            final String namespaceURI, final String eName,
-            final Attributes attrs) {
+    public final void createBiNode(final int totalOffset,
+            final int childOffset, final String namespaceURI,
+            final String eName, final Attributes attrs) {
 
         BiNode biNode;
 
@@ -87,7 +96,9 @@ public class BiTreeCreationHelper {
 
     /**
      * close BiNode (set length of node).
-     * @param length length of node
+     * 
+     * @param length
+     *            length of node
      */
     public final void closeBiNode(final int length) {
         BiNode parent;
@@ -106,6 +117,7 @@ public class BiTreeCreationHelper {
 
     /**
      * check if currentposition in BiTree allows a TextNode as child.
+     * 
      * @return true if a TextNode is allowed
      */
     public final boolean allowNewTextNode() {
@@ -114,8 +126,11 @@ public class BiTreeCreationHelper {
 
     /**
      * create a new TextNode at current position.
-     * @param length length of TextNode
-     * @param t text of TextNode
+     * 
+     * @param length
+     *            length of TextNode
+     * @param t
+     *            text of TextNode
      */
     public final void createTextNode(final int length, final String t) {
         ((BiNode) this.currentBiNode).addChild(new TextNode(length, t));
@@ -123,7 +138,9 @@ public class BiTreeCreationHelper {
 
     /**
      * create a new EmptyNode at current position in BiTree.
-     * @param length length of EmtpyNode
+     * 
+     * @param length
+     *            length of EmtpyNode
      */
     public final void createEmtpyNode(final int length) {
         // EmptyNode is new root
