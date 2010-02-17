@@ -7,7 +7,7 @@
   <section>
     <title>Webstartable application</title>
 
-    <para>If you have a working Java Webstart (1.5 or newer) set up, you may
+    <para>If you have a working Java Webstart (1.6 or newer) set up, you may
     start the JEuclid MathViewer directly from this page:</para>
 
     <itemizedlist>
