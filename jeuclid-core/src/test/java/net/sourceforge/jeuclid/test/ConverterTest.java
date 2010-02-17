@@ -49,7 +49,8 @@ public class ConverterTest {
             + "<mrow><munderover><mo>&#x0222B;</mo><mn>1</mn><mi>x</mi></munderover>"
             + "<mfrac><mi>dt</mi><mi>t</mi></mfrac></mrow></math>";
 
-    private void testConverterXXX(String ext, String mimeext) throws Exception {
+    private void testConverterXXX(final String ext, final String mimeext)
+            throws Exception {
         final Document doc = MathMLParserSupport
                 .parseString(ConverterTest.TEST1);
         final File outFile = new File(this.getOutDir(), "test1." + ext);
@@ -131,8 +132,8 @@ public class ConverterTest {
         final MutableLayoutContext params = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 25f);
-        Converter.getInstance()
-                .convert(doc, outFile, "application/pdf", params);
+        Converter.getInstance().convert(doc, outFile, "application/pdf",
+                params);
         Assert.assertTrue(outFile.exists(), "PDF file was not created");
         Assert.assertTrue(outFile.length() > 0, "PDF file is empty");
         Assert.assertTrue(outFile.length() > 2048, "PDF file is too small");
@@ -199,8 +200,8 @@ public class ConverterTest {
 
         for (int example = 1; example <= 10; example++) {
             final String exName = "example" + example + ".mml";
-            final File outFile = new File(this.getOutDir(), "example" + example
-                    + ".png");
+            final File outFile = new File(this.getOutDir(), "example"
+                    + example + ".png");
             final Document document = MathBaseTest.loadDocument(exName);
             Converter.getInstance().convert(document, outFile, "image/png",
                     params);
@@ -240,7 +241,7 @@ public class ConverterTest {
     }
 
     /**
-     * Tests if rendered creates a buffered image with alpha values
+     * Tests if rendered creates a buffered image with alpha values.
      * 
      * @throws Exception
      *             if the test fails.
@@ -252,18 +253,18 @@ public class ConverterTest {
         final MutableLayoutContext params = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 25f);
-        BufferedImage bi = Converter.getInstance().render(doc, params);
+        final BufferedImage bi = Converter.getInstance().render(doc, params);
         Assert.assertTrue(bi.getWidth() > 10,
                 "Image Created was not wide enough");
         Assert.assertTrue(bi.getHeight() > 10,
                 "Image Created was not tall enough");
-        int ltpixel = bi.getRGB(0, 0);
+        final int ltpixel = bi.getRGB(0, 0);
         Assert.assertEquals(ltpixel, 0, "Expected Transparent Pixel, got "
                 + ltpixel);
     }
 
     /**
-     * Tests if rendered creates a buffered image for an empty document
+     * Tests if rendered creates a buffered image for an empty document.
      * 
      * @throws Exception
      *             if the test fails.
@@ -274,12 +275,12 @@ public class ConverterTest {
 
         final MutableLayoutContext params = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
-        BufferedImage bi = Converter.getInstance().render(doc, params);
+        final BufferedImage bi = Converter.getInstance().render(doc, params);
         Assert.assertNotNull(bi);
     }
 
     /**
-     * Tests if rendered creates a buffered image without alpha values
+     * Tests if rendered creates a buffered image without alpha values.
      * 
      * @throws Exception
      *             if the test fails.
@@ -291,14 +292,14 @@ public class ConverterTest {
         final MutableLayoutContext params = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 25f);
-        BufferedImage bi = Converter.getInstance().render(doc, params,
+        final BufferedImage bi = Converter.getInstance().render(doc, params,
                 BufferedImage.TYPE_3BYTE_BGR);
         Assert.assertTrue(bi.getWidth() > 10,
                 "Image Created was not wide enough");
         Assert.assertTrue(bi.getHeight() > 10,
                 "Image Created was not tall enough");
-        int ltpixel = bi.getRGB(0, 0);
-        int white = Color.WHITE.getRGB();
+        final int ltpixel = bi.getRGB(0, 0);
+        final int white = Color.WHITE.getRGB();
         Assert.assertEquals(ltpixel, white, "Expected white Pixel (" + white
                 + "), got " + ltpixel);
     }
