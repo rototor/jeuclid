@@ -42,6 +42,8 @@ public class ImageConverterMathML2G2D extends AbstractImageConverter {
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    // Interface is not generic
     public Image convert(final Image src, final Map hints)
             throws ImageException {
         // TODO: Should be checked
