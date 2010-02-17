@@ -24,6 +24,15 @@ package net.sourceforge.jeuclid.app.mathviewer;
  * @version $Revision: $
  */
 public final class Helper {
+
+    private Helper() {
+    }
+
+    /**
+     * Get newline character.
+     * 
+     * @return a newline character.
+     */
     public static String nl() {
         // workaround for some problems with OS dependency
         return "\n";
