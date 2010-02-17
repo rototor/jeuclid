@@ -20,7 +20,7 @@
      <all-permissions/>
   </security>
   <resources>
-    <j2se version="1.5+"/>
+    <j2se version="1.6+"/>
      $dependencies
   </resources>
   <application-desc main-class="$mainClass" />
