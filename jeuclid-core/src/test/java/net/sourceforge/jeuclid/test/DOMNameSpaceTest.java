@@ -29,7 +29,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLDocument;
 
 /**
- * Tests misc DOM Namespace functionality
+ * Tests misc DOM Namespace functionality.
  * 
  * @version $Revision$
  */
@@ -47,8 +47,8 @@ public class DOMNameSpaceTest {
                 .parseString("<math xmlns='http://www.w3.org/1998/Math/MathML'><mn>1</mn></math>");
         Assert.assertEquals(doc.getDocumentElement().getNamespaceURI(),
                 AbstractJEuclidElement.URI);
-        final MathMLDocument jdoc = DOMBuilder.getInstance().createJeuclidDom(
-                doc);
+        final MathMLDocument jdoc = DOMBuilder.getInstance()
+                .createJeuclidDom(doc);
         Assert.assertEquals(jdoc.getDocumentElement().getNamespaceURI(),
                 AbstractJEuclidElement.URI);
     }
@@ -64,14 +64,14 @@ public class DOMNameSpaceTest {
         final Document doc = MathMLParserSupport
                 .parseString("<math><mn>1</mn></math>");
         Assert.assertEquals(doc.getDocumentElement().getNamespaceURI(), null);
-        final MathMLDocument jdoc = DOMBuilder.getInstance().createJeuclidDom(
-                doc);
+        final MathMLDocument jdoc = DOMBuilder.getInstance()
+                .createJeuclidDom(doc);
         Assert.assertEquals(jdoc.getDocumentElement().getNamespaceURI(),
                 AbstractJEuclidElement.URI);
     }
 
     /**
-     * Tests foreign namespaces
+     * Tests foreign namespaces.
      * 
      * @throws Exception
      *             if the test fails.
@@ -81,11 +81,11 @@ public class DOMNameSpaceTest {
         final Document doc = MathMLParserSupport
                 .parseString("<math><f:bla xmlns:f='http://www.atest.org/'>1</f:bla></math>");
         Assert.assertEquals(doc.getDocumentElement().getNamespaceURI(), null);
-        final MathMLDocument jdoc = DOMBuilder.getInstance().createJeuclidDom(
-                doc);
+        final MathMLDocument jdoc = DOMBuilder.getInstance()
+                .createJeuclidDom(doc);
         Assert.assertEquals(jdoc.getDocumentElement().getNamespaceURI(),
                 AbstractJEuclidElement.URI);
-        Node n = jdoc.getDocumentElement().getChildNodes().item(0);
+        final Node n = jdoc.getDocumentElement().getChildNodes().item(0);
         Assert.assertEquals(n.getNamespaceURI(), "http://www.atest.org/");
     }
 
