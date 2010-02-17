@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2009 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.jeuclid.biparser;
 
+/* $Id $ */
+
+package net.sourceforge.jeuclid.biparser;
 import java.io.IOException;
 import java.io.StringReader;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+
 /**
  * this class is creates a SAXParser as singleton.
- *
+ * 
  * @version $Revision$
  */
 public final class SAXBiParser {
@@ -49,6 +54,7 @@ public final class SAXBiParser {
 
     /**
      * get the instance of the SAXParser.
+     * 
      * @return the singleton instance of the SAXParser
      */
     public static SAXBiParser getInstance() {
@@ -57,7 +63,9 @@ public final class SAXBiParser {
 
     /**
      * parse a text with SAXParser.
-     * @param text inputtext to parse
+     * 
+     * @param text
+     *            inputtext to parse
      * @return result BiTree of parsed inputtext
      */
     public BiTree parse(final String text) {
@@ -80,15 +88,15 @@ public final class SAXBiParser {
 
             saxParser = factory.newSAXParser();
             saxParser.parse(inSource, handler);
-        } catch (SAXParseException e) {
+        } catch (final SAXParseException e) {
             tree = null;
-        } catch (ParserConfigurationException e) {
+        } catch (final ParserConfigurationException e) {
             e.printStackTrace();
             tree = null;
-        } catch (SAXException e) {
+        } catch (final SAXException e) {
             e.printStackTrace();
             tree = null;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
             tree = null;
         }

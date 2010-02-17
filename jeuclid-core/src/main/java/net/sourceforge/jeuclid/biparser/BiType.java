@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2009 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
+/* $Id $ */
 
 package net.sourceforge.jeuclid.biparser;
 
 /**
  * different types of BiNode.
- *
- * NODE:    composite node, can have children
- * EMTPY:   no valid text node (e.g. between two open tags)
- * TEXT:    text node
- *
+ * 
+ * NODE: composite node, can have children EMTPY: no valid text node (e.g.
+ * between two open tags) TEXT: text node
+ * 
  * @version $Revision$
  */
 public enum BiType {

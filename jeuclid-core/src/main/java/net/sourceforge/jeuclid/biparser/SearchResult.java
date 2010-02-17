@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2009 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package net.sourceforge.jeuclid.biparser;
+/* $Id $ */
 
+package net.sourceforge.jeuclid.biparser;
 
 /**
  * Tree search result (used for the cursor).
+ * 
  * @version $Revision$
  */
 public class SearchResult {
@@ -35,8 +37,11 @@ public class SearchResult {
 
     /**
      * standard constructor.
-     * @param offset total position index
-     * @param len node length
+     * 
+     * @param offset
+     *            total position index
+     * @param len
+     *            node length
      */
     public SearchResult(final int offset, final int len) {
         this.totalOffset = offset;
@@ -45,6 +50,7 @@ public class SearchResult {
 
     /**
      * gets total offset.
+     * 
      * @return the totalOffset
      */
     public final int getTotalOffset() {
@@ -53,7 +59,9 @@ public class SearchResult {
 
     /**
      * sets total offset.
-     * @param offset the totalOffset to set
+     * 
+     * @param offset
+     *            the totalOffset to set
      */
     public final void setTotalOffset(final int offset) {
         this.totalOffset = offset;
@@ -61,6 +69,7 @@ public class SearchResult {
 
     /**
      * gets length.
+     * 
      * @return the length
      */
     public final int getLength() {
@@ -69,7 +78,9 @@ public class SearchResult {
 
     /**
      * sets length.
-     * @param len the length to set
+     * 
+     * @param len
+     *            the length to set
      */
     public final void setLength(final int len) {
         this.length = len;
@@ -77,6 +88,7 @@ public class SearchResult {
 
     /**
      * gets search result's string representation.
+     * 
      * @return string representation
      */
     @Override

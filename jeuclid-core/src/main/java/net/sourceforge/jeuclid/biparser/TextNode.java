@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2009 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+/* $Id $ */
 
 package net.sourceforge.jeuclid.biparser;
 
@@ -22,9 +23,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 /**
- * this class is used to store specific information about a text node.
- * the node cannot have a child nor a sibling
- *
+ * this class is used to store specific information about a text node. the node
+ * cannot have a child nor a sibling
+ * 
  * @version $Revision$
  */
 public final class TextNode extends AbstractBiNode {
@@ -36,11 +37,13 @@ public final class TextNode extends AbstractBiNode {
     /** ladder #. */
     private final String ladder = "#";
 
-
     /**
      * creates a new TextNode, constructor does not create a DOM-node.
-     * @param length length of child
-     * @param t DOM-info
+     * 
+     * @param length
+     *            length of child
+     * @param t
+     *            DOM-info
      */
     public TextNode(final int length, final String t) {
         this.setLength(length);
@@ -49,43 +52,35 @@ public final class TextNode extends AbstractBiNode {
 
     /**
      * get the type of node.
+     * 
      * @return TEXT
      */
-    @Override
     public BiType getType() {
         return BiType.TEXT;
     }
 
-     /**
-     * insert characters in TextNode, always reparse parent node.
-     * {@inheritDoc}
+    /**
+     * insert characters in TextNode, always reparse parent node. {@inheritDoc}
      */
-    @Override
-    public void insert(final BiTree biTree, final int offset,
-            final int length, final int totalOffset)
-            throws ReparseException {
-        throw new ReparseException();
-    }
-
-     /**
-     * remove characters in TextNode, always reparse parent node.
-     * {@inheritDoc}
-     */
-    @Override
-    public void remove(final BiTree biTree, final int offset,
-            final int length, final int totalOffset)
-            throws ReparseException  {
+    public void insert(final BiTree biTree, final int offset, final int length,
+            final int totalOffset) throws ReparseException {
         throw new ReparseException();
     }
 
     /**
-     * forward insert/remove to sibling not allowed at a TextNode.
-     * {@inheritDoc}
+     * remove characters in TextNode, always reparse parent node. {@inheritDoc}
+     */
+    public void remove(final BiTree biTree, final int offset, final int length,
+            final int totalOffset) throws ReparseException {
+        throw new ReparseException();
+    }
+
+    /**
+     * forward insert/remove to sibling not allowed at a TextNode. {@inheritDoc}
      */
     @Override
-    public void forwardToSibling(final boolean insert,
-            final BiTree biTree, final int offset, final int length,
-            final int totalOffset)
+    public void forwardToSibling(final boolean insert, final BiTree biTree,
+            final int offset, final int length, final int totalOffset)
             throws ReparseException {
         throw new UnsupportedOperationException("forwardToSibling "
                 + "at textnode not allowed");
@@ -93,13 +88,14 @@ public final class TextNode extends AbstractBiNode {
 
     /**
      * get the text of TextNode.
+     * 
      * @return text of TextNode
      */
     public String getText() {
         final String ret;
 
         if (this.text == null) {
-           if (this.getNode() == null) {
+            if (this.getNode() == null) {
                 ret = null;
             } else {
                 ret = this.getNode().getTextContent();
@@ -113,10 +109,11 @@ public final class TextNode extends AbstractBiNode {
 
     /**
      * create a DOM-textnode.
-     * @param doc Document to create DOM-tree
+     * 
+     * @param doc
+     *            Document to create DOM-tree
      * @return DOM-textnode
      */
-    @Override
     public Node createDOMSubtree(final Document doc) {
         Text textNode;
 
@@ -146,7 +143,7 @@ public final class TextNode extends AbstractBiNode {
         return sb.toString();
     }
 
-    @Override
+    /** {@inheritDoc} */
     public String toString(final int level) {
         final StringBuffer sb = new StringBuffer();
 

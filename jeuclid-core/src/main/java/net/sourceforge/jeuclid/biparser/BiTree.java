@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2009 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
+/* $Id $ */
 
 package net.sourceforge.jeuclid.biparser;
 
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
  * this class if for creating a BiTree with ABiNodes while parsing a text.
- *
+ * 
  * @version $Revision$
  */
 public class BiTree {
@@ -60,7 +62,9 @@ public class BiTree {
 
     /**
      * create a dom tree from bitree and return root.
-     * @param d document to create DOM tree
+     * 
+     * @param d
+     *            document to create DOM tree
      * @return root of DOM tree
      */
     public final Node getDOMTree(final Document d) {
@@ -77,6 +81,7 @@ public class BiTree {
 
     /**
      * get root of BiTree.
+     * 
      * @return root of BiTree
      */
     public final IBiNode getRoot() {
@@ -85,33 +90,45 @@ public class BiTree {
 
     /**
      * insert characters into BiTree.
-     * @param offset insert position in text
-     * @param length number of characters to insert
-     * @param t text where characters were inserted
-     * @throws ReparseException if a sax parse exception occurs
+     * 
+     * @param offset
+     *            insert position in text
+     * @param length
+     *            number of characters to insert
+     * @param t
+     *            text where characters were inserted
+     * @throws ReparseException
+     *             if a sax parse exception occurs
      */
-    public final void insert(final int offset, final int length,
-            final String t) throws ReparseException {
+    public final void insert(final int offset, final int length, final String t)
+            throws ReparseException {
         this.text = t;
         this.root.insert(this, offset, length, 0);
     }
 
     /**
      * remove characters from BiTree.
-     * @param offset remove position in text
-     * @param length number of characters to remove
-     * @param t text where characters were removed
-     * @throws ReparseException if a sax parse exception occurs
+     * 
+     * @param offset
+     *            remove position in text
+     * @param length
+     *            number of characters to remove
+     * @param t
+     *            text where characters were removed
+     * @throws ReparseException
+     *             if a sax parse exception occurs
      */
-    public final void remove(final int offset, final int length,
-            final String t) throws ReparseException {
+    public final void remove(final int offset, final int length, final String t)
+            throws ReparseException {
         this.text = t;
         this.root.remove(this, offset, length, 0);
     }
 
     /**
      * set a new root in BiTree.
-     * @param r new root of BiTree
+     * 
+     * @param r
+     *            new root of BiTree
      */
     public final void setRoot(final IBiNode r) {
 
@@ -126,6 +143,7 @@ public class BiTree {
 
     /**
      * get text of BiTree.
+     * 
      * @return text of BiTree
      */
     public String getText() {
@@ -134,6 +152,7 @@ public class BiTree {
 
     /**
      * get document of DOM Tree.
+     * 
      * @return document of DOM Tree
      */
     public Node getDocument() {
@@ -141,9 +160,11 @@ public class BiTree {
     }
 
     /**
-     * search a DOM node in BiTree and return position of node.
-     * if node is not found return null
-     * @param node DOM node to search for
+     * search a DOM node in BiTree and return position of node. if node is not
+     * found return null
+     * 
+     * @param node
+     *            DOM node to search for
      * @return search result of node in inputtext
      */
     public SearchResult searchNode(final Node node) {
@@ -156,6 +177,7 @@ public class BiTree {
 
     /**
      * get a formatted output of BiTree.
+     * 
      * @return formatted output of BiTree
      */
     @Override
@@ -169,6 +191,7 @@ public class BiTree {
 
     /**
      * get formatted output of DOM Tree (for debugging).
+     * 
      * @return formatted ouput of DOM Tree
      */
     public String toStringDOM() {

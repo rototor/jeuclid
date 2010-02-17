@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
+ * Copyright 2009 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
+/* $Id $ */
+
 package net.sourceforge.jeuclid.swing;
 
 import net.sourceforge.jeuclid.biparser.SearchResult;
 
-
 /**
  * A simple cursor listener for updating the editor's cursor position.
+ * 
+ * @version $Revision: $
  */
 public interface CursorListener {
     /**
      * updates cursor position from given search result.
-     * @param result search result
+     * 
+     * @param result
+     *            search result
      */
     void updateCursorPosition(final SearchResult result);
 }
