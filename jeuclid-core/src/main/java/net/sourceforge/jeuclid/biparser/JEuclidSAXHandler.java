@@ -20,6 +20,8 @@ package net.sourceforge.jeuclid.biparser;
 
 import java.io.StringReader;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
@@ -34,6 +36,12 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  */
 public class JEuclidSAXHandler extends DefaultHandler {
+
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory
+            .getLog(JEuclidSAXHandler.class);
 
     /** stores characters while parsing (text of TextNodes). */
     private StringBuffer textBuffer;
@@ -107,8 +115,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
      */
     @Override
     public final void startDocument() {
-        this.debug("SAX start document, length=" + this.content.length()
-                + this.nl());
+        LOGGER.debug("SAX start document, length=" + this.content.length());
     }
 
     /**
@@ -120,7 +127,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
     @Override
     public final void endDocument() throws SAXException {
         this.tree.setRoot(this.treeHelper.getRoot());
-        this.debug("SAX end document" + this.nl());
+        LOGGER.debug("SAX end document");
     }
 
     /**
@@ -166,14 +173,14 @@ public class JEuclidSAXHandler extends DefaultHandler {
             length = this.textBuffer.length();
         }
 
-        this.debug("tag-start=" + startPosition + " tag-end=" + this.position
+        LOGGER.debug("tag-start=" + startPosition + " tag-end=" + this.position
                 + " buffer=" + (startPosition - this.previousPosition)
-                + " textbuffer=" + length + this.nl());
+                + " textbuffer=" + length);
 
         // create a EmptyNode if text is before this element
         if (startPosition - this.previousPosition > 0) {
-            this.debug("empty length="
-                    + (startPosition - this.previousPosition) + this.nl());
+            LOGGER.debug("empty length="
+                    + (startPosition - this.previousPosition));
 
             this.treeHelper.createEmtpyNode(startPosition
                     - this.previousPosition);
@@ -228,7 +235,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
             this.treeHelper.createTextNode(textLength, text);
             this.textBuffer = null;
 
-            this.debug(apo + text.replaceAll(this.nl(), "#") + apo + this.nl());
+            LOGGER.debug(apo + text.replaceAll(this.nl(), "#") + apo);
 
         } else if (!this.treeHelper.allowNewTextNode() && (textLength > 0)) {
             // or create a new EmptyNode
@@ -278,7 +285,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
         this.previousPosition = this.position;
 
-        this.debug("old line=" + this.lastLine);
+        LOGGER.debug("old line=" + this.lastLine);
         for (l = this.lastLine; l < line; l = l + 1) {
             this.position = 1 + this.content.indexOf(this.nl(), this.position);
             // System.out.println(" position = " + position + " ");
@@ -295,9 +302,8 @@ public class JEuclidSAXHandler extends DefaultHandler {
 
         this.lastLine = line;
         this.lastColumn = column;
-        this.debug(" - new line=" + this.lastLine + " - old pos="
-                + this.previousPosition + " new pos=" + this.position
-                + this.nl());
+        LOGGER.debug(" - new line=" + this.lastLine + " - old pos="
+                + this.previousPosition + " new pos=" + this.position);
     }
 
     /**
@@ -352,24 +358,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
         sb.append('>');
         sb.append(this.nl());
 
-        this.debug(sb.toString());
-    }
-
-    /**
-     * output a debug message if debugging is enabled.
-     * 
-     * @param message
-     *            string to ouput
-     */
-    private void debug(final String message) {
-        final boolean debug = false;
-
-        if (!debug) {
-            return;
-        }
-
-        System.out.print(message);
-        System.out.flush();
+        LOGGER.debug(sb.toString());
     }
 
     /**
