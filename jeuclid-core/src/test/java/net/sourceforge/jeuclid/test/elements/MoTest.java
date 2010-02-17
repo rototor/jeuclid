@@ -27,7 +27,6 @@ import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.mathml.MathMLDocument;
 import org.w3c.dom.mathml.MathMLMathElement;
-import org.w3c.dom.mathml.MathMLOperatorElement;
 
 /**
  * Various tests for the MO Element.
