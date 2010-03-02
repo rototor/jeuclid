@@ -1,6 +1,4 @@
 <?xml version="1.0"?>
-<math xmlns="http://www.w3.org/1998/Math/MathML" 
-      xmlns:jeuclid="http://jeuclid.sf.net/ns/context" 
-      jeuclid:fontSize="24">
-<mtext>Larger sample</mtext>
+<math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:jeuclid="http://jeuclid.sf.net/ns/context" jeuclid:fontSize="24">
+  <mtext>Larger sample</mtext>
 </math>
