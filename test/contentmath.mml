@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
   <apply>
-    <times />
+    <times/>
     <apply id="aplusb">
-      <plus />
+      <plus/>
       <ci>a</ci>
       <ci>b</ci>
     </apply>
     <apply>
-      <plus />
+      <plus/>
       <ci>c</ci>
       <ci>d</ci>
     </apply>
