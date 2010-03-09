@@ -22,8 +22,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-import net.sourceforge.jeuclid.biparser.BiTree;
-import net.sourceforge.jeuclid.biparser.SearchResult;
 import net.sourceforge.jeuclid.layout.JEuclidView.NodeRect;
 
 import org.w3c.dom.Node;
@@ -60,12 +58,10 @@ public class JMathComponentMouseListener implements MouseListener {
     public final void mouseClicked(final MouseEvent e) {
         final MathComponentUI ui = this.mathComponent.getUI();
         final List<NodeRect> rectList = ui.getNodesAt(e.getX(), e.getY());
-        if ((rectList != null) && (rectList.size() > 0)) {
-            final BiTree tree = this.mathComponent.getBiTree();
+        if (rectList != null && rectList.size() > 0) {
             final Node lastNode = rectList.get(rectList.size() - 1).getNode();
-            final SearchResult result = tree.searchNode(lastNode);
-
-            this.mathComponent.getCursorListener().updateCursorPosition(result);
+            this.mathComponent.getCursorListener().updateCursorPosition(
+                    lastNode);
         }
     }
 
