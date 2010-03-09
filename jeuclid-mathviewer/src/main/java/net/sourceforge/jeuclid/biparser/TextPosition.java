@@ -23,7 +23,7 @@ package net.sourceforge.jeuclid.biparser;
  * 
  * @version $Revision$
  */
-public class SearchResult {
+public class TextPosition {
 
     /**
      * total position index (offset).
@@ -43,7 +43,7 @@ public class SearchResult {
      * @param len
      *            node length
      */
-    public SearchResult(final int offset, final int len) {
+    public TextPosition(final int offset, final int len) {
         this.totalOffset = offset;
         this.length = len;
     }

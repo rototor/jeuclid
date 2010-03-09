@@ -67,8 +67,8 @@ public interface IBiNode {
     void setSibling(final IBiNode sibl);
 
     /**
-     * add sibling to a node, not possible at a textnode. if node already has a
-     * sibling, forward to sibling.
+     * add sibling to a node, not possible at a textnode. if node already has
+     * a sibling, forward to sibling.
      * 
      * @param sibl
      *            new sibling for this node
@@ -186,8 +186,8 @@ public interface IBiNode {
     Node createDOMSubtree(Document doc);
 
     /**
-     * search a DOM node in this node. if nodes are equal return offset to begin
-     * of inputtext, else null
+     * search a DOM node in this node. if nodes are equal return offset to
+     * begin of inputtext, else null
      * 
      * @param n
      *            DOM node to search for
@@ -195,7 +195,7 @@ public interface IBiNode {
      *            offset of node to begin of inputtext
      * @return position of node in inputtext
      */
-    SearchResult searchNode(final Node n, final int totalOffset);
+    TextPosition searchNode(final Node n, final int totalOffset);
 
     /**
      * print biNode.

@@ -47,7 +47,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import net.sourceforge.jeuclid.MathMLSerializer;
-import net.sourceforge.jeuclid.biparser.SearchResult;
+import net.sourceforge.jeuclid.biparser.BiTree;
+import net.sourceforge.jeuclid.biparser.ReparseException;
+import net.sourceforge.jeuclid.biparser.SAXBiParser;
+import net.sourceforge.jeuclid.biparser.TextPosition;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.swing.CursorListener;
@@ -57,6 +60,7 @@ import org.apache.batik.util.gui.xmleditor.XMLContext;
 import org.apache.batik.util.gui.xmleditor.XMLEditorKit;
 import org.apache.batik.util.gui.xmleditor.XMLTextEditor;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * Main frame for the MathViewer application.
@@ -116,6 +120,8 @@ public class MainFrame extends JFrame implements CursorListener {
     private XMLTextEditor xmlEditor;
 
     private JMathComponent mathComponent;
+
+    private BiTree biTree;
 
     private JMenu viewMenu;
 
@@ -180,7 +186,8 @@ public class MainFrame extends JFrame implements CursorListener {
     }
 
     @Override
-    public void updateCursorPosition(final SearchResult result) {
+    public void updateCursorPosition(final Node node) {
+        final TextPosition result = this.biTree.searchNode(node);
         if (result != null
                 && result.getTotalOffset() < this.getXMLEditor().getText()
                         .length()) {
@@ -483,6 +490,15 @@ public class MainFrame extends JFrame implements CursorListener {
         return this.splitPane;
     }
 
+    private void setText(final String text) {
+        this.xmlEditor.setText(text);
+        this.biTree = SAXBiParser.getInstance().parse(text);
+        if (this.biTree != null) {
+            this.biTree.createDOMTree();
+            this.mathComponent.setDocument(this.biTree.getDocument());
+        }
+    }
+
     /**
      * This method initializes xmlEditor
      * 
@@ -497,25 +513,22 @@ public class MainFrame extends JFrame implements CursorListener {
              * "<math xmlns='http://www.w3.org/1998/Math/MathML'>" +
              * Helper.nl() + "</math>");
              */
-            this.xmlEditor
-                    .setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                            + Helper.nl()
-                            // DOCTYPE for W3C compliance obviously not
-                            // supported
-                            // +
-                            // "<!DOCTYPE math PUBLIC -//W3C//DTD MathML 2.0//EN' "
-                            // +
-                            // "'http://www.w3.org/Math/DTD/mathml2/mathml2.dtd'>"
-                            // + Helper.nl()
-                            + "<math xmlns='http://www.w3.org/1998/Math/MathML'>"
-                            + Helper.nl() + "<mrow>" + Helper.nl()
-                            + "<mi>a</mi>" + Helper.nl()
-                            + "<msup><mi>x</mi><mn>2</mn></msup>"
-                            + Helper.nl() + "<mo>+</mo><mi>b</mi>"
-                            + Helper.nl() + "<mi>x</mi><mo>+</mo><mi>c</mi>"
-                            + Helper.nl() + "<mo>=</mo><mo>0</mo>"
-                            + Helper.nl() + "</mrow>" + Helper.nl()
-                            + "</math>");
+            this.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                    + Helper.nl()
+                    // DOCTYPE for W3C compliance obviously not
+                    // supported
+                    // +
+                    // "<!DOCTYPE math PUBLIC -//W3C//DTD MathML 2.0//EN' "
+                    // +
+                    // "'http://www.w3.org/Math/DTD/mathml2/mathml2.dtd'>"
+                    // + Helper.nl()
+                    + "<math xmlns='http://www.w3.org/1998/Math/MathML'>"
+                    + Helper.nl() + "<mrow>" + Helper.nl() + "<mi>a</mi>"
+                    + Helper.nl() + "<msup><mi>x</mi><mn>2</mn></msup>"
+                    + Helper.nl() + "<mo>+</mo><mi>b</mi>" + Helper.nl()
+                    + "<mi>x</mi><mo>+</mo><mi>c</mi>" + Helper.nl()
+                    + "<mo>=</mo><mo>0</mo>" + Helper.nl() + "</mrow>"
+                    + Helper.nl() + "</math>");
 
             this.xmlEditor.setEditable(true);
             this.xmlEditor.setComponentPopupMenu(this.getContextPopupMenu());
@@ -536,7 +549,7 @@ public class MainFrame extends JFrame implements CursorListener {
                             MainFrame.this.updateFromTextArea(documentevent);
                         }
                     });
-            this.updateFromTextArea();
+            // this.updateFromTextArea();
         }
 
         return this.xmlEditor;
@@ -549,10 +562,56 @@ public class MainFrame extends JFrame implements CursorListener {
         return text.replace("\r\n", "\n");
     }
 
+    /**
+     * Set the content from a String containing the MathML content.
+     * 
+     * @param text
+     *            the content to set.
+     * @param documentEvent
+     *            documentEvent which triggered the change.
+     */
+    private void setContent(final DocumentEvent documentEvent,
+            final String text) {
+        DocumentEvent.EventType type;
+        if (this.biTree == null || this.biTree.getRoot() == null) {
+            this.getMathComponent().setContent(text);
+        } else {
+
+            type = documentEvent.getType();
+
+            if (type == DocumentEvent.EventType.INSERT) {
+                try {
+                    this.biTree.insert(documentEvent.getOffset(),
+                            documentEvent.getLength(), text);
+                } catch (final ReparseException ex) {
+                    this.getMathComponent().setContent(text);
+                }
+            } else if (type == DocumentEvent.EventType.REMOVE) {
+                try {
+                    this.biTree.remove(documentEvent.getOffset(),
+                            documentEvent.getLength(), text);
+                } catch (final ReparseException ex) {
+                    this.getMathComponent().setContent(text);
+                }
+            } else {
+                // Other types of events are unsupported.
+                this.getMathComponent().setContent(text);
+            }
+
+            // if ((this.biTree != null) && (this.biTree.getDocument() !=
+            // null)) {
+            // this.setDocument(this.biTree.getDocument());
+            // JMathComponent.LOGGER.debug(this.biTree);
+            // }
+            this.getMathComponent().revalidate();
+            this.getMathComponent().repaint();
+        }
+    }
+
     private void updateFromTextArea(final DocumentEvent documentevent) {
         try {
             final String txt = this.normalize(this.getXMLEditor().getText());
-            this.getMathComponent().setContent(documentevent, txt);
+            this.setContent(documentevent, txt);
 
             // CHECKSTYLE:OFF
             // in this case, we want to explicitly provide catch-all error
@@ -565,7 +624,7 @@ public class MainFrame extends JFrame implements CursorListener {
     private void updateFromTextArea() {
         try {
             final String txt = this.normalize(this.getXMLEditor().getText());
-            this.getMathComponent().setContent(txt);
+            this.setText(txt);
 
             // CHECKSTYLE:OFF
             // in this case, we want to explicitly provide catch-all error

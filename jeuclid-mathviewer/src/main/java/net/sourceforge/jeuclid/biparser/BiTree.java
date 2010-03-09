@@ -33,8 +33,10 @@ public class BiTree {
 
     /** document (DOM-tree). */
     private Document doc;
+
     /** root of tree. */
     private IBiNode root;
+
     /** text of tree. */
     private String text;
 
@@ -100,8 +102,8 @@ public class BiTree {
      * @throws ReparseException
      *             if a sax parse exception occurs
      */
-    public final void insert(final int offset, final int length, final String t)
-            throws ReparseException {
+    public final void insert(final int offset, final int length,
+            final String t) throws ReparseException {
         this.text = t;
         this.root.insert(this, offset, length, 0);
     }
@@ -118,8 +120,8 @@ public class BiTree {
      * @throws ReparseException
      *             if a sax parse exception occurs
      */
-    public final void remove(final int offset, final int length, final String t)
-            throws ReparseException {
+    public final void remove(final int offset, final int length,
+            final String t) throws ReparseException {
         this.text = t;
         this.root.remove(this, offset, length, 0);
     }
@@ -167,7 +169,7 @@ public class BiTree {
      *            DOM node to search for
      * @return search result of node in inputtext
      */
-    public SearchResult searchNode(final Node node) {
+    public TextPosition searchNode(final Node node) {
         if (this.root == null) {
             return null;
         } else {
@@ -212,7 +214,7 @@ public class BiTree {
         }
 
         sb.append(" ");
-        if (n.getNodeType() == 3) {
+        if (n.getNodeType() == Node.TEXT_NODE) {
             sb.append(n.getTextContent());
         } else {
             sb.append(n.getNodeName());

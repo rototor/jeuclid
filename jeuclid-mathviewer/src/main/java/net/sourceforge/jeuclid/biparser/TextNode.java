@@ -23,8 +23,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 /**
- * this class is used to store specific information about a text node. the node
- * cannot have a child nor a sibling
+ * this class is used to store specific information about a text node. the
+ * node cannot have a child nor a sibling
  * 
  * @version $Revision$
  */
@@ -32,8 +32,10 @@ public final class TextNode extends AbstractBiNode {
 
     /** DOM-info: text of node. */
     private String text;
+
     /** new line. */
     private final String nl = System.getProperty("line.separator");
+
     /** ladder #. */
     private final String ladder = "#";
 
@@ -60,23 +62,26 @@ public final class TextNode extends AbstractBiNode {
     }
 
     /**
-     * insert characters in TextNode, always reparse parent node. {@inheritDoc}
+     * insert characters in TextNode, always reparse parent node.
+     * {@inheritDoc}
      */
-    public void insert(final BiTree biTree, final int offset, final int length,
-            final int totalOffset) throws ReparseException {
+    public void insert(final BiTree biTree, final int offset,
+            final int length, final int totalOffset) throws ReparseException {
         throw new ReparseException();
     }
 
     /**
-     * remove characters in TextNode, always reparse parent node. {@inheritDoc}
+     * remove characters in TextNode, always reparse parent node.
+     * {@inheritDoc}
      */
-    public void remove(final BiTree biTree, final int offset, final int length,
-            final int totalOffset) throws ReparseException {
+    public void remove(final BiTree biTree, final int offset,
+            final int length, final int totalOffset) throws ReparseException {
         throw new ReparseException();
     }
 
     /**
-     * forward insert/remove to sibling not allowed at a TextNode. {@inheritDoc}
+     * forward insert/remove to sibling not allowed at a TextNode.
+     * {@inheritDoc}
      */
     @Override
     public void forwardToSibling(final boolean insert, final BiTree biTree,
@@ -126,7 +131,7 @@ public final class TextNode extends AbstractBiNode {
 
     /** {@inheritDoc} */
     @Override
-    public SearchResult searchNode(final Node node, final int totalOffset) {
+    public TextPosition searchNode(final Node node, final int totalOffset) {
         return super.searchNode(node, totalOffset);
     }
 

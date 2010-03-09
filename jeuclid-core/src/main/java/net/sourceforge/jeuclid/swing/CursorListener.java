@@ -18,7 +18,7 @@
 
 package net.sourceforge.jeuclid.swing;
 
-import net.sourceforge.jeuclid.biparser.SearchResult;
+import org.w3c.dom.Node;
 
 /**
  * A simple cursor listener for updating the editor's cursor position.
@@ -29,8 +29,8 @@ public interface CursorListener {
     /**
      * updates cursor position from given search result.
      * 
-     * @param result
-     *            search result
+     * @param node
+     *            the node a user clicked on.
      */
-    void updateCursorPosition(final SearchResult result);
+    void updateCursorPosition(final Node node);
 }

@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.swing;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,13 +30,11 @@ import java.util.Map;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.event.DocumentEvent;
+import javax.xml.parsers.ParserConfigurationException;
 
+import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.MutableLayoutContext;
-import net.sourceforge.jeuclid.biparser.BiTree;
-import net.sourceforge.jeuclid.biparser.ReparseException;
-import net.sourceforge.jeuclid.biparser.SAXBiParser;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
@@ -44,6 +43,7 @@ import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  * Displays MathML content in a Swing Component.
@@ -65,7 +65,8 @@ import org.w3c.dom.Node;
  * @see net.sourceforge.jeuclid.awt.MathComponent
  * @version $Revision$
  */
-public final class JMathComponent extends JComponent implements SwingConstants {
+public final class JMathComponent extends JComponent implements
+        SwingConstants {
 
     private static final String FONT_SEPARATOR = ",";
 
@@ -82,8 +83,6 @@ public final class JMathComponent extends JComponent implements SwingConstants {
     private static Class<?> mathComponentUIClass;
 
     private Node document;
-
-    private BiTree biTree;
 
     private int horizontalAlignment = SwingConstants.CENTER;
 
@@ -142,20 +141,11 @@ public final class JMathComponent extends JComponent implements SwingConstants {
     }
 
     /**
-     * gets tree instance.
-     * 
-     * @return tree instance
-     */
-    public BiTree getBiTree() {
-        return this.biTree;
-    }
-
-    /**
      * Tries to return the content as a String.
      * <p>
      * This transforms the internal DOM tree back into a string, which may is
-     * not guaranteed to be the literally same as the original content. However,
-     * it will represent the same XML document.
+     * not guaranteed to be the literally same as the original content.
+     * However, it will represent the same XML document.
      * 
      * @return the content string.
      */
@@ -187,7 +177,8 @@ public final class JMathComponent extends JComponent implements SwingConstants {
 
     /**
      * Font list for Doublestruck. Please see
-     * {@link Parameter#FontsDoublestruck} for an explanation of this parameter.
+     * {@link Parameter#FontsDoublestruck} for an explanation of this
+     * parameter.
      * 
      * @return The list for Doublestruck.
      * @see Parameter#FontsDoublestruck
@@ -232,8 +223,8 @@ public final class JMathComponent extends JComponent implements SwingConstants {
     }
 
     /**
-     * Font list for Sans-Serif. Please see {@link Parameter#FontsSanserif} for
-     * an explanation of this parameter.
+     * Font list for Sans-Serif. Please see {@link Parameter#FontsSanserif}
+     * for an explanation of this parameter.
      * 
      * @return The list for sansserif.
      * @see Parameter#FontsSanserif
@@ -320,8 +311,8 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      * Vertical alignment, as defined by
      * {@link javax.swing.JLabel#getVerticalAlignment()}.
      * <p>
-     * Supported are: {@link SwingConstants#TOP}, {@link SwingConstants#CENTER},
-     * {@link SwingConstants#BOTTOM}.
+     * Supported are: {@link SwingConstants#TOP},
+     * {@link SwingConstants#CENTER}, {@link SwingConstants#BOTTOM}.
      * 
      * @return the verticalAlignment
      * @see javax.swing.JLabel#getVerticalAlignment()
@@ -349,57 +340,16 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      *            the content to set.
      */
     public void setContent(final String contentString) {
-        this.biTree = SAXBiParser.getInstance().parse(contentString);
-
-        // parse finished
-        if (this.biTree != null) {
-            this.biTree.createDOMTree(); // create DOM tree
-            this.setDocument(this.biTree.getDocument());
-            JMathComponent.LOGGER.debug(this.biTree);
+        try {
+            this.setDocument(MathMLParserSupport.parseString(contentString));
+        } catch (final SAXException e) {
+            throw new IllegalArgumentException(e);
+        } catch (final ParserConfigurationException e) {
+            throw new IllegalArgumentException(e);
+        } catch (final IOException e) {
+            throw new IllegalArgumentException(e);
         }
-    }
 
-    /**
-     * Set the content from a String containing the MathML content.
-     * 
-     * @param text
-     *            the content to set.
-     * @param documentEvent
-     *            documentEvent which triggered the change.
-     */
-    public void setContent(final DocumentEvent documentEvent, final String text) {
-        DocumentEvent.EventType type;
-        if ((this.biTree == null) || (this.biTree.getRoot() == null)) {
-            this.setContent(text);
-        } else {
-
-            type = documentEvent.getType();
-
-            if (type == DocumentEvent.EventType.INSERT) {
-                try {
-                    this.biTree.insert(documentEvent.getOffset(), documentEvent
-                            .getLength(), text);
-                } catch (final ReparseException ex) {
-                    this.setContent(text);
-                }
-            } else if (type == DocumentEvent.EventType.REMOVE) {
-                try {
-                    this.biTree.remove(documentEvent.getOffset(), documentEvent
-                            .getLength(), text);
-                } catch (final ReparseException ex) {
-                    this.setContent(text);
-                }
-            } else {
-
-                // change event ????
-                throw new RuntimeException("change event.............");
-            }
-
-            if ((this.biTree != null) && (this.biTree.getDocument() != null)) {
-                this.setDocument(this.biTree.getDocument());
-                JMathComponent.LOGGER.debug(this.biTree);
-            }
-        }
     }
 
     /**
@@ -420,10 +370,10 @@ public final class JMathComponent extends JComponent implements SwingConstants {
         final Node oldValue = this.document;
         this.firePropertyChange("document", oldValue, doc);
         this.document = doc;
-        // if (doc != oldValue) {
-        this.revalidate();
-        this.repaint();
-        // }
+        if (doc != oldValue) {
+            this.revalidate();
+            this.repaint();
+        }
     }
 
     /**
@@ -468,8 +418,8 @@ public final class JMathComponent extends JComponent implements SwingConstants {
     }
 
     /**
-     * Font list for Fraktur. Please see {@link Parameter#FONTS_FRAKTUR} for an
-     * explanation of this parameter.
+     * Font list for Fraktur. Please see {@link Parameter#FONTS_FRAKTUR} for
+     * an explanation of this parameter.
      * 
      * @param newFonts
      *            new list for Fraktur (comma seraparated).
@@ -528,9 +478,8 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      * @see Parameter#FONTS_MONOSPACED
      */
     public void setFontsMonospaced(final String newFonts) {
-        this
-                .setParameter(Parameter.FONTS_MONOSPACED, this
-                        .splitFonts(newFonts));
+        this.setParameter(Parameter.FONTS_MONOSPACED, this
+                .splitFonts(newFonts));
     }
 
     /**
@@ -542,7 +491,8 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      * @see Parameter#FONTS_SANSSERIF
      */
     public void setFontsSanserif(final String newFonts) {
-        this.setParameter(Parameter.FONTS_SANSSERIF, this.splitFonts(newFonts));
+        this.setParameter(Parameter.FONTS_SANSSERIF, this
+                .splitFonts(newFonts));
     }
 
     /**
@@ -604,8 +554,8 @@ public final class JMathComponent extends JComponent implements SwingConstants {
      * Vertical alignment, as defined by
      * {@link javax.swing.JLabel#setVerticalAlignment(int)}.
      * <p>
-     * Supported are: {@link SwingConstants#TOP}, {@link SwingConstants#CENTER},
-     * {@link SwingConstants#BOTTOM}.
+     * Supported are: {@link SwingConstants#TOP},
+     * {@link SwingConstants#CENTER}, {@link SwingConstants#BOTTOM}.
      * 
      * @param vAlignment
      *            the verticalAlignment to set

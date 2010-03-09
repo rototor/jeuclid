@@ -22,8 +22,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
- * this class is used to store specific information about a empty node. the node
- * cannot have children, but a sibling
+ * this class is used to store specific information about a empty node. the
+ * node cannot have children, but a sibling
  * 
  * @version $Revision$
  */
@@ -53,8 +53,8 @@ public final class EmptyNode extends AbstractBiNode {
      * else change length of EmptyNode
      * {@inheritDoc}
      */
-    public void insert(final BiTree biTree, final int offset, final int length,
-            final int totalOffset) throws ReparseException {
+    public void insert(final BiTree biTree, final int offset,
+            final int length, final int totalOffset) throws ReparseException {
         int position;
         String insert;
 
@@ -82,17 +82,18 @@ public final class EmptyNode extends AbstractBiNode {
     }
 
     /**
-     * remove characters from EmptyNode, reparse if length gets 0. {@inheritDoc}
+     * remove characters from EmptyNode, reparse if length gets 0.
+     * {@inheritDoc}
      */
-    public void remove(final BiTree biTree, final int offset, final int length,
-            final int totalOffset) throws ReparseException {
+    public void remove(final BiTree biTree, final int offset,
+            final int length, final int totalOffset) throws ReparseException {
         // System.out.println("remove " + toString() + " offset=" +
         // offset + " length=" + length);
 
         // start position in this node
         if (offset <= this.getLength()) {
 
-            if ((offset == 0) && (length >= this.getLength())) {
+            if (offset == 0 && length >= this.getLength()) {
                 // remove this node
                 throw new ReparseException();
 
@@ -108,7 +109,8 @@ public final class EmptyNode extends AbstractBiNode {
 
                     // forward remainder to sibling
                     this.forwardToSibling(false, biTree, 0, offset + length
-                            - this.getLength(), totalOffset + this.getLength());
+                            - this.getLength(), totalOffset
+                            + this.getLength());
                 }
             }
         } else {
@@ -131,7 +133,7 @@ public final class EmptyNode extends AbstractBiNode {
 
     /** {@inheritDoc} */
     @Override
-    public SearchResult searchNode(final Node node, final int totalOffset) {
+    public TextPosition searchNode(final Node node, final int totalOffset) {
         // forward to sibling
         if (this.getSibling() != null) {
             return this.getSibling().searchNode(node,

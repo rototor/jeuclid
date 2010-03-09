@@ -30,10 +30,13 @@ public abstract class AbstractBiNode implements IBiNode {
 
     /** previous node, null if node is root. */
     private IBiNode previous;
+
     /** sibling node, can be null. */
     private IBiNode sibling;
+
     /** reference to node in DOM-tree. */
     private Node node;
+
     /** length of node in characters. */
     private int length;
 
@@ -63,7 +66,7 @@ public abstract class AbstractBiNode implements IBiNode {
      */
     public final BiNode getParent() {
         // check if previous isn't a "real parent"
-        if ((this.previous != null) && (this.previous.getSibling() == this)) {
+        if (this.previous != null && this.previous.getSibling() == this) {
             return this.previous.getParent();
         } else {
             // previous is "real parent" or null
@@ -95,8 +98,8 @@ public abstract class AbstractBiNode implements IBiNode {
     }
 
     /**
-     * add sibling to a node, not possible at a textnode. if node already has a
-     * sibling, forward to sibling.
+     * add sibling to a node, not possible at a textnode. if node already has
+     * a sibling, forward to sibling.
      * 
      * @param sibl
      *            new sibling for this node
@@ -200,8 +203,8 @@ public abstract class AbstractBiNode implements IBiNode {
     }
 
     /**
-     * search a DOM node in this node. if nodes are equal return offset to begin
-     * of inputtext, else null
+     * search a DOM node in this node. if nodes are equal return offset to
+     * begin of inputtext, else null
      * 
      * @param n
      *            DOM node to search for
@@ -209,9 +212,9 @@ public abstract class AbstractBiNode implements IBiNode {
      *            offset of node to begin of inputtext
      * @return position of node in inputtext
      */
-    public SearchResult searchNode(final Node n, final int totalOffset) {
-        if ((this.node != null) && this.node.equals(n)) {
-            return new SearchResult(totalOffset, this.length);
+    public TextPosition searchNode(final Node n, final int totalOffset) {
+        if (this.node != null && this.node.equals(n)) {
+            return new TextPosition(totalOffset, this.length);
         }
 
         return null;
@@ -227,10 +230,9 @@ public abstract class AbstractBiNode implements IBiNode {
         final int max = 3;
         final StringBuffer sb = new StringBuffer();
 
-        for (i = 1; (i <= max)
-                && (1 > this.getLength() / (Math.pow(10, max - i))); i++) {
+        for (i = 1; i <= max && 1 > this.getLength() / Math.pow(10, max - i); i++) {
 
-            if ((i == 1) && (this.getLength() == 0)) {
+            if (i == 1 && this.getLength() == 0) {
                 continue;
             }
             sb.append(' ');
