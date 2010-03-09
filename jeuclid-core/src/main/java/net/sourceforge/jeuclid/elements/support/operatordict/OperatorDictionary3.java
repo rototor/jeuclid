@@ -60,6 +60,22 @@ public final class OperatorDictionary3 extends AbstractOperatorDictionary
 
     private static final String NO_SPACE = "0em";
 
+    private static final int INT_NO_SPACE = 0;
+
+    private static final int INT_VERYVERYTHINMATHSPACE = 1;
+
+    private static final int INT_VERYTHINMATHSPACE = 2;
+
+    private static final int INT_THINMATHSPACE = 3;
+
+    private static final int INT_MEDIUMMATHSPACE = 4;
+
+    private static final int INT_THICKMATHSPACE = 5;
+
+    private static final int INT_VERYTHICKMATHSPACE = 6;
+
+    private static final int INT_VERYVERYTHICKMATHSPACE = 7;
+
     /**
      * 
      */
@@ -169,11 +185,13 @@ public final class OperatorDictionary3 extends AbstractOperatorDictionary
         final XPathExpression expr = xpath
                 .compile("//html:table[@class='sortable']/html:tbody/html:tr");
 
-        final XPathExpression operatorExpr = xpath.compile("html:th[2]/text()");
+        final XPathExpression operatorExpr = xpath
+                .compile("html:th[2]/text()");
         final XPathExpression formExpr = xpath.compile("html:th[4]/text()");
         final XPathExpression lspaceExpr = xpath.compile("html:td[2]/text()");
         final XPathExpression rspaceExpr = xpath.compile("html:td[3]/text()");
-        final XPathExpression minsizeExpr = xpath.compile("html:td[4]/text()");
+        final XPathExpression minsizeExpr = xpath
+                .compile("html:td[4]/text()");
         final XPathExpression propertiesExpr = xpath
                 .compile("html:td[5]/text()");
 
@@ -216,8 +234,8 @@ public final class OperatorDictionary3 extends AbstractOperatorDictionary
     private Document loadDocument() throws SAXException, IOException {
         final InputStream is = OperatorDictionary3.class
                 .getResourceAsStream(OperatorDictionary3.DICTIONARY_FILE);
-        final Document doc = Parser.getInstance().getDocumentBuilder()
-                .parse(is);
+        final Document doc = Parser.getInstance().getDocumentBuilder().parse(
+                is);
         return doc;
     }
 
@@ -270,7 +288,8 @@ public final class OperatorDictionary3 extends AbstractOperatorDictionary
             final String value,
             final Map<OperatorAttribute, Map<String, Map<OperatorForm, String>>> dict) {
 
-        Map<String, Map<OperatorForm, String>> innerMap1 = dict.get(attribute);
+        Map<String, Map<OperatorForm, String>> innerMap1 = dict
+                .get(attribute);
         if (innerMap1 == null) {
             innerMap1 = new HashMap<String, Map<OperatorForm, String>>();
             dict.put(attribute, innerMap1);
@@ -294,28 +313,28 @@ public final class OperatorDictionary3 extends AbstractOperatorDictionary
         try {
             final int i = Integer.parseInt(spaceInt);
             switch (i) {
-            case 0:
+            case OperatorDictionary3.INT_NO_SPACE:
                 retVal = OperatorDictionary3.NO_SPACE;
                 break;
-            case 1:
+            case OperatorDictionary3.INT_VERYVERYTHINMATHSPACE:
                 retVal = OperatorDictionary.NAME_VERYVERYTHINMATHSPACE;
                 break;
-            case 2:
+            case OperatorDictionary3.INT_VERYTHINMATHSPACE:
                 retVal = OperatorDictionary.NAME_VERYTHINMATHSPACE;
                 break;
-            case 3:
+            case OperatorDictionary3.INT_THINMATHSPACE:
                 retVal = OperatorDictionary.NAME_THINMATHSPACE;
                 break;
-            case 4:
+            case OperatorDictionary3.INT_MEDIUMMATHSPACE:
                 retVal = OperatorDictionary.NAME_MEDIUMMATHSPACE;
                 break;
-            case 5:
+            case OperatorDictionary3.INT_THICKMATHSPACE:
                 retVal = OperatorDictionary.NAME_THICKMATHSPACE;
                 break;
-            case 6:
+            case OperatorDictionary3.INT_VERYTHICKMATHSPACE:
                 retVal = OperatorDictionary.NAME_VERYTHICKMATHSPACE;
                 break;
-            case 7:
+            case OperatorDictionary3.INT_VERYVERYTHICKMATHSPACE:
                 retVal = OperatorDictionary.NAME_VERYVERYTHICKMATHSPACE;
                 break;
             default:
