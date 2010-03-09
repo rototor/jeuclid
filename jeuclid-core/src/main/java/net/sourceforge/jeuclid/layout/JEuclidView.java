@@ -99,10 +99,11 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      * @return new JEuclid Document
      */
     public static DocumentElement replaceNodes(final DocumentElement jDocOld,
-            Node oldNode, final Node newNode) {
+            final Node oldNode, final Node newNode) {
         DocumentElement jDocNew;
-        Node imported, parent;
-        ArrayList<Integer> path;
+        Node imported;
+        Node parent;
+        List<Integer> path;
         int i;
 
         // create jeuclid dom of node
@@ -112,7 +113,7 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
         if (newNode.getParentNode().getParentNode() == null) {
             return jDocNew;
         } else {
-            imported = jDocOld.importNode(jDocNew.getDocumentElement(), true); // import
+            imported = jDocOld.importNode(jDocNew.getDocumentElement(), true);
 
             path = new ArrayList<Integer>();
             parent = oldNode;
@@ -132,14 +133,14 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
                 parent = parent.getChildNodes().item(path.get(i));
             }
 
-            oldNode = parent.getChildNodes().item(path.get(0));
+            final Node realOldNode = parent.getChildNodes().item(path.get(0));
 
-            JEuclidView.LOGGER.info("replace " + oldNode.getNodeName()
+            JEuclidView.LOGGER.debug("replace " + realOldNode.getNodeName()
                     + " with " + imported.getNodeName() + " under "
                     + parent.getNodeName());
 
-            parent.insertBefore(imported, oldNode); // insert
-            parent.removeChild(oldNode); // remove
+            parent.insertBefore(imported, realOldNode);
+            parent.removeChild(realOldNode);
 
             return jDocOld;
         }
