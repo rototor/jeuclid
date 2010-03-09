@@ -6,9 +6,11 @@
   </properties>
   <body>
     <release version="3.1.10" date="TBD" description="TBD">
+      <action dev="maxberger" type="add">MathViewer now supports real editing with live changes</action>
+      <action dev="maxberger" type="add">MathViewer now requires Java 1.6</action>
     </release>
     <release version="3.1.9" date="2010-02-12" description="Interim Release">
-      <action dev="maxberger" type="Fix">Workaround for NPE in TextLayout()</action>
+      <action dev="maxberger" type="fix">Workaround for NPE in TextLayout()</action>
       <action dev="maxberger" type="add">Support Content Math without namespace</action>
       <action dev="maxberger" type="add" due-to="Gil">Added Italian Translation</action>
       <action dev="maxberger" type="add">Improved Documentation</action>
