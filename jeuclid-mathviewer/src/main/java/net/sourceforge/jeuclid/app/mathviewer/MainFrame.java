@@ -26,7 +26,6 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
@@ -323,15 +322,15 @@ public class MainFrame extends JFrame implements CursorListener {
         if (this.unformattedCopyMenuItem == null) {
             this.unformattedCopyMenuItem = new JMenuItem();
             this.unformattedCopyMenuItem.setText(Messages
-                    .getString("MathViewer.unformattedCopy")); //$NON-NLS-1$
-            this.unformattedCopyMenuItem.setAccelerator(KeyStroke
-                    .getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit()
-                            .getMenuShortcutKeyMask(), true));
+                    .getString("MathViewer.unformattedCopyFull")); //$NON-NLS-1$
+//            this.unformattedCopyMenuItem.setAccelerator(KeyStroke
+//                    .getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit()
+//                            .getMenuShortcutKeyMask(), true));
 
             this.unformattedCopyMenuItem
                     .addActionListener(new ActionListener() {
                         public void actionPerformed(final ActionEvent e) {
-                            MainFrame.this.copyToClipboard(false);
+                            MainFrame.this.copyFullToClipboard(false);
                         }
                     });
         }
@@ -342,16 +341,16 @@ public class MainFrame extends JFrame implements CursorListener {
         if (this.formattedCopyMenuItem == null) {
             this.formattedCopyMenuItem = new JMenuItem();
             this.formattedCopyMenuItem.setText(Messages
-                    .getString("MathViewer.formattedCopy")); //$NON-NLS-1$
-            this.formattedCopyMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-                    KeyEvent.VK_C, Toolkit.getDefaultToolkit()
-                            .getMenuShortcutKeyMask()
-                            | InputEvent.SHIFT_DOWN_MASK, true));
+                    .getString("MathViewer.formattedCopyFull")); //$NON-NLS-1$
+//            this.formattedCopyMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+//                    KeyEvent.VK_C, Toolkit.getDefaultToolkit()
+//                            .getMenuShortcutKeyMask()
+//                            | InputEvent.SHIFT_DOWN_MASK, true));
 
             this.formattedCopyMenuItem
                     .addActionListener(new ActionListener() {
                         public void actionPerformed(final ActionEvent e) {
-                            MainFrame.this.copyToClipboard(true);
+                            MainFrame.this.copyFullToClipboard(true);
                         }
                     });
         }
@@ -367,14 +366,14 @@ public class MainFrame extends JFrame implements CursorListener {
         if (this.pasteMenuItem == null) {
             this.pasteMenuItem = new JMenuItem();
             this.pasteMenuItem
-                    .setText(Messages.getString("MathViewer.paste")); //$NON-NLS-1$
-            this.pasteMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-                    KeyEvent.VK_V, Toolkit.getDefaultToolkit()
-                            .getMenuShortcutKeyMask(), true));
+                    .setText(Messages.getString("MathViewer.pasteFull")); //$NON-NLS-1$
+//            this.pasteMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+//                    KeyEvent.VK_V, Toolkit.getDefaultToolkit()
+//                            .getMenuShortcutKeyMask(), true));
 
             this.pasteMenuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
-                    MainFrame.this.pasteFromClipboard();
+                    MainFrame.this.pasteFullFromClipboard();
                 }
             });
         }
@@ -459,12 +458,13 @@ public class MainFrame extends JFrame implements CursorListener {
      */
     public void loadFile(final File f) {
         final Document doc = MainFrame.FILEIO.loadFile(this, f);
-        if (doc != null) {
-            this.getMathComponent().setDocument(doc);
+        if (doc == null) {
+        	this.getXMLEditor().setText("");
+        } else {
             this.getXMLEditor().setText(
                     MathMLSerializer.serializeDocument(doc, false, false));
         }
-
+        this.updateFromTextArea();
     }
 
     /**
@@ -912,7 +912,7 @@ public class MainFrame extends JFrame implements CursorListener {
         return this.debugMenuItem;
     }
 
-    private void pasteFromClipboard() {
+    private void pasteFullFromClipboard() {
         final Transferable content = Toolkit.getDefaultToolkit()
                 .getSystemClipboard().getContents(null);
         if (content != null
@@ -936,7 +936,7 @@ public class MainFrame extends JFrame implements CursorListener {
         }
     }
 
-    private void copyToClipboard(final boolean formatted) {
+    private void copyFullToClipboard(final boolean formatted) {
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
                 new StringSelection(MathMLSerializer.serializeDocument(
                         this.mathComponent.getDocument(), false, formatted)),
