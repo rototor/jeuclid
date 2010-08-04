@@ -81,7 +81,7 @@ public final class JEuclidElementFactory {
     private static final Log LOGGER = LogFactory
             .getLog(JEuclidElementFactory.class);
 
-    private static final Map<String, Constructor<?>> IMPL_CLASSES = new HashMap<String, Constructor<?>>();;
+    private static final Map<String, Constructor<? extends JEuclidElement>> IMPL_CLASSES = new HashMap<String, Constructor<? extends JEuclidElement>>();;
 
     private JEuclidElementFactory() {
         // Empty on purpose
@@ -93,6 +93,27 @@ public final class JEuclidElementFactory {
             return qualifiedName.substring(posSeparator + 1);
         }
         return qualifiedName;
+    }
+
+    /**
+     * Retrieve the constructor for an JEuclidElement, if available.
+     * 
+     * @param nsUri
+     *            namespace of the element
+     * @param qualifiedName
+     *            qualified name
+     * @return A constructor to create the element, or null if no such
+     *         constructor is available.
+     */
+    public static Constructor<? extends JEuclidElement> getJEuclidElementConstructor(
+            final String nsUri, final String qualifiedName) {
+        final String localName = JEuclidElementFactory
+                .removeNSPrefix(qualifiedName);
+        if ((nsUri == null) || (AbstractJEuclidElement.URI.equals(nsUri))) {
+            return JEuclidElementFactory.IMPL_CLASSES.get(localName);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -110,18 +131,15 @@ public final class JEuclidElementFactory {
     public static Element elementFromName(final String nsUri,
             final String qualifiedName, final Document ownerDocument) {
 
-        final String localName = JEuclidElementFactory
-                .removeNSPrefix(qualifiedName);
 
         JEuclidElement element = null;
 
-        if ((nsUri == null) || (AbstractJEuclidElement.URI.equals(nsUri))) {
-            final Constructor<?> con = JEuclidElementFactory.IMPL_CLASSES
-                    .get(localName);
+            final Constructor<? extends JEuclidElement> con = JEuclidElementFactory.
+            getJEuclidElementConstructor(nsUri, qualifiedName);
 
             if (con != null) {
                 try {
-                    element = (JEuclidElement) con.newInstance(qualifiedName,
+                    element = con.newInstance(qualifiedName,
                             ownerDocument);
                 } catch (final InstantiationException e) {
                     element = null;
@@ -131,17 +149,15 @@ public final class JEuclidElementFactory {
                     element = null;
                 }
             }
-        }
+        
         if (element == null) {
-            // JEuclidElementFactory.LOGGER.info("Unsupported element: "
-            // + localName);
             element = new ForeignElement(nsUri, qualifiedName,
                     (AbstractDocument) ownerDocument);
         }
         return element;
     }
 
-    private static void addClass(final Class<?> c) {
+    private static void addClass(final Class<? extends JEuclidElement> c) {
         try {
             final Field f = c.getField("ELEMENT");
             final String tag = (String) f.get(null);
@@ -154,7 +170,6 @@ public final class JEuclidElementFactory {
         } catch (final IllegalAccessException e) {
             JEuclidElementFactory.LOGGER.warn(c.toString(), e);
         }
-
     }
 
     // CHECKSTYLE:OFF
