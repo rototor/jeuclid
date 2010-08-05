@@ -21,7 +21,10 @@ package net.sourceforge.jeuclid.biparser;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
+
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXParseException;
 
 /**
  * this class if for creating a BiTree with ABiNodes while parsing a text.
@@ -66,11 +69,17 @@ public class BiTreeCreationHelper {
      *            name of node
      * @param attrs
      *            attributes of node
+     * @throws SAXParseException 
+     *            if the element cannot be recognized by JEuclid.
      */
     public final void createBiNode(final int totalOffset,
             final int childOffset, final String namespaceURI,
-            final String eName, final Attributes attrs) {
+            final String eName, final Attributes attrs) throws SAXParseException {
 
+        if (JEuclidElementFactory.getJEuclidElementConstructor(namespaceURI,
+                eName) == null) {
+            throw new SAXParseException("Buh", null);
+        }
         BiNode biNode;
 
         this.startPositions.add(totalOffset);
@@ -116,7 +125,7 @@ public class BiTreeCreationHelper {
     }
 
     /**
-     * check if currentposition in BiTree allows a TextNode as child.
+     * check if current position in BiTree allows a TextNode as child.
      * 
      * @return true if a TextNode is allowed
      */
