@@ -147,7 +147,7 @@ public class JEuclidSAXHandler extends DefaultHandler {
      * @param sName
      *            simple name
      * @param qName
-     *            qulified name
+     *            qualified name
      * @param attrs
      *            attributes of node
      * @throws SAXException
