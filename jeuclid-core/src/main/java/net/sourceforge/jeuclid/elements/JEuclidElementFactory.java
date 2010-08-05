@@ -109,7 +109,8 @@ public final class JEuclidElementFactory {
             final String nsUri, final String qualifiedName) {
         final String localName = JEuclidElementFactory
                 .removeNSPrefix(qualifiedName);
-        if ((nsUri == null) || (AbstractJEuclidElement.URI.equals(nsUri))) {
+        if ((nsUri == null) || (nsUri.length() == 0)
+                || (AbstractJEuclidElement.URI.equals(nsUri))) {
             return JEuclidElementFactory.IMPL_CLASSES.get(localName);
         } else {
             return null;
