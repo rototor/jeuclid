@@ -29,6 +29,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MutableLayoutContext;
@@ -221,7 +223,8 @@ public final class Converter {
     }
 
     /**
-     * Converts an existing file from MathML or ODF to the given type.
+     * Converts an existing document from MathML to the given XML based type and
+     * writes it to the provided output stream.
      * 
      * @param doc
      *            input document. See
@@ -254,6 +257,43 @@ public final class Converter {
                         ex);
             }
         }
+        return result;
+    }
+
+    /**
+     * Converts an XML string from MathML to the given XML based type and writes
+     * it to the provided output stream.
+     * 
+     * @param docString
+     *            XML string representing a valid document
+     * @param outStream
+     *            output stream.
+     * @param outFileType
+     *            mimetype for the output file.
+     * @param params
+     *            parameter set to use for conversion.
+     * @return Dimension of converted image upon success, null otherwise
+     * @throws IOException
+     *             if an I/O error occurred during read or write.
+     */
+    public Dimension convert(final String docString,
+            final OutputStream outStream, final String outFileType,
+            final LayoutContext params) throws IOException {
+
+        Dimension result = null;
+
+        try {
+            final Document doc = MathMLParserSupport.parseString(docString);
+            result = this.convert(doc, outStream, outFileType, params);
+        } catch (final SAXException e) {
+            Converter.LOGGER.error("SAXException converting:" + docString, e);
+            result = null;
+        } catch (final ParserConfigurationException e) {
+            Converter.LOGGER.error("ParserConfigurationException converting:"
+                    + docString, e);
+            result = null;
+        }
+
         return result;
     }
 
