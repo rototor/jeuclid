@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.10" date="TBD" description="TBD">
+      <action dev="maxberger" type="fix">MathViewer fallback to previous behavior on unsupported elements.</action>
       <action dev="maxberger" type="add">MathViewer now supports real editing with live changes</action>
       <action dev="maxberger" type="add">MathViewer now requires Java 1.6</action>
     </release>
