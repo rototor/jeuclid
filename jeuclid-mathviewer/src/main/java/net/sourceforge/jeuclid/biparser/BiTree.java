@@ -101,9 +101,12 @@ public class BiTree {
      *            text where characters were inserted
      * @throws ReparseException
      *             if a sax parse exception occurs
+     * @throws NonIncrementalElementException
+     *             if the subtree contains an element which cannot be
+     *             incrementally updated.
      */
-    public final void insert(final int offset, final int length,
-            final String t) throws ReparseException {
+    public final void insert(final int offset, final int length, final String t)
+            throws ReparseException, NonIncrementalElementException {
         this.text = t;
         this.root.insert(this, offset, length, 0);
     }
@@ -119,9 +122,12 @@ public class BiTree {
      *            text where characters were removed
      * @throws ReparseException
      *             if a sax parse exception occurs
+     * @throws NonIncrementalElementException
+     *             if the subtree contains an element which cannot be
+     *             incrementally updated.
      */
-    public final void remove(final int offset, final int length,
-            final String t) throws ReparseException {
+    public final void remove(final int offset, final int length, final String t)
+            throws ReparseException, NonIncrementalElementException {
         this.text = t;
         this.root.remove(this, offset, length, 0);
     }

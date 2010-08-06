@@ -22,8 +22,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
- * this class is used to store specific information about a empty node. the
- * node cannot have children, but a sibling
+ * this class is used to store specific information about a empty node. the node
+ * cannot have children, but a sibling
  * 
  * @version $Revision$
  */
@@ -53,8 +53,9 @@ public final class EmptyNode extends AbstractBiNode {
      * else change length of EmptyNode
      * {@inheritDoc}
      */
-    public void insert(final BiTree biTree, final int offset,
-            final int length, final int totalOffset) throws ReparseException {
+    public void insert(final BiTree biTree, final int offset, final int length,
+            final int totalOffset) throws ReparseException,
+            NonIncrementalElementException {
         int position;
         String insert;
 
@@ -82,11 +83,11 @@ public final class EmptyNode extends AbstractBiNode {
     }
 
     /**
-     * remove characters from EmptyNode, reparse if length gets 0.
-     * {@inheritDoc}
+     * remove characters from EmptyNode, reparse if length gets 0. {@inheritDoc}
      */
-    public void remove(final BiTree biTree, final int offset,
-            final int length, final int totalOffset) throws ReparseException {
+    public void remove(final BiTree biTree, final int offset, final int length,
+            final int totalOffset) throws ReparseException,
+            NonIncrementalElementException {
         // System.out.println("remove " + toString() + " offset=" +
         // offset + " length=" + length);
 
@@ -109,8 +110,7 @@ public final class EmptyNode extends AbstractBiNode {
 
                     // forward remainder to sibling
                     this.forwardToSibling(false, biTree, 0, offset + length
-                            - this.getLength(), totalOffset
-                            + this.getLength());
+                            - this.getLength(), totalOffset + this.getLength());
                 }
             }
         } else {

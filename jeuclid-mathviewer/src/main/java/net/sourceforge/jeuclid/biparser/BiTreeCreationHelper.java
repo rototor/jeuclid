@@ -78,7 +78,7 @@ public class BiTreeCreationHelper {
 
         if (JEuclidElementFactory.getJEuclidElementConstructor(namespaceURI,
                 eName) == null) {
-            throw new SAXParseException("Buh", null);
+            throw new NonIncrementalElementException(eName);
         }
         BiNode biNode;
 

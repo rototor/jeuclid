@@ -17,6 +17,7 @@
 /* $Id $ */
 
 package net.sourceforge.jeuclid.biparser;
+
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -28,7 +29,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
-
 
 /**
  * this class is creates a SAXParser as singleton.
@@ -67,8 +67,12 @@ public final class SAXBiParser {
      * @param text
      *            inputtext to parse
      * @return result BiTree of parsed inputtext
+     * @throws NonIncrementalElementException
+     *             if the subtree contains an element which cannot be
+     *             incrementally updated.
      */
-    public BiTree parse(final String text) {
+    public BiTree parse(final String text)
+            throws NonIncrementalElementException {
         BiTree tree;
         DefaultHandler handler;
         SAXParserFactory factory;
@@ -88,6 +92,8 @@ public final class SAXBiParser {
 
             saxParser = factory.newSAXParser();
             saxParser.parse(inSource, handler);
+        } catch (final NonIncrementalElementException e) {
+            throw e;
         } catch (final SAXParseException e) {
             tree = null;
         } catch (final ParserConfigurationException e) {

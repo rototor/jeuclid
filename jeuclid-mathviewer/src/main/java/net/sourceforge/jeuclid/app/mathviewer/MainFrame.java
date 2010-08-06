@@ -47,6 +47,7 @@ import javax.swing.event.DocumentListener;
 
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.biparser.BiTree;
+import net.sourceforge.jeuclid.biparser.NonIncrementalElementException;
 import net.sourceforge.jeuclid.biparser.ReparseException;
 import net.sourceforge.jeuclid.biparser.SAXBiParser;
 import net.sourceforge.jeuclid.biparser.TextPosition;
@@ -323,9 +324,9 @@ public class MainFrame extends JFrame implements CursorListener {
             this.unformattedCopyMenuItem = new JMenuItem();
             this.unformattedCopyMenuItem.setText(Messages
                     .getString("MathViewer.unformattedCopyFull")); //$NON-NLS-1$
-//            this.unformattedCopyMenuItem.setAccelerator(KeyStroke
-//                    .getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit()
-//                            .getMenuShortcutKeyMask(), true));
+            // this.unformattedCopyMenuItem.setAccelerator(KeyStroke
+            // .getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit()
+            // .getMenuShortcutKeyMask(), true));
 
             this.unformattedCopyMenuItem
                     .addActionListener(new ActionListener() {
@@ -342,17 +343,16 @@ public class MainFrame extends JFrame implements CursorListener {
             this.formattedCopyMenuItem = new JMenuItem();
             this.formattedCopyMenuItem.setText(Messages
                     .getString("MathViewer.formattedCopyFull")); //$NON-NLS-1$
-//            this.formattedCopyMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-//                    KeyEvent.VK_C, Toolkit.getDefaultToolkit()
-//                            .getMenuShortcutKeyMask()
-//                            | InputEvent.SHIFT_DOWN_MASK, true));
+            // this.formattedCopyMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+            // KeyEvent.VK_C, Toolkit.getDefaultToolkit()
+            // .getMenuShortcutKeyMask()
+            // | InputEvent.SHIFT_DOWN_MASK, true));
 
-            this.formattedCopyMenuItem
-                    .addActionListener(new ActionListener() {
-                        public void actionPerformed(final ActionEvent e) {
-                            MainFrame.this.copyFullToClipboard(true);
-                        }
-                    });
+            this.formattedCopyMenuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent e) {
+                    MainFrame.this.copyFullToClipboard(true);
+                }
+            });
         }
         return this.formattedCopyMenuItem;
     }
@@ -365,11 +365,11 @@ public class MainFrame extends JFrame implements CursorListener {
     private JMenuItem getPasteMenuItem() {
         if (this.pasteMenuItem == null) {
             this.pasteMenuItem = new JMenuItem();
-            this.pasteMenuItem
-                    .setText(Messages.getString("MathViewer.pasteFull")); //$NON-NLS-1$
-//            this.pasteMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-//                    KeyEvent.VK_V, Toolkit.getDefaultToolkit()
-//                            .getMenuShortcutKeyMask(), true));
+            this.pasteMenuItem.setText(Messages
+                    .getString("MathViewer.pasteFull")); //$NON-NLS-1$
+            // this.pasteMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+            // KeyEvent.VK_V, Toolkit.getDefaultToolkit()
+            // .getMenuShortcutKeyMask(), true));
 
             this.pasteMenuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
@@ -406,10 +406,7 @@ public class MainFrame extends JFrame implements CursorListener {
         final JDialog aDialog = MainFrame.this.getAboutDialog();
         aDialog.pack();
         final Point loc = MainFrame.this.getLocation();
-        loc
-                .translate(
-                        (MainFrame.this.getWidth() - aDialog.getWidth()) / 2,
-                        0);
+        loc.translate((MainFrame.this.getWidth() - aDialog.getWidth()) / 2, 0);
         aDialog.setLocation(loc);
         aDialog.setVisible(true);
 
@@ -459,7 +456,7 @@ public class MainFrame extends JFrame implements CursorListener {
     public void loadFile(final File f) {
         final Document doc = MainFrame.FILEIO.loadFile(this, f);
         if (doc == null) {
-        	this.getXMLEditor().setText("");
+            this.getXMLEditor().setText("");
         } else {
             this.getXMLEditor().setText(
                     MathMLSerializer.serializeDocument(doc, false, false));
@@ -482,8 +479,8 @@ public class MainFrame extends JFrame implements CursorListener {
      */
     private JSplitPane getSplitPane() {
         if (this.splitPane == null) {
-            this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, this
-                    .getScrollPane(), this.getScrollPane2());
+            this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+                    this.getScrollPane(), this.getScrollPane2());
             this.splitPane.setOneTouchExpandable(true);
             this.splitPane.setResizeWeight(1.0);
         }
@@ -492,7 +489,12 @@ public class MainFrame extends JFrame implements CursorListener {
 
     private void setText(final String text) {
         this.xmlEditor.setText(text);
-        this.biTree = SAXBiParser.getInstance().parse(text);
+        try {
+            this.biTree = SAXBiParser.getInstance().parse(text);
+        } catch (NonIncrementalElementException e) {
+            this.biTree = null;
+            this.getMathComponent().setContent(text);
+        }
         if (this.biTree != null) {
             this.biTree.createDOMTree();
             this.mathComponent.setDocument(this.biTree.getDocument());
@@ -510,8 +512,8 @@ public class MainFrame extends JFrame implements CursorListener {
             this.xmlEditor.setEditorKit(new XMLEditorKit(new XMLContext()));
             /*
              * this.xmlEditor.setText("<?xml version='1.0'?>" + Helper.nl() +
-             * "<math xmlns='http://www.w3.org/1998/Math/MathML'>" +
-             * Helper.nl() + "</math>");
+             * "<math xmlns='http://www.w3.org/1998/Math/MathML'>" + Helper.nl()
+             * + "</math>");
              */
             this.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                     + Helper.nl()
@@ -570,8 +572,7 @@ public class MainFrame extends JFrame implements CursorListener {
      * @param documentEvent
      *            documentEvent which triggered the change.
      */
-    private void setContent(final DocumentEvent documentEvent,
-            final String text) {
+    private void setContent(final DocumentEvent documentEvent, final String text) {
         DocumentEvent.EventType type;
         if (this.biTree == null || this.biTree.getRoot() == null) {
             this.getMathComponent().setContent(text);
@@ -579,33 +580,28 @@ public class MainFrame extends JFrame implements CursorListener {
 
             type = documentEvent.getType();
 
-            if (type == DocumentEvent.EventType.INSERT) {
-                try {
+            try {
+                if (type == DocumentEvent.EventType.INSERT) {
                     this.biTree.insert(documentEvent.getOffset(),
                             documentEvent.getLength(), text);
-                } catch (final ReparseException ex) {
-                    this.getMathComponent().setContent(text);
-                }
-            } else if (type == DocumentEvent.EventType.REMOVE) {
-                try {
+
+                } else if (type == DocumentEvent.EventType.REMOVE) {
                     this.biTree.remove(documentEvent.getOffset(),
                             documentEvent.getLength(), text);
-                } catch (final ReparseException ex) {
+
+                } else {
+                    // Other types of events are unsupported.
                     this.getMathComponent().setContent(text);
                 }
-            } else {
-                // Other types of events are unsupported.
+            } catch (final ReparseException ex) {
+                this.getMathComponent().setContent(text);
+            } catch (NonIncrementalElementException e) {
+                this.biTree = null;
                 this.getMathComponent().setContent(text);
             }
-
-            // if ((this.biTree != null) && (this.biTree.getDocument() !=
-            // null)) {
-            // this.setDocument(this.biTree.getDocument());
-            // JMathComponent.LOGGER.debug(this.biTree);
-            // }
-            this.getMathComponent().revalidate();
-            this.getMathComponent().repaint();
         }
+        this.getMathComponent().revalidate();
+        this.getMathComponent().repaint();
     }
 
     private void updateFromTextArea(final DocumentEvent documentevent) {
@@ -712,8 +708,8 @@ public class MainFrame extends JFrame implements CursorListener {
     }
 
     private JMenuItem getViewModifyParams() {
-        final JMenuItem mi = new JMenuItem(Messages
-                .getString("MathViewer.viewModifyParams"));
+        final JMenuItem mi = new JMenuItem(
+                Messages.getString("MathViewer.viewModifyParams"));
         mi.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 MainFrame.this.displaySettings();
@@ -833,8 +829,8 @@ public class MainFrame extends JFrame implements CursorListener {
     private JMenuItem getExportMenuItem() {
         if (this.exportMenuItem == null) {
             this.exportMenuItem = new JMenuItem();
-            this.exportMenuItem.setText(Messages
-                    .getString("MathViewer.export")); //$NON-NLS-1$
+            this.exportMenuItem
+                    .setText(Messages.getString("MathViewer.export")); //$NON-NLS-1$
             this.exportMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                     KeyEvent.VK_S, Toolkit.getDefaultToolkit()
                             .getMenuShortcutKeyMask(), true));
@@ -865,20 +861,17 @@ public class MainFrame extends JFrame implements CursorListener {
     private JCheckBoxMenuItem getAliasMenuItem() {
         if (this.aliasMenuItem == null) {
             this.aliasMenuItem = new JCheckBoxMenuItem();
-            this.aliasMenuItem
-                    .setText(Messages.getString("MathViewer.alias")); //$NON-NLS-1$
+            this.aliasMenuItem.setText(Messages.getString("MathViewer.alias")); //$NON-NLS-1$
             this.aliasMenuItem.setSelected((Boolean) LayoutContextImpl
-                    .getDefaultLayoutContext().getParameter(
-                            Parameter.ANTIALIAS));
+                    .getDefaultLayoutContext()
+                    .getParameter(Parameter.ANTIALIAS));
             this.aliasMenuItem
                     .addItemListener(new java.awt.event.ItemListener() {
                         public void itemStateChanged(
                                 final java.awt.event.ItemEvent e) {
-                            MainFrame.this.getMathComponent()
-                                    .setParameter(
-                                            Parameter.ANTIALIAS,
-                                            MainFrame.this.aliasMenuItem
-                                                    .isSelected());
+                            MainFrame.this.getMathComponent().setParameter(
+                                    Parameter.ANTIALIAS,
+                                    MainFrame.this.aliasMenuItem.isSelected());
                         }
                     });
         }
@@ -893,19 +886,16 @@ public class MainFrame extends JFrame implements CursorListener {
     private JCheckBoxMenuItem getDebugMenuItem() {
         if (this.debugMenuItem == null) {
             this.debugMenuItem = new JCheckBoxMenuItem();
-            this.debugMenuItem
-                    .setText(Messages.getString("MathViewer.debug")); //$NON-NLS-1$
+            this.debugMenuItem.setText(Messages.getString("MathViewer.debug")); //$NON-NLS-1$
             this.debugMenuItem.setSelected((Boolean) LayoutContextImpl
                     .getDefaultLayoutContext().getParameter(Parameter.DEBUG));
             this.debugMenuItem
                     .addItemListener(new java.awt.event.ItemListener() {
                         public void itemStateChanged(
                                 final java.awt.event.ItemEvent e) {
-                            MainFrame.this.getMathComponent()
-                                    .setParameter(
-                                            Parameter.DEBUG,
-                                            MainFrame.this.debugMenuItem
-                                                    .isSelected());
+                            MainFrame.this.getMathComponent().setParameter(
+                                    Parameter.DEBUG,
+                                    MainFrame.this.debugMenuItem.isSelected());
                         }
                     });
         }
@@ -927,20 +917,24 @@ public class MainFrame extends JFrame implements CursorListener {
                 // handling.
             } catch (final Exception e) {
                 // CHECKSTYLE:ON
-                JOptionPane.showMessageDialog(this, new String[] {
-                        Messages.getString("MathViewer.pasteFailure"),
-                        e.toString(), }, Messages
-                        .getString("MathViewer.error"),
+                JOptionPane.showMessageDialog(
+                        this,
+                        new String[] {
+                                Messages.getString("MathViewer.pasteFailure"),
+                                e.toString(), },
+                        Messages.getString("MathViewer.error"),
                         JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
     private void copyFullToClipboard(final boolean formatted) {
-        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
-                new StringSelection(MathMLSerializer.serializeDocument(
-                        this.mathComponent.getDocument(), false, formatted)),
-                null);
+        Toolkit.getDefaultToolkit()
+                .getSystemClipboard()
+                .setContents(
+                        new StringSelection(MathMLSerializer.serializeDocument(
+                                this.mathComponent.getDocument(), false,
+                                formatted)), null);
     }
 
     private JMenuItem getCRefreshMenuItem() {
@@ -1002,8 +996,8 @@ public class MainFrame extends JFrame implements CursorListener {
     private JMenuItem getOrMenuItem() {
         if (this.orMenuItem == null) {
             this.orMenuItem = new JMenuItem();
-            this.orMenuItem.setText(Messages
-                    .getString("MathViewer.orMenuItem")); //$NON-NLS-1$
+            this.orMenuItem
+                    .setText(Messages.getString("MathViewer.orMenuItem")); //$NON-NLS-1$
             this.orMenuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
                     MainFrame.this
@@ -1145,8 +1139,7 @@ public class MainFrame extends JFrame implements CursorListener {
     private JMenu getGreekMenu() {
         if (this.greekMenu == null) {
             this.greekMenu = new JMenu();
-            this.greekMenu
-                    .setText(Messages.getString("MathViewer.GreekMenu")); //$NON-NLS-1$
+            this.greekMenu.setText(Messages.getString("MathViewer.GreekMenu")); //$NON-NLS-1$
             this.greekMenu.add(this.getAlphaMenuItem());
             this.greekMenu.add(this.getBetaMenuItem());
             this.greekMenu.add(this.getGammaMenuItem());
@@ -1159,8 +1152,8 @@ public class MainFrame extends JFrame implements CursorListener {
     private JMenu getLogicsMenu() {
         if (this.logicsMenu == null) {
             this.logicsMenu = new JMenu();
-            this.logicsMenu.setText(Messages
-                    .getString("MathViewer.LogicsMenu")); //$NON-NLS-1$
+            this.logicsMenu
+                    .setText(Messages.getString("MathViewer.LogicsMenu")); //$NON-NLS-1$
             this.logicsMenu.add(this.getAndMenuItem());
             this.logicsMenu.add(this.getOrMenuItem());
             this.logicsMenu.add(this.getNotMenuItem());
@@ -1182,8 +1175,8 @@ public class MainFrame extends JFrame implements CursorListener {
     private JMenu getInsertMenu() {
         if (this.insertMenu == null) {
             this.insertMenu = new JMenu();
-            this.insertMenu.setText(Messages
-                    .getString("MathViewer.InsertMenu")); //$NON-NLS-1$
+            this.insertMenu
+                    .setText(Messages.getString("MathViewer.InsertMenu")); //$NON-NLS-1$
             this.insertMenu.add(this.getTableMenuItem());
             this.insertMenu.add(this.getPolynomMenuItem());
             this.insertMenu.add(this.getGreekMenu());
