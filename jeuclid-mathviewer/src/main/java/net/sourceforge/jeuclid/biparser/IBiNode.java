@@ -67,8 +67,8 @@ public interface IBiNode {
     void setSibling(final IBiNode sibl);
 
     /**
-     * add sibling to a node, not possible at a textnode. if node already has
-     * a sibling, forward to sibling.
+     * add sibling to a node, not possible at a textnode. if node already has a
+     * sibling, forward to sibling.
      * 
      * @param sibl
      *            new sibling for this node
@@ -133,10 +133,12 @@ public interface IBiNode {
      *            offset of node to begin of text
      * @throws ReparseException
      *             if a reparse at upper level is needed
-     * 
+     * @throws NonIncrementalElementException
+     *             if the subtree contains an element which cannot be
+     *             incrementally updated.
      */
     void insert(BiTree biTree, int offset, int len, int totalOffset)
-            throws ReparseException;
+            throws ReparseException, NonIncrementalElementException;
 
     /**
      * remove characters from node.
@@ -151,10 +153,12 @@ public interface IBiNode {
      *            offset of node to begin of text
      * @throws ReparseException
      *             if a reparse at upper level is needed
-     * 
+     * @throws NonIncrementalElementException
+     *             if the subtree contains an element which cannot be
+     *             incrementally updated.
      */
     void remove(BiTree biTree, int offset, int len, int totalOffset)
-            throws ReparseException;
+            throws ReparseException, NonIncrementalElementException;
 
     /**
      * helper method to insert or remove characters.
@@ -171,10 +175,13 @@ public interface IBiNode {
      *            offset of node to begin of text
      * @throws ReparseException
      *             if a reparse at upper level is needed
+     * @throws NonIncrementalElementException
+     *             if the subtree contains an element which cannot be
+     *             incrementally updated.
      */
     void forwardToSibling(final boolean insert, final BiTree biTree,
             final int offset, final int len, final int totalOffset)
-            throws ReparseException;
+            throws ReparseException, NonIncrementalElementException;
 
     /**
      * create a DOM-tree from node.
@@ -186,8 +193,8 @@ public interface IBiNode {
     Node createDOMSubtree(Document doc);
 
     /**
-     * search a DOM node in this node. if nodes are equal return offset to
-     * begin of inputtext, else null
+     * search a DOM node in this node. if nodes are equal return offset to begin
+     * of inputtext, else null
      * 
      * @param n
      *            DOM node to search for

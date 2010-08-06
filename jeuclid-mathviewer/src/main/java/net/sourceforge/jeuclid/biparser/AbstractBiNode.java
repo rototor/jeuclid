@@ -98,8 +98,8 @@ public abstract class AbstractBiNode implements IBiNode {
     }
 
     /**
-     * add sibling to a node, not possible at a textnode. if node already has
-     * a sibling, forward to sibling.
+     * add sibling to a node, not possible at a textnode. if node already has a
+     * sibling, forward to sibling.
      * 
      * @param sibl
      *            new sibling for this node
@@ -185,10 +185,13 @@ public abstract class AbstractBiNode implements IBiNode {
      *            offset of node to begin of text
      * @throws ReparseException
      *             if a reparse at upper level is needed
+     * @throws NonIncrementalElementException
+     *             if the subtree contains an element which cannot be
+     *             incrementally updated.
      */
     public void forwardToSibling(final boolean insert, final BiTree biTree,
             final int offset, final int len, final int totalOffset)
-            throws ReparseException {
+            throws ReparseException, NonIncrementalElementException {
 
         if (this.getSibling() == null) {
             // reparsing
@@ -203,8 +206,8 @@ public abstract class AbstractBiNode implements IBiNode {
     }
 
     /**
-     * search a DOM node in this node. if nodes are equal return offset to
-     * begin of inputtext, else null
+     * search a DOM node in this node. if nodes are equal return offset to begin
+     * of inputtext, else null
      * 
      * @param n
      *            DOM node to search for
