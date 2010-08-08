@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <plus></plus> 
+    <ci type="real">x</ci> 
+    <ci type="integer">x</ci> 
+    <ci type="rational">x</ci> 
+    <ci type="complex-cartesian">y</ci>  
+    <ci type="complex-polar">θ</ci> 
+    <ci type="vector">v</ci>  
+    <ci type="constant">π</ci> 
+    <ci>ⅇ</ci> 
+    <ci>ⅇ</ci>  
+    <ci>ⅈ</ci> 
+    <ci>ⅈ</ci>  
+    <ci>γ</ci> 
+    <ci>∞</ci> 
+  </apply> 
+</math>

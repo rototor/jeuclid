@@ -20,33 +20,41 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 
 /**
  * This class arranges an element under an other element.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Munder extends AbstractUnderOver {
+public final class Munder extends AbstractUnderOver {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "munder";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Munder() {
-        super();
+    public Munder(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Munder.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Munder(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */

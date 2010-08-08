@@ -26,16 +26,12 @@ import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sourceforge.jeuclid.parser.MathBaseFactory;
+import net.jcip.annotations.ThreadSafe;
 import net.sourceforge.jeuclid.parser.Parser;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -46,74 +42,17 @@ import org.xml.sax.SAXException;
  * Formula (ODF) files. It also supports parsing MathML from a given text
  * string.
  * 
- * @author Max Berger
  * @version $Revision$
  */
+@ThreadSafe
 public final class MathMLParserSupport {
 
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory
-            .getLog(MathMLParserSupport.class);
-
+    // private static final Log LOGGER = LogFactory
+    // .getLog(MathMLParserSupport.class);
     private MathMLParserSupport() {
-    }
-
-    /**
-     * Parse an input file and return the MathBase object.
-     * 
-     * @param params
-     *            set of parameters to use.
-     * @param document
-     *            the document to parse. See
-     *            {@link DOMBuilder#DOMBuilder(Node, MathBase)} for the list
-     *            of valid node types.
-     * @return the MathBase object.
-     * @throws SAXException
-     *             if a parse error occurs.
-     * @throws IOException
-     *             if a read io error occurs.
-     */
-    public static MathBase createMathBaseFromDocument(final Node document,
-            final MutableLayoutContext params) throws SAXException,
-            IOException {
-
-        try {
-            return MathBaseFactory.getMathBaseFactory().createMathBase(
-                    new DOMSource(document), params);
-        } catch (final ParserConfigurationException e) {
-            // Should not happen. But who knows?
-            MathMLParserSupport.LOGGER.warn(e);
-            return null;
-        }
-
-    }
-
-    /**
-     * Parse an input file and return the MathBase object.
-     * 
-     * @param params
-     *            Conversion parameters to use.
-     * @param inFile
-     *            the file to parse.
-     * @return the MathBase object.
-     * @throws SAXException
-     *             if a parse error occurs.
-     * @throws IOException
-     *             if a read io error occurs.
-     */
-    public static MathBase createMathBaseFromFile(final File inFile,
-            final MutableLayoutContext params) throws SAXException,
-            IOException {
-        try {
-            return MathBaseFactory.getMathBaseFactory().createMathBase(
-                    new StreamSource(new FileInputStream(inFile)), params);
-        } catch (final ParserConfigurationException e) {
-            // Should not happen. But who knows?
-            MathMLParserSupport.LOGGER.warn(e);
-            return null;
-        }
     }
 
     /**
@@ -126,7 +65,7 @@ public final class MathMLParserSupport {
      */
     public static DocumentBuilder createDocumentBuilder()
             throws ParserConfigurationException {
-        final DocumentBuilder builder = Parser.getParser()
+        final DocumentBuilder builder = Parser.getInstance()
                 .getDocumentBuilder();
         return builder;
     }
@@ -144,14 +83,8 @@ public final class MathMLParserSupport {
      */
     public static Document parseInputStreamXML(final InputStream inStream)
             throws SAXException, IOException {
-        try {
-            return Parser.getParser().parseStreamSourceAsXml(
-                    new StreamSource(inStream));
-        } catch (final ParserConfigurationException e) {
-            // Should not happen. But who knows?
-            MathMLParserSupport.LOGGER.warn(e);
-            return null;
-        }
+        return Parser.getInstance().parseStreamSourceAsXml(
+                new StreamSource(inStream));
     }
 
     /**
@@ -167,14 +100,8 @@ public final class MathMLParserSupport {
      */
     public static Document parseInputStreamODF(final InputStream inStream)
             throws SAXException, IOException {
-        try {
-            return Parser.getParser().parseStreamSourceAsOdf(
-                    new StreamSource(inStream));
-        } catch (final ParserConfigurationException e) {
-            // Should not happen. But who knows?
-            MathMLParserSupport.LOGGER.warn(e);
-            return null;
-        }
+        return Parser.getInstance().parseStreamSourceAsOdf(
+                new StreamSource(inStream));
     }
 
     /**
@@ -193,14 +120,8 @@ public final class MathMLParserSupport {
      */
     public static Document parseFile(final File inFile) throws SAXException,
             IOException {
-        try {
-            return Parser.getParser().parseStreamSource(
-                    new StreamSource(new FileInputStream(inFile)));
-        } catch (final ParserConfigurationException e) {
-            // Should not happen. But who knows?
-            MathMLParserSupport.LOGGER.warn(e);
-            return null;
-        }
+        return Parser.getInstance().parseStreamSource(
+                new StreamSource(new FileInputStream(inFile)));
     }
 
     /**
@@ -219,7 +140,7 @@ public final class MathMLParserSupport {
      */
     public static Document parseString(final String content)
             throws SAXException, ParserConfigurationException, IOException {
-        return Parser.getParser().parseStreamSourceAsXml(
+        return Parser.getInstance().parseStreamSourceAsXml(
                 new StreamSource(new StringReader(content)));
     }
 

@@ -1,17 +1,34 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
 "http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
 <article>
-  <title/>
-<section><title>Webstartable application</title><para>If you have a working Java Webstart (1.5 or newer) set up, you
-may start the JEuclid MathViewer directly from this page:</para><itemizedlist><listitem><para><ulink url="jeuclid-webstart/mathviewer.jnlp">Webstarable MathViewer application</ulink>.</para></listitem></itemizedlist><para>Please note: This is a current snapshot. It is updated along
-with the deployment of the site, so please see the "Last Published"
-for an excact version information.</para><para>The webstartable application does not inclide the advances
-export filters for most vector based formats. Please download the
-distribution if you need these plugins.</para><para>Also note: The Webstart application is not trusted by a valid
-signature, and never will be. Webstart will complain about this
-fact. This application will run on your local computer and it will
-have access to your file system. USE AT YOUR OWN RISK! (However,
-the risks are the same as downloading it and running it
-locally).</para></section>
+  <title></title>
+
+  <section>
+    <title>Webstartable application</title>
+
+    <para>If you have a working Java Webstart (1.6 or newer) set up, you may
+    start the JEuclid MathViewer directly from this page:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><ulink url="jeuclid-mathviewer/mathviewer.jnlp">Webstartable
+        MathViewer application</ulink>.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Please note: This is a current snapshot. It is updated along with
+    the deployment of the site, so please see the "Last Published" for an
+    excact version information.</para>
+
+    <para>The webstartable application does not include the advances export
+    filters for most vector based formats. Please download the distribution if
+    you need these plug-ins.</para>
+
+    <para>Also note: The Webstart application is not trusted by a valid
+    signature, and never will be. Webstart will complain about this fact. This
+    application will run on your local computer and it will have access to
+    your file system. USE AT YOUR OWN RISK! (However, the risks are the same
+    as downloading it and running it locally).</para>
+  </section>
 </article>

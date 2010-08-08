@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <declare type="fn">
+    <ci>J</ci>  
+    <lambda>
+      <bvar>
+        <ci>x</ci> 
+      </bvar> 
+      <apply> 
+        <ln></ln> 
+        <ci>x</ci>  
+      </apply> 
+    </lambda> 
+  </declare> 
+</math>

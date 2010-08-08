@@ -20,20 +20,23 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
-import net.sourceforge.jeuclid.elements.JEuclidNode;
+import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
+import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLStyleElement;
 
 /**
  * This class arrange an element lower to an other element.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
+public final class Mstyle extends AbstractContainer implements
+        MathMLStyleElement {
 
     /** Attribute for scriptminsize. */
     public static final String ATTR_SCRIPTMINSIZE = "scriptminsize";
@@ -57,12 +60,26 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
      */
     private static final Log LOGGER = LogFactory.getLog(Mstyle.class);
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mstyle() {
-        super();
+    public Mstyle(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
         this.setDefaultMathAttribute(Mstyle.ATTR_DISPLAYSTYLE, "");
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mstyle(this.nodeName, this.ownerDocument);
     }
 
     /**
@@ -95,19 +112,45 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
         this.setAttribute(Mstyle.ATTR_SCRIPTMINSIZE, scriptminsize);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected int getAbsoluteScriptLevel() {
-        int theLevel;
-        try {
-            String attr = this.getScriptlevel();
+    private class StyleLayoutContext implements LayoutContext {
+
+        private final LayoutContext context;
+
+        protected StyleLayoutContext(final LayoutContext parentContext) {
+            this.context = parentContext;
+        }
+
+        public Object getParameter(final Parameter which) {
+            Object retVal = Mstyle.this.applyLocalAttributesToContext(
+                    this.context).getParameter(which);
+            if (Parameter.DISPLAY.equals(which)) {
+                retVal = this.applyDisplay(retVal);
+            } else if (Parameter.SCRIPTLEVEL.equals(which)) {
+                retVal = this.applyScriptlevel(retVal);
+            } else if (Parameter.SCRIPTMINSIZE.equals(which)) {
+                retVal = this.applyScriptMinsize(retVal);
+            }
+            return retVal;
+        }
+
+        private Object applyScriptMinsize(final Object parentLevel) {
+            final String newMinsize = Mstyle.this.getScriptminsize();
+            if ((newMinsize != null) && (newMinsize.length() > 0)) {
+                return AttributesHelper.convertSizeToPt(newMinsize,
+                        this.context, AttributesHelper.PT);
+            } else {
+                return parentLevel;
+            }
+        }
+
+        private Object applyScriptlevel(final Object parentLevel) {
+            Object retVal = parentLevel;
+            String attr = Mstyle.this.getScriptlevel();
             if (attr == null) {
                 attr = "";
             }
             attr = attr.trim();
-            if (attr.length() == 0) {
-                theLevel = this.getInheritedScriptlevel();
-            } else {
+            if (attr.length() > 0) {
                 final char firstchar = attr.charAt(0);
                 boolean relative = false;
                 if (firstchar == '+') {
@@ -116,47 +159,41 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
                 } else if (firstchar == '-') {
                     relative = true;
                 }
-                final int iValue = Integer.parseInt(attr);
-                if (relative) {
-                    theLevel = this.getInheritedScriptlevel() + iValue;
-                } else {
-                    theLevel = iValue;
-
+                try {
+                    final int iValue = Integer.parseInt(attr);
+                    if (relative) {
+                        retVal = (Integer) retVal + iValue;
+                    } else {
+                        retVal = iValue;
+                    }
+                } catch (final NumberFormatException e) {
+                    Mstyle.LOGGER
+                            .warn("Error in scriptlevel attribute for mstyle: "
+                                    + attr);
                 }
+
             }
-        } catch (final NumberFormatException e) {
-            Mstyle.LOGGER.warn("Error in scriptlevel attribute for mstyle: "
-                    + this.getScriptlevel());
-            theLevel = this.getInheritedScriptlevel();
+            return retVal;
         }
-        return theLevel;
+
+        private Object applyDisplay(final Object parentDisplay) {
+            Object retVal = parentDisplay;
+            final String displayStyle = Mstyle.this.getDisplaystyle();
+            if ("true".equalsIgnoreCase(displayStyle)) {
+                retVal = Display.BLOCK;
+            }
+            if ("false".equalsIgnoreCase(displayStyle)) {
+                retVal = Display.INLINE;
+            }
+            return retVal;
+        }
     }
 
     /** {@inheritDoc} */
     @Override
-    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
-        return new LayoutContext() {
-
-            public Object getParameter(final Parameter which) {
-                Object retVal = Mstyle.this.getCurrentLayoutContext()
-                        .getParameter(which);
-                if (Parameter.DISPLAY.equals(which)) {
-                    final String displayStyle = Mstyle.this.getDisplaystyle();
-                    if ("true".equalsIgnoreCase(displayStyle)) {
-                        retVal = Display.BLOCK;
-                    }
-                    if ("false".equalsIgnoreCase(displayStyle)) {
-                        retVal = Display.INLINE;
-                    }
-                }
-                return retVal;
-            }
-        };
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mstyle.ELEMENT;
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
+        return new Mstyle.StyleLayoutContext(context);
     }
 
     /** {@inheritDoc} */
@@ -291,8 +328,7 @@ public class Mstyle extends AbstractRowLike implements MathMLStyleElement {
     }
 
     /** {@inheritDoc} */
-    public void setNegativemediummathspace(
-            final String negativemediummathspace) {
+    public void setNegativemediummathspace(final String negativemediummathspace) {
         throw new UnsupportedOperationException();
         // TODO Auto-generated method stub
     }

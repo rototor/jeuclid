@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <eq></eq> 
+    <apply> 
+      <vectorproduct></vectorproduct> 
+      <ci type="vector">A</ci> 
+      <ci type="vector">B</ci> 
+    </apply> 
+    <apply> 
+      <times></times> 
+      <ci>a</ci> 
+      <ci>b</ci> 
+      <apply>
+        <sin></sin>  
+        <ci>θ</ci> 
+      </apply>  
+      <ci type="vector">N</ci> 
+    </apply> 
+  </apply> 
+</math>

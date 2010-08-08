@@ -18,46 +18,44 @@
 
 package net.sourceforge.jeuclid.elements;
 
-import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sourceforge.jeuclid.layout.LayoutableNode;
+
+import org.apache.batik.dom.AbstractDocument;
 
 /**
  * Represents a MathElement with no content.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractInvisibleJEuclidElement extends
         AbstractJEuclidElement {
+
     /**
-     * Default Constructor.
+     * Default constructor. Sets MathML Namespace.
      * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractInvisibleJEuclidElement() {
-        super();
+    public AbstractInvisibleJEuclidElement(final String qname,
+            final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        super.paint(g, posX, posY);
+    public List<LayoutableNode> getChildrenToLayout() {
+        return new ArrayList<LayoutableNode>(0);
     }
 
     /** {@inheritDoc} */
     @Override
-    public float calculateAscentHeight(final Graphics2D g) {
-        return 0;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-        return 0;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        return 0;
+    public List<LayoutableNode> getChildrenToDraw() {
+        return new ArrayList<LayoutableNode>(0);
     }
 
 }

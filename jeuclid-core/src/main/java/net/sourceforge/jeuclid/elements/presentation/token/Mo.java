@@ -22,40 +22,51 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
-import java.util.List;
 
-import net.sourceforge.jeuclid.Defense;
-import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.Constants;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
-import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
-import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
+import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary2;
 import net.sourceforge.jeuclid.elements.support.operatordict.UnknownAttributeException;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
+import net.sourceforge.jeuclid.elements.support.text.StringUtil.TextLayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.TextObject;
 
+import org.apache.batik.dom.AbstractDocument;
+import org.apache.batik.dom.events.DOMCustomEvent;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Node;
+import org.w3c.dom.events.CustomEvent;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.mathml.MathMLOperatorElement;
+import org.w3c.dom.mathml.MathMLScriptElement;
 import org.w3c.dom.mathml.MathMLUnderOverElement;
 
 /**
  * This class presents a math operator, like "(" or "*".
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Mo extends AbstractJEuclidElement implements
-        MathMLOperatorElement {
+
+// CHECKSTYLE:OFF
+// Class Fan-out is to high. However, this is required due to complexity of
+// mo.
+public final class Mo extends AbstractJEuclidElement implements
+        MathMLOperatorElement, EventListener {
+    // CHECKSTYLE:ON
 
     /** Attribute for form. */
     public static final String ATTR_FORM = "form";
@@ -78,7 +89,7 @@ public class Mo extends AbstractJEuclidElement implements
     /** Wrong attribute name for movable limits. */
     public static final String ATTR_MOVEABLEWRONG = "moveablelimits";
 
-    /** Attribute for moveable limits. */
+    /** Attribute for movable limits. */
     public static final String ATTR_MOVABLELIMITS = "movablelimits";
 
     /** Attribute for accent. */
@@ -104,6 +115,11 @@ public class Mo extends AbstractJEuclidElement implements
      */
     public static final String ATTR_STRETCHY = "stretchy";
 
+    /** JEuclid extension to stretchy: stretch horizontal only. */
+    public static final String VALUE_STRETCHY_HORIZONTAL = "horizontal";
+
+    /** JEuclid extension to stretchy: stretch vertical only. */
+    public static final String VALUE_STRETCHY_VERTICAL = "vertical";
     /**
      * Attribute name of the largeop property.
      */
@@ -120,22 +136,15 @@ public class Mo extends AbstractJEuclidElement implements
     public static final String ATTR_FENCE = "fence";
 
     /**
-     * Horizontal delimiters.
-     * 
-     * @todo Check the uncommented ones, possibly add more / remove some?
+     * Event name for operator events.
      */
-    public static final String HOR_DELIMITERS = /* _ */"\u005F"
-            + /* OverBar */"\u00AF" + /* UnderBar */"\u0332" + "\u0333"
-            + "\u033F" + "\u2190" + "\u2192" + "\u2194"
-            + /* OverBracket */"\u23B4" + /* UnderBracket */"\u23B5"
-            + /* OverParenthesis */"\uFE35"
-            + /* UnderParenthesis */"\uFE36" + /* OverBrace */"\uFE37"
-            + /* UnderBrace */"\uFE38";
+    public static final String MOEVENT = "MOEvent";
 
-    /**
-     * Vertical delimiters.
-     */
-    public static final String VER_DELIMITERS = "[{()}]|\u2223\u2225\u2329\u232A";
+    private static final long serialVersionUID = 1L;
+
+    private final OperatorDictionary opDict;
+
+    private boolean inChangeHook;
 
     /**
      * Logger for this class
@@ -143,34 +152,41 @@ public class Mo extends AbstractJEuclidElement implements
     // unused
     // private static final Log LOGGER =
     // LogFactory.getLog(MathOperator.class);
-    /** horizontal scale factor. */
-    private float calcScaleX = 1.0f;
-
-    private float calcScaleY = 1.0f;
-
-    private float calcBaselineShift;
-
     /**
-     * Creates a mathoperator element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mo() {
-        super();
+    public Mo(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
         this.setDefaultMathAttribute(Mo.ATTR_FORM,
                 OperatorDictionary.FORM_INFIX);
-        this.setDefaultMathAttribute(Mo.ATTR_FENCE, MathBase.FALSE);
-        this.setDefaultMathAttribute(Mo.ATTR_SEPARATOR, MathBase.FALSE);
+        this.setDefaultMathAttribute(Mo.ATTR_FENCE, Constants.FALSE);
+        this.setDefaultMathAttribute(Mo.ATTR_SEPARATOR, Constants.FALSE);
         this.setDefaultMathAttribute(Mo.ATTR_LSPACE,
                 AttributesHelper.THICKMATHSPACE);
         this.setDefaultMathAttribute(Mo.ATTR_RSPACE,
                 AttributesHelper.THICKMATHSPACE);
-        this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, MathBase.FALSE);
-        this.setDefaultMathAttribute(Mo.ATTR_SYMMETRIC, MathBase.TRUE);
-        this.setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
-                AttributesHelper.INFINITY);
+        this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, Constants.FALSE);
+        this.setDefaultMathAttribute(Mo.ATTR_SYMMETRIC, Constants.TRUE);
+        this
+                .setDefaultMathAttribute(Mo.ATTR_MAXSIZE,
+                        AttributesHelper.INFINITY);
         this.setDefaultMathAttribute(Mo.ATTR_MINSIZE, "1");
-        this.setDefaultMathAttribute(Mo.ATTR_LARGEOP, MathBase.FALSE);
-        this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, MathBase.FALSE);
-        this.setDefaultMathAttribute(Mo.ATTR_ACCENT, MathBase.FALSE);
+        this.setDefaultMathAttribute(Mo.ATTR_LARGEOP, Constants.FALSE);
+        this.setDefaultMathAttribute(Mo.ATTR_MOVABLELIMITS, Constants.FALSE);
+        this.setDefaultMathAttribute(Mo.ATTR_ACCENT, Constants.FALSE);
+        this.opDict = OperatorDictionary2.getInstance();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mo(this.nodeName, this.ownerDocument);
     }
 
     /**
@@ -178,23 +194,23 @@ public class Mo extends AbstractJEuclidElement implements
      * 
      * @return Flag of lspace property.
      */
-    private float getLspaceAsFloat() {
-        // TODO: decide if this is necessary
-        // if (this.getParent().isChildBlock(this)) {
-        return AttributesHelper.convertSizeToPt(this.getLspace(), this
-                .getCurrentLayoutContext(), AttributesHelper.PT);
-        // } else {
-        // return 0.0f;
-        // }
+    private float getLspaceAsFloat(final LayoutContext now) {
+        if (((Integer) now.getParameter(Parameter.SCRIPTLEVEL)) > 0) {
+            return 0.0f;
+        } else {
+            return AttributesHelper.convertSizeToPt(this.getLspace(), now,
+                    AttributesHelper.PT);
+        }
     }
 
     /**
+     * @param now
+     *            applied layout context.
      * @return Multiplier for increasing size of mo whith attribute largop =
      *         true
      */
-    public float getLargeOpCorrector() {
-        if (Display.BLOCK.equals(this.getCurrentLayoutContext().getParameter(
-                Parameter.DISPLAY))) {
+    public float getLargeOpCorrector(final LayoutContext now) {
+        if (Display.BLOCK.equals(now.getParameter(Parameter.DISPLAY))) {
             return Mo.LARGEOP_CORRECTOR_BLOCK;
         } else {
             return Mo.LARGEOP_CORRECTOR_INLINE;
@@ -206,14 +222,13 @@ public class Mo extends AbstractJEuclidElement implements
      * 
      * @return Flag of rspace property.
      */
-    private float getRspaceAsFloat() {
-        // TODO: Decide if this is necessary
-        // if (this.getParent().isChildBlock(this)) {
-        return AttributesHelper.convertSizeToPt(this.getRspace(), this
-                .getCurrentLayoutContext(), AttributesHelper.PT);
-        // } else {
-        // return 0.0f;
-        // }
+    private float getRspaceAsFloat(final LayoutContext now) {
+        if (((Integer) now.getParameter(Parameter.SCRIPTLEVEL)) > 0) {
+            return 0.0f;
+        } else {
+            return AttributesHelper.convertSizeToPt(this.getRspace(), now,
+                    AttributesHelper.PT);
+        }
     }
 
     private boolean isFence() {
@@ -258,254 +273,74 @@ public class Mo extends AbstractJEuclidElement implements
         return this.getMathAttribute(Mo.ATTR_MINSIZE);
     }
 
-    private boolean isVerticalDelimeter() {
-        return this.getText().length() == 1
-                && (Mo.VER_DELIMITERS.indexOf(this.getText().charAt(0)) >= 0 || this
-                        .isFence());
-    }
-
-    private boolean isHorizontalDelimeter() {
-        return this.getText().length() == 1
-                && (Mo.HOR_DELIMITERS.indexOf(this.getText().charAt(0)) >= 0);
-    }
-
-    /**
-     * Paints this element.
-     * 
-     * @param g
-     *            The graphics context to use for painting
-     * @param posX
-     *            The first left position for painting
-     * @param posY
-     *            The position of the baseline
-     */
-    @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        super.paint(g, posX, posY);
-        this.calculateSpecs(g);
-
-        if (this.getText().length() > 0) {
-            final TextLayout theLayout = this.produceUnstrechtedLayout(g);
-            final AffineTransform saveAt = g.getTransform();
-            g.translate(this.getLspaceAsFloat() + posX, posY
-                    + this.calcBaselineShift);
-            g.transform(AffineTransform.getScaleInstance(this.calcScaleX,
-                    this.calcScaleY));
-            theLayout.draw(g, 0, 0);
-            g.setTransform(saveAt);
-        }
-    }
-
-    private TextLayout produceUnstrechtedLayout(final Graphics2D g) {
-        Defense.notNull(g, "g");
-        float fontSizeInPoint = this.getFontsizeInPoint();
+    private TextLayout produceUnstrechtedLayout(final Graphics2D g,
+            final LayoutContext now) {
+        assert g != null : "Graphics2d is null in produceUnstrechtedLayout";
+        float fontSizeInPoint = GraphicsSupport.getFontsizeInPoint(now);
         if (Boolean.parseBoolean(this.getLargeop())) {
-            fontSizeInPoint *= this.getLargeOpCorrector();
+            fontSizeInPoint *= this.getLargeOpCorrector(now);
         }
 
         final String theText = this.getText();
         final AttributedString aString = StringUtil
                 .convertStringtoAttributedString(theText, this
-                        .getMathvariantAsVariant(), fontSizeInPoint, this
-                        .getCurrentLayoutContext());
+                        .getMathvariantAsVariant(), fontSizeInPoint, now);
         final TextLayout theLayout = StringUtil
-                .createTextLayoutFromAttributedString(g, aString, this
-                        .getCurrentLayoutContext());
+                .createTextLayoutFromAttributedString(g, aString, now);
         return theLayout;
     }
 
-    private void calculateSpecs(final Graphics2D g) {
-
-        if (Boolean.parseBoolean(this.getStretchy())) {
-            final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
-                    .getBounds();
-            this.calculateVerticalStretchAndBaseline(g, textBounds);
-            this.calculateHorizontalStrech(g, textBounds);
-        } else {
-            this.calcScaleX = 1.0f;
-            this.calcScaleY = 1.0f;
-            this.calcBaselineShift = 0.0f;
-        }
-    }
-
-    private void calculateHorizontalStrech(final Graphics2D g,
-            final Rectangle2D textBounds) {
-        final JEuclidElement parent = this.getParent();
-        if ((this.isHorizontalDelimeter())
-                && (parent instanceof MathMLUnderOverElement)) {
-            final float realwidth = (float) (textBounds.getWidth() + textBounds
-                    .getX());
-
-            final MathMLUnderOverElement muo = (MathMLUnderOverElement) parent;
-            final JEuclidElement base = (JEuclidElement) muo.getBase();
-            parent.setCalculatingSize(true);
-            final float targetwidth = base.getWidth(g);
-            parent.setCalculatingSize(false);
-            if (realwidth > 0) {
-                this.calcScaleX = targetwidth / realwidth;
-            } else {
-                this.calcScaleX = 1.0f;
-            }
-        } else {
-            this.calcScaleX = 1.0f;
-        }
-    }
-
-    private void calculateVerticalStretchAndBaseline(final Graphics2D g,
-            final Rectangle2D textBounds) {
-        if (this.isVerticalDelimeter()) {
-            final JEuclidElement parent = this.getParent();
-            parent.setCalculatingSize(true);
-            final List<JEuclidElement> parentsChildren = ElementListSupport
-                    .createListOfChildren(parent);
-            final float ascent = ElementListSupport.getAscentHeight(g,
-                    parentsChildren);
-            final float descent = ElementListSupport.getDescentHeight(g,
-                    parentsChildren);
-            parent.setCalculatingSize(false);
-            final float realheight = (float) textBounds.getHeight();
-            final float targetheight = Math.max(realheight, ascent + descent);
-
-            // TODO: use minsize / maxsize
-            if (realheight > 0) {
-                this.calcScaleY = targetheight / realheight;
-            } else {
-                this.calcScaleY = 1.0f;
-            }
-
-            final float realDescent = (float) ((textBounds.getY() + textBounds
-                    .getHeight()) * this.calcScaleY);
-            this.calcBaselineShift = descent - realDescent;
-        } else {
-            this.calcScaleY = 1.0f;
-            this.calcBaselineShift = 0.0f;
-        }
-    }
-
     /** {@inheritDoc} */
     @Override
-    public float calculateWidth(final Graphics2D g) {
-        final float space = this.getLspaceAsFloat() + this.getRspaceAsFloat();
-        if (this.getText().equals("")) {
-            return space;
-        } else {
-            final float scaleFactor;
-            if (this.getParent().isCalculatingSize()) {
-                scaleFactor = 1.0f;
-            } else {
-                this.calculateSpecs(g);
-                scaleFactor = this.calcScaleX;
-            }
-            return StringUtil.getWidthForTextLayout(this
-                    .produceUnstrechtedLayout(g))
-                    * scaleFactor + space;
-        }
-
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float getXCenter(final Graphics2D g) {
-        return (this.getWidth(g) - this.getRspaceAsFloat() + this
-                .getLspaceAsFloat()) / 2.0f;
-
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateAscentHeight(final Graphics2D g) {
-        if (this.getText().equals("")) {
-            return g.getFontMetrics().getAscent();
-        } else {
-
-            final float scaleFactor;
-            if (this.getParent().isCalculatingSize()) {
-                scaleFactor = 1.0f;
-            } else {
-                this.calculateSpecs(g);
-                scaleFactor = this.calcScaleY;
-            }
-
-            // TextLayout.getAscent returns the max ascent for this font,
-            // not the one for the actual content!
-            final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
-                    .getBounds();
-            return (float) (-textBounds.getY() * scaleFactor - this.calcBaselineShift);
-        }
-
-    }
-
-    private float descentWithoutScaleFactor(final Graphics2D g) {
-        final Rectangle2D textBounds = this.produceUnstrechtedLayout(g)
-                .getBounds();
-        return (float) (textBounds.getY() + textBounds.getHeight());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-
-        if (this.getText().equals("")) {
-            return g.getFontMetrics().getDescent();
-        } else {
-
-            final float scaleFactor;
-            if (this.getParent().isCalculatingSize()) {
-                scaleFactor = 1.0f;
-            } else {
-                this.calculateSpecs(g);
-                scaleFactor = this.calcScaleY;
-            }
-            return this.descentWithoutScaleFactor(g) * scaleFactor
-                    + this.calcBaselineShift;
-        }
-
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void changeHook() {
+    public void changeHook() {
         super.changeHook();
-        this.detectFormParameter();
-        this.loadAttributeFromDictionary(Mo.ATTR_LARGEOP, MathBase.FALSE);
-        this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC, MathBase.TRUE);
-        this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY, MathBase.FALSE);
-        this.loadAttributeFromDictionary(Mo.ATTR_FENCE, MathBase.FALSE);
-        this.loadAttributeFromDictionary(Mo.ATTR_LSPACE,
-                AttributesHelper.THICKMATHSPACE);
-        this.loadAttributeFromDictionary(Mo.ATTR_RSPACE,
-                AttributesHelper.THICKMATHSPACE);
-        this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS,
-                MathBase.FALSE);
+        if (!this.inChangeHook) {
+            this.inChangeHook = true;
+            this.detectFormParameter();
+            this.loadAttributeFromDictionary(Mo.ATTR_LARGEOP, Constants.FALSE);
+            this.loadAttributeFromDictionary(Mo.ATTR_SYMMETRIC, Constants.TRUE);
+            this.loadAttributeFromDictionary(Mo.ATTR_STRETCHY, Constants.FALSE);
+            this.loadAttributeFromDictionary(Mo.ATTR_FENCE, Constants.FALSE);
+            this.loadAttributeFromDictionary(Mo.ATTR_LSPACE,
+                    AttributesHelper.THICKMATHSPACE);
+            this.loadAttributeFromDictionary(Mo.ATTR_RSPACE,
+                    AttributesHelper.THICKMATHSPACE);
+            this.loadAttributeFromDictionary(Mo.ATTR_MOVABLELIMITS,
+                    Constants.FALSE);
+            // TODO: Load all.
+            this.registerWithParentsForEvents();
+            if (this.isFence()) {
+                this.setDefaultMathAttribute(Mo.ATTR_STRETCHY,
+                        Mo.VALUE_STRETCHY_VERTICAL);
+            }
+            final CustomEvent evt = new DOMCustomEvent();
+            evt.initCustomEventNS(null, Mo.MOEVENT, true, false, null);
+            this.dispatchEvent(evt);
+            this.inChangeHook = false;
+        }
+    }
 
-        // TODO: Load all.
-        final JEuclidElement parent = this.getParent();
-        if (parent != null) {
-            if (parent.hasChildPostscripts(this)) {
-                this.setDefaultMathAttribute(Mo.ATTR_RSPACE,
-                        MathBase.VALUE_ZERO);
+    private void registerWithParentsForEvents() {
+        JEuclidElement parent = this.getParent();
+        while (parent != null) {
+            if (parent instanceof EventTarget) {
+                ((EventTarget) parent).addEventListener("DOMSubtreeModified",
+                        this, false);
             }
-            if (parent.hasChildPrescripts(this)) {
-                this.setDefaultMathAttribute(Mo.ATTR_LSPACE,
-                        MathBase.VALUE_ZERO);
-            }
-            if (parent instanceof ChangeTrackingInterface) {
-                ((ChangeTrackingInterface) parent).addListener(this);
+            if ((parent instanceof Mrow) && (parent.getMathElementCount() > 1)) {
+                parent = null;
+            } else {
+                parent = parent.getParent();
             }
         }
-
-        if (this.isFence()) {
-            this.setDefaultMathAttribute(Mo.ATTR_STRETCHY, MathBase.TRUE);
-        }
-
     }
 
     private void loadAttributeFromDictionary(final String attrname,
             final String defvalue) {
         String attr;
         try {
-            attr = OperatorDictionary.getDefaultAttributeValue(
-                    this.getText(), this.getForm(), attrname);
+            attr = this.opDict.getDefaultAttributeValue(this.getText(), this
+                    .getForm(), attrname);
         } catch (final UnknownAttributeException e) {
             attr = defvalue;
         }
@@ -519,13 +354,13 @@ public class Mo extends AbstractJEuclidElement implements
     private void detectFormParameter() {
         final String form;
         final JEuclidElement parent = this.getParent();
-        if (parent != null && (parent instanceof Mrow)) {
+        if ((parent != null) && (parent instanceof Mrow)) {
             final int index = parent.getIndexOfMathElement(this);
-            if (index == 0 && parent.getMathElementCount() > 0) {
+            if ((index == 0) && (parent.getMathElementCount() > 0)) {
                 form = OperatorDictionary.FORM_PREFIX;
             } else {
-                if (index == (parent.getMathElementCount() - 1)
-                        && parent.getMathElementCount() > 0) {
+                if ((index == (parent.getMathElementCount() - 1))
+                        && (parent.getMathElementCount() > 0)) {
                     form = OperatorDictionary.FORM_POSTFIX;
                 } else {
                     form = OperatorDictionary.FORM_INFIX;
@@ -535,12 +370,7 @@ public class Mo extends AbstractJEuclidElement implements
             form = OperatorDictionary.FORM_INFIX;
         }
         this.setDefaultMathAttribute(Mo.ATTR_FORM, form);
-        // TODO: Exception for embelished operators
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mo.ELEMENT;
+        // TODO: Exception for embellished operators
     }
 
     /** {@inheritDoc} */
@@ -555,11 +385,12 @@ public class Mo extends AbstractJEuclidElement implements
 
     /** {@inheritDoc} */
     public String getMovablelimits() {
-        final String wrongAttr = this.getMathAttribute(Mo.ATTR_MOVEABLEWRONG);
-        if (wrongAttr != null) {
-            return wrongAttr;
-        } else {
+        final String wrongAttr = this.getMathAttribute(Mo.ATTR_MOVEABLEWRONG,
+                false);
+        if (wrongAttr == null) {
             return this.getMathAttribute(Mo.ATTR_MOVABLELIMITS);
+        } else {
+            return wrongAttr;
         }
     }
 
@@ -633,9 +464,51 @@ public class Mo extends AbstractJEuclidElement implements
         return this.getMathAttribute(Mo.ATTR_SEPARATOR);
     }
 
+    /**
+     * Retrieves the JEuclid specific extension of the stretch attribute. This
+     * method may return {@link Constants#TRUE}, {@link Constants#FALSE},
+     * {@link #VALUE_STRETCHY_HORIZONTAL}, {@link #VALUE_STRETCHY_VERTICAL}, or
+     * null if no stretchy attribute is set.
+     * 
+     * @return an JEuclid stretchy attribute.
+     */
+    public String getExtendedStretchy() {
+        final String retVal;
+        final Attr attr = this.getAttributeNodeNS(Constants.NS_JEUCLID_EXT,
+                Mo.ATTR_STRETCHY);
+        if (attr == null) {
+            retVal = this.getMathAttribute(Mo.ATTR_STRETCHY);
+        } else {
+            retVal = attr.getValue().trim();
+        }
+        return retVal;
+    }
+
     /** {@inheritDoc} */
     public String getStretchy() {
-        return this.getMathAttribute(Mo.ATTR_STRETCHY);
+        final String stretchVal = this.getExtendedStretchy();
+        if ((Mo.VALUE_STRETCHY_HORIZONTAL.equalsIgnoreCase(stretchVal))
+                || (Mo.VALUE_STRETCHY_VERTICAL.equalsIgnoreCase(stretchVal))) {
+            return Constants.TRUE;
+        } else {
+            return stretchVal;
+        }
+    }
+
+    private boolean isStretchyHorizontal(final String stretchValue) {
+        return Mo.VALUE_STRETCHY_HORIZONTAL.equalsIgnoreCase(stretchValue)
+                || Boolean.parseBoolean(stretchValue);
+    }
+
+    private boolean isStretchyVertical(final String stretchValue) {
+        return Mo.VALUE_STRETCHY_VERTICAL.equalsIgnoreCase(stretchValue)
+                || Boolean.parseBoolean(stretchValue);
+    }
+
+    private boolean isStretchy() {
+        final String stretchValue = this.getExtendedStretchy();
+        return this.isStretchyHorizontal(stretchValue)
+                || this.isStretchyVertical(stretchValue);
     }
 
     /** {@inheritDoc} */
@@ -648,83 +521,144 @@ public class Mo extends AbstractJEuclidElement implements
         return this.getMathAttribute(Mo.ATTR_SYMMETRIC);
     }
 
+    private boolean isSymmetric() {
+        return Boolean.parseBoolean(this.getSymmetric());
+    }
+
     /** {@inheritDoc} */
     @Override
     public void layoutStage1(final LayoutView view, final LayoutInfo info,
-            final LayoutStage childMinStage) {
-        // TODO: This is far incomplete
+            final LayoutStage childMinStage, final LayoutContext context) {
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
         final Graphics2D g = view.getGraphics();
-        final TextLayout t = this.produceUnstrechtedLayout(g);
+        final TextLayout t = this.produceUnstrechtedLayout(g, now);
 
-        final StringUtil.TextLayoutInfo tli = StringUtil.getTextLayoutInfo(t);
+        final StringUtil.TextLayoutInfo tli = StringUtil.getTextLayoutInfo(t,
+                true);
         final float ascent = tli.getAscent();
         final float descent = tli.getDescent();
         final float xOffset = tli.getOffset();
         final float contentWidth = tli.getWidth() + xOffset;
-        final float lspace = this.getLspaceAsFloat();
-        final float rspace = this.getRspaceAsFloat();
+        final JEuclidElement parent = this.getParent();
+        float lspace = this.getLspaceAsFloat(now);
+        float rspace = this.getRspaceAsFloat(now);
+        if ((parent != null) && (parent.hasChildPostscripts(this, context))) {
+            rspace = 0.0f;
+        } else {
+            rspace = this.getRspaceAsFloat(now);
+        }
+        if ((parent != null) && (parent.hasChildPrescripts(this))) {
+            lspace = 0.0f;
+        } else {
+            lspace = this.getLspaceAsFloat(now);
+        }
 
         info.setAscentHeight(ascent, LayoutStage.STAGE1);
         info.setDescentHeight(descent, LayoutStage.STAGE1);
         info.setHorizontalCenterOffset(lspace + contentWidth / 2.0f,
                 LayoutStage.STAGE1);
         info.setWidth(lspace + contentWidth + rspace, LayoutStage.STAGE1);
-        if (Boolean.parseBoolean(this.getStretchy())) {
+        if (this.isStretchy()) {
             info.setLayoutStage(LayoutStage.STAGE1);
+            info.setStretchAscent(0.0f);
+            info.setStretchDescent(0.0f);
         } else {
-            info.setGraphicsObject(new TextObject(t, lspace, 0, null,
-                    (Color) this.getCurrentLayoutContext().getParameter(
-                            Parameter.MATHCOLOR)));
+            info.setGraphicsObject(new TextObject(t, lspace + tli.getOffset(),
+                    0, null, (Color) now.getParameter(Parameter.MATHCOLOR)));
             info.setLayoutStage(LayoutStage.STAGE2);
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public void layoutStage2(final LayoutView view, final LayoutInfo info) {
-        // TODO: This is far incomplete
+    public void layoutStage2(final LayoutView view, final LayoutInfo info,
+            final LayoutContext context) {
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
 
         final Graphics2D g = view.getGraphics();
-        final TextLayout t = this.produceUnstrechtedLayout(g);
+        final TextLayout t = this.produceUnstrechtedLayout(g, now);
 
         final float calcScaleY;
         final float calcScaleX;
         final float calcBaselineShift;
-        final JEuclidElement parent = this.getParent();
-        final LayoutInfo parentInfo = view.getInfo(parent);
-        final Rectangle2D textBounds = t.getBounds();
-        if (this.isVerticalDelimeter()) {
+        final String stretchValue = this.getExtendedStretchy();
+        boolean stretchVertically = this.isStretchyVertical(stretchValue);
+        final boolean stretchHorizontally = this
+                .isStretchyHorizontal(stretchValue);
 
-            final float targetAscent = parentInfo.getStretchAscent();
-            final float targetDescent = parentInfo.getStretchDescent();
-
-            final float targetHeight = targetAscent + targetDescent;
-
-            final float realHeight = (float) textBounds.getHeight();
-
-            // TODO: use minsize / maxsize
-            if (realHeight > 0.0f) {
-                calcScaleY = targetHeight / realHeight;
-            } else {
-                calcScaleY = 1.0f;
+        JEuclidElement horizParent = null;
+        JEuclidElement parent = this;
+        JEuclidElement last;
+        boolean cont;
+        do {
+            last = parent;
+            parent = parent.getParent();
+            cont = false;
+            if ((parent instanceof Mrow) && (parent.getMathElementCount() == 1)) {
+                // Ignore single element Mrows.
+                cont = true;
+            } else if ((parent instanceof MathMLUnderOverElement)
+                    || (parent instanceof MathMLScriptElement)) {
+                // Special Treatment for UnderOverElements to match stretchVert1
+                // test.
+                final boolean isBase;
+                if (parent instanceof MathMLUnderOverElement) {
+                    final MathMLUnderOverElement munderover = (MathMLUnderOverElement) parent;
+                    isBase = munderover.getBase() == last;
+                } else {
+                    final MathMLScriptElement munderover = (MathMLScriptElement) parent;
+                    isBase = munderover.getBase() == last;
+                }
+                if (!isBase) {
+                    stretchVertically = false;
+                }
+                horizParent = parent;
+                cont = true;
             }
-            final float realDescent = (float) ((textBounds.getY() + textBounds
-                    .getHeight()) * calcScaleY);
-            calcBaselineShift = targetDescent - realDescent;
-
-            info.setDescentHeight(targetDescent, LayoutStage.STAGE2);
-            info.setAscentHeight(targetHeight - targetDescent,
-                    LayoutStage.STAGE2);
-        } else {
-            calcScaleY = 1.0f;
-            calcBaselineShift = 0.0f;
+        } while (cont);
+        if (horizParent == null) {
+            horizParent = parent;
         }
 
-        final float stretchWidth = parentInfo.getStretchWidth();
-        if ((this.isHorizontalDelimeter()) && (stretchWidth > 0.0f)) {
-            final float realwidth = (float) (textBounds.getWidth() + textBounds
-                    .getX());
+        final LayoutInfo parentInfo = view.getInfo(parent);
+        final TextLayoutInfo textLayoutInfo = StringUtil.getTextLayoutInfo(t,
+                true);
+        if (parentInfo == null) {
+            calcScaleX = 1.0f;
+            calcScaleY = 1.0f;
+            calcBaselineShift = 0.0f;
+        } else {
+            if (stretchVertically) {
+                final float[] yf = this.calcYScaleFactorAndBaselineShift(info,
+                        parentInfo, textLayoutInfo, now, g);
+                calcScaleY = yf[0];
+                calcBaselineShift = yf[1];
+            } else {
+                calcScaleY = 1.0f;
+                calcBaselineShift = 0.0f;
+            }
+            if (stretchHorizontally) {
+                calcScaleX = this.calcXScaleFactor(info, view
+                        .getInfo(horizParent), textLayoutInfo);
+            } else {
+                calcScaleX = 1.0f;
+            }
+        }
+        info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(now)
+                + textLayoutInfo.getOffset() * calcScaleX, calcBaselineShift,
+                AffineTransform.getScaleInstance(calcScaleX, calcScaleY),
+                (Color) now.getParameter(Parameter.MATHCOLOR)));
+        info.setLayoutStage(LayoutStage.STAGE2);
+    }
+
+    private float calcXScaleFactor(final LayoutInfo info,
+            final LayoutInfo parentInfo, final TextLayoutInfo textLayoutInfo) {
+        final float calcScaleX;
+        final float rstretchWidth = parentInfo.getStretchWidth();
+        if (rstretchWidth > 0.0f) {
+            final float realwidth = textLayoutInfo.getWidth();
             if (realwidth > 0) {
+                final float stretchWidth = Math.max(realwidth, rstretchWidth);
                 calcScaleX = stretchWidth / realwidth;
                 info.setWidth(stretchWidth, LayoutStage.STAGE2);
                 info.setHorizontalCenterOffset(stretchWidth / 2.0f,
@@ -735,12 +669,66 @@ public class Mo extends AbstractJEuclidElement implements
         } else {
             calcScaleX = 1.0f;
         }
+        return calcScaleX;
+    }
 
-        info.setGraphicsObject(new TextObject(t, this.getLspaceAsFloat(),
-                calcBaselineShift, AffineTransform.getScaleInstance(
-                        calcScaleX, calcScaleY), (Color) this
-                        .getCurrentLayoutContext().getParameter(
-                                Parameter.MATHCOLOR)));
-        info.setLayoutStage(LayoutStage.STAGE2);
+    private float[] calcYScaleFactorAndBaselineShift(final LayoutInfo info,
+            final LayoutInfo parentInfo, final TextLayoutInfo textLayoutInfo,
+            final LayoutContext now, final Graphics2D g2d) {
+        final float calcScaleY;
+        final float calcBaselineShift;
+        final float realDescent = textLayoutInfo.getDescent();
+        final float realAscent = textLayoutInfo.getAscent();
+        float targetNAscent;
+        float targetNDescent;
+        if (this.isFence()) {
+            targetNAscent = Math.max(parentInfo
+                    .getAscentHeight(LayoutStage.STAGE1), realAscent);
+            targetNDescent = Math.max(parentInfo
+                    .getDescentHeight(LayoutStage.STAGE1), realDescent);
+        } else {
+            targetNAscent = Math.max(parentInfo.getStretchAscent(), realAscent);
+            targetNDescent = Math.max(parentInfo.getStretchDescent(),
+                    realDescent);
+        }
+        if (this.isSymmetric()) {
+            final float middle = this.getMiddleShift(g2d, now);
+            final float ascentAboveMiddle = targetNAscent - middle;
+            final float descentBelowMiddle = targetNDescent + middle;
+            final float halfHeight = Math.max(ascentAboveMiddle,
+                    descentBelowMiddle);
+            targetNAscent = halfHeight + middle;
+            targetNDescent = halfHeight - middle;
+        }
+        final float targetNHeight = targetNAscent + targetNDescent;
+        final float realHeight = realAscent + realDescent;
+
+        // TODO: MaxSize / MinSize could also be inherited from MStyle.
+        final float maxSize = AttributesHelper.parseRelativeSize(this
+                .getMaxsize(), now, realHeight);
+        final float minSize = AttributesHelper.parseRelativeSize(this
+                .getMinsize(), now, realHeight);
+        final float targetHeight = Math.max(Math.min(targetNHeight, maxSize),
+                minSize);
+        final float targetDescent = targetHeight / targetNHeight
+                * (targetNHeight / 2.0f)
+                - (targetNHeight / 2.0f - targetNDescent);
+
+        if (realHeight > 0.0f) {
+            calcScaleY = targetHeight / realHeight;
+        } else {
+            calcScaleY = 1.0f;
+        }
+        final float realDescentScaled = realDescent * calcScaleY;
+        calcBaselineShift = targetDescent - realDescentScaled;
+
+        info.setDescentHeight(targetDescent, LayoutStage.STAGE2);
+        info.setAscentHeight(targetHeight - targetDescent, LayoutStage.STAGE2);
+        return new float[] { calcScaleY, calcBaselineShift };
+    }
+
+    /** {@inheritDoc} */
+    public void handleEvent(final Event evt) {
+        this.changeHook();
     }
 }

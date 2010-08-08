@@ -20,29 +20,38 @@ package net.sourceforge.jeuclid.elements.presentation.script;
 
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
+
 /**
  * This class represent the empty elements mprescripts.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Mprescripts extends AbstractInvisibleJEuclidElement {
+public final class Mprescripts extends AbstractInvisibleJEuclidElement {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mprescripts";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mprescripts() {
-        super();
+    public Mprescripts(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Mprescripts.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Mprescripts(this.nodeName, this.ownerDocument);
     }
 }

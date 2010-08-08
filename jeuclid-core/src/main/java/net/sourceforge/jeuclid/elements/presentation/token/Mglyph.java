@@ -20,25 +20,33 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 
 import java.awt.Font;
 import java.awt.font.TextAttribute;
+import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
+import net.sourceforge.jeuclid.elements.support.text.TextContentModifier;
 import net.sourceforge.jeuclid.font.FontFactory;
 
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLGlyphElement;
 
 /**
  * Implements the mglyph element.
  * 
- * @todo FontFamliy gives a "deprecated attribute" warning due to the current
- *       design.
- * @todo other attributes (such as italic, bold, etc.) may be inherited from
- *       the context.
- * @author Max Berger
+ * <p>
+ * TODO: FontFamliy gives a "deprecated attribute" warning due to the current
+ * design.
+ * <p>
+ * TODO: other attributes (such as italic, bold, etc.) may be inherited from the
+ * context.
+ * 
  * @version $Revision$
  */
-public class Mglyph extends AbstractTokenWithTextLayout implements
-        MathMLGlyphElement {
+public final class Mglyph extends AbstractTokenWithTextLayout implements
+        MathMLGlyphElement, TextContentModifier {
 
     /**
      * The XML element from this class.
@@ -51,39 +59,52 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
 
     private static final String ATTR_INDEX = "index";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mglyph() {
-        super();
+    public Mglyph(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
-    protected AttributedString textContentAsAttributedString() {
+    protected Node newNode() {
+        return new Mglyph(this.nodeName, this.ownerDocument);
+    }
+
+    /** {@inheritDoc} */
+
+    public AttributedCharacterIterator modifyTextContent(
+            final AttributedCharacterIterator aci, final LayoutContext now) {
         final AttributedString retVal;
-        final String fontFamily = this.getFontfamily().trim();
+        final String ffamily = this.getFontfamily();
+        final String fontFamily;
+        if (ffamily == null) {
+            fontFamily = "serif";
+        } else {
+            fontFamily = ffamily.trim();
+        }
         final Font font = FontFactory.getInstance().getFont(fontFamily,
-                Font.PLAIN, (int) this.getFontsizeInPoint());
+                Font.PLAIN, GraphicsSupport.getFontsizeInPoint(now));
         final int codePoint = this.getIndex();
-        if ((font.getFamily().equalsIgnoreCase(fontFamily))
+        if ((codePoint > 0) && (font.getFamily().equalsIgnoreCase(fontFamily))
                 && (font.canDisplay(codePoint))) {
             retVal = new AttributedString(new String(new int[] { codePoint },
                     0, 1));
             retVal.addAttribute(TextAttribute.FONT, font);
         } else {
-            retVal = StringUtil.convertStringtoAttributedString(
-                    this.getAlt(), this.getMathvariantAsVariant(), this
-                            .getFontsizeInPoint(), this
-                            .getCurrentLayoutContext());
+            retVal = StringUtil.convertStringtoAttributedString(this.getAlt(),
+                    this.getMathvariantAsVariant(), GraphicsSupport
+                            .getFontsizeInPoint(now), now);
         }
-        return retVal;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected boolean isEmpty() {
-        return false;
+        return retVal.getIterator();
     }
 
     /** {@inheritDoc} */
@@ -98,7 +119,16 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
 
     /** {@inheritDoc} */
     public int getIndex() {
-        return Integer.parseInt(this.getMathAttribute(Mglyph.ATTR_INDEX));
+        int retVal = 0;
+        final String indexStr = this.getMathAttribute(Mglyph.ATTR_INDEX);
+        try {
+            if (indexStr != null) {
+                retVal = Integer.parseInt(indexStr);
+            }
+        } catch (final NumberFormatException e) {
+            retVal = 0;
+        }
+        return retVal;
     }
 
     /** {@inheritDoc} */
@@ -114,11 +144,6 @@ public class Mglyph extends AbstractTokenWithTextLayout implements
     /** {@inheritDoc} */
     public void setIndex(final int index) {
         this.setAttribute(Mglyph.ATTR_INDEX, Integer.toString(index));
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mglyph.ELEMENT;
     }
 
 }

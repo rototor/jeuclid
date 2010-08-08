@@ -18,13 +18,17 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.Constants;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.InlineLayoutContext;
+import net.sourceforge.jeuclid.context.RelativeScriptlevelLayoutContext;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
+
+import org.apache.batik.dom.AbstractDocument;
 
 /**
  * Base class for msub, msup, msubsup, and mmultiscripts.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractScriptElement extends AbstractJEuclidElement {
@@ -36,24 +40,27 @@ public abstract class AbstractScriptElement extends AbstractJEuclidElement {
     public static final String ATTR_SUPERSCRIPTSHIFT = "superscriptshift";
 
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractScriptElement() {
-        super();
+    public AbstractScriptElement(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
+        this.setDefaultMathAttribute(AbstractScriptElement.ATTR_SUBSCRIPTSHIFT,
+                Constants.ZERO);
         this.setDefaultMathAttribute(
-                AbstractScriptElement.ATTR_SUBSCRIPTSHIFT,
-                MathBase.VALUE_ZERO);
-        this.setDefaultMathAttribute(
-                AbstractScriptElement.ATTR_SUPERSCRIPTSHIFT,
-                MathBase.VALUE_ZERO);
+                AbstractScriptElement.ATTR_SUPERSCRIPTSHIFT, Constants.ZERO);
     }
 
     /**
      * @return attribute subscriptshift.
      */
     public String getSubscriptshift() {
-        return this
-                .getMathAttribute(AbstractScriptElement.ATTR_SUBSCRIPTSHIFT);
+        return this.getMathAttribute(AbstractScriptElement.ATTR_SUBSCRIPTSHIFT);
     }
 
     /**
@@ -80,6 +87,19 @@ public abstract class AbstractScriptElement extends AbstractJEuclidElement {
     public void setSuperscriptshift(final String superscriptshift) {
         this.setAttribute(AbstractScriptElement.ATTR_SUPERSCRIPTSHIFT,
                 superscriptshift);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
+        if (childNum == 0) {
+            return now;
+        } else {
+            return new RelativeScriptlevelLayoutContext(
+                    new InlineLayoutContext(now), 1);
+        }
     }
 
 }

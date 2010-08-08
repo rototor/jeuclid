@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.LookAndFeel;
@@ -34,22 +35,17 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
 
-import net.sourceforge.jeuclid.DOMBuilder;
-import net.sourceforge.jeuclid.Defense;
-import net.sourceforge.jeuclid.MathBase;
 import net.sourceforge.jeuclid.MutableLayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
 
 /**
- * See
- * http://today.java.net/pub/a/today/2007/02/22/how-to-write-custom-swing-component.html
- * for details.
+ * See http://today.java.net/pub/a/today/2007/02/22/how-to-write-custom-swing-
+ * component.html for details.
  * 
- * @author putrycze
  * @version $Revision$
  * 
  */
@@ -59,63 +55,76 @@ public class MathComponentUI extends ComponentUI implements
     /**
      * Logger for this class
      */
-    private static final Log LOGGER = LogFactory
-            .getLog(MathComponentUI.class);
+    private static final Log LOGGER = LogFactory.getLog(MathComponentUI.class);
 
     private JMathComponent mathComponent;
 
     /**
-     * Reference to the MathBase class.
+     * Reference to layout tree.
      */
-    private MathBase base;
+    private JEuclidView jEuclidView;
+
+    /** Reference to document. */
+    private Node document;
+
+    private Dimension preferredSize;
 
     /**
-     * Creates a new UI.
-     * 
+     * Default constructor.
      */
     public MathComponentUI() {
-        // nothing to do
+        super();
+        // nothing to do.
     }
 
     /** {@inheritDoc} */
     @Override
     public void paint(final Graphics g, final JComponent c) {
-        final Graphics2D g2 = (Graphics2D) g;
-        final Dimension dim = new Dimension(this.mathComponent.getWidth(),
-                this.mathComponent.getHeight());
+        this.preferredSize = null;
+        // using the size seems to cause flickering is some cases
+        final Dimension dim = this.mathComponent.getSize();
         final Point start = this
                 .getStartPointWithBordersAndAdjustDimension(dim);
         this.paintBackground(g, dim, start);
-        if (this.base != null) {
-            final Point2D alignOffset = this.calucateAlignmentOffset(g2, dim);
-            this.base.paint((Graphics2D) g, (float) alignOffset.getX()
+        if (this.jEuclidView != null) {
+            final Point2D alignOffset = this.calculateAlignmentOffset(dim);
+            this.jEuclidView.draw((Graphics2D) g, (float) alignOffset.getX()
                     + start.x, (float) alignOffset.getY() + start.y);
         }
 
     }
 
-    private Point2D calucateAlignmentOffset(final Graphics2D g2,
-            final Dimension dim) {
+    /** {@inheritDoc} */
+    @Override
+    public void update(final Graphics g, final JComponent c) {
+        if (c.isOpaque()) {
+            g.setColor(c.getBackground());
+            g.fillRect(0, 0, c.getWidth(), c.getHeight());
+        }
+        this.paint(g, c);
+    }
+
+    private Point2D calculateAlignmentOffset(final Dimension dim) {
         final float xo;
         if ((this.mathComponent.getHorizontalAlignment() == SwingConstants.LEADING)
                 || (this.mathComponent.getHorizontalAlignment() == SwingConstants.LEFT)) {
             xo = 0.0f;
         } else if ((this.mathComponent.getHorizontalAlignment() == SwingConstants.TRAILING)
                 || (this.mathComponent.getHorizontalAlignment() == SwingConstants.RIGHT)) {
-            xo = dim.width - this.base.getWidth(g2);
+            xo = dim.width - this.jEuclidView.getWidth();
         } else {
-            xo = (dim.width - this.base.getWidth(g2)) / 2.0f;
+            xo = (dim.width - this.jEuclidView.getWidth()) / 2.0f;
         }
         final float yo;
         if (this.mathComponent.getVerticalAlignment() == SwingConstants.TOP) {
-            yo = 0.0f;
+            yo = this.jEuclidView.getAscentHeight();
         } else if (this.mathComponent.getVerticalAlignment() == SwingConstants.BOTTOM) {
-            yo = dim.height - this.base.getHeight(g2);
+            yo = dim.height - this.jEuclidView.getDescentHeight();
         } else {
-            yo = (dim.height - this.base.getHeight(g2)) / 2.0f;
+            yo = (dim.height + this.jEuclidView.getAscentHeight() - this.jEuclidView
+                    .getDescentHeight()) / 2.0f;
         }
-        final Point2D alignOffset = new Point2D.Float(xo, yo);
-        return alignOffset;
+        return new Point2D.Float(xo, yo);
     }
 
     private void paintBackground(final Graphics g, final Dimension dim,
@@ -127,8 +136,7 @@ public class MathComponentUI extends ComponentUI implements
         }
     }
 
-    private Point getStartPointWithBordersAndAdjustDimension(
-            final Dimension dim) {
+    private Point getStartPointWithBordersAndAdjustDimension(final Dimension dim) {
         Point start = new Point(0, 0);
         final Border border = this.mathComponent.getBorder();
         if (border != null) {
@@ -157,9 +165,14 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     @Override
     public void installUI(final JComponent c) {
-        this.mathComponent = (JMathComponent) c;
-        c.addPropertyChangeListener(this);
-        this.installDefaults(this.mathComponent);
+        if (c instanceof JMathComponent) {
+            this.mathComponent = (JMathComponent) c;
+            c.addPropertyChangeListener(this);
+            this.installDefaults(this.mathComponent);
+        } else {
+            throw new IllegalArgumentException(
+                    "This UI can only be installed on a JMathComponent");
+        }
     }
 
     /**
@@ -184,54 +197,97 @@ public class MathComponentUI extends ComponentUI implements
     /** {@inheritDoc} */
     public void propertyChange(final PropertyChangeEvent evt) {
         final String name = evt.getPropertyName();
-        if (name.equals("document") || name.equals("property")) {
+        if ("document".equals(name) || "property".equals(name)) {
             final JMathComponent jc = (JMathComponent) evt.getSource();
-            this.redo((Node) evt.getNewValue(), jc.getParameters());
+            this.document = (Node) evt.getNewValue();
+            this.redo(jc.getParameters(), (Graphics2D) jc.getGraphics());
             // jc.repaint();
         } else {
             try {
-                final Parameter key = Parameter.valueOf(name);
-                this.base.getRootElement().getCurrentLayoutContext()
-                        .setParameter(key, evt.getNewValue());
-                this.base.getRootElement().fireChangeForSubTree();
-            } catch (final IllegalArgumentException ia) {
+                final JMathComponent jc = (JMathComponent) evt.getSource();
+                this.redo(jc.getParameters(), (Graphics2D) jc.getGraphics());
+            } catch (final ClassCastException ia) {
                 MathComponentUI.LOGGER.debug(ia);
             }
         }
     }
 
-    private void redo(final Node doc, final MutableLayoutContext parameters) {
-        if (doc != null) {
-            this.base = new MathBase();
-            DOMBuilder.getDOMBuilder().createJeuclidDom(doc, this.base);
-            this.base.getRootElement().setLayoutContext(parameters);
+    private void redo(final MutableLayoutContext parameters,
+            final Graphics2D g2d) {
+        if ((this.document == null) || (g2d == null)) {
+            this.jEuclidView = null;
         } else {
-            this.base = null;
+            this.jEuclidView = new JEuclidView(this.document, parameters, g2d);
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public Dimension getMinimumSize(final JComponent c) {
-        final Dimension dim;
-        if (this.base == null || c.getGraphics() == null) {
-            dim = this.getPreferredSize(c);
-        } else {
-            final Graphics2D g2d = (Graphics2D) c.getGraphics();
-            Defense.notNull(g2d, "g2d");
-            dim = new Dimension((int) Math.ceil(this.base.getWidth(g2d)),
-                    (int) Math.ceil(this.base.getHeight(g2d)));
+    public Dimension getPreferredSize(final JComponent c) {
+        return this.getMathComponentSize(c);
+    }
+
+    /**
+     * Retrieve the preferred size of the math component. This function caches
+     * its result for faster operation.
+     * 
+     * @param c
+     *            the math component to measure
+     * @return the preferred size.
+     */
+    private Dimension getMathComponentSize(final JComponent c) {
+        if (this.preferredSize == null) {
+            if (this.jEuclidView == null || c.getGraphics() == null) {
+                return super.getPreferredSize(c);
+            }
+            this.calculatePreferredSize(c);
         }
+        return this.preferredSize;
+    }
+
+    private void calculatePreferredSize(final JComponent c) {
+        this.preferredSize = new Dimension((int) Math.ceil(this.jEuclidView
+                .getWidth()), (int) Math.ceil(this.jEuclidView
+                .getAscentHeight()
+                + this.jEuclidView.getDescentHeight()));
+
         final Border border = c.getBorder();
         if (border != null) {
             final Insets insets = border.getBorderInsets(c);
             if (insets != null) {
-                dim.width += insets.left + insets.right;
-                dim.height += insets.top + insets.bottom;
+                this.preferredSize.width += insets.left + insets.right;
+                this.preferredSize.height += insets.top + insets.bottom;
             }
         }
-        return dim;
+    }
 
+    /** {@inheritDoc} */
+    @Override
+    public Dimension getMaximumSize(final JComponent c) {
+        return this.getMathComponentSize(c);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Dimension getMinimumSize(final JComponent c) {
+        return this.getMathComponentSize(c);
+    }
+
+    /**
+     * Get vector of {@link JEuclidView.NodeRect} at a particular mouse
+     * position.
+     * 
+     * @param x
+     *            x-coord
+     * @param y
+     *            y-coord
+     * @return list of nodes with rendering information
+     */
+    public List<JEuclidView.NodeRect> getNodesAt(final float x, final float y) {
+        final Point2D point = this.calculateAlignmentOffset(this.mathComponent
+                .getSize());
+        return this.jEuclidView.getNodesAt(x, y, (float) point.getX(),
+                (float) point.getY());
     }
 
 }

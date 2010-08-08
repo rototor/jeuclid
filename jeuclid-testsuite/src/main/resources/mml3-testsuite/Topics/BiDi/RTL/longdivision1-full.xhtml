@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  longdivision1</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../../Topics/BiDi/LTR/munderover1-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Topics/">Topics</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Topics/BiDi/">BiDi</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Topics/BiDi/RTL/">RTL</a> &gt; longdivision1
+   ) </td><td style="text-align: right"><a href="../../../Topics/BiDi/RTL/mathvariant1-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="longdivision1.mml">mml file</a>)
+       (<a href="longdivision1-full.xhtml">full</a>) (<a href="longdivision1-simple.xhtml">simple</a>) (<a href="longdivision1-plain.xhtml">plain</a>) (<a href="longdivision1-form.xhtml">form</a>) (<a href="longdivision1-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>Topics/BiDi/RTL/longdivision1</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Abdelshafi Bekhit, Mathematics for primary grade IV, Province Cairo of Egypt and the same in Arabic probably.</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>Long Devision for dividing two numbers. The example shows how the division of 1320/11 is performed to obtain the result 120, 
+  and the output of subtraction is zero (صفر).
+ This example is in Arabic language and it is set in an overall RTL context.
+  The authors of the school-book are: Dr. Fayez Mourad Mina; Dr. Ahmed Mohamed Sid-Ahmed; Dr. Jean Michel Hanna
+	and the publisher: Dar Al-Shaab foundation, City: Cairo, year: 2008, and the filing No.is 2008/10315.
+	See also <a href="http://www.skoool.com.eg/Default.aspx?tabid=88">Online School</a>, and <a href="http://www.skoool.com.eg/Default.aspx?tabid=88">ELearning-Ministry of Education, Egypt</a> 
+ </td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p><table><tr><td><img src="longdivision1.png" alt="Created by: I drew it."></img></td></tr></table></td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block" dir="rtl">
+<mlongdiv longdivstyle="stackedleftlinetop">
+  <mn> ١٢٠</mn>
+  <mn> ١١ </mn>
+  <msgroup>
+    <mn> ١٣٢٠</mn>
+    <msrow position="2"><mn> ١١</mn> <mo>-</mo> </msrow>
+  </msgroup>
+  <msline length="2" position="2"></msline>
+  <msgroup position="1">
+    <mn> ٢٢</mn>
+    <mn> ٢٢</mn><mo>-</mo> 
+    <msline length="2"></msline>
+  </msgroup>
+  <mtext>صفر</mtext>
+</mlongdiv>
+</math>
+  </span><hr></hr><p><b>Source Code</b>:</p><pre>
+
+&lt;math  xmlns="http://www.w3.org/1998/Math/MathML" display="block" dir="rtl"&gt;
+&lt;mlongdiv longdivstyle="stackedleftlinetop"&gt;
+  &lt;mn&gt; &amp;#x0661;&amp;#x0662;&amp;#x0660;&lt;/mn&gt;
+  &lt;mn&gt; &amp;#x0661;&amp;#x0661; &lt;/mn&gt;
+  &lt;msgroup&gt;
+    &lt;mn&gt; &amp;#x0661;&amp;#x0663;&amp;#x0662;&amp;#x0660;&lt;/mn&gt;
+    &lt;msrow position="2"&gt;&lt;mn&gt; &amp;#x0661;&amp;#x0661;&lt;/mn&gt; &lt;mo&gt;-&lt;/mo&gt; &lt;/msrow&gt;
+  &lt;/msgroup&gt;
+  &lt;msline length="2" position="2"/&gt;
+  &lt;msgroup position="1"&gt;
+    &lt;mn&gt; &amp;#x0662;&amp;#x0662;&lt;/mn&gt;
+    &lt;mn&gt; &amp;#x0662;&amp;#x0662;&lt;/mn&gt;&lt;mo&gt;-&lt;/mo&gt; 
+    &lt;msline length="2"/&gt;
+  &lt;/msgroup&gt;
+  &lt;mtext&gt;&amp;#x0635;&amp;#x0641;&amp;#x0631;&lt;/mtext&gt;
+&lt;/mlongdiv&gt;
+&lt;/math&gt; 
+  </pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../../Topics/BiDi/LTR/munderover1-full.xhtml";
+		} else {
+		window.location.href = "../../../Topics/BiDi/LTR/munderover1-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../../Topics/BiDi/RTL/mathvariant1-full.xhtml";
+		} else {
+		window.location.href = "../../../Topics/BiDi/RTL/mathvariant1-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

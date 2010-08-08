@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  miStoken10</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../../Presentation/TokenElements/mi/miSmathsize17-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/">Presentation</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/TokenElements/">TokenElements</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/TokenElements/mi/">mi</a> &gt; miStoken10
+   ) </td><td style="text-align: right"><a href="../../../Presentation/TokenElements/mline/rec-mline1-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="miStoken10.mml">mml file</a>)
+       (<a href="miStoken10-full.xhtml">full</a>) (<a href="miStoken10-simple.xhtml">simple</a>) (<a href="miStoken10-plain.xhtml">plain</a>) (<a href="miStoken10-form.xhtml">form</a>) (<a href="miStoken10-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>Presentation/TokenElements/mi/miStoken10</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Robert Miner and Jeff Schaefer, Geometry Technologies</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>Tests that token element attributes set on &lt;mi&gt; are
+unaffected by being put into an &lt;mstyle&gt; environment. Also tests
+various multiple color attribute value formats.</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p><table><tr><td><img src="miStoken10.png" alt="Created by: webeq"></img></td></tr></table></td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <mstyle displaystyle="true"> 
+        <mrow> 
+          <mi>A</mi> 
+          <mo>+</mo> 
+          <mi fontweight="bold">A</mi> 
+          <mo>+</mo> 
+          <mi fontweight="normal" fontstyle="italic">A 
+          </mi> 
+          <mo>+</mo> 
+          <mi fontstyle="normal">A</mi> 
+          <mo>+</mo> 
+          <mi fontweight="bold" fontstyle="normal">A 
+          </mi> 
+          <mo>+</mo> 
+          <mi color="#9c0fff">A</mi> 
+          <mo>+</mo> 
+          <mi color="#0ee">A</mi> 
+          <mo>+</mo> 
+          <mi color="Green">A</mi> 
+          <mo>+</mo> 
+          <mi fontfamily="Helvetica">A</mi> 
+        </mrow> 
+      </mstyle> 
+    </math>
+  </span><hr></hr><p><b>Source Code</b>:</p><pre>
+    &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+      &lt;mstyle displaystyle='true'&gt; 
+        &lt;mrow&gt; 
+          &lt;mi&gt;A&lt;/mi&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;mi fontweight='bold'&gt;A&lt;/mi&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;mi fontweight='normal' fontstyle='italic'&gt;A 
+          &lt;/mi&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;mi fontstyle='normal'&gt;A&lt;/mi&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;mi fontweight='bold' fontstyle='normal'&gt;A 
+          &lt;/mi&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;mi color='#9c0fff'&gt;A&lt;/mi&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;mi color='#0ee'&gt;A&lt;/mi&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;mi color='Green'&gt;A&lt;/mi&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;mi fontfamily='Helvetica'&gt;A&lt;/mi&gt; 
+        &lt;/mrow&gt; 
+      &lt;/mstyle&gt; 
+    &lt;/math&gt;
+  </pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/TokenElements/mi/miSmathsize17-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/TokenElements/mi/miSmathsize17-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/TokenElements/mline/rec-mline1-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/TokenElements/mline/rec-mline1-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

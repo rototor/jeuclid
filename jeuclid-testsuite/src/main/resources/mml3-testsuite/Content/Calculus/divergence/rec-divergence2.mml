@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <limit></limit>  
+    <bvar>
+      <ci>V</ci> 
+    </bvar>  
+    <condition>
+      <apply>
+        <tendsto></tendsto>  
+        <ci>V</ci> 
+        <cn>0</cn> 
+      </apply> 
+    </condition> 
+    <apply>
+      <divide></divide> 
+      <apply> 
+        <int encoding="text" definitionURL="SurfaceIntegrals.htm"></int> 
+        <bvar> 
+          <ci>S</ci> 
+        </bvar>  
+        <ci>a</ci> 
+      </apply> 
+      <ci>V</ci> 
+    </apply> 
+  </apply> 
+</math>

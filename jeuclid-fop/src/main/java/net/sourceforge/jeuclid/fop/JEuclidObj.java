@@ -37,7 +37,6 @@ import org.apache.fop.fo.XMLObj;
  * Catch all MathML objects as default element.
  * 
  * @version $Revision$
- * @author Max Berger
  */
 public class JEuclidObj extends XMLObj {
 

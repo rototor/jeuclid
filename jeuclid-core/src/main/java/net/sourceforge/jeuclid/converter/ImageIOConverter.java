@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 package net.sourceforge.jeuclid.converter;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,46 +27,56 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 
-import org.w3c.dom.Document;
+import net.sourceforge.jeuclid.LayoutContext;
 
-import net.sourceforge.jeuclid.MathBase;
+import org.w3c.dom.Node;
 
 /**
  * supports conversion to standard Raster formats through ImageIO.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class ImageIOConverter implements ConverterPlugin {
 
     private final ImageWriter writer;
 
+    private final int colorModel;
+
     /**
      * Default constructor.
      * 
      * @param iw
      *            ImageWrite instance to use for this converter.
+     * @param noAlpha
+     *            if true, this image format does not support alpha values.
      */
-    ImageIOConverter(final ImageWriter iw) {
+    ImageIOConverter(final ImageWriter iw, final boolean noAlpha) {
         this.writer = iw;
+        if (noAlpha) {
+            this.colorModel = BufferedImage.TYPE_INT_RGB;
+        } else {
+            this.colorModel = BufferedImage.TYPE_INT_ARGB;
+        }
     }
 
     /** {@inheritDoc} */
-    public Dimension convert(final MathBase base, final OutputStream outStream)
-            throws IOException {
+    public Dimension convert(final Node doc, final LayoutContext context,
+            final OutputStream outStream) throws IOException {
         final ImageOutputStream ios = new MemoryCacheImageOutputStream(
                 outStream);
-        this.writer.setOutput(ios);
-        final BufferedImage image = Converter.getConverter().render(base);
-        this.writer.write(image);
+        final BufferedImage image = Converter.getInstance().render(doc,
+                context, this.colorModel);
+        synchronized (this.writer) {
+            this.writer.setOutput(ios);
+            this.writer.write(image);
+        }
         ios.close();
-        final Graphics2D temp = (Graphics2D) image.getGraphics();
-        return new Dimension((int) Math.ceil(base.getWidth(temp)), (int) Math
-                .ceil(base.getWidth(temp)));
+        return new Dimension(image.getWidth(), image.getHeight());
     }
 
     /** {@inheritDoc} */
-    public Document convert(final MathBase mathBase) {
+    public DocumentWithDimension convert(final Node doc,
+            final LayoutContext context) {
         return null;
     }
 

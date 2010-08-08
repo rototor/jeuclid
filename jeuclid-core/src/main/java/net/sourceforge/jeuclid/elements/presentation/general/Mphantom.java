@@ -18,56 +18,50 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
-import java.awt.Graphics2D;
+import java.util.Collections;
+import java.util.List;
+
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
+
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 
 /**
  * This class represents a phantom of a math element. This is used as spacer.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Mphantom extends AbstractMathElementWithChildren {
+public final class Mphantom extends AbstractContainer {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mphantom";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mphantom() {
-        super();
+    public Mphantom(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        super.paint(g, posX, posY);
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mphantom.ELEMENT;
+    protected Node newNode() {
+        return new Mphantom(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */
     @Override
-    public float calculateAscentHeight(final Graphics2D g) {
-        return super.calculateChildrenAscentHeight(g);
+    public List<LayoutableNode> getChildrenToDraw() {
+        return Collections.emptyList();
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-        return super.calculateChildrenDescentHeight(g);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        return super.calculateChildrenWidth(g);
-    }
-
 }

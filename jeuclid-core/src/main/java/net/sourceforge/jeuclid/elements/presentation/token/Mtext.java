@@ -18,33 +18,38 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
-import org.w3c.dom.mathml.MathMLPresentationToken;
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 
 /**
  * This class presents text in a equation and contains some utility methods.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Mtext extends AbstractTokenWithStandardLayout implements
-        MathMLPresentationToken {
+public final class Mtext extends AbstractTokenWithTextLayout {
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mtext";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
      * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mtext() {
-        super();
+    public Mtext(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Mtext.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Mtext(this.nodeName, this.ownerDocument);
     }
 
 }

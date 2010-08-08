@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,28 +22,19 @@
  */
 package net.sourceforge.jeuclid.fop;
 
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-
-import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.MathMLParserSupport;
-import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
+import net.sourceforge.jeuclid.xmlgraphics.Graphics2DImagePainterMathML;
 
 import org.apache.fop.render.Graphics2DAdapter;
-import org.apache.fop.render.Graphics2DImagePainter;
 import org.apache.fop.render.Renderer;
 import org.apache.fop.render.RendererContext;
 import org.apache.fop.render.XMLHandler;
+import org.apache.xmlgraphics.java2d.Graphics2DImagePainter;
 import org.w3c.dom.Document;
 
 /**
  * XMLHandler which draws MathML through a fop G2DAdapter.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class JEuclidXMLHandler implements XMLHandler {
@@ -57,26 +48,10 @@ public class JEuclidXMLHandler implements XMLHandler {
             final Document document, final String ns) throws Exception {
         final Graphics2DAdapter g2dAdapter = rendererContext.getRenderer()
                 .getGraphics2DAdapter();
+
         if (g2dAdapter != null) {
-            final MathBase base = MathMLParserSupport
-                    .createMathBaseFromDocument(document, LayoutContextImpl
-                            .getDefaultLayoutContext());
-            final Image tempimage = new BufferedImage(1, 1,
-                    BufferedImage.TYPE_INT_ARGB);
-            final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-            final int w = (int) Math.ceil(base.getWidth(tempg) * 1000);
-            final int h = (int) Math.ceil(base.getHeight(tempg) * 1000);
-            final Graphics2DImagePainter painter = new Graphics2DImagePainter() {
-
-                public void paint(final Graphics2D g2d, final Rectangle2D area) {
-                    base.paint(g2d);
-                }
-
-                public Dimension getImageSize() {
-                    return new Dimension(w, h);
-                }
-
-            };
+            final Graphics2DImagePainter painter = Graphics2DImagePainterMathML
+                    .createGraphics2DImagePainter(document);
             g2dAdapter.paintImage(painter, rendererContext,
                     ((Integer) rendererContext.getProperty("xpos"))
                             .intValue(), ((Integer) rendererContext

@@ -7,15 +7,17 @@
   <section>
     <title>Obtaining JEuclid</title>
 
-    <para>You may download JEuclid from the <ulink
+    <para>You may <ulink
+    url="http://sourceforge.net/project/showfiles.php?group_id=44862">download
+    JEuclid</ulink> from the <ulink
     url="http://sourceforge.net/project/showfiles.php?group_id=44862">sourceforge
     project site for JEuclid</ulink> as a binary package or from <ulink
-    url="./source.html">source</ulink>. Please note: There are 3 Binary
+    url="./source.html">source</ulink>. Please note: There are several binary
     packages:</para>
 
     <variablelist>
       <varlistentry>
-        <term>jeuclid-distribution</term>
+        <term>jeuclid-x.x.x-distribution</term>
 
         <listitem>
           <para>Contains the full JEuclid distribution with all supported
@@ -25,23 +27,42 @@
       </varlistentry>
 
       <varlistentry>
-        <term>jeuclid-minimal</term>
+        <term>jeuclid-x.x.x-minimal</term>
 
         <listitem>
           <para>Contains a minimal JEuclid distribution which supports only
           the standard Java output formats. Use this if you need only these
-          formats (such as png), if you want to embedd JEuclid into a
+          formats (such as png), if you want to embed JEuclid into a
           non-maven2 project, or if you're interested in viewing math
           only.</para>
         </listitem>
       </varlistentry>
 
       <varlistentry>
-        <term>jeuclid-osx</term>
+        <term>jeuclid-mathviewer-x.x.x-osx</term>
 
         <listitem>
-          <para>Contains the MathViewer with all support functionality as an
-          application bundle for Mac OS X.</para>
+          <para>Contains the MathViewer as an application bundle for Mac OS
+          X.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>jeuclid-mathviewer-x.x.x-win32</term>
+
+        <listitem>
+          <para>Contains the MathViewer as an application bundle for Windows.
+          It works both on 32bit and 64bit Windows, as long as a 32 bit JRE is
+          installed.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>jeuclid-fop-x.x.x-distribution</term>
+
+        <listitem>
+          <para>Contains only the plug-in for <ulink
+          url="http://xmlgraphics.apache.org/fop/">Apache FOP</ulink>.</para>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -118,12 +139,32 @@
 
           <listitem>
             <para>Unix / Linux: Please use the DejaVu fonts. Do not copy the
-            Arial Unicode Font from a Windows system, as you may violate the
+            Arial Unicode font from a Windows system, as you may violate the
+            license!</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Cambria / Cambria Math</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Windows: It is included in Windows Vista and Office
+            2007.</para>
+          </listitem>
+
+          <listitem>
+            <para>Other Systems: Do not copy the Cambria font without a valid
             license!</para>
           </listitem>
         </itemizedlist>
       </listitem>
     </itemizedlist>
+
+    <para>Also, please ensure you have installed <emphasis>Asian
+    font</emphasis> support. Some characters in MathML are part of the CJK
+    character set.</para>
   </section>
 
   <section>
@@ -133,20 +174,20 @@
     <command>mathviewer</command> or <command>mathviewer.bat</command> script
     from the <command>bin/</command> directory of the distribution.</para>
 
-    <para>If you use the OS X package, the MathViewer is included as an
-    application bundle.</para>
+    <para>If you use the one of the OS dependent packages, the MathViewer is
+    included as an application.</para>
   </section>
 
-  <section>
+  <section id="cmdline">
     <title>Convert MathML to other Formats</title>
 
     <para>You may use the included <command>mml2xxx</command> (unix) or
     <command>mml2xx.bat</command> (windows) script from the
     <command>bin/</command> directory in the distribution.</para>
 
-    <para>Example: </para>
+    <para>Example:</para>
 
-    <programlisting>mml2xxx a.mml a.png -BackgroundColor white</programlisting>
+    <programlisting>mml2xxx a.mml a.png -backgroundColor white</programlisting>
 
     <para>To get a list of possible options, just <command>mml2xxx</command>
     without any parameters. Please see the <ulink url="./faq.html">JEuclid
@@ -154,25 +195,138 @@
     of supported output formats.</para>
   </section>
 
-  <section>
+  <section id="ant">
     <title>Within Ant</title>
 
     <para>You will need to define the converter task:</para>
 
     <programlisting>&lt;taskdef name="mmlconverter" classname="net.sourceforge.jeuclid.ant.MathMLConverter"&gt;</programlisting>
 
-    <para>with the needed JAR files in the classpath. Please see the API
-    documentation or the source code for usage.</para>
+    <para>with the needed JAR files in the classpath.</para>
+
+    <section>
+      <title>Input and output file(s)</title>
+
+      <para>The task can work with single input file or with a fileset. If you
+      use a single input file, you must set an output file as well.</para>
+
+      <example>
+        <title>Single input file</title>
+
+        <programlisting>&lt;mmlconverter <emphasis role="bold">in="input.odf"</emphasis> <emphasis
+            role="bold">out="output.svg"</emphasis>/&gt;</programlisting>
+      </example>
+
+      <para>For using simple filesets, there are 2 methods: as
+      <emphasis>attribute</emphasis> of task or <emphasis>nested
+      element</emphasis>. Nested elements are universal, because they can
+      repeat more than one element include/exclude. Examples are below:</para>
+
+      <example>
+        <title>Fileset with input files specified by attributes</title>
+
+        <programlisting>&lt;mmlconverter basedir="input_dir" destdir="output_dir" <emphasis
+            role="bold">includes="*.odf"</emphasis> <emphasis role="bold">excludes="test*.odf"</emphasis>/&gt;</programlisting>
+      </example>
+
+      <example>
+        <title>Fileset with input files specified by elements</title>
+
+        <programlisting>&lt;mmlconverter basedir="input_dir" destdir="output_dir"&gt;
+  <emphasis role="bold">&lt;include name="*.odf"/&gt;</emphasis>
+  <emphasis role="bold">&lt;include name="*.mml"/&gt;</emphasis>
+  <emphasis role="bold">&lt;exclude name="test*.odf"/&gt;</emphasis>
+  <emphasis role="bold">&lt;exclude name="test*.mml"/&gt;</emphasis>
+&lt;/mmlconverter&gt;</programlisting>
+      </example>
+
+      <para>If you do not set basedir, the task will use the base directory of
+      the called build file.</para>
+    </section>
+
+    <section>
+      <title>Type of output file</title>
+
+      <para>The next attribute is type, which specifies which converter class
+      to use. Default type is <emphasis>image/png</emphasis>.</para>
+
+      <programlisting>&lt;mmlconverter in="input.odf" out="output.svg" <emphasis
+          role="bold">type="image/svg+xml"</emphasis>/&gt;</programlisting>
+    </section>
+
+    <section>
+      <title>Font size and fonts</title>
+
+      <para>Sets basic font size and others font size as minimal for anti
+      alias.</para>
+
+      <example>
+        <title>Font size</title>
+
+        <programlisting>&lt;mml converter in="input.odf" out="output.svg" type="image/svg+xml"
+  <emphasis role="bold">fontsize="22.0"</emphasis>
+  <emphasis role="bold">antialiasminsize="10.0"</emphasis>
+  <emphasis role="bold">scriptminsize="8.0"</emphasis>
+  <emphasis role="bold">scriptsizemult="0.71"</emphasis>
+/&gt;</programlisting>
+      </example>
+
+      <para>Next parameters are lists of font families e.g. for Sun-Serif,
+      Monospaced font family. List is seperated by
+      <emphasis>comma</emphasis>.</para>
+
+      <example>
+        <title>List of font family</title>
+
+        <programlisting>&lt;mml converter in="input.odf" out="output.svg" type="image/svg+xml"
+  <emphasis role="bold">fontsmonospaced="Courier,Courier Mono,Courier New,Lucida Sans</emphasis>"
+  <emphasis role="bold">fontssunserif="Helvetica,Arial,Arial Unicode MS,Lucida Sans"</emphasis>
+/&gt;</programlisting>
+      </example>
+    </section>
+
+    <section>
+      <title>Others parameters</title>
+
+      <para>As others parameters can sets background/foreground color, enable
+      anti alias or debugging and other. All supported parameters are same as
+      in command line interface (see <xref linkend="cmdline" />).</para>
+    </section>
+  </section>
+
+  <section>
+    <title>As FOP plug-in</title>
+
+    <para>Documentation is available on the <ulink
+    url="./jeuclid-fop/">JEuclid FOP plug-in</ulink> site.</para>
+  </section>
+
+  <section>
+    <title>Embedded MathML within XSL-FO or XHTML</title>
+
+    <para>You may use the included <command>foprep</command> application to
+    convert MathML embedded in XSL-FO and XHTML files to SVG. This will allow
+    you to render your documents with other xsl-fo renderers or on browsers
+    with SVG support (newer versions of Opera, Firefox, Safari, ... ).</para>
   </section>
 
   <section>
     <title>In your own App</title>
 
-    <para>Please look at the <ulink url="./apidocs/index.html">API
-    Documentation</ulink>. You may be interested in <ulink
-    url="./apidocs/net/sourceforge/jeuclid/awt/MathComponent.html">net.sourceforge.jeuclid.awt.MathComponent</ulink>
-    and <ulink
-    url="./apidocs/net/sourceforge/jeuclid/swing/JMathComponent.html">net.sourceforge.jeuclid.swing.JMathComponent</ulink>.</para>
+    <section>
+      <title>Programming with JEuclid</title>
+    <para>This information has moved to the <ulink
+    url="./programming.html">Programming with JEuclid</ulink> page.</para>
+    </section>
+
+    <section>
+      <title>Java 1.6 extensions</title>
+
+      <para>JEuclid contains additional functionality available on Java ≥ 1.6.
+      To use this functionality you need to add
+      <filename>jeuclid-core16-xxx.jar</filename> to your project in addition
+      to <filename>jeuclid-core-xxx.jar</filename>.</para>
+    </section>
 
     <section>
       <title>Maven based projects</title>
@@ -183,10 +337,27 @@
       <programlisting>&lt;depencency&gt;
   &lt;groupId&gt;net.sourceforge.jeuclid&lt;/groupId&gt;
   &lt;artifactId&gt;jeuclid-core&lt;/artifactId&gt;
-&lt;/depencenty&gt;
-</programlisting>
+&lt;/depencenty&gt;</programlisting>
 
       <para>to your <emphasis>dependencies</emphasis> section.</para>
+    </section>
+
+    <section>
+      <title>Snapshot versions</title>
+
+      <para>If you wish to use the latest developer version, you need to
+      declare the following repository</para>
+
+      <programlisting>&lt;repository&gt;
+  &lt;id&gt;jeuclid-snapshots&lt;/id&gt;
+  &lt;url&gt;http://jeuclid.sourceforge.net/m2-snap/&lt;/url&gt;
+  &lt;releases&gt;
+    &lt;enabled&gt;false&lt;/enabled&gt;
+  &lt;/releases&gt;
+  &lt;snapshots&gt;
+    &lt;enabled&gt;true&lt;/enabled&gt;
+  &lt;/snapshots&gt;  
+&lt;/repository&gt;    </programlisting>
     </section>
   </section>
 
@@ -197,6 +368,6 @@
     url="http://sourceforge.net/project/showfiles.php?group_id=44862&amp;package_id=37497&amp;release_id=220741">download
     JEuclid 2</ulink>. Please see the included INSTALL instructions. The
     Cocoon component is currently not under active development. Volunteers are
-    welcome! </para>
+    welcome!</para>
   </section>
 </article>

@@ -18,11 +18,10 @@
 
 package net.sourceforge.jeuclid.layout;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class LayoutInfoImpl implements LayoutInfo {
@@ -66,7 +65,7 @@ public class LayoutInfoImpl implements LayoutInfo {
      */
     public LayoutInfoImpl() {
         this.layoutStage = LayoutStage.NONE;
-        this.graphicObjects = new Vector<GraphicsObject>();
+        this.graphicObjects = new ArrayList<GraphicsObject>();
     }
 
     /** {@inheritDoc} */
@@ -227,5 +226,13 @@ public class LayoutInfoImpl implements LayoutInfo {
     /** {@inheritDoc} */
     public void setStretchDescent(final float newStretchDescent) {
         this.stretchDescent = newStretchDescent;
+    }
+
+    /** {@inheritDoc} */
+    public void shiftVertically(final float offsetY, final LayoutStage stage) {
+        this.posYS2 += offsetY;
+        if (LayoutStage.STAGE1.equals(stage)) {
+            this.posYS1 += offsetY;
+        }
     }
 }

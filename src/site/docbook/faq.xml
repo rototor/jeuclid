@@ -30,6 +30,87 @@
   </section>
 
   <section>
+    <title>Supported Java Versions</title>
+
+    <para>Supported and tested are:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Sun JDK / JRE 1.5 / 1.6 Win+Linux</para>
+      </listitem>
+
+      <listitem>
+        <para>Apple JDK / JRE 1.5 / 1.6 (OS X)</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Known <emphasis>not</emphasis> to work are:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>OpenJDK / IcedTea 1.6.0-b11 (and possible other versions)</para>
+
+        <para>Stretched operators are rendered in a position which is too
+        high</para>
+
+        <para>This bug is fixed in some distributions of b12 (such as Fedora 
+        10), and probably in all distributions of b13.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Font problems</title>
+
+    <section>
+      <title>Which fonts are available to JEuclid</title>
+
+      <para>JEuclid 3.1.1 introduced a "listfonts" commands. Please run it to
+      show a list of available fonts.</para>
+    </section>
+
+    <section>
+      <title>Under- or over brace not shown</title>
+
+      <para>MathML defines these are characters from the CJK (Chinese,
+      Japanese, Korean) set. Please install Asian font support in your OS. On
+      Debian-based systems, the "AR PL KaitiM Big5" font (package
+      <literal>ttf-arphic-bkai00mp</literal>) is known to work.</para>
+    </section>
+
+    <section>
+      <title>Script, Fraktur, or Double-Struck fonts are not working</title>
+
+      <para>This means that no font supporting these is available to
+      JEuclid.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Please run "mml2xxx" to see a list of known fonts which are
+          supported by JEuclid</para>
+        </listitem>
+
+        <listitem>
+          <para>If your font is on that list, check if JEuclid knows about it
+          (run listfonts). If not, install the font properly in your OS</para>
+        </listitem>
+
+        <listitem>
+          <para>If your font is missing on the list, please open up an
+          issue.</para>
+        </listitem>
+
+        <listitem>
+          <para>If your using the FOP plugin AND your font is in the list AND
+          listfonts shows its available, you may have a problem related to
+          classloading. This problem is fixed in xmlgraphics-commons &gt;=
+          1.3.1</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+
+  <section>
     <title>Available image formats</title>
 
     <section>

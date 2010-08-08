@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,22 +19,28 @@
 package net.sourceforge.jeuclid.elements.support.attributes;
 
 import java.awt.Font;
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
+import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.elements.support.text.CharacterMapping;
 import net.sourceforge.jeuclid.font.FontFactory;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Class to represent and use MathVariants.
  * 
- * @author Max Berger
  * @version $Revision$
  */
-public final class MathVariant {
+public final class MathVariant implements Serializable {
 
     /**
      * Mathvariant constant. Bold style.
@@ -122,9 +128,20 @@ public final class MathVariant {
 
     private static final Map<String, MathVariant> ATTRIBUTEMAP = new HashMap<String, MathVariant>();
 
-    private static final String AWT_SANSSERIF = "sansserif";
-
     private static final Map<FontFamily, Parameter> PARAMFORFONT = new HashMap<FontFamily, Parameter>();
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Logger for this class.
+     */
+    private static final Log LOGGER = LogFactory
+            .getLog(CharacterMapping.class);
+
+    private static final Set<Integer> WARNED = new HashSet<Integer>();
 
     private final int awtStyle;
 
@@ -148,37 +165,39 @@ public final class MathVariant {
      * 
      * @param variant
      *            the string representation of the attribute value
-     * @return a mathVariant object
+     * @return a mathVariant object or null if none is found.
      */
     public static MathVariant stringToMathVariant(final String variant) {
-        // Needs to be inialized late due to chicken-egg problem.
-        if (MathVariant.ATTRIBUTEMAP.isEmpty()) {
-            MathVariant.ATTRIBUTEMAP.put("normal", MathVariant.NORMAL);
-            MathVariant.ATTRIBUTEMAP.put("bold", MathVariant.BOLD);
-            MathVariant.ATTRIBUTEMAP.put("italic", MathVariant.ITALIC);
-            MathVariant.ATTRIBUTEMAP.put("bold-italic",
-                    MathVariant.BOLD_ITALIC);
-            MathVariant.ATTRIBUTEMAP.put("double-struck",
-                    MathVariant.DOUBLE_STRUCK);
-            MathVariant.ATTRIBUTEMAP.put("bold-fraktur",
-                    MathVariant.BOLD_FRAKTUR);
-            MathVariant.ATTRIBUTEMAP.put("script", MathVariant.SCRIPT);
-            MathVariant.ATTRIBUTEMAP.put("bold-script",
-                    MathVariant.BOLD_SCRIPT);
-            MathVariant.ATTRIBUTEMAP.put("fraktur", MathVariant.FRAKTUR);
-            MathVariant.ATTRIBUTEMAP
-                    .put("sans-serif", MathVariant.SANS_SERIF);
-            MathVariant.ATTRIBUTEMAP.put("bold-sans-serif",
-                    MathVariant.BOLD_SANS_SERIF);
-            MathVariant.ATTRIBUTEMAP.put("sans-serif-italic",
-                    MathVariant.SANS_SERIF_ITALIC);
-            MathVariant.ATTRIBUTEMAP.put("sans-serif-bold-italic",
-                    MathVariant.SANS_SERIF_BOLD_ITALIC);
-            MathVariant.ATTRIBUTEMAP.put("monospace", MathVariant.MONOSPACE);
+        synchronized (MathVariant.ATTRIBUTEMAP) {
+            // Needs to be initialized late due to chicken-egg problem.
+            if (MathVariant.ATTRIBUTEMAP.isEmpty()) {
+                MathVariant.ATTRIBUTEMAP.put("normal", MathVariant.NORMAL);
+                MathVariant.ATTRIBUTEMAP.put("bold", MathVariant.BOLD);
+                MathVariant.ATTRIBUTEMAP.put("italic", MathVariant.ITALIC);
+                MathVariant.ATTRIBUTEMAP.put("bold-italic",
+                        MathVariant.BOLD_ITALIC);
+                MathVariant.ATTRIBUTEMAP.put("double-struck",
+                        MathVariant.DOUBLE_STRUCK);
+                MathVariant.ATTRIBUTEMAP.put("bold-fraktur",
+                        MathVariant.BOLD_FRAKTUR);
+                MathVariant.ATTRIBUTEMAP.put("script", MathVariant.SCRIPT);
+                MathVariant.ATTRIBUTEMAP.put("bold-script",
+                        MathVariant.BOLD_SCRIPT);
+                MathVariant.ATTRIBUTEMAP.put("fraktur", MathVariant.FRAKTUR);
+                MathVariant.ATTRIBUTEMAP.put("sans-serif",
+                        MathVariant.SANS_SERIF);
+                MathVariant.ATTRIBUTEMAP.put("bold-sans-serif",
+                        MathVariant.BOLD_SANS_SERIF);
+                MathVariant.ATTRIBUTEMAP.put("sans-serif-italic",
+                        MathVariant.SANS_SERIF_ITALIC);
+                MathVariant.ATTRIBUTEMAP.put("sans-serif-bold-italic",
+                        MathVariant.SANS_SERIF_BOLD_ITALIC);
+                MathVariant.ATTRIBUTEMAP.put("monospace",
+                        MathVariant.MONOSPACE);
+            }
+            return MathVariant.ATTRIBUTEMAP.get(variant
+                    .toLowerCase(Locale.ENGLISH));
         }
-
-        return MathVariant.ATTRIBUTEMAP.get(variant
-                .toLowerCase(Locale.ENGLISH));
     }
 
     /**
@@ -186,36 +205,39 @@ public final class MathVariant {
      * 
      * @param size
      *            size of the font to create
-     * @param c
+     * @param codepoint
      *            a character that must exist in this font
      * @param context
      *            LayoutContext to use.
+     * @param force
+     *            if true will always return a font, otherwise will return
+     *            null.
      * @return a font object.
      */
     @SuppressWarnings("unchecked")
-    public Font createFont(final float size, final char c,
-            final LayoutContext context) {
+    public Font createFont(final float size, final int codepoint,
+            final LayoutContext context, final boolean force) {
 
         final Parameter theParam = MathVariant.PARAMFORFONT
                 .get(this.fontFamily);
-        final List<String> fontList = (List<String>) context
-                .getParameter(theParam);
-        Font font = null;
-        final FontFactory fontFactory = FontFactory.getInstance();
-        for (int i = 0; (i < fontList.size()) && (font == null); i++) {
-            font = fontFactory.getFont(fontList.get(i), this.awtStyle,
-                    (int) size);
-            if (font.getFamily().equalsIgnoreCase(fontList.get(i).trim())) {
-                if (!font.canDisplay(c)) {
-                    font = null;
-                }
-            } else {
-                font = null;
+        final Font font = FontFactory.getInstance().getFont(
+                (List<String>) context.getParameter(theParam), codepoint,
+                this.awtStyle, size);
+        if (force && font == null) {
+            if (!MathVariant.WARNED.contains(codepoint)) {
+                MathVariant.WARNED.add(codepoint);
+                final String hexString = Integer.toHexString(codepoint);
+                MathVariant.LOGGER
+                        .warn("No font available to display character "
+                                + hexString);
+                MathVariant.LOGGER
+                        .info("Find a font at  http://www.fileformat.info/info/unicode/char/"
+                                + hexString
+                                + "/fontsupport.htm or "
+                                + "http://www.alanwood.net/unicode/search.html");
             }
-        }
-        if (font == null) {
-            font = fontFactory.getFont(MathVariant.AWT_SANSSERIF,
-                    this.awtStyle, (int) size);
+            return FontFactory.getInstance().getFont(FontFactory.SANSSERIF,
+                    this.awtStyle, size);
         }
         return font;
     }
@@ -246,5 +268,64 @@ public final class MathVariant {
                 Parameter.FONTS_FRAKTUR);
         MathVariant.PARAMFORFONT.put(FontFamily.DOUBLE_STRUCK,
                 Parameter.FONTS_DOUBLESTRUCK);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result;
+        if (this.fontFamily == null) {
+            result = 0;
+        } else {
+            result = this.fontFamily.hashCode();
+        }
+        result = prime * result + this.awtStyle;
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        final MathVariant other = (MathVariant) obj;
+        if (this.awtStyle != other.awtStyle) {
+            return false;
+        }
+        if (this.fontFamily == null) {
+            if (other.fontFamily != null) {
+                return false;
+            }
+        } else if (!this.fontFamily.equals(other.fontFamily)) {
+            return false;
+        }
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        final StringBuilder b = new StringBuilder();
+        b.append('[');
+        b.append(this.fontFamily);
+        if (this.awtStyle > 0) {
+            b.append(' ');
+        }
+        if ((this.awtStyle & Font.BOLD) > 0) {
+            b.append('B');
+        }
+        if ((this.awtStyle & Font.ITALIC) > 0) {
+            b.append('I');
+        }
+        b.append(']');
+        return b.toString();
     }
 }

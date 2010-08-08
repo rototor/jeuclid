@@ -24,63 +24,69 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Properties;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.freehep.graphics2d.VectorGraphics;
-import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * Converter for output formats supported by FreeHEP.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class FreeHepConverter implements ConverterPlugin {
 
-    private final Constructor<?> streamConst;
+    private final Constructor<VectorGraphics> streamConst;
 
+    @SuppressWarnings("unchecked")
     FreeHepConverter(final Class<?> converterClass)
             throws NoSuchMethodException {
 
-        this.streamConst = converterClass.getConstructor(OutputStream.class,
-                Dimension.class);
+        this.streamConst = ((Class<VectorGraphics>) converterClass)
+                .getConstructor(OutputStream.class, Dimension.class);
     }
 
     /** {@inheritDoc} */
-    public Dimension convert(final MathBase base, final OutputStream outStream)
-            throws IOException {
-        final Properties p = new Properties();
-        // p.setProperty("PageSize","A5");
-        VectorGraphics temp;
-        try {
-            temp = (VectorGraphics) this.streamConst.newInstance(
-                    new ByteArrayOutputStream(), new Dimension(1, 1));
+    public Dimension convert(final Node doc, final LayoutContext context,
+            final OutputStream outStream) throws IOException {
+        final VectorGraphics tempg = this.createGraphics(
+                new ByteArrayOutputStream(), new Dimension(1, 1));
+        final JEuclidView view = new JEuclidView(doc, context, tempg);
+        final int ascent = (int) Math.ceil(view.getAscentHeight());
+        final Dimension size = new Dimension(
+                (int) Math.ceil(view.getWidth()), (int) Math.ceil(view
+                        .getDescentHeight())
+                        + ascent);
 
-            final Dimension size = new Dimension((int) Math.ceil(base
-                    .getWidth(temp)), (int) Math.ceil(base.getHeight(temp)));
+        final VectorGraphics g = this.createGraphics(outStream, size);
+        g.setCreator("JEuclid (from MathML)");
+        g.startExport();
+        view.draw(g, 0, ascent);
+        g.endExport();
 
-            final VectorGraphics g = (VectorGraphics) this.streamConst
-                    .newInstance(outStream, size);
-            g.setProperties(p);
-            g.startExport();
-            base.paint(g);
-            g.endExport();
-
-            return size;
-        } catch (final InstantiationException e) {
-            throw new IOException();
-        } catch (final IllegalAccessException e) {
-            throw new IOException();
-        } catch (final InvocationTargetException e) {
-            throw new IOException();
-        }
+        return size;
     }
 
     /** {@inheritDoc} */
-    public Document convert(final MathBase mathBase) {
+    public DocumentWithDimension convert(final Node doc,
+            final LayoutContext context) {
         return null;
     }
 
+    private VectorGraphics createGraphics(final OutputStream os,
+            final Dimension d) throws IOException {
+        try {
+            return this.streamConst.newInstance(os, d);
+        } catch (final InvocationTargetException e) {
+            throw new IOException(e.toString());
+        } catch (final IllegalArgumentException e) {
+            throw new IOException(e.toString());
+        } catch (final InstantiationException e) {
+            throw new IOException(e.toString());
+        } catch (final IllegalAccessException e) {
+            throw new IOException(e.toString());
+        }
+    }
 }

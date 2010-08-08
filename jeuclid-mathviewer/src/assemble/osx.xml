@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<assembly>
+  <id>osx</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <fileSets>
+    <fileSet>
+      <directory>target/jeuclid-mathviewer-${version}.app</directory>
+      <outputDirectory>JEuclid MathViewer.app</outputDirectory>
+      <includes>
+        <include>Contents/MacOS/JavaApplicationStub</include>
+      </includes>
+      <fileMode>0755</fileMode>
+    </fileSet>
+    <fileSet>
+      <directory>target/jeuclid-mathviewer-${version}.app</directory>
+      <outputDirectory>JEuclid MathViewer.app</outputDirectory>
+      <excludes>
+        <exclude>Contents/MacOS/JavaApplicationStub</exclude>
+      </excludes>
+      <fileMode>0644</fileMode>
+    </fileSet>
+  </fileSets>
+  <files>
+    <file>
+      <source>target/core/net/sourceforge/jeuclid/LICENSE.txt</source>
+      <outputDirectory/>
+      <fileMode>0644</fileMode>
+    </file>
+    <file>
+      <source>target/core/net/sourceforge/jeuclid/NOTICE</source>
+      <outputDirectory/>
+      <fileMode>0644</fileMode>
+    </file>
+    <file>
+      <source>LICENSE.FreeHEP</source>
+      <outputDirectory/>
+      <fileMode>0644</fileMode>
+    </file>
+  </files>
+</assembly>

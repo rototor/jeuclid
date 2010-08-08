@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,47 +29,39 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
-import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.StyleAttributeLayoutContext;
-import net.sourceforge.jeuclid.dom.AbstractChangeTrackingElement;
-import net.sourceforge.jeuclid.dom.PartialTextImpl;
-import net.sourceforge.jeuclid.elements.generic.MathImpl;
-import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
-import net.sourceforge.jeuclid.elements.presentation.table.Mtable;
-import net.sourceforge.jeuclid.elements.presentation.table.Mtr;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
-import net.sourceforge.jeuclid.elements.support.attributes.AttributeMap;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
-import net.sourceforge.jeuclid.elements.support.text.CharConverter;
+import net.sourceforge.jeuclid.elements.support.text.TextContent;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.batik.dom.AbstractDocument;
+import org.apache.batik.dom.GenericElementNS;
+import org.apache.batik.dom.events.DOMMutationEvent;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
-import org.w3c.dom.Text;
+import org.w3c.dom.events.Event;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLMathElement;
 import org.w3c.dom.mathml.MathMLNodeList;
 
 /**
- * The basic class for all math elements. Every element class inherits from
- * this class. It provides basic functionality for drawing.
+ * The basic class for all math elements. Every element class inherits from this
+ * class. It provides basic functionality for drawing.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 // CHECKSTYLE:OFF
 public abstract class AbstractJEuclidElement extends
 // CHECKSTYLE:ON
-        AbstractChangeTrackingElement implements JEuclidElement {
+        GenericElementNS implements JEuclidElement {
 
     /** Constant for mathvariant attribute. */
     public static final String ATTR_MATHVARIANT = "mathvariant";
@@ -118,27 +108,6 @@ public abstract class AbstractJEuclidElement extends
     /** The mathbackground attribute. */
     public static final String ATTR_MATHBACKGROUND = "mathbackground";
 
-    /** value for top alignment. */
-    public static final String ALIGN_TOP = "top";
-
-    /** value for bottom alignment. */
-    public static final String ALIGN_BOTTOM = "bottom";
-
-    /** value for center alignment. */
-    public static final String ALIGN_CENTER = "center";
-
-    /** value for baseline alignment. */
-    public static final String ALIGN_BASELINE = "baseline";
-
-    /** value for axis alignment. */
-    public static final String ALIGN_AXIS = "axis";
-
-    /** value for left alignment. */
-    public static final String ALIGN_LEFT = "left";
-
-    /** value for right alignment. */
-    public static final String ALIGN_RIGHT = "right";
-
     /**
      * largest value for all trivial spaces (= spaces that can be ignored /
      * shortened).
@@ -152,59 +121,13 @@ public abstract class AbstractJEuclidElement extends
 
     private static final float MIDDLE_SHIFT = 0.38f;
 
-    private static final float DEFAULT_SCIPTSIZEMULTIPLIER = 0.71f;
-
-    /**
-     * Logger for this class
-     */
-    private static final Log LOGGER = LogFactory
-            .getLog(AbstractJEuclidElement.class);
+    // /**
+    // * Logger for this class
+    // */
+    // private static final Log LOGGER = LogFactory
+    // .getLog(AbstractJEuclidElement.class);
 
     private static final Set<String> DEPRECATED_ATTRIBUTES = new HashSet<String>();
-
-    /**
-     * flag - true when runing calculationg of the element.
-     */
-    private boolean calculatingSize;
-
-    /**
-     * Value of calculated height of the element .
-     */
-    private float calculatedHeight = -1;
-
-    /**
-     * Value of calculated width of the element .
-     */
-    private float calculatedWidth = -1;
-
-    /**
-     * Value of calculated ascent height of the element
-     */
-    private float calculatedAscentHeight = -1;
-
-    /**
-     * Value of calculated descent height of the element
-     */
-    private float calculatedDescentHeight = -1;
-
-    /**
-     * Value of calculated height of the element
-     */
-    private float calculatedStretchHeight = -1;
-
-    /**
-     * Value of calculated ascent height of the element
-     */
-    private float calculatedStretchAscentHeight = -1;
-
-    /**
-     * Value of calculated descent height of the element .
-     */
-    private float calculatedStretchDescentHeight = -1;
-
-    private float lastPaintedX = -1;
-
-    private float lastPaintedY = -1;
 
     /**
      * Reference to the element acting as parent if there is no parent.
@@ -214,72 +137,42 @@ public abstract class AbstractJEuclidElement extends
     private final Map<String, String> defaultMathAttributes = new HashMap<String, String>();
 
     /**
-     * Variable of "scriptsize" attribute, default value is 0.71.
-     */
-    private float mscriptsizemultiplier = AbstractJEuclidElement.DEFAULT_SCIPTSIZEMULTIPLIER;
-
-    /**
-     * This variable is intended to keep the value of vertical shift of the
-     * line. Actually this value is stored in the top-level element of the
-     * line. This value affects only elements with enlarged parts (such as
-     * "msubsup", "munderover", etc.)
-     */
-    private float globalLineCorrecter;
-
-    /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
      * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-
-    public AbstractJEuclidElement() {
+    public AbstractJEuclidElement(final String qname,
+            final AbstractDocument odoc) {
+        super(AbstractJEuclidElement.URI, qname, odoc);
     }
 
     /**
-     * Reset element sizes.
-     */
-    protected void recalculateSize() {
-        this.calculatedHeight = -1;
-        this.calculatedAscentHeight = -1;
-        this.calculatedDescentHeight = -1;
-        this.calculatedStretchHeight = -1;
-        this.calculatedStretchAscentHeight = -1;
-        this.calculatedStretchDescentHeight = -1;
-        this.calculatedWidth = -1;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void changeHook() {
-        super.changeHook();
-        this.recalculateSize();
-    }
-
-    /**
-     * Gets the size of the actual font used (including scriptsizemultiplier).
+     * Constructor to explicitly set the namespace.
      * 
-     * @return size of the current font.
+     * @param nsUri
+     *            Namespace URI.
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public float getFontsizeInPoint() {
-        final LayoutContext context = this.getCurrentLayoutContext();
-        final float scriptMultiplier = (float) Math.pow(this
-                .getScriptSizeMultiplier(), this.getAbsoluteScriptLevel());
-        final float mathsize = (Float) context
-                .getParameter(Parameter.MATHSIZE);
-        final float scriptminsize = (Float) context
-                .getParameter(Parameter.SCRIPTMINSIZE);
-
-        final float scriptsize = mathsize * scriptMultiplier;
-
-        return Math.max(Math.min(scriptminsize, mathsize), scriptsize);
+    public AbstractJEuclidElement(final String nsUri, final String qname,
+            final AbstractDocument odoc) {
+        super(nsUri, qname, odoc);
     }
 
     /**
      * Gets the used font. Everything regardes font, processed by MathBase
      * object.
      * 
+     * @param context
+     *            LayoutContext to use.
      * @return Font Font object.
      */
-    public Font getFont() {
+    public Font getFont(final LayoutContext context) {
         final String content = this.getText();
         final char aChar;
         if (content.length() > 0) {
@@ -288,59 +181,40 @@ public abstract class AbstractJEuclidElement extends
             aChar = 'A';
         }
         return this.getMathvariantAsVariant().createFont(
-                this.getFontsizeInPoint(), aChar,
-                this.getCurrentLayoutContext());
+                GraphicsSupport.getFontsizeInPoint(context), aChar,
+                this.applyLocalAttributesToContext(context), true);
 
     }
 
     /** {@inheritDoc} */
     public MathVariant getMathvariantAsVariant() {
-        final String mv = this.getMathvariant();
-        MathVariant variant = null;
-        if (mv != null) {
-            variant = MathVariant.stringToMathVariant(mv);
+        // TODO: Support deprecated variant names
+        String setMv = this.getMathAttribute(
+                AbstractJEuclidElement.ATTR_MATHVARIANT, false);
+
+        JEuclidElement parent = this.getParent();
+        while ((setMv == null) && (parent != null)) {
+            // element is not set, try to inherit
+            if (parent instanceof AbstractJEuclidElement) {
+                setMv = ((AbstractJEuclidElement) parent).getMathAttribute(
+                        AbstractJEuclidElement.ATTR_MATHVARIANT, false);
+            }
+            parent = parent.getParent();
         }
-        if (variant == null) {
-            // TODO: Not all elements inherit MathVariant!
-            final JEuclidElement parent = this.getParent();
-            if (parent != null) {
-                variant = parent.getMathvariantAsVariant();
-            } else {
-                // TODO: This is NOT ALWAYS the default variant
+        if (setMv == null) {
+            setMv = this.defaultMathAttributes
+                    .get(AbstractJEuclidElement.ATTR_MATHVARIANT);
+        }
+        MathVariant variant;
+        if (setMv == null) {
+            variant = MathVariant.NORMAL;
+        } else {
+            variant = MathVariant.stringToMathVariant(setMv);
+            if (variant == null) {
                 variant = MathVariant.NORMAL;
             }
         }
         return variant;
-    }
-
-    /**
-     * Retrieve the absolute script level. For most items this will ask the
-     * parent item.
-     * 
-     * @return the absolute script level.
-     * @see #getInheritedScriptlevel()
-     */
-    protected int getAbsoluteScriptLevel() {
-        return this.getInheritedScriptlevel();
-    }
-
-    /**
-     * Retrieves the scriptlevel from the parent node.
-     * 
-     * @return the scriptlevel of the parent node
-     */
-    protected int getInheritedScriptlevel() {
-        final JEuclidElement parent = this.getParent();
-        if (parent == null) {
-            return 0;
-        } else {
-            return parent.getScriptlevelForChild(this);
-        }
-    }
-
-    /** {@inheritDoc} */
-    public int getScriptlevelForChild(final JEuclidElement child) {
-        return this.getAbsoluteScriptLevel();
     }
 
     // /**
@@ -453,28 +327,51 @@ public abstract class AbstractJEuclidElement extends
         }
     }
 
-    /** {@inheritDoc} */
-    public JEuclidElement getMathElement(final int index) {
-        if (index >= 0 && index < this.getMathElementCount()) {
-            final org.w3c.dom.NodeList childList = this.getChildNodes();
-            for (int i = 0, elementIndex = 0; i < childList.getLength(); i++) {
-                final Node child = childList.item(i);
-                if (child instanceof JEuclidElement) {
-                    if (elementIndex == index) {
-                        return (JEuclidElement) child;
-                    }
-                    elementIndex++;
+    /**
+     * Gets a child from this element.
+     * <p>
+     * Please note, that unlike the MathML DOM model functions this function
+     * uses a 0-based index.
+     * 
+     * @param index
+     *            Index of the child (0-based).
+     * @return The child MathElement object.
+     */
+    protected JEuclidElement getMathElement(final int index) {
+        final List<Node> childList = ElementListSupport
+                .createListOfChildren(this);
+        int count = 0;
+        for (final Node n : childList) {
+            if (n instanceof JEuclidElement) {
+                if (count == index) {
+                    return (JEuclidElement) n;
                 }
+                count++;
             }
         }
-        return null;
+        for (; count < index; count++) {
+            this.appendChild(this.ownerDocument.createElement(Mtext.ELEMENT));
+        }
+        final JEuclidElement last = (JEuclidElement) this.ownerDocument
+                .createElement(Mtext.ELEMENT);
+        this.appendChild(last);
+        return last;
     }
 
-    /** {@inheritDoc} */
-    public void setMathElement(final int index, final MathMLElement newElement) {
+    /**
+     * Sets a specific child to the newElement, creating other subelements as
+     * necessary.
+     * 
+     * @param index
+     *            the index to set (0=the first child)
+     * @param newElement
+     *            new element to be set as child.
+     */
+    protected void setMathElement(final int index,
+            final MathMLElement newElement) {
         final org.w3c.dom.NodeList childList = this.getChildNodes();
         while (childList.getLength() < index) {
-            this.addMathElement(new Mtext());
+            this.appendChild(this.getOwnerDocument().createTextNode(""));
         }
         if (childList.getLength() == index) {
             this.addMathElement(newElement);
@@ -496,58 +393,15 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public int getMathElementCount() {
-        final org.w3c.dom.NodeList childList = this.getChildNodes();
-        int elementIndex = 0;
-        for (int i = 0; i < childList.getLength(); i++) {
-            final Node child = childList.item(i);
-            if (child instanceof JEuclidElement) {
-                elementIndex++;
+        final List<Node> childList = ElementListSupport
+                .createListOfChildren(this);
+        int count = 0;
+        for (final Node n : childList) {
+            if (n instanceof JEuclidElement) {
+                count++;
             }
         }
-        return elementIndex;
-    }
-
-    /**
-     * Add the content of a String to this element.
-     * 
-     * @param text
-     *            String with text of this object.
-     */
-    public void addText(final String text) {
-        Node textNode = this.getLastChild();
-        if (!(textNode instanceof Text)) {
-            textNode = new PartialTextImpl("");
-            this.appendChild(textNode);
-        }
-
-        final StringBuilder newText = new StringBuilder();
-        if (this.getTextContent() != null) {
-            newText.append(textNode.getTextContent());
-        }
-
-        // As seen in 2.4.6
-        if (text != null) {
-            newText.append(text.trim());
-        }
-
-        for (int i = 0; i < newText.length() - 1; i++) {
-            if (newText.charAt(i) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX
-                    && newText.charAt(i + 1) <= AbstractJEuclidElement.TRIVIAL_SPACE_MAX) {
-                newText.deleteCharAt(i);
-                // CHECKSTYLE:OFF
-                // This is intentional
-                i--;
-                // CHECKSTYLE:ON
-            }
-        }
-
-        final String toSet = CharConverter.convertEarly(newText.toString());
-        if (toSet.length() > 0) {
-            textNode.setTextContent(toSet);
-        } else {
-            this.removeChild(textNode);
-        }
-
+        return count;
     }
 
     /**
@@ -556,12 +410,7 @@ public abstract class AbstractJEuclidElement extends
      * @return Text content.
      */
     public String getText() {
-        final String theText = this.getTextContent();
-        if (theText == null) {
-            return "";
-        } else {
-            return theText;
-        }
+        return TextContent.getText(this);
     }
 
     /** {@inheritDoc} */
@@ -571,9 +420,11 @@ public abstract class AbstractJEuclidElement extends
 
     private JEuclidNode getParentAsJEuclidNode() {
         final Node parentNode = this.getParentNode();
-        JEuclidNode theParent = null;
+        final JEuclidNode theParent;
         if (parentNode instanceof JEuclidNode) {
             theParent = (JEuclidNode) parentNode;
+        } else {
+            theParent = null;
         }
         if (theParent == null) {
             return this.fakeParent;
@@ -600,8 +451,7 @@ public abstract class AbstractJEuclidElement extends
      *            Value of mathvariant.
      */
     public void setMathvariant(final String mathvariant) {
-        this.setAttribute(AbstractJEuclidElement.ATTR_MATHVARIANT,
-                mathvariant);
+        this.setAttribute(AbstractJEuclidElement.ATTR_MATHVARIANT, mathvariant);
     }
 
     /**
@@ -610,38 +460,21 @@ public abstract class AbstractJEuclidElement extends
      * @return Value of mathvariant.
      */
     public String getMathvariant() {
-        // TODO: Support deprecated name
         return this.getMathAttribute(AbstractJEuclidElement.ATTR_MATHVARIANT);
-    }
-
-    /**
-     * Gets value of scriptsize attribute.
-     * 
-     * @return Value of scriptsize attribute.
-     */
-    public float getScriptSizeMultiplier() {
-        return this.mscriptsizemultiplier;
-    }
-
-    /**
-     * Sets value of scriptsize attribute.
-     * 
-     * @param scriptsizemultiplier
-     *            Value of scriptsize attribute.
-     */
-    public void setScriptSizeMultiplier(final float scriptsizemultiplier) {
-        this.mscriptsizemultiplier = scriptsizemultiplier;
     }
 
     /**
      * Gets the font metrics of the used font.
      * 
      * @return Font metrics.
+     * @param context
+     *            LayoutContext to use.
      * @param g
      *            Graphics2D context to use.
      */
-    public FontMetrics getFontMetrics(final Graphics2D g) {
-        return g.getFontMetrics(this.getFont());
+    public FontMetrics getFontMetrics(final Graphics2D g,
+            final LayoutContext context) {
+        return g.getFontMetrics(this.getFont(context));
     }
 
     /**
@@ -697,36 +530,72 @@ public abstract class AbstractJEuclidElement extends
 
     /**
      * Sets default values for math attributes. Default values are returned
-     * through getMathAttribute, but not stored in the actual DOM tree. This
-     * is necessary to support proper serialization.
+     * through getMathAttribute, but not stored in the actual DOM tree. This is
+     * necessary to support proper serialization.
      * 
      * @param key
      *            the attribute to set.
      * @param value
      *            value of the attribute.
      */
-    protected void setDefaultMathAttribute(final String key,
-            final String value) {
+    protected void setDefaultMathAttribute(final String key, final String value) {
         this.defaultMathAttributes.put(key, value);
     }
 
     /**
-     * retrieve an attribute from the MathML or default namespace.
+     * retrieve an attribute from the MathML or default name space, returning
+     * the default value if the attribute is not set.
      * 
      * @param attrName
      *            the name of the attribute
-     * @return attribtue value
+     * @return attribute value or null if not set.
+     * @see #getMathAttribute(String, boolean)
      */
     protected String getMathAttribute(final String attrName) {
-        String attrValue;
-        attrValue = this.getAttributeNS(AbstractJEuclidElement.URI, attrName);
-        if (attrValue == null) {
-            attrValue = this.getAttribute(attrName);
+        return this.getMathAttribute(attrName, true);
+    }
+
+    /**
+     * retrieve an attribute from the MathML or default name space.
+     * 
+     * @param attrName
+     *            the name of the attribute
+     * @param useDefault
+     *            is true, the default value is used if the attribute is not
+     *            set.
+     * @return attribute value or null if not set.
+     * @see #getMathAttribute(String)
+     */
+    protected String getMathAttribute(final String attrName,
+            final boolean useDefault) {
+        final String attrValue;
+        Attr attr = this.getAttributeNodeNS(AbstractJEuclidElement.URI,
+                attrName);
+        if (attr == null) {
+            attr = this.getAttributeNode(attrName);
         }
-        if (attrValue == null) {
-            attrValue = this.defaultMathAttributes.get(attrName);
+        if (attr == null) {
+            if (useDefault) {
+                attrValue = this.getDefaultMathAttribute(attrName);
+            } else {
+                attrValue = null;
+            }
+        } else {
+            attrValue = attr.getValue().trim();
         }
         return attrValue;
+    }
+
+    /**
+     * Retrieves the previously stored default value for this attribute.
+     * 
+     * @param attrName
+     *            name of the Attribute
+     * @return value set by {@link #setDefaultMathAttribute(String, String)} or
+     *         null if not set.
+     */
+    private String getDefaultMathAttribute(final String attrName) {
+        return this.defaultMathAttributes.get(attrName);
     }
 
     /**
@@ -757,187 +626,17 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /**
-     * Paints a border around this element as debug information.
-     * 
-     * @param g
-     *            The graphics context to use for painting
-     * @param posX
-     *            The first left position for painting
-     * @param posY
-     *            The position of the baseline
-     */
-    public void debug(final Graphics2D g, final float posX, final float posY) {
-        g.setColor(Color.BLUE);
-        g.draw(new Line2D.Float(posX, posY - this.getAscentHeight(g), posX
-                + this.getWidth(g), posY - this.getAscentHeight(g)));
-        g.draw(new Line2D.Float(posX + this.getWidth(g), posY
-                - this.getAscentHeight(g), posX + this.getWidth(g), posY
-                + this.getDescentHeight(g)));
-        g.draw(new Line2D.Float(posX, posY + this.getDescentHeight(g), posX
-                + this.getWidth(g), posY + this.getDescentHeight(g)));
-        g.draw(new Line2D.Float(posX, posY - this.getAscentHeight(g), posX,
-                posY + this.getDescentHeight(g)));
-        g.setColor(Color.RED);
-        g.draw(new Line2D.Float(posX, posY, posX + this.getWidth(g), posY));
-    }
-
-    /** {@inheritDoc} */
-    public void setGlobalLineCorrector(final float corrector) {
-        if (this.getParent() == null) {
-            return;
-        }
-
-        // if this is a top-element of the row
-        if (this instanceof Mtr || this instanceof Mrow
-                && this.getParent() instanceof Mtable
-                || this.getParent() instanceof MathImpl) {
-            if (this.globalLineCorrecter < corrector) {
-                this.globalLineCorrecter = corrector;
-            }
-        } else {
-            this.getParent().setGlobalLineCorrector(corrector);
-        }
-    }
-
-    /** {@inheritDoc} */
-    public float getGlobalLineCorrector() {
-        final float retVal;
-        if (this.getParent() == null) {
-            retVal = 0;
-        } else
-
-        // if this is a top-element of the line, it contains the correct
-        // number
-        if (this instanceof Mtr || this instanceof Mrow
-                && this.getParent() instanceof Mtable
-                || this.getParent() instanceof MathImpl) {
-            retVal = this.globalLineCorrecter;
-        } else {
-            retVal = this.getParent().getGlobalLineCorrector();
-        }
-        return retVal;
-    }
-
-    /** {@inheritDoc} */
-    public float getWidth(final Graphics2D g) {
-        if (this.calculatedWidth < 0) {
-            this.calculatedWidth = this.calculateWidth(g);
-        }
-        return this.calculatedWidth;
-    }
-
-    /**
-     * Caculates width of the element.
-     * 
-     * @return Width of the element.
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public abstract float calculateWidth(Graphics2D g);
-
-    /** {@inheritDoc} */
-    public float getHeight(final Graphics2D g) {
-        if (this.calculatingSize || this.getParent() != null
-                && this.getParent().isCalculatingSize()) {
-            if (this.calculatedStretchHeight < 0) {
-                this.calculatedStretchHeight = this.calculateHeight(g);
-            }
-            return this.calculatedStretchHeight;
-        } else {
-            if (this.calculatedHeight < 0) {
-                this.calculatedHeight = this.calculateHeight(g);
-            }
-            return this.calculatedHeight;
-        }
-    }
-
-    /**
-     * Calculates the current height of the element.
-     * 
-     * @return Height of the element.
-     * @param g
-     *            Graphics2D context to use.
-     */
-    public float calculateHeight(final Graphics2D g) {
-        return this.getAscentHeight(g) + this.getDescentHeight(g);
-    }
-
-    /** {@inheritDoc} */
-    public float getAscentHeight(final Graphics2D g) {
-        if (this.calculatingSize || this.getParent() != null
-                && this.getParent().isCalculatingSize()) {
-            if (this.calculatedStretchAscentHeight < 0) {
-                this.calculatedStretchAscentHeight = this
-                        .calculateAscentHeight(g);
-            }
-            return this.calculatedStretchAscentHeight;
-        } else {
-            if (this.calculatedAscentHeight < 0) {
-                this.calculatedAscentHeight = this.calculateAscentHeight(g);
-            }
-            return this.calculatedAscentHeight;
-        }
-    }
-
-    /** {@inheritDoc} */
-    public abstract float calculateAscentHeight(Graphics2D g);
-
-    /** {@inheritDoc} */
-    public float getDescentHeight(final Graphics2D g) {
-        if (this.calculatingSize || this.getParent() != null
-                && this.getParent().isCalculatingSize()) {
-            if (this.calculatedStretchDescentHeight < 0) {
-                this.calculatedStretchDescentHeight = this
-                        .calculateDescentHeight(g);
-            }
-            return this.calculatedStretchDescentHeight;
-        } else {
-            if (this.calculatedDescentHeight < 0) {
-                this.calculatedDescentHeight = this.calculateDescentHeight(g);
-            }
-            return this.calculatedDescentHeight;
-        }
-    }
-
-    /** {@inheritDoc} */
-    public abstract float calculateDescentHeight(Graphics2D g);
-
-    /**
      * Returns the distance of the baseline and the middleline.
      * 
      * @return Distance baseline - middleline.
+     * @param context
+     *            Layout Context to use
      * @param g
      *            Graphics2D context to use.
      */
-    public float getMiddleShift(final Graphics2D g) {
-        return this.getFontMetrics(g).getAscent()
+    public float getMiddleShift(final Graphics2D g, final LayoutContext context) {
+        return this.getFontMetrics(g, context).getAscent()
                 * AbstractJEuclidElement.MIDDLE_SHIFT;
-    }
-
-    /** {@inheritDoc} */
-    public void setMathAttributes(final AttributeMap attributes) {
-        final Map<String, String> attrsAsMap = attributes.getAsMap();
-        for (final Map.Entry<String, String> e : attrsAsMap.entrySet()) {
-            final String attrName = e.getKey();
-            if (AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
-                    .contains(attrName)) {
-                AbstractJEuclidElement.LOGGER
-                        .warn("Deprecated attribute for " + this.getTagName()
-                                + ": " + attrName);
-            }
-            this.setAttribute(attrName, e.getValue());
-        }
-        this.recalculateSize();
-    }
-
-    /** {@inheritDoc} */
-    public boolean isCalculatingSize() {
-        return this.calculatingSize;
-    }
-
-    /** {@inheritDoc} */
-    public void setCalculatingSize(final boolean ncalculatingSize) {
-        this.calculatingSize = ncalculatingSize;
     }
 
     /** {@inheritDoc} */
@@ -957,12 +656,11 @@ public abstract class AbstractJEuclidElement extends
 
     /** {@inheritDoc} */
     public void setMathElementStyle(final String mathElementStyle) {
-        this
-                .setAttribute(AbstractJEuclidElement.ATTR_STYLE,
-                        mathElementStyle);
+        this.setAttribute(AbstractJEuclidElement.ATTR_STYLE, mathElementStyle);
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getId() {
         return this.getAttribute(AbstractJEuclidElement.ATTR_ID);
     }
@@ -1010,42 +708,9 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /** {@inheritDoc} */
-    public boolean hasChildPostscripts(final JEuclidElement child) {
+    public boolean hasChildPostscripts(final JEuclidElement child,
+            final LayoutContext context) {
         return false;
-    }
-
-    /** {@inheritDoc} */
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        this.lastPaintedX = posX;
-        this.lastPaintedY = posY;
-        final LayoutContext context = this.getCurrentLayoutContext();
-        final Color backcolor = (Color) context
-                .getParameter(Parameter.MATHBACKGROUND);
-        if (backcolor != null) {
-            g.setColor(backcolor);
-            final float ascent = (float) Math.ceil(this.getAscentHeight(g));
-            final float descent = (float) Math.ceil(this.getDescentHeight(g));
-            g.fill(new Rectangle2D.Float(posX, posY - ascent, (float) Math
-                    .ceil(this.getWidth(g)), ascent + descent));
-        }
-        if ((Boolean) context.getParameter(Parameter.DEBUG)) {
-            this.debug(g, posX, posY);
-        }
-        final Color foreground = (Color) context
-                .getParameter(Parameter.MATHCOLOR);
-        g.setColor(foreground);
-        g.setFont(this.getFont());
-
-    }
-
-    /** {@inheritDoc} */
-    public float getPaintedPosX() {
-        return this.lastPaintedX;
-    }
-
-    /** {@inheritDoc} */
-    public float getPaintedPosY() {
-        return this.lastPaintedY;
     }
 
     /**
@@ -1058,32 +723,24 @@ public abstract class AbstractJEuclidElement extends
     }
 
     /** {@inheritDoc} */
-    public float getXCenter(final Graphics2D g) {
-        return this.getWidth(g) / 2.0f;
-    }
-
-    /** {@inheritDoc} */
-    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
-        return this.getCurrentLayoutContext();
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
+        return this.applyLocalAttributesToContext(context);
     }
 
     /**
      * Retrieve the LayoutContext valid for the current node.
      * 
+     * @param context
+     *            external context.
      * @return the current layout context.
      */
-    protected LayoutContext getCurrentLayoutContext() {
-        final LayoutContext retVal;
-        final JEuclidNode parentNode = this.getParentAsJEuclidNode();
-        if (parentNode != null) {
-            retVal = parentNode.getChildLayoutContext(this);
-        } else {
-            retVal = LayoutContextImpl.getDefaultLayoutContext();
-        }
+    public LayoutContext applyLocalAttributesToContext(
+            final LayoutContext context) {
         // TODO: Theoretically this only applies all to presentation token
         // elements except mspace and mglyph, and on no other elements except
         // mstyle 3.2.2
-        return this.applyStyleAttributes(retVal);
+        return this.applyStyleAttributes(context);
     }
 
     /**
@@ -1091,8 +748,8 @@ public abstract class AbstractJEuclidElement extends
      * 
      * @param applyTo
      *            the context to apply to
-     * @return a context which has the style attributes changed accordingly.
-     *         May be the original context if nothing has changed.
+     * @return a context which has the style attributes changed accordingly. May
+     *         be the original context if nothing has changed.
      */
     private LayoutContext applyStyleAttributes(final LayoutContext applyTo) {
         LayoutContext retVal = applyTo;
@@ -1101,39 +758,43 @@ public abstract class AbstractJEuclidElement extends
 
         final String msize = this.getMathsize();
 
-        Color foreground = null;
+        final Color foreground;
         final String colorString = this.getMathcolor();
-        if (colorString != null) {
+        if (colorString == null) {
+            foreground = null;
+        } else {
             foreground = AttributesHelper.stringToColor(colorString,
                     Color.BLACK);
         }
 
-        final String backcolorString = this.getMathbackground();
-        Color background = null;
-        if (backcolorString != null) {
-            background = AttributesHelper
-                    .stringToColor(backcolorString, null);
-        }
+        // Background is handled differently and does not need to go into
+        // context.
 
-        if ((msize != null) || (foreground != null) || (background != null)) {
-            retVal = new StyleAttributeLayoutContext(applyTo, msize,
-                    foreground, background);
+        if ((msize != null) || (foreground != null)) {
+            retVal = new StyleAttributeLayoutContext(applyTo, msize, foreground);
         }
 
         return retVal;
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
-    public List<LayoutableNode> getLayoutableNodeChildren() {
-        final List l = ElementListSupport.createListOfChildren(this);
+    public List<LayoutableNode> getChildrenToLayout() {
+        final List<LayoutableNode> l = ElementListSupport
+                .createListOfLayoutChildren(this);
+        return l;
+    }
+
+    /** {@inheritDoc} */
+    public List<LayoutableNode> getChildrenToDraw() {
+        final List<LayoutableNode> l = ElementListSupport
+                .createListOfLayoutChildren(this);
         return l;
     }
 
     /**
      * Layout for elements which are stage independent.
      * <p>
-     * This functio will layout an element which is layed out the same no
+     * This function will layout an element which is layed out the same no
      * matter what stage it is in. This is the case for most elements.
      * <p>
      * Notable exceptions are mo and tables.
@@ -1144,26 +805,44 @@ public abstract class AbstractJEuclidElement extends
      *            An info object which will be filled during layout.
      * @param stage
      *            current layout stage.
+     * @param context
+     *            current LayoutContext.
      */
     protected void layoutStageInvariant(final LayoutView view,
-            final LayoutInfo info, final LayoutStage stage) {
-        ElementListSupport.layoutSequential(view, info, this, stage);
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutContext context) {
+        ElementListSupport.layoutSequential(view, info, this
+                .getChildrenToLayout(), stage);
     }
 
     /** {@inheritDoc} */
     public void layoutStage1(final LayoutView view, final LayoutInfo info,
-            final LayoutStage childMinStage) {
-        this.layoutStageInvariant(view, info, LayoutStage.STAGE1);
-        info.setLayoutStage(childMinStage);
+            final LayoutStage childMinStage, final LayoutContext context) {
+        this.layoutStageInvariant(view, info, LayoutStage.STAGE1, context);
+
+        // TODO: This should be done in a better way.
+        if (this.getMathbackground() == null) {
+            info.setLayoutStage(childMinStage);
+        } else {
+            info.setLayoutStage(LayoutStage.STAGE1);
+        }
     }
 
     /** {@inheritDoc} */
-    public void layoutStage2(final LayoutView view, final LayoutInfo info) {
-        this.layoutStageInvariant(view, info, LayoutStage.STAGE2);
+    public void layoutStage2(final LayoutView view, final LayoutInfo info,
+            final LayoutContext context) {
+        this.layoutStageInvariant(view, info, LayoutStage.STAGE2, context);
+
+        // TODO: put in own function, ensure this is also called from
+        // subclasses.
+        final String background = this.getMathbackground();
+        final Color backgroundColor = AttributesHelper.stringToColor(
+                background, null);
+        ElementListSupport.addBackground(backgroundColor, info, false);
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 
-    {
+    static {
         AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
                 .add(AbstractJEuclidElement.ATTR_DEPRECATED_COLOR);
         AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
@@ -1177,7 +856,23 @@ public abstract class AbstractJEuclidElement extends
         AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
                 .add(AbstractJEuclidElement.ATTR_DEPRECATED_FONTFAMILY);
 
-        AbstractJEuclidElement.DEPRECATED_ATTRIBUTES
-                .add(Mo.ATTR_MOVEABLEWRONG);
+        AbstractJEuclidElement.DEPRECATED_ATTRIBUTES.add(Mo.ATTR_MOVEABLEWRONG);
+    }
+
+    /**
+     * Override this function to get notified whenever the contents of this
+     * element have changed.
+     */
+    protected void changeHook() {
+        // Override me!
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean dispatchEvent(final Event evt) {
+        if (evt instanceof DOMMutationEvent) {
+            this.changeHook();
+        }
+        return super.dispatchEvent(evt);
     }
 }

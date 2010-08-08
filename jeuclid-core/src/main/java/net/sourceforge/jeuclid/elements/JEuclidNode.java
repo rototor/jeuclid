@@ -19,29 +19,23 @@
 package net.sourceforge.jeuclid.elements;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
 
 /**
  * Generic interface for all MathNodes, including document Element.
  * 
- * @author Max Berger
  * @version $Revision$
  */
-public interface JEuclidNode extends ChangeTrackingInterface {
-
-    /**
-     * Gets the size of the actual font used (including scriptsizemultiplier).
-     * 
-     * @return size of the current font.
-     */
-    float getFontsizeInPoint();
+public interface JEuclidNode {
 
     /**
      * get the layout context for the given child.
      * 
-     * @param child
-     *            the child to check.
+     * @param childNum
+     *            0-based number of the child to check.
+     * @param context
+     *            external context.
      * @return layout context to use.
      */
-    LayoutContext getChildLayoutContext(JEuclidNode child);
+    LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context);
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <apply> 
+      <csymbol cd="fns1">inverse</csymbol> 
+      <ci>a</ci>  
+    </apply> 
+    <ci>A</ci> 
+  </apply> 
+</math>

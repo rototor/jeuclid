@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="set1">set</csymbol>
+    <cn>4.56</cn>
+    <cn>4.56</cn>
+    <apply>
+      <csymbol cd="nums1">rational</csymbol>
+      <cn>4</cn>
+      <cn>5</cn>
+    </apply>
+    <apply>
+      <csymbol cd="complex1">complex_cartesian</csymbol>
+      <cn>4</cn>
+      <cn>5</cn>
+    </apply>
+    <apply>
+      <csymbol cd="complex1">complex_polar</csymbol>
+      <cn type="real">4.56</cn>
+      <cn type="real">4.56 </cn>
+    </apply>
+    <csymbol cd="nums1">pi</csymbol>
+    <csymbol cd="nums1">e</csymbol>
+    <csymbol cd="nums1">e</csymbol>
+    <csymbol cd="nums1">i</csymbol>
+    <csymbol cd="nums1">i</csymbol>
+    <csymbol cd="nums1">gamma</csymbol>
+    <csymbol cd="nums1">infinity</csymbol>
+  </apply>  
+</math>

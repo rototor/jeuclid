@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <bind>
+    <csymbol cd="calculus1">int</csymbol>
+    <bvar>
+      <ci>x</ci>
+    </bvar>
+    <apply>
+      <csymbol cd="transc1">cos</csymbol>  
+      <ci>x</ci> 
+    </apply>
+  </bind> 
+</math>

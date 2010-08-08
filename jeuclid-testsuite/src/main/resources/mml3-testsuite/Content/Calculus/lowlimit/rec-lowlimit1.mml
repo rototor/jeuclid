@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <int></int>  
+    <bvar>
+      <ci>x</ci> 
+    </bvar>  
+    <lowlimit>
+      <ci>a</ci>  
+    </lowlimit> 
+    <uplimit>
+      <ci>b</ci>  
+    </uplimit> 
+    <apply>
+      <ci type="fn">f</ci>  
+      <ci>x</ci> 
+    </apply> 
+  </apply>  
+</math>

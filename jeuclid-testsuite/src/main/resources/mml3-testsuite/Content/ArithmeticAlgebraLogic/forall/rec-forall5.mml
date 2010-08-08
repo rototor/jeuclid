@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <forall></forall> 
+    <bvar> 
+      <ci>x</ci> 
+    </bvar>  
+    <condition>
+      <apply>
+        <lt></lt>  
+        <ci>x</ci> 
+        <cn>9</cn>  
+      </apply> 
+    </condition> 
+    <apply> 
+      <lt></lt> 
+      <ci>x</ci>  
+      <cn>10</cn> 
+    </apply> 
+  </apply>  
+</math>

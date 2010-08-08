@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <csymbol cd="piece1">piecewise</csymbol>
+    <apply>
+      <csymbol cd="piece1">piece</csymbol>
+      <apply>
+        <csymbol cd="arith1">unary_minus</csymbol>
+        <ci>x</ci>
+      </apply>
+      <apply> 
+        <csymbol cd="relation1">lt</csymbol> 
+        <ci>x</ci>  
+        <cn>0</cn> 
+      </apply>
+    </apply>
+    <apply>
+      <csymbol cd="piece1">piece</csymbol>
+      <cn>0</cn>
+      <apply> 
+        <csymbol cd="relation1">eq</csymbol> 
+        <ci>x</ci>  
+        <cn>0</cn> 
+      </apply>
+    </apply>
+    <apply>
+      <csymbol cd="piece1">piece</csymbol>
+      <ci>x</ci>
+      <apply>
+        <csymbol cd="relation1">gt</csymbol> 
+        <ci>x</ci> 
+        <cn>0</cn> 
+      </apply>
+    </apply>
+  </apply>  
+</math>

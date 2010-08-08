@@ -18,13 +18,20 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.MathMLNodeListImpl;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLMultiScriptsElement;
@@ -33,17 +40,17 @@ import org.w3c.dom.mathml.MathMLNodeList;
 /**
  * Prescripts and Tensor Indices.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
 
-public class Mmultiscripts extends AbstractScriptElement implements
+public final class Mmultiscripts extends AbstractScriptElement implements
         MathMLMultiScriptsElement {
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mmultiscripts";
+
+    private static final long serialVersionUID = 1L;
 
     // /**
     // * Logger for this class
@@ -59,45 +66,43 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     private static final int STATE_PRESUPER = 3;
 
-    private final List<JEuclidElement> postsubscripts = new Vector<JEuclidElement>();
+    private final List<JEuclidElement> postsubscripts = new ArrayList<JEuclidElement>();
 
-    private final List<JEuclidElement> postsuperscripts = new Vector<JEuclidElement>();
+    private final List<JEuclidElement> postsuperscripts = new ArrayList<JEuclidElement>();
 
-    private final List<JEuclidElement> presubscripts = new Vector<JEuclidElement>();
+    private final List<JEuclidElement> presubscripts = new ArrayList<JEuclidElement>();
 
-    private final List<JEuclidElement> presuperscripts = new Vector<JEuclidElement>();
+    private final List<JEuclidElement> presuperscripts = new ArrayList<JEuclidElement>();
 
     private boolean inRewriteChildren;
 
-    private Graphics2D lastCalculatedFor;
-
-    private float subBaselineShift;
-
-    private float superBaselineShift;
-
-    private float ascentHeight;
-
-    private float descentHeight;
-
-    private float width;
-
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mmultiscripts() {
-        super();
+    public Mmultiscripts(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+
         this.inRewriteChildren = false;
-        this.lastCalculatedFor = null;
     }
 
     /** {@inheritDoc} */
     @Override
-    protected void changeHook() {
+    protected Node newNode() {
+        return new Mmultiscripts(this.nodeName, this.ownerDocument);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void changeHook() {
         super.changeHook();
         if (!this.inRewriteChildren) {
             this.parseChildren();
         }
-        this.lastCalculatedFor = null;
     }
 
     private void parseChildren() {
@@ -105,182 +110,133 @@ public class Mmultiscripts extends AbstractScriptElement implements
         this.presuperscripts.clear();
         this.postsubscripts.clear();
         this.postsuperscripts.clear();
-        final org.w3c.dom.NodeList childList = this.getChildNodes();
+
+        final int count = this.getMathElementCount();
+
         int state = Mmultiscripts.STATE_POSTSUB;
-        final int len = childList.getLength();
-        for (int i = 1; i < len; i++) {
-            final Node child = childList.item(i);
+        for (int i = 1; i < count; i++) {
+            final JEuclidElement child = this.getMathElement(i);
             if (child instanceof Mprescripts) {
                 state = Mmultiscripts.STATE_PRESUB;
-            } else if (child instanceof JEuclidElement) {
-                final JEuclidElement jchild = (JEuclidElement) child;
+            } else {
                 if (state == Mmultiscripts.STATE_POSTSUB) {
-                    this.postsubscripts.add(jchild);
+                    this.postsubscripts.add(child);
                     state = Mmultiscripts.STATE_POSTSUPER;
                 } else if (state == Mmultiscripts.STATE_POSTSUPER) {
-                    this.postsuperscripts.add(jchild);
+                    this.postsuperscripts.add(child);
                     state = Mmultiscripts.STATE_POSTSUB;
                 } else if (state == Mmultiscripts.STATE_PRESUB) {
-                    this.presubscripts.add(jchild);
+                    this.presubscripts.add(child);
                     state = Mmultiscripts.STATE_PRESUPER;
                 } else {
-                    this.presuperscripts.add(jchild);
+                    this.presuperscripts.add(child);
                     state = Mmultiscripts.STATE_PRESUB;
                 }
             }
         }
         if (this.postsuperscripts.size() < this.postsubscripts.size()) {
-            this.postsuperscripts.add(new None());
+            this.postsuperscripts.add((JEuclidElement) this.getOwnerDocument()
+                    .createElement(None.ELEMENT));
         }
         if (this.presuperscripts.size() < this.presubscripts.size()) {
-            this.presuperscripts.add(new None());
+            this.presuperscripts.add((JEuclidElement) this.getOwnerDocument()
+                    .createElement(None.ELEMENT));
         }
     }
 
-    private void calculateSpecs(final Graphics2D g) {
-        if (g == this.lastCalculatedFor) {
-            return;
-        }
-        this.lastCalculatedFor = g;
+    /** {@inheritDoc} */
+    @Override
+    protected void layoutStageInvariant(final LayoutView view,
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutContext context) {
         final JEuclidElement base = this.getBase();
+        final LayoutInfo baseInfo = view.getInfo(base);
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
 
-        this.subBaselineShift = 0.0f;
-        this.superBaselineShift = 0.0f;
+        final String subScriptshift = this.getSubscriptshift();
+        final String superScriptshift = this.getSuperscriptshift();
 
-        float maxSupAscent = 0.0f;
-        float maxSubDescent = 0.0f;
-
-        this.width = base.getWidth(g);
-
-        for (int i = 0; i < this.postsubscripts.size(); i++) {
-            final JEuclidElement sub = this.postsubscripts.get(i);
-            final JEuclidElement sup = this.postsuperscripts.get(i);
-            final float esubbaselineshift = ScriptSupport
-                    .getSubBaselineShift(g, base, sub, sup);
-            final float esupbaselineshift = ScriptSupport
-                    .getSuperBaselineShift(g, base, sub, sup);
-            this.subBaselineShift = Math.max(this.subBaselineShift,
-                    esubbaselineshift);
-            this.superBaselineShift = Math.max(this.superBaselineShift,
-                    esupbaselineshift);
-            maxSupAscent = Math.max(maxSupAscent, sup.getAscentHeight(g));
-            maxSubDescent = Math.max(maxSubDescent, sub.getDescentHeight(g));
-            this.width += Math.max(sub.getWidth(g), sup.getWidth(g));
-        }
+        final ScriptSupport.ShiftInfo totalShiftInfo = this
+                .calculateTotalShift(view, stage, baseInfo, now,
+                        subScriptshift, superScriptshift);
+        float posX = 0.0f;
+        final float subBaselineShift = totalShiftInfo.getSubShift();
+        final float superBaselineShift = totalShiftInfo.getSuperShift();
         for (int i = 0; i < this.presubscripts.size(); i++) {
-            final JEuclidElement sub = this.presubscripts.get(i);
-            final JEuclidElement sup = this.presuperscripts.get(i);
-            final float esubbaselineshift = ScriptSupport
-                    .getSubBaselineShift(g, base, sub, sup);
-            final float esupbaselineshift = ScriptSupport
-                    .getSuperBaselineShift(g, base, sub, sup);
-            this.subBaselineShift = Math.max(this.subBaselineShift,
-                    esubbaselineshift);
-            this.superBaselineShift = Math.max(this.superBaselineShift,
-                    esupbaselineshift);
-            maxSupAscent = Math.max(maxSupAscent, sup.getAscentHeight(g));
-            maxSubDescent = Math.max(maxSubDescent, sub.getDescentHeight(g));
-            this.width += Math.max(sub.getWidth(g), sup.getWidth(g));
+            final LayoutInfo subInfo = view.getInfo(this.presubscripts.get(i));
+            final LayoutInfo superInfo = view.getInfo(this.presuperscripts
+                    .get(i));
+            subInfo.moveTo(posX, subBaselineShift, stage);
+            superInfo.moveTo(posX, -superBaselineShift, stage);
+            posX += Math
+                    .max(subInfo.getWidth(stage), superInfo.getWidth(stage));
         }
-
-        this.ascentHeight = Math.max(base.getAscentHeight(g),
-                this.superBaselineShift + maxSupAscent);
-        this.descentHeight = Math.max(base.getDescentHeight(g),
-                this.subBaselineShift + maxSubDescent);
-    }
-
-    /**
-     * Paints this element.
-     * 
-     * @param g
-     *            The graphics context to use for painting
-     * @param posX
-     *            The first left position for painting
-     * @param posY
-     *            The position of the baseline
-     */
-    @Override
-    public final void paint(final Graphics2D g, final float posX,
-            final float posY) {
-        super.paint(g, posX, posY);
-        this.calculateSpecs(g);
-        final JEuclidElement base = this.getBase();
-
-        float pos = posX;
-        for (int i = 0; i < this.presubscripts.size(); i++) {
-            final JEuclidElement sub = this.presubscripts.get(i);
-            final JEuclidElement sup = this.presuperscripts.get(i);
-            sub.paint(g, pos, posY + this.subBaselineShift);
-            sup.paint(g, pos, posY - this.superBaselineShift);
-            pos += Math.max(sub.getWidth(g), sup.getWidth(g));
-        }
-        base.paint(g, pos, posY);
-        pos += base.getWidth(g);
+        baseInfo.moveTo(posX, 0.0f, stage);
+        posX += baseInfo.getWidth(stage);
         for (int i = 0; i < this.postsubscripts.size(); i++) {
-            final JEuclidElement sub = this.postsubscripts.get(i);
-            final JEuclidElement sup = this.postsuperscripts.get(i);
-            sub.paint(g, pos, posY + this.subBaselineShift);
-            sup.paint(g, pos, posY - this.superBaselineShift);
-            pos += Math.max(sub.getWidth(g), sup.getWidth(g));
+            final LayoutInfo subInfo = view.getInfo(this.postsubscripts.get(i));
+            final LayoutInfo superInfo = view.getInfo(this.postsuperscripts
+                    .get(i));
+            subInfo.moveTo(posX, subBaselineShift, stage);
+            superInfo.moveTo(posX, -superBaselineShift, stage);
+            posX += Math
+                    .max(subInfo.getWidth(stage), superInfo.getWidth(stage));
         }
+
+        final Dimension2D noborder = new Dimension2DImpl(0.0f, 0.0f);
+        ElementListSupport.fillInfoFromChildren(view, info, this, stage,
+                noborder, noborder);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public final float calculateWidth(final Graphics2D g) {
-        this.calculateSpecs(g);
-        return this.width;
-    }
+    private ScriptSupport.ShiftInfo calculateTotalShift(final LayoutView view,
+            final LayoutStage stage, final LayoutInfo baseInfo,
+            final LayoutContext now, final String subScriptshift,
+            final String superScriptshift) {
+        final ScriptSupport.ShiftInfo totalShiftInfo = new ScriptSupport.ShiftInfo(
+                0.0f, 0.0f);
 
-    /** {@inheritDoc} */
-    @Override
-    public final float calculateAscentHeight(final Graphics2D g) {
-        this.calculateSpecs(g);
-        return this.ascentHeight;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final float calculateDescentHeight(final Graphics2D g) {
-        this.calculateSpecs(g);
-        return this.descentHeight;
-
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int getScriptlevelForChild(final JEuclidElement child) {
-        if (child.isSameNode(this.getFirstChild())) {
-            return this.getAbsoluteScriptLevel();
-        } else {
-            return this.getAbsoluteScriptLevel() + 1;
+        for (int i = 0; i < this.presubscripts.size(); i++) {
+            final LayoutInfo subInfo = view.getInfo(this.presubscripts.get(i));
+            final LayoutInfo superInfo = view.getInfo(this.presuperscripts
+                    .get(i));
+            final ScriptSupport.ShiftInfo shiftInfo = ScriptSupport
+                    .calculateScriptShfits(stage, now, subScriptshift,
+                            superScriptshift, baseInfo, subInfo, superInfo);
+            totalShiftInfo.max(shiftInfo);
         }
+        for (int i = 0; i < this.postsubscripts.size(); i++) {
+            final LayoutInfo subInfo = view.getInfo(this.postsubscripts.get(i));
+            final LayoutInfo superInfo = view.getInfo(this.postsuperscripts
+                    .get(i));
+            final ScriptSupport.ShiftInfo shiftInfo = ScriptSupport
+                    .calculateScriptShfits(stage, now, subScriptshift,
+                            superScriptshift, baseInfo, subInfo, superInfo);
+            totalShiftInfo.max(shiftInfo);
+        }
+        return totalShiftInfo;
     }
 
     /** {@inheritDoc} */
     @Override
     public boolean hasChildPrescripts(final JEuclidElement child) {
         return child.isSameNode(this.getBase())
-                && this.getNumprescriptcolumns() > 0;
+                && (this.getNumprescriptcolumns() > 0);
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean hasChildPostscripts(final JEuclidElement child) {
+    public boolean hasChildPostscripts(final JEuclidElement child,
+            final LayoutContext context) {
         return child.isSameNode(this.getBase())
-                && this.getNumscriptcolumns() > 0;
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mmultiscripts.ELEMENT;
+                && (this.getNumscriptcolumns() > 0);
     }
 
     /** {@inheritDoc} */
     public JEuclidElement getBase() {
         final JEuclidElement base = this.getMathElement(0);
         if (base == null) {
-            return new None();
+            return (JEuclidElement) this.getOwnerDocument().createElement(
+                    None.ELEMENT);
         } else {
             return base;
         }
@@ -313,8 +269,9 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     /** {@inheritDoc} */
     public MathMLNodeList getPrescripts() {
-        final List<Node> list = new Vector<Node>();
-        for (int i = 0; i < this.presubscripts.size(); i++) {
+        final int presubsize = this.presubscripts.size();
+        final List<Node> list = new ArrayList<Node>(2 * presubsize);
+        for (int i = 0; i < presubsize; i++) {
             list.add(this.presubscripts.get(i));
             list.add(this.presuperscripts.get(i));
         }
@@ -323,8 +280,9 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     /** {@inheritDoc} */
     public MathMLNodeList getScripts() {
-        final List<Node> list = new Vector<Node>();
-        for (int i = 0; i < this.postsubscripts.size(); i++) {
+        final int postsubsize = this.postsubscripts.size();
+        final List<Node> list = new ArrayList<Node>(2 * postsubsize);
+        for (int i = 0; i < postsubsize; i++) {
             list.add(this.postsubscripts.get(i));
             list.add(this.postsuperscripts.get(i));
         }
@@ -333,11 +291,17 @@ public class Mmultiscripts extends AbstractScriptElement implements
 
     /** {@inheritDoc} */
     public MathMLElement getSubScript(final int colIndex) {
+        if ((colIndex < 1) || (colIndex > this.postsubscripts.size())) {
+            return null;
+        }
         return this.postsubscripts.get(colIndex - 1);
     }
 
     /** {@inheritDoc} */
     public MathMLElement getSuperScript(final int colIndex) {
+        if ((colIndex < 1) || (colIndex > this.postsuperscripts.size())) {
+            return null;
+        }
         return this.postsuperscripts.get(colIndex - 1);
     }
 
@@ -351,7 +315,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
             this.removeChild(childList.item(1));
         }
         if (len == 0) {
-            this.addMathElement(new None());
+            this.addMathElement((JEuclidElement) this.getOwnerDocument()
+                    .createElement(None.ELEMENT));
         }
         for (int i = 0; i < this.postsubscripts.size(); i++) {
             this.addMathElement(this.postsubscripts.get(i));
@@ -359,7 +324,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
         }
         final int numprescripts = this.presubscripts.size();
         if (numprescripts > 0) {
-            this.addMathElement(new Mprescripts());
+            this.addMathElement((Mprescripts) this.getOwnerDocument()
+                    .createElement(Mprescripts.ELEMENT));
             for (int i = 0; i < numprescripts; i++) {
                 this.addMathElement(this.presubscripts.get(i));
                 this.addMathElement(this.presuperscripts.get(i));
@@ -378,7 +344,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
             targetIndex = colIndex - 1;
         }
         this.presubscripts.add(targetIndex, (JEuclidElement) newScript);
-        this.presuperscripts.add(targetIndex, new None());
+        this.presuperscripts.add(targetIndex, (JEuclidElement) this
+                .getOwnerDocument().createElement(None.ELEMENT));
         this.rewriteChildren();
         return newScript;
     }
@@ -392,7 +359,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
         } else {
             targetIndex = colIndex - 1;
         }
-        this.presubscripts.add(targetIndex, new None());
+        this.presubscripts.add(targetIndex, (JEuclidElement) this
+                .getOwnerDocument().createElement(None.ELEMENT));
         this.presuperscripts.add(targetIndex, (JEuclidElement) newScript);
         this.rewriteChildren();
         return newScript;
@@ -408,7 +376,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
             targetIndex = colIndex - 1;
         }
         this.postsubscripts.add(targetIndex, (JEuclidElement) newScript);
-        this.postsuperscripts.add(targetIndex, new None());
+        this.postsuperscripts.add(targetIndex, (JEuclidElement) this
+                .getOwnerDocument().createElement(None.ELEMENT));
         this.rewriteChildren();
         return newScript;
     }
@@ -422,7 +391,8 @@ public class Mmultiscripts extends AbstractScriptElement implements
         } else {
             targetIndex = colIndex - 1;
         }
-        this.postsubscripts.add(targetIndex, new None());
+        this.postsubscripts.add(targetIndex, (JEuclidElement) this
+                .getOwnerDocument().createElement(None.ELEMENT));
         this.postsuperscripts.add(targetIndex, (JEuclidElement) newScript);
         this.rewriteChildren();
         return newScript;

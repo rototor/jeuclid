@@ -4,18 +4,18 @@
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-parent</artifactId>
   <name>JEuclid</name>
-  <version>3.1.0-SNAPSHOT</version>
+  <version>3.1.10-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-    <module>build-tools</module>
     <module>jeuclid-core</module>
+    <module>jeuclid-core16</module>
     <module>jeuclid-swt</module>
     <module>jeuclid-mathviewer</module>
     <module>jeuclid-fop</module>
-    <module>jeuclid-foprep</module>
+    <module>jeuclid-cli</module>
     <module>jeuclid</module>
     <module>jeuclid-minimal</module>
-    <module>jeuclid-webstart</module>
+    <module>jeuclid-testsuite</module>
   </modules>
   <description>
     JEuclid is a complete MathML rendering solution, consisting of a MathViewer
@@ -23,7 +23,7 @@
     task for autmated conversion, Display components for AWT and Swing and a
     component for Apache Cocoon
   </description>
-  <url>http://jeuclid.sourceforge.net/</url>
+  <url>http://jeuclid.sourceforge.net</url>
   <issueManagement>
     <system>SourceForge</system>
     <url>https://sourceforge.net/tracker/?group_id=44862</url>
@@ -74,18 +74,11 @@
       <name>Max Berger</name>
       <email>max AT berger DOT name</email>
       <url>http://max.berger.name</url>
-<!--      <organization>Codehaus</organization>
-      <organizationUrl>http://mojo.codehaus.org</organizationUrl>
--->
       <roles>
         <role>architect</role>
         <role>developer</role>
       </roles>
       <timezone>+1</timezone>
-<!--      <properties>
-        <picUrl>http://tinyurl.com/prv4t</picUrl>
-      </properties>
--->
     </developer>
     <developer>
       <id>eric239</id>
@@ -106,8 +99,37 @@
       </roles>
       <timezone>-5</timezone>
     </developer>
+    <developer>
+      <id>epietrig</id>
+      <name>Emmanuel Pietriga</name>
+      <email> AT DOT DOT </email>
+      <roles>
+        <role>delevoper</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <id>petrprochy</id>
+      <name>PetrProchy</name>
+      <email> AT DOT DOT </email>
+      <roles>
+        <role>delevoper</role>
+      </roles>
+    </developer>
   </developers>
   <contributors>
+    <contributor>
+      <name>Gil</name>
+      <roles>
+        <role>Italian translation</role>
+      </roles>
+    </contributor>
+    <contributor>
+      <name>Jean-Francois Maurel</name>
+      <roles>
+        <role>French translation</role>
+      </roles>
+    </contributor>
     <contributor>
       <name>Jean Roland</name>
       <roles>
@@ -192,44 +214,67 @@
     </contributor>
   </contributors>
   <scm>
-    <connection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</connection>
-    <developerConnection>scm:svn:https://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</developerConnection>
-    <url>http://jeuclid.svn.sourceforge.net/svnroot/jeuclid/trunk</url>
+    <connection>scm:hg:http://jeuclid.hg.sourceforge.net:8000/hgroot/jeuclid/jeuclid</connection>
+    <developerConnection>scm:hg:ssh://jeuclid.hg.sourceforge.net/hgroot/jeuclid/jeuclid</developerConnection>
+    <url>http://jeuclid.hg.sourceforge.net/hgweb/jeuclid/jeuclid/</url>
   </scm>
   <build>
     <extensions>
       <extension>
         <groupId>net.sourceforge.jeuclid</groupId>
         <artifactId>build-tools</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.4</version>
       </extension>
     </extensions>
+    <defaultGoal>install</defaultGoal>
     <plugins>
       <plugin>
+        <!-- This is necessary for docbook sites on OS X -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>2.1</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.doxia</groupId>
+            <artifactId>doxia-module-docbook-simple</artifactId>
+            <version>1.1.2</version>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.maven.doxia</groupId>
+            <artifactId>doxia-module-xhtml</artifactId>
+            <version>1.1.2</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
-<!--          <debug>false</debug>
+          <debug>false</debug>
           <optimize>true</optimize>
--->
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>ant</goal>
-            </goals>
-          </execution>
-        </executions>
-        <artifactId>maven-ant-plugin</artifactId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.4.3</version>
+        <configuration>
+          <systemProperties>
+            <property>
+              <name>java.awt.headless</name>
+              <value>true</value>
+            </property>
+          </systemProperties>
+          <parallel>methods</parallel>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>com.pyx4me</groupId>
         <artifactId>proguard-maven-plugin</artifactId>
+        <version>2.0.4</version>
         <configuration>
           <libs>
             <lib>${runtime.lib}</lib>
@@ -237,31 +282,65 @@
           <proguardInclude>${common.dir}/proguard.lib.conf</proguardInclude>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <version>2.3</version>
+        <executions>
+          <execution>
+            <id>validate-changes</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>changes-validate</goal>
+            </goals>
+            <configuration>
+              <!-- if set to true the build will fail if the changes file is invalid,
+                   if set to false warnings will be logged. -->
+              <failOnError>true</failOnError>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>5.1</version>
+      <version>5.8</version>
       <scope>test</scope>
       <classifier>jdk15</classifier>
     </dependency>
   </dependencies>
   <pluginRepositories>
     <pluginRepository>
-      <id>codehaus-snapshot-plugins</id>
-      <name>codehaus-shapshot-plugins</name>
-      <url>http://snapshots.repository.codehaus.org/</url>
+      <id>codehaus-plugins</id>
+      <name>codehaus-plugins</name>
+      <url>http://repository.codehaus.org/</url>
       <snapshots>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </snapshots>
       <releases>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </releases>
+    </pluginRepository>
+    <pluginRepository>
+      <id>maxthird</id>
+      <name>Max Third Party Repo</name>
+      <url>http://m2.max.berger.name/content/repositories/thirdparty</url>
     </pluginRepository>
   </pluginRepositories>
   <repositories>
+    <repository>
+      <id>jeuclid-release</id>
+      <name>JEuclid released dependencies</name>
+      <url>http://jeuclid.sf.net/m2-release</url>
+    </repository>
+    <repository>
+      <id>jeuclid-deps</id>
+      <name>JEuclid dependencies</name>
+      <url>http://jeuclid.sf.net/m2</url>
+    </repository>
     <repository>
       <id>freehep-maven</id>
       <name>Maven FreeHEP</name>
@@ -271,42 +350,65 @@
   <reporting>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.1.2</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <!-- Hangs on some machines -->
+              <!-- <report>dependencies</report> -->
+              <report>project-team</report>
+              <report>mailing-list</report>
+              <!-- none set up -->
+              <!-- <report>cim</report> -->
+              <report>issue-tracking</report>
+              <report>license</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.4.3</version>
       </plugin>
       <plugin>
         <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.1</version>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.6.1</version>
         <configuration>
           <linksource>true</linksource>
-          <aggregate>true</aggregate>
+          <stylesheet>maven</stylesheet>
           <keywords>true</keywords>
           <links>
             <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
             <link>http://testng.org/javadocs/</link>
             <link>http://jakarta.apache.org/commons/logging/apidocs/</link>
+            <link>http://jcip.net/annotations/doc/</link>
           </links>
-          <tags>
-            <tag>
-              <name>todo</name>
-              <placement>a</placement>
-              <head>This needs to be done:</head>
-            </tag>
-          </tags>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>aggregate</report>
+              </reports>
+            </reportSet>
+          </reportSets>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.3</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
+        <version>2.0</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -318,35 +420,38 @@
           <issueLinkTemplate>http://sourceforge.net/support/tracker.php?aid=%ISSUE%</issueLinkTemplate>
         </configuration>
       </plugin>
+      <!-- Disabled for now, as it has problem with Mercurial backend
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changelog-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
-      </plugin>
+        <version>2.1</version>
+      </plugin> -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>taglist-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jdepend-maven-plugin</artifactId>
-        <version>2.0-beta-1</version>
+        <version>2.4</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javancss-maven-plugin</artifactId>
+        <version>2.0</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <threshold>Low</threshold>
+          <effort>Max</effort>
+          <omitVisitors>FindDeadLocalStores</omitVisitors>
+          <xmlOutput>true</xmlOutput>
+          <!-- Required by Dashboard -->
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.4max</version>
         <configuration>
           <configLocation>jeuclid/checkstyle.xml</configLocation>
           <suppressionsLocation>jeuclid/checkstyle_filter.xml</suppressionsLocation>
@@ -355,35 +460,56 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.4</version>
         <configuration>
+          <linkXref>true</linkXref>
           <targetJdk>1.5</targetJdk>
+          <sourceEncoding>utf-8</sourceEncoding>
+          <excludes>
+            <exclude>org/**/*.java</exclude>
+          </excludes>
+          <rulesets>
+            <ruleset>/rulesets/basic.xml</ruleset>
+            <ruleset>/rulesets/braces.xml</ruleset>
+            <ruleset>/rulesets/codesize.xml</ruleset>
+            <ruleset>/rulesets/clone.xml</ruleset>
+            <ruleset>/rulesets/design.xml</ruleset>
+            <ruleset>/rulesets/finalizers.xml</ruleset>
+            <ruleset>/rulesets/imports.xml</ruleset>
+            <ruleset>/rulesets/strings.xml</ruleset>
+            <ruleset>/rulesets/migrating_to_15.xml</ruleset>
+            <ruleset>/rulesets/optimizations.xml</ruleset>
+            <ruleset>/rulesets/sunsecure.xml</ruleset>
+            <ruleset>/rulesets/unusedcode.xml</ruleset>
+          </rulesets>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>dashboard-maven-plugin</artifactId>
-        <version>1.0-20070324.094245-8</version>
+        <version>1.0.0-beta-1</version>
       </plugin>
     </plugins>
   </reporting>
   <distributionManagement>
     <repository>
-      <id>sourceforge</id>
+      <id>sourceforgejeuclid</id>
       <name>SourceForge Final Repository</name>
-      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-release</url>
+      <url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-release</url>
     </repository>
     <snapshotRepository>
-      <id>sourceforge</id>
+      <id>sourceforgejeuclid</id>
       <name>SourceForge Snapshot Repository</name>
-      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-snap</url>
+      <url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-snap</url>
     </snapshotRepository>
     <site>
-      <id>sourceforge</id>
+      <id>sourceforgejeuclid</id>
       <name>Website for JEuclid on SourceForge</name>
-      <url>sftp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs/trunk</url>
+      <url>scp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs</url>
     </site>
   </distributionManagement>
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <runtime.lib>${java.home}/lib/rt.jar</runtime.lib>
     <common.dir>${basedir}/..</common.dir>
   </properties>

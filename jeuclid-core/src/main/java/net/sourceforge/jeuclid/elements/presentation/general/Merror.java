@@ -18,31 +18,53 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import java.awt.Color;
+
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.StyleAttributeLayoutContext;
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
+
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 
 /**
  * Represents an merror element.
  * 
- * @author Max Berger
  * @version $Revision$
  */
-public class Merror extends AbstractRowLike {
+public final class Merror extends AbstractContainer {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "merror";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
      * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Merror() {
-        super();
+    public Merror(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Merror.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Merror(this.nodeName, this.ownerDocument);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public LayoutContext applyLocalAttributesToContext(
+            final LayoutContext context) {
+        return super
+                .applyLocalAttributesToContext(new StyleAttributeLayoutContext(
+                        context, null, Color.RED));
+    }
 }

@@ -18,22 +18,24 @@
 
 package net.sourceforge.jeuclid.elements.presentation.enlivening;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Vector;
 
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLActionElement;
 
 /**
  * Represents an maction element.
+ * <p>
+ * TODO: This element does not actually implement any action.
  * 
- * @todo This element does not actually implement any action.
- * @author Max Berger
  * @version $Revision$
  */
-public class Maction extends AbstractElementWithDelegates implements
+public final class Maction extends AbstractElementWithDelegates implements
         MathMLActionElement {
 
     /**
@@ -45,17 +47,25 @@ public class Maction extends AbstractElementWithDelegates implements
 
     private static final String ATTR_SELECTION = "selection";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Maction() {
-        super();
+    public Maction(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
         this.setDefaultMathAttribute(Maction.ATTR_SELECTION, "1");
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Maction.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Maction(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */
@@ -80,19 +90,20 @@ public class Maction extends AbstractElementWithDelegates implements
 
     /** {@inheritDoc} */
     @Override
-    protected List<JEuclidElement> createDelegates() {
-        JEuclidElement selectedElement;
+    protected List<LayoutableNode> createDelegates() {
+        LayoutableNode selectedElement;
         try {
             final int selected = Integer.parseInt(this.getSelection());
             selectedElement = this.getMathElement(selected - 1);
         } catch (final NumberFormatException nfe) {
             selectedElement = null;
         }
-        final List<JEuclidElement> list = new Vector<JEuclidElement>(1);
-        if (selectedElement != null) {
-            list.add(selectedElement);
+
+        if (selectedElement == null) {
+            return Collections.emptyList();
+        } else {
+            return Collections.singletonList(selectedElement);
         }
-        return list;
     }
 
 }

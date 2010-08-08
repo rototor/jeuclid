@@ -18,35 +18,58 @@
 
 package net.sourceforge.jeuclid.elements.support;
 
-import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.Constants;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.Parameter;
 
 /**
  * This class contains helper functions for graphical calculations.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class GraphicsSupport {
+
+    /** Minimum line width. */
+    public static final float MIN_LINEWIDTH = 1.0f;
 
     private GraphicsSupport() {
         // Empty on purpose.
     }
 
     /**
+     * Gets the size of the actual font used (including scriptsizemultiplier).
+     * 
+     * @param context
+     *            Layout context to use.
+     * @return size of the current font.
+     */
+    public static float getFontsizeInPoint(final LayoutContext context) {
+        final float scriptMultiplier = (float) Math.pow((Float) context
+                .getParameter(Parameter.SCRIPTSIZEMULTIPLIER),
+                (Integer) context.getParameter(Parameter.SCRIPTLEVEL));
+        final float mathsize = (Float) context
+                .getParameter(Parameter.MATHSIZE);
+        final float scriptminsize = (Float) context
+                .getParameter(Parameter.SCRIPTMINSIZE);
+
+        final float scriptsize = mathsize * scriptMultiplier;
+
+        return Math.max(Math.min(scriptminsize, mathsize), scriptsize);
+    }
+
+    /**
      * Retrieve the width of a line that would be 1pt if unscaled.
      * 
      * @param context
-     *            the context element
-     * @return linewidth as float
+     *            Layout context to use.
+     * @return line width as float, at least {@link #MIN_LINEWIDTH}
      */
-    public static float lineWidth(final JEuclidElement context) {
-        final float lineSize = context.getFontsizeInPoint()
-                / MathBase.DEFAULT_FONTSIZE;
-        // Maybe enable this... probably not.
-        // if (lineSize < 1.0f) {
-        // lineSize = 1.0f;
-        // }
+    public static float lineWidth(final LayoutContext context) {
+        float lineSize = GraphicsSupport.getFontsizeInPoint(context)
+                / Constants.DEFAULT_FONTSIZE;
+        if (lineSize < GraphicsSupport.MIN_LINEWIDTH) {
+            lineSize = GraphicsSupport.MIN_LINEWIDTH;
+        }
         return lineSize;
     }
 

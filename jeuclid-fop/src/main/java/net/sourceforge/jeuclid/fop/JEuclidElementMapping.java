@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,29 +27,17 @@
 
 package net.sourceforge.jeuclid.fop;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.MathMLParserSupport;
-import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
 import org.apache.fop.fo.ElementMapping;
 import org.apache.fop.fo.FONode;
-import org.apache.fop.fo.properties.FixedLength;
-import org.apache.fop.image.FopImage;
-import org.apache.fop.image.analyser.ImageReaderFactory;
-import org.apache.fop.image.analyser.XMLReader;
 import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
 
 /**
  * This class provides the element mapping for FOP.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class JEuclidElementMapping extends ElementMapping {
@@ -74,53 +62,28 @@ public class JEuclidElementMapping extends ElementMapping {
             this.foObjs.put("math", new ME());
             this.foObjs.put(ElementMapping.DEFAULT, new MathMLMaker());
 
-            // Additional Initialization
-            XMLReader.setConverter(this.namespaceURI, new MathMLConverter());
-            ImageReaderFactory.registerFormat(new ODFReader());
         }
     }
 
-    static class MathMLMaker extends ElementMapping.Maker {
+    static final class MathMLMaker extends ElementMapping.Maker {
+
+        private MathMLMaker() {
+        }
+
         @Override
         public FONode make(final FONode parent) {
             return new JEuclidObj(parent);
         }
     }
 
-    static class ME extends ElementMapping.Maker {
+    static final class ME extends ElementMapping.Maker {
+
+        private ME() {
+        }
+
         @Override
         public FONode make(final FONode parent) {
             return new JEuclidElement(parent);
-        }
-    }
-
-    static class MathMLConverter implements XMLReader.Converter {
-        public FopImage.ImageInfo convert(final Document doc) {
-            try {
-                final FopImage.ImageInfo info = new FopImage.ImageInfo();
-                final MathBase base = MathMLParserSupport
-                        .createMathBaseFromDocument(doc, LayoutContextImpl
-                                .getDefaultLayoutContext());
-                final Image tempimage = new BufferedImage(1, 1,
-                        BufferedImage.TYPE_INT_ARGB);
-                final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-                info.data = doc;
-
-                info.width = (int) Math.ceil(base.getWidth(tempg));
-                info.height = (int) Math.ceil(base.getHeight(tempg));
-                info.alignmentAdjust = new FixedLength((int) (-base
-                        .getDescender(tempg) * 1000));
-
-                // info.mimeType = "application/mathml+xml";
-                info.mimeType = "text/xml";
-                info.str = AbstractJEuclidElement.URI;
-
-                return info;
-            } catch (final Throwable t) {
-                /** @todo log that properly */
-            }
-            return null;
-
         }
     }
 

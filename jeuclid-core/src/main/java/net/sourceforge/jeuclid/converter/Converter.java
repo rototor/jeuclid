@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,10 +29,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import net.sourceforge.jeuclid.MathBase;
+import javax.xml.parsers.ParserConfigurationException;
+
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.converter.ConverterPlugin.DocumentWithDimension;
+import net.sourceforge.jeuclid.layout.JEuclidView;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,17 +47,9 @@ import org.xml.sax.SAXException;
 /**
  * Generic converter which uses the registry to do its conversions.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class Converter {
-
-    private static Converter converter;
-
-    /**
-     * Logger for this class
-     */
-    private static final Log LOGGER = LogFactory.getLog(Converter.class);
 
     /**
      * Mime type for SVG.
@@ -65,8 +61,27 @@ public final class Converter {
      */
     public static final String EXTENSION_SVG = "svg";
 
-    private Converter() {
+    private static final String UNSUPPORTED_OUTPUT_TYPE = "Unsupported output type: ";
 
+    private static final int MAX_RGB_VALUE = 255;
+
+    private static final class SingletonHolder {
+        private static final Converter INSTANCE = new Converter();
+
+        private SingletonHolder() {
+        }
+    }
+
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory.getLog(Converter.class);
+
+    /**
+     * Default constructor.
+     */
+    protected Converter() {
+        // Empty on purpose.
     }
 
     /**
@@ -74,11 +89,17 @@ public final class Converter {
      * 
      * @return a Converter object.
      */
+    public static Converter getInstance() {
+        return Converter.SingletonHolder.INSTANCE;
+    }
+
+    /**
+     * @return Converter instance
+     * @deprecated use {@link #getInstance()} instead.
+     */
+    @Deprecated
     public static Converter getConverter() {
-        if (Converter.converter == null) {
-            Converter.converter = new Converter();
-        }
-        return Converter.converter;
+        return Converter.getInstance();
     }
 
     /**
@@ -96,8 +117,8 @@ public final class Converter {
      */
     public Dimension convert(final File inFile, final File outFile,
             final String outFileType) throws IOException {
-        final MutableLayoutContext params = LayoutContextImpl
-                .getDefaultLayoutContext();
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
         return this.convert(inFile, outFile, outFileType, params);
     }
 
@@ -117,7 +138,7 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final File inFile, final File outFile,
-            final String outFileType, final MutableLayoutContext params)
+            final String outFileType, final LayoutContext params)
             throws IOException {
         Document doc;
         try {
@@ -130,8 +151,8 @@ public final class Converter {
     }
 
     /**
-     * Converts an existing document from MathML to the given type and store
-     * it in a file.
+     * Converts an existing document from MathML to the given type and store it
+     * in a file.
      * 
      * @param doc
      *            input document. See
@@ -148,29 +169,31 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final Node doc, final File outFile,
-            final String outFileType, final MutableLayoutContext params)
+            final String outFileType, final LayoutContext params)
             throws IOException {
 
         final OutputStream outStream = new BufferedOutputStream(
                 new FileOutputStream(outFile));
         final Dimension result = this.convert(doc, outStream, outFileType,
                 params);
-        if (result != null) {
+        if (result == null) {
+            if (!outFile.delete()) {
+                Converter.LOGGER.debug("Could not delete " + outFile);
+            }
+        } else {
             // should be closed by wrapper image streams, but just in case...
             try {
                 outStream.close();
             } catch (final IOException e) {
                 Converter.LOGGER.debug(e);
             }
-        } else {
-            outFile.delete();
         }
         return result;
     }
 
     /**
-     * Converts an existing document from MathML to the given XML based type
-     * and store it in a DOM document.
+     * Converts an existing document from MathML to the given XML based type and
+     * store it in a DOM document.
      * 
      * @param doc
      *            input document. See
@@ -181,35 +204,27 @@ public final class Converter {
      * @param params
      *            parameter set to use for conversion.
      * @return an instance of Document, or the appropriate subtype for this
-     *         format (e.g. SVGDocument). If conversion is not supported to
-     *         this type, it may return null.
-     * @todo This code contains duplications. Clean up!
+     *         format (e.g. SVGDocument). If conversion is not supported to this
+     *         type, it may return null.
      */
-    public Document convert(final Node doc, final String outFileType,
-            final MutableLayoutContext params) {
-        final ConverterPlugin plugin = ConverterRegistry.getRegisty()
+    public DocumentWithDimension convert(final Node doc,
+            final String outFileType, final LayoutContext params) {
+        final ConverterPlugin plugin = ConverterRegistry.getInstance()
                 .getConverter(outFileType);
-        Document result = null;
+        DocumentWithDimension result = null;
         if (plugin != null) {
-            try {
-                result = plugin.convert(MathMLParserSupport
-                        .createMathBaseFromDocument(doc, params));
-            } catch (final SAXException ex) {
-                Converter.LOGGER.fatal("Failed to process: "
-                        + ex.getMessage(), ex);
-            } catch (final IOException ex) {
-                Converter.LOGGER.fatal("Failed to process: "
-                        + ex.getMessage(), ex);
-            }
+            result = plugin.convert(doc, params);
         }
         if (result == null) {
-            Converter.LOGGER.fatal("Unsupported output type: " + outFileType);
+            Converter.LOGGER.fatal(Converter.UNSUPPORTED_OUTPUT_TYPE
+                    + outFileType);
         }
         return result;
     }
 
     /**
-     * Converts an existing file from MathML or ODF to the given type.
+     * Converts an existing document from MathML to the given XML based type and
+     * writes it to the provided output stream.
      * 
      * @param doc
      *            input document. See
@@ -226,54 +241,118 @@ public final class Converter {
      *             if an I/O error occurred during read or write.
      */
     public Dimension convert(final Node doc, final OutputStream outStream,
-            final String outFileType, final MutableLayoutContext params)
+            final String outFileType, final LayoutContext params)
             throws IOException {
-        final ConverterPlugin plugin = ConverterRegistry.getRegisty()
+        final ConverterPlugin plugin = ConverterRegistry.getInstance()
                 .getConverter(outFileType);
         Dimension result = null;
-        if (plugin != null) {
-            try {
-                result = plugin.convert(MathMLParserSupport
-                        .createMathBaseFromDocument(doc, params), outStream);
-            } catch (final SAXException ex) {
-                Converter.LOGGER.fatal("Failed to process: "
-                        + ex.getMessage(), ex);
-            }
+        if (plugin == null) {
+            Converter.LOGGER.fatal(Converter.UNSUPPORTED_OUTPUT_TYPE
+                    + outFileType);
         } else {
-            Converter.LOGGER.fatal("Unsupported output type: " + outFileType);
+            try {
+                result = plugin.convert(doc, params, outStream);
+            } catch (final IOException ex) {
+                Converter.LOGGER.fatal("Failed to process: " + ex.getMessage(),
+                        ex);
+            }
         }
+        return result;
+    }
+
+    /**
+     * Converts an XML string from MathML to the given XML based type and writes
+     * it to the provided output stream.
+     * 
+     * @param docString
+     *            XML string representing a valid document
+     * @param outStream
+     *            output stream.
+     * @param outFileType
+     *            mimetype for the output file.
+     * @param params
+     *            parameter set to use for conversion.
+     * @return Dimension of converted image upon success, null otherwise
+     * @throws IOException
+     *             if an I/O error occurred during read or write.
+     */
+    public Dimension convert(final String docString,
+            final OutputStream outStream, final String outFileType,
+            final LayoutContext params) throws IOException {
+
+        Dimension result = null;
+
+        try {
+            final Document doc = MathMLParserSupport.parseString(docString);
+            result = this.convert(doc, outStream, outFileType, params);
+        } catch (final SAXException e) {
+            Converter.LOGGER.error("SAXException converting:" + docString, e);
+            result = null;
+        } catch (final ParserConfigurationException e) {
+            Converter.LOGGER.error("ParserConfigurationException converting:"
+                    + docString, e);
+            result = null;
+        }
+
         return result;
     }
 
     /**
      * Renders a document into an image.
      * 
-     * @param base
-     *            MathBase containing the MathML document and its rendering
-     *            parameters.
+     * @param node
+     *            Document / Node to render
+     * @param context
+     *            LayoutContext to use.
      * @return the rendered image
      * @throws IOException
      *             if an I/O error occurred.
      */
-    public BufferedImage render(final MathBase base) throws IOException {
+    public BufferedImage render(final Node node, final LayoutContext context)
+            throws IOException {
+        return this.render(node, context, BufferedImage.TYPE_INT_ARGB);
+    }
 
-        final Image tempimage = new BufferedImage(1, 1,
-                BufferedImage.TYPE_INT_ARGB);
+    /**
+     * Renders a document into an image.
+     * 
+     * @param node
+     *            Document / Node to render
+     * @param context
+     *            LayoutContext to use.
+     * @param imageType
+     *            ImageType as defined by {@link BufferedImage}
+     * @return the rendered image
+     * @throws IOException
+     *             if an I/O error occurred.
+     */
+    public BufferedImage render(final Node node, final LayoutContext context,
+            final int imageType) throws IOException {
+        final Image tempimage = new BufferedImage(1, 1, imageType);
         final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-        final int width = (int) Math.ceil(base.getWidth(tempg));
-        final int height = (int) Math.ceil(base.getHeight(tempg));
 
-        final BufferedImage image = new BufferedImage(width, height,
-                BufferedImage.TYPE_INT_ARGB);
+        final JEuclidView view = new JEuclidView(node, context, tempg);
+
+        final int width = Math.max(1, (int) Math.ceil(view.getWidth()));
+        final int ascent = (int) Math.ceil(view.getAscentHeight());
+        final int height = Math.max(1, (int) Math.ceil(view.getDescentHeight())
+                + ascent);
+
+        final BufferedImage image = new BufferedImage(width, height, imageType);
         final Graphics2D g = image.createGraphics();
 
-        final Color transparency = new Color(255, 255, 255, 0);
-
-        g.setColor(transparency);
+        final Color background;
+        if (image.getColorModel().hasAlpha()) {
+            background = new Color(Converter.MAX_RGB_VALUE,
+                    Converter.MAX_RGB_VALUE, Converter.MAX_RGB_VALUE, 0);
+        } else {
+            background = Color.WHITE;
+        }
+        g.setColor(background);
         g.fillRect(0, 0, width, height);
         g.setColor(Color.black);
 
-        base.paint(g);
+        view.draw(g, 0, ascent);
         return image;
     }
 }

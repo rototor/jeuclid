@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,56 +18,60 @@
 
 package net.sourceforge.jeuclid.elements.generic;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.HashSet;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.List;
-import java.util.Set;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.MutableLayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
-import net.sourceforge.jeuclid.dom.AbstractPartialDocumentImpl;
-import net.sourceforge.jeuclid.dom.ChangeTrackingInterface;
-import net.sourceforge.jeuclid.elements.DisplayableNode;
+import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.elements.JEuclidElementFactory;
 import net.sourceforge.jeuclid.elements.JEuclidNode;
 import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.layout.JEuclidView;
 import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableDocument;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.GenericDocument;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLDocument;
-import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 
 /**
  * Class for MathML Document Nodes.
  * 
- * @author Max Berger
  * @version $Revision$
  */
-public class DocumentElement extends AbstractPartialDocumentImpl implements
-        MathMLDocument, JEuclidNode, ChangeTrackingInterface,
-        DisplayableNode, DocumentView, LayoutableDocument {
+public final class DocumentElement extends GenericDocument implements
+        MathMLDocument, JEuclidNode, DocumentView, LayoutableDocument {
 
-    private final Set<ChangeTrackingInterface> listeners = new HashSet<ChangeTrackingInterface>();
-
-    private float lastX;
-
-    private float lastY;
-
-    private MutableLayoutContext layoutContext;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a math element.
      * 
-     * @param rootLayoutContext
-     *            The layoutContext for this rendering.
      */
-    public DocumentElement(final LayoutContextImpl rootLayoutContext) {
-        this.layoutContext = new LayoutContextImpl(rootLayoutContext);
+    public DocumentElement() {
+        this(null);
+    }
+
+    /**
+     * Creates a MathML compatible document with the given DocumentType.
+     * 
+     * @param doctype
+     *            DocumentType to use. This is currently ignored.
+     */
+    public DocumentElement(final DocumentType doctype) {
+        super(doctype, JEuclidDOMImplementation.getInstance());
+        super.setEventsEnabled(true);
+        this.ownerDocument = this;
     }
 
     /** {@inheritDoc} */
@@ -85,141 +89,79 @@ public class DocumentElement extends AbstractPartialDocumentImpl implements
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * Paints the whole MathML document.
-     * 
-     * @param g
-     *            Graphics2D context.
-     * @param posX
-     *            x-offset to start from.
-     * @param posY
-     *            y-offset to start from.
-     */
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        ElementListSupport.paint(g, posX, posY, ElementListSupport
-                .createListOfChildren(this));
-        this.lastX = posX;
-        this.lastY = posY;
-    }
-
     /** {@inheritDoc} */
-    public float getWidth(final Graphics2D g) {
-        return ElementListSupport.getWidth(g, ElementListSupport
-                .createListOfChildren(this));
-    }
-
-    /** {@inheritDoc} */
-    public float getAscentHeight(final Graphics2D g) {
-        return ElementListSupport.getAscentHeight(g, ElementListSupport
-                .createListOfChildren(this));
-    }
-
-    /** {@inheritDoc} */
-    public float getDescentHeight(final Graphics2D g) {
-        return ElementListSupport.getDescentHeight(g, ElementListSupport
-                .createListOfChildren(this));
-    }
-
-    /** {@inheritDoc} */
-    public float getFontsizeInPoint() {
-        return (Float) this.layoutContext.getParameter(Parameter.MATHSIZE);
-    }
-
-    /** {@inheritDoc} */
-    public void addListener(final ChangeTrackingInterface listener) {
-        this.listeners.add(listener);
-    }
-
-    /** {@inheritDoc} */
-    public void fireChanged(final boolean propagate) {
-        if (propagate) {
-            for (final ChangeTrackingInterface listener : this.listeners) {
-                listener.fireChanged(false);
-            }
-        }
-    }
-
-    /** {@inheritDoc} */
-    public void fireChangeForSubTree() {
-        ElementListSupport.fireChangeForSubTree(ElementListSupport
-                .createListOfChildren(this));
-    }
-
-    /** {@inheritDoc} */
-    public float getHeight(final Graphics2D g) {
-        return this.getAscentHeight(g) + this.getDescentHeight(g);
-    }
-
-    /** {@inheritDoc} */
-    public float getPaintedPosX() {
-        return this.lastX;
-    }
-
-    /** {@inheritDoc} */
-    public float getPaintedPosY() {
-        return this.lastY;
-    }
-
-    /** {@inheritDoc} */
-    public float getXCenter(final Graphics2D g) {
-        return this.getWidth(g) / 2;
-    }
-
-    /**
-     * Sets a LayoutContext for this rendering tree.
-     * 
-     * @param context
-     *            the new layout context.
-     */
-    public void setLayoutContext(final MutableLayoutContext context) {
-        this.layoutContext = context;
-    }
-
-    /** {@inheritDoc} */
-    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
-        return this.layoutContext;
-    }
-
-    /**
-     * Retrieve the current layout context.
-     * <p>
-     * This instance is mutable. Please be sure to call
-     * {@link #fireChangeForSubTree()} after any modification!
-     * 
-     * @return the layout context.
-     */
-    public MutableLayoutContext getCurrentLayoutContext() {
-        return this.layoutContext;
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
+        return context;
     }
 
     /** {@inheritDoc} */
     // CHECKSTYLE:OFF
-    public AbstractView getDefaultView() {
+    public JEuclidView getDefaultView() {
         // CHECKSTYLE:ON
-        // TODO Auto-generated method stub
-        return null;
+        final Image tempimage = new BufferedImage(1, 1,
+                BufferedImage.TYPE_INT_ARGB);
+        final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
+        return new JEuclidView(this, LayoutContextImpl
+                .getDefaultLayoutContext(), tempg);
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
-    public List<LayoutableNode> getLayoutableNodeChildren() {
-        final List l = super.getChildren();
-        return l;
+    public List<LayoutableNode> getChildrenToLayout() {
+        return ElementListSupport.createListOfLayoutChildren(this);
+    }
+
+    /** {@inheritDoc} */
+    public List<LayoutableNode> getChildrenToDraw() {
+        return ElementListSupport.createListOfLayoutChildren(this);
     }
 
     /** {@inheritDoc} */
     public void layoutStage1(final LayoutView view, final LayoutInfo info,
-            final LayoutStage childMinStage) {
-        ElementListSupport.layoutSequential(view, info, this,
-                LayoutStage.STAGE1);
+            final LayoutStage childMinStage, final LayoutContext context) {
+        ElementListSupport.layoutSequential(view, info, this
+                .getChildrenToLayout(), LayoutStage.STAGE1);
         info.setLayoutStage(childMinStage);
+        // TODO: This should be done in a better way.
+        if (context.getParameter(Parameter.MATHBACKGROUND) == null) {
+            info.setLayoutStage(childMinStage);
+        } else {
+            info.setLayoutStage(LayoutStage.STAGE1);
+        }
     }
 
     /** {@inheritDoc} */
-    public void layoutStage2(final LayoutView view, final LayoutInfo info) {
-        ElementListSupport.layoutSequential(view, info, this,
-                LayoutStage.STAGE2);
+    public void layoutStage2(final LayoutView view, final LayoutInfo info,
+            final LayoutContext context) {
+        ElementListSupport.layoutSequential(view, info, this
+                .getChildrenToLayout(), LayoutStage.STAGE2);
+        ElementListSupport.addBackground((Color) context
+                .getParameter(Parameter.MATHBACKGROUND), info, true);
         info.setLayoutStage(LayoutStage.STAGE2);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new DocumentElement();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Element createElement(final String tagName) {
+        return JEuclidElementFactory.elementFromName(null, tagName, this);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Element createElementNS(final String namespaceURI,
+            final String qualifiedName) {
+        final String ns;
+        if (namespaceURI != null && namespaceURI.length() == 0) {
+            ns = null;
+        } else {
+            ns = namespaceURI;
+        }
+        return JEuclidElementFactory.elementFromName(ns, qualifiedName, this);
+    }
 }

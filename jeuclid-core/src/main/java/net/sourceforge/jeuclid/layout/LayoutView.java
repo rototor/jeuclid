@@ -21,7 +21,6 @@ package net.sourceforge.jeuclid.layout;
 import java.awt.Graphics2D;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public interface LayoutView {

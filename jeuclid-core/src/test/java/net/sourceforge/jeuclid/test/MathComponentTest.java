@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.test;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.awt.HeadlessException;
 import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -35,8 +36,7 @@ import org.xml.sax.InputSource;
 /**
  * Tests the AWT math component.
  * 
- * @author Unknown, Max Berger
- * 
+ * @version $Revision$
  */
 public class MathComponentTest {
 
@@ -47,6 +47,10 @@ public class MathComponentTest {
             + "<mrow><munderover><mo>&#x0222B;</mo><mn>1</mn><mi>x</mi></munderover>"
             + "<mfrac><mi>dt</mi><mi>t</mi></mfrac></mrow></math>";
 
+    /**
+     * Tests if AWT component starts up.
+     * @throws Exception if the test fails.
+     */    
     @Test
     public void testAWTComponent() throws Exception {
         Document document;
@@ -56,21 +60,24 @@ public class MathComponentTest {
         final DocumentBuilder parser = documentBuilderFactory
                 .newDocumentBuilder();
         parser.setEntityResolver(new ResourceEntityResolver());
-        document = parser.parse(new InputSource(new StringReader(test)));
+        document = parser.parse(new InputSource(new StringReader(
+                MathComponentTest.test)));
 
-        Frame frame = new Frame("Test MathComponent");
-
-        frame.setLayout(new BorderLayout());
-        MathComponent component = new MathComponent();
-        component.setDocument(document);
-        component.setDebug(false);
-        frame.add(component, BorderLayout.CENTER);
-        frame.setVisible(true);
-        frame.pack();
-        frame.invalidate();
-        frame.validate();
-        frame.dispose();
-
+        try {
+            final Frame frame = new Frame("Test MathComponent");
+            frame.setLayout(new BorderLayout());
+            final MathComponent component = new MathComponent();
+            component.setDocument(document);
+            component.setDebug(false);
+            frame.add(component, BorderLayout.CENTER);
+            frame.setVisible(true);
+            frame.pack();
+            frame.invalidate();
+            frame.validate();
+            frame.dispose();
+        } catch (final HeadlessException he) {
+            // Ignore to make test work on servers.
+        }
     }
 
 }

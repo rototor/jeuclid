@@ -20,29 +20,43 @@ package net.sourceforge.jeuclid.elements.presentation.token;
 
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
+
 /**
- * This class presents a mathematical idenifier, like "x".
+ * This class presents a mathematical identifier, like "x".
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Mi extends AbstractTokenWithStandardLayout {
+public final class Mi extends AbstractTokenWithTextLayout {
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mi";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mi() {
-        super();
+    public Mi(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
-    protected void changeHook() {
+    protected Node newNode() {
+        return new Mi(this.nodeName, this.ownerDocument);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void changeHook() {
         super.changeHook();
         if (this.getText().length() == 1) {
             this.setDefaultMathAttribute(
@@ -53,8 +67,4 @@ public class Mi extends AbstractTokenWithStandardLayout {
         }
     }
 
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mi.ELEMENT;
-    }
 }

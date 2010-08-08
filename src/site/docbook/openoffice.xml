@@ -1,17 +1,26 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
 "http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
 <article>
-  <title/>
-<section><title>OpenOffice Support</title><para>JEuclid has native support for reading files created with
-OpenOffice. All JEuclid apps can open and work with .odf files
-directly.</para><para>OpenOffice up to 2.0.x used the "OpenSymbol" font with
-characters in the private Unicode range. A mapping table exists,
-and all characters should be mapped. If you encounter a non-working
-character, you may be missing a font (see file a <ulink url="./usage.html">usage</ulink>). If that
-does not help, please file a <ulink url="./issue-tracking.html">bug
-report</ulink>. Do not forget to attach the .odf file!</para><para>OpenOffice &gt;= 2.2 uses the standard Unicode character range.
-If you encounter a non-working character, please <ulink url="./usage.html">install a Unicode
-font</ulink>). The OpenSymbol font should work just fine, as long as
-its from OO &gt;= 2.2</para></section>
+  <title></title>
+
+  <section>
+    <title>OpenOffice Support</title>
+
+    <para>JEuclid has native support for reading files created with
+    OpenOffice. All JEuclid apps can open and work with .odf files
+    directly.</para>
+
+    <para>OpenOffice up to 2.0.x used the "OpenSymbol" font with characters in
+    the private Unicode range. A mapping table exists, and all characters
+    should be mapped. If you encounter a non-working character, you may be
+    missing a font (see file a <ulink url="./usage.html">usage</ulink>). If
+    that does not help, please file a <ulink url="./issue-tracking.html">bug
+    report</ulink>. Do not forget to attach the .odf file!</para>
+
+    <para>OpenOffice ≥ 2.2 uses the standard Unicode character range. If you
+    encounter a non-working character, please <ulink
+    url="./usage.html">install a Unicode font</ulink>). The OpenSymbol font
+    should work just fine, as long as its from OO ≥ 2.2</para>
+  </section>
 </article>

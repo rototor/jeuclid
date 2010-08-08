@@ -20,26 +20,31 @@ package net.sourceforge.jeuclid.elements.presentation;
 
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
-import org.w3c.dom.mathml.MathMLContainer;
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.mathml.MathMLDeclareElement;
 import org.w3c.dom.mathml.MathMLElement;
 import org.w3c.dom.mathml.MathMLNodeList;
+import org.w3c.dom.mathml.MathMLPresentationContainer;
 
 /**
  * Abstract implementation for all classes that provide support for the DOM
  * MathMLContainer interface.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public abstract class AbstractContainer extends AbstractJEuclidElement
-        implements MathMLContainer {
+        implements MathMLPresentationContainer {
 
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractContainer() {
-        super();
+    public AbstractContainer(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */

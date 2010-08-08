@@ -21,12 +21,13 @@ package net.sourceforge.jeuclid.context;
 import net.sourceforge.jeuclid.LayoutContext;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class InlineLayoutContext implements LayoutContext {
 
     private final LayoutContext parentLayoutContext;
+
+    private final boolean increaseIfAlreadyInline;
 
     /**
      * Default Constructor.
@@ -36,13 +37,37 @@ public class InlineLayoutContext implements LayoutContext {
      */
     public InlineLayoutContext(final LayoutContext parent) {
         this.parentLayoutContext = parent;
+        this.increaseIfAlreadyInline = false;
+    }
+
+    /**
+     * Behavior for mfrac.
+     * 
+     * @param parent
+     *            LayoutContext of parent.
+     * @param increase
+     *            increase scriptlevel if already inline.
+     */
+    public InlineLayoutContext(final LayoutContext parent,
+            final boolean increase) {
+        this.parentLayoutContext = parent;
+        this.increaseIfAlreadyInline = increase;
     }
 
     /** {@inheritDoc} */
     public Object getParameter(final Parameter which) {
+        Object retVal;
         if (Parameter.DISPLAY.equals(which)) {
-            return Display.INLINE;
+            retVal = Display.INLINE;
+        } else if (this.increaseIfAlreadyInline
+                && (Parameter.SCRIPTLEVEL.equals(which))
+                && (Display.INLINE.equals(this.parentLayoutContext
+                        .getParameter(Parameter.DISPLAY)))) {
+            retVal = ((Integer) this.parentLayoutContext
+                    .getParameter(Parameter.SCRIPTLEVEL)) + 1;
+        } else {
+            retVal = this.parentLayoutContext.getParameter(which);
         }
-        return this.parentLayoutContext.getParameter(which);
+        return retVal;
     }
 }

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <csymbol cd="arith1">plus</csymbol> 
+    <apply>
+      <csymbol cd="transc1">sin</csymbol>  
+      <ci>x</ci> 
+    </apply> 
+    <apply>
+      <csymbol cd="transc1">cos</csymbol> 
+      <ci>x</ci>  
+    </apply> 
+    <apply>
+      <csymbol cd="transc1">tan</csymbol>  
+      <ci>x</ci> 
+    </apply> 
+    <apply>
+      <csymbol cd="transc1">sec</csymbol> 
+      <ci>x</ci>  
+    </apply> 
+    <apply>
+      <csymbol cd="transc1">csc</csymbol>  
+      <ci>x</ci> 
+    </apply> 
+    <apply>
+      <csymbol cd="transc1">cot</csymbol> 
+      <ci>x</ci>  
+    </apply> 
+    <apply>
+      <csymbol cd="transc1">sinh</csymbol> 
+      <ci>x</ci> 
+    </apply>  
+    <apply>
+      <csymbol cd="transc1">cosh</csymbol> 
+      <ci>x</ci>  
+    </apply> 
+    <apply>
+      <csymbol cd="transc1">tanh</csymbol> 
+      <ci>x</ci> 
+    </apply>  
+    <apply>
+      <csymbol cd="transc1">sech</csymbol> 
+      <ci>x</ci> 
+    </apply> 
+    <apply>
+      <csymbol cd="transc1">csch</csymbol> 
+      <ci>x</ci> 
+    </apply>  
+    <apply>
+      <csymbol cd="transc1">coth</csymbol>  
+      <ci>x</ci> 
+    </apply> 
+    <apply> 
+      <csymbol cd="transc1">arcsin</csymbol> 
+      <ci>x</ci> 
+    </apply>  
+    <apply>
+      <csymbol cd="transc1">arccos</csymbol>  
+      <ci>x</ci> 
+    </apply> 
+    <apply> 
+      <csymbol cd="transc1">arctan</csymbol> 
+      <ci>x</ci>  
+    </apply> 
+    <apply>
+      <csymbol cd="transc1">arcsec</csymbol> 
+      <ci>x</ci> 
+    </apply>  
+    <apply>
+      <csymbol cd="transc1">arccsc</csymbol> 
+      <ci>x</ci> 
+    </apply> 
+    <apply> 
+      <csymbol cd="transc1">arccot</csymbol> 
+      <ci>x</ci> 
+    </apply>  
+    <apply>
+      <csymbol cd="transc1">arcsinh</csymbol>  
+      <ci>x</ci> 
+    </apply> 
+    <apply> 
+      <csymbol cd="transc1">arccosh</csymbol> 
+      <ci>x</ci>  
+    </apply> 
+    <apply>
+      <csymbol cd="transc1">arctanh</csymbol> 
+      <ci>x</ci> 
+    </apply>  
+    <apply>
+      <csymbol cd="transc1">arcsech</csymbol>  
+      <ci>x</ci> 
+    </apply> 
+    <apply> 
+      <csymbol cd="transc1">arccsch</csymbol> 
+      <ci>x</ci>  
+    </apply> 
+    <apply>
+      <csymbol cd="transc1">arccoth</csymbol>  
+      <ci>x</ci> 
+    </apply> 
+  </apply>  
+</math>

@@ -21,17 +21,23 @@ package net.sourceforge.jeuclid.app.mathviewer;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Class to load i18n messages.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class Messages {
+    /**
+     * Logger for this class
+     */
+    private static final Log LOGGER = LogFactory.getLog(Messages.class);
+
     private static final String BUNDLE_NAME = "intl.mathviewer"; //$NON-NLS-1$
 
-    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-            .getBundle(Messages.BUNDLE_NAME);
+    private static ResourceBundle resourceBundle;
 
     private Messages() {
     }
@@ -44,10 +50,23 @@ public final class Messages {
      * @return the expanded string
      */
     public static String getString(final String key) {
+        String retVal = '!' + key + '!';
         try {
-            return Messages.RESOURCE_BUNDLE.getString(key);
+            if (Messages.resourceBundle != null) {
+                retVal = Messages.resourceBundle.getString(key);
+            }
         } catch (final MissingResourceException e) {
-            return '!' + key + '!';
+            Messages.LOGGER.warn(e.getMessage());
+        }
+        return retVal;
+    }
+
+    static {
+        try {
+            Messages.resourceBundle = ResourceBundle
+                    .getBundle(Messages.BUNDLE_NAME);
+        } catch (final MissingResourceException e) {
+            Messages.LOGGER.warn(e.getMessage());
         }
     }
 }

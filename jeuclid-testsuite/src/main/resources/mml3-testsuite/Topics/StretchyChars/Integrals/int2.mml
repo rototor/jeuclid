@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <mo>∫</mo> 
+  <mi>f</mi> 
+  <mrow>
+    <mo>(</mo> 
+    <mfrac>
+      <mi>x</mi> 
+      <mn>2</mn> 
+    </mfrac> 
+    <mo>)</mo> 
+  </mrow>  
+  <mtext> </mtext> 
+  <mo>ⅆ</mo> 
+  <mi>x</mi> 
+</math>

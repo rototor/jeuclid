@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fileset-config file-format-version="1.2.0" simple-config="true">
-    <local-check-config name="JEuclid CheckStyle" location="build-tools/src/main/resources/jeuclid/checkstyle.xml" type="project" description="">
+    <local-check-config name="JEuclid CheckStyle" location="support/build-tools/src/main/resources/jeuclid/checkstyle.xml" type="project" description="">
         <additional-data name="protect-config-file" value="true"/>
     </local-check-config>
-    <fileset name="all" enabled="true" check-config-name="JEuclid CheckStyle" local="true">
+    <fileset name="Alle" enabled="true" check-config-name="JEuclid CheckStyle" local="true">
         <file-match-pattern match-pattern="." include-pattern="true"/>
     </fileset>
-    <filter name="FilesFromPackage" enabled="false">
+    <filter name="FilesFromPackage" enabled="true">
         <filter-data value="jeuclid-core/src/main/java/org"/>
-        <filter-data value="jeuclid-core/src/test/java"/>
+        <filter-data value="jeuclid-core/src/test/java/net/sourceforge/jeuclid/test"/>
+        <filter-data value="jeuclid-core16/src/test/java/net/sourceforge/jeuclid/test"/>
+        <filter-data value="jeuclid-testsuite/src/test/java/net/sourceforge/jeuclid/test"/>
     </filter>
     <filter name="NonSrcDirs" enabled="true"/>
     <filter name="FilesInSync2" enabled="true"/>

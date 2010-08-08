@@ -30,7 +30,6 @@ import javax.swing.JOptionPane;
 
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MutableLayoutContext;
-import net.sourceforge.jeuclid.app.MathViewer;
 import net.sourceforge.jeuclid.converter.Converter;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
 
@@ -43,12 +42,9 @@ import org.xml.sax.SAXException;
 /**
  * File I/O support functionality for MathViewer.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class FileIO {
-
-    private static FileIO fileio;
 
     /**
      * Logger for this class
@@ -59,6 +55,13 @@ public final class FileIO {
 
     private File lastPath;
 
+    private static final class SingletonHolder {
+        private static FileIO instance = new FileIO();
+
+        private SingletonHolder() {
+        }
+    }
+
     private FileIO() {
     }
 
@@ -67,11 +70,8 @@ public final class FileIO {
      * 
      * @return the FileIO object
      */
-    public static FileIO getFileIO() {
-        if (FileIO.fileio == null) {
-            FileIO.fileio = new FileIO();
-        }
-        return FileIO.fileio;
+    public static FileIO getInstance() {
+        return FileIO.SingletonHolder.instance;
     }
 
     private static String getExtension(final String fileName) {
@@ -83,7 +83,7 @@ public final class FileIO {
         private final Set<String> extensions;
 
         protected SaveExportFilter() {
-            this.extensions = ConverterRegistry.getRegisty()
+            this.extensions = ConverterRegistry.getInstance()
                     .getAvailableExtensions();
         };
 
@@ -93,13 +93,13 @@ public final class FileIO {
     }
 
     /**
-     * Load a document.
+     * Select a file.
      * 
      * @param parent
      *            Frame of the parent
-     * @return A parsed Document, or null.
+     * @return A File or null.
      */
-    public Document loadDocument(final Frame parent) {
+    public File selectFileToOpen(final Frame parent) {
         final File selectedFile;
 
         if (MathViewer.OSX) {
@@ -127,9 +127,8 @@ public final class FileIO {
         }
         if (selectedFile != null) {
             this.lastPath = selectedFile.getParentFile();
-            return this.loadFile(parent, selectedFile);
         }
-        return null;
+        return selectedFile;
     }
 
     /**
@@ -142,24 +141,32 @@ public final class FileIO {
      * @return a parsed Document or null
      */
     public Document loadFile(final Frame parent, final File selectedFile) {
-        try {
-            return MathMLParserSupport.parseFile(selectedFile);
-        } catch (final SAXException e) {
-            FileIO.LOGGER.warn(e.getMessage(), e);
-            JOptionPane
-                    .showMessageDialog(
-                            parent,
-                            e.getMessage(),
-                            Messages.getString("MathViewer.errorParsing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
-        } catch (final IOException e) {
-            FileIO.LOGGER.warn(e.getMessage(), e);
-            JOptionPane
-                    .showMessageDialog(
-                            parent,
-                            e.getMessage(),
-                            Messages.getString("MathViewer.errorAccessing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+        Document retVal;
+        if (selectedFile == null) {
+            retVal = null;
+        } else {
+            try {
+                retVal = MathMLParserSupport.parseFile(selectedFile);
+            } catch (final SAXException e) {
+                retVal = null;
+                FileIO.LOGGER.warn(e.getMessage(), e);
+                JOptionPane
+                        .showMessageDialog(
+                                parent,
+                                e.getMessage(),
+                                Messages.getString("MathViewer.errorParsing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+            } catch (final IOException e) {
+                retVal = null;
+                FileIO.LOGGER.warn(e.getMessage(), e);
+                JOptionPane
+                        .showMessageDialog(
+                                parent,
+                                e.getMessage(),
+                                Messages
+                                        .getString("MathViewer.errorAccessing"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+            }
         }
-        return null;
+        return retVal;
     }
 
     /**
@@ -226,11 +233,11 @@ public final class FileIO {
             final Node document, final MutableLayoutContext params) {
         final String fileName = selectedFile.getName();
         final String extension = FileIO.getExtension(fileName);
-        final String mimetype = ConverterRegistry.getRegisty()
+        final String mimetype = ConverterRegistry.getInstance()
                 .getMimeTypeForSuffix(extension);
         if (mimetype != null) {
             try {
-                if (Converter.getConverter().convert(document, selectedFile,
+                if (Converter.getInstance().convert(document, selectedFile,
                         mimetype, params) == null) {
                     JOptionPane.showMessageDialog(parent,
                             "Failed to write to " + fileName, Messages
