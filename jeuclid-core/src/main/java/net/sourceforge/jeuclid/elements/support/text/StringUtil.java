@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,72 +27,46 @@ import java.awt.geom.Rectangle2D;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.text.CharacterIterator;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
 import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
-import net.sourceforge.jeuclid.elements.support.attributes.FontFamily;
+import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
+import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Utilities for String handling.
  * 
- * @author Max Berger
  * @version $Revision$
  */
+// CHECKSTYLE:OFF
+// Data Abstraction Coupling is too high. Hover, String handling is not
+// simple.
 public final class StringUtil {
+    // CHECKSTYLE:ON
 
-    private static final int LOWERCASE_START = 0x61;
+    /**
+     * Set to true if we're running under Mac OS X.
+     */
+    public static final boolean OSX = System.getProperty("mrj.version") != null; //$NON-NLS-1$
 
-    private static final int UPPERCASE_START = 0x41;
-
-    private static final int NUM_CHARS = 26;
-
-    private static final Map<Integer, CodePointAndVariant> HIGHPLANE_MAPPING = new HashMap<Integer, CodePointAndVariant>();
-
-    private static final Map<Integer, Integer> FRAKTUR_MAPPING = new HashMap<Integer, Integer>();
-
-    private static final Map<Integer, Integer> SCRIPT_MAPPING = new HashMap<Integer, Integer>();
-
-    private static final Map<Integer, Integer> DOUBLE_MAPPING = new HashMap<Integer, Integer>();
+    static final CharacterMapping CMAP = CharacterMapping.getInstance();
 
     private StringUtil() {
         // do nothing
     }
 
-    private static class CodePointAndVariant {
-        private final int codePoint;
-
-        private final MathVariant variant;
-
-        protected CodePointAndVariant(final int icodePoint,
-                final MathVariant ivariant) {
-            this.codePoint = icodePoint;
-            this.variant = ivariant;
-        }
-
-        /**
-         * @return the codePoint
-         */
-        public final int getCodePoint() {
-            return this.codePoint;
-        }
-
-        /**
-         * @return the variant
-         */
-        public final MathVariant getVariant() {
-            return this.variant;
-        }
-
-    }
-
     /**
-     * Converts a given String to an attributed string with the proper
-     * variants set.
+     * Converts a given String to an attributed string with the proper variants
+     * set.
      * 
      * @param inputString
      *            the string to convert.
@@ -101,33 +75,34 @@ public final class StringUtil {
      * @param fontSize
      *            size of Font to use.
      * @param context
-     *            Layotu Context to use.
+     *            Layout Context to use.
      * @return an attributed string that has Textattribute.FONT set for all
      *         characters.
      */
     public static AttributedString convertStringtoAttributedString(
             final String inputString, final MathVariant baseVariant,
             final float fontSize, final LayoutContext context) {
+        if (inputString == null) {
+            return new AttributedString("");
+        }
         final StringBuilder builder = new StringBuilder();
-        final List<MathVariant> variants = new Vector<MathVariant>();
+        final List<Font> fonts = new ArrayList<Font>();
         final String plainString = CharConverter.convertLate(inputString);
 
         for (int i = 0; i < plainString.length(); i++) {
             if (!Character.isLowSurrogate(plainString.charAt(i))) {
 
-                CodePointAndVariant cpav = new CodePointAndVariant(
+                final CodePointAndVariant cpav1 = new CodePointAndVariant(
                         plainString.codePointAt(i), baseVariant);
-
-                cpav = StringUtil.mapHighCodepointToLowerCodepoints(cpav);
-                cpav = StringUtil.mapVariantsToStandardCodepoints(cpav);
-
-                final int codePoint = cpav.getCodePoint();
-                final MathVariant variant = cpav.getVariant();
+                final Object[] codeAndFont = StringUtil.mapCpavToCpaf(cpav1,
+                        fontSize, context);
+                final int codePoint = (Integer) codeAndFont[0];
+                final Font font = (Font) codeAndFont[1];
 
                 builder.appendCodePoint(codePoint);
-                variants.add(variant);
+                fonts.add(font);
                 if (Character.isSupplementaryCodePoint(codePoint)) {
-                    variants.add(variant);
+                    fonts.add(font);
                 }
             }
         }
@@ -138,11 +113,112 @@ public final class StringUtil {
         final int len = builder.length();
 
         for (int i = 0; i < len; i++) {
-            final MathVariant variant = variants.get(i);
-            aString.addAttribute(TextAttribute.FONT, variant.createFont(
-                    fontSize, builder.charAt(i), context), i, i + 1);
+            final char currentChar = builder.charAt(i);
+            if (!Character.isLowSurrogate(currentChar)) {
+                final Font font = fonts.get(i);
+                final int count;
+                if (Character.isHighSurrogate(currentChar)) {
+                    count = 2;
+                } else {
+                    count = 1;
+                }
+                aString.addAttribute(TextAttribute.FONT, font, i, i + count);
+            }
         }
         return aString;
+    }
+
+    /**
+     * Provide the text content of the current element as
+     * AttributedCharacterIterator.
+     * 
+     * @param contextNow
+     *            LayoutContext of the parent element.
+     * @param contextElement
+     *            Parent Element.
+     * @param node
+     *            Current node.
+     * @param corrector
+     *            Font-size corrector.
+     * @return An {@link AttributedCharacterIterator} over the text contents.
+     */
+    public static AttributedCharacterIterator textContentAsAttributedCharacterIterator(
+            final LayoutContext contextNow,
+            final JEuclidElement contextElement, final Node node,
+            final float corrector) {
+        AttributedCharacterIterator retVal;
+        if (node instanceof Element) {
+
+            final MultiAttributedCharacterIterator maci = new MultiAttributedCharacterIterator();
+            final NodeList children = node.getChildNodes();
+            AttributedCharacterIterator aci = null;
+            final int childCount = children.getLength();
+            for (int i = 0; i < childCount; i++) {
+                final LayoutContext subContext;
+                final Node child = children.item(i);
+                final JEuclidElement subContextElement;
+                if (child instanceof AbstractJEuclidElement) {
+                    subContext = ((AbstractJEuclidElement) child)
+                            .applyLocalAttributesToContext(contextNow);
+                    subContextElement = (JEuclidElement) child;
+                } else {
+                    subContext = contextNow;
+                    subContextElement = contextElement;
+                }
+                aci = StringUtil.textContentAsAttributedCharacterIterator(
+                        subContext, subContextElement, child, corrector);
+                maci.appendAttributedCharacterIterator(aci);
+            }
+
+            if (childCount != 1) {
+                aci = maci;
+            }
+
+            if (node instanceof TextContentModifier) {
+                final TextContentModifier t = (TextContentModifier) node;
+                retVal = t.modifyTextContent(aci, contextNow);
+            } else {
+                retVal = aci;
+            }
+        } else {
+            final String theText = TextContent.getText(node);
+            final float fontSizeInPoint = GraphicsSupport
+                    .getFontsizeInPoint(contextNow)
+                    * corrector;
+
+            retVal = StringUtil.convertStringtoAttributedString(theText,
+                    contextElement.getMathvariantAsVariant(), fontSizeInPoint,
+                    contextNow).getIterator();
+        }
+        return retVal;
+    }
+
+    private static Object[] mapCpavToCpaf(final CodePointAndVariant cpav1,
+            final float fontSize, final LayoutContext context) {
+        final List<CodePointAndVariant> alternatives = StringUtil.CMAP
+                .getAllAlternatives(cpav1);
+
+        Font font = null;
+        int codePoint = 0;
+        final Iterator<CodePointAndVariant> it = alternatives.iterator();
+        boolean cont = true;
+        while (cont) {
+            final CodePointAndVariant cpav = it.next();
+            if (it.hasNext()) {
+                codePoint = cpav.getCodePoint();
+                font = cpav.getVariant().createFont(fontSize, codePoint,
+                        context, false);
+                if (font != null) {
+                    cont = false;
+                }
+            } else {
+                codePoint = cpav.getCodePoint();
+                font = cpav.getVariant().createFont(fontSize, codePoint,
+                        context, true);
+                cont = false;
+            }
+        }
+        return new Object[] { codePoint, font };
     }
 
     /**
@@ -178,82 +254,21 @@ public final class StringUtil {
         }
 
         final FontRenderContext realFontRenderContext = new FontRenderContext(
-                suggestedFontRenderContext.getTransform(), antialiasing,
-                false);
+                suggestedFontRenderContext.getTransform(), antialiasing, false);
 
         final TextLayout theLayout;
-        if (!empty) {
-            theLayout = new TextLayout(aString.getIterator(),
-                    realFontRenderContext);
-        } else {
+        if (empty) {
             theLayout = new TextLayout(" ", new Font("", 0, 0),
                     realFontRenderContext);
+        } else {
+            synchronized (TextLayout.class) {
+                // Catches a rare NullPointerException in
+                // sun.font.FileFontStrike.getCachedGlyphPtr(FileFontStrike.java:448)
+                theLayout = new TextLayout(aString.getIterator(),
+                        realFontRenderContext);
+            }
         }
         return theLayout;
-    }
-
-    /**
-     * Maps the characters that have a default representation (such as the
-     * double-struck N) in the Unicode lower plane to that character.
-     * <p>
-     * This is necessary as fonts for special math representations, such as
-     * double-struck may not be available. However, the double-struck n is
-     * very likely do be available in one of the default fonts.
-     * 
-     * @param cpav
-     * @return
-     */
-    private static CodePointAndVariant mapVariantsToStandardCodepoints(
-            final CodePointAndVariant cpav) {
-        int codePoint = cpav.getCodePoint();
-        MathVariant variant = cpav.getVariant();
-        final int awtStyle = variant.getAwtStyle();
-        final FontFamily fontFamily = variant.getFontFamily();
-        if (FontFamily.FRAKTUR.equals(fontFamily)) {
-            final Integer mapping = StringUtil.FRAKTUR_MAPPING.get(codePoint);
-            if (mapping != null) {
-                codePoint = mapping;
-                variant = new MathVariant(awtStyle, FontFamily.SANSSERIF);
-            }
-        } else if (FontFamily.SCRIPT.equals(fontFamily)) {
-            final Integer mapping = StringUtil.SCRIPT_MAPPING.get(codePoint);
-            if (mapping != null) {
-                codePoint = mapping;
-                variant = new MathVariant(awtStyle, FontFamily.SANSSERIF);
-            }
-        } else if (FontFamily.DOUBLE_STRUCK.equals(fontFamily)) {
-            final Integer mapping = StringUtil.DOUBLE_MAPPING.get(codePoint);
-            if (mapping != null) {
-                codePoint = mapping;
-                variant = new MathVariant(awtStyle, FontFamily.SANSSERIF);
-            }
-
-        }
-        return new CodePointAndVariant(codePoint, variant);
-
-    }
-
-    /**
-     * Maps codepoints from the hi plane (> 0x10000) to a representation of
-     * the same character in the lower plane, with the corresponding
-     * mathvariant attribute.
-     * <p>
-     * This is necessary because font support for the high plane is almost
-     * non-existing.
-     * 
-     * @param cpav
-     * @return
-     */
-    private static CodePointAndVariant mapHighCodepointToLowerCodepoints(
-            final CodePointAndVariant cpav) {
-        final int codePoint = cpav.getCodePoint();
-        final CodePointAndVariant mappedTo = StringUtil.HIGHPLANE_MAPPING
-                .get(codePoint);
-        if (mappedTo != null) {
-            return mappedTo;
-        } else {
-            return cpav;
-        }
     }
 
     /**
@@ -301,9 +316,8 @@ public final class StringUtil {
          * @param newWidth
          *            text width.
          */
-        protected TextLayoutInfo(final float newAscent,
-                final float newDescent, final float newOffset,
-                final float newWidth) {
+        protected TextLayoutInfo(final float newAscent, final float newDescent,
+                final float newOffset, final float newWidth) {
             this.ascent = newAscent;
             this.descent = newDescent;
             this.offset = newOffset;
@@ -354,9 +368,12 @@ public final class StringUtil {
      * 
      * @param textLayout
      *            TextLayout to look at.
+     * @param trim
+     *            Trim to actual content
      * @return a TextLayoutInfo.
      */
-    public static TextLayoutInfo getTextLayoutInfo(final TextLayout textLayout) {
+    public static TextLayoutInfo getTextLayoutInfo(final TextLayout textLayout,
+            final boolean trim) {
         final Rectangle2D textBounds = textLayout.getBounds();
         final float ascent = (float) (-textBounds.getY());
         final float descent = (float) (textBounds.getY() + textBounds
@@ -366,86 +383,14 @@ public final class StringUtil {
         if (xo < 0) {
             xOffset = -xo;
         } else {
-            xOffset = 0.0f;
+            if (trim) {
+                xOffset = -xo;
+            } else {
+                xOffset = 0.0f;
+            }
         }
         final float width = StringUtil.getWidthForTextLayout(textLayout);
         return new TextLayoutInfo(ascent, descent, xOffset, width);
-    }
-
-    private static void addHighMapping(final int codePointStart,
-            final MathVariant mapToVariant) {
-
-        for (int i = 0; i < StringUtil.NUM_CHARS; i++) {
-            StringUtil.HIGHPLANE_MAPPING.put(codePointStart + i,
-                    new CodePointAndVariant(StringUtil.UPPERCASE_START + i,
-                            mapToVariant));
-        }
-        for (int i = 0; i < StringUtil.NUM_CHARS; i++) {
-            StringUtil.HIGHPLANE_MAPPING.put(codePointStart
-                    + StringUtil.NUM_CHARS + i, new CodePointAndVariant(
-                    StringUtil.LOWERCASE_START + i, mapToVariant));
-        }
-    }
-
-    private static void initializeVariantToStandardMapping() {
-        // CHECKSTYLE:OFF
-
-        // From: http://www.w3.org/TR/MathML2/fraktur.html
-        StringUtil.FRAKTUR_MAPPING.put((int) 'C', 0x0212D);
-        StringUtil.FRAKTUR_MAPPING.put((int) 'H', 0x0210C);
-        StringUtil.FRAKTUR_MAPPING.put((int) 'I', 0x02111);
-        StringUtil.FRAKTUR_MAPPING.put((int) 'R', 0x0211C);
-        StringUtil.FRAKTUR_MAPPING.put((int) 'Z', 0x02128);
-
-        // From: http://www.w3.org/TR/MathML2/script.html
-        StringUtil.SCRIPT_MAPPING.put((int) 'B', 0x212C);
-        StringUtil.SCRIPT_MAPPING.put((int) 'E', 0x2130);
-        StringUtil.SCRIPT_MAPPING.put((int) 'e', 0x212F);
-        StringUtil.SCRIPT_MAPPING.put((int) 'F', 0x2131);
-        StringUtil.SCRIPT_MAPPING.put((int) 'g', 0x210A);
-        StringUtil.SCRIPT_MAPPING.put((int) 'H', 0x210B);
-        StringUtil.SCRIPT_MAPPING.put((int) 'I', 0x2110);
-        StringUtil.SCRIPT_MAPPING.put((int) 'L', 0x2112);
-        StringUtil.SCRIPT_MAPPING.put((int) 'M', 0x2133);
-        StringUtil.SCRIPT_MAPPING.put((int) 'o', 0x2134);
-        StringUtil.SCRIPT_MAPPING.put((int) 'R', 0x211B);
-
-        // From: http://www.w3.org/TR/MathML2/double-struck.html
-        StringUtil.DOUBLE_MAPPING.put((int) 'C', 0x2102);
-        StringUtil.DOUBLE_MAPPING.put((int) 'H', 0x210D);
-        StringUtil.DOUBLE_MAPPING.put((int) 'N', 0x2115);
-        StringUtil.DOUBLE_MAPPING.put((int) 'P', 0x2119);
-        StringUtil.DOUBLE_MAPPING.put((int) 'Q', 0x211A);
-        StringUtil.DOUBLE_MAPPING.put((int) 'R', 0x211D);
-        StringUtil.DOUBLE_MAPPING.put((int) 'Z', 0x2124);
-        // CHECKSTYLE:ON
-    }
-
-    private static void initializeHighPlaneMappings() {
-        // CHECKSTYLE:OFF
-        StringUtil.addHighMapping(0x1D400, MathVariant.BOLD);
-        StringUtil.addHighMapping(0x1D434, MathVariant.ITALIC);
-        StringUtil.addHighMapping(0x1D468, MathVariant.BOLD_ITALIC);
-        StringUtil.addHighMapping(0x1D49C, MathVariant.SCRIPT);
-        StringUtil.addHighMapping(0x1D4D0, MathVariant.BOLD_SCRIPT);
-        StringUtil.addHighMapping(0x1D504, MathVariant.FRAKTUR);
-        StringUtil.addHighMapping(0x1D538, MathVariant.DOUBLE_STRUCK);
-        StringUtil.addHighMapping(0x1D56C, MathVariant.BOLD_FRAKTUR);
-        StringUtil.addHighMapping(0x1D5A0, MathVariant.SANS_SERIF);
-        StringUtil.addHighMapping(0x1D5D4, MathVariant.BOLD_SANS_SERIF);
-        StringUtil.addHighMapping(0x1D608, MathVariant.SANS_SERIF_ITALIC);
-        StringUtil
-                .addHighMapping(0x1D63C, MathVariant.SANS_SERIF_BOLD_ITALIC);
-        StringUtil.addHighMapping(0x1D670, MathVariant.MONOSPACE);
-
-        // TODO: Greek Mappings
-        // TODO: Number mappings
-        // CHECKSTYLE:ON
-    }
-
-    static {
-        StringUtil.initializeVariantToStandardMapping();
-        StringUtil.initializeHighPlaneMappings();
     }
 
 }

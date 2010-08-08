@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
@@ -33,11 +35,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.MutableLayoutContext;
-import net.sourceforge.jeuclid.LayoutContext.Parameter;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
-import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
+import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.elements.generic.DocumentElement;
+import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 
-import org.w3c.dom.Document;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -45,13 +49,13 @@ import org.xml.sax.SAXException;
  * Displays MathML content in a Swing Component.
  * <p>
  * There are two properties which expose the actual content, accessible though
- * {@link #getDocument()} / {@link #setDocument(Document)} for content already
- * available as a DOM model, and {@link #getContent()} and
+ * {@link #getDocument()} / {@link #setDocument(org.w3c.dom.Node)} for content
+ * already available as a DOM model, and {@link #getContent()} and
  * {@link #setContent(String)} for content available as a String.
  * <p>
  * This class exposes most of the rendering parameters as standard bean
  * attributes. If you need to set additional attributes, you may use the
- * {@link #setParameter(Parameter, String)} function.
+ * {@link #setParameter(Parameter, Object)} function.
  * <p>
  * Please use only the attributes exposed through the attached
  * {@link JMathComponentBeanInfo} class. Additional attributes, such as
@@ -59,42 +63,71 @@ import org.xml.sax.SAXException;
  * compatibility, but they may not work exactly as expected.
  * 
  * @see net.sourceforge.jeuclid.awt.MathComponent
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class JMathComponent extends JComponent implements SwingConstants {
+public final class JMathComponent extends JComponent implements
+        SwingConstants {
 
     private static final String FONT_SEPARATOR = ",";
 
     /**
      * Logger for this class
      */
-    // currently unused.
-    // private static final Log LOGGER =
-    // LogFactory.getLog(JMathComponent.class);
+    private static final Log LOGGER = LogFactory.getLog(JMathComponent.class);
+
     /** */
     private static final long serialVersionUID = 1L;
 
-    private static final String UI_CLASS_ID = "MathComponentUI";
+    private static String uiClassId;
+
+    private static Class<?> mathComponentUIClass;
 
     private Node document;
 
     private int horizontalAlignment = SwingConstants.CENTER;
 
-    private final MutableLayoutContext parameters = LayoutContextImpl
-            .getDefaultLayoutContext();
+    private final MutableLayoutContext parameters = new LayoutContextImpl(
+            LayoutContextImpl.getDefaultLayoutContext());
 
     private int verticalAlignment = SwingConstants.CENTER;
+
+    /**
+     * cursor listener instance.
+     */
+    private final CursorListener cursorListener;
 
     /**
      * Default constructor.
      */
     public JMathComponent() {
+        this(null);
+    }
+
+    /**
+     * Default constructor with cursor listener.
+     * 
+     * @param listener
+     *            cursor listener instance
+     */
+    public JMathComponent(final CursorListener listener) {
+        this.cursorListener = listener;
+
+        final JMathComponentMouseListener mouseListener = new JMathComponentMouseListener(
+                this);
+        this.addMouseListener(mouseListener);
+
         this.updateUI();
         this.fontCompat();
-        this.setDocument(new Mrow());
-        // this.setContent(JMathComponent.DEFAULT_DOCUMENT);
+        this.setDocument(new DocumentElement());
+    }
+
+    /**
+     * gets cursor listener instance.
+     * 
+     * @return cursor listener instance
+     */
+    public CursorListener getCursorListener() {
+        return this.cursorListener;
     }
 
     /**
@@ -132,12 +165,12 @@ public class JMathComponent extends JComponent implements SwingConstants {
         boolean first = true;
         final StringBuilder b = new StringBuilder();
         for (final String s : list) {
-            b.append(s);
-            if (!first) {
-                b.append(JMathComponent.FONT_SEPARATOR);
-            } else {
+            if (first) {
                 first = false;
+            } else {
+                b.append(JMathComponent.FONT_SEPARATOR);
             }
+            b.append(s);
         }
         return b.toString();
     }
@@ -271,7 +304,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      */
     @Override
     public String getUIClassID() {
-        return JMathComponent.UI_CLASS_ID;
+        return JMathComponent.uiClassId;
     }
 
     /**
@@ -310,12 +343,13 @@ public class JMathComponent extends JComponent implements SwingConstants {
         try {
             this.setDocument(MathMLParserSupport.parseString(contentString));
         } catch (final SAXException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         } catch (final ParserConfigurationException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
+
     }
 
     /**
@@ -343,7 +377,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
     }
 
     /**
-     * Font emulator for standard component behaviour.
+     * Font emulator for standard component behavior.
      * <p>
      * Emulates the standard setFont function by setting the font Size and
      * adding the font to the front of the serif font list.
@@ -354,7 +388,7 @@ public class JMathComponent extends JComponent implements SwingConstants {
      *            font to set.
      * @see #setFontSize(float)
      * @see #setFontsSerif(String)
-     * @deprecated
+     * @deprecated use separate setters.
      */
     @Deprecated
     @Override
@@ -404,10 +438,23 @@ public class JMathComponent extends JComponent implements SwingConstants {
      *            newValue
      */
     public void setParameter(final Parameter key, final Object newValue) {
-        final Object oldValue = this.parameters.getParameter(key);
-        this.parameters.setParameter(key, newValue);
-        this.firePropertyChange(key.name(), oldValue, this.parameters
-                .getParameter(key));
+        this.setParameters(Collections.singletonMap(key, newValue));
+    }
+
+    /**
+     * Sets generic rendering parameters.
+     * 
+     * @param newValues
+     *            map of parameter keys to new values
+     */
+    public void setParameters(final Map<Parameter, Object> newValues) {
+        for (final Map.Entry<Parameter, Object> entry : newValues.entrySet()) {
+            final Parameter key = entry.getKey();
+            final Object oldValue = this.parameters.getParameter(key);
+            this.parameters.setParameter(key, entry.getValue());
+            this.firePropertyChange(key.name(), oldValue, this.parameters
+                    .getParameter(key));
+        }
         this.revalidate();
         this.repaint();
     }
@@ -521,10 +568,18 @@ public class JMathComponent extends JComponent implements SwingConstants {
     /** {@inheritDoc} */
     @Override
     public void updateUI() {
-        if (UIManager.get(this.getUIClassID()) != null) {
-            this.setUI(UIManager.getUI(this));
+        if (UIManager.get(this.getUIClassID()) == null) {
+            try {
+                this
+                        .setUI((MathComponentUI) JMathComponent.mathComponentUIClass
+                                .newInstance());
+            } catch (final InstantiationException e) {
+                JMathComponent.LOGGER.warn(e.getMessage());
+            } catch (final IllegalAccessException e) {
+                JMathComponent.LOGGER.warn(e.getMessage());
+            }
         } else {
-            this.setUI(new MathComponentUI());
+            this.setUI(UIManager.getUI(this));
         }
     }
 
@@ -533,6 +588,28 @@ public class JMathComponent extends JComponent implements SwingConstants {
      */
     public MutableLayoutContext getParameters() {
         return this.parameters;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSize(final int width, final int height) {
+        // TODO Auto-generated method stub
+        super.setSize(width, height);
+    }
+
+    static {
+        Class<?> uiClass;
+        String id;
+        try {
+            uiClass = ClassLoaderSupport.getInstance().loadClass(
+                    "net.sourceforge.jeuclid.swing.MathComponentUI16");
+            id = "MathComponentUI16";
+        } catch (final ClassNotFoundException t) {
+            uiClass = MathComponentUI.class;
+            id = "MathComponentUI";
+        }
+        JMathComponent.uiClassId = id;
+        JMathComponent.mathComponentUIClass = uiClass;
     }
 
 }

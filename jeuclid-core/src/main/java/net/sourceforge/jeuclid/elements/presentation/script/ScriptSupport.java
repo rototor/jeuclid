@@ -18,16 +18,22 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
 
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.elements.support.Dimension2DImpl;
+import net.sourceforge.jeuclid.elements.support.ElementListSupport;
+import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
 
 /**
  * Support class for script elements.
  * 
  * @see AbstractSubSuper
  * @see AbstractUnderOver
- * @author Max Berger
  * @version $Revision$
  */
 public final class ScriptSupport {
@@ -36,98 +42,126 @@ public final class ScriptSupport {
         // Empty on purpose.
     }
 
-    private static float getOptimalSubBaselineShift(final Graphics2D g,
-            final JEuclidElement base, final JEuclidElement sub,
-            final JEuclidElement sup) {
+    /**
+     * Info for baseline shifts.
+     * 
+     * @version $Revision$
+     */
+    static class ShiftInfo {
+        private float superShift;
 
-        final float baseDescent;
-        if (base != null) {
-            baseDescent = base.getDescentHeight(g);
-        } else {
-            baseDescent = 0.0f;
+        private float subShift;
+
+        /**
+         * Creates a new ShiftInfo object.
+         * 
+         * @param sub
+         *            subShift.
+         * @param sup
+         *            superShift.
+         */
+        protected ShiftInfo(final float sub, final float sup) {
+            this.superShift = sup;
+            this.subShift = sub;
         }
 
-        final float subAscent;
-        final float subDescent;
-        if (sub != null) {
-            subAscent = sub.getAscentHeight(g);
-            subDescent = sub.getDescentHeight(g);
-        } else {
-            subAscent = 0.0f;
-            subDescent = 0.0f;
+        /**
+         * Getter method for superShift.
+         * 
+         * @return the superShift
+         */
+        public float getSuperShift() {
+            return this.superShift;
         }
-        return baseDescent + (subAscent - subDescent) / 2.0f;
+
+        /**
+         * Getter method for subShift.
+         * 
+         * @return the subShift
+         */
+        public float getSubShift() {
+            return this.subShift;
+        }
+
+        /**
+         * Adjust this shift to contain the max shift from current shit and
+         * other info.
+         * 
+         * @param otherInfo
+         *            other info to use.
+         */
+        public void max(final ShiftInfo otherInfo) {
+            this.subShift = Math.max(this.subShift, otherInfo.subShift);
+            this.superShift = Math.max(this.superShift, otherInfo.superShift);
+        }
+
     }
 
-    private static float getOptimalSuperBaselineShift(final Graphics2D g,
-            final JEuclidElement base, final JEuclidElement sub,
-            final JEuclidElement sup) {
-        final float baseAscent;
-        if (base != null) {
-            baseAscent = base.getAscentHeight(g);
-        } else {
-            // TODO: Use context information instead!
-            baseAscent = 0.0f;
-        }
-
-        final float subAscent;
-        final float subDescent;
-        if (sub != null) {
-            subAscent = sub.getAscentHeight(g);
-            subDescent = sub.getDescentHeight(g);
-        } else {
-            subAscent = 0.0f;
-            subDescent = 0.0f;
-        }
-        return baseAscent - (subAscent - subDescent) / 2.0f;
-    }
-
-    private static float getOverlap(final Graphics2D g,
+    // CHECKSTYLE:OFF
+    // More than 7 parameters. But only used internally, so that's ok.
+    static void layout(final LayoutView view, final LayoutInfo info,
+            final LayoutStage stage, final LayoutContext now,
+            final JEuclidElement parent, final JEuclidElement base,
             final JEuclidElement sub, final JEuclidElement sup,
-            final float optimalSubBaselineShift,
-            final float optimalSuperBaselineShift) {
+            final String subScriptShift, final String superScriptShift) {
+        // CHECKSTYLE:ON
+        final LayoutInfo baseInfo = view.getInfo(base);
+        final float width = baseInfo.getWidth(stage);
 
-        final float topSub = -optimalSubBaselineShift
-                + sub.getAscentHeight(g) + 1.0f;
-        final float bottomSuper = optimalSuperBaselineShift
-                - sup.getDescentHeight(g) - 1.0f;
+        final LayoutInfo subInfo = view.getInfo(sub);
+        final LayoutInfo superInfo = view.getInfo(sup);
 
-        final float overlap = topSub - bottomSuper;
+        final ShiftInfo shiftInfo = ScriptSupport.calculateScriptShfits(stage,
+                now, subScriptShift, superScriptShift, baseInfo, subInfo,
+                superInfo);
 
-        return Math.max(0.0f, overlap);
-    }
-
-    static float getSubBaselineShift(final Graphics2D g,
-            final JEuclidElement base, final JEuclidElement sub,
-            final JEuclidElement sup) {
-        final float optimalSubBaselineShift = ScriptSupport
-                .getOptimalSubBaselineShift(g, base, sub, sup);
-
-        final float overlap;
-        if (sup != null) {
-            overlap = ScriptSupport.getOverlap(g, sub, sup,
-                    optimalSubBaselineShift, ScriptSupport
-                            .getOptimalSuperBaselineShift(g, base, sub, sup));
-        } else {
-            overlap = 0.0f;
+        if (subInfo != null) {
+            subInfo.moveTo(width, shiftInfo.getSubShift(), stage);
+        }
+        if (superInfo != null) {
+            superInfo.moveTo(width, -shiftInfo.getSuperShift(), stage);
         }
 
-        return optimalSubBaselineShift + overlap / 2.0f;
+        final Dimension2D borderLeftTop = new Dimension2DImpl(0.0f, 0.0f);
+        final Dimension2D borderRightBottom = new Dimension2DImpl(0.0f, 0.0f);
+        ElementListSupport.fillInfoFromChildren(view, info, parent, stage,
+                borderLeftTop, borderRightBottom);
+        info.setStretchAscent(baseInfo.getStretchAscent());
+        info.setStretchDescent(baseInfo.getStretchDescent());
     }
 
-    static float getSuperBaselineShift(final Graphics2D g,
-            final JEuclidElement base, final JEuclidElement sub,
-            final JEuclidElement sup) {
-        final float optimalSuperBaselineShift = ScriptSupport
-                .getOptimalSuperBaselineShift(g, base, sub, sup);
-        final float overlap;
-        if (sub != null) {
-            overlap = ScriptSupport.getOverlap(g, sub, sup, ScriptSupport
-                    .getOptimalSubBaselineShift(g, base, sub, sup),
-                    optimalSuperBaselineShift);
-        } else {
-            overlap = 0.0f;
+    static ShiftInfo calculateScriptShfits(final LayoutStage stage,
+            final LayoutContext now, final String subScriptShift,
+            final String superScriptShift, final LayoutInfo baseInfo,
+            final LayoutInfo subInfo, final LayoutInfo superInfo) {
+        float subShift = 0.0f;
+        float superShift = 0.0f;
+        if (subInfo != null) {
+            subShift = Math.max(baseInfo.getDescentHeight(stage)
+                    + (subInfo.getAscentHeight(stage) - subInfo
+                            .getDescentHeight(stage)) / 2.0f, AttributesHelper
+                    .convertSizeToPt(subScriptShift, now, AttributesHelper.PT));
         }
-        return optimalSuperBaselineShift + overlap / 2.0f;
+        if (superInfo != null) {
+            superShift = Math.max(baseInfo.getAscentHeight(stage)
+                    - (superInfo.getAscentHeight(stage) - superInfo
+                            .getDescentHeight(stage)) / 2.0f,
+                    AttributesHelper.convertSizeToPt(superScriptShift, now,
+                            AttributesHelper.PT));
+        }
+        if ((subInfo != null) && (superInfo != null)) {
+            final float topSub = -subShift + subInfo.getAscentHeight(stage)
+                    + 1.0f;
+            final float bottomSuper = superShift
+                    - superInfo.getDescentHeight(stage) - 1.0f;
+
+            final float overlap = Math.max(0.0f, topSub - bottomSuper);
+            final float overlapShift = overlap / 2.0f;
+
+            superShift += overlapShift;
+            subShift += overlapShift;
+        }
+        return new ShiftInfo(subShift, superShift);
     }
+
 }

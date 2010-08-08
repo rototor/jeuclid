@@ -152,12 +152,20 @@ An inline external graphic: <fo:external-graphic src="example.mml"/> with text b
       </fo:block>
       <fo:block>
 An inline internal graphic: 
-
-
 <fo:instream-foreign-object><math xmlns="http://www.w3.org/1998/Math/MathML" mode="inline"><msubsup><mi>X</mi><msubsup><mi>a</mi><mn>1</mn><mn>2</mn></msubsup><msubsup><mi>a</mi><mn>1</mn><mn>2</mn></msubsup></msubsup></math></fo:instream-foreign-object>
- 
-
 with text before and after.
+      </fo:block>
+      <fo:block font-size="24pt" color="blue">
+This is s 24pt block. An inline external graphic: <fo:external-graphic src="example.mml"/> with text before and after.
+      </fo:block>
+      <fo:block font-size="24pt" color="blue">
+This is a 24pt block. An inline internal graphic: 
+<fo:instream-foreign-object><math xmlns="http://www.w3.org/1998/Math/MathML" mode="inline"><msubsup><mi>X</mi><msubsup><mi>a</mi><mn>1</mn><mn>2</mn></msubsup><msubsup><mi>a</mi><mn>1</mn><mn>2</mn></msubsup></msubsup></math></fo:instream-foreign-object>
+with text before and after.
+       <fo:block>
+Formula in ODF format:
+      </fo:block>
+      <fo:block><fo:external-graphic src="formula.odf"/></fo:block>
       </fo:block>
     </fo:flow>
   </fo:page-sequence>

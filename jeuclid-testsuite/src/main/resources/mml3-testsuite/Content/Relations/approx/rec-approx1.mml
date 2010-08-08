@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <approx></approx> 
+    <cn type="rational">22 
+      <sep></sep> 7
+    </cn> 
+    <cn type="constant">π</cn>  
+  </apply> 
+</math>

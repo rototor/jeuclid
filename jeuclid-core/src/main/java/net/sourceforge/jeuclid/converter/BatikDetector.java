@@ -18,23 +18,65 @@
 
 package net.sourceforge.jeuclid.converter;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import net.sourceforge.jeuclid.elements.generic.JEuclidDOMImplementation;
+import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.DOMImplementation;
 
 /**
  * Detects if Batik is in the class path and registers it if its available.
  * 
- * @author Max Berger
  * @version $Revision$
  */
-public final class BatikDetector {
+public final class BatikDetector implements ConverterDetector {
     /**
      * Logger for this class
      */
     private static final Log LOGGER = LogFactory.getLog(BatikDetector.class);
 
-    private BatikDetector() {
+    /**
+     * Default constructor.
+     */
+    public BatikDetector() {
         // Empty on purpose
+    }
+
+    private static DOMImplementation findSVGDOMImplementation() {
+        DOMImplementation impl;
+        try {
+            final Class<?> svgdomimpl = ClassLoaderSupport.getInstance()
+                    .loadClass(
+                            "org.apache.batik.dom.svg.SVGDOMImplementation");
+            final Method getDOMimpl = svgdomimpl.getMethod(
+                    "getDOMImplementation", new Class<?>[] {});
+            impl = (DOMImplementation) getDOMimpl.invoke(null,
+                    (Object[]) null);
+            // CHECKSTYLE:OFF
+            // In this case, ANY runtime exception must be caught, since batik
+            // may not be available.
+        } catch (final RuntimeException e) {
+            // CHECKSYTLE:ON
+            impl = null;
+        } catch (final LinkageError e) {
+            impl = null;
+        } catch (final ClassNotFoundException e) {
+            impl = null;
+        } catch (final NoSuchMethodException e) {
+            impl = null;
+        } catch (final IllegalAccessException e) {
+            impl = null;
+        } catch (final InvocationTargetException e) {
+            impl = null;
+        }
+        if (impl == null) {
+            impl = JEuclidDOMImplementation.getInstance();
+        }
+        return impl;
     }
 
     /**
@@ -43,18 +85,23 @@ public final class BatikDetector {
      * @param registry
      *            ConverterRegisty to register with.
      */
-    public static void detectConversionPlugins(
-            final ConverterRegistry registry) {
+    public void detectConversionPlugins(final ConverterRegistry registry) {
         try {
-            Thread.currentThread().getContextClassLoader().loadClass(
+            ClassLoaderSupport.getInstance().loadClass(
                     "org.apache.batik.svggen.SVGGraphics2D");
             BatikDetector.LOGGER.debug("Batik detected!");
-            registry.registerMimeTypeAndSuffix(
-                    net.sourceforge.jeuclid.converter.Converter.TYPE_SVG,
-                    net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG, true);
-            registry.registerConverter(
-                    net.sourceforge.jeuclid.converter.Converter.TYPE_SVG,
-                    new BatikConverter(), true);
+            registry
+                    .registerMimeTypeAndSuffix(
+                            net.sourceforge.jeuclid.converter.Converter.TYPE_SVG,
+                            net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG,
+                            true);
+            final DOMImplementation impl = BatikDetector
+                    .findSVGDOMImplementation();
+            if (impl != null) {
+                registry.registerConverter(
+                        net.sourceforge.jeuclid.converter.Converter.TYPE_SVG,
+                        new BatikConverter(impl), true);
+            }
         } catch (final ClassNotFoundException e) {
             BatikDetector.LOGGER.debug("Batik is not in classpath!");
         }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="relation1">neq</csymbol>  
+    <csymbol cd="setname1">Z</csymbol> 
+    <csymbol cd="set1">emptyset</csymbol>  
+  </apply> 
+</math>

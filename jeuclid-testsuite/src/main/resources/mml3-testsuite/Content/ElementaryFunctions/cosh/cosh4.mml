@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <minus></minus> 
+    <apply>
+      <cosh></cosh> 
+      <apply>
+        <plus></plus>  
+        <apply>
+          <times></times>  
+          <cn>2</cn> 
+          <ci>x</ci>  
+        </apply> 
+        <apply> 
+          <divide></divide> 
+          <cn>π</cn>  
+          <cn>2</cn> 
+        </apply>  
+      </apply> 
+    </apply> 
+  </apply> 
+</math>

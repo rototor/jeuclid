@@ -18,33 +18,41 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
-import org.w3c.dom.mathml.MathMLPresentationContainer;
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
+
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 
 /**
  * This class presents a row.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Mrow extends AbstractRowLike implements
-        MathMLPresentationContainer {
+public final class Mrow extends AbstractContainer {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mrow";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mrow() {
-        super();
+    public Mrow(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
-    public String getTagName() {
-        return Mrow.ELEMENT;
+    @Override
+    protected Node newNode() {
+        return new Mrow(this.nodeName, this.ownerDocument);
     }
 
 }

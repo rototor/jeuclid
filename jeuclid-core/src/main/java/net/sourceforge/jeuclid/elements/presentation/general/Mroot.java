@@ -21,49 +21,53 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.jeuclid.elements.JEuclidElement;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.InlineLayoutContext;
+import net.sourceforge.jeuclid.context.RelativeScriptlevelLayoutContext;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
-import org.w3c.dom.mathml.MathMLRadicalElement;
 
 /**
  * This class presents a mathematical root.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Mroot extends AbstractRoot implements MathMLRadicalElement {
+public final class Mroot extends AbstractRoot {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "mroot";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mroot() {
-        super(AbstractRoot.STANDARD_ROOT_CHAR);
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mroot.ELEMENT;
+    public Mroot(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
-    protected List<JEuclidElement> getContent() {
-        final List<JEuclidElement> mList = new ArrayList<JEuclidElement>(1);
-        mList.add(this.getMathElement(0));
+    protected Node newNode() {
+        return new Mroot(this.nodeName, this.ownerDocument);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected List<LayoutableNode> getContent() {
+        final List<LayoutableNode> mList = new ArrayList<LayoutableNode>(1);
+        mList.add((LayoutableNode) this.getRadicand());
         return mList;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected JEuclidElement getActualIndex() {
-        return this.getMathElement(1);
     }
 
     /** {@inheritDoc} */
@@ -88,11 +92,15 @@ public class Mroot extends AbstractRoot implements MathMLRadicalElement {
 
     /** {@inheritDoc} */
     @Override
-    public int getScriptlevelForChild(final JEuclidElement child) {
-        if (child.isSameNode(this.getIndex())) {
-            return this.getAbsoluteScriptLevel() + 2;
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
+        if (childNum == 0) {
+            return now;
         } else {
-            return this.getAbsoluteScriptLevel();
+            // As specified in M2 3.3.3.2
+            return new RelativeScriptlevelLayoutContext(
+                    new InlineLayoutContext(now), 2);
         }
     }
 

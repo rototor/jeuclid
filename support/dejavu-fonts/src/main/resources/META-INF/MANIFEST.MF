@@ -1,0 +1,37 @@
+
+Name: fonts/DejaVuSans-BoldOblique.ttf
+Content-Type: application/x-font
+
+Name: fonts/DejaVuSans-Bold.ttf
+Content-Type: application/x-font
+
+Name: fonts/DejaVuSansMono-BoldOblique.ttf
+Content-Type: application/x-font
+
+Name: fonts/DejaVuSansMono-Bold.ttf
+Content-Type: application/x-font
+
+Name: fonts/DejaVuSansMono-Oblique.ttf
+Content-Type: application/x-font
+
+Name: fonts/DejaVuSansMono.ttf
+Content-Type: application/x-font
+
+Name: fonts/DejaVuSans-Oblique.ttf
+Content-Type: application/x-font
+
+Name: fonts/DejaVuSans.ttf
+Content-Type: application/x-font
+
+Name: fonts/DejaVuSerif-BoldItalic.ttf
+Content-Type: application/x-font
+
+Name: fonts/DejaVuSerif-Bold.ttf
+Content-Type: application/x-font
+
+Name: fonts/DejaVuSerif-Italic.ttf
+Content-Type: application/x-font
+
+Name: fonts/DejaVuSerif.ttf
+Content-Type: application/x-font
+

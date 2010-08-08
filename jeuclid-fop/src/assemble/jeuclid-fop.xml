@@ -22,17 +22,17 @@
   </dependencySets>
   <files>
     <file>
-      <source>../LICENSE.txt</source>
+      <source>target/core/net/sourceforge/jeuclid/LICENSE.txt</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>../NOTICE</source>
+      <source>target/core/net/sourceforge/jeuclid/NOTICE</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>../README.fop</source>
+      <source>target/classes/net/sourceforge/jeuclid/README.fop</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>

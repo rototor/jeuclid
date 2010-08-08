@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <log></log> 
+    <logbase>
+      <cn>3</cn> 
+    </logbase> 
+    <apply>
+      <plus></plus> 
+      <ci>x</ci> 
+      <ci>y</ci>  
+    </apply> 
+  </apply> 
+</math>

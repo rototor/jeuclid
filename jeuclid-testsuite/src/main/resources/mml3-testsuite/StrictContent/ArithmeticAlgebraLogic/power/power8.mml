@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="arith1">plus</csymbol>  
+    <apply>
+      <csymbol cd="arith1">power</csymbol>  
+      <csymbol cd="transc1">sin</csymbol> 
+      <cn>2</cn> 
+    </apply>  
+    <apply>
+      <csymbol cd="arith1">power</csymbol>  
+      <csymbol cd="transc1">cos</csymbol> 
+      <cn>2</cn> 
+    </apply>  
+  </apply> 
+</math>

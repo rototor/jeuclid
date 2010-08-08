@@ -18,182 +18,133 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
-import java.awt.BasicStroke;
-import java.awt.Font;
+import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
-import net.sourceforge.jeuclid.elements.support.ElementListSupport;
 import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
+import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
+import net.sourceforge.jeuclid.layout.GraphicsObject;
+import net.sourceforge.jeuclid.layout.LayoutInfo;
+import net.sourceforge.jeuclid.layout.LayoutStage;
+import net.sourceforge.jeuclid.layout.LayoutView;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
+import net.sourceforge.jeuclid.layout.LineObject;
+
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.mathml.MathMLRadicalElement;
 
 /**
  * common superclass for root like elements (root, sqrt).
  * 
- * @author Max Berger
  * @version $Revision$
  */
-public abstract class AbstractRoot extends AbstractJEuclidElement {
+public abstract class AbstractRoot extends AbstractJEuclidElement implements
+        MathMLRadicalElement {
+
+    private static final String EXTRA_SPACE = "0.1ex";
+
+    private static final String ROOT_WIDTH = "0.5em";
 
     /**
-     * Char for left part of root rendering.
-     */
-    public static final char STANDARD_ROOT_CHAR = '\u221A';
-
-    private static final int EXTRA_VERTICAL_SPACE = 4;
-
-    private static final float INTERNAL_SCALE_FACTOR = 100.0f;
-
-    private final char rootChar;
-
-    /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
      * 
-     * @param root
-     *            Character to use for the root symbol.
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public AbstractRoot(final char root) {
-        super();
-        this.rootChar = root;
+    public AbstractRoot(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
-
-    /**
-     * retrieve the actual index for this radical.
-     * 
-     * @return a MathElement representing what to draw as the index
-     */
-    protected abstract JEuclidElement getActualIndex();
 
     /**
      * retrieve the content of this radical element.
      * 
      * @return A List&lt;MathElement&gt; with the contents for this element.
      */
-    protected abstract List<JEuclidElement> getContent();
+    protected abstract List<LayoutableNode> getContent();
 
     /** {@inheritDoc} */
+    // CHECKSTYLE:OFF
+    // This function is too long, but it depends on too many parameters.
     @Override
-    public float calculateAscentHeight(final Graphics2D g) {
+    protected void layoutStageInvariant(final LayoutView view,
+            final LayoutInfo info, final LayoutStage stage,
+            final LayoutContext context) {
+        // CHECKSTYLE:ON
 
-        final List<JEuclidElement> elements = this.getContent();
-        final float asHeight = ElementListSupport
-                .getAscentHeight(g, elements);
-        final float desHeight = ElementListSupport.getDescentHeight(g,
-                elements);
-        final float height = asHeight + desHeight;
-        return Math.max(asHeight + 2, height / 2 + 2 - desHeight
-                + this.getActualIndex().getHeight(g));
+        // Basic Calculations
+        final Graphics2D g = view.getGraphics();
+        final LayoutContext now = this.applyLocalAttributesToContext(context);
+        final float middleShift = this.getMiddleShift(g, context);
+        final float linethickness = GraphicsSupport.lineWidth(now);
+        final float extraSpace = AttributesHelper.convertSizeToPt(
+                AbstractRoot.EXTRA_SPACE, now, "");
+        final float rootwidth = AttributesHelper.convertSizeToPt(
+                AbstractRoot.ROOT_WIDTH, context, "");
+        final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
+        float xPos = linethickness;
+        final LayoutableNode index = (LayoutableNode) this.getIndex();
+        final List<GraphicsObject> graphicObjects = info.getGraphicObjects();
+        graphicObjects.clear();
+
+        // Draw Index
+        float indexAscent;
+        if (index == null) {
+            indexAscent = 0.0f;
+        } else {
+            final LayoutInfo indexInfo = view.getInfo(index);
+            final float indexPos = middleShift + linethickness / 2.0f
+                    + extraSpace + indexInfo.getDescentHeight(stage);
+            indexInfo.moveTo(xPos, -indexPos, stage);
+            xPos += indexInfo.getWidth(stage);
+            graphicObjects.add(new LineObject(linethickness, -middleShift,
+                    xPos, -middleShift, linethickness, color));
+            indexAscent = indexPos + indexInfo.getAscentHeight(stage);
+        }
+
+        // Skip Root Space
+        xPos += rootwidth;
+
+        // Draw Content below Root
+        final float contentStartX = xPos;
+        final FontMetrics metrics = this
+                .getFontMetrics(view.getGraphics(), now);
+        float maxAscent = metrics.getAscent();
+        float maxDescent = metrics.getDescent();
+        for (final LayoutableNode child : this.getContent()) {
+            final LayoutInfo childInfo = view.getInfo(child);
+            childInfo.moveTo(xPos, 0, stage);
+            maxAscent = Math.max(maxAscent, childInfo.getAscentHeight(stage));
+            maxDescent = Math
+                    .max(maxDescent, childInfo.getDescentHeight(stage));
+            xPos += childInfo.getWidth(stage);
+        }
+        xPos += 2 * extraSpace;
+        final float topLinePos = maxAscent + 2 * extraSpace + linethickness
+                / 2.0f;
+
+        // Fill in Info
+        info.setAscentHeight(Math.max(topLinePos + linethickness / 2.0f,
+                indexAscent), stage);
+        info.setDescentHeight(maxDescent + linethickness / 2.0f, stage);
+        info.setHorizontalCenterOffset(xPos / 2.0f, stage);
+        info.setWidth(xPos + linethickness, stage);
+        info.setStretchAscent(maxAscent);
+        info.setStretchDescent(maxDescent);
+
+        // Add Root Glyph
+        graphicObjects.add(new LineObject(contentStartX - rootwidth,
+                -middleShift, contentStartX - rootwidth / 2.0f, maxDescent,
+                linethickness, color));
+        graphicObjects.add(new LineObject(contentStartX - rootwidth / 2.0f,
+                maxDescent, contentStartX, -topLinePos, linethickness, color));
+        graphicObjects.add(new LineObject(contentStartX, -topLinePos, xPos,
+                -topLinePos, linethickness, color));
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-        return ElementListSupport.getDescentHeight(g, this.getContent()) + 2;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateWidth(final Graphics2D g) {
-        return ElementListSupport.getWidth(g, this.getContent())
-                + this.getRootWidth(g) + 1;
-    }
-
-    /**
-     * Paints this element.
-     * 
-     * @param g
-     *            The graphics context to use for painting
-     * @param posX
-     *            The first left position for painting
-     * @param posY
-     *            The position of the baseline
-     */
-    @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-
-        super.paint(g, posX, posY);
-        final List<JEuclidElement> content = this.getContent();
-        final JEuclidElement e2 = this.getActualIndex();
-
-        final float height1 = ElementListSupport.getHeight(g, content);
-
-        final Font font = g.getFont().deriveFont(
-                this.getFontsizeInPoint()
-                        * AbstractRoot.INTERNAL_SCALE_FACTOR);
-        final GlyphVector gv = font.createGlyphVector(g
-                .getFontRenderContext(), new char[] { this.rootChar });
-        final Rectangle2D gbounds = gv.getGlyphMetrics(0).getBounds2D();
-        final float glyphWidth = (float) gbounds.getWidth()
-                / AbstractRoot.INTERNAL_SCALE_FACTOR;
-        final float glyphHeight = (float) gbounds.getHeight()
-                / AbstractRoot.INTERNAL_SCALE_FACTOR;
-        final float ascent = (float) gbounds.getY()
-                / AbstractRoot.INTERNAL_SCALE_FACTOR;
-
-        float yScale;
-        float xScale;
-
-        final float width2 = Math.max(e2.getWidth(g) - glyphWidth / 2, 0);
-
-        yScale = (height1 + AbstractRoot.EXTRA_VERTICAL_SPACE) / glyphHeight;
-        xScale = 1;
-
-        float y = posY + this.getDescentHeight(g);
-        y = y - (ascent + glyphHeight) * yScale;
-        final float x = posX + width2;
-
-        this.drawScaledChar(g, x, y, xScale, yScale);
-
-        final float contentDes = ElementListSupport.getDescentHeight(g,
-                content);
-
-        final Stroke oldStroke = g.getStroke();
-        g.setStroke(new BasicStroke(GraphicsSupport.lineWidth(this) / 2));
-        final float rightTopRootPoint = posY + contentDes - height1 - 2;
-        g.draw(new Line2D.Float((posX + (glyphWidth + width2) * xScale) + 1,
-                rightTopRootPoint, posX + this.getWidth(g) - 1,
-                rightTopRootPoint));
-        g.setStroke(oldStroke);
-
-        ElementListSupport.paint(g, posX + this.getRootWidth(g) + 1, posY,
-                content);
-        e2.paint(g, posX, posY + contentDes - e2.getDescentHeight(g)
-                - height1 / 2);
-    }
-
-    private void drawScaledChar(final Graphics2D g, final float posX,
-            final float posY, final float xScale, final float yScale) {
-        final AffineTransform transform = g.getTransform();
-        final AffineTransform prevTransform = g.getTransform();
-        transform.scale(xScale, yScale);
-
-        final float y = posY / yScale;
-        final float x = posX / xScale;
-
-        g.setTransform(transform);
-        g.drawString(String.valueOf(this.rootChar), x, y);
-        g.setTransform(prevTransform);
-
-    }
-
-    private float getRootWidth(final Graphics2D g) {
-        float result = 0;
-
-        final FontRenderContext context = new FontRenderContext(
-                new AffineTransform(), false, false);
-        final GlyphVector gv = this.getFont().createGlyphVector(context,
-                new char[] { this.rootChar });
-        result = (float) (gv.getGlyphMetrics(0).getBounds2D().getWidth());
-        result += Math.max(this.getActualIndex().getWidth(g) - result / 2.0f,
-                0);
-        return result;
-    }
-
 }

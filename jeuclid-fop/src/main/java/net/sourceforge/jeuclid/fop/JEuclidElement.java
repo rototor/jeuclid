@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,30 +27,40 @@
 
 package net.sourceforge.jeuclid.fop;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.sourceforge.jeuclid.MathBase;
-import net.sourceforge.jeuclid.MathMLParserSupport;
+import net.sourceforge.jeuclid.Constants;
+import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
+import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.layout.JEuclidView;
+import net.sourceforge.jeuclid.xmlgraphics.PreloaderMathML;
 
 import org.apache.fop.apps.FOPException;
+import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.datatypes.Length;
+import org.apache.fop.fo.FOEventHandler;
 import org.apache.fop.fo.FONode;
 import org.apache.fop.fo.PropertyList;
+import org.apache.fop.fo.properties.CommonFont;
 import org.apache.fop.fo.properties.FixedLength;
+import org.apache.fop.fo.properties.Property;
+import org.apache.fop.fonts.FontInfo;
+import org.apache.fop.fonts.FontTriplet;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
 
 /**
  * Defines the top-level element for MathML.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public class JEuclidElement extends JEuclidObj {
@@ -58,6 +68,8 @@ public class JEuclidElement extends JEuclidObj {
     private Point2D size;
 
     private Length baseline;
+
+    private final MutableLayoutContext layoutContext;
 
     /**
      * Default constructor.
@@ -67,6 +79,8 @@ public class JEuclidElement extends JEuclidObj {
      */
     public JEuclidElement(final FONode parent) {
         super(parent);
+        this.layoutContext = new LayoutContextImpl(LayoutContextImpl
+                .getDefaultLayoutContext());
     }
 
     /** {@inheritDoc} */
@@ -75,29 +89,30 @@ public class JEuclidElement extends JEuclidObj {
             final Attributes attlist, final PropertyList propertyList)
             throws FOPException {
         super.processNode(elementName, locator, attlist, propertyList);
-        this.createBasicDocument();
+        final Document d = this.createBasicDocument();
+        final Element e = d.getDocumentElement();
+        for (final Parameter p : Parameter.values()) {
+            final String localName = p.getOptionName();
+            final String attrName = "jeuclid:" + localName;
+            final String isSet = e.getAttributeNS(Constants.NS_JEUCLID_EXT,
+                    localName);
+            if ((isSet == null) || (isSet.length() == 0)) {
+                e.setAttributeNS(Constants.NS_JEUCLID_EXT, attrName, p
+                        .toString(this.layoutContext.getParameter(p)));
+            }
+        }
     }
 
     private void calculate() {
-        try {
-            final MathBase base = MathMLParserSupport
-                    .createMathBaseFromDocument(this.doc, LayoutContextImpl
-                            .getDefaultLayoutContext());
-            final Image tempimage = new BufferedImage(1, 1,
-                    BufferedImage.TYPE_INT_ARGB);
-            final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-            this.size = new Point2D.Float(base.getWidth(tempg), base
-                    .getHeight(tempg));
-            this.baseline = new FixedLength(
-                    (int) (-base.getDescender(tempg) * 1000));
-        } catch (final SAXException x) {
-            this.size = new Point(1, 1);
-            this.baseline = new FixedLength(0);
-        } catch (final IOException x) {
-            this.size = new Point(1, 1);
-            this.baseline = new FixedLength(0);
-        }
-
+        final Image tempimage = new BufferedImage(1, 1,
+                BufferedImage.TYPE_INT_ARGB);
+        final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
+        final JEuclidView view = new JEuclidView(this.doc, this.layoutContext,
+                tempg);
+        final float descent = view.getDescentHeight();
+        this.size = new Point2D.Float(view.getWidth(), view.getAscentHeight()
+                + descent);
+        this.baseline = FixedLength.getInstance(-descent, "pt");
     }
 
     /** {@inheritDoc} */
@@ -116,5 +131,41 @@ public class JEuclidElement extends JEuclidObj {
             this.calculate();
         }
         return this.baseline;
+    }
+
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected PropertyList createPropertyList(final PropertyList pList,
+            final FOEventHandler foEventHandler) throws FOPException {
+        final FOUserAgent userAgent = this.getUserAgent();
+        final CommonFont commonFont = pList.getFontProps();
+        final float msize = (float) (commonFont.fontSize.getNumericValue() / PreloaderMathML.MPT_FACTOR);
+        final Property colorProp = pList
+                .get(org.apache.fop.fo.Constants.PR_COLOR);
+        if (colorProp != null) {
+            final Color color = colorProp.getColor(userAgent);
+            this.layoutContext.setParameter(Parameter.MATHCOLOR, color);
+        }
+        final Property bcolorProp = pList
+                .get(org.apache.fop.fo.Constants.PR_BACKGROUND_COLOR);
+        if (bcolorProp != null) {
+            final Color bcolor = bcolorProp.getColor(userAgent);
+            this.layoutContext.setParameter(Parameter.MATHBACKGROUND, bcolor);
+        }
+        final FontInfo fi = this.getFOEventHandler().getFontInfo();
+        final FontTriplet[] fontkeys = commonFont.getFontState(fi);
+
+        this.layoutContext.setParameter(Parameter.MATHSIZE, msize);
+        final List<String> defaultFonts = (List<String>) this.layoutContext
+                .getParameter(Parameter.FONTS_SERIF);
+        final List<String> newFonts = new ArrayList<String>(fontkeys.length
+                + defaultFonts.size());
+        for (final FontTriplet t : fontkeys) {
+            newFonts.add(t.getName());
+        }
+        newFonts.addAll(defaultFonts);
+        this.layoutContext.setParameter(Parameter.FONTS_SERIF, newFonts);
+        return super.createPropertyList(pList, foEventHandler);
     }
 }

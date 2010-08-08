@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="limit1">limit</csymbol>
+    <ci>a</ci>
+    <bind>
+      <csymbol cd="funs1">lambda</csymbol>
+      <bvar>
+        <ci>x</ci>
+      </bvar>
+      <apply> 
+        <csymbol cd="arith1">times</csymbol> 
+        <apply> 
+          <csymbol cd="transc1">sin</csymbol> 
+          <apply> 
+            <csymbol cd="arith1">times</csymbol> 
+            <ci>x</ci> 
+            <ci>y</ci> 
+          </apply> 
+        </apply> 
+        <apply> 
+          <csymbol cd="arith1">times</csymbol> 
+          <cn>2</cn>  
+          <ci>b</ci> 
+        </apply> 
+      </apply>
+    </bind>
+  </apply>  
+</math>

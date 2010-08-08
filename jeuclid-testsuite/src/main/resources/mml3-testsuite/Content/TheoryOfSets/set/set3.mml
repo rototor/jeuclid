@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <set type="multiset"> 
+    <cn type="real">4.56</cn> 
+    <cn type="integer">4.56</cn>  
+    <cn type="rational">4
+      <sep></sep> 5
+    </cn> 
+    <cn type="complex-cartesian">4
+      <sep></sep> 5 
+    </cn> 
+    <cn type="complex-polar">4.56
+      <sep></sep>  4.56
+    </cn> 
+    <cn type="constant">π</cn>  
+    <cn>ⅇ</cn> 
+    <cn>ⅇ</cn> 
+    <cn> ⅈ</cn> 
+    <cn>ⅈ</cn> 
+    <cn>γ</cn>  
+    <cn>∞</cn> 
+  </set> 
+</math>

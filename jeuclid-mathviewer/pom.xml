@@ -1,59 +1,200 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>jeuclid-parent</artifactId>
+    <groupId>net.sourceforge.jeuclid</groupId>
+    <version>3.1.10-SNAPSHOT</version>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-mathviewer</artifactId>
   <name>JEuclid Mathviewer Module</name>
-  <parent>
-    <groupId>net.sourceforge.jeuclid</groupId>
-    <artifactId>jeuclid-parent</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
-  </parent>
   <description>This module contains a swing MathViewer application.</description>
   <build>
+    <defaultGoal>package</defaultGoal>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3</version>
         <configuration>
           <archive>
             <manifest>
-              <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
+              <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
               <addClasspath>true</addClasspath>
-              <addExtensions />
-              <classpathPrefix />
+              <addExtensions/>
+              <classpathPrefix/>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
           </archive>
         </configuration>
       </plugin>
-<!--
       <plugin>
-        <groupId>com.pyx4me</groupId>
-        <artifactId>proguard-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo.webstart</groupId>
+        <artifactId>webstart-maven-plugin</artifactId>
+        <version>1.0-alpha-2</version>
+        <configuration>
+          <jnlp>
+            <outputFile>mathviewer.jnlp</outputFile>
+            <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
+          </jnlp>
+          <unsignAlreadySignedJars>true</unsignAlreadySignedJars>
+          <pack200>false</pack200>
+          <sign>
+            <keystore>${basedir}/keystore</keystore>
+            <keypass>verysecret</keypass>
+            <storepass>evenmoresecret</storepass>
+            <alias>signKey</alias>
+            <validity>365</validity>
+            <dnameCn>jeuclid.sf.net</dnameCn>
+            <verify>true</verify>
+            <keystoreConfig>
+              <delete>true</delete>
+              <gen>true</gen>
+            </keystoreConfig>
+          </sign>
+          <workDirectory>${project.build.directory}/site</workDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>site</phase>
+            <goals>
+              <goal>jnlp</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>osxappbundle-maven-plugin</artifactId>
+        <version>1.0-alpha-1</version>
+        <configuration>
+          <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
+          <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
+          <iconFile>${basedir}/src/main/app-resources/jeuclid.icns</iconFile>
+          <jvmVersion>1.6+</jvmVersion>
+          <bundleName>JEuclid MathViewer</bundleName>
+        </configuration>
         <executions>
           <execution>
             <phase>package</phase>
             <goals>
-              <goal>proguard</goal>
+              <goal>bundle</goal>
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <proguardInclude>${common.dir}/proguard.app.conf</proguardInclude>
-        </configuration>
       </plugin>
--->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <id>unpack-dependencies</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>net.sourceforge.jeuclid</groupId>
+                  <artifactId>jeuclid-core</artifactId>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/core</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>1.3.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactId>${project.artifactId}-ueber</shadedArtifactId>
+              <shadedArtifactAttached>false</shadedArtifactAttached>
+              <finalName>${project.artifactId}-ueber-${project.version}-shaded</finalName>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+        <artifactId>launch4j-maven-plugin</artifactId>
+        <version>1.3</version>
+        <executions>
+          <execution>
+            <id>l4j-clui</id>
+            <phase>package</phase>
+            <goals>
+              <goal>launch4j</goal>
+            </goals>
+            <configuration>
+              <headerType>gui</headerType>
+              <outfile>${project.build.directory}/${project.artifactId}-${project.version}.exe</outfile>
+              <jar>${project.build.directory}/original-${project.artifactId}-ueber-${project.version}-shaded.jar</jar>
+              <classPath>
+                <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
+              </classPath>
+              <errTitle>JEuclid Mathviewer</errTitle>
+              <jre>
+                <minVersion>1.6.0</minVersion>
+              </jre>
+              <versionInfo>
+                <fileVersion>0.0.0.0</fileVersion>
+                <txtFileVersion>${project.version}</txtFileVersion>
+                <fileDescription>JEuclid Mathviewer</fileDescription>
+                <copyright>JEuclid Project http://jeuclid.sf.net/</copyright>
+                <productVersion>0.0.0.0</productVersion>
+                <txtProductVersion>${project.version}</txtProductVersion>
+                <productName>JEuclid Mathviewer</productName>
+                <internalName>${project.artifactId}</internalName>
+                <originalFilename>${project.artifactId}-${project.version}.exe</originalFilename>
+              </versionInfo>
+              <icon>src/main/app-resources/jeuclid.ico</icon>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-5</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assemble/osx.xml</descriptor>
+            <descriptor>src/assemble/win32.xml</descriptor>
+          </descriptors>
+          <attach>false</attach>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>attached</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
-  <dependencies>
-    <dependency>
-      <groupId>net.sourceforge.jeuclid</groupId>
-      <artifactId>jeuclid-core</artifactId>
-      <version>3.1.0-SNAPSHOT</version>
-    </dependency>
-  </dependencies>
   <profiles>
     <profile>
       <id>netbeans-public</id>
@@ -97,4 +238,151 @@
       </build>
     </profile>
   </profiles>
+  <dependencies>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>jeuclid-core</artifactId>
+      <version>3.1.10-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>jeuclid-core16</artifactId>
+      <version>3.1.10-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.apple</groupId>
+      <artifactId>AppleJavaExtensions</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-svggen</artifactId>
+      <version>1.7</version>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis-ext</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xalan</groupId>
+          <artifactId>xalan</artifactId>
+        </exclusion>
+      </exclusions>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.freehep</groupId>
+      <artifactId>freehep-graphicsio-emf</artifactId>
+      <version>2.1.3</version>
+      <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.freehep</groupId>
+      <artifactId>freehep-graphicsio-gif</artifactId>
+      <version>1.2.3</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.freehep</groupId>
+      <artifactId>freehep-graphicsio-pdf</artifactId>
+      <version>2.1.3</version>
+      <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.freehep</groupId>
+      <artifactId>freehep-graphicsio-ps</artifactId>
+      <version>2.1.3</version>
+      <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.freehep</groupId>
+      <artifactId>freehep-graphicsio-swf</artifactId>
+      <version>2.1.3</version>
+      <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>dejavu-fonts</artifactId>
+      <version>2.29</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>stix-fonts</artifactId>
+      <version>1.0-beta-2</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>ams-fonts</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-gui-util</artifactId>
+      <version>1.7</version>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis-ext</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xalan</groupId>
+          <artifactId>xalan</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>akathist-repository</id>
+      <name>Akathist Repository</name>
+      <url>http://www.9stmaryrd.com/maven</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>akathist-repository</id>
+      <name>Akathist Repository</name>
+      <url>http://www.9stmaryrd.com/maven</url>
+    </pluginRepository>
+  </pluginRepositories>
 </project>

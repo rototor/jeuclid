@@ -18,9 +18,10 @@
 
 package net.sourceforge.jeuclid;
 
+import net.sourceforge.jeuclid.context.Parameter;
+
 
 /**
- * @author mage
  * @version $Revision$
  */
 public interface MutableLayoutContext extends LayoutContext {

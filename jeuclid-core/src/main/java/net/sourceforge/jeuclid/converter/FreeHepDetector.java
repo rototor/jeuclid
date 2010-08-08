@@ -18,23 +18,27 @@
 
 package net.sourceforge.jeuclid.converter;
 
+import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
  * Detects if FreeHep is in the class path and registers it if its available.
  * 
- * @author Max Berger
  * @version $Revision$
  */
-public final class FreeHepDetector {
+public final class FreeHepDetector implements ConverterDetector {
     /**
      * Logger for this class
      */
     private static final Log LOGGER = LogFactory
             .getLog(FreeHepDetector.class);
 
-    private FreeHepDetector() {
+    /**
+     * Default constructor.
+     */
+    public FreeHepDetector() {
         // Empty on purpose
     }
 
@@ -44,11 +48,10 @@ public final class FreeHepDetector {
      * @param registry
      *            ConverterRegisty to register with.
      */
-    public static void detectConversionPlugins(
-            final ConverterRegistry registry) {
+    public void detectConversionPlugins(final ConverterRegistry registry) {
 
         try {
-            Thread.currentThread().getContextClassLoader().loadClass(
+            ClassLoaderSupport.getInstance().loadClass(
                     "org.freehep.util.export.ExportFileType");
             FreeHepInternalDetector.actuallyDetectConversionPlugins(registry);
         } catch (final ClassNotFoundException e) {

@@ -23,6 +23,8 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Abstract factory to be used to create instances of java.awt.Font. The
@@ -36,10 +38,12 @@ import java.io.InputStream;
  * How a concrete subclass of FontFactory is identified is subject to change
  * in the future versions.
  * 
- * @author Ernest Mishkin
  * @version $Revision$
  */
 public abstract class FontFactory {
+
+    /** Name for the default (sans serif) font. */
+    public static final String SANSSERIF = "sansserif";
 
     private static FontFactory instance = new DefaultFontFactory();
 
@@ -65,7 +69,26 @@ public abstract class FontFactory {
      * @return Font instance
      * @see java.awt.Font#Font(String, int, int)
      */
-    public abstract Font getFont(String name, int style, int size);
+    public abstract Font getFont(final String name, final int style,
+            final float size);
+
+    /**
+     * Create a font object which is able to display the requested code point.
+     * Uses one of the list of preferred fonts is possible. If no matching
+     * font is found null is returned.
+     * 
+     * @param preferredFonts
+     *            List of preferred fonts
+     * @param codepoint
+     *            code point which must be displayable
+     * @param style
+     *            font style
+     * @param size
+     *            font size
+     * @return a valid Font instance or null if no font could be found.
+     */
+    public abstract Font getFont(final List<String> preferredFonts,
+            final int codepoint, final int style, final float size);
 
     /**
      * Load an external font from a file and 'register' (aka 'cache') it for
@@ -106,4 +129,11 @@ public abstract class FontFactory {
      */
     public abstract Font registerFont(int format, InputStream fontStream)
             throws IOException, FontFormatException;
+
+    /**
+     * Retrieve a list of all fonts registered with this fontFactory.
+     * 
+     * @return A set of recognized font names
+     */
+    public abstract Set<String> listFontNames();
 }

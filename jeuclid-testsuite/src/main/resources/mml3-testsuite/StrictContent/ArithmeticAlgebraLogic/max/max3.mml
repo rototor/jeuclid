@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"> 
+  <apply>
+    <csymbol cd="minmax1">max</csymbol>
+    <apply>
+      <csymbol cd="set1">map</csymbol>
+      <bind>
+        <csymbol cd="fns1">lambda</csymbol>
+        <bvar>
+          <ci>x</ci>
+        </bvar>
+        <apply>
+          <csymbol cd="arith1">minus</csymbol> 
+          <ci>x</ci> 
+          <apply> 
+            <csymbol cd="transc1">sin</csymbol> 
+            <ci>x</ci>  
+          </apply> 
+        </apply>
+      </bind>
+      <apply>
+        <csymbol cd="logic1">and</csymbol>  
+        <apply>
+          <csymbol cd="relation1">gt</csymbol>  
+          <ci>x</ci> 
+          <cn>0</cn>  
+        </apply> 
+        <apply> 
+          <csymbol cd="relation1">lt</csymbol> 
+          <ci>x</ci>  
+          <cn>1</cn> 
+        </apply> 
+      </apply>
+    </apply>
+  </apply>  
+</math>

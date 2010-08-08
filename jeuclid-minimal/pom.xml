@@ -4,31 +4,40 @@
   <groupId>net.sourceforge.jeuclid</groupId>
   <artifactId>jeuclid-minimal</artifactId>
   <name>JEuclid Minimal Distribution</name>
+  <packaging>pom</packaging>
   <parent>
     <groupId>net.sourceforge.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.1.10-SNAPSHOT</version>
   </parent>
   <description>This class handles the creation of the minimal JEuclid distribution files.</description>
   <build>
+    <defaultGoal>package</defaultGoal>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
-<!--        <version>1.0-alpha-2</version> -->
-        <version>1.0-20070124.085332-18</version> 
+        <version>1.0</version>
         <configuration>
           <programs>
             <program>
-              <mainClass>net.sourceforge.jeuclid.app.MathViewer</mainClass>
+              <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
               <name>mathviewer</name>
             </program>
             <program>
               <mainClass>net.sourceforge.jeuclid.app.Mml2xxx</mainClass>
               <name>mml2xxx</name>
             </program>
+            <program>
+              <mainClass>net.sourceforge.jeuclid.app.foprep.Main</mainClass>
+              <name>foprep</name>
+            </program>
+            <program>
+              <mainClass>net.sourceforge.jeuclid.app.ListFonts</mainClass>
+              <name>listfonts</name>
+            </program>
           </programs>
-<!--          <repositoryLayout>flat</repositoryLayout> -->
+          <repositoryLayout>flat</repositoryLayout>
         </configuration>
         <executions>
           <execution>
@@ -40,9 +49,9 @@
           </execution>
         </executions>
       </plugin>
-     <plugin>
+      <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-1</version>
+        <version>2.2-beta-4</version>
         <configuration>
           <descriptors>
             <descriptor>src/assemble/distribution.xml</descriptor>
@@ -58,18 +67,49 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <id>unpack-dependencies</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>net.sourceforge.jeuclid</groupId>
+                  <artifactId>jeuclid-core</artifactId>
+                  <type>jar</type>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/core</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
-      <artifactId>jeuclid-swt</artifactId>
-      <version>3.1.0-SNAPSHOT</version>
+      <artifactId>jeuclid-core</artifactId>
+      <version>3.1.10-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jeuclid</groupId>
+      <artifactId>jeuclid-cli</artifactId>
+      <version>3.1.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-mathviewer</artifactId>
-      <version>3.1.0-SNAPSHOT</version>
+      <version>3.1.10-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

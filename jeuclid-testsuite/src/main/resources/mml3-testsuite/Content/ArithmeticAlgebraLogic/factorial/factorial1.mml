@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <factorial></factorial> 
+    <apply>
+      <plus></plus>  
+      <apply>
+        <plus></plus>  
+        <ci>n</ci> 
+        <ci>m</ci>  
+      </apply> 
+      <ci>x</ci> 
+    </apply> 
+  </apply> 
+</math>

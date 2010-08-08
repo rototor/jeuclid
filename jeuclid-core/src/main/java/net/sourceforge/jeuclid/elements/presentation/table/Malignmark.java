@@ -18,20 +18,18 @@
 
 package net.sourceforge.jeuclid.elements.presentation.table;
 
-import java.awt.Graphics2D;
-
 import net.sourceforge.jeuclid.elements.AbstractInvisibleJEuclidElement;
 
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLAlignMarkElement;
 
 /**
  * This class represents the malignmark tag.
  * 
- * @author PG
- * @author Max Berger
  * @version $Revision$
  */
-public class Malignmark extends AbstractInvisibleJEuclidElement implements
+public final class Malignmark extends AbstractInvisibleJEuclidElement implements
         MathMLAlignMarkElement {
 
     /**
@@ -42,24 +40,24 @@ public class Malignmark extends AbstractInvisibleJEuclidElement implements
     /** The edge attribute. */
     public static final String ATTR_EDGE = "edge";
 
-    private final int width = 0;
+    private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Malignmark() {
-        super();
+    public Malignmark(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
-    public float calculateWidth(final Graphics2D g) {
-        return this.width;
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Malignmark.ELEMENT;
+    protected Node newNode() {
+        return new Malignmark(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */

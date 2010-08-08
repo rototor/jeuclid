@@ -23,6 +23,10 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -37,10 +41,12 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
+import net.jcip.annotations.ThreadSafe;
 import net.sourceforge.jeuclid.ResourceEntityResolver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.xmlgraphics.image.loader.ImageSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
@@ -51,10 +57,45 @@ import org.xml.sax.SAXParseException;
 /**
  * A JAXP compatible approach to MathML Parsing.
  * 
- * @author Max Berger
  * @version $Revision$
  */
+// CHECKSTYLE:OFF
+// This class is too complex.
+@ThreadSafe
 public final class Parser {
+    // CHECKSTYLE:ON
+
+    private static final class LoggerErrorHandler implements ErrorHandler {
+        public LoggerErrorHandler() {
+            // Empty on purpose
+        }
+
+        public void error(final SAXParseException exception)
+                throws SAXException {
+            Parser.LOGGER.warn(exception);
+        }
+
+        public void fatalError(final SAXParseException exception)
+                throws SAXException {
+            throw exception;
+        }
+
+        public void warning(final SAXParseException exception)
+                throws SAXException {
+            Parser.LOGGER.debug(exception);
+        }
+    }
+
+    private static final class UnclosableInputStream extends FilterInputStream {
+        protected UnclosableInputStream(final InputStream in) {
+            super(in);
+        }
+
+        @Override
+        public void close() throws IOException {
+            // Do Nothing.
+        }
+    }
 
     /**
      * Detection buffer size. Rationale: After the first 128 bytes a XML file
@@ -68,59 +109,84 @@ public final class Parser {
 
     private static final String CANNOT_HANDLE_SOURCE = "Cannot handle Source: ";
 
-    private static Parser parser;
+    private static final class SingletonHolder {
+        private static final Parser INSTANCE = new Parser();
+
+        private SingletonHolder() {
+        }
+    }
 
     /**
      * Logger for this class.
      */
     private static final Log LOGGER = LogFactory.getLog(Parser.class);
 
-    private final DocumentBuilder builder;
+    private final Map<Long, Reference<DocumentBuilder>> builders;
 
-    private Parser() throws ParserConfigurationException {
+    /**
+     * Default constructor.
+     */
+    protected Parser() {
+        this.builders = new ConcurrentHashMap<Long, Reference<DocumentBuilder>>();
+    }
+
+    private DocumentBuilder createDocumentBuilder() {
+        DocumentBuilder documentBuilder;
+        try {
+            try {
+                documentBuilder = this.tryCreateDocumentBuilder(true);
+            } catch (final UnsupportedOperationException uoe) {
+                Parser.LOGGER.debug("Unsupported Operation: "
+                        + uoe.getMessage());
+                documentBuilder = this.tryCreateDocumentBuilder(false);
+            } catch (final ParserConfigurationException pce) {
+                Parser.LOGGER.debug("ParserConfigurationException: "
+                        + pce.getMessage());
+                documentBuilder = this.tryCreateDocumentBuilder(false);
+            }
+            documentBuilder.setEntityResolver(new ResourceEntityResolver());
+            documentBuilder.setErrorHandler(new LoggerErrorHandler());
+        } catch (final ParserConfigurationException pce2) {
+            Parser.LOGGER.warn("Could not create Parser: " + pce2.getMessage());
+            assert false : "Could not create Parser";
+            documentBuilder = null;
+        }
+        return documentBuilder;
+    }
+
+    private DocumentBuilder tryCreateDocumentBuilder(final boolean xinclude)
+            throws ParserConfigurationException {
         final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
                 .newInstance();
         documentBuilderFactory.setNamespaceAware(true);
-        try {
+        if (xinclude) {
             documentBuilderFactory.setXIncludeAware(true);
-        } catch (final UnsupportedOperationException uoe) {
-            Parser.LOGGER.debug("Unsupported Operation: " + uoe.getMessage());
         }
         final DocumentBuilder documentBuilder = documentBuilderFactory
                 .newDocumentBuilder();
-        documentBuilder.setEntityResolver(new ResourceEntityResolver());
-        documentBuilder.setErrorHandler(new ErrorHandler() {
-            public void error(final SAXParseException exception)
-                    throws SAXException {
-                Parser.LOGGER.warn(exception);
-            }
-
-            public void fatalError(final SAXParseException exception)
-                    throws SAXException {
-                throw exception;
-            }
-
-            public void warning(final SAXParseException exception)
-                    throws SAXException {
-                Parser.LOGGER.debug(exception);
-            }
-        });
-        this.builder = documentBuilder;
+        return documentBuilder;
     }
 
     /**
      * Retrieve the singleton Parser instance.
      * 
      * @return a Parser object.
-     * @throws ParserConfigurationException
-     *             when the internal (DOM) parser could not be created.
      */
-    public static synchronized Parser getParser()
-            throws ParserConfigurationException {
-        if (Parser.parser == null) {
-            Parser.parser = new Parser();
-        }
-        return Parser.parser;
+    public static Parser getInstance() {
+        return Parser.SingletonHolder.INSTANCE;
+    }
+
+    /**
+     * use {@link #getInstance()} instead.
+     * 
+     * @return see {@link #getInstance()}
+     * @throws ParserConfigurationException
+     *             see {@link #getInstance()}
+     * @deprecated use {@link #getInstance()} instead.
+     */
+    @Deprecated
+    public static Parser getParser() throws ParserConfigurationException {
+        return Parser.getInstance();
     }
 
     /**
@@ -147,12 +213,8 @@ public final class Parser {
             if (!inputStream.markSupported()) {
                 inputStream = new BufferedInputStream(inputStream);
             }
-            final InputStream filterInput = new FilterInputStream(inputStream) {
-                @Override
-                public void close() throws IOException {
-                    // Do Nothing.
-                }
-            };
+            final InputStream filterInput = new UnclosableInputStream(
+                    inputStream);
             filterInput.mark(Parser.DETECTION_BUFFER_SIZE);
             try {
                 retVal = this.parseStreamSourceAsXml(new StreamSource(
@@ -210,7 +272,7 @@ public final class Parser {
         ZipEntry entry = zipStream.getNextEntry();
         while (entry != null) {
             if (Parser.CONTENT_XML.equals(entry.getName())) {
-                document = this.builder.parse(zipStream);
+                document = this.getDocumentBuilder().parse(zipStream);
                 entry = null;
             } else {
                 entry = zipStream.getNextEntry();
@@ -232,20 +294,26 @@ public final class Parser {
      */
     public Document parseStreamSourceAsXml(final StreamSource streamSource)
             throws SAXException, IOException {
-        final InputSource inp;
-        final InputStream is = streamSource.getInputStream();
-        if (is != null) {
-            inp = new InputSource(is);
-        } else {
-            final Reader ir = streamSource.getReader();
-            if (ir != null) {
-                inp = new InputSource(ir);
-            } else {
-                throw new IllegalArgumentException(Parser.BAD_STREAM_SOURCE
-                        + streamSource);
-            }
+        InputSource inp = null;
+        final String systemId = streamSource.getSystemId();
+        if (systemId != null) {
+            inp = new InputSource(systemId);
         }
-        return this.builder.parse(inp);
+        final InputStream is = streamSource.getInputStream();
+        if ((inp == null) && (is != null)) {
+            inp = new InputSource(is);
+        }
+        final Reader ir = streamSource.getReader();
+        if ((inp == null) && (ir != null)) {
+            inp = new InputSource(ir);
+        }
+
+        if (inp == null) {
+            throw new IllegalArgumentException(Parser.BAD_STREAM_SOURCE
+                    + streamSource);
+        }
+
+        return this.getDocumentBuilder().parse(inp);
     }
 
     /**
@@ -253,21 +321,35 @@ public final class Parser {
      * <p>
      * Please note:
      * <ul>
-     * <li>There is only one instance of the builder.</li>
-     * <li>The builder instance is not thread safe.</li>
+     * <li>There is one instance of the builder per thread.</li>
+     * <li>The builder instance is not thread safe, so it may not be passed
+     * among threads.</li>
+     * <li>Multiple Threads may call getDocumentBuilder concurrently</li>
      * </ul>
      * 
      * @return a DocumentBuilder
      */
     public DocumentBuilder getDocumentBuilder() {
-        return this.builder;
+        // Note: No synchronization needed, as id will be different for every
+        // thread!
+        final long id = Thread.currentThread().getId();
+        final Reference<DocumentBuilder> builderRef = this.builders.get(id);
+        if (builderRef != null) {
+            final DocumentBuilder builder = builderRef.get();
+            if (builder != null) {
+                return builder;
+            }
+        }
+        final DocumentBuilder builder = this.createDocumentBuilder();
+        this.builders.put(id, new SoftReference<DocumentBuilder>(builder));
+        return builder;
     }
 
     /**
      * Extract the top Node from a given Source.
      * 
      * @param source
-     *            the Source to use. Currently supported are {@link DOMSource},
+     *            the Source to use. Currently supported are {@link DOMSource} ,
      *            {@link StreamSource}
      * @return the top NODE.
      * @throws SAXException
@@ -279,6 +361,11 @@ public final class Parser {
         final Node retVal;
         if (source instanceof StreamSource) {
             final StreamSource streamSource = (StreamSource) source;
+            retVal = this.parseStreamSource(streamSource);
+        } else if (source instanceof ImageSource) {
+            final ImageSource imageSource = (ImageSource) source;
+            final StreamSource streamSource = new StreamSource(imageSource
+                    .getInputStream());
             retVal = this.parseStreamSource(streamSource);
         } else if (source instanceof DOMSource) {
             final DOMSource domSource = (DOMSource) source;
@@ -292,8 +379,8 @@ public final class Parser {
                 retVal = r.getNode();
             } catch (final TransformerException e) {
                 Parser.LOGGER.warn(e.getMessage());
-                throw new IllegalArgumentException(
-                        Parser.CANNOT_HANDLE_SOURCE + source);
+                throw new IllegalArgumentException(Parser.CANNOT_HANDLE_SOURCE
+                        + source, e);
             }
         }
         return retVal;

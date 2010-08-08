@@ -12,6 +12,7 @@
         <include>bin/mathviewer</include>
         <include>bin/mml2xxx</include>
         <include>bin/foprep</include>
+        <include>bin/listfonts</include>
       </includes>
       <fileMode>0755</fileMode>
     </fileSet>
@@ -22,28 +23,29 @@
         <exclude>bin/mathviewer</exclude>
         <exclude>bin/mml2xxx</exclude>
         <exclude>bin/foprep</exclude>
+        <exclude>bin/listfonts</exclude>
       </excludes>
       <fileMode>0644</fileMode>
     </fileSet>
   </fileSets>
   <files>
     <file>
-      <source>../LICENSE.txt</source>
+      <source>target/core/net/sourceforge/jeuclid/LICENSE.txt</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>../NOTICE</source>
+      <source>target/core/net/sourceforge/jeuclid/NOTICE</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>../LICENSE.FreeHEP</source>
+      <source>LICENSE.FreeHEP</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>
     <file>
-      <source>../README.fop</source>
+      <source>target/fop/net/sourceforge/jeuclid/README.fop</source>
       <outputDirectory/>
       <fileMode>0644</fileMode>
     </file>

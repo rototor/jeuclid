@@ -18,16 +18,21 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
+
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLPaddedElement;
 
 /**
- * This class implemented the mpadded element.
+ * This class implements the mpadded element.
+ * <p>
+ * TODO: none of the attributes are actually implemented yet.
  * 
- * @author Max Berger
- * @todo none of the attributes are actually implemented yet.
  * @version $Revision$
  */
-public class Mpadded extends AbstractRowLike implements MathMLPaddedElement {
+public final class Mpadded extends AbstractContainer implements
+        MathMLPaddedElement {
 
     /** constant for depth attribute. */
     public static final String ATTR_DEPTH = "depth";
@@ -46,11 +51,24 @@ public class Mpadded extends AbstractRowLike implements MathMLPaddedElement {
      */
     public static final String ELEMENT = "mpadded";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Default constructor.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Mpadded() {
-        super();
+    public Mpadded(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mpadded(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */
@@ -91,11 +109,6 @@ public class Mpadded extends AbstractRowLike implements MathMLPaddedElement {
     /** {@inheritDoc} */
     public void setWidth(final String width) {
         this.setAttribute(Mpadded.ATTR_WIDTH, width);
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mpadded.ELEMENT;
     }
 
 }

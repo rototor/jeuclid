@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply> 
+    <partialdiff></partialdiff> 
+    <list>
+      <cn>1</cn>  
+      <cn>1</cn> 
+      <cn>3</cn> 
+    </list>  
+    <ci type="fn">f</ci> 
+  </apply> 
+</math>

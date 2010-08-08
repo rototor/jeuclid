@@ -18,21 +18,80 @@
 
 package net.sourceforge.jeuclid.elements.generic;
 
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
-import net.sourceforge.jeuclid.elements.JEuclidNode;
-import net.sourceforge.jeuclid.elements.presentation.general.AbstractRowLike;
+import net.sourceforge.jeuclid.context.Parameter;
+import net.sourceforge.jeuclid.elements.presentation.AbstractContainer;
 
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLMathElement;
 
 /**
  * The root element for creating a MathElement tree.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class MathImpl extends AbstractRowLike implements MathMLMathElement {
+public final class MathImpl extends AbstractContainer implements
+        MathMLMathElement {
+
+    private final class ChildContext implements LayoutContext {
+        private final LayoutContext context;
+
+        private ChildContext(final LayoutContext myContext) {
+            this.context = myContext;
+        }
+
+        public Object getParameter(final Parameter which) {
+            Object retVal;
+            if (Parameter.DISPLAY.equals(which)) {
+                if (MathImpl.DISPLAY_BLOCK.equals(MathImpl.this.getDisplay())) {
+                    retVal = Display.BLOCK;
+                } else {
+                    retVal = Display.INLINE;
+                }
+            } else {
+                retVal = MathImpl.this.applyLocalAttributesToContext(
+                        this.context).getParameter(which);
+            }
+            retVal = this.getParamValueFromJEuclidExt(which, retVal);
+            return retVal;
+        }
+
+        private Object getParamValueFromJEuclidExt(final Parameter which,
+                final Object currentValue) {
+            Object retVal = currentValue;
+            final String s0 = MathImpl.this.getAttributeNS(
+                    Constants.NS_JEUCLID_EXT, which.getOptionName());
+            if ((s0 != null) && (s0.length() > 0)) {
+                retVal = which.fromString(s0);
+            } else {
+                retVal = this.getDeprecatedParamValuesFromJEuclidExt(which,
+                        retVal);
+            }
+            return retVal;
+        }
+
+        private Object getDeprecatedParamValuesFromJEuclidExt(
+                final Parameter which, final Object currentValue) {
+            // old namespace
+            Object retVal = currentValue;
+            final String s = MathImpl.this.getAttributeNS(
+                    Constants.NS_OLD_JEUCLID_EXT, which.getOptionName());
+            if ((s != null) && (s.length() > 0)) {
+                retVal = which.fromString(s);
+            } else {
+                // Support deprecated attributes
+                final String s2 = MathImpl.this.getAttributeNS(
+                        Constants.NS_OLD_JEUCLID_EXT, which.toString());
+                if ((s2 != null) && (s2.length() > 0)) {
+                    retVal = which.fromString(s2);
+                }
+            }
+            return retVal;
+        }
+    }
 
     /** attribute for display. */
     public static final String ATTR_DISPLAY = "display";
@@ -45,11 +104,34 @@ public class MathImpl extends AbstractRowLike implements MathMLMathElement {
      */
     public static final String ELEMENT = "math";
 
+    private static final long serialVersionUID = 1L;
+
+    /** attribute for mode. */
+    private static final String ATTR_MODE = "mode";
+
+    private static final String DISPLAY_INLINE = "inline";
+
+    private static final String DISPLAY_BLOCK = "block";
+
+    // Happens to be display as well.
+    private static final String DEPRECATED_BLOCK_VALUE_FOR_MODE = MathImpl.ATTR_DISPLAY;
+
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public MathImpl() {
-        super();
+    public MathImpl(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new MathImpl(this.nodeName, this.ownerDocument);
     }
 
     /**
@@ -68,29 +150,30 @@ public class MathImpl extends AbstractRowLike implements MathMLMathElement {
      * @return Display display
      */
     public String getDisplay() {
-        return this.getMathAttribute(MathImpl.ATTR_DISPLAY);
+        final String retVal;
+        final String attrDisplay = this.getMathAttribute(MathImpl.ATTR_DISPLAY);
+        if (attrDisplay == null) {
+            if (MathImpl.DEPRECATED_BLOCK_VALUE_FOR_MODE.equalsIgnoreCase(this
+                    .getMathAttribute(MathImpl.ATTR_MODE))) {
+                retVal = MathImpl.DISPLAY_BLOCK;
+            } else {
+                retVal = MathImpl.DISPLAY_INLINE;
+            }
+        } else {
+            if (MathImpl.DISPLAY_BLOCK.equalsIgnoreCase(attrDisplay)) {
+                retVal = MathImpl.DISPLAY_BLOCK;
+            } else {
+                retVal = MathImpl.DISPLAY_INLINE;
+            }
+        }
+        return retVal;
     }
 
     /** {@inheritDoc} */
     @Override
-    public LayoutContext getChildLayoutContext(final JEuclidNode child) {
-        return new LayoutContext() {
-
-            public Object getParameter(final Parameter which) {
-                final Object retVal;
-                if (Parameter.DISPLAY.equals(which)) {
-                    if ("block".equalsIgnoreCase(MathImpl.this.getDisplay())) {
-                        retVal = Display.BLOCK;
-                    } else {
-                        retVal = Display.INLINE;
-                    }
-                } else {
-                    retVal = MathImpl.this.getCurrentLayoutContext()
-                            .getParameter(which);
-                }
-                return retVal;
-            }
-        };
+    public LayoutContext getChildLayoutContext(final int childNum,
+            final LayoutContext context) {
+        return new ChildContext(context);
     }
 
     /** {@inheritDoc} */
@@ -101,11 +184,6 @@ public class MathImpl extends AbstractRowLike implements MathMLMathElement {
     /** {@inheritDoc} */
     public void setMacros(final String macros) {
         this.setAttribute(MathImpl.ATTR_MACROS, macros);
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return MathImpl.ELEMENT;
     }
 
 }

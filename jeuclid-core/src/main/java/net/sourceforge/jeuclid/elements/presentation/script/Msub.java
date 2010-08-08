@@ -18,89 +18,43 @@
 
 package net.sourceforge.jeuclid.elements.presentation.script;
 
-import java.awt.Graphics2D;
-
 import net.sourceforge.jeuclid.elements.JEuclidElement;
 
+import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLElement;
-import org.w3c.dom.mathml.MathMLScriptElement;
 
 /**
  * This class arranges an element lower to an other element.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Msub extends AbstractSubSuper implements MathMLScriptElement {
+public final class Msub extends AbstractSubSuper {
 
     /**
      * The XML element from this class.
      */
     public static final String ELEMENT = "msub";
 
-    /**
-     * Creates a math element.
-     */
-    public Msub() {
-        super();
-    }
+    private static final long serialVersionUID = 1L;
 
     /**
-     * Paints this element.
+     * Default constructor. Sets MathML Namespace.
      * 
-     * @param g
-     *            The graphics context to use for painting.
-     * @param posX
-     *            The first left position for painting.
-     * @param posY
-     *            The position of the baseline.
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    @Override
-    public void paint(final Graphics2D g, final float posX, final float posY) {
-        super.paint(g, posX, posY);
-        final JEuclidElement e1 = this.getMathElement(0);
-        final JEuclidElement e2 = this.getMathElement(1);
-
-        e1.paint(g, posX, posY);
-        e2
-                .paint(g, posX + e1.getWidth(g), posY
-                        + this.getSubBaseLineShift(g));
+    public Msub(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
     }
 
     /** {@inheritDoc} */
     @Override
-    public float calculateWidth(final Graphics2D g) {
-        return this.getMathElement(0).getWidth(g)
-                + this.getMathElement(1).getWidth(g);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateAscentHeight(final Graphics2D g) {
-        return this.getMathElement(0).getAscentHeight(g);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public float calculateDescentHeight(final Graphics2D g) {
-        return this.caclulateDescentHeightWithSub(g);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int getScriptlevelForChild(final JEuclidElement child) {
-        if (child.isSameNode(this.getFirstChild())) {
-            return this.getAbsoluteScriptLevel();
-        } else {
-            return this.getAbsoluteScriptLevel() + 1;
-        }
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Msub.ELEMENT;
+    protected Node newNode() {
+        return new Msub(this.nodeName, this.ownerDocument);
     }
 
     /** {@inheritDoc} */

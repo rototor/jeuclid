@@ -20,19 +20,26 @@ package net.sourceforge.jeuclid.converter;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.xmlgraphics.util.Service;
+
 /**
  * A registry for image converters.
  * 
- * @author Max Berger
  * @version $Revision$
  */
 public final class ConverterRegistry {
 
-    private static ConverterRegistry converterRegisty;
+    private static final class SingletonHolder {
+        private static final ConverterRegistry INSTANCE = new ConverterRegistry();
+
+        private SingletonHolder() {
+        }
+    }
 
     private final Map<String, ConverterPlugin> mimetype2converter = new HashMap<String, ConverterPlugin>();
 
@@ -40,7 +47,17 @@ public final class ConverterRegistry {
 
     private final Map<String, String> suffix2mimetype = new HashMap<String, String>();
 
-    private ConverterRegistry() {
+    /**
+     * Default constructor.
+     */
+    @SuppressWarnings("unchecked")
+    protected ConverterRegistry() {
+        final Iterator<ConverterDetector> it = Service
+                .providers(ConverterDetector.class);
+        while (it.hasNext()) {
+            final ConverterDetector det = it.next();
+            det.detectConversionPlugins(this);
+        }
     }
 
     /**
@@ -48,17 +65,19 @@ public final class ConverterRegistry {
      * 
      * @return the ConverterRegistry.
      */
+    public static ConverterRegistry getInstance() {
+        return ConverterRegistry.SingletonHolder.INSTANCE;
+    }
+
+    /**
+     * use {@link #getInstance()} instead.
+     * 
+     * @return see {@link #getInstance()}
+     * @deprecated use {@link #getInstance()} instead.
+     */
+    @Deprecated
     public static ConverterRegistry getRegisty() {
-        if (ConverterRegistry.converterRegisty == null) {
-            ConverterRegistry.converterRegisty = new ConverterRegistry();
-            ImageIODetector
-                    .detectConversionPlugins(ConverterRegistry.converterRegisty);
-            BatikDetector
-                    .detectConversionPlugins(ConverterRegistry.converterRegisty);
-            FreeHepDetector
-                    .detectConversionPlugins(ConverterRegistry.converterRegisty);
-        }
-        return ConverterRegistry.converterRegisty;
+        return ConverterRegistry.getInstance();
     }
 
     /**
@@ -92,8 +111,8 @@ public final class ConverterRegistry {
      * This function is not fully implemented yet
      * 
      * @param mimeType
-     *            a mimetype, as returned by
-     *            {@link #getAvailableOutfileTypes()}, or null if unknown.
+     *            a mimetype, as returned by {@link #getAvailableOutfileTypes()}
+     *            , or null if unknown.
      * @return the three letter suffix common for this type.
      */
     public String getSuffixForMimeType(final String mimeType) {
@@ -163,7 +182,7 @@ public final class ConverterRegistry {
      * @return a Converter instance
      */
     public ConverterPlugin getConverter(final String mimeType) {
-        return this.mimetype2converter.get(mimeType
-                .toLowerCase(Locale.ENGLISH));
+        return this.mimetype2converter
+                .get(mimeType.toLowerCase(Locale.ENGLISH));
     }
 }

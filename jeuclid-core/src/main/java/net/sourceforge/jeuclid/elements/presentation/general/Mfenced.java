@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2009 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,27 +18,26 @@
 
 package net.sourceforge.jeuclid.elements.presentation.general;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-import net.sourceforge.jeuclid.MathBase;
+import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.elements.AbstractElementWithDelegates;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
-import net.sourceforge.jeuclid.elements.JEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mo;
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary;
+import net.sourceforge.jeuclid.layout.LayoutableNode;
 
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLFencedElement;
 
 /**
  * The class represents the mfenced element.
  * 
- * @author AH
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Mfenced extends AbstractElementWithDelegates implements
+public final class Mfenced extends AbstractElementWithDelegates implements
         MathMLFencedElement {
 
     /** The separators attribute. */
@@ -57,15 +56,27 @@ public class Mfenced extends AbstractElementWithDelegates implements
 
     private static final String FENCE_SPACE = "0.2em";
 
-    /**
-     * Creates a new MathFenced object.
-     */
+    private static final long serialVersionUID = 1L;
 
-    public Mfenced() {
-        super();
+    /**
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
+     */
+    public Mfenced(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
         this.setDefaultMathAttribute(Mfenced.ATTR_OPEN, "(");
         this.setDefaultMathAttribute(Mfenced.ATTR_CLOSE, ")");
         this.setDefaultMathAttribute(Mfenced.ATTR_SEPARATORS, ",");
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Mfenced(this.nodeName, this.ownerDocument);
     }
 
     /**
@@ -109,12 +120,11 @@ public class Mfenced extends AbstractElementWithDelegates implements
      */
     public String getSeparators() {
         final StringBuilder retVal = new StringBuilder();
-        final String attValue = this
-                .getMathAttribute(Mfenced.ATTR_SEPARATORS);
+        final String attValue = this.getMathAttribute(Mfenced.ATTR_SEPARATORS);
         if (attValue != null) {
             for (int i = 0; i < attValue.length(); i++) {
                 final char c = attValue.charAt(i);
-                if (c >= AbstractJEuclidElement.TRIVIAL_SPACE_MAX) {
+                if (c > AbstractJEuclidElement.TRIVIAL_SPACE_MAX) {
                     retVal.append(c);
                 }
             }
@@ -134,54 +144,52 @@ public class Mfenced extends AbstractElementWithDelegates implements
 
     /** {@inheritDoc} */
     @Override
-    protected List<JEuclidElement> createDelegates() {
+    protected List<LayoutableNode> createDelegates() {
+        final int contentCount = this.getMathElementCount();
+        final List<LayoutableNode> retVal = new ArrayList<LayoutableNode>(
+                2 * contentCount + 1);
 
-        final List<JEuclidElement> retVal = new Vector<JEuclidElement>();
-
-        final Mo opOpen = new Mo();
-        opOpen.setFence(MathBase.TRUE);
-        opOpen.setStretchy(MathBase.TRUE);
-        opOpen.setRspace(Mfenced.FENCE_SPACE);
-        opOpen.setLspace(Mfenced.FENCE_SPACE);
-        opOpen.setSymmetric(MathBase.FALSE);
+        final Mo opOpen = this.createFenceOperator();
         opOpen.setForm(OperatorDictionary.FORM_PREFIX);
-        opOpen.addText(this.getOpen());
+        opOpen.setTextContent(this.getOpen());
 
         retVal.add(opOpen);
         final String sep = this.getSeparators();
+        final boolean haveSep = (sep != null) && (sep.length() > 0);
 
-        for (int i = 0; i < this.getMathElementCount(); i++) {
+        for (int i = 0; i < contentCount; i++) {
             retVal.add(this.getMathElement(i));
 
-            if (i < (this.getMathElementCount() - 1)) {
-                final Mo opSep = new Mo();
-                opSep.setSeparator(MathBase.TRUE);
+            if (haveSep && (i < (contentCount - 1))) {
+                final Mo opSep = (Mo) this.getOwnerDocument().createElement(
+                        Mo.ELEMENT);
+                opSep.setSeparator(Constants.TRUE);
                 if (i < sep.length()) {
-                    opSep.addText(String.valueOf(sep.charAt(i)));
+                    opSep.setTextContent(String.valueOf(sep.charAt(i)));
                 } else {
-                    opSep.addText(String
-                            .valueOf(sep.charAt(sep.length() - 1)));
+                    opSep.setTextContent(String.valueOf(sep
+                            .charAt(sep.length() - 1)));
                 }
                 retVal.add(opSep);
             }
-
         }
-        final Mo opClose = new Mo();
-        opClose.setFence(MathBase.TRUE);
-        opClose.setRspace(Mfenced.FENCE_SPACE);
-        opClose.setLspace(Mfenced.FENCE_SPACE);
-        opClose.setStretchy(MathBase.TRUE);
-        opClose.setSymmetric(MathBase.FALSE);
+        final Mo opClose = this.createFenceOperator();
         opClose.setForm(OperatorDictionary.FORM_POSTFIX);
-        opClose.addText(this.getClose());
+        opClose.setTextContent(this.getClose());
         retVal.add(opClose);
 
         return retVal;
     }
 
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Mfenced.ELEMENT;
+    private Mo createFenceOperator() {
+        final Mo opOpen = (Mo) this.getOwnerDocument()
+                .createElement(Mo.ELEMENT);
+        opOpen.setFence(Constants.TRUE);
+        opOpen.setStretchy(Constants.TRUE);
+        opOpen.setRspace(Mfenced.FENCE_SPACE);
+        opOpen.setLspace(Mfenced.FENCE_SPACE);
+        opOpen.setSymmetric(Constants.FALSE);
+        return opOpen;
     }
 
 }

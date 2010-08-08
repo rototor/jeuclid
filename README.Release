@@ -5,26 +5,11 @@ Send mail to jeuclid-devel, asking for potential release, count votes
 
 Release day:
 
+<!-- currently none
 1. manually edit all pom.xml and remove snapshot dependencies.
-
-Currently in jeuclid:
-        <artifactId>appassembler-maven-plugin</artifactId>
-        <version>1.0-alpha-2</version>
-<!--        <version>1.0-20070124.085332-18</version>-->
-
-also disable the appbundler plugin completely
-
-in jeuclid-minimal:
-        <artifactId>appassembler-maven-plugin</artifactId>
-        <version>1.0-alpha-2</version>
-<!--        <version>1.0-20070124.085332-18</version>-->
-
-in the root directory:
-  disable dashboard plugin completely
-
 You may have to commit these changes
-
 mvn -Dmessage="Disabled snapshots in preparation for release" scm:checkin
+-->
 
 2. Test with maven:
 
@@ -32,11 +17,31 @@ mvn -DdryRun=true release:prepare
 (check if that works, and resolve any issues before going ahead)
 mvn release:clean
 
+mvn install
+
 3. Actually prepare release:
 
 mvn release:prepare
 
+fails half-way through due to missing dependencies, fix with
+mvn install
+mvn release:prepare -Dresume
+
+if you get a mercurial commit error:
+- edit release.properties, set completedPhase to scm-commit-release
+- resume
+mvn release:prepare -Dresume
+
+Then the same again, this time to scm-commit-development
+
+ensure the changes are pushed to the main repo:
+hg push
+
 4. Perform the release
+
+Ensure that you have a shell at sourceforge:
+/usr/bin/ssh -T maxberger,jeuclid@shell.sourceforge.net create
+(use your user name)
 
 mvn release:perform -DgenerateReleasePoms=true
 (checks out the project into target/checkout)
@@ -52,59 +57,71 @@ mvn release:clean
 cd target/checkout
 mvn install
 
-6. Deploy to m2-releas (which is automatically synced to ibiblio)
+6. Deploy to m2-release (which is automatically synced to ibiblio)
 
-disable all modules except -mathviewer, -core, -foprep (use only comments, do not delete lines!)
+disable all modules except -mathviewer, -core, -core16 -cli -swt (use only comments, do not delete lines!) currently: fop, jeuclid, minimal, testsuite
 
 (edit pom.xml in target / checkout)
 
 mvn deploy
 
-7. Re-enable distribution plugins (that where disabled in 1, appbundler, appassembler)
+7. Re-enable distribution plugins (that where disabled in 1: none)
 Also, re-enable all modules ( still in target / checkout )
 
-edit jeuclid/pom.xml
-edit jeuclid-minimal/pom.xml
-edit pom.xml
-you may safely skip dashboard (root pom).
+hg revert pom.xml
 
 build the real release packages:
 
 mvn package
 
-upload to sf: 
+build source packages:
+mvn assembly:assembly -Ddescriptor=src/assemble/source.xml 
+(TODO: Maybe also in support/ )
 
-VERSION=2.9.8  #replace with version
-PUT="ftp -u" # alternative: PUT="wput"
+upload to sf:
+
+VERSION=3.1.2  #replace with version
+USER=maxberger   #replace with your sf id
 cd jeuclid/target
-$PUT ftp://upload.sf.net/incoming/ jeuclid-$VERSION-distribution.zip
-$PUT ftp://upload.sf.net/incoming/ jeuclid-$VERSION-osx.zip 
+rsync -avP -e ssh jeuclid-$VERSION-distribution.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
+cd ../../jeuclid-mathviewer/target
+rsync -avP -e ssh jeuclid-mathviewer-$VERSION-osx.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
+rsync -avP -e ssh jeuclid-mathviewer-$VERSION-win32.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
 cd ../../jeuclid-minimal/target
-$PUT ftp://upload.sf.net/incoming/ jeuclid-minimal-$VERSION-distribution.zip 
-cd ../..
+rsync -avP -e ssh  jeuclid-minimal-$VERSION-distribution.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
+cd ../../jeuclid-fop/target
+rsync -avP -e ssh jeuclid-fop-$VERSION-distribution.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
+cd ../../target/
+rsync -avP -e ssh jeuclid-parent-$VERSION-src.zip ${USER},jeuclid@frs.sourceforge.net:/home/frs/project/j/je/jeuclid/3.1.x/${VERSION}/
+cd ..
 
-Log into SF website and use files. ( e.g. release )
+Log into SF website and use files. ( release )
 
 Write News on SF site
 
 8. Update website
 
-find all references to old version and update them for the current version.
-cd src/site (not from the checkout, but from the current SVN DIR!)
-grep  -r 2.9.7 * | grep -v .svn
+go back to main SVN, 
+cd ../..
+cd src/site
 
-also edit docbook/index.xml
+edit docbook/index.xml
 
 cd ../..
 
 9. update src/changes/changes.xml
+<!--
 10. Undo changed in pom.xmls (re-enable plugins from step 1)
+-->
 
+<!--
 11. Deploy website
 mvn install && mvn site && mvn site-deploy
+(is done automatically at night)
+-->
 
 12. commit changes
-svn commit -m "Updated file after release"
+mvn -Dmessage="Updated file after release" scm:checkin
 
 13. Send email to jeuclid-users and jeuclid-devel, and optionally to www-math@w3.org
 

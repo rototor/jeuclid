@@ -24,7 +24,6 @@ import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.elements.support.attributes.AttributesHelper;
 
 /**
- * @author Max Berger
  * @version $Revision$
  */
 public class StyleAttributeLayoutContext implements LayoutContext {
@@ -35,8 +34,6 @@ public class StyleAttributeLayoutContext implements LayoutContext {
 
     private final Color foregroundColor;
 
-    private final Color backgroundColor;
-
     /**
      * Default Constructor.
      * 
@@ -46,15 +43,12 @@ public class StyleAttributeLayoutContext implements LayoutContext {
      *            msize String to apply to parent context.
      * @param foreground
      *            Foreground color for new context.
-     * @param background
-     *            Background color for new context.
      */
     public StyleAttributeLayoutContext(final LayoutContext parent,
-            final String msize, final Color foreground, final Color background) {
+            final String msize, final Color foreground) {
         this.parentLayoutContext = parent;
         this.sizeString = msize;
         this.foregroundColor = foreground;
-        this.backgroundColor = background;
     }
 
     /** {@inheritDoc} */
@@ -66,15 +60,6 @@ public class StyleAttributeLayoutContext implements LayoutContext {
         } else if (Parameter.MATHCOLOR.equals(which)
                 && this.foregroundColor != null) {
             retVal = this.foregroundColor;
-        } else if (Parameter.MATHBACKGROUND.equals(which)
-                && this.backgroundColor != null) {
-            // This means, that a "null" (transparent) background color will
-            // never override a non-null background color from its parent.
-            //
-            // In reality, this is not important, as an element having a
-            // transparent background color will still inherit the background
-            // color from its parent.
-            retVal = this.backgroundColor;
         } else {
             retVal = this.parentLayoutContext.getParameter(which);
         }

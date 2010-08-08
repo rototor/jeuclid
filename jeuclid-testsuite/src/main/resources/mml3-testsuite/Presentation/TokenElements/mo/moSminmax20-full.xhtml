@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  moSminmax20</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../../Presentation/TokenElements/mo/moAsymmetric19-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/">Presentation</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/TokenElements/">TokenElements</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/TokenElements/mo/">mo</a> &gt; moSminmax20
+   ) </td><td style="text-align: right"><a href="../../../Presentation/TokenElements/ms/ms1-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="moSminmax20.mml">mml file</a>)
+       (<a href="moSminmax20-full.xhtml">full</a>) (<a href="moSminmax20-simple.xhtml">simple</a>) (<a href="moSminmax20-plain.xhtml">plain</a>) (<a href="moSminmax20-form.xhtml">form</a>) (<a href="moSminmax20-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>Presentation/TokenElements/mo/moSminmax20</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Robert Miner and Jeff Schaefer, Geometry Technologies</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>This test checks the 'minsize' and 'maxsize' attributes which
+apply to stretchy operators.  This test checks that inheritance
+through the &lt;mstyle&gt; element works, and that percentages work
+for CSS units.</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p><table><tr><td><img src="moSminmax20.png" alt="Created by: webeq"></img></td></tr></table></td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <mstyle minsize="1cm" maxsize="3cm"> 
+        <mrow> 
+          <mo>(</mo> 
+          <mfrac> 
+            <mi>y</mi> 
+            <mi>z</mi> 
+          </mfrac> 
+          <mo maxsize="25%">)</mo> 
+          <mo>+</mo> 
+          <mo minsize="225%">(</mo> 
+          <mfrac> 
+            <mi>y</mi> 
+            <mi>z</mi> 
+          </mfrac> 
+          <mo maxsize="infinity">)</mo> 
+        </mrow> 
+      </mstyle> 
+    </math>
+  </span><hr></hr><p><b>Source Code</b>:</p><pre>
+    &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+      &lt;mstyle minsize='1cm' maxsize='3cm'&gt; 
+        &lt;mrow&gt; 
+          &lt;mo&gt;(&lt;/mo&gt; 
+          &lt;mfrac&gt; 
+            &lt;mi&gt;y&lt;/mi&gt; 
+            &lt;mi&gt;z&lt;/mi&gt; 
+          &lt;/mfrac&gt; 
+          &lt;mo maxsize='25%'&gt;)&lt;/mo&gt; 
+          &lt;mo&gt;+&lt;/mo&gt; 
+          &lt;mo minsize='225%'&gt;(&lt;/mo&gt; 
+          &lt;mfrac&gt; 
+            &lt;mi&gt;y&lt;/mi&gt; 
+            &lt;mi&gt;z&lt;/mi&gt; 
+          &lt;/mfrac&gt; 
+          &lt;mo maxsize='infinity'&gt;)&lt;/mo&gt; 
+        &lt;/mrow&gt; 
+      &lt;/mstyle&gt; 
+    &lt;/math&gt;
+  </pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/TokenElements/mo/moAsymmetric19-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/TokenElements/mo/moAsymmetric19-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/TokenElements/ms/ms1-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/TokenElements/ms/ms1-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

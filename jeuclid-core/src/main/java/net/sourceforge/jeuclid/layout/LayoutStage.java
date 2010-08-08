@@ -19,14 +19,32 @@
 package net.sourceforge.jeuclid.layout;
 
 /**
- * @author Max Berger
+ * Defines in what stage the current layout it.
+ * <p>
+ * The Stages are {@link #NONE}, {@link #STAGE1}, and {@link #STAGE2}.
+ * 
  * @version $Revision$
  */
 public enum LayoutStage {
-    /** No layout done yet. */
+    /**
+     * No layout done yet.
+     * <p>
+     * The {@link LayoutInfo} will not contain any useful information.
+     */
     NONE,
-    /** Context-Insensitive Layout. */
+    /**
+     * Context-Insensitive Layout.
+     * <p>
+     * A Node in this stage has been layouted based on its own information and
+     * on the information of its children. The {@link LayoutInfo} is useful to
+     * do calculations such as stretching of parentheses.
+     */
     STAGE1,
-    /** Full layout. */
+    /**
+     * Full layout.
+     * <p>
+     * A node in this stage has been fully layouted, the {@link LayoutInfo} is
+     * current and final.
+     */
     STAGE2,
 }

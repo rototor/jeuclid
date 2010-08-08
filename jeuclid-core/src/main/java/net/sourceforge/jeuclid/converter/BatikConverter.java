@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
+ * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,134 +21,89 @@ package net.sourceforge.jeuclid.converter;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 
-import net.sourceforge.jeuclid.MathBase;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import org.apache.batik.dom.GenericDOMImplementation;
-import org.apache.batik.dom.svg.SVGDOMImplementation;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.layout.JEuclidView;
+
 import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.svg.SVGDocument;
+import org.w3c.dom.Node;
 
 /**
  * supports conversion to SVG output through Batik.
  * 
- * @todo This code contains some duplications which should be cleaned up
- * @author Max Berger
  * @version $Revision$
  */
 public class BatikConverter implements ConverterPlugin {
 
-    BatikConverter() {
-        // Empty on purpose
-    }
-
-    /** {@inheritDoc} */
-    public Dimension convert(final MathBase base, final OutputStream outStream)
-            throws IOException {
-        // Get a DOMImplementation
-        final DOMImplementation domImpl = GenericDOMImplementation
-                .getDOMImplementation();
-
-        // Create an instance of org.w3c.dom.Document
-        final Document document = domImpl.createDocument(null,
-                net.sourceforge.jeuclid.converter.Converter.EXTENSION_SVG,
-                null);
-
-        // Create an instance of the SVG Generator
-        final SVGGeneratorContext svgContext = SVGGeneratorContext
-                .createDefault(document);
-        svgContext.setComment("Converted from MathML using JEuclid");
-        final SVGGraphics2D svgGenerator = new SVGGraphics2D(svgContext, true);
-        // Ask the test to render into the SVG Graphics2D
-        // implementation
-
-        final Dimension size = new Dimension((int) Math.ceil(base
-                .getWidth(svgGenerator)), (int) Math.ceil(base
-                .getHeight(svgGenerator)));
-        svgGenerator.setSVGCanvasSize(size);
-        base.paint(svgGenerator);
-
-        svgGenerator.stream(new OutputStreamWriter(outStream));
-        return size;
-    }
-
-    /** {@inheritDoc} */
-    public Document convert(final MathBase mathBase) {
-
-        final SVGGraphics2D svgGenerator = this.createSVGGenerator(mathBase);
-        mathBase.paint(svgGenerator);
-
-        /*
-         * The following line is what /should/ work. However, there appears to
-         * be some disconnect in Batik between the Document and the root
-         * Element. The root Element recognizes the Document as its Document,
-         * but the Document does not see the root Element as its root Element
-         * ...
-         */
-        // final Document svgDocument = svgGenerator.getDOMFactory();
-        final Element svgRoot = svgGenerator.getRoot();
-
-        /*
-         * The variable svgDocument below is the same object as the one
-         * commented out above ...
-         */
-        final Document svgDocument = svgRoot.getOwnerDocument();
-
-        /*
-         * ... however, the root element below is /NOT/ the same as the
-         * svgRoot variable above ...
-         */
-        final Element svgRoot2 = svgDocument.getDocumentElement();
-
-        /*
-         * ... so we need to get the Document and the root element hooked up.
-         */
-        svgDocument.removeChild(svgRoot2);
-        svgDocument.appendChild(svgRoot);
-
-        return svgDocument;
-    }
-
     /**
-     * Create a Batik SVG Generator for a given MathBase instance. NOTE: This
-     * method was copied verbatim from
-     * 
-     * net.sourceforge.jeuclid.app.foprep.Processor#createSVGGenerator(MathBase)
-     * which is a private method, then modified to start with an SVGDocument
-     * instead of generic DOM Document.
-     * 
-     * @param mathBase
-     *            The JEuclid MathML document to be converted.
-     * @return The Batik SVG Generator.
-     * @throws GraphicException
-     *             For error obtaining a new SVGDocument instance.
+     * Logger for this class
      */
-    private SVGGraphics2D createSVGGenerator(final MathBase mathBase) {
-        final SVGDocument svgDocument = this.makeSvgDocument();
-        final SVGGeneratorContext svgContext = SVGGeneratorContext
-                .createDefault(svgDocument);
-        svgContext.setComment("Converted from MathML using JEuclid");
-        final SVGGraphics2D svgGenerator = new SVGGraphics2D(svgContext, true);
+    private static final Log LOGGER = LogFactory.getLog(BatikConverter.class);
 
-        final Dimension size = new Dimension((int) Math.ceil(mathBase
-                .getWidth(svgGenerator)), (int) Math.ceil(mathBase
-                .getHeight(svgGenerator)));
-        svgGenerator.setSVGCanvasSize(size);
-        return svgGenerator;
+    private final DOMImplementation domImplementation;
+
+    BatikConverter(final DOMImplementation domImpl) {
+        this.domImplementation = domImpl;
     }
 
-    private SVGDocument makeSvgDocument() {
-        final DOMImplementation impl = SVGDOMImplementation
-                .getDOMImplementation();
-        // final String svgNS = SvgUtil.SVG_NAMESPACE_URI;
-        final String svgNS = null;
-        final Document dom = impl.createDocument(svgNS, "svg", null);
-        return (SVGDocument) dom;
+    /** {@inheritDoc} */
+    public Dimension convert(final Node doc, final LayoutContext context,
+            final OutputStream outStream) throws IOException {
+        final DocumentWithDimension svgDocDim = this.convert(doc, context);
+        if (svgDocDim != null) {
+            try {
+                final Transformer transformer = TransformerFactory
+                        .newInstance().newTransformer();
+                final DOMSource source = new DOMSource(svgDocDim
+                        .getDocument());
+                final StreamResult result = new StreamResult(outStream);
+                transformer.transform(source, result);
+            } catch (final TransformerException e) {
+                BatikConverter.LOGGER.warn(e);
+            }
+            return svgDocDim.getDimension();
+        }
+        return null;
     }
 
+    /** {@inheritDoc} */
+    public DocumentWithDimension convert(final Node doc,
+            final LayoutContext context) {
+
+        Document document = null;
+        final String svgNS = "http://www.w3.org/2000/svg";
+        document = this.domImplementation.createDocument(svgNS, "svg", null);
+        if (document != null) {
+            final SVGGeneratorContext svgContext = SVGGeneratorContext
+                    .createDefault(document);
+            svgContext.setComment("Converted from MathML using JEuclid");
+            final SVGGraphics2D svgGenerator = new SVGGraphics2D(svgContext,
+                    true);
+            final JEuclidView view = new JEuclidView(doc, context,
+                    svgGenerator);
+            final int ascent = (int) Math.ceil(view.getAscentHeight());
+            final int descent = (int) Math.ceil(view.getDescentHeight());
+            final int height = ascent + descent;
+            final int width = (int) Math.ceil(view.getWidth());
+            final Dimension size = new Dimension(width, height);
+            svgGenerator.setSVGCanvasSize(size);
+            view.draw(svgGenerator, 0, ascent);
+            document.replaceChild(svgGenerator.getRoot(), document
+                    .getFirstChild());
+            return new DocumentWithDimension(document, new Dimension(width,
+                    height), descent);
+        }
+        return null;
+    }
 }

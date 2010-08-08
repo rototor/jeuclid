@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en"><head><title> W3C MathML TestSuite, Version 3: test-case:  miSfontsize9</title>
+</head><body style="background: #ffffff" onload="makeSureWeFocus();"><table cellpadding="5" width="100%" style="font-size:small; background-color:#DDDDDD"><tr><td><a href="../../../Presentation/TokenElements/mi/miSfonts8-full.xhtml">
+    prev </a></td><td style="text-align:center">
+   ( <a href="../../..//overview.html">testsuite</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/">Presentation</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/TokenElements/">TokenElements</a> &gt; <a target="toc_full" href="../../../toc-full.xhtml#Presentation/TokenElements/mi/">mi</a> &gt; miSfontsize9
+   ) </td><td style="text-align: right"><a href="../../../Presentation/TokenElements/mi/miSmathsize16-full.xhtml">
+    next</a></td></tr></table><p></p><div style="margin:5%"><table cellpadding="4" style="background:#DDDDDD"><tr><td valign="top" style="text-align: right">Alternatives:</td><td>
+      (<a href="miSfontsize9.mml">mml file</a>)
+       (<a href="miSfontsize9-full.xhtml">full</a>) (<a href="miSfontsize9-simple.xhtml">simple</a>) (<a href="miSfontsize9-plain.xhtml">plain</a>) (<a href="miSfontsize9-form.xhtml">form</a>) (<a href="miSfontsize9-slideshow.xhtml">slideshow</a>)</td></tr><tr><td valign="top" style="text-align: right">File:</td><td>Presentation/TokenElements/mi/miSfontsize9</td></tr><tr><td valign="top" style="text-align: right">CVS-ID:</td><td></td></tr><tr><td valign="top" style="text-align: right">Author:</td><td>Robert Miner and Jeff Schaefer, Geometry Technologies; Neil Soiffer, Wolfram Research</td></tr><tr><td valign="top" style="text-align: right">Description:</td><td>Tests different CSS fontsize and mathsize attribute value formats, and
+fontsize/mathsize attribute inheritance with &lt;mstyle&gt; and &lt;mi&gt;</td></tr><tr><td colspan="2"><hr></hr></td></tr><tr><td valign="top"><p>Sample Rendering:</p><table><tr><td><img src="miSfontsize9.png" alt="Created by: webeq"></img></td></tr></table></td></tr></table><p><b>Your browser's rendering</b>:</p><span style="font-size:120%">
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <mtable> 
+        <mtr> 
+          <mtd> 
+            <mstyle fontweight="bold" color="#ff0000"> 
+              <mrow> 
+                <mi>A</mi> 
+                <mo>+</mo> 
+                <mi fontweight="normal" fontstyle="italic">A 
+                </mi> 
+                <mo>+</mo> 
+                <mstyle fontsize="0.1in"> 
+                  <mi>A</mi> 
+                  <mo>+</mo> 
+                  <mi fontsize="2em">A</mi> 
+                  <mo>+</mo> 
+                  <mi fontsize="36pt">A</mi> 
+                </mstyle> 
+                <mo>+</mo> 
+                <mi fontsize="20mm">A</mi> 
+              </mrow> 
+            </mstyle> 
+          </mtd> 
+        </mtr> 
+        <mtr> 
+          <mtd> 
+            <mstyle mathcolor="#ff0000"> 
+              <mrow> 
+                <mi>A</mi> 
+                <mo>+</mo> 
+                <mstyle mathsize="0.1in"> 
+                  <mi>A</mi> 
+                  <mo>+</mo> 
+                  <mi mathsize="2em">A</mi> 
+                  <mo>+</mo> 
+                  <mi mathsize="36pt">A</mi> 
+                </mstyle> 
+                <mo>+</mo> 
+                <mi mathsize="20mm">A</mi> 
+                <mo>+</mo> 
+                <mstyle mathsize="big"> 
+                  <mi>A</mi> 
+                  <mo>+</mo> 
+                  <mi mathsize="small">A</mi> 
+                  <mo>+</mo> 
+                  <mi mathsize="normal">A</mi> 
+                </mstyle> 
+              </mrow> 
+            </mstyle> 
+          </mtd> 
+        </mtr> 
+      </mtable> 
+    </math>
+  </span><hr></hr><p><b>Source Code</b>:</p><pre>
+    &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt; 
+      &lt;mtable&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mstyle fontweight='bold' color='#ff0000'&gt; 
+              &lt;mrow&gt; 
+                &lt;mi&gt;A&lt;/mi&gt; 
+                &lt;mo&gt;+&lt;/mo&gt; 
+                &lt;mi fontweight='normal' fontstyle='italic'&gt;A 
+                &lt;/mi&gt; 
+                &lt;mo&gt;+&lt;/mo&gt; 
+                &lt;mstyle fontsize='0.1in'&gt; 
+                  &lt;mi&gt;A&lt;/mi&gt; 
+                  &lt;mo&gt;+&lt;/mo&gt; 
+                  &lt;mi fontsize='2em'&gt;A&lt;/mi&gt; 
+                  &lt;mo&gt;+&lt;/mo&gt; 
+                  &lt;mi fontsize='36pt'&gt;A&lt;/mi&gt; 
+                &lt;/mstyle&gt; 
+                &lt;mo&gt;+&lt;/mo&gt; 
+                &lt;mi fontsize='20mm'&gt;A&lt;/mi&gt; 
+              &lt;/mrow&gt; 
+            &lt;/mstyle&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+        &lt;mtr&gt; 
+          &lt;mtd&gt; 
+            &lt;mstyle mathcolor='#ff0000'&gt; 
+              &lt;mrow&gt; 
+                &lt;mi&gt;A&lt;/mi&gt; 
+                &lt;mo&gt;+&lt;/mo&gt; 
+                &lt;mstyle mathsize='0.1in'&gt; 
+                  &lt;mi&gt;A&lt;/mi&gt; 
+                  &lt;mo&gt;+&lt;/mo&gt; 
+                  &lt;mi mathsize='2em'&gt;A&lt;/mi&gt; 
+                  &lt;mo&gt;+&lt;/mo&gt; 
+                  &lt;mi mathsize='36pt'&gt;A&lt;/mi&gt; 
+                &lt;/mstyle&gt; 
+                &lt;mo&gt;+&lt;/mo&gt; 
+                &lt;mi mathsize='20mm'&gt;A&lt;/mi&gt; 
+                &lt;mo&gt;+&lt;/mo&gt; 
+                &lt;mstyle mathsize='big'&gt; 
+                  &lt;mi&gt;A&lt;/mi&gt; 
+                  &lt;mo&gt;+&lt;/mo&gt; 
+                  &lt;mi mathsize='small'&gt;A&lt;/mi&gt; 
+                  &lt;mo&gt;+&lt;/mo&gt; 
+                  &lt;mi mathsize='normal'&gt;A&lt;/mi&gt; 
+                &lt;/mstyle&gt; 
+              &lt;/mrow&gt; 
+            &lt;/mstyle&gt; 
+          &lt;/mtd&gt; 
+        &lt;/mtr&gt; 
+      &lt;/mtable&gt; 
+    &lt;/math&gt;
+  </pre><hr></hr><script type="text/javascript">
+function keydownhandler(myEvent) {
+  if(document.all) {
+      if (!myEvent) {
+        myEvent = window.event;	
+    }
+    if(false) {return true;}
+    else if (myEvent.keyCode==37) { gotoPrevious(); return false;}else if (myEvent.keyCode==39) { gotoNext(); return false; }
+    else return true;
+    return false;
+  }
+ 
+  if(false) {return true;}
+  else if (myEvent.which==37) { gotoPrevious(); return false;} else if (myEvent.which==39) { gotoNext(); return false; }
+  else return true;
+  return false;
+}
+
+function makeSureWeFocus() {
+  window.focus();
+}
+
+  
+
+
+// embed keyboard handling
+
+//FireFox and friends
+
+if (document.getElementsByTagName){
+  if (!document.all) {
+    document.addEventListener('keydown',keydownhandler,true);	
+  }  
+}
+
+// InternetExplorer
+if (document.all) {
+	document.onkeydown = keydownhandler;
+}
+
+
+function setResultAndGo(i) {
+  document.getElementById(i).checked = true;
+  document.getElementById("test-form").submit();
+}
+
+
+
+
+
+
+function gotoPrevious() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/TokenElements/mi/miSfonts8-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/TokenElements/mi/miSfonts8-full.xhtml";
+	}
+}
+function gotoNext() { 
+	if (document.location) {
+		document.location.href = "../../../Presentation/TokenElements/mi/miSmathsize16-full.xhtml";
+		} else {
+		window.location.href = "../../../Presentation/TokenElements/mi/miSmathsize16-full.xhtml";
+	}
+}
+
+window.name = "testsuite";
+</script></div></body></html>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<m:math xmlns:m="http://www.w3.org/1998/Math/MathML" display="block">
+  <m:apply>
+    <m:times/>
+    <m:cn>1</m:cn>
+    <m:ci>x</m:ci>
+  </m:apply>
+</m:math>

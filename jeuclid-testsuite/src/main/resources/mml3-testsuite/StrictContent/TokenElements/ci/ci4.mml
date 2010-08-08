@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="arith1">plus</csymbol> 
+    <ci>x</ci> 
+    <ci>x</ci> 
+    <ci>x</ci> 
+    <ci>y</ci> 
+    <ci>θ</ci>  
+    <ci>v</ci> 
+    <ci>π</ci> 
+    <ci>ⅇ</ci>  
+    <ci>ⅇ</ci> 
+    <ci>ⅈ</ci> 
+    <ci>ⅈ</ci>  
+    <ci>γ</ci> 
+    <ci>∞</ci> 
+  </apply> 
+</math>

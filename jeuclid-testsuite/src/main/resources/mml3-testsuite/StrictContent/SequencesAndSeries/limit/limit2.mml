@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+    <csymbol cd="limit1">limit</csymbol>
+    <ci>a</ci>
+    <bind>
+      <csymbol cd="funs1">lambda</csymbol>
+      <bvar>
+        <ci>x</ci>
+      </bvar>
+      <apply> 
+        <csymbol cd="transc1">sin</csymbol> 
+        <ci>x</ci> 
+      </apply>
+    </bind>
+  </apply>  
+</math>

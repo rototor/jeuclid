@@ -18,21 +18,26 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
-import java.text.AttributedString;
+import java.text.AttributedCharacterIterator;
 
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.elements.support.GraphicsSupport;
+import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
+import net.sourceforge.jeuclid.elements.support.text.MultiAttributedCharacterIterator;
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
+import net.sourceforge.jeuclid.elements.support.text.TextContentModifier;
 
+import org.apache.batik.dom.AbstractDocument;
+import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLStringLitElement;
 
 /**
  * This class represents string in a equation.
  * 
- * @author Unknown
- * @author Max Berger
  * @version $Revision$
  */
-public class Ms extends AbstractTokenWithTextLayout implements
-        MathMLStringLitElement {
+public final class Ms extends AbstractTokenWithTextLayout implements
+        MathMLStringLitElement, TextContentModifier {
 
     /**
      * The XML element from this class.
@@ -47,13 +52,26 @@ public class Ms extends AbstractTokenWithTextLayout implements
 
     private static final String VALUE_DOUBLEQUOTE = "\"";
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * Creates a math element.
+     * Default constructor. Sets MathML Namespace.
+     * 
+     * @param qname
+     *            Qualified name.
+     * @param odoc
+     *            Owner Document.
      */
-    public Ms() {
-        super();
+    public Ms(final String qname, final AbstractDocument odoc) {
+        super(qname, odoc);
         this.setDefaultMathAttribute(Ms.ATTR_LQUOTE, Ms.VALUE_DOUBLEQUOTE);
         this.setDefaultMathAttribute(Ms.ATTR_RQUOTE, Ms.VALUE_DOUBLEQUOTE);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected Node newNode() {
+        return new Ms(this.nodeName, this.ownerDocument);
     }
 
     /**
@@ -87,22 +105,23 @@ public class Ms extends AbstractTokenWithTextLayout implements
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected AttributedString textContentAsAttributedString() {
-        return StringUtil.convertStringtoAttributedString(this.getLquote()
-                + this.getText() + this.getRquote(), this
-                .getMathvariantAsVariant(), this.getFontsizeInPoint(), this
-                .getCurrentLayoutContext());
+    public AttributedCharacterIterator modifyTextContent(
+            final AttributedCharacterIterator aci,
+            final LayoutContext layoutContext) {
+
+        final float fontSizeInPoint = GraphicsSupport
+                .getFontsizeInPoint(layoutContext);
+        final MathVariant variant = this.getMathvariantAsVariant();
+
+        final MultiAttributedCharacterIterator maci = new MultiAttributedCharacterIterator();
+        maci.appendAttributedCharacterIterator(StringUtil
+                .convertStringtoAttributedString(this.getLquote(), variant,
+                        fontSizeInPoint, layoutContext).getIterator());
+        maci.appendAttributedCharacterIterator(aci);
+        maci.appendAttributedCharacterIterator(StringUtil
+                .convertStringtoAttributedString(this.getRquote(), variant,
+                        fontSizeInPoint, layoutContext).getIterator());
+        return maci;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected boolean isEmpty() {
-        return false;
-    }
-
-    /** {@inheritDoc} */
-    public String getTagName() {
-        return Ms.ELEMENT;
-    }
 }

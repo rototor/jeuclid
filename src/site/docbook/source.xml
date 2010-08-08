@@ -1,55 +1,215 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
 "http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd">
 <article>
-  <title/>
-<section><title>Hacking JEuclid</title><para>To work with the JEuclid source, you will need to download and
-install</para><itemizedlist><listitem><para><ulink url="http://subversion.tigris.org/">Subversion</ulink></para></listitem><listitem><para><ulink url="http://maven.apache.org">Maven</ulink></para></listitem><listitem><para><ulink url="http://www.java.com">Java SDK</ulink> &gt;=
-1.5</para></listitem><listitem><para><ulink url="http://www.eclipse.org">Eclipse</ulink>
-(optional)</para></listitem><listitem><para><ulink url="http://maven.apache.org/eclipse-plugin.html">Maven 2.x Plug-in for Eclipse</ulink> (required if you use
-Eclipse)</para></listitem><listitem><para><ulink url="http://maven.apache.org/netbeans-module.html">Maven 2.x Plug-in for NetBeans</ulink> (required if you use
-NetBeans)</para></listitem></itemizedlist><para>If you have commiter access, the following extra plugins for
-eclipse are highly recommended:</para><itemizedlist><listitem><para><ulink url="http://subclipse.tigris.org/">Subclipse</ulink></para></listitem><listitem><para><ulink url="http://eclipse-cs.sourceforge.net/">Eclipse Checkstyle Plugin</ulink></para><para><ulink url="http://testng.org/doc/eclipse.html">Eclipse TestNG Plugin</ulink></para></listitem></itemizedlist><para>Then, access the sourcecode as described on the <ulink url="./source-repository.html">JEuclid
-repository site</ulink>.</para><para>Once you have the code available, use Maven to build and package
-the code. Here are the most common commands:</para><itemizedlist><listitem><para><literal>mvn package</literal> will compile, test, and bundle JEuclid.
-Use this command if you are not sure what else to use</para></listitem><listitem><para><literal>mvn scm:update</literal> will retrieve the newest version from
-the source repository</para></listitem><listitem><para><literal>mvn clean</literal> will remove the target directories, forcing
-a clean build</para></listitem><listitem><para><literal>mvn compile site</literal> will create the updated website, so
-you can check the reports</para></listitem><listitem><para><literal>mvn test</literal> will compile and run the tests</para></listitem></itemizedlist><para>The results of these commands can be found in the
-<literal>target/</literal> directory of each module.</para><para>The most notable artifacts are in <literal>jeuclid/target</literal><literal>jeuclid-...-distribution.zip</literal> (binary distribution) and
-<literal>jeuclid-...-osx.zip</literal> (OS X application bundle).</para><para>If you get an out of memory error during build, you need to
-adjust the memory available to maven. You can do this by setting
-the <literal>MAVEN_OPTS</literal> environment variable to
-<literal>-Xmx512m</literal></para><para>to create a patch, please execute <literal>mvn scm::diff</literal>. The
-resulting patch will be saved as <literal>jeuclid.diff</literal>. Please
-rename your patch before submitting it through <ulink url="./issue-tracking.html">issue
-tracking</ulink>.</para><para>When you create a patch please:</para><itemizedlist><listitem><para>Add a test if possible (in directory
-<literal>src/test/java/net/sourceforge/jeuclid/</literal> for the
-module)</para></listitem><listitem><para>Provide a short entry for the changelog in
-<literal>src/changes/changes.xml</literal> (main module)</para></listitem><listitem><para>Try to follow the coding style</para></listitem></itemizedlist><para>Please note: By submitting a patch, you agree to publish it
-under the same <ulink url="./license.html">license</ulink> as the rest of JEuclid.</para><para>The coding guidelines are given as a set of <ulink url="http://checkstyle.sourceforge.net/">Checkstyle</ulink>
-rules. Please run checkstyle with <literal>mvn
-checkstyle:checkstyle</literal> and view the results in
-<literal>target/target/checkstyle-result.xml</literal> or
-<literal>target/site/checkstyle.html</literal>. The ruleset is listed on the
-<ulink url="./jeuclid-core/checkstyle.html">Checkstyle results page</ulink> and explained on the <ulink url="http://checkstyle.sourceforge.net/checks.html">Checkstyle Standard Checks</ulink> page.</para><para>Your should login to SVN with your sourceforge username and
-password. It should ask you for it the first time you try to
-submit</para><para>When you add new Java files, please set the property
-<literal>svn:keywords</literal> to <literal>Revision Date Id</literal></para><para>If you have developer access, please add the following to your
-<literal>~/.m2/settings.xml</literal> file:</para><programlisting>
-&lt;settings xmlns="http://maven.apache.org/POM/4.0.0"
+  <title></title>
+
+  <section>
+    <title>Hacking JEuclid</title>
+
+    <section>
+      <title>Prerequisites</title>
+
+      <para>To work with the JEuclid source, you will need to download and
+      install</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><ulink
+          url="http://subversion.tigris.org/">Subversion</ulink></para>
+        </listitem>
+
+        <listitem>
+          <para><ulink url="http://maven.apache.org">Maven</ulink></para>
+        </listitem>
+
+        <listitem>
+          <para><ulink url="http://www.java.com">Sun or Apple Java SDK</ulink>
+          &gt;= 1.6 (others are untested)</para>
+        </listitem>
+
+        <listitem>
+          <para><ulink url="http://www.eclipse.org">Eclipse</ulink> (optional)
+          or <ulink url="http://www.netbeans.org/">NetBeans</ulink>
+          (optional)</para>
+        </listitem>
+
+        <listitem>
+          <para><ulink url="http://maven.apache.org/eclipse-plugin.html">Maven
+          2.x Plug-in for Eclipse</ulink> (required if you use Eclipse)</para>
+        </listitem>
+
+        <listitem>
+          <para><ulink
+          url="http://maven.apache.org/netbeans-module.html">Maven 2.x Plug-in
+          for NetBeans</ulink> (required if you use NetBeans)</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>If you have commit access, the following extra plug-ins for
+      eclipse are highly recommended:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><ulink
+          url="http://subclipse.tigris.org/">Subclipse</ulink></para>
+        </listitem>
+
+        <listitem>
+          <para><ulink url="http://eclipse-cs.sourceforge.net/">Eclipse
+          Checkstyle Plugin</ulink></para>
+        </listitem>
+
+        <listitem>
+          <para><ulink url="http://testng.org/doc/eclipse.html">Eclipse TestNG
+          Plugin</ulink></para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Building the source</title>
+
+      <para>You can access the source code as described on the <ulink
+      url="./source-repository.html">JEuclid repository site</ulink>.</para>
+
+      <para>Once you have the code available, use Maven to build and package
+      the code. Here are the most common commands:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><literal>mvn install</literal> will compile, test, bundle, and
+          install JEuclid locally. Use this command if you are not sure what
+          else to use</para>
+        </listitem>
+
+        <listitem>
+          <para><literal>mvn scm:update</literal> will retrieve the newest
+          version from the source repository</para>
+        </listitem>
+
+        <listitem>
+          <para><literal>mvn clean</literal> will remove the target
+          directories, forcing a clean build</para>
+        </listitem>
+
+        <listitem>
+          <para><literal>mvn compile site</literal> will create the updated
+          website, so you can check the reports</para>
+        </listitem>
+
+        <listitem>
+          <para><literal>mvn test</literal> will compile and run the
+          tests</para>
+        </listitem>
+      </itemizedlist>
+
+      <para><emphasis>First time builders</emphasis> may have to install the
+      "support" package before any of the other modules can be compiled. This
+      package contains dependencies for all builds, such as the checkstyle
+      configuration, and some fonts.</para>
+
+      <para>The results of these commands can be found in the
+      <literal>target/</literal> directory of each module.</para>
+
+      <para>The most notable artifacts are in
+      <literal>jeuclid/target</literal><literal>jeuclid-...-distribution.zip</literal>
+      (binary distribution) and <literal>jeuclid-...-osx.zip</literal> (OS X
+      application bundle).</para>
+
+      <para>If you get an out of memory error during build, you need to adjust
+      the memory available to maven. You can do this by setting the
+      <literal>MAVEN_OPTS</literal> environment variable to
+      <literal>-Xmx512m</literal></para>
+    </section>
+
+    <section>
+      <title>Preparing a patch</title>
+
+      <para>To create a patch, please execute <literal>mvn
+      scm::diff</literal>. The resulting patch will be saved as
+      <literal>jeuclid.diff</literal>. Please rename your patch before
+      submitting it through <ulink url="./issue-tracking.html">issue
+      tracking</ulink>.</para>
+
+      <para>When you create a patch please:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Add a test if possible (in directory
+          <literal>src/test/java/net/sourceforge/jeuclid/</literal> for the
+          module)</para>
+        </listitem>
+
+        <listitem>
+          <para>Provide a short entry for the changelog in
+          <literal>src/changes/changes.xml</literal> (main module)</para>
+        </listitem>
+
+        <listitem>
+          <para>Try to follow the coding style</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Please note: By submitting a patch, you agree to publish it under
+      the same <ulink url="./license.html">license</ulink> as the rest of
+      JEuclid (ASLv2).</para>
+    </section>
+
+    <section>
+      <title>Coding Rules</title>
+
+      <para>The coding guidelines are given as a set of <ulink
+      url="http://checkstyle.sourceforge.net/">Checkstyle</ulink> rules.
+      Please run checkstyle with <literal>mvn checkstyle:checkstyle</literal>
+      and view the results in
+      <literal>target/target/checkstyle-result.xml</literal> or
+      <literal>target/site/checkstyle.html</literal>. The ruleset is listed on
+      the <ulink url="./jeuclid-core/checkstyle.html">Checkstyle results
+      page</ulink> and explained on the <ulink
+      url="http://checkstyle.sourceforge.net/checks.html">Checkstyle Standard
+      Checks</ulink> page.</para>
+
+      <para>You can generate a set of reports on your coding style by calling
+      <literal>mvn site</literal> and viewing the result in the
+      <literal>target/site</literal> directory. You should try not to
+      introduce any new violations.</para>
+    </section>
+
+    <section>
+      <title>Developers</title>
+
+      <para>Your should login to SVN with your sourceforge username and
+      password. It should ask you for it the first time you try to
+      submit</para>
+
+      <para>When you add new Java files, please set the property
+      <literal>svn:keywords</literal> to <literal>Revision Date Id</literal>.
+      You can do this automatically on Unix by running the
+      <literal>svnproperties.sh</literal> script.</para>
+
+      <para>For some features you'll need to tell maven about your sourceforge
+      account. You can to that by adding the following to your
+      <literal>~/.m2/settings.xml</literal> file (if this file does not exist,
+      create it with these contents). Replace <literal>YOUR_SF_ID</literal>
+      with your sourceforge username, and
+      <literal>/path/to/ssh/id_dsa</literal> with the path to your SSH id
+      file.</para>
+
+      <programlisting>&lt;settings xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                       http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
   &lt;servers&gt;
     &lt;server&gt;
-      &lt;id&gt;sourceforge&lt;/id&gt;
-      &lt;username&gt;YOUR_SF_ID&lt;/username&gt;
+      &lt;id&gt;sourceforgejeuclid&lt;/id&gt;
+      &lt;username&gt;YOUR_SF_ID,jeuclid&lt;/username&gt;
       &lt;privateKey&gt;/path/to/ssh/id_dsa&lt;/privateKey&gt;
       &lt;filePermissions&gt;664&lt;/filePermissions&gt;
       &lt;directoryPermissions&gt;775&lt;/directoryPermissions&gt;
     &lt;/server&gt;
   &lt;/servers&gt;
-&lt;/settings&gt;
-</programlisting></section>
+&lt;/settings&gt;</programlisting>
+    </section>
+  </section>
 </article>
