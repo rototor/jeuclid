@@ -4,6 +4,7 @@ target/
 ^temp
 temp/
 ^test
+test-output/
 \.classpath$
 \.project$
 \.settings/
