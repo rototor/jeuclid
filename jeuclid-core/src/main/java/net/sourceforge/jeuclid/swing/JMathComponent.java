@@ -19,7 +19,6 @@
 package net.sourceforge.jeuclid.swing;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.Arrays;
@@ -32,6 +31,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
 import net.sourceforge.jeuclid.MutableLayoutContext;
@@ -42,6 +42,7 @@ import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -283,16 +284,6 @@ public final class JMathComponent extends JComponent implements
     }
 
     /**
-     * Gets the preferred size of this component.
-     * 
-     * @return A dimension object indicating this component's preferred size.
-     */
-    @Override
-    public Dimension getPreferredSize() {
-        return this.getMinimumSize();
-    }
-
-    /**
      * @return the UI implementation.
      */
     public MathComponentUI getUI() {
@@ -341,7 +332,10 @@ public final class JMathComponent extends JComponent implements
      */
     public void setContent(final String contentString) {
         try {
-            this.setDocument(MathMLParserSupport.parseString(contentString));
+            final Document stdDomNode = MathMLParserSupport.parseString(contentString); 
+            final DocumentElement jEuclidDom = DOMBuilder.getInstance().createJeuclidDom(stdDomNode,
+                    true, true);
+            this.setDocument(jEuclidDom);
         } catch (final SAXException e) {
             throw new IllegalArgumentException(e);
         } catch (final ParserConfigurationException e) {
