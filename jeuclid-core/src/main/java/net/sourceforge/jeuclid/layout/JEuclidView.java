@@ -20,10 +20,12 @@ package net.sourceforge.jeuclid.layout;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -69,19 +71,28 @@ public class JEuclidView implements AbstractView, LayoutView, EventListener {
      * @param layoutGraphics
      *            Graphics context to use for layout calculations. This should
      *            be compatible to the context used for painting, but does not
-     *            have to be the same.
+     *            have to be the same. If it is null, a default Graphics context
+     *            is created.
      * @param layoutContext
      *            layoutContext to use.
      */
     public JEuclidView(final Node node, final LayoutContext layoutContext,
             final Graphics2D layoutGraphics) {
+        assert node != null : "Node must not be null";
+        assert layoutContext != null : "LayoutContext must not be null";
         if (node instanceof LayoutableDocument) {
             this.document = (LayoutableDocument) node;
         } else {
             this.document = DOMBuilder.getInstance().createJeuclidDom(node,
                     true, true);
         }
-        this.graphics = layoutGraphics;
+        if (layoutGraphics == null) {
+            final Image tempimage = new BufferedImage(1, 1,
+                    BufferedImage.TYPE_INT_ARGB);
+            this.graphics = (Graphics2D) tempimage.getGraphics();
+        } else {
+            this.graphics = layoutGraphics;
+        }
         this.context = layoutContext;
         this.layoutMap = new HashMap<Node, LayoutInfo>();
     }

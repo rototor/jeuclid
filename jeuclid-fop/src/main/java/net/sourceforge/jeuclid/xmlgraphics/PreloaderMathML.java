@@ -18,9 +18,6 @@
 
 package net.sourceforge.jeuclid.xmlgraphics;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -87,11 +84,8 @@ public class PreloaderMathML extends AbstractImagePreloader {
             final ImageContext context, final Document n) {
         final ImageInfo info = new ImageInfo(uri, Constants.MATHML_MIMETYPE);
         final ImageSize size = new ImageSize();
-        final Image tempimage = new BufferedImage(1, 1,
-                BufferedImage.TYPE_INT_ARGB);
-        final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
         final JEuclidView view = new JEuclidView(n, LayoutContextImpl
-                .getDefaultLayoutContext(), tempg);
+                .getDefaultLayoutContext(), null);
         final int descentMpt = (int) (view.getDescentHeight() * PreloaderMathML.MPT_FACTOR);
         final int ascentMpt = (int) (view.getAscentHeight() * PreloaderMathML.MPT_FACTOR);
 
