@@ -27,7 +27,11 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.LookAndFeel;
@@ -35,11 +39,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
 
-import net.sourceforge.jeuclid.MutableLayoutContext;
+import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.layout.JEuclidView;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
 
 /**
@@ -52,22 +54,14 @@ import org.w3c.dom.Node;
 public class MathComponentUI extends ComponentUI implements
         PropertyChangeListener {
 
-    /**
-     * Logger for this class
-     */
-    private static final Log LOGGER = LogFactory.getLog(MathComponentUI.class);
+    // /**
+    // * Logger for this class
+    // */
+    // Currently Unused
+    // private static final Log LOGGER =
+    // LogFactory.getLog(MathComponentUI.class);
 
-    private JMathComponent mathComponent;
-
-    /**
-     * Reference to layout tree.
-     */
-    private JEuclidView jEuclidView;
-
-    /** Reference to document. */
-    private Node document;
-
-    private Dimension preferredSize;
+    private final Map<JMathComponent, Reference<ViewContext>> contextCache = new HashMap<JMathComponent, Reference<ViewContext>>();
 
     /**
      * Default constructor.
@@ -77,20 +71,35 @@ public class MathComponentUI extends ComponentUI implements
         // nothing to do.
     }
 
+    private JEuclidView getJeuclidView(final Graphics g, final JComponent c) {
+        JMathComponent jc = (JMathComponent) c;
+        ViewContext cache = null;
+        Reference<ViewContext> ref = contextCache.get(jc);
+        if (ref != null) {
+            cache = ref.get();
+        }
+
+        if (cache == null) {
+            cache = new ViewContext(jc);
+            contextCache.put(jc, new SoftReference<ViewContext>(cache));
+        }
+
+        return cache.getJeculidView((Graphics2D) g);
+    }
+
     /** {@inheritDoc} */
     @Override
     public void paint(final Graphics g, final JComponent c) {
-        this.preferredSize = null;
-        // using the size seems to cause flickering is some cases
-        final Dimension dim = this.mathComponent.getSize();
-        final Point start = this
-                .getStartPointWithBordersAndAdjustDimension(dim);
-        this.paintBackground(g, dim, start);
-        if (this.jEuclidView != null) {
-            final Point2D alignOffset = this.calculateAlignmentOffset(dim);
-            this.jEuclidView.draw((Graphics2D) g, (float) alignOffset.getX()
-                    + start.x, (float) alignOffset.getY() + start.y);
-        }
+        JEuclidView jEuclidView = this.getJeuclidView(g, c);
+        final Dimension dim = this.calculatePreferredSize(c, jEuclidView);
+        final Point start = this.getStartPointWithBordersAndAdjustDimension(c,
+                dim);
+        this.paintBackground(g, c, dim, start);
+
+        final Point2D alignOffset = this.calculateAlignmentOffset(
+                (JMathComponent) c, jEuclidView, dim);
+        jEuclidView.draw((Graphics2D) g, (float) alignOffset.getX() + start.x,
+                (float) alignOffset.getY() + start.y);
 
     }
 
@@ -104,43 +113,45 @@ public class MathComponentUI extends ComponentUI implements
         this.paint(g, c);
     }
 
-    private Point2D calculateAlignmentOffset(final Dimension dim) {
+    private Point2D calculateAlignmentOffset(JMathComponent jc,
+            JEuclidView jEuclidView, final Dimension dim) {
         final float xo;
-        if ((this.mathComponent.getHorizontalAlignment() == SwingConstants.LEADING)
-                || (this.mathComponent.getHorizontalAlignment() == SwingConstants.LEFT)) {
+        if ((jc.getHorizontalAlignment() == SwingConstants.LEADING)
+                || (jc.getHorizontalAlignment() == SwingConstants.LEFT)) {
             xo = 0.0f;
-        } else if ((this.mathComponent.getHorizontalAlignment() == SwingConstants.TRAILING)
-                || (this.mathComponent.getHorizontalAlignment() == SwingConstants.RIGHT)) {
-            xo = dim.width - this.jEuclidView.getWidth();
+        } else if ((jc.getHorizontalAlignment() == SwingConstants.TRAILING)
+                || (jc.getHorizontalAlignment() == SwingConstants.RIGHT)) {
+            xo = dim.width - jEuclidView.getWidth();
         } else {
-            xo = (dim.width - this.jEuclidView.getWidth()) / 2.0f;
+            xo = (dim.width - jEuclidView.getWidth()) / 2.0f;
         }
         final float yo;
-        if (this.mathComponent.getVerticalAlignment() == SwingConstants.TOP) {
-            yo = this.jEuclidView.getAscentHeight();
-        } else if (this.mathComponent.getVerticalAlignment() == SwingConstants.BOTTOM) {
-            yo = dim.height - this.jEuclidView.getDescentHeight();
+        if (jc.getVerticalAlignment() == SwingConstants.TOP) {
+            yo = jEuclidView.getAscentHeight();
+        } else if (jc.getVerticalAlignment() == SwingConstants.BOTTOM) {
+            yo = dim.height - jEuclidView.getDescentHeight();
         } else {
-            yo = (dim.height + this.jEuclidView.getAscentHeight() - this.jEuclidView
+            yo = (dim.height + jEuclidView.getAscentHeight() - jEuclidView
                     .getDescentHeight()) / 2.0f;
         }
         return new Point2D.Float(xo, yo);
     }
 
-    private void paintBackground(final Graphics g, final Dimension dim,
-            final Point start) {
-        final Color back = this.getRealBackgroundColor();
+    private void paintBackground(final Graphics g, JComponent c,
+            final Dimension dim, final Point start) {
+        final Color back = this.getRealBackgroundColor(c);
         if (back != null) {
             g.setColor(back);
             g.fillRect(start.x, start.y, dim.width, dim.height);
         }
     }
 
-    private Point getStartPointWithBordersAndAdjustDimension(final Dimension dim) {
+    private Point getStartPointWithBordersAndAdjustDimension(JComponent c,
+            final Dimension dim) {
         Point start = new Point(0, 0);
-        final Border border = this.mathComponent.getBorder();
+        final Border border = c.getBorder();
         if (border != null) {
-            final Insets insets = border.getBorderInsets(this.mathComponent);
+            final Insets insets = border.getBorderInsets(c);
             if (insets != null) {
                 dim.width -= insets.left + insets.right;
                 dim.height -= insets.top + insets.bottom;
@@ -150,9 +161,9 @@ public class MathComponentUI extends ComponentUI implements
         return start;
     }
 
-    private Color getRealBackgroundColor() {
-        Color back = this.mathComponent.getBackground();
-        if (this.mathComponent.isOpaque()) {
+    private Color getRealBackgroundColor(JComponent c) {
+        Color back = c.getBackground();
+        if (c.isOpaque()) {
             if (back == null) {
                 back = Color.WHITE;
             }
@@ -166,9 +177,8 @@ public class MathComponentUI extends ComponentUI implements
     @Override
     public void installUI(final JComponent c) {
         if (c instanceof JMathComponent) {
-            this.mathComponent = (JMathComponent) c;
             c.addPropertyChangeListener(this);
-            this.installDefaults(this.mathComponent);
+            this.installDefaults(c);
         } else {
             throw new IllegalArgumentException(
                     "This UI can only be installed on a JMathComponent");
@@ -181,7 +191,7 @@ public class MathComponentUI extends ComponentUI implements
      * @param c
      *            the component
      */
-    protected void installDefaults(final JMathComponent c) {
+    protected void installDefaults(final JComponent c) {
         // LookAndFeel.installColorsAndFont(c, "Label.background",
         // "Label.foreground", "Label.font");
         LookAndFeel.installProperty(c, "opaque", Boolean.FALSE);
@@ -191,34 +201,12 @@ public class MathComponentUI extends ComponentUI implements
     @Override
     public void uninstallUI(final JComponent c) {
         c.removePropertyChangeListener(this);
-        this.mathComponent = null;
+        this.contextCache.remove(c);
     }
 
     /** {@inheritDoc} */
     public void propertyChange(final PropertyChangeEvent evt) {
-        final String name = evt.getPropertyName();
-        if ("document".equals(name) || "property".equals(name)) {
-            final JMathComponent jc = (JMathComponent) evt.getSource();
-            this.document = (Node) evt.getNewValue();
-            this.redo(jc.getParameters(), (Graphics2D) jc.getGraphics());
-            // jc.repaint();
-        } else {
-            try {
-                final JMathComponent jc = (JMathComponent) evt.getSource();
-                this.redo(jc.getParameters(), (Graphics2D) jc.getGraphics());
-            } catch (final ClassCastException ia) {
-                MathComponentUI.LOGGER.debug(ia);
-            }
-        }
-    }
-
-    private void redo(final MutableLayoutContext parameters,
-            final Graphics2D g2d) {
-        if ((this.document == null) || (g2d == null)) {
-            this.jEuclidView = null;
-        } else {
-            this.jEuclidView = new JEuclidView(this.document, parameters, g2d);
-        }
+        this.contextCache.remove(evt.getSource());
     }
 
     /** {@inheritDoc} */
@@ -228,37 +216,33 @@ public class MathComponentUI extends ComponentUI implements
     }
 
     /**
-     * Retrieve the preferred size of the math component. This function caches
-     * its result for faster operation.
+     * Retrieve the preferred size of the math component.
      * 
      * @param c
      *            the math component to measure
      * @return the preferred size.
      */
     private Dimension getMathComponentSize(final JComponent c) {
-        if (this.preferredSize == null) {
-            if (this.jEuclidView == null || c.getGraphics() == null) {
-                return super.getPreferredSize(c);
-            }
-            this.calculatePreferredSize(c);
-        }
-        return this.preferredSize;
+        JEuclidView jEuclidView = this.getJeuclidView(c.getGraphics(), c);
+        return this.calculatePreferredSize(c, jEuclidView);
     }
 
-    private void calculatePreferredSize(final JComponent c) {
-        this.preferredSize = new Dimension((int) Math.ceil(this.jEuclidView
-                .getWidth()), (int) Math.ceil(this.jEuclidView
-                .getAscentHeight()
-                + this.jEuclidView.getDescentHeight()));
+    private Dimension calculatePreferredSize(final JComponent c,
+            JEuclidView jEuclidView) {
+        Dimension retVal;
+        retVal = new Dimension((int) Math.ceil(jEuclidView.getWidth()),
+                (int) Math.ceil(jEuclidView.getAscentHeight()
+                        + jEuclidView.getDescentHeight()));
 
         final Border border = c.getBorder();
         if (border != null) {
             final Insets insets = border.getBorderInsets(c);
             if (insets != null) {
-                this.preferredSize.width += insets.left + insets.right;
-                this.preferredSize.height += insets.top + insets.bottom;
+                retVal.width += insets.left + insets.right;
+                retVal.height += insets.top + insets.bottom;
             }
         }
+        return retVal;
     }
 
     /** {@inheritDoc} */
@@ -277,17 +261,42 @@ public class MathComponentUI extends ComponentUI implements
      * Get vector of {@link JEuclidView.NodeRect} at a particular mouse
      * position.
      * 
+     * @param mathComponent
+     *            MathComponent to look in.
      * @param x
      *            x-coord
      * @param y
      *            y-coord
      * @return list of nodes with rendering information
      */
-    public List<JEuclidView.NodeRect> getNodesAt(final float x, final float y) {
-        final Point2D point = this.calculateAlignmentOffset(this.mathComponent
-                .getSize());
-        return this.jEuclidView.getNodesAt(x, y, (float) point.getX(),
+    public List<JEuclidView.NodeRect> getNodesAt(JMathComponent mathComponent,
+            final float x, final float y) {
+        JEuclidView jEuclidView = getJeuclidView(mathComponent.getGraphics(),
+                mathComponent);
+        final Point2D point = this.calculateAlignmentOffset(mathComponent,
+                jEuclidView, mathComponent.getSize());
+        return jEuclidView.getNodesAt(x, y, (float) point.getX(),
                 (float) point.getY());
+    }
+
+    private static class ViewContext {
+        final Node document;
+        final LayoutContext layoutContext;
+        final Map<Graphics2D, JEuclidView> jeuclidViews = new HashMap<Graphics2D, JEuclidView>();
+
+        public ViewContext(JMathComponent jMathComponent) {
+            this.document = jMathComponent.getDocument();
+            this.layoutContext = jMathComponent.getParameters();
+        }
+
+        public JEuclidView getJeculidView(Graphics2D g2d) {
+            JEuclidView jeuclidView = jeuclidViews.get(g2d);
+            if (jeuclidView == null) {
+                jeuclidView = new JEuclidView(document, layoutContext, g2d);
+                jeuclidViews.put(g2d, jeuclidView);
+            }
+            return jeuclidView;
+        }
     }
 
 }
