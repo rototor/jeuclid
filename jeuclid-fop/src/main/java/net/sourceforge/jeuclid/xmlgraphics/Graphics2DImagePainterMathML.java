@@ -20,9 +20,7 @@ package net.sourceforge.jeuclid.xmlgraphics;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
@@ -73,11 +71,8 @@ public class Graphics2DImagePainterMathML implements Graphics2DImagePainter {
         final MutableLayoutContext layoutContext = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
 
-        final Image tempimage = new BufferedImage(1, 1,
-                BufferedImage.TYPE_INT_ARGB);
-        final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
         final JEuclidView view = new JEuclidView(document, layoutContext,
-                tempg);
+                null);
         final int w = (int) Math.ceil(view.getWidth()
                 * PreloaderMathML.MPT_FACTOR);
         final float ascent = view.getAscentHeight();

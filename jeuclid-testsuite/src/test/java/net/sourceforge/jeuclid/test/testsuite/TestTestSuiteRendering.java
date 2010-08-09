@@ -78,8 +78,6 @@ public class TestTestSuiteRendering {
 
     private final LayoutContext layoutContext;
 
-    private final Graphics2D g2d;
-
     private final Map<String, List<RenderInfo>> currentRendering = new HashMap<String, List<RenderInfo>>();
 
     private final Map<String, List<RenderInfo>> oldRendering;
@@ -98,10 +96,6 @@ public class TestTestSuiteRendering {
         mlc.setParameter(Parameter.FONTS_SANSSERIF, "DejaVu Sans");
         mlc.setParameter(Parameter.FONTS_SERIF, "DejaVu Serif");
         this.layoutContext = mlc;
-
-        final Image tempimage = new BufferedImage(1, 1,
-                BufferedImage.TYPE_INT_ARGB);
-        this.g2d = (Graphics2D) tempimage.getGraphics();
 
         this.tempDir = new File("temp");
         if (!this.tempDir.isDirectory()) {
@@ -221,7 +215,7 @@ public class TestTestSuiteRendering {
             final DocumentElement docElement = DOMBuilder.getInstance()
                     .createJeuclidDom(d);
             final JEuclidView view = new JEuclidView(docElement,
-                    this.layoutContext, this.g2d);
+                    this.layoutContext, null);
             // Forces Layout
             view.getAscentHeight();
             this.createInfo(view, docElement, currentList);

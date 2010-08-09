@@ -19,9 +19,6 @@
 package net.sourceforge.jeuclid.elements.generic;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
@@ -99,11 +96,8 @@ public final class DocumentElement extends GenericDocument implements
     // CHECKSTYLE:OFF
     public JEuclidView getDefaultView() {
         // CHECKSTYLE:ON
-        final Image tempimage = new BufferedImage(1, 1,
-                BufferedImage.TYPE_INT_ARGB);
-        final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
-        return new JEuclidView(this, LayoutContextImpl
-                .getDefaultLayoutContext(), tempg);
+        return new JEuclidView(this,
+                LayoutContextImpl.getDefaultLayoutContext(), null);
     }
 
     /** {@inheritDoc} */

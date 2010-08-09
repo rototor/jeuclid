@@ -28,10 +28,7 @@
 package net.sourceforge.jeuclid.fop;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,11 +101,8 @@ public class JEuclidElement extends JEuclidObj {
     }
 
     private void calculate() {
-        final Image tempimage = new BufferedImage(1, 1,
-                BufferedImage.TYPE_INT_ARGB);
-        final Graphics2D tempg = (Graphics2D) tempimage.getGraphics();
         final JEuclidView view = new JEuclidView(this.doc, this.layoutContext,
-                tempg);
+                null);
         final float descent = view.getDescentHeight();
         this.size = new Point2D.Float(view.getWidth(), view.getAscentHeight()
                 + descent);
