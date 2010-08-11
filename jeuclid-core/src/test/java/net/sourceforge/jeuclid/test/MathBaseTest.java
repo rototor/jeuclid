@@ -1,6 +1,6 @@
 /*
- * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
- * 
+ * Copyright 2002 - 2010 JEuclid, http://jeuclid.sf.net
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,15 +28,15 @@ import net.sourceforge.jeuclid.MathMLParserSupport;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
  * A JUnit Test case for MathBase.
- * 
+ *
  * @version $Revision$
  */
 public class MathBaseTest {
@@ -69,7 +69,7 @@ public class MathBaseTest {
 
     /**
      * Tests the examples at resources/test/exampleX.mml.
-     * 
+     *
      * @throws Exception
      *             if an error occurs.
      */
@@ -84,7 +84,7 @@ public class MathBaseTest {
 
     /**
      * Tests ODF Reader.
-     * 
+     *
      * @throws Exception
      *             if an error occurs.
      */
@@ -97,7 +97,7 @@ public class MathBaseTest {
 
     /**
      * Tests the new Parser API.
-     * 
+     *
      * @throws Exception
      *             if an error occurs.
      */

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,8 @@ import net.sourceforge.jeuclid.layout.JEuclidView;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLDocument;
 import org.w3c.dom.mathml.MathMLFractionElement;
@@ -52,7 +52,7 @@ public class LayoutTest {
 
     /**
      * Test if there is something in the view.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -63,17 +63,18 @@ public class LayoutTest {
                         MathMLParserSupport.parseString(LayoutTest.TEST1));
         final JEuclidView view = (JEuclidView) (((DocumentView) docElement)
                 .getDefaultView());
-        Assert.assertTrue(view.getAscentHeight() > 1.0f,
-                "View has not enough ascent: " + view.getAscentHeight());
-        Assert.assertTrue(view.getWidth() > 1.0f,
-                "View has not enoguh width: " + view.getWidth());
-        Assert.assertTrue(view.getDescentHeight() >= 0.0f,
-                "Descent Height < 0: " + view.getDescentHeight());
+        Assert.assertTrue(
+                "View has not enough ascent: " + view.getAscentHeight(),
+                view.getAscentHeight() > 1.0f);
+        Assert.assertTrue("View has not enoguh width: " + view.getWidth(),
+                view.getWidth() > 1.0f);
+        Assert.assertTrue("Descent Height < 0: " + view.getDescentHeight(),
+                view.getDescentHeight() >= 0.0f);
     }
 
     /**
      * Tests if view modifies itself when DOM is modified.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -110,23 +111,21 @@ public class LayoutTest {
         mfrac.setNumerator(nom);
         mrow.appendChild(mfrac);
 
-        Assert.assertTrue(view.getWidth() > oldWidth,
-                "Width of view should increase: " + view.getWidth() + " > "
-                        + oldWidth);
-        Assert.assertTrue(view.getAscentHeight() > oldAscent,
+        Assert.assertTrue("Width of view should increase: " + view.getWidth()
+                + " > " + oldWidth, view.getWidth() > oldWidth);
+        Assert.assertTrue(
                 "Heightof view should increase: " + view.getAscentHeight()
-                        + " > " + oldAscent);
+                        + " > " + oldAscent, view.getAscentHeight() > oldAscent);
 
         final float newmopascent = view.getInfo(mop).getAscentHeight(
                 LayoutStage.STAGE2);
-        Assert.assertTrue(newmopascent > oldmopascent,
-                "Operator should be larger: " + newmopascent + " > "
-                        + oldmopascent);
+        Assert.assertTrue("Operator should be larger: " + newmopascent + " > "
+                + oldmopascent, newmopascent > oldmopascent);
     }
 
     /**
      * Test whitespace handling.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -154,16 +153,16 @@ public class LayoutTest {
         final float w2 = view.getInfo(m2).getWidth(LayoutStage.STAGE2);
         final float w3 = view.getInfo(m3).getWidth(LayoutStage.STAGE2);
 
-        Assert.assertEquals(w2, w1,
-                "Whitespace around text should be trimmed to none");
-        Assert.assertEquals(w3, w1,
-                "Whitespace inside text should be trimmed to 1");
+        Assert.assertEquals("Whitespace around text should be trimmed to none",
+                w2, w1, 0.01);
+        Assert.assertEquals("Whitespace inside text should be trimmed to 1",
+                w3, w1, 0.01);
 
     }
 
     /**
      * Test MO without math parent.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -183,7 +182,7 @@ public class LayoutTest {
 
     /**
      * Test MO without any parent.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -201,7 +200,7 @@ public class LayoutTest {
 
     /**
      * Test if getNodesAt() works.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */

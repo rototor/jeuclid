@@ -6,6 +6,7 @@
   </properties>
   <body>
     <release version="3.1.10" date="TBD" description="TBD">
+      <action dev="maxberger" type="update">Moved to Junit 4.8 as test framework</action>
       <action dev="maxberger" type="fix" issue="3013554"> Count only displayable character for Mi auto-italic</action>
       <action dev="maxberger" type="update">Use jsr 308 instead of jcip annotations</action>
       <action dev="maxberger" type="update">Rewrote JMathComponentUI to be MathComponent-Agnostic, better caching of values</action>

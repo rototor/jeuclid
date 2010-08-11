@@ -1,6 +1,6 @@
 /*
- * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
- * 
+ * Copyright 2002 - 2010 JEuclid, http://jeuclid.sf.net
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,12 +24,12 @@ import net.sourceforge.jeuclid.swing.JMathComponent;
 import net.sourceforge.jeuclid.swing.MathComponentUI;
 import net.sourceforge.jeuclid.swing.MathComponentUI16;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Tests the MathComponentUI16.
- * 
+ *
  * @version $Revision$
  */
 public class MathComponentUI16Test {

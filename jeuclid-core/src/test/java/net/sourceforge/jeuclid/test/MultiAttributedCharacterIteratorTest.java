@@ -1,6 +1,6 @@
 /*
- * Copyright 2009 - 2009 JEuclid, http://jeuclid.sf.net
- * 
+ * Copyright 2009 - 2010 JEuclid, http://jeuclid.sf.net
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,19 +23,19 @@ import java.text.AttributedString;
 
 import net.sourceforge.jeuclid.elements.support.text.MultiAttributedCharacterIterator;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Tests {@link MultiAttributedCharacterIterator}
- * 
+ * Tests {@link MultiAttributedCharacterIterator}.
+ *
  * @version $Revision$
  */
 public class MultiAttributedCharacterIteratorTest {
 
     /**
      * test without attributes.
-     * 
+     *
      * @throws Exception
      *             if the tests fail.
      */

@@ -1,6 +1,6 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
- * 
+ * Copyright 2007 - 2010 JEuclid, http://jeuclid.sf.net
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -30,12 +30,12 @@ import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test for {@link net.sourceforge.jeuclid.context.Parameter} enum.
- * 
+ *
  * @version $Revision$
  */
 public class LayoutContextParamTest {

@@ -1,6 +1,6 @@
 /*
- * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
- * 
+ * Copyright 2007 - 2010 JEuclid, http://jeuclid.sf.net
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,13 +22,13 @@ import java.awt.Font;
 
 import net.sourceforge.jeuclid.font.FontFactory;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test for {@link net.sourceforge.jeuclid.font.FontFactory} class and its
  * concrete subclasses.
- * 
+ *
  * @version $Revision$
  */
 public final class FontFactoryTest {
@@ -44,7 +44,7 @@ public final class FontFactoryTest {
     /**
      * Tests basic FontFactory functionality (returning standard fonts,
      * defaulting to standard fonts).
-     * 
+     *
      * @throws Exception
      *             if anything goes wrong
      */

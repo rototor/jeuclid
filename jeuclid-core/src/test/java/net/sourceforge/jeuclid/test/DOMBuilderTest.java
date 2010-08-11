@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
@@ -36,7 +36,7 @@ import org.xml.sax.InputSource;
 
 /**
  * A JUnit test for DOMBuilder; in particular, the sources it can take as input.
- * 
+ *
  * @version $Revision$
  */
 public class DOMBuilderTest {
@@ -54,7 +54,7 @@ public class DOMBuilderTest {
 
     /**
      * Tests if DOM can be constructed manually.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -85,7 +85,7 @@ public class DOMBuilderTest {
     /**
      * Tests for namespace issues with manual element construction in default
      * namespace.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -109,7 +109,7 @@ public class DOMBuilderTest {
     /**
      * Tests for namespace issues with manual element construction in mml
      * namespace.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */

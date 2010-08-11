@@ -1,6 +1,6 @@
 /*
- * Copyright 2002 - 2006 JEuclid, http://jeuclid.sf.net
- * 
+ * Copyright 2002 - 2010 JEuclid, http://jeuclid.sf.net
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,13 +29,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import net.sourceforge.jeuclid.ResourceEntityResolver;
 import net.sourceforge.jeuclid.awt.MathComponent;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 /**
  * Tests the AWT math component.
- * 
+ *
  * @version $Revision$
  */
 public class MathComponentTest {
@@ -50,7 +50,7 @@ public class MathComponentTest {
     /**
      * Tests if AWT component starts up.
      * @throws Exception if the test fails.
-     */    
+     */
     @Test
     public void testAWTComponent() throws Exception {
         Document document;

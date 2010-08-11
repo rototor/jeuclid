@@ -1,6 +1,6 @@
 /*
- * Copyright 2002 - 2006 JEuclid, http://jeuclid.sf.net
- * 
+ * Copyright 2002 - 2010 JEuclid, http://jeuclid.sf.net
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,12 +23,12 @@ import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary2
 import net.sourceforge.jeuclid.elements.support.operatordict.OperatorDictionary3;
 import net.sourceforge.jeuclid.elements.support.operatordict.UnknownAttributeException;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Tests the OperatorDict class.
- * 
+ *
  * @version $Revision$
  */
 public class OperatorDictTest {
@@ -41,7 +41,7 @@ public class OperatorDictTest {
 
     /**
      * Test various operators for correct default values.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -76,7 +76,7 @@ public class OperatorDictTest {
 
     /**
      * Test various operators for correct default values.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
