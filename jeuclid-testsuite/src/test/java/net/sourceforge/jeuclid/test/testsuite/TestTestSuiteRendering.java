@@ -1,6 +1,6 @@
 /*
- * Copyright 2008 - 2009 JEuclid, http://jeuclid.sf.net
- * 
+ * Copyright 2008 - 2010 JEuclid, http://jeuclid.sf.net
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,9 +18,6 @@
 
 package net.sourceforge.jeuclid.test.testsuite;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,14 +49,14 @@ import net.sourceforge.jeuclid.parser.Parser;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.w3c.dom.Document;
 
 /**
  * Compares Rendering of the testsuite to previous renderings to catch
  * regression bugs.
- * 
+ *
  * @version $Revision$
  */
 // CHECKSTYLE:OFF
@@ -122,7 +119,7 @@ public class TestTestSuiteRendering {
 
     /**
      * Renders complete testsuite and compares results.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -138,7 +135,7 @@ public class TestTestSuiteRendering {
         while ((line = br.readLine()) != null) {
             this.renderAndCompare(line, failures);
         }
-        Assert.assertTrue(failures.isEmpty(), failures.toString());
+        Assert.assertTrue(failures.toString(), failures.isEmpty());
         this.saveCurrentRenderings();
     }
 
@@ -190,15 +187,16 @@ public class TestTestSuiteRendering {
             failures.add(name + " has changed in number of elements! (old: "
                     + oldList.size() + " new: " + currentList.size() + ")");
             have = true;
-        } else
-        for (int i = 0; i < currentList.size(); i++) {
-            final RenderInfo current = currentList.get(i);
-            final RenderInfo old = oldList.get(i);
-            final String similarities = current.checkSimilar(old);
-            if (similarities.length() > 0) {
-                failures.add(name + " differes for element "
-                        + current.getElementName() + " in" + similarities);
-                have = true;
+        } else {
+            for (int i = 0; i < currentList.size(); i++) {
+                final RenderInfo current = currentList.get(i);
+                final RenderInfo old = oldList.get(i);
+                final String similarities = current.checkSimilar(old);
+                if (similarities.length() > 0) {
+                    failures.add(name + " differes for element "
+                            + current.getElementName() + " in" + similarities);
+                    have = true;
+                }
             }
         }
         if (have) {

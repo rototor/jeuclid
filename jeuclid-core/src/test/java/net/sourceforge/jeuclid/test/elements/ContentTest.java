@@ -1,6 +1,6 @@
 /*
- * Copyright 2007 - 2008 JEuclid, http://jeuclid.sf.net
- * 
+ * Copyright 2007 - 2010 JEuclid, http://jeuclid.sf.net
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,8 +22,8 @@ import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.mathml.MathMLAnnotationElement;
 import org.w3c.dom.mathml.MathMLDocument;
@@ -32,14 +32,14 @@ import org.w3c.dom.mathml.MathMLSemanticsElement;
 
 /**
  * Various tests for the DOM model.
- * 
+ *
  * @version $Revision$
  */
 public class ContentTest {
 
     /**
      * Tests is the Annotation element.
-     * 
+     *
      * @throws Exception
      *             if anything goes wrong.
      */

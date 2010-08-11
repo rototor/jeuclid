@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2009 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,22 +22,22 @@ import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.mathml.MathMLDocument;
 
 /**
  * Tests misc DOM Namespace functionality.
- * 
+ *
  * @version $Revision$
  */
 public class DOMNameSpaceTest {
 
     /**
      * Tests if MathML Namespace is kept.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -55,7 +55,7 @@ public class DOMNameSpaceTest {
 
     /**
      * Tests if MathML Namespace is added.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -72,7 +72,7 @@ public class DOMNameSpaceTest {
 
     /**
      * Tests foreign namespaces.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */

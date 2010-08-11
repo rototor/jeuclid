@@ -20,8 +20,8 @@ package net.sourceforge.jeuclid.test;
 
 import net.sourceforge.jeuclid.elements.support.text.StringUtil;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Tests for {@link StringUtil}.

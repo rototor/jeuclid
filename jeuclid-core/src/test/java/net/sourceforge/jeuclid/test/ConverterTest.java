@@ -1,5 +1,5 @@
 /*
- * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
+ * Copyright 2002 - 2010 JEuclid, http://jeuclid.sf.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.converter.Converter;
-import net.sourceforge.jeuclid.converter.ConverterRegistry;
 import net.sourceforge.jeuclid.converter.ConverterPlugin.DocumentWithDimension;
+import net.sourceforge.jeuclid.converter.ConverterRegistry;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
@@ -66,7 +66,7 @@ public class ConverterTest {
 
     /**
      * Tests if PNG converter is available.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -77,7 +77,7 @@ public class ConverterTest {
 
     /**
      * Tests if JPEG converter is available.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -88,7 +88,7 @@ public class ConverterTest {
 
     /**
      * Tests if BMP converter is available.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -99,7 +99,7 @@ public class ConverterTest {
 
     /**
      * Tests if SVG converter is available and creates an output file.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -113,14 +113,14 @@ public class ConverterTest {
         params.setParameter(Parameter.MATHSIZE, 25f);
         Converter.getInstance().convert(doc, outFile,
                 net.sourceforge.jeuclid.converter.Converter.TYPE_SVG, params);
-        Assert.assertTrue(outFile.exists(), "SVG file was not created");
-        Assert.assertTrue(outFile.length() > 0, "SVG file is empty");
-        Assert.assertTrue(outFile.length() > 2048, "SVG file is too small");
+        Assert.assertTrue("SVG file was not created", outFile.exists());
+        Assert.assertTrue("SVG file is empty", outFile.length() > 0);
+        Assert.assertTrue("SVG file is too small", outFile.length() > 2048);
     }
 
     /**
      * Tests if PDF converter is available and creates an output file.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -134,14 +134,14 @@ public class ConverterTest {
         params.setParameter(Parameter.MATHSIZE, 25f);
         Converter.getInstance().convert(doc, outFile, "application/pdf",
                 params);
-        Assert.assertTrue(outFile.exists(), "PDF file was not created");
-        Assert.assertTrue(outFile.length() > 0, "PDF file is empty");
-        Assert.assertTrue(outFile.length() > 2048, "PDF file is too small");
+        Assert.assertTrue("PDF file was not created", outFile.exists());
+        Assert.assertTrue("PDF file is empty", outFile.length() > 0);
+        Assert.assertTrue("PDF file is too small", outFile.length() > 2048);
     }
 
     /**
      * Tests if SVG converter is available and creates an output DOM.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -159,19 +159,19 @@ public class ConverterTest {
         Assert.assertNotNull(svgdocdim);
         final Document svgdoc = svgdocdim.getDocument();
         Assert.assertNotNull(svgdoc);
-        Assert.assertTrue(svgdoc instanceof SVGDocument,
-                "Document is not a SVGDocument");
+        Assert.assertTrue("Document is not a SVGDocument",
+                svgdoc instanceof SVGDocument);
         final Element e = (Element) svgdoc.getFirstChild();
         Assert.assertEquals("svg", e.getLocalName());
-        Assert.assertTrue(e.getChildNodes().getLength() > 0,
-                "SVG Document is empty!");
+        Assert.assertTrue("SVG Document is empty!", e.getChildNodes()
+                .getLength() > 0);
         Assert.assertTrue(svgdocdim.getDimension().height > 1);
         Assert.assertTrue(svgdocdim.getDimension().width > 1);
     }
 
     /**
      * Create and return temp directory.
-     * 
+     *
      * @return temp directory.
      */
     public File getOutDir() {
@@ -180,15 +180,15 @@ public class ConverterTest {
             final boolean success = outDir.mkdirs();
             Assert
                     .assertTrue(
-                            success,
-                            "Failed to create temp directory. Please delete all files / directories named temp");
+                    "Failed to create temp directory. Please delete all files / directories named temp",
+                    success);
         }
         return outDir;
     }
 
     /**
      * Tests the examples at resources/test/exampleX.mml.
-     * 
+     *
      * @throws Exception
      *             if an error occurs.
      */
@@ -212,7 +212,7 @@ public class ConverterTest {
 
     /**
      * Tests if some mime-types are registered properly.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -242,7 +242,7 @@ public class ConverterTest {
 
     /**
      * Tests if rendered creates a buffered image with alpha values.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -254,18 +254,18 @@ public class ConverterTest {
                 LayoutContextImpl.getDefaultLayoutContext());
         params.setParameter(Parameter.MATHSIZE, 25f);
         final BufferedImage bi = Converter.getInstance().render(doc, params);
-        Assert.assertTrue(bi.getWidth() > 10,
-                "Image Created was not wide enough");
-        Assert.assertTrue(bi.getHeight() > 10,
-                "Image Created was not tall enough");
+        Assert.assertTrue("Image Created was not wide enough",
+                bi.getWidth() > 10);
+        Assert.assertTrue("Image Created was not tall enough",
+                bi.getHeight() > 10);
         final int ltpixel = bi.getRGB(0, 0);
-        Assert.assertEquals(ltpixel, 0, "Expected Transparent Pixel, got "
-                + ltpixel);
+        Assert.assertEquals("Expected Transparent Pixel, got " + ltpixel,
+                ltpixel, 0);
     }
 
     /**
      * Tests if rendered creates a buffered image for an empty document.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -281,7 +281,7 @@ public class ConverterTest {
 
     /**
      * Tests if rendered creates a buffered image without alpha values.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -294,14 +294,14 @@ public class ConverterTest {
         params.setParameter(Parameter.MATHSIZE, 25f);
         final BufferedImage bi = Converter.getInstance().render(doc, params,
                 BufferedImage.TYPE_3BYTE_BGR);
-        Assert.assertTrue(bi.getWidth() > 10,
-                "Image Created was not wide enough");
-        Assert.assertTrue(bi.getHeight() > 10,
-                "Image Created was not tall enough");
+        Assert.assertTrue("Image Created was not wide enough",
+                bi.getWidth() > 10);
+        Assert.assertTrue("Image Created was not tall enough",
+                bi.getHeight() > 10);
         final int ltpixel = bi.getRGB(0, 0);
         final int white = Color.WHITE.getRGB();
-        Assert.assertEquals(ltpixel, white, "Expected white Pixel (" + white
-                + "), got " + ltpixel);
+        Assert.assertEquals("Expected white Pixel (" + white + "), got "
+                + ltpixel, ltpixel, white);
     }
 
 }

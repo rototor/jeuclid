@@ -22,8 +22,8 @@ import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.elements.presentation.token.Mi;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.mathml.MathMLDocument;
 import org.w3c.dom.mathml.MathMLMathElement;
@@ -40,6 +40,13 @@ public class MiTest {
         // nothing to do.
     }
 
+    /**
+     * Tests behavior of non-printing characteres to be detected as 1-letter
+     * identifiers.
+     *
+     * @throws Exception
+     *             if the test fails.
+     */
     @Test
     public void testAutoItalic() throws Exception {
         final Document doc = MathMLParserSupport

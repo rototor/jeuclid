@@ -1,6 +1,6 @@
 /*
- * Copyright 2007 - 2009 JEuclid, http://jeuclid.sf.net
- * 
+ * Copyright 2007 - 2010 JEuclid, http://jeuclid.sf.net
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -65,8 +65,8 @@ import net.sourceforge.jeuclid.elements.presentation.token.Ms;
 import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
 import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -101,7 +101,7 @@ import org.w3c.dom.mathml.MathMLUnderOverElement;
 
 /**
  * Various tests for the DOM model.
- * 
+ *
  * @version $Revision$
  */
 // CHECKSTYLE:OFF
@@ -123,7 +123,7 @@ public class DOMModelTest {
 
     /**
      * Tests is the "id" attribute works.
-     * 
+     *
      * @throws Exception
      *             if anything goes wrong.
      */
@@ -148,7 +148,7 @@ public class DOMModelTest {
 
     /**
      * Tests if serialization works.
-     * 
+     *
      * @throws Exception
      *             if anything goes wrong.
      */
@@ -163,13 +163,13 @@ public class DOMModelTest {
                 mathMLDoc, false, false);
 
         final Document reserial = MathMLParserSupport.parseString(reserialStr);
-        Assert.assertTrue(reserial.isEqualNode(origDoc), "is: " + reserialStr
-                + "\nshould be: " + shouldBe);
+        Assert.assertTrue("is: " + reserialStr + "\nshould be: " + shouldBe,
+                reserial.isEqualNode(origDoc));
     }
 
     /**
      * Tests if serialization with malignmark works.
-     * 
+     *
      * @throws Exception
      *             if anything goes wrong.
      */
@@ -184,13 +184,13 @@ public class DOMModelTest {
                 mathMLDoc, false, false);
 
         final Document reserial = MathMLParserSupport.parseString(reserialStr);
-        Assert.assertTrue(reserial.isEqualNode(origDoc), "is: " + reserialStr
-                + "\nshould be: " + shouldBe);
+        Assert.assertTrue("is: " + reserialStr + "\nshould be: " + shouldBe,
+                reserial.isEqualNode(origDoc));
     }
 
     /**
      * Tests is all attributes on mathOperator work.
-     * 
+     *
      * @throws Exception
      *             if anything goes wrong.
      */
@@ -235,7 +235,7 @@ public class DOMModelTest {
     /**
      * Tests of objects created from MathElementFactory implement the proper
      * interfaces from W3C Dom.
-     * 
+     *
      * @throws Exception
      *             if anything goes wrong.
      */
@@ -668,7 +668,7 @@ public class DOMModelTest {
 
     /**
      * Misc tests on {@link Mfrac}.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -693,7 +693,7 @@ public class DOMModelTest {
 
     /**
      * Misc tests on {@link Mmultiscripts}.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -731,7 +731,7 @@ public class DOMModelTest {
 
     /**
      * More tests on {@link Mmultiscripts}.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -767,7 +767,7 @@ public class DOMModelTest {
 
     /**
      * Test DOM Events.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -812,16 +812,14 @@ public class DOMModelTest {
                     }
                 }, false);
         mathElement.appendChild(docElement.createElement(Mi.ELEMENT));
-        Assert.assertTrue(this.miCount == 0, "Event must not be called on Mi");
-        Assert.assertTrue(this.mathCount > 0, "Event must be called on Math");
-        Assert
-                .assertTrue(this.docCount > 0,
-                        "Event must be called on Document");
+        Assert.assertTrue("Event must not be called on Mi", this.miCount == 0);
+        Assert.assertTrue("Event must be called on Math", this.mathCount > 0);
+        Assert.assertTrue("Event must be called on Document", this.docCount > 0);
     }
 
     /**
      * Test getSup/getSuper on sub, sup, and subsuper.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
@@ -850,18 +848,18 @@ public class DOMModelTest {
         for (final Method m : methods) {
             names.add(m.getName());
         }
-        Assert.assertTrue(names.contains("newNode"), name
-                + " must override newNode");
-        Assert.assertFalse(names.contains("getTagName"), name
-                + " must not override getTagName");
-        Assert.assertTrue(Modifier.isFinal(whichClass.getModifiers()), name
-                + " must be final");
+        Assert.assertTrue(name + " must override newNode",
+                names.contains("newNode"));
+        Assert.assertFalse(name + " must not override getTagName",
+                names.contains("getTagName"));
+        Assert.assertTrue(name + " must be final",
+                Modifier.isFinal(whichClass.getModifiers()));
 
     }
 
     /**
      * Test implementation of all presentation elements.
-     * 
+     *
      * @throws Exception
      *             if the test fails.
      */
