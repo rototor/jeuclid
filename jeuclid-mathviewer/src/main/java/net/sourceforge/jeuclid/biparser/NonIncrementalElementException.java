@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id $ */
+/* $Id$ */
 
 package net.sourceforge.jeuclid.biparser;
 
