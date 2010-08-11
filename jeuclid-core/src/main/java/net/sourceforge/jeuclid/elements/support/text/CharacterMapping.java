@@ -31,11 +31,10 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 import net.sourceforge.jeuclid.elements.support.attributes.FontFamily;
 import net.sourceforge.jeuclid.elements.support.attributes.MathVariant;
@@ -51,11 +50,15 @@ public final class CharacterMapping implements Serializable {
 
     private static final String LOAD_ERROR = "Error loading character mappings";
 
-    private static final int POS_MAPS = 5;
+    private static final int POS_CODESTR = 0;
 
     private static final int POS_DESCRIPTION = 1;
+    
+    private static final int POS_CATEGORY = 2;
+    
+    private static final int POS_MAPS = 5;
 
-    private static final int POS_CODESTR = 0;
+
 
     private static final int HIGHPLANE_MATH_CHARS_START = 0x1D400;
 
@@ -78,6 +81,8 @@ public final class CharacterMapping implements Serializable {
 
     private final Set<Integer> forceSet;
 
+    private final Set<Integer> markSet;
+    
     private final Map<FontFamily, Map<Integer, Integer[]>> composeAttrs;
 
     private transient Map<CodePointAndVariant, Reference<List<CodePointAndVariant>>> alternatives;
@@ -86,8 +91,9 @@ public final class CharacterMapping implements Serializable {
      * Default Constructor.
      */
     private CharacterMapping() {
-        this.extractAttrs = new TreeMap<Integer, CodePointAndVariant>();
-        this.forceSet = new TreeSet<Integer>();
+        this.extractAttrs = new HashMap<Integer, CodePointAndVariant>();
+        this.forceSet = new HashSet<Integer>();
+        this.markSet = new HashSet<Integer>();
         this.composeAttrs = new EnumMap<FontFamily, Map<Integer, Integer[]>>(
                 FontFamily.class);
         this.readResolve();
@@ -112,6 +118,7 @@ public final class CharacterMapping implements Serializable {
                     if (c.length > CharacterMapping.POS_MAPS) {
                         this.process(c[CharacterMapping.POS_CODESTR],
                                 c[CharacterMapping.POS_DESCRIPTION],
+                                c[CharacterMapping.POS_CATEGORY],
                                 c[CharacterMapping.POS_MAPS]);
                     }
                 }
@@ -131,18 +138,21 @@ public final class CharacterMapping implements Serializable {
     }
 
     private void process(final String codestr, final String descr,
-            final String mapsStr) {
+            final String category, final String mapsStr) {
         try {
             final int codepoint = Integer.parseInt(codestr, 16);
+            
+            if (category.startsWith("M")) {
+                this.markSet.add(codepoint);
+            }
+            
             if (!mapsStr.startsWith("<font> ")) {
                 return;
             }
             final int mapsTo = Integer.parseInt(mapsStr.substring(7), 16);
 
             final int awtStyle = this.parseAwtStyle(descr);
-
             final FontFamily fam = this.parseFontFamily(descr);
-
             if (fam == null) {
                 return;
             }
@@ -153,15 +163,13 @@ public final class CharacterMapping implements Serializable {
             if (force) {
                 this.forceSet.add(codepoint);
             }
+            
+            
             final CodePointAndVariant cpav = new CodePointAndVariant(mapsTo,
                     new MathVariant(awtStyle, fam));
-
             this.extractAttrs.put(codepoint, cpav);
-
             final Map<Integer, Integer[]> ffmap = this.getFFMap(fam);
-
             final Integer[] ia = this.getMapsTo(mapsTo, ffmap);
-
             ia[awtStyle] = codepoint;
         } catch (final NumberFormatException nfe) {
             CharacterMapping.LOGGER.debug("Parse Error", nfe);
@@ -181,7 +189,7 @@ public final class CharacterMapping implements Serializable {
     private Map<Integer, Integer[]> getFFMap(final FontFamily fam) {
         Map<Integer, Integer[]> ffmap = this.composeAttrs.get(fam);
         if (ffmap == null) {
-            ffmap = new TreeMap<Integer, Integer[]>();
+            ffmap = new HashMap<Integer, Integer[]>();
             this.composeAttrs.put(fam, ffmap);
         }
         return ffmap;
@@ -403,4 +411,17 @@ public final class CharacterMapping implements Serializable {
         }
     }
 
+    /**
+     * Checks if the given codepoint is a "marking" codepoint. Marking
+     * codepoints do not display by themself, but are usually combined with the
+     * previous character.
+     * 
+     * @param codepoint
+     *            codepoint to check.
+     * @return true if this codepoint reprensents a mark.
+     */
+    public boolean isMark(int codepoint) {
+        return this.markSet.contains(codepoint);
+    }
+    
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2002 - 2009 JEuclid, http://jeuclid.sf.net
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.AbstractJEuclidElement;
@@ -44,7 +46,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * Utilities for String handling.
- * 
+ *
  * @version $Revision$
  */
 // CHECKSTYLE:OFF
@@ -67,7 +69,7 @@ public final class StringUtil {
     /**
      * Converts a given String to an attributed string with the proper variants
      * set.
-     * 
+     *
      * @param inputString
      *            the string to convert.
      * @param baseVariant
@@ -131,7 +133,7 @@ public final class StringUtil {
     /**
      * Provide the text content of the current element as
      * AttributedCharacterIterator.
-     * 
+     *
      * @param contextNow
      *            LayoutContext of the parent element.
      * @param contextElement
@@ -224,7 +226,7 @@ public final class StringUtil {
     /**
      * Safely creates a Text Layout from an attributed string. Unlike the
      * TextLayout constructor, the String here may actually be empty.
-     * 
+     *
      * @param g
      *            Graphics context.
      * @param aString
@@ -273,7 +275,7 @@ public final class StringUtil {
 
     /**
      * Retrieves the real width from a given text layout.
-     * 
+     *
      * @param layout
      *            the textlayout
      * @return width
@@ -306,7 +308,7 @@ public final class StringUtil {
 
         /**
          * Default Constructor.
-         * 
+         *
          * @param newAscent
          *            text ascent.
          * @param newDescent
@@ -326,7 +328,7 @@ public final class StringUtil {
 
         /**
          * Getter method for ascent.
-         * 
+         *
          * @return the ascent
          */
         public float getAscent() {
@@ -335,7 +337,7 @@ public final class StringUtil {
 
         /**
          * Getter method for descent.
-         * 
+         *
          * @return the descent
          */
         public float getDescent() {
@@ -344,7 +346,7 @@ public final class StringUtil {
 
         /**
          * Getter method for offset.
-         * 
+         *
          * @return the offset
          */
         public float getOffset() {
@@ -353,7 +355,7 @@ public final class StringUtil {
 
         /**
          * Getter method for width.
-         * 
+         *
          * @return the width
          */
         public float getWidth() {
@@ -365,7 +367,7 @@ public final class StringUtil {
     /**
      * Retrieve the actual layout information from a textLayout. This is
      * different than the values given when calling the functions directly.
-     * 
+     *
      * @param textLayout
      *            TextLayout to look at.
      * @param trim
@@ -391,6 +393,32 @@ public final class StringUtil {
         }
         final float width = StringUtil.getWidthForTextLayout(textLayout);
         return new TextLayoutInfo(ascent, descent, xOffset, width);
+    }
+
+    /**
+     * Counts the displayable characters only. Counts high-surrogates as one
+     * character. Also, ignores combining mark characters.
+     *
+     * @param s
+     *            string to count length of.
+     * @return display length of the string.
+     */
+    public static int countDisplayableCharacters(@Nullable final String s) {
+        if (s == null) {
+            return 0;
+        }
+        int length = 0;
+        final int strLen = s.length();
+        for (int i = 0; i < strLen; i++) {
+            final char charHere = s.charAt(i);
+            if (!Character.isHighSurrogate(charHere)) {
+                final int codepoint = s.codePointAt(i);
+                if (!StringUtil.CMAP.isMark(codepoint)) {
+                    length++;
+                }
+            }
+        }
+        return length;
     }
 
 }
