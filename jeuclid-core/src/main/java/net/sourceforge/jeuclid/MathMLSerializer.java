@@ -20,14 +20,13 @@ package net.sourceforge.jeuclid;
 
 import java.io.StringWriter;
 
+import javax.annotation.concurrent.ThreadSafe;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import net.jcip.annotations.ThreadSafe;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

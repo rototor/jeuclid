@@ -18,7 +18,7 @@
 
 package net.sourceforge.jeuclid;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Constants which are shared in multiple classes.
