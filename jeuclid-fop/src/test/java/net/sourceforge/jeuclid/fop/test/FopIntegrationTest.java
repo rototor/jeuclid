@@ -1,6 +1,6 @@
 /*
  * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,10 +18,13 @@
 
 package net.sourceforge.jeuclid.fop.test;
 
+import org.junit.Ignore;
+
 /**
  * This class needs to be implemented.
- * 
+ *
  * @version $Revision$
  */
+@Ignore
 public class FopIntegrationTest {
 }
