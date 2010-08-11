@@ -249,7 +249,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.0.2</version>
+        <version>2.3.1</version>
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
@@ -260,7 +260,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.4.3</version>
+        <version>2.5</version>
         <configuration>
           <systemProperties>
             <property>
@@ -351,7 +351,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.1.2</version>
+        <version>2.2</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -370,16 +370,16 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.4.3</version>
+        <version>2.5</version>
       </plugin>
       <plugin>
         <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.2</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.6.1</version>
+        <version>2.7</version>
         <configuration>
           <linksource>true</linksource>
           <stylesheet>maven</stylesheet>
@@ -404,7 +404,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.4</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -440,7 +440,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.3.1</version>
         <configuration>
           <threshold>Low</threshold>
           <effort>Max</effort>
@@ -452,7 +452,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.4max</version>
+        <version>2.5</version>
         <configuration>
           <configLocation>jeuclid/checkstyle.xml</configLocation>
           <suppressionsLocation>jeuclid/checkstyle_filter.xml</suppressionsLocation>
@@ -461,7 +461,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>2.4</version>
+        <version>2.5</version>
         <configuration>
           <linkXref>true</linkXref>
           <targetJdk>1.5</targetJdk>
