@@ -1,6 +1,6 @@
 /*
  * Copyright 2009 - 2009 JEuclid, http://jeuclid.sf.net
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -35,6 +35,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import net.sourceforge.jeuclid.Constants;
+import net.sourceforge.jeuclid.elements.support.NamespaceContextAdder;
 import net.sourceforge.jeuclid.parser.Parser;
 
 import org.apache.commons.logging.Log;
@@ -46,7 +47,7 @@ import org.xml.sax.SAXException;
 
 /**
  * Implements an operator dictionary based on the MathML 3 spec.
- * 
+ *
  * @version $Revision$
  */
 public final class OperatorDictionary3 extends AbstractOperatorDictionary
@@ -77,7 +78,7 @@ public final class OperatorDictionary3 extends AbstractOperatorDictionary
     private static final int INT_VERYVERYTHICKMATHSPACE = 7;
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -134,7 +135,7 @@ public final class OperatorDictionary3 extends AbstractOperatorDictionary
 
     /**
      * Get the for singleton instance.
-     * 
+     *
      * @return an instance of OperatorDictionary.
      */
     public static OperatorDictionary getInstance() {
@@ -245,7 +246,11 @@ public final class OperatorDictionary3 extends AbstractOperatorDictionary
     private XPath createXPath() {
         final XPathFactory factory = XPathFactory.newInstance();
         final XPath xpath = factory.newXPath();
-        xpath.setNamespaceContext(new PersonalNamespaceContext());
+        final NamespaceContext xml = new NamespaceContextAdder("xml",
+                XMLConstants.XML_NS_URI, null);
+        final NamespaceContext html = new NamespaceContextAdder("html",
+                "http://www.w3.org/1999/xhtml", xml);
+        xpath.setNamespaceContext(html);
         return xpath;
     }
 
