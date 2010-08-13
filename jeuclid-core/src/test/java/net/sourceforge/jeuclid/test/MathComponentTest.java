@@ -20,6 +20,7 @@ package net.sourceforge.jeuclid.test;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.io.StringReader;
 
@@ -29,6 +30,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import net.sourceforge.jeuclid.ResourceEntityResolver;
 import net.sourceforge.jeuclid.awt.MathComponent;
 
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -40,6 +43,12 @@ import org.xml.sax.InputSource;
  */
 public class MathComponentTest {
 
+    /** Run these tests only on non-headless nodes. */
+    @BeforeClass
+    public static void checkHeadless() {
+        Assume.assumeTrue(!GraphicsEnvironment.isHeadless());
+    }
+    
     /**
      * Test string with xml header.
      */
@@ -63,21 +72,17 @@ public class MathComponentTest {
         document = parser.parse(new InputSource(new StringReader(
                 MathComponentTest.test)));
 
-        try {
-            final Frame frame = new Frame("Test MathComponent");
-            frame.setLayout(new BorderLayout());
-            final MathComponent component = new MathComponent();
-            component.setDocument(document);
-            component.setDebug(false);
-            frame.add(component, BorderLayout.CENTER);
-            frame.setVisible(true);
-            frame.pack();
-            frame.invalidate();
-            frame.validate();
-            frame.dispose();
-        } catch (final HeadlessException he) {
-            // Ignore to make test work on servers.
-        }
+        final Frame frame = new Frame("Test MathComponent");
+        frame.setLayout(new BorderLayout());
+        final MathComponent component = new MathComponent();
+        component.setDocument(document);
+        component.setDebug(false);
+        frame.add(component, BorderLayout.CENTER);
+        frame.setVisible(true);
+        frame.pack();
+        frame.invalidate();
+        frame.validate();
+        frame.dispose();
     }
 
 }
