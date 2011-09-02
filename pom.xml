@@ -531,7 +531,7 @@
     <stix-fonts.version>1.0-beta-2</stix-fonts.version>
     <ams-fonts.version>1.0</ams-fonts.version>
     <commons-cli.version>1.2</commons-cli.version>
-    <commons-lang.version>2.4</commons-lang.version>
+    <commons-lang3.version>3.0.1</commons-lang3.version>
     <fop.version>0.95-1</fop.version>
     <webstart-maven-plugin.version>1.0-alpha-2</webstart-maven-plugin.version>
     <osxappbundle-maven-plugin.version>1.0-alpha-1</osxappbundle-maven-plugin.version>
