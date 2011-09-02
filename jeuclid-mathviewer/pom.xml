@@ -21,7 +21,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3</version>
+        <version>${maven-jar-plugin.version}</version>
         <configuration>
           <archive>
             <manifest>
@@ -38,7 +38,7 @@
       <plugin>
         <groupId>org.codehaus.mojo.webstart</groupId>
         <artifactId>webstart-maven-plugin</artifactId>
-        <version>1.0-alpha-2</version>
+        <version>${webstart-maven-plugin.version}</version>
         <configuration>
           <jnlp>
             <outputFile>mathviewer.jnlp</outputFile>
@@ -73,7 +73,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>osxappbundle-maven-plugin</artifactId>
-        <version>1.0-alpha-1</version>
+        <version>${osxappbundle-maven-plugin.version}</version>
         <configuration>
           <mainClass>net.sourceforge.jeuclid.app.mathviewer.MathViewer</mainClass>
           <javaApplicationStub>${basedir}/src/main/app-resources/JavaApplicationStub</javaApplicationStub>
@@ -93,7 +93,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.1</version>
+        <version>${maven-dependency-plugin.version}</version>
         <executions>
           <execution>
             <id>unpack-dependencies</id>
@@ -119,7 +119,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>1.3.1</version>
+        <version>${maven-shade-plugin.version}</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -138,7 +138,7 @@
       <plugin>
         <groupId>com.akathist.maven.plugins.launch4j</groupId>
         <artifactId>launch4j-maven-plugin</artifactId>
-        <version>1.3</version>
+        <version>${launch4j-maven-plugin.version}</version>
         <executions>
           <execution>
             <id>l4j-clui</id>
@@ -175,7 +175,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-5</version>
+        <version>${maven-assembly-plugin.version}</version>
         <configuration>
           <descriptors>
             <descriptor>src/assemble/osx.xml</descriptor>
@@ -199,7 +199,7 @@
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
           <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
+          <version>${lifecycle-mapping.version}</version>
           <configuration>
             <lifecycleMappingMetadata>
               <pluginExecutions>
@@ -207,7 +207,7 @@
                   <pluginExecutionFilter>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <versionRange>[2.1,)</versionRange>
+                    <versionRange>[${maven-depencendy-plugin.version},)</versionRange>
                     <goals>
                       <goal>copy-dependencies</goal>
                       <goal>unpack</goal>
@@ -271,22 +271,22 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core</artifactId>
-      <version>3.1.10-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core16</artifactId>
-      <version>3.1.10-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.apple</groupId>
       <artifactId>AppleJavaExtensions</artifactId>
-      <version>1.2</version>
+      <version>${AppleJavaExtensions.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>batik-svggen</artifactId>
-      <version>1.7</version>
+      <version>${batik.version}</version>
       <exclusions>
         <exclusion>
           <groupId>javax.servlet</groupId>
@@ -310,7 +310,7 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-emf</artifactId>
-      <version>2.1.3</version>
+      <version>${freehep-graphicsio.version}</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -322,13 +322,13 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-gif</artifactId>
-      <version>1.2.3</version>
+      <version>${freehep-graphicsio-gif.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-pdf</artifactId>
-      <version>2.1.3</version>
+      <version>${freehep-graphicsio.version}</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -340,7 +340,7 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-ps</artifactId>
-      <version>2.1.3</version>
+      <version>${freehep-graphicsio.version}</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -352,7 +352,7 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-swf</artifactId>
-      <version>2.1.3</version>
+      <version>${freehep-graphicsio.version}</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -364,22 +364,22 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>dejavu-fonts</artifactId>
-      <version>2.29</version>
+      <version>${dejavu-fonts.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>stix-fonts</artifactId>
-      <version>1.0-beta-2</version>
+      <version>${stix-fonts.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>ams-fonts</artifactId>
-      <version>1.0</version>
+      <version>${ams-fonts.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>batik-gui-util</artifactId>
-      <version>1.7</version>
+      <version>${batik.version}</version>
       <exclusions>
         <exclusion>
           <groupId>javax.servlet</groupId>

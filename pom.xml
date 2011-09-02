@@ -513,6 +513,34 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <runtime.lib>${java.home}/lib/rt.jar</runtime.lib>
     <common.dir>${basedir}/..</common.dir>
+    <gmaven-plugin.version>1.0</gmaven-plugin.version>
+    <maven-bundle-plugin.version>2.0.1</maven-bundle-plugin.version>
+    <maven-jar-plugin.version>2.3</maven-jar-plugin.version>
+    <commons-logging.version>1.1.1</commons-logging.version>
+    <ant.version>1.6.5</ant.version>
+    <batik.version>1.7</batik.version>
+    <freehep-graphicsio.version>2.1.3</freehep-graphicsio.version>
+    <freehep-graphicsio-gif.version>1.2.3</freehep-graphicsio-gif.version>
+    <xmlgraphics-commons.version>1.3.1</xmlgraphics-commons.version>
+    <jsr305.version>1.3.9</jsr305.version>
+    <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
+    <appassembler-maven-plugin.version>1.0</appassembler-maven-plugin.version>
+    <maven-assembly-plugin.version>2.2-beta-4</maven-assembly-plugin.version>
+    <maven-dependency-plugin.version>2.1</maven-dependency-plugin.version>
+    <dejavu-fonts.version>2.29</dejavu-fonts.version>
+    <stix-fonts.version>1.0-beta-2</stix-fonts.version>
+    <ams-fonts.version>1.0</ams-fonts.version>
+    <commons-cli.version>1.2</commons-cli.version>
+    <commons-lang.version>2.4</commons-lang.version>
+    <fop.version>0.95-1</fop.version>
+    <webstart-maven-plugin.version>1.0-alpha-2</webstart-maven-plugin.version>
+    <osxappbundle-maven-plugin.version>1.0-alpha-1</osxappbundle-maven-plugin.version>
+    <maven-shade-plugin.version>1.3.1</maven-shade-plugin.version>
+    <launch4j-maven-plugin.version>1.3</launch4j-maven-plugin.version>
+    <AppleJavaExtensions.version>1.2</AppleJavaExtensions.version>
+    <swt.version>3.3.0-v3346</swt.version>
+    <servlet-api.version>2.5</servlet-api.version>
+    <jetty-maven-plugin.version>7.0.1.v20091125</jetty-maven-plugin.version>
   </properties>
   <profiles>
     <profile>
