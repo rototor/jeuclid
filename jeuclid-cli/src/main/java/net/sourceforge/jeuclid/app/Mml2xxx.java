@@ -40,7 +40,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Utility class to be used from the command line to call the converters.
@@ -73,20 +73,19 @@ public final class Mml2xxx {
                 .getDefaultLayoutContext();
         for (final Parameter param : Parameter.values()) {
             final TypeWrapper typeWrapper = param.getTypeWrapper();
-            final StringBuilder desc = new StringBuilder(param
-                    .getOptionDesc());
+            final StringBuilder desc = new StringBuilder(param.getOptionDesc());
             final String defValue = param.toString(defaultCtx
                     .getParameter(param));
             if (defValue != null) {
                 desc.append(" [default: ").append(defValue).append("]");
             }
-            final Option o = new Option(param.getOptionName(), true, desc
-                    .toString());
+            final Option o = new Option(param.getOptionName(), true,
+                    desc.toString());
             String argName = param.getTypeWrapper().getValueType()
                     .getSimpleName().toLowerCase(Locale.ENGLISH);
             if (typeWrapper instanceof EnumTypeWrapper) {
-                argName = StringUtils.join(((EnumTypeWrapper) typeWrapper)
-                        .values(), '|');
+                argName = StringUtils.join(
+                        ((EnumTypeWrapper) typeWrapper).values(), '|');
             }
             o.setArgName(argName);
             options.addOption(o);
@@ -168,8 +167,8 @@ public final class Mml2xxx {
         }
     }
 
-    private static List<File> createListOfSourceFiles(
-            final List<String> files, final int count) throws ParseException {
+    private static List<File> createListOfSourceFiles(final List<String> files,
+            final int count) throws ParseException {
         final List<File> sources = new ArrayList<File>(count);
         for (int i = 0; i < count; i++) {
             final String current = files.get(i);
@@ -187,7 +186,7 @@ public final class Mml2xxx {
             final String fileName) throws ParseException {
         String outFileType = cmdLine.getOptionValue(Mml2xxx.OUT_FILE_TYPE);
         final String isNotSupported = " is not supported";
-        if ((outFileType == null) && (fileName != null)) {
+        if (outFileType == null && fileName != null) {
             final int dot = fileName.lastIndexOf('.');
             if (dot != -1 && dot != fileName.length() - 1) {
                 final String extension = fileName.substring(dot + 1);
@@ -202,8 +201,8 @@ public final class Mml2xxx {
         } else {
             if (!ConverterRegistry.getInstance().getAvailableOutfileTypes()
                     .contains(outFileType)) {
-                throw new IllegalArgumentException("Output type "
-                        + outFileType + isNotSupported);
+                throw new IllegalArgumentException("Output type " + outFileType
+                        + isNotSupported);
             }
         }
         return outFileType;
@@ -214,8 +213,7 @@ public final class Mml2xxx {
         final MutableLayoutContext ctx = new LayoutContextImpl(
                 LayoutContextImpl.getDefaultLayoutContext());
         for (final Parameter param : Parameter.values()) {
-            final String value = cmdLine
-                    .getOptionValue(param.getOptionName());
+            final String value = cmdLine.getOptionValue(param.getOptionName());
             if (value != null) {
                 ctx.setParameter(param, param.fromString(value));
             }
@@ -226,16 +224,14 @@ public final class Mml2xxx {
     private static void showUsage(final Options options) {
         final HelpFormatter hf = new HelpFormatter();
         final String lineSep = hf.getNewLine();
-        hf
-                .printHelp(
-                        "mml2xxx <source file(s)> <target file/directory> [options]",
-                        "source is the path to the source file (MathML or ODF format)"
-                                + lineSep
-                                + "target is the path to the target file / directory"
-                                + lineSep
-                                + "If multiple source files are given, target must be a directory",
-                        options,
-                        "Example: mml2xxx a.mml a.png -backgroundColor white");
+        hf.printHelp(
+                "mml2xxx <source file(s)> <target file/directory> [options]",
+                "source is the path to the source file (MathML or ODF format)"
+                        + lineSep
+                        + "target is the path to the target file / directory"
+                        + lineSep
+                        + "If multiple source files are given, target must be a directory",
+                options, "Example: mml2xxx a.mml a.png -backgroundColor white");
     }
 
 }
