@@ -17,7 +17,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
-        <version>1.0</version>
+        <version>${appassembler-maven-plugin.version}</version>
         <configuration>
           <programs>
             <program>
@@ -51,7 +51,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-4</version>
+        <version>${maven-assembly-plugin.version}</version>
         <configuration>
           <descriptors>
             <descriptor>src/assemble/distribution.xml</descriptor>
@@ -70,7 +70,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.1</version>
+        <version>${maven-dependency-plugin.version}</version>
         <executions>
           <execution>
             <id>unpack-dependencies</id>
@@ -105,27 +105,27 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core</artifactId>
-      <version>3.1.10-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-swt</artifactId>
-      <version>3.1.10-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-mathviewer</artifactId>
-      <version>3.1.10-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-cli</artifactId>
-      <version>3.1.10-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-fop</artifactId>
-      <version>3.1.10-SNAPSHOT</version>
+      <version>${project.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.apache.xmlgraphics</groupId>
@@ -136,7 +136,7 @@
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>batik-svggen</artifactId>
-      <version>1.7</version>
+      <version>${batik.version}</version>
       <exclusions>
         <exclusion>
           <groupId>javax.servlet</groupId>
@@ -160,7 +160,7 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-emf</artifactId>
-      <version>2.1.3</version>
+      <version>${freehep-graphicsio.version}</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -172,13 +172,13 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-gif</artifactId>
-      <version>1.2.3</version>
+      <version>${freehep-graphicsio-gif.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-pdf</artifactId>
-      <version>2.1.3</version>
+      <version>${freehep-graphicsio.version}</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -190,7 +190,7 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-ps</artifactId>
-      <version>2.1.3</version>
+      <version>${freehep-graphicsio.version}</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -202,7 +202,7 @@
     <dependency>
       <groupId>org.freehep</groupId>
       <artifactId>freehep-graphicsio-swf</artifactId>
-      <version>2.1.3</version>
+      <version>${freehep-graphicsio.version}</version>
       <optional>true</optional>
       <exclusions>
         <exclusion>
@@ -214,17 +214,17 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>dejavu-fonts</artifactId>
-      <version>2.29</version>
+      <version>${dejavu-fonts.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>stix-fonts</artifactId>
-      <version>1.0-beta-2</version>
+      <version>${stix-fonts.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>ams-fonts</artifactId>
-      <version>1.0</version>
+      <version>${ams-fonts.version}</version>
     </dependency>
   </dependencies>
 </project>

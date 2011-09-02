@@ -14,7 +14,7 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.0.1</version>
+        <version>${maven-bundle-plugin.version}</version>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -31,13 +31,13 @@
     <dependency>
       <groupId>net.sourceforge.jeuclid</groupId>
       <artifactId>jeuclid-core</artifactId>
-      <version>3.1.10-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <!-- It doesn't really matter which SWT we are depending on, since this is only used for compilation -->
       <groupId>org.eclipse.swt.wpf.win32</groupId>
       <artifactId>x86</artifactId>
-      <version>3.3.0-v3346</version>
+      <version>${swt.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
