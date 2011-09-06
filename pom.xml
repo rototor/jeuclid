@@ -223,7 +223,7 @@
       <extension>
         <groupId>net.sourceforge.jeuclid</groupId>
         <artifactId>build-tools</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.5</version>
       </extension>
     </extensions>
     <defaultGoal>install</defaultGoal>
@@ -456,6 +456,9 @@
         <configuration>
           <configLocation>jeuclid/checkstyle.xml</configLocation>
           <suppressionsLocation>jeuclid/checkstyle_filter.xml</suppressionsLocation>
+          <propertyExpansion> 
+            cacheFile=${project.build.directory}/checkstyle-cachefile 
+          </propertyExpansion>
         </configuration>
       </plugin>
       <plugin>
