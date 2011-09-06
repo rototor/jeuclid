@@ -8,7 +8,7 @@
     <artifactId>jeuclid-support</artifactId>
     <version>1.0.1</version>
   </parent>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <name>JEuclid Build Tools</name>
   <description>This module contains files needed during JEuclids build.</description>
   <packaging>jar</packaging>

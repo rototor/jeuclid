@@ -12,6 +12,7 @@ Description:
   <property name="severity" value="warning"/>
   <module name="SuppressionCommentFilter"/>
   <module name="TreeWalker">
+    <property name="cacheFile" value="${cacheFile}"/>
     <module name="FileContentsHolder"/>
     <module name="JavadocType">
       <property name="scope" value="protected"/>
