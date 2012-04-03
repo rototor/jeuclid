@@ -218,6 +218,14 @@
     <developerConnection>scm:hg:ssh://jeuclid.hg.sourceforge.net/hgroot/jeuclid/jeuclid</developerConnection>
     <url>http://jeuclid.hg.sourceforge.net/hgweb/jeuclid/jeuclid/</url>
   </scm>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.9</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
   <build>
     <extensions>
       <extension>
@@ -245,6 +253,14 @@
             <version>1.2</version>
           </dependency>
         </dependencies>
+        <executions>
+          <execution>
+            <id>attach-descriptor</id>
+            <goals>
+              <goal>attach-descriptor</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -301,73 +317,6 @@
           </execution>
         </executions>
       </plugin>
-    </plugins>
-  </build>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.9</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>codehaus-plugins</id>
-      <name>codehaus-plugins</name>
-      <url>http://repository.codehaus.org/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </pluginRepository>
-    <pluginRepository>
-      <id>maxthird</id>
-      <name>Max Third Party Repo</name>
-      <url>http://m2.max.berger.name/content/repositories/thirdparty</url>
-    </pluginRepository>
-  </pluginRepositories>
-  <repositories>
-    <repository>
-      <id>jeuclid-release</id>
-      <name>JEuclid released dependencies</name>
-      <url>http://jeuclid.sf.net/m2-release</url>
-    </repository>
-    <repository>
-      <id>jeuclid-deps</id>
-      <name>JEuclid dependencies</name>
-      <url>http://jeuclid.sf.net/m2</url>
-    </repository>
-    <repository>
-      <id>freehep-maven</id>
-      <name>Maven FreeHEP</name>
-      <url>http://java.freehep.org/maven2</url>
-    </repository>
-  </repositories>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.4</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <!-- Hangs on some machines -->
-              <!-- <report>dependencies</report> -->
-              <report>project-team</report>
-              <report>mailing-list</report>
-              <!-- none set up -->
-              <!-- <report>cim</report> -->
-              <report>issue-tracking</report>
-              <report>license</report>
-              <report>scm</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
       <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
         <version>2.9</version>
@@ -410,14 +359,14 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
         <version>2.6</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>changes-report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
         <configuration>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>changes-report</report>
+              </reports>
+            </reportSet>
+          </reportSets>
           <issueLinkTemplate>http://sourceforge.net/support/tracker.php?aid=%ISSUE%</issueLinkTemplate>
         </configuration>
       </plugin>
@@ -440,7 +389,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>2.4</version>
         <configuration>
           <threshold>Low</threshold>
           <effort>Max</effort>
@@ -494,7 +443,42 @@
         <version>1.0.0-beta-1</version>
       </plugin>
     </plugins>
-  </reporting>
+  </build>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>codehaus-plugins</id>
+      <name>codehaus-plugins</name>
+      <url>http://repository.codehaus.org/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </pluginRepository>
+    <pluginRepository>
+      <id>maxthird</id>
+      <name>Max Third Party Repo</name>
+      <url>http://m2.max.berger.name/content/repositories/thirdparty</url>
+    </pluginRepository>
+  </pluginRepositories>
+  <repositories>
+    <repository>
+      <id>jeuclid-release</id>
+      <name>JEuclid released dependencies</name>
+      <url>http://jeuclid.sf.net/m2-release</url>
+    </repository>
+    <repository>
+      <id>jeuclid-deps</id>
+      <name>JEuclid dependencies</name>
+      <url>http://jeuclid.sf.net/m2</url>
+    </repository>
+    <repository>
+      <id>freehep-maven</id>
+      <name>Maven FreeHEP</name>
+      <url>http://java.freehep.org/maven2</url>
+    </repository>
+  </repositories>
   <distributionManagement>
     <repository>
       <id>sourceforgejeuclid</id>
