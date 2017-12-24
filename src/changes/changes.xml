@@ -318,7 +318,7 @@ foprep: No uses percentage alignment-adjust instead of absolute baseline-shift
 				introduced FontFactory and changed MathVariant &amp; Mglyph to use it
 			</action>
       <action dev="maxberger" type="update">
-			  repaired property setting in swing component.
+			  repaired property setting in net.sourceforge.jeuclid.swing component.
 			</action>
       <action dev="maxberger" type="update">
 			  fixed maction to only display selected content, as per spec.
@@ -424,7 +424,7 @@ foprep: No uses percentage alignment-adjust instead of absolute baseline-shift
 			</action>
       <action dev="maxberger" type="update" issue="1710738">
 				Proper support for serialization of DOM Tree (needed for
-				swing component's content property);
+				net.sourceforge.jeuclid.swing component's content property);
 			</action>
       <action dev="maxberger" type="update">
 				Improved documentation on source webpage

@@ -1,6 +1,6 @@
 /*
  * Copyright 2002 - 2008 JEuclid, http://jeuclid.sf.net
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -62,7 +62,7 @@ import org.xml.sax.SAXException;
  * {@link JMathComponentBeanInfo} class. Additional attributes, such as
  * {@link #getFont()} and {@link #setFont(Font)} are provided for Swing
  * compatibility, but they may not work exactly as expected.
- * 
+ *
  * @see net.sourceforge.jeuclid.awt.MathComponent
  * @version $Revision$
  */
@@ -78,10 +78,6 @@ public final class JMathComponent extends JComponent implements
 
     /** */
     private static final long serialVersionUID = 1L;
-
-    private static String uiClassId;
-
-    private static Class<?> mathComponentUIClass;
 
     private Node document;
 
@@ -106,7 +102,7 @@ public final class JMathComponent extends JComponent implements
 
     /**
      * Default constructor with cursor listener.
-     * 
+     *
      * @param listener
      *            cursor listener instance
      */
@@ -124,7 +120,7 @@ public final class JMathComponent extends JComponent implements
 
     /**
      * gets cursor listener instance.
-     * 
+     *
      * @return cursor listener instance
      */
     public CursorListener getCursorListener() {
@@ -147,7 +143,7 @@ public final class JMathComponent extends JComponent implements
      * This transforms the internal DOM tree back into a string, which may is
      * not guaranteed to be the literally same as the original content.
      * However, it will represent the same XML document.
-     * 
+     *
      * @return the content string.
      */
     public String getContent() {
@@ -180,7 +176,7 @@ public final class JMathComponent extends JComponent implements
      * Font list for Doublestruck. Please see
      * {@link Parameter#FontsDoublestruck} for an explanation of this
      * parameter.
-     * 
+     *
      * @return The list for Doublestruck.
      * @see Parameter#FontsDoublestruck
      */
@@ -193,7 +189,7 @@ public final class JMathComponent extends JComponent implements
     /**
      * Font list for Fraktur. Please see {@link Parameter#FontsFraktur} for an
      * explanation of this parameter.
-     * 
+     *
      * @return The list for Fraktur.
      * @see Parameter#FontsFraktur
      */
@@ -213,7 +209,7 @@ public final class JMathComponent extends JComponent implements
     /**
      * Font list for Monospaced. Please see {@link Parameter#FontsMonospaced}
      * for an explanation of this parameter.
-     * 
+     *
      * @return The list for monospaced.
      * @see Parameter#FontsMonospaced
      */
@@ -226,7 +222,7 @@ public final class JMathComponent extends JComponent implements
     /**
      * Font list for Sans-Serif. Please see {@link Parameter#FontsSanserif}
      * for an explanation of this parameter.
-     * 
+     *
      * @return The list for sansserif.
      * @see Parameter#FontsSanserif
      */
@@ -239,7 +235,7 @@ public final class JMathComponent extends JComponent implements
     /**
      * Font list for Script. Please see {@link Parameter#FontsScript} for an
      * explanation of this parameter.
-     * 
+     *
      * @return The list for Script.
      * @see Parameter#FontsScript
      */
@@ -252,7 +248,7 @@ public final class JMathComponent extends JComponent implements
     /**
      * Font list for Serif (the default MathML font). Please see
      * {@link Parameter#FontsSerif} for an explanation of this parameter.
-     * 
+     *
      * @return The list for serif.
      * @see Parameter#FontsSerif
      */
@@ -275,7 +271,7 @@ public final class JMathComponent extends JComponent implements
      * Supported are: {@link SwingConstants#LEADING},
      * {@link SwingConstants#LEFT}, {@link SwingConstants#CENTER},
      * {@link SwingConstants#TRAILING}, {@link SwingConstants#RIGHT}.
-     * 
+     *
      * @return the horizontalAlignment
      * @see javax.swing.JLabel#getHorizontalAlignment()
      */
@@ -291,20 +287,12 @@ public final class JMathComponent extends JComponent implements
     }
 
     /**
-     * @return The default UI class
-     */
-    @Override
-    public String getUIClassID() {
-        return JMathComponent.uiClassId;
-    }
-
-    /**
      * Vertical alignment, as defined by
      * {@link javax.swing.JLabel#getVerticalAlignment()}.
      * <p>
      * Supported are: {@link SwingConstants#TOP},
      * {@link SwingConstants#CENTER}, {@link SwingConstants#BOTTOM}.
-     * 
+     *
      * @return the verticalAlignment
      * @see javax.swing.JLabel#getVerticalAlignment()
      */
@@ -326,13 +314,13 @@ public final class JMathComponent extends JComponent implements
 
     /**
      * Set the content from a String containing the MathML content.
-     * 
+     *
      * @param contentString
      *            the content to set.
      */
     public void setContent(final String contentString) {
         try {
-            final Document stdDomNode = MathMLParserSupport.parseString(contentString); 
+            final Document stdDomNode = MathMLParserSupport.parseString(contentString);
             final DocumentElement jEuclidDom = DOMBuilder.getInstance().createJeuclidDom(stdDomNode,
                     true, true);
             this.setDocument(jEuclidDom);
@@ -348,7 +336,7 @@ public final class JMathComponent extends JComponent implements
 
     /**
      * Enables, or disables the debug mode.
-     * 
+     *
      * @param dbg
      *            Debug mode.
      */
@@ -377,7 +365,7 @@ public final class JMathComponent extends JComponent implements
      * adding the font to the front of the serif font list.
      * <p>
      * Please use the separate setters if possible.
-     * 
+     *
      * @param f
      *            font to set.
      * @see #setFontSize(float)
@@ -401,7 +389,7 @@ public final class JMathComponent extends JComponent implements
      * Font list for Doublestruck. Please see
      * {@link Parameter#FONTS_DOUBLESTRUCK} for an explanation of this
      * parameter.
-     * 
+     *
      * @param newFonts
      *            new list for Doublestruck (comma seraparated).
      * @see Parameter#FONTS_DOUBLESTRUCK
@@ -414,7 +402,7 @@ public final class JMathComponent extends JComponent implements
     /**
      * Font list for Fraktur. Please see {@link Parameter#FONTS_FRAKTUR} for
      * an explanation of this parameter.
-     * 
+     *
      * @param newFonts
      *            new list for Fraktur (comma seraparated).
      * @see Parameter#FONTS_FRAKTUR
@@ -425,7 +413,7 @@ public final class JMathComponent extends JComponent implements
 
     /**
      * Sets a generic rendering parameter.
-     * 
+     *
      * @param key
      *            Key for the parameter
      * @param newValue
@@ -437,7 +425,7 @@ public final class JMathComponent extends JComponent implements
 
     /**
      * Sets generic rendering parameters.
-     * 
+     *
      * @param newValues
      *            map of parameter keys to new values
      */
@@ -455,7 +443,7 @@ public final class JMathComponent extends JComponent implements
 
     /**
      * sets the font size used.
-     * 
+     *
      * @param fontSize
      *            the font size.
      */
@@ -466,7 +454,7 @@ public final class JMathComponent extends JComponent implements
     /**
      * Font list for Monospaced. Please see {@link Parameter#FONTS_MONOSPACED}
      * for an explanation of this parameter.
-     * 
+     *
      * @param newFonts
      *            new list for Monospaced (comma seraparated).
      * @see Parameter#FONTS_MONOSPACED
@@ -479,7 +467,7 @@ public final class JMathComponent extends JComponent implements
     /**
      * Font list for Sans-Serif. Please see {@link Parameter#FONTS_SANSSERIF}
      * for an explanation of this parameter.
-     * 
+     *
      * @param newFonts
      *            new list for sansserif (comma seraparated).
      * @see Parameter#FONTS_SANSSERIF
@@ -492,7 +480,7 @@ public final class JMathComponent extends JComponent implements
     /**
      * Font list for Script. Please see {@link Parameter#FONTS_SCRIPT} for an
      * explanation of this parameter.
-     * 
+     *
      * @param newFonts
      *            new list for Script (comma seraparated).
      * @see Parameter#FONTS_SCRIPT
@@ -504,7 +492,7 @@ public final class JMathComponent extends JComponent implements
     /**
      * Font list for Serif (the default MathML font). Please see
      * {@link Parameter#FONTS_SERIF} for an explanation of this parameter.
-     * 
+     *
      * @param newFonts
      *            new list for serif (comma seraparated).
      * @see Parameter#FONTS_SERIF
@@ -528,7 +516,7 @@ public final class JMathComponent extends JComponent implements
      * Supported are: {@link SwingConstants#LEADING},
      * {@link SwingConstants#LEFT}, {@link SwingConstants#CENTER},
      * {@link SwingConstants#TRAILING}, {@link SwingConstants#RIGHT}.
-     * 
+     *
      * @param hAlignment
      *            the horizontalAlignment to set
      * @see javax.swing.JLabel#setHorizontalAlignment(int)
@@ -550,7 +538,7 @@ public final class JMathComponent extends JComponent implements
      * <p>
      * Supported are: {@link SwingConstants#TOP},
      * {@link SwingConstants#CENTER}, {@link SwingConstants#BOTTOM}.
-     * 
+     *
      * @param vAlignment
      *            the verticalAlignment to set
      * @see javax.swing.JLabel#setVerticalAlignment(int)
@@ -563,15 +551,7 @@ public final class JMathComponent extends JComponent implements
     @Override
     public void updateUI() {
         if (UIManager.get(this.getUIClassID()) == null) {
-            try {
-                this
-                        .setUI((MathComponentUI) JMathComponent.mathComponentUIClass
-                                .newInstance());
-            } catch (final InstantiationException e) {
-                JMathComponent.LOGGER.warn(e.getMessage());
-            } catch (final IllegalAccessException e) {
-                JMathComponent.LOGGER.warn(e.getMessage());
-            }
+			this.setUI(new MathComponentUI16());
         } else {
             this.setUI(UIManager.getUI(this));
         }
@@ -591,19 +571,5 @@ public final class JMathComponent extends JComponent implements
         super.setSize(width, height);
     }
 
-    static {
-        Class<?> uiClass;
-        String id;
-        try {
-            uiClass = ClassLoaderSupport.getInstance().loadClass(
-                    "net.sourceforge.jeuclid.swing.MathComponentUI16");
-            id = "MathComponentUI16";
-        } catch (final ClassNotFoundException t) {
-            uiClass = MathComponentUI.class;
-            id = "MathComponentUI";
-        }
-        JMathComponent.uiClassId = id;
-        JMathComponent.mathComponentUIClass = uiClass;
-    }
 
 }

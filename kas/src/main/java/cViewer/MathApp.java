@@ -16,11 +16,6 @@
 
 package cViewer;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 public final class MathApp {
 
     private static void createAndShowGUI() {
@@ -34,11 +29,11 @@ public final class MathApp {
     public static void main(final String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                // Wähle ein LookAndFeel
+                // Wï¿½hle ein LookAndFeel
                 try {
                     UIManager.setLookAndFeel(UIManager
                             .getSystemLookAndFeelClassName());
-                    // UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+                    // UIManager.setLookAndFeel("com.sun.java.net.sourceforge.jeuclid.swing.plaf.nimbus.NimbusLookAndFeel");
                     // UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
                 } catch (final ClassNotFoundException e) {
                     System.out.println("ClassNotFound");

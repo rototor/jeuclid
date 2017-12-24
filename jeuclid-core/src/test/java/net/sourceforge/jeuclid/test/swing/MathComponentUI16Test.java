@@ -16,16 +16,15 @@
 
 /* $Id$ */
 
-package net.sourceforge.jeuclid.test;
-
-import java.awt.HeadlessException;
+package net.sourceforge.jeuclid.test.swing;
 
 import net.sourceforge.jeuclid.swing.JMathComponent;
 import net.sourceforge.jeuclid.swing.MathComponentUI;
 import net.sourceforge.jeuclid.swing.MathComponentUI16;
-
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.awt.*;
 
 /**
  * Tests the MathComponentUI16.

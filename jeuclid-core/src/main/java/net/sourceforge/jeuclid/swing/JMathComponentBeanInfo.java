@@ -28,7 +28,7 @@ import java.beans.SimpleBeanInfo;
 import javax.swing.ImageIcon;
 
 /**
- * This is the class providing bean information about the swing component
+ * This is the class providing bean information about the net.sourceforge.jeuclid.swing component
  * {@link JMathComponent}. This class might be useful for applications using
  * JEuclid in their application. With help of this class they can query useful
  * information about JMathComponent when the application uses it as a bean.
@@ -150,13 +150,13 @@ public class JMathComponentBeanInfo extends SimpleBeanInfo {
             final PropertyDescriptor vAlign = this
                     .createPropertyDescriptor("verticalAlignment",
                             "Vertical Alignment",
-                            "Vertical alignment, as defined by javax.swing.JLabel#getHorizontalAlignment");
+                            "Vertical alignment, as defined by javax.net.sourceforge.jeuclid.swing.JLabel#getHorizontalAlignment");
 
             final PropertyDescriptor hAlign = this
                     .createPropertyDescriptor(
                             "horizontalAlignment",
                             "Horizontal Alignment",
-                            "Horizontal alignment, as defined by javax.swing.JLabel#getHorizontalAlignment");
+                            "Horizontal alignment, as defined by javax.net.sourceforge.jeuclid.swing.JLabel#getHorizontalAlignment");
             final PropertyDescriptor border = this.createPropertyDescriptor(
                     "border", "Border", "Swing Border Property");
 

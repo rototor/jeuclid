@@ -18,11 +18,9 @@
 
 package net.sourceforge.jeuclid.swing;
 
-import java.awt.Component;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.Component.BaselineResizeBehavior;
-
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
 
 /*
  * Copyright 2002 - 2007 JEuclid, http://jeuclid.sf.net

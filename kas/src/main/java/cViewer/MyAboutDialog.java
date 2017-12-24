@@ -18,18 +18,11 @@ package cViewer;
 
 /* maxberger; angepasst an KAS Erhard Kuenzel */
 
-import java.awt.BorderLayout;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.URL;
-
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 /**
  * About Dialog for MathViewer.
@@ -83,7 +76,7 @@ public final class MyAboutDialog extends JDialog {
     /**
      * This method initializes jContentPane
      * 
-     * @return javax.swing.JPanel
+     * @return javax.net.sourceforge.jeuclid.swing.JPanel
      */
     private JPanel getJContentPane() {
         if (this.jContentPane == null) {

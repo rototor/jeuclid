@@ -5,7 +5,7 @@
   <packaging>war</packaging>
   <name>JEuclid Rendering of W3C MathML Testsuite</name>
   <parent>
-    <groupId>net.sourceforge.jeuclid</groupId>
+    <groupId>de.rototor.jeuclid</groupId>
     <artifactId>jeuclid-parent</artifactId>
     <version>3.1.10-SNAPSHOT</version>
   </parent>
