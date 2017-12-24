@@ -1,0 +1,21 @@
+syntax: regexp
+
+target/
+^temp
+temp/
+^test
+test-output/
+\.classpath$
+\.project$
+\.settings/
+\.externalToolBuilders/
+\.checkstyle$
+\.fbprefs$
+^jeuclid-mathviewer/keystore$
+\.patch$
+^jeuclid-fop/src/site/apt/index.apt$
+\.iml$
+\.ipr$
+\.iws$
+.DS_Store$
+.idea/
