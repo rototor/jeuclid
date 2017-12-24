@@ -12,7 +12,7 @@
 		<module>jeuclid-testsuite</module>
 	</modules>
 	<description>
-		This is a stripped down version of jeculid running on JDK 9 with Batik 1.9.
+		This is a stripped down version of jeculid running with JDK 9 with Batik 1.9. Minimum Java requirement is 1.6.
 
 		Original Description:
 
@@ -22,10 +22,6 @@
 		component for Apache Cocoon
 	</description>
 	<url>http://jeuclid.sourceforge.net</url>
-	<issueManagement>
-		<system>SourceForge</system>
-		<url>https://sourceforge.net/tracker/?group_id=44862</url>
-	</issueManagement>
 	<inceptionYear>2002</inceptionYear>
 	<organization>
 		<name>The JEuclid project</name>
@@ -67,6 +63,16 @@
 		</license>
 	</licenses>
 	<developers>
+		<developer>
+			<id>rototor</id>
+			<name>Emmeran Seehuber</name>
+			<email>rototor@rototor.de</email>
+			<url>https://www.rototor.de</url>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
 		<developer>
 			<id>maxberger</id>
 			<name>Max Berger</name>
@@ -214,9 +220,9 @@
 		</contributor>
 	</contributors>
 	<scm>
-		<connection>scm:hg:http://jeuclid.hg.sourceforge.net:8000/hgroot/jeuclid/jeuclid</connection>
-		<developerConnection>scm:hg:ssh://jeuclid.hg.sourceforge.net/hgroot/jeuclid/jeuclid</developerConnection>
-		<url>http://jeuclid.hg.sourceforge.net/hgweb/jeuclid/jeuclid/</url>
+		<url>https://github.com/rototor/jeuclid</url>
+		<connection>scm:git:https://github.com/rototor/jeuclid.git</connection>
+		<tag>HEAD</tag>
 	</scm>
 	<dependencies>
 		<dependency>
