@@ -18,55 +18,26 @@
 
 package net.sourceforge.jeuclid.elements;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sourceforge.jeuclid.elements.content.semantic.Annotation;
 import net.sourceforge.jeuclid.elements.content.semantic.Semantics;
 import net.sourceforge.jeuclid.elements.generic.ForeignElement;
 import net.sourceforge.jeuclid.elements.generic.MathImpl;
 import net.sourceforge.jeuclid.elements.presentation.enlivening.Maction;
-import net.sourceforge.jeuclid.elements.presentation.general.Menclose;
-import net.sourceforge.jeuclid.elements.presentation.general.Merror;
-import net.sourceforge.jeuclid.elements.presentation.general.Mfenced;
-import net.sourceforge.jeuclid.elements.presentation.general.Mfrac;
-import net.sourceforge.jeuclid.elements.presentation.general.Mpadded;
-import net.sourceforge.jeuclid.elements.presentation.general.Mphantom;
-import net.sourceforge.jeuclid.elements.presentation.general.Mroot;
-import net.sourceforge.jeuclid.elements.presentation.general.Mrow;
-import net.sourceforge.jeuclid.elements.presentation.general.Msqrt;
-import net.sourceforge.jeuclid.elements.presentation.general.Mstyle;
-import net.sourceforge.jeuclid.elements.presentation.script.Mmultiscripts;
-import net.sourceforge.jeuclid.elements.presentation.script.Mover;
-import net.sourceforge.jeuclid.elements.presentation.script.Mprescripts;
-import net.sourceforge.jeuclid.elements.presentation.script.Msub;
-import net.sourceforge.jeuclid.elements.presentation.script.Msubsup;
-import net.sourceforge.jeuclid.elements.presentation.script.Msup;
-import net.sourceforge.jeuclid.elements.presentation.script.Munder;
-import net.sourceforge.jeuclid.elements.presentation.script.Munderover;
-import net.sourceforge.jeuclid.elements.presentation.script.None;
-import net.sourceforge.jeuclid.elements.presentation.table.Maligngroup;
-import net.sourceforge.jeuclid.elements.presentation.table.Malignmark;
-import net.sourceforge.jeuclid.elements.presentation.table.Mlabeledtr;
-import net.sourceforge.jeuclid.elements.presentation.table.Mtable;
-import net.sourceforge.jeuclid.elements.presentation.table.Mtd;
-import net.sourceforge.jeuclid.elements.presentation.table.Mtr;
-import net.sourceforge.jeuclid.elements.presentation.token.Mglyph;
-import net.sourceforge.jeuclid.elements.presentation.token.Mi;
-import net.sourceforge.jeuclid.elements.presentation.token.Mn;
-import net.sourceforge.jeuclid.elements.presentation.token.Mo;
-import net.sourceforge.jeuclid.elements.presentation.token.Ms;
-import net.sourceforge.jeuclid.elements.presentation.token.Mspace;
-import net.sourceforge.jeuclid.elements.presentation.token.Mtext;
-
+import net.sourceforge.jeuclid.elements.presentation.general.*;
+import net.sourceforge.jeuclid.elements.presentation.script.*;
+import net.sourceforge.jeuclid.elements.presentation.table.*;
+import net.sourceforge.jeuclid.elements.presentation.token.*;
 import org.apache.batik.dom.AbstractDocument;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Creates MathElements from given element strings.

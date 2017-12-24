@@ -18,12 +18,6 @@
 
 package net.sourceforge.jeuclid.elements.presentation.token;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
-import java.text.AttributedString;
-
 import net.sourceforge.jeuclid.Constants;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.context.Display;
@@ -42,18 +36,22 @@ import net.sourceforge.jeuclid.layout.LayoutInfo;
 import net.sourceforge.jeuclid.layout.LayoutStage;
 import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.TextObject;
-
 import org.apache.batik.dom.AbstractDocument;
-import org.apache.batik.dom.events.DOMCustomEvent;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
-import org.w3c.dom.events.CustomEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.mathml.MathMLOperatorElement;
 import org.w3c.dom.mathml.MathMLScriptElement;
 import org.w3c.dom.mathml.MathMLUnderOverElement;
+
+import java.awt.*;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
+import java.text.AttributedString;
+
+//import org.w3c.dom.events.CustomEvent;
 
 /**
  * This class presents a math operator, like "(" or "*".
@@ -313,9 +311,13 @@ public final class Mo extends AbstractJEuclidElement implements
                 this.setDefaultMathAttribute(Mo.ATTR_STRETCHY,
                         Mo.VALUE_STRETCHY_VERTICAL);
             }
+            /*
+            * Does NOT work with JDK 9, as CustomEvent is in the same package
+            * as a JDK 9 module exports...
             final CustomEvent evt = new DOMCustomEvent();
             evt.initCustomEventNS(null, Mo.MOEVENT, true, false, null);
             this.dispatchEvent(evt);
+            */
             this.inChangeHook = false;
         }
     }
