@@ -175,7 +175,7 @@ public class ConverterTest {
      * @return temp directory.
      */
     public File getOutDir() {
-        final File outDir = new File("temp");
+        final File outDir = new File("target/tests/converter");
         if (!outDir.isDirectory()) {
             final boolean success = outDir.mkdirs();
             Assert
