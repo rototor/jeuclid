@@ -19,14 +19,20 @@ You can get this library from maven central using this dependency:
 <dependency>
         <groupId>de.rototor.jeuclid</groupId>
         <artifactId>jeuclid-core</artifactId>
-        <version>3.1.10</version>
+        <version>3.1.11</version>
 </dependency>
 ```
 ## Changes
 
+Version 3.1.11: 
+ - First version released to maven central.
+ - Fixes a small race in a testdriver, which caused the release of 3.1.10 to fail.
+ 
 Version 3.1.10:
  - Removed FOP and SWT support
  - Made it compile with JDK9. This removes dynamic DOM change support for now.
  - Upgraded Batik and other dependencies to their current version.
  - Note: This is not a fully compatible replacement for 3.1.9, as this version
 	misses FOP and SWT support.
+ - Note: This version was never released, due some races in the test 
+ drivers while releasing.
