@@ -181,7 +181,7 @@ public class ConverterTest {
             Assert
                     .assertTrue(
                     "Failed to create temp directory. Please delete all files / directories named temp",
-                    success);
+                    success || outDir.isDirectory());
         }
         return outDir;
     }
