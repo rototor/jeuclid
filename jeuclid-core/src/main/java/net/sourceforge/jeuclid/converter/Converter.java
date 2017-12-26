@@ -18,31 +18,23 @@
 
 package net.sourceforge.jeuclid.converter;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import javax.xml.parsers.ParserConfigurationException;
-
+import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.LayoutContext;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.converter.ConverterPlugin.DocumentWithDimension;
 import net.sourceforge.jeuclid.layout.JEuclidView;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 /**
  * Generic converter which uses the registry to do its conversions.
@@ -156,7 +148,7 @@ public final class Converter {
      * 
      * @param doc
      *            input document. See
-     *            {@link net.sourceforge.jeuclid.DOMBuilder#DOMBuilder(Node, MathBase)}
+     *            {@link DOMBuilder#getInstance()}
      *            for the list of valid node types.
      * @param outFile
      *            output file.
@@ -197,7 +189,7 @@ public final class Converter {
      * 
      * @param doc
      *            input document. See
-     *            {@link net.sourceforge.jeuclid.DOMBuilder#DOMBuilder(Node, MathBase)}
+     *            {@link DOMBuilder#getInstance()}
      *            for the list of valid node types.
      * @param outFileType
      *            mimetype for the output file.
@@ -228,7 +220,7 @@ public final class Converter {
      * 
      * @param doc
      *            input document. See
-     *            {@link net.sourceforge.jeuclid.DOMBuilder#DOMBuilder(Node, MathBase)}
+     *            {@link DOMBuilder#getInstance()}
      *            for the list of valid node types.
      * @param outStream
      *            output stream.

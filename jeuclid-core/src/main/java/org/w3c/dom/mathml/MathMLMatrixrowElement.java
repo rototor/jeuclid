@@ -98,7 +98,6 @@ public interface MathMLMatrixrowElement extends MathMLContentElement {
      * @param index
      *            Position of the entry to be deleted in the row. The first
      *            entry is numbered 1.
-     * @return None
      * @throws DOMException
      *             INDEX_SIZE_ERR: Raised if index is greater than the number
      *             of entries in the row.

@@ -45,9 +45,6 @@ public interface MathMLLabeledRowElement extends MathMLTableRowElement {
      * @param label
      *            new value for label.
      * @see #getLabel()
-     * @throws DOMException
-     *             NO_MODIFICATION_ALLOWED_ERR: Raised if this MathMLElement
-     *             or the new MathMLElement is read-only.
      */
     void setLabel(MathMLElement label);
 };

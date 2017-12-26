@@ -18,19 +18,6 @@
 
 package net.sourceforge.jeuclid.swing;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.xml.parsers.ParserConfigurationException;
-
 import net.sourceforge.jeuclid.DOMBuilder;
 import net.sourceforge.jeuclid.MathMLParserSupport;
 import net.sourceforge.jeuclid.MathMLSerializer;
@@ -38,13 +25,20 @@ import net.sourceforge.jeuclid.MutableLayoutContext;
 import net.sourceforge.jeuclid.context.LayoutContextImpl;
 import net.sourceforge.jeuclid.context.Parameter;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
-import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+
+import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Displays MathML content in a Swing Component.
@@ -174,11 +168,11 @@ public final class JMathComponent extends JComponent implements
 
     /**
      * Font list for Doublestruck. Please see
-     * {@link Parameter#FontsDoublestruck} for an explanation of this
+     * {@link Parameter#FONTS_DOUBLESTRUCK} for an explanation of this
      * parameter.
      *
      * @return The list for Doublestruck.
-     * @see Parameter#FontsDoublestruck
+     * @see Parameter#FONTS_DOUBLESTRUCK
      */
     @SuppressWarnings("unchecked")
     public String getFontsDoublestruck() {
@@ -187,11 +181,11 @@ public final class JMathComponent extends JComponent implements
     }
 
     /**
-     * Font list for Fraktur. Please see {@link Parameter#FontsFraktur} for an
+     * Font list for Fraktur. Please see {@link Parameter#FONTS_FRAKTUR} for an
      * explanation of this parameter.
      *
      * @return The list for Fraktur.
-     * @see Parameter#FontsFraktur
+     * @see Parameter#FONTS_FRAKTUR
      */
     @SuppressWarnings("unchecked")
     public String getFontsFraktur() {
@@ -207,11 +201,11 @@ public final class JMathComponent extends JComponent implements
     }
 
     /**
-     * Font list for Monospaced. Please see {@link Parameter#FontsMonospaced}
+     * Font list for Monospaced. Please see {@link Parameter#FONTS_MONOSPACED}
      * for an explanation of this parameter.
      *
      * @return The list for monospaced.
-     * @see Parameter#FontsMonospaced
+     * @see Parameter#FONTS_MONOSPACED
      */
     @SuppressWarnings("unchecked")
     public String getFontsMonospaced() {
@@ -220,11 +214,11 @@ public final class JMathComponent extends JComponent implements
     }
 
     /**
-     * Font list for Sans-Serif. Please see {@link Parameter#FontsSanserif}
+     * Font list for Sans-Serif. Please see {@link Parameter#FONTS_SANSSERIF}
      * for an explanation of this parameter.
      *
      * @return The list for sansserif.
-     * @see Parameter#FontsSanserif
+     * @see Parameter#FONTS_SANSSERIF
      */
     @SuppressWarnings("unchecked")
     public String getFontsSanserif() {
@@ -233,11 +227,11 @@ public final class JMathComponent extends JComponent implements
     }
 
     /**
-     * Font list for Script. Please see {@link Parameter#FontsScript} for an
+     * Font list for Script. Please see {@link Parameter#FONTS_SCRIPT} for an
      * explanation of this parameter.
      *
      * @return The list for Script.
-     * @see Parameter#FontsScript
+     * @see Parameter#FONTS_SCRIPT
      */
     @SuppressWarnings("unchecked")
     public String getFontsScript() {
@@ -247,10 +241,10 @@ public final class JMathComponent extends JComponent implements
 
     /**
      * Font list for Serif (the default MathML font). Please see
-     * {@link Parameter#FontsSerif} for an explanation of this parameter.
+     * {@link Parameter#FONTS_SERIF} for an explanation of this parameter.
      *
      * @return The list for serif.
-     * @see Parameter#FontsSerif
+     * @see Parameter#FONTS_SERIF
      */
     @SuppressWarnings("unchecked")
     public String getFontsSerif() {

@@ -52,7 +52,7 @@ public final class FreeHepDetector implements ConverterDetector {
 
         try {
             ClassLoaderSupport.getInstance().loadClass(
-                    "org.freehep.util.export.ExportFileType");
+                    "org.freehep.graphicsbase.util.export.ExportFileType");
             FreeHepInternalDetector.actuallyDetectConversionPlugins(registry);
         } catch (final ClassNotFoundException e) {
             FreeHepDetector.LOGGER.debug(e);

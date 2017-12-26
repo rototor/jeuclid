@@ -305,25 +305,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-changes-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<id>validate-changes</id>
-						<phase>pre-site</phase>
-						<goals>
-							<goal>changes-validate</goal>
-						</goals>
-						<configuration>
-							<!-- if set to true the build will fail if the changes file is invalid,
-								 if set to false warnings will be logged. -->
-							<failOnError>true</failOnError>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.9</version>
 			</plugin>
@@ -334,7 +315,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.8</version>
+				<version>3.0.0-M1</version>
 				<configuration>
 					<linksource>true</linksource>
 					<stylesheet>maven</stylesheet>
@@ -347,14 +328,15 @@
 						<link>http://xmlgraphics.apache.org/batik/javadoc/</link>
 						<link>http://java.freehep.org/vectorgraphics/apidocs/</link>
 					</links>
-					<reportSets>
-						<reportSet>
-							<reports>
-								<report>aggregate</report>
-							</reports>
-						</reportSet>
-					</reportSets>
 				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -366,22 +348,9 @@
 				<artifactId>maven-changes-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
-					<reportSets>
-						<reportSet>
-							<reports>
-								<report>changes-report</report>
-							</reports>
-						</reportSet>
-					</reportSets>
 					<issueLinkTemplate>http://sourceforge.net/support/tracker.php?aid=%ISSUE%</issueLinkTemplate>
 				</configuration>
 			</plugin>
-			<!-- Disabled for now, as it has problem with Mercurial backend
-			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-changelog-plugin</artifactId>
-			  <version>2.1</version>
-			</plugin> -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>taglist-maven-plugin</artifactId>
@@ -395,7 +364,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>2.4</version>
+				<version>3.0.5</version>
 				<configuration>
 					<threshold>Low</threshold>
 					<effort>Max</effort>
@@ -405,103 +374,77 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.7</version>
-				<configuration>
-					<configLocation>jeuclid/checkstyle.xml</configLocation>
-					<suppressionsLocation>jeuclid/checkstyle_filter.xml</suppressionsLocation>
-					<propertyExpansion>
-						cacheFile=${project.build.directory}/checkstyle-cachefile
-					</propertyExpansion>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>2.5</version>
-				<configuration>
-					<linkXref>true</linkXref>
-					<targetJdk>1.6</targetJdk>
-					<sourceEncoding>utf-8</sourceEncoding>
-					<excludes>
-						<exclude>org/**/*.java</exclude>
-					</excludes>
-					<rulesets>
-						<ruleset>/rulesets/basic.xml</ruleset>
-						<ruleset>/rulesets/braces.xml</ruleset>
-						<ruleset>/rulesets/codesize.xml</ruleset>
-						<ruleset>/rulesets/clone.xml</ruleset>
-						<ruleset>/rulesets/design.xml</ruleset>
-						<ruleset>/rulesets/finalizers.xml</ruleset>
-						<ruleset>/rulesets/imports.xml</ruleset>
-						<ruleset>/rulesets/strings.xml</ruleset>
-						<ruleset>/rulesets/migrating_to_15.xml</ruleset>
-						<ruleset>/rulesets/optimizations.xml</ruleset>
-						<ruleset>/rulesets/sunsecure.xml</ruleset>
-						<ruleset>/rulesets/unusedcode.xml</ruleset>
-					</rulesets>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>dashboard-maven-plugin</artifactId>
 				<version>1.0.0-beta-1</version>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+					<pushChanges>false</pushChanges>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>codehaus-plugins</id>
-			<name>codehaus-plugins</name>
-			<url>http://repository.codehaus.org/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</pluginRepository>
-		<pluginRepository>
-			<id>maxthird</id>
-			<name>Max Third Party Repo</name>
-			<url>http://m2.max.berger.name/content/repositories/thirdparty</url>
-		</pluginRepository>
-	</pluginRepositories>
-	<repositories>
-		<repository>
-			<id>jeuclid-release</id>
-			<name>JEuclid released dependencies</name>
-			<url>http://jeuclid.sf.net/m2-release</url>
-		</repository>
-		<repository>
-			<id>jeuclid-deps</id>
-			<name>JEuclid dependencies</name>
-			<url>http://jeuclid.sf.net/m2</url>
-		</repository>
-		<repository>
-			<id>freehep-maven</id>
-			<name>Maven FreeHEP</name>
-			<url>http://java.freehep.org/maven2</url>
-		</repository>
-	</repositories>
+
 	<distributionManagement>
-		<repository>
-			<id>sourceforgejeuclid</id>
-			<name>SourceForge Final Repository</name>
-			<url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-release</url>
-		</repository>
 		<snapshotRepository>
-			<id>sourceforgejeuclid</id>
-			<name>SourceForge Snapshot Repository</name>
-			<url>sftp://web.sourceforge.net/home/groups/j/je/jeuclid/htdocs/m2-snap</url>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
-		<site>
-			<id>sourceforgejeuclid</id>
-			<name>Website for JEuclid on SourceForge</name>
-			<url>scp://shell.sourceforge.net/home/groups/j/je/jeuclid/htdocs</url>
-		</site>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 	</distributionManagement>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<runtime.lib>${java.home}/lib/rt.jar</runtime.lib>
@@ -510,10 +453,10 @@
 		<maven-bundle-plugin.version>2.3.5</maven-bundle-plugin.version>
 		<maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
 		<commons-logging.version>1.1.1</commons-logging.version>
-		<ant.version>1.6.5</ant.version>
+		<ant.version>1.10.1</ant.version>
 		<batik.version>1.9</batik.version>
-		<freehep-graphicsio.version>2.1.3</freehep-graphicsio.version>
-		<freehep-graphicsio-gif.version>1.2.3</freehep-graphicsio-gif.version>
+		<freehep-graphicsio.version>2.4</freehep-graphicsio.version>
+		<freehep-graphicsio-gif.version>2.4</freehep-graphicsio-gif.version>
 		<xmlgraphics-commons.version>1.3.1</xmlgraphics-commons.version>
 		<jsr305.version>1.3.9</jsr305.version>
 		<lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
@@ -531,22 +474,8 @@
 		<maven-shade-plugin.version>1.4</maven-shade-plugin.version>
 		<launch4j-maven-plugin.version>1.3</launch4j-maven-plugin.version>
 		<AppleJavaExtensions.version>1.4</AppleJavaExtensions.version>
-		<swt.version>3.3.0-v3346</swt.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<jetty-maven-plugin.version>7.0.1.v20091125</jetty-maven-plugin.version>
 		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
 	</properties>
-	<profiles>
-		<profile>
-			<id>osx-rtlib</id>
-			<activation>
-				<os>
-					<name>mac os x</name>
-				</os>
-			</activation>
-			<properties>
-				<runtime.lib>/System/Library/Frameworks/JavaVM.framework/Classes/classes.jar</runtime.lib>
-			</properties>
-		</profile>
-	</profiles>
 </project>

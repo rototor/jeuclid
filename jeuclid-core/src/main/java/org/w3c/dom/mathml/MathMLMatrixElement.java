@@ -113,7 +113,6 @@ public interface MathMLMatrixElement extends MathMLContentElement {
      * 
      * @param index
      *            Position of the row to be deleted in the list of rows
-     * @return None
      * @throws DOMException
      *             INDEX_SIZE_ERR: Raised if index is greater than the number
      *             of rows in the matrix.

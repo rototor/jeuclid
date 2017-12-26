@@ -99,7 +99,6 @@ public interface MathMLVectorElement extends MathMLContentElement {
      * @param index
      *            Position of the component in the vector. The position of the
      *            first component is 1
-     * @return None
      * @throws DOMException
      *             INDEX_SIZE_ERR: Raised if index is greater than the current
      *             number of components of this vector element.

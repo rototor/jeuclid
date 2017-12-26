@@ -18,12 +18,14 @@
 
 package net.sourceforge.jeuclid.swing;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Point;
+import net.sourceforge.jeuclid.LayoutContext;
+import net.sourceforge.jeuclid.layout.JEuclidView;
+import org.w3c.dom.Node;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.plaf.ComponentUI;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -32,17 +34,6 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JComponent;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.plaf.ComponentUI;
-
-import net.sourceforge.jeuclid.LayoutContext;
-import net.sourceforge.jeuclid.layout.JEuclidView;
-
-import org.w3c.dom.Node;
 
 /**
  * See http://today.java.net/pub/a/today/2007/02/22/how-to-write-custom-swing-
@@ -186,7 +177,7 @@ public class MathComponentUI extends ComponentUI implements
     }
 
     /**
-     * Configures the default properties from L&F.
+     * Configures the default properties from L&amp;F.
      * 
      * @param c
      *            the component

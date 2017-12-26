@@ -18,16 +18,15 @@
 
 package net.sourceforge.jeuclid.swing;
 
+import net.sourceforge.jeuclid.layout.JEuclidView.NodeRect;
+import org.w3c.dom.Node;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-import net.sourceforge.jeuclid.layout.JEuclidView.NodeRect;
-
-import org.w3c.dom.Node;
-
 /**
- * A simple mouse listener for Graphics<=>Text association.
+ * A simple mouse listener for Graphics&lt;=&gt;Text association.
  * 
  * @version $Revision: $
  */

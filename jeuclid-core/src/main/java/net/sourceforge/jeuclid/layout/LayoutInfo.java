@@ -190,7 +190,7 @@ public interface LayoutInfo {
     void setWidth(float width, LayoutStage stage);
 
     /**
-     * Set the stretch width for children, or < 0 if children should be
+     * Set the stretch width for children, or %lt; 0 if children should be
      * horizontally unstretched.
      * 
      * @param stretchWidth

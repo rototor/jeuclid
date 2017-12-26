@@ -18,15 +18,14 @@
 
 package net.sourceforge.jeuclid.converter;
 
+import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.freehep.graphicsbase.util.export.ExportFileType;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-
-import net.sourceforge.jeuclid.elements.support.ClassLoaderSupport;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.freehep.util.export.ExportFileType;
 
 /**
  * actual detector for FreeHEP graphics formats. Depends on the presence of

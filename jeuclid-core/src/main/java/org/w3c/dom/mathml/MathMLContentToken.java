@@ -105,9 +105,6 @@ public interface MathMLContentToken extends MathMLContentElement {
      *            necessarily the index of the Node in the list of child
      *            nodes, as nodes representing such elements as sep are not
      *            counted as arguments.
-     * @param newArgument
-     *            Node to be inserted as the index-th argument. This will
-     *            either be a MathMLElement or a Text node.
      * @return The Node inserted. This is the element within the DOM.
      */
     Node insertArgument(Node newArgument, int index);
@@ -126,9 +123,6 @@ public interface MathMLContentToken extends MathMLContentElement {
      *            Note that this is not necessarily the index of the Node in
      *            the list of child nodes, as nodes representing such elements
      *            as sep are not counted as arguments.
-     * @param newArgument
-     *            Node to be inserted as the argument. This will either be a
-     *            MathMLElement or a Text node.
      * @return The Node inserted. This is the element within the DOM.
      */
     Node setArgument(Node newArgument, int index);

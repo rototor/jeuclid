@@ -86,7 +86,7 @@ public interface MathMLPiecewiseElement extends MathMLContentElement {
      *            this position, it will be replaced by case. If index is one
      *            more than the number of piece child elements, a new one will
      *            be appended.
-     * @param case
+     * @param caseElement
      *            A MathMLCaseElement representing the new value of the
      *            indexth piece child.
      * @return The new MathMLCaseElement created.

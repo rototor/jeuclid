@@ -60,11 +60,6 @@ public interface MathMLApplyElement extends MathMLContentContainer {
      * @param lowLimit
      *            new value for lowLimit.
      * @see #getLowLimit()
-     * @throws DOMException
-     *             HIERARCHY_REQUEST_ERR: Raised if this element does not
-     *             permit a child lowlimit element. In particular, raised if
-     *             this element is not an apply element whose first child is
-     *             an int, sum, product, or limit element.
      */
     void setLowLimit(MathMLElement lowLimit);
 
@@ -83,11 +78,6 @@ public interface MathMLApplyElement extends MathMLContentContainer {
      * @param upLimit
      *            new value for upLimit.
      * @see #getUpLimit()
-     * @throws DOMException
-     *             HIERARCHY_REQUEST_ERR: Raised if this element does not
-     *             permit a child uplimit element. In particular, raised if
-     *             this element is not an apply element whose first child is
-     *             an int, sum, or product element.
      */
     void setUpLimit(MathMLElement upLimit);
 };
