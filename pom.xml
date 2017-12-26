@@ -235,7 +235,7 @@
 	<build>
 		<extensions>
 			<extension>
-				<groupId>net.sourceforge.jeuclid</groupId>
+				<groupId>de.rototor.jeuclid</groupId>
 				<artifactId>build-tools</artifactId>
 				<version>1.0.5</version>
 			</extension>

@@ -18,7 +18,7 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.sourceforge.jeuclid</groupId>
+			<groupId>de.rototor.jeuclid</groupId>
 			<artifactId>jeuclid-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -47,17 +47,17 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>net.sourceforge.jeuclid</groupId>
+			<groupId>de.rototor.jeuclid</groupId>
 			<artifactId>dejavu-fonts</artifactId>
 			<version>${dejavu-fonts.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>net.sourceforge.jeuclid</groupId>
+			<groupId>de.rototor.jeuclid</groupId>
 			<artifactId>stix-fonts</artifactId>
 			<version>${stix-fonts.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>net.sourceforge.jeuclid</groupId>
+			<groupId>de.rototor.jeuclid</groupId>
 			<artifactId>ams-fonts</artifactId>
 			<version>${ams-fonts.version}</version>
 		</dependency>
@@ -94,19 +94,19 @@
 						<configuration>
 							<classpath>
 								<element>
-									<groupId>net.sourceforge.jeuclid</groupId>
+									<groupId>de.rototor.jeuclid</groupId>
 									<artifactId>jeuclid-core</artifactId>
 								</element>
 								<element>
-									<groupId>net.sourceforge.jeuclid</groupId>
+									<groupId>de.rototor.jeuclid</groupId>
 									<artifactId>dejavu-fonts</artifactId>
 								</element>
 								<element>
-									<groupId>net.sourceforge.jeuclid</groupId>
+									<groupId>de.rototor.jeuclid</groupId>
 									<artifactId>ams-fonts</artifactId>
 								</element>
 								<element>
-									<groupId>net.sourceforge.jeuclid</groupId>
+									<groupId>de.rototor.jeuclid</groupId>
 									<artifactId>stix-fonts</artifactId>
 								</element>
 							</classpath>
