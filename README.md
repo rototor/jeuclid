@@ -9,7 +9,8 @@ not provided with this distribution, feel free to send me a pull request.
 
 The main purpose of this fork is to get it working with 
 [OpenHMLToPDF](https://github.com/danfickle/openhtmltopdf), see 
-[this issue](https://github.com/danfickle/openhtmltopdf/issues/161) there.
+[this issue](https://github.com/danfickle/openhtmltopdf/issues/161) there. So the main focus is
+on rendering.
 
 
 ## Maven Artefact
