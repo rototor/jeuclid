@@ -60,8 +60,14 @@ public class DefaultFontFactory extends FontFactory {
 
     private final Map<String, Font[]> fontCache = new HashMap<String, Font[]>();
 
-    DefaultFontFactory() {
+    public DefaultFontFactory() {
+    }
+    
+    public void loadFontsFromAWT() {
         this.autoloadFontsFromAWT();
+    }
+    
+    public void loadFontsFromClasspath() {
         this.autoloadFontsFromClasspath();
     }
 
