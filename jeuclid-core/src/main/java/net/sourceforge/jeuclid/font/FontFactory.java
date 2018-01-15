@@ -41,6 +41,39 @@ import java.util.Set;
  * @version $Revision$
  */
 public abstract class FontFactory {
+    
+    private static ThreadLocal<FontFactory> THREAD_FONT_FACTORY = new ThreadLocal<FontFactory>() {
+		@Override
+		protected FontFactory initialValue() {
+			return null;
+		}
+	};
+	
+	/**
+	 * Sets a font factory implementation to be used by this thread.
+	 * Users MUST make sure that clearThreadFontFactory is called after use.
+	 * @param factory
+	 */
+	public static void setThreadFontFactory(FontFactory factory) {
+		THREAD_FONT_FACTORY.set(factory);
+	}
+	
+	/**
+	 * Gets the font factory implementation set for the current thread.
+	 * @param factory
+	 * @return FontFactory - may be null.
+	 */
+	public static FontFactory getThreadFontFactory(FontFactory factory) {
+		return THREAD_FONT_FACTORY.get();
+	}
+
+	/**
+	 * Removes the stored font factory reference for this thread.
+	 * MUST be called after a call to setThreadFontFactory.
+	 */
+	public static void clearThreadFontFactory() {
+		THREAD_FONT_FACTORY.remove();
+	}
 
     /** Name for the default (sans serif) font. */
     public static final String SANSSERIF = "sansserif";
@@ -53,6 +86,12 @@ public abstract class FontFactory {
      * @return an instance of FontFactory
      */
     public static FontFactory getInstance() {
+        FontFactory threadFactory = getThreadFontFactory();
+        
+        if (threadFactory != null) {
+            return threadFactory;
+        }
+        
         return FontFactory.instance;
     }
 
