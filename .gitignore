@@ -19,3 +19,4 @@ test-output/
 \.iws$
 .DS_Store$
 .idea/
+*.iml

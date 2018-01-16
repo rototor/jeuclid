@@ -20,16 +20,14 @@ You can get this library from maven central using this dependency:
 <dependency>
         <groupId>de.rototor.jeuclid</groupId>
         <artifactId>jeuclid-core</artifactId>
-        <version>3.1.11</version>
+        <version>3.1.12</version>
 </dependency>
 ```
 ## Changes
 
-Version 3.1.12 (unreleased):
- - Don't load fonts by default. NOTE: This is a behavior change to
- ensure consistent behavior across environments. A user can still load
- AWT and classpath fonts through two new methods on DefaultFontFactory.
- - Allow users to set a FontFactory for use on a per-thread basis.
+Version 3.1.12:
+ - Allow users to set a FontFactory for use on a per-thread basis. Thanks @danfickle.
+ - Lazy load default fonts. Fonts will now only be searched for when the user does not override the FontFactory.
 
 Version 3.1.11: 
  - First version released to maven central.
