@@ -60,10 +60,9 @@ public abstract class FontFactory {
 	
 	/**
 	 * Gets the font factory implementation set for the current thread.
-	 * @param factory
 	 * @return FontFactory - may be null.
 	 */
-	public static FontFactory getThreadFontFactory(FontFactory factory) {
+	public static FontFactory getThreadFontFactory() {
 		return THREAD_FONT_FACTORY.get();
 	}
 
