@@ -4,7 +4,7 @@
 	<groupId>de.rototor.jeuclid</groupId>
 	<artifactId>jeuclid-parent</artifactId>
 	<name>JEuclid</name>
-	<version>3.1.12</version>
+	<version>3.1.13-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>jeuclid-core</module>
@@ -221,7 +221,7 @@
 	<scm>
 		<url>https://github.com/rototor/jeuclid</url>
 		<connection>scm:git:https://github.com/rototor/jeuclid.git</connection>
-		<tag>jeuclid-parent-3.1.12</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<dependencies>
 		<dependency>
