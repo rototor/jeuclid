@@ -1,6 +1,6 @@
 /*
  * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -37,29 +37,31 @@ import java.util.Set;
  * <p>
  * How a concrete subclass of FontFactory is identified is subject to change
  * in the future versions.
- * 
+ *
  * @version $Revision$
  */
 public abstract class FontFactory {
-    
-    private static ThreadLocal<FontFactory> THREAD_FONT_FACTORY = new ThreadLocal<FontFactory>() {
+
+	private static ThreadLocal<FontFactory> THREAD_FONT_FACTORY = new ThreadLocal<FontFactory>() {
 		@Override
 		protected FontFactory initialValue() {
 			return null;
 		}
 	};
-	
+
 	/**
 	 * Sets a font factory implementation to be used by this thread.
 	 * Users MUST make sure that clearThreadFontFactory is called after use.
+	 *
 	 * @param factory
 	 */
 	public static void setThreadFontFactory(FontFactory factory) {
 		THREAD_FONT_FACTORY.set(factory);
 	}
-	
+
 	/**
 	 * Gets the font factory implementation set for the current thread.
+	 *
 	 * @return FontFactory - may be null.
 	 */
 	public static FontFactory getThreadFontFactory() {
@@ -74,104 +76,93 @@ public abstract class FontFactory {
 		THREAD_FONT_FACTORY.remove();
 	}
 
-    /** Name for the default (sans serif) font. */
-    public static final String SANSSERIF = "sansserif";
+	/**
+	 * Name for the default (sans serif) font.
+	 */
+	public static final String SANSSERIF = "sansserif";
 
-    private static FontFactory instance = new DefaultFontFactory();
+	private static FontFactory instance;
 
-    /**
-     * Return an instance of the currently configured concrete FontFactory.
-     * 
-     * @return an instance of FontFactory
-     */
-    public static FontFactory getInstance() {
-        FontFactory threadFactory = getThreadFontFactory();
-        
-        if (threadFactory != null) {
-            return threadFactory;
-        }
-        
-        return FontFactory.instance;
-    }
+	/**
+	 * Return an instance of the currently configured concrete FontFactory.
+	 *
+	 * @return an instance of FontFactory
+	 */
+	public static FontFactory getInstance() {
+		FontFactory threadFactory = getThreadFontFactory();
 
-    /**
-     * Create a font object with specified properties. Font name may refer to
-     * either 'built-in' or loaded externally and 'cached' font.
-     * 
-     * @param name
-     *            font name or font family name
-     * @param style
-     *            font style
-     * @param size
-     *            font size
-     * @return Font instance
-     * @see java.awt.Font#Font(String, int, int)
-     */
-    public abstract Font getFont(final String name, final int style,
-            final float size);
+		if (threadFactory != null)
+			return threadFactory;
 
-    /**
-     * Create a font object which is able to display the requested code point.
-     * Uses one of the list of preferred fonts is possible. If no matching
-     * font is found null is returned.
-     * 
-     * @param preferredFonts
-     *            List of preferred fonts
-     * @param codepoint
-     *            code point which must be displayable
-     * @param style
-     *            font style
-     * @param size
-     *            font size
-     * @return a valid Font instance or null if no font could be found.
-     */
-    public abstract Font getFont(final List<String> preferredFonts,
-            final int codepoint, final int style, final float size);
+		if (FontFactory.instance == null)
+			FontFactory.instance = new DefaultFontFactory();
 
-    /**
-     * Load an external font from a file and 'register' (aka 'cache') it for
-     * future use.
-     * 
-     * @param format
-     *            font format (TTF or TYPE_1 currently supported by the
-     *            platform)
-     * @param fontFile
-     *            file which contains the font
-     * @return The newly created Font instance
-     * @throws FontFormatException
-     *             if font contained in the file doesn't match the specified
-     *             format
-     * @throws IOException
-     *             in case of problem while reading the file
-     * @see java.awt.Font#createFont(int, File)
-     */
-    public abstract Font registerFont(int format, File fontFile)
-            throws IOException, FontFormatException;
+		return FontFactory.instance;
+	}
 
-    /**
-     * Load an external font from a stream and 'register' (aka 'cache') it for
-     * future use.
-     * 
-     * @param format
-     *            font format (TTF or TYPE_1 currently supported by the
-     *            platform)
-     * @param fontStream
-     *            file which contains the font
-     * @return The newly created Font instance
-     * @throws FontFormatException
-     *             if font contained in the stream doesn't match the specified
-     *             format
-     * @throws IOException
-     *             in case of problem while reading the stream
-     * @see java.awt.Font#createFont(int, InputStream)
-     */
-    public abstract Font registerFont(int format, InputStream fontStream)
-            throws IOException, FontFormatException;
+	/**
+	 * Create a font object with specified properties. Font name may refer to
+	 * either 'built-in' or loaded externally and 'cached' font.
+	 *
+	 * @param name  font name or font family name
+	 * @param style font style
+	 * @param size  font size
+	 * @return Font instance
+	 * @see java.awt.Font#Font(String, int, int)
+	 */
+	public abstract Font getFont(final String name, final int style,
+								 final float size);
 
-    /**
-     * Retrieve a list of all fonts registered with this fontFactory.
-     * 
-     * @return A set of recognized font names
-     */
-    public abstract Set<String> listFontNames();
+	/**
+	 * Create a font object which is able to display the requested code point.
+	 * Uses one of the list of preferred fonts is possible. If no matching
+	 * font is found null is returned.
+	 *
+	 * @param preferredFonts List of preferred fonts
+	 * @param codepoint      code point which must be displayable
+	 * @param style          font style
+	 * @param size           font size
+	 * @return a valid Font instance or null if no font could be found.
+	 */
+	public abstract Font getFont(final List<String> preferredFonts,
+								 final int codepoint, final int style, final float size);
+
+	/**
+	 * Load an external font from a file and 'register' (aka 'cache') it for
+	 * future use.
+	 *
+	 * @param format   font format (TTF or TYPE_1 currently supported by the
+	 *                 platform)
+	 * @param fontFile file which contains the font
+	 * @return The newly created Font instance
+	 * @throws FontFormatException if font contained in the file doesn't match the specified
+	 *                             format
+	 * @throws IOException         in case of problem while reading the file
+	 * @see java.awt.Font#createFont(int, File)
+	 */
+	public abstract Font registerFont(int format, File fontFile)
+			throws IOException, FontFormatException;
+
+	/**
+	 * Load an external font from a stream and 'register' (aka 'cache') it for
+	 * future use.
+	 *
+	 * @param format     font format (TTF or TYPE_1 currently supported by the
+	 *                   platform)
+	 * @param fontStream file which contains the font
+	 * @return The newly created Font instance
+	 * @throws FontFormatException if font contained in the stream doesn't match the specified
+	 *                             format
+	 * @throws IOException         in case of problem while reading the stream
+	 * @see java.awt.Font#createFont(int, InputStream)
+	 */
+	public abstract Font registerFont(int format, InputStream fontStream)
+			throws IOException, FontFormatException;
+
+	/**
+	 * Retrieve a list of all fonts registered with this fontFactory.
+	 *
+	 * @return A set of recognized font names
+	 */
+	public abstract Set<String> listFontNames();
 }
