@@ -20,10 +20,13 @@ You can get this library from maven central using this dependency:
 <dependency>
         <groupId>de.rototor.jeuclid</groupId>
         <artifactId>jeuclid-core</artifactId>
-        <version>3.1.12</version>
+        <version>3.1.13</version>
 </dependency>
 ```
 ## Changes
+
+Version 3.1.13:
+ - [#2](https://github.com/rototor/jeuclid/pull/2):  Fix the SVGDOMImplementation import. Thanks @markushenninger.
 
 Version 3.1.12:
  - Allow users to set a FontFactory for use on a per-thread basis. Thanks @danfickle.
