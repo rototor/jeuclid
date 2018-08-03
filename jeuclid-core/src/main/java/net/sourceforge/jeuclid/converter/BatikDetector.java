@@ -51,7 +51,7 @@ public final class BatikDetector implements ConverterDetector {
         try {
             final Class<?> svgdomimpl = ClassLoaderSupport.getInstance()
                     .loadClass(
-                            "org.apache.batik.dom.svg.SVGDOMImplementation");
+                            "org.apache.batik.anim.dom.SVGDOMImplementation");
             final Method getDOMimpl = svgdomimpl.getMethod(
                     "getDOMImplementation", new Class<?>[] {});
             impl = (DOMImplementation) getDOMimpl.invoke(null,
