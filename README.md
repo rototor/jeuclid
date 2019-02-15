@@ -2,7 +2,7 @@ JEuclid
 =========
 
 This is a fork of http://jeuclid.sourceforge.net/ to get it working on JDK 9 and 
-with Batik 1.9. Only the core is supported.
+with Batik 1.9. Only the core and the FOP plugin are supported.
 
 FOP and SWT support is removed at the moment. If you need them or need any other feature
 not provided with this distribution, feel free to send me a pull request.

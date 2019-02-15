@@ -52,10 +52,10 @@ public final class ConverterRegistry {
      */
     @SuppressWarnings("unchecked")
     protected ConverterRegistry() {
-        final Iterator<ConverterDetector> it = Service
+        final Iterator<Object> it = Service
                 .providers(ConverterDetector.class);
         while (it.hasNext()) {
-            final ConverterDetector det = it.next();
+            final ConverterDetector det = (ConverterDetector) it.next();
             det.detectConversionPlugins(this);
         }
     }

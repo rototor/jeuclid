@@ -9,6 +9,7 @@
 	<modules>
 		<module>jeuclid-core</module>
 		<module>jeuclid-testsuite</module>
+		<module>jeuclid-fop</module>
 	</modules>
 	<description>
 		This is a stripped down version of jeculid running with JDK 9 with Batik 1.9. Minimum Java requirement is 1.6.
@@ -467,7 +468,7 @@
 		<ams-fonts.version>1.0-2</ams-fonts.version>
 		<commons-cli.version>1.2</commons-cli.version>
 		<commons-lang3.version>3.0.1</commons-lang3.version>
-		<fop.version>1.0</fop.version>
+		<fop.version>2.3</fop.version>
 		<webstart-maven-plugin.version>1.0-beta-1</webstart-maven-plugin.version>
 		<osxappbundle-maven-plugin.version>1.0-alpha-1</osxappbundle-maven-plugin.version>
 		<maven-shade-plugin.version>1.4</maven-shade-plugin.version>
