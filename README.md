@@ -3,10 +3,10 @@ JEuclid
 
 [![Build Status](https://api.travis-ci.org/rototor/jeuclid.svg?branch=master)](https://travis-ci.org/rototor/jeuclid)
 
-This is a fork of http://jeuclid.sourceforge.net/ to get it working on JDK 9 and 
+This is a fork of http://jeuclid.sourceforge.net/ to get it working on JDK 11 and 
 with Batik 1.9. Only the core and the FOP plugin are supported.
 
-FOP and SWT support is removed at the moment. If you need them or need any other feature
+SWT support is removed at the moment. If you need them or need any other feature
 not provided with this distribution, feel free to send me a pull request.
 
 The main purpose of this fork is to get it working with 
@@ -22,10 +22,13 @@ You can get this library from maven central using this dependency:
 <dependency>
         <groupId>de.rototor.jeuclid</groupId>
         <artifactId>jeuclid-core</artifactId>
-        <version>3.1.13</version>
+        <version>3.1.14</version>
 </dependency>
 ```
 ## Changes
+
+Version 3.1.14:
+ - [#5](https://github.com/rototor/jeuclid/pull/5) Restored the FOP plugin. Thanks @dubinsky.
 
 Version 3.1.13:
  - [#2](https://github.com/rototor/jeuclid/pull/2):  Fix the SVGDOMImplementation import. Thanks @markushenninger.
