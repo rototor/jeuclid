@@ -103,9 +103,11 @@ public final class JMathComponent extends JComponent implements
     public JMathComponent(final CursorListener listener) {
         this.cursorListener = listener;
 
-        final JMathComponentMouseListener mouseListener = new JMathComponentMouseListener(
+        if (listener != null) {
+            final JMathComponentMouseListener mouseListener = new JMathComponentMouseListener(
                 this);
-        this.addMouseListener(mouseListener);
+            this.addMouseListener(mouseListener);
+        }
 
         this.updateUI();
         this.fontCompat();
@@ -545,7 +547,7 @@ public final class JMathComponent extends JComponent implements
     @Override
     public void updateUI() {
         if (UIManager.get(this.getUIClassID()) == null) {
-			this.setUI(new MathComponentUI16());
+            this.setUI(new MathComponentUI16());
         } else {
             this.setUI(UIManager.getUI(this));
         }
