@@ -25,6 +25,11 @@ You can get this library from maven central using this dependency:
         <version>3.1.14</version>
 </dependency>
 ```
+## FOP plugin
+
+There is no ServiceLoader configuration in this fork of the FOP plugin so it will not be auto-configured
+and needs to be loaded manually when desired using the following code: `JEuclidFopFactoryConfigurator.configure(factory);`
+
 ## Changes
 
 Version 3.1.14:
