@@ -12,7 +12,7 @@
 		<module>jeuclid-fop</module>
 	</modules>
 	<description>
-		This is a stripped down version of jeculid running with JDK 9 with Batik 1.9. Minimum Java requirement is 1.6.
+		This is a stripped down version of jeculid running with JDK 9 with Batik 1.13. Minimum Java requirement is 1.6.
 
 		Original Description:
 
@@ -454,7 +454,7 @@
 		<maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
 		<commons-logging.version>1.1.1</commons-logging.version>
 		<ant.version>1.10.1</ant.version>
-		<batik.version>1.9</batik.version>
+		<batik.version>1.13</batik.version>
 		<freehep-graphicsio.version>2.4</freehep-graphicsio.version>
 		<freehep-graphicsio-gif.version>2.4</freehep-graphicsio-gif.version>
 		<xmlgraphics-commons.version>2.2</xmlgraphics-commons.version>

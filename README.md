@@ -4,7 +4,7 @@ JEuclid
 [![Build Status](https://api.travis-ci.org/rototor/jeuclid.svg?branch=master)](https://travis-ci.org/rototor/jeuclid)
 
 This is a fork of http://jeuclid.sourceforge.net/ to get it working on JDK 11 and 
-with Batik 1.9. Only the core and the FOP plugin are supported.
+with Batik 1.13. Only the core and the FOP plugin are supported.
 
 SWT support is removed at the moment. If you need them or need any other feature
 not provided with this distribution, feel free to send me a pull request.
@@ -31,6 +31,9 @@ There is no ServiceLoader configuration in this fork of the FOP plugin so it wil
 and needs to be loaded manually when desired using the following code: `JEuclidFopFactoryConfigurator.configure(factory);`
 
 ## Changes
+
+Version 3.1.15 (not released yet):
+ - Bump Batik Version to 1.13
 
 Version 3.1.14:
  - [#5](https://github.com/rototor/jeuclid/pull/5) Restored the FOP plugin. Thanks @dubinsky.
