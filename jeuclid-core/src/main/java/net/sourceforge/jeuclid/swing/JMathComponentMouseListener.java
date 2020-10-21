@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * A simple mouse listener for Graphics&lt;=&gt;Text association.
- * 
+ *
  * @version $Revision: $
  */
 public class JMathComponentMouseListener implements MouseListener {
@@ -39,18 +39,19 @@ public class JMathComponentMouseListener implements MouseListener {
 
     /**
      * standard constructor.
-     * 
+     *
      * @param mathComponentInstance
      *            math component instance
      */
     public JMathComponentMouseListener(
             final JMathComponent mathComponentInstance) {
         this.mathComponent = mathComponentInstance;
+        assert this.mathComponent.getCursorListener() != null : "Cursorlistener is required by JMathComponentMouseListener";
     }
 
     /**
      * mouse click event handler.
-     * 
+     *
      * @param e
      *            mouse event
      */
@@ -59,14 +60,16 @@ public class JMathComponentMouseListener implements MouseListener {
         final List<NodeRect> rectList = ui.getNodesAt(this.mathComponent, e.getX(), e.getY());
         if (rectList != null && rectList.size() > 0) {
             final Node lastNode = rectList.get(rectList.size() - 1).getNode();
-            this.mathComponent.getCursorListener().updateCursorPosition(
-                    lastNode);
+            final CursorListener cursorListener = this.mathComponent.getCursorListener();
+            if (cursorListener != null) {
+                cursorListener.updateCursorPosition(lastNode);
+            }
         }
     }
 
     /**
      * mouse pressed event (unused).
-     * 
+     *
      * @param e
      *            mouse event
      */
@@ -75,7 +78,7 @@ public class JMathComponentMouseListener implements MouseListener {
 
     /**
      * mouse pressed event (unused).
-     * 
+     *
      * @param e
      *            mouse event
      */
@@ -84,7 +87,7 @@ public class JMathComponentMouseListener implements MouseListener {
 
     /**
      * mouse pressed event (unused).
-     * 
+     *
      * @param e
      *            mouse event
      */
@@ -93,7 +96,7 @@ public class JMathComponentMouseListener implements MouseListener {
 
     /**
      * mouse pressed event (unused).
-     * 
+     *
      * @param e
      *            mouse event
      */
