@@ -2,6 +2,6 @@ language: java
 before_install: cd support && mvn install -Dgpg.skip
 install: mvn install -DskipTests -Dgpg.skip
 jdk:
-  - oraclejdk8
+  - openjdk8
   - openjdk11
   - oraclejdk11
