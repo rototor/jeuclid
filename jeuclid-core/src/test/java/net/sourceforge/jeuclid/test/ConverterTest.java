@@ -47,6 +47,8 @@ public class ConverterTest {
     public static final String TEST1 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math mode=\"display\">"
             + "<mrow><munderover><mo>&#x0222B;</mo><mn>1</mn><mi>x</mi></munderover>"
             + "<mfrac><mi>dt</mi><mi>t</mi></mfrac></mrow></math>";
+    public static final String TEST2 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math><msqrt mathvariant='script'><mi mathvariant='normal'>π</mi></msqrt></math>";
+    public static final String TEST3 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><math><msqrt mathvariant='italic'><mi mathvariant='normal'>π</mi></msqrt></math>";
 
     private void testConverterXXX(final String ext, final String mimeext)
             throws Exception {
@@ -115,6 +117,36 @@ public class ConverterTest {
         Assert.assertTrue("SVG file was not created", outFile.exists());
         Assert.assertTrue("SVG file is empty", outFile.length() > 0);
         Assert.assertTrue("SVG file is too small", outFile.length() > 2048);
+    }
+
+    @Test
+    public void testConverterSVG2() throws Exception {
+        final Document doc = MathMLParserSupport
+                .parseString(ConverterTest.TEST2);
+        final File outFile = new File(this.getOutDir(), "test2.svg");
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
+        params.setParameter(Parameter.MATHSIZE, 25f);
+        Converter.getInstance().convert(doc, outFile,
+                net.sourceforge.jeuclid.converter.Converter.TYPE_SVG, params);
+        Assert.assertTrue("SVG file was not created", outFile.exists());
+        Assert.assertTrue("SVG file is empty", outFile.length() > 0);
+        Assert.assertTrue("SVG file is too small", outFile.length() > 1048);
+    }
+
+    @Test
+    public void testConverterSVG3() throws Exception {
+        final Document doc = MathMLParserSupport
+                .parseString(ConverterTest.TEST3);
+        final File outFile = new File(this.getOutDir(), "test3.svg");
+        final MutableLayoutContext params = new LayoutContextImpl(
+                LayoutContextImpl.getDefaultLayoutContext());
+        params.setParameter(Parameter.MATHSIZE, 25f);
+        Converter.getInstance().convert(doc, outFile,
+                net.sourceforge.jeuclid.converter.Converter.TYPE_SVG, params);
+        Assert.assertTrue("SVG file was not created", outFile.exists());
+        Assert.assertTrue("SVG file is empty", outFile.length() > 0);
+        Assert.assertTrue("SVG file is too small", outFile.length() > 1048);
     }
 
     /**

@@ -1,6 +1,6 @@
 /*
  * Copyright 2007 - 2007 JEuclid, http://jeuclid.sf.net
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,6 +21,7 @@ package net.sourceforge.jeuclid.elements.presentation.general;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.geom.Path2D;
 import java.util.List;
 
 import net.sourceforge.jeuclid.LayoutContext;
@@ -35,16 +36,17 @@ import net.sourceforge.jeuclid.layout.LayoutView;
 import net.sourceforge.jeuclid.layout.LayoutableNode;
 import net.sourceforge.jeuclid.layout.LineObject;
 
+import net.sourceforge.jeuclid.layout.Path2DShapeObject;
 import org.apache.batik.dom.AbstractDocument;
 import org.w3c.dom.mathml.MathMLRadicalElement;
 
 /**
  * common superclass for root like elements (root, sqrt).
- * 
+ *
  * @version $Revision$
  */
-public abstract class AbstractRoot extends AbstractJEuclidElement implements
-        MathMLRadicalElement {
+public abstract class AbstractRoot extends AbstractJEuclidElement implements MathMLRadicalElement
+{
 
     private static final String EXTRA_SPACE = "0.1ex";
 
@@ -52,30 +54,31 @@ public abstract class AbstractRoot extends AbstractJEuclidElement implements
 
     /**
      * Default constructor. Sets MathML Namespace.
-     * 
-     * @param qname
-     *            Qualified name.
-     * @param odoc
-     *            Owner Document.
+     *
+     * @param qname Qualified name.
+     * @param odoc  Owner Document.
      */
-    public AbstractRoot(final String qname, final AbstractDocument odoc) {
+    public AbstractRoot(final String qname, final AbstractDocument odoc)
+    {
         super(qname, odoc);
     }
 
     /**
      * retrieve the content of this radical element.
-     * 
+     *
      * @return A List&lt;MathElement&gt; with the contents for this element.
      */
     protected abstract List<LayoutableNode> getContent();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     // CHECKSTYLE:OFF
     // This function is too long, but it depends on too many parameters.
     @Override
-    protected void layoutStageInvariant(final LayoutView view,
-            final LayoutInfo info, final LayoutStage stage,
-            final LayoutContext context) {
+    protected void layoutStageInvariant(final LayoutView view, final LayoutInfo info,
+            final LayoutStage stage, final LayoutContext context)
+    {
         // CHECKSTYLE:ON
 
         // Basic Calculations
@@ -83,10 +86,10 @@ public abstract class AbstractRoot extends AbstractJEuclidElement implements
         final LayoutContext now = this.applyLocalAttributesToContext(context);
         final float middleShift = this.getMiddleShift(g, context);
         final float linethickness = GraphicsSupport.lineWidth(now);
-        final float extraSpace = AttributesHelper.convertSizeToPt(
-                AbstractRoot.EXTRA_SPACE, now, "");
-        final float rootwidth = AttributesHelper.convertSizeToPt(
-                AbstractRoot.ROOT_WIDTH, context, "");
+        final float extraSpace = AttributesHelper.convertSizeToPt(AbstractRoot.EXTRA_SPACE, now,
+                "");
+        final float rootwidth = AttributesHelper.convertSizeToPt(AbstractRoot.ROOT_WIDTH, context,
+                "");
         final Color color = (Color) now.getParameter(Parameter.MATHCOLOR);
         float xPos = linethickness;
         final LayoutableNode index = (LayoutableNode) this.getIndex();
@@ -95,16 +98,21 @@ public abstract class AbstractRoot extends AbstractJEuclidElement implements
 
         // Draw Index
         float indexAscent;
-        if (index == null) {
+        if (index == null)
+        {
             indexAscent = 0.0f;
-        } else {
+        }
+        else
+        {
             final LayoutInfo indexInfo = view.getInfo(index);
-            final float indexPos = middleShift + linethickness / 2.0f
-                    + extraSpace + indexInfo.getDescentHeight(stage);
+            final float indexPos =
+                    middleShift + linethickness / 2.0f + extraSpace + indexInfo.getDescentHeight(
+                            stage);
             indexInfo.moveTo(xPos, -indexPos, stage);
             xPos += indexInfo.getWidth(stage);
-            graphicObjects.add(new LineObject(linethickness, -middleShift,
-                    xPos, -middleShift, linethickness, color));
+            graphicObjects.add(
+                    new LineObject(linethickness, -middleShift, xPos, -middleShift, linethickness,
+                            color));
             indexAscent = indexPos + indexInfo.getAscentHeight(stage);
         }
 
@@ -113,25 +121,22 @@ public abstract class AbstractRoot extends AbstractJEuclidElement implements
 
         // Draw Content below Root
         final float contentStartX = xPos;
-        final FontMetrics metrics = this
-                .getFontMetrics(view.getGraphics(), now);
+        final FontMetrics metrics = this.getFontMetrics(view.getGraphics(), now);
         float maxAscent = metrics.getAscent();
         float maxDescent = metrics.getDescent();
-        for (final LayoutableNode child : this.getContent()) {
+        for (final LayoutableNode child : this.getContent())
+        {
             final LayoutInfo childInfo = view.getInfo(child);
             childInfo.moveTo(xPos, 0, stage);
             maxAscent = Math.max(maxAscent, childInfo.getAscentHeight(stage));
-            maxDescent = Math
-                    .max(maxDescent, childInfo.getDescentHeight(stage));
+            maxDescent = Math.max(maxDescent, childInfo.getDescentHeight(stage));
             xPos += childInfo.getWidth(stage);
         }
         xPos += 2 * extraSpace;
-        final float topLinePos = maxAscent + 2 * extraSpace + linethickness
-                / 2.0f;
+        final float topLinePos = maxAscent + 2 * extraSpace + linethickness / 2.0f;
 
         // Fill in Info
-        info.setAscentHeight(Math.max(topLinePos + linethickness / 2.0f,
-                indexAscent), stage);
+        info.setAscentHeight(Math.max(topLinePos + linethickness / 2.0f, indexAscent), stage);
         info.setDescentHeight(maxDescent + linethickness / 2.0f, stage);
         info.setHorizontalCenterOffset(xPos / 2.0f, stage);
         info.setWidth(xPos + linethickness, stage);
@@ -139,12 +144,32 @@ public abstract class AbstractRoot extends AbstractJEuclidElement implements
         info.setStretchDescent(maxDescent);
 
         // Add Root Glyph
-        graphicObjects.add(new LineObject(contentStartX - rootwidth,
-                -middleShift, contentStartX - rootwidth / 2.0f, maxDescent,
-                linethickness, color));
-        graphicObjects.add(new LineObject(contentStartX - rootwidth / 2.0f,
-                maxDescent, contentStartX, -topLinePos, linethickness, color));
-        graphicObjects.add(new LineObject(contentStartX, -topLinePos, xPos,
-                -topLinePos, linethickness, color));
+        if (USE_PATH)
+        {
+            Path2D path2d = new Path2D.Float();
+            path2d.moveTo(contentStartX - rootwidth, -middleShift);
+            path2d.lineTo(contentStartX - rootwidth / 2.0f, maxDescent);
+            path2d.lineTo(contentStartX, -topLinePos);
+            path2d.lineTo(xPos, -topLinePos);
+            String mathvariant = getMathAttribute("mathvariant");
+            Path2DShapeObject.EdgeStyle edgeStyle = Path2DShapeObject.EdgeStyle.Miter;
+            if ("script".equals(mathvariant))
+                edgeStyle = Path2DShapeObject.EdgeStyle.Round;
+            graphicObjects.add(
+                    new Path2DShapeObject(path2d, linethickness, color, false, edgeStyle));
+        }
+        else
+        {
+            graphicObjects.add(new LineObject(contentStartX - rootwidth, -middleShift,
+                    contentStartX - rootwidth / 2.0f, maxDescent, linethickness, color));
+            graphicObjects.add(
+                    new LineObject(contentStartX - rootwidth / 2.0f, maxDescent, contentStartX,
+                            -topLinePos, linethickness, color));
+            graphicObjects.add(
+                    new LineObject(contentStartX, -topLinePos, xPos, -topLinePos, linethickness,
+                            color));
+        }
     }
+
+    private static final boolean USE_PATH = true;
 }
