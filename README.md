@@ -33,7 +33,8 @@ and needs to be loaded manually when desired using the following code: `JEuclidF
 ## Changes
 
 Version 3.1.15 (not released yet):
- - Bump Batik Version to 1.13
+ - Bump Batik Version to 1.17
+ - [#15](https://github.com/rototor/jeuclid/pull/15) by @rack197 for better FOP support.
 
 Version 3.1.14:
  - [#5](https://github.com/rototor/jeuclid/pull/5) Restored the FOP plugin. Thanks @dubinsky.
