@@ -1,0 +1,23 @@
+<ruleset comparisonMethod="maven"
+         xmlns="http://mojo.codehaus.org/versions-maven-plugin/rule/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://mojo.codehaus.org/versions-maven-plugin/rule/2.0.0 http://www.mojohaus.org/versions-maven-plugin/xsd/rule-2.0.0.xsd">
+  <ignoreVersions>
+    <ignoreVersion type="regex">.*-preview</ignoreVersion>
+    <ignoreVersion type="regex">.*[-_\.](alpha|Alpha|ALPHA|b|B|beta|Beta|BETA|rc|RC|M|ea|EA|pr)[-_+\.]?[0-9]*</ignoreVersion>
+    <ignoreVersion type="regex">.*jre6</ignoreVersion>
+    <ignoreVersion type="regex">.*jre7</ignoreVersion>
+    <ignoreVersion type="regex">.*jre8</ignoreVersion>
+    <ignoreVersion type="regex">.*jre9</ignoreVersion>
+    <ignoreVersion type="regex">.*jre10</ignoreVersion>
+    <ignoreVersion type="regex">.*jre11</ignoreVersion>
+    <ignoreVersion type="regex">.*jre12</ignoreVersion>
+    <ignoreVersion type="regex">.*jre13</ignoreVersion>
+    <ignoreVersion type="regex">.*jre14</ignoreVersion>
+    <ignoreVersion type="regex">.*jre15</ignoreVersion>
+    <ignoreVersion type="regex">.*jre16</ignoreVersion>
+    <ignoreVersion type="regex">.*jre18</ignoreVersion>
+    <ignoreVersion type="regex">.*jre19</ignoreVersion>
+    <ignoreVersion type="regex">.*jre2*</ignoreVersion>
+  </ignoreVersions>
+</ruleset>

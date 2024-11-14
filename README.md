@@ -3,26 +3,22 @@ JEuclid
 
 [![Build Status](https://api.travis-ci.org/rototor/jeuclid.svg?branch=master)](https://travis-ci.org/rototor/jeuclid)
 
-This is a fork of http://jeuclid.sourceforge.net/ to get it working on JDK 11 and 
-with Batik 1.13. Only the core and the FOP plugin are supported.
-
-SWT support is removed at the moment. If you need them or need any other feature
-not provided with this distribution, feel free to send me a pull request.
+This is a fork of https://github.com/rototor/jeuclid which in turn is a fork of http://jeuclid.sourceforge.net/ 
+to get it working on JDK 17 and with Batik 1.18. 
+Only the library parts i.e. the core and the FOP plugin are supported.
 
 The main purpose of this fork is to get it working with 
-[OpenHMLToPDF](https://github.com/danfickle/openhtmltopdf), see 
-[this issue](https://github.com/danfickle/openhtmltopdf/issues/161) there. So the main focus is
-on rendering.
+[Journo](https://github.com/alipsa/journo) which uses Flying Saucer to create PDF from xhtml
 
 
-## Maven Artefact
+## Maven Artifact
 You can get this library from maven central using this dependency:
 
 ```xml
 <dependency>
-        <groupId>de.rototor.jeuclid</groupId>
+        <groupId>se.alipsa.jeuclid</groupId>
         <artifactId>jeuclid-core</artifactId>
-        <version>3.1.14</version>
+        <version>3.1.15</version>
 </dependency>
 ```
 ## FOP plugin
@@ -33,7 +29,7 @@ and needs to be loaded manually when desired using the following code: `JEuclidF
 ## Changes
 
 Version 3.1.15 (not released yet):
- - Bump Batik Version to 1.17
+ - Bump Batik Version to 1.18
  - [#15](https://github.com/rototor/jeuclid/pull/15) by @rack197 for better FOP support.
 
 Version 3.1.14:

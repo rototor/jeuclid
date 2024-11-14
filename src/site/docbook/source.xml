@@ -14,10 +14,6 @@
       install</para>
 
       <itemizedlist>
-        <listitem>
-          <para><ulink
-          url="http://subversion.tigris.org/">Subversion</ulink></para>
-        </listitem>
 
         <listitem>
           <para><ulink url="http://maven.apache.org">Maven</ulink></para>
@@ -25,45 +21,9 @@
 
         <listitem>
           <para><ulink url="http://www.java.com">Sun or Apple Java SDK</ulink>
-          &gt;= 1.6 (others are untested)</para>
+          &gt;= 17 (others are untested)</para>
         </listitem>
 
-        <listitem>
-          <para><ulink url="http://www.eclipse.org">Eclipse</ulink> (optional)
-          or <ulink url="http://www.netbeans.org/">NetBeans</ulink>
-          (optional)</para>
-        </listitem>
-
-        <listitem>
-          <para><ulink url="http://maven.apache.org/eclipse-plugin.html">Maven
-          2.x Plug-in for Eclipse</ulink> (required if you use Eclipse)</para>
-        </listitem>
-
-        <listitem>
-          <para><ulink
-          url="http://maven.apache.org/netbeans-module.html">Maven 2.x Plug-in
-          for NetBeans</ulink> (required if you use NetBeans)</para>
-        </listitem>
-      </itemizedlist>
-
-      <para>If you have commit access, the following extra plug-ins for
-      eclipse are highly recommended:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><ulink
-          url="http://subclipse.tigris.org/">Subclipse</ulink></para>
-        </listitem>
-
-        <listitem>
-          <para><ulink url="http://eclipse-cs.sourceforge.net/">Eclipse
-          Checkstyle Plugin</ulink></para>
-        </listitem>
-
-        <listitem>
-          <para><ulink url="http://testng.org/doc/eclipse.html">Eclipse TestNG
-          Plugin</ulink></para>
-        </listitem>
       </itemizedlist>
     </section>
 
