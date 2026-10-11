@@ -56,6 +56,11 @@ public class PreloaderMathML extends AbstractImagePreloader {
     public static final float MPT_FACTOR = 1000.0f;
 
     /**
+     * How many bytes are read to decide whether a source can be XML.
+     */
+    private static final int SNIFF_LENGTH = 1024;
+
+    /**
      * Logger for this class
      */
     private static final Log LOGGER = LogFactory
@@ -105,6 +110,45 @@ public class PreloaderMathML extends AbstractImagePreloader {
         return info;
     }
 
+    /**
+     * Whether a stream can hold XML: the first character after any byte
+     * order mark and white space is '&lt;'. Reads at most
+     * {@link #SNIFF_LENGTH} bytes; the caller resets the stream.
+     */
+    private static boolean mayBeXml(final InputStream in) throws IOException {
+        final byte[] head = new byte[PreloaderMathML.SNIFF_LENGTH];
+        int count = 0;
+        int read = 0;
+        while (count < head.length && read >= 0) {
+            read = in.read(head, count, head.length - count);
+            if (read > 0) {
+                count += read;
+            }
+        }
+        if (count >= 2 && (head[0] == 0
+                || (head[0] == (byte) 0xFE && head[1] == (byte) 0xFF)
+                || (head[0] == (byte) 0xFF && head[1] == (byte) 0xFE))) {
+            // UTF-16 or UTF-32: let the parser decide
+            return true;
+        }
+        int i = 0;
+        if (count >= 3 && head[0] == (byte) 0xEF && head[1] == (byte) 0xBB
+                && head[2] == (byte) 0xBF) {
+            i = 3;
+        }
+        for (; i < count; i++) {
+            final int b = head[i];
+            if (b == '<') {
+                return true;
+            }
+            if (b != ' ' && b != '\t' && b != '\r' && b != '\n') {
+                return false;
+            }
+        }
+        // empty, or nothing but white space so far: let the parser decide
+        return true;
+    }
+
     private Document parseSource(final Source src) {
         Document n = null;
         InputStream in = null;
@@ -115,6 +159,15 @@ public class PreloaderMathML extends AbstractImagePreloader {
             } else {
                 in = new UnclosableInputStream(ImageUtil.needInputStream(src));
                 final int length = in.available();
+                in.mark(length + 1);
+                final boolean mayBeXml = PreloaderMathML.mayBeXml(in);
+                in.reset();
+                if (!mayBeXml) {
+                    // A bitmap, say: the parser would only fail on it, and the
+                    // cached parser keeps its last input (and so the image's
+                    // stream and file) reachable after it.
+                    return null;
+                }
                 in.mark(length + 1);
                 n = Parser.getInstance().parseStreamSource(
                         new StreamSource(in));
