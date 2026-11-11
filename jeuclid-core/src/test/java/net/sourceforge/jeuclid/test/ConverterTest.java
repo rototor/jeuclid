@@ -27,6 +27,7 @@ import net.sourceforge.jeuclid.converter.ConverterPlugin.DocumentWithDimension;
 import net.sourceforge.jeuclid.converter.ConverterRegistry;
 import net.sourceforge.jeuclid.elements.generic.DocumentElement;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -157,6 +158,9 @@ public class ConverterTest {
      */
     @Test
     public void testConverterPDF() throws Exception {
+        Assume.assumeTrue("Optional PDF converter is not installed",
+                ConverterRegistry.getInstance().getAvailableOutfileTypes()
+                        .contains("application/pdf"));
         final Document doc = MathMLParserSupport
                 .parseString(ConverterTest.TEST1);
         final File outFile = new File(this.getOutDir(), "test1.pdf");
